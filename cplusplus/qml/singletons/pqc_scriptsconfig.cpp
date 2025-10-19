@@ -28,7 +28,7 @@
 #include <QMessageBox>
 #include <QDirIterator>
 #include <qml/pqc_scriptsconfig.h>
-#include <qml/pqc_qdbusserver.h>
+#include <qml/pqc_localserver.h>
 #include <shared/pqc_configfiles.h>
 
 #ifdef WIN32
@@ -595,7 +595,7 @@ bool PQCScriptsConfig::isICUSupportEnabled() {
 
 void PQCScriptsConfig::callStartupSetupFresh() {
 
-    PQCQDbusServer::get().sendMessage("setupFresh", {});
+    PQCQLocalServer::get().sendMessage("setupFresh", {});
 
 }
 

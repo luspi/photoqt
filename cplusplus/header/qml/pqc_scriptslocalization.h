@@ -26,28 +26,25 @@
 
 class QTranslator;
 
-class PQCCScriptsLocalization : public QObject {
+class PQCScriptsLocalization : public QObject {
 
     Q_OBJECT
 
 public:
-    static PQCCScriptsLocalization& get();
-    virtual ~PQCCScriptsLocalization();
+    static PQCScriptsLocalization& get();
+    virtual ~PQCScriptsLocalization();
 
-    PQCCScriptsLocalization(PQCCScriptsLocalization const&)     = delete;
-    void operator=(PQCCScriptsLocalization const&) = delete;
+    PQCScriptsLocalization(PQCScriptsLocalization const&)     = delete;
+    void operator=(PQCScriptsLocalization const&) = delete;
 
-    void updateTranslation(QString code);
-
-    // THESE ARE DUPLICATED IN qml/PQCScriptsLocalization
+    // THESE ARE DUPLICATED IN cpp/PQCCScriptsLocalization
     QStringList getAvailableTranslations();
     QString getNameForLocalizationCode(QString code);
     QString getCurrentTranslation();
 
 private:
-    PQCCScriptsLocalization();
+    PQCScriptsLocalization();
 
-    QTranslator *trans;
     QString currentTranslation;
     QMap<QString,QString> langNames;
 

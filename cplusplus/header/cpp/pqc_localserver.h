@@ -25,25 +25,26 @@
 
 class QLocalServer;
 
-class PQCCDbusServer : public QObject {
+class PQCCLocalServer : public QObject {
 
     Q_OBJECT
 
 public:
-    static PQCCDbusServer& get() {
-        static PQCCDbusServer instance;
+    static PQCCLocalServer& get() {
+        static PQCCLocalServer instance;
         return instance;
     }
 
-    PQCCDbusServer(PQCCDbusServer const&) = delete;
-    void operator=(PQCCDbusServer const&) = delete;
+    PQCCLocalServer(PQCCLocalServer const&) = delete;
+    void operator=(PQCCLocalServer const&) = delete;
 
+    void sendStartupMessageToBoth(QString message);
     void sendMessage(QString what, QString message);
     bool hasExistingServer() { return m_existingServer; }
 
 private:
-    PQCCDbusServer();
-    ~PQCCDbusServer();
+    PQCCLocalServer();
+    ~PQCCLocalServer();
 
     QLocalServer *m_server;
     bool m_existingServer;

@@ -216,7 +216,9 @@ Window {
     }
 
     Connections {
-        target: PQDbusLayer
+
+        target: PQCLocalServer
+
         function onPerformAction(what, args) {
 
             if(what === "startup") {
@@ -301,9 +303,18 @@ Window {
 
     Component.onCompleted: {
 
-        PQDbusLayer.setup()
+        PQCLocalServer.checkForData()
 
-        PQDbusLayer.sendMessage("updateTranslation", PQCSettings.interfaceLanguage)
+        // check if a file was passed at startup
+        var startup = PQCLocalServer.getStartupMessage()
+        for(var i = 0; i < startup.length; ++i) {
+            if(startup[i] === ":::FILE:::" && i < startup.length-1) {
+                PQCConstants.startupFilePath = startup[i+1]
+                break;
+            }
+        }
+
+        PQCLocalServer.sendMessage("updateTranslation", PQCSettings.interfaceLanguage)
 
         if(PQCScriptsConfig.amIOnWindows() && !PQCConstants.startupStartInTray)
             toplevel.opacity = 0
@@ -387,93 +398,6 @@ Window {
                 toplevel.visibility = (PQCConstants.windowMaxAndNotWindowed ? Window.Maximized : Window.Windowed)
             toplevel.raise()
             toplevel.requestActivate()
-        }
-
-    }
-
-    Connections {
-
-        target: PQDbusLayer
-
-        function onPerformAction(what : string, args : list<string>) {
-
-            if(what === "startup") {
-
-                console.log("args: what =", what)
-                console.log("args: args =", args)
-
-                for(var i = 0; i < args.length; ++i) {
-
-                    var cmd = args[i];
-
-                    if(cmd === ":::OPEN:::") {
-
-                        PQCNotify.loaderShow("FileDialog")
-
-                    } else if(cmd === ":::SHOW:::") {
-
-                        if(toplevel.visible) {
-                            toplevel.raise()
-                            toplevel.requestActivate()
-                            return
-                        }
-
-                        toplevel.visible = true
-                        if(toplevel.visibility === Window.Minimized)
-                            toplevel.visibility = (PQCConstants.windowMaxAndNotWindowed ? Window.Maximized : Window.Windowed)
-                        toplevel.raise()
-                        toplevel.requestActivate()
-
-                    } else if(cmd === ":::HIDE:::") {
-
-                        PQCSettings.interfaceTrayIcon = 1
-                        toplevel.close()
-
-                    } else if(cmd === ":::QUIT:::") {
-
-                        toplevel.quitPhotoQt()
-
-                    } else if(cmd === ":::TOGGLE:::") {
-
-                        if(toplevel.visible) {
-                            PQCSettings.interfaceTrayIcon = 1
-                            toplevel.close()
-                        } else {
-                            toplevel.visible = true
-                            if(toplevel.visibility === Window.Minimized)
-                                toplevel.visibility = (PQCConstants.windowMaxAndNotWindowed ? Window.Maximized : Window.Windowed)
-                            toplevel.raise()
-                            toplevel.requestActivate()
-                        }
-
-                    } else if(cmd === ":::TRAY:::") {
-
-                        PQCSettings.interfaceTrayIcon = 2
-
-                    } else if(cmd === ":::NOTRAY:::") {
-
-                        PQCSettings.interfaceTrayIcon = 0
-                        if(!toplevel.visible) {
-                            toplevel.visible = true
-                            if(toplevel.visibility === Window.Minimized)
-                                toplevel.visibility = (PQCConstants.windowMaxAndNotWindowed ? Window.Maximized : Window.Windowed)
-                            toplevel.raise()
-                            toplevel.requestActivate()
-                        }
-
-                    } else if(cmd === ":::STARTINTRAY:::") {
-
-                        if(PQCConstants.startupStartInTray)
-                            PQCSettings.interfaceTrayIcon = 1
-                        else if(!PQCConstants.startupStartInTray && PQCSettings.interfaceTrayIcon === 1)
-                            PQCSettings.interfaceTrayIcon = 0
-
-                    }
-
-                }
-
-            }
-
         }
 
     }

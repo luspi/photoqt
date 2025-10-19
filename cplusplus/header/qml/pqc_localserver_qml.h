@@ -22,33 +22,28 @@
  **************************************************************************/
 #pragma once
 
-#include <qml/pqc_qdbusserver.h>
+#include <qml/pqc_localserver.h>
 
 #include <QObject>
 #include <QQmlEngine>
 
-class PQDbusLayer : public QObject {
+class PQCLocalServerQML : public QObject {
 
     Q_OBJECT
-    QML_ELEMENT
+    QML_NAMED_ELEMENT(PQCLocalServer)
     QML_SINGLETON
 
 public:
-    explicit PQDbusLayer() {
-        connect(&PQCQDbusServer::get(), &PQCQDbusServer::performAction, this, &PQDbusLayer::performAction);
-    }
-
-    Q_INVOKABLE void setup() {
-        PQCQDbusServer::get().setup();
+    explicit PQCLocalServerQML() {
+        connect(&PQCQLocalServer::get(), &PQCQLocalServer::performAction, this, &PQCLocalServerQML::performAction);
     }
 
     Q_INVOKABLE void sendMessage(QString what, QString message) {
-        PQCQDbusServer::get().sendMessage(what, message);
+        PQCQLocalServer::get().sendMessage(what, message);
     }
 
-    Q_INVOKABLE QString requestData(QString what, QString message) {
-        return PQCQDbusServer::get().requestData(what, message);
-    }
+    Q_INVOKABLE QStringList getStartupMessage() { return PQCQLocalServer::get().getStartupMessage(); }
+    Q_INVOKABLE void checkForData() { PQCQLocalServer::get().checkForData(); }
 
 Q_SIGNALS:
     void performAction(QString what, QStringList args);

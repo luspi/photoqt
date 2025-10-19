@@ -25,35 +25,35 @@
 
 class QLocalServer;
 
-class PQCQDbusServer : public QObject {
+class PQCQLocalServer : public QObject {
 
     Q_OBJECT
 
 public:
-    static PQCQDbusServer& get() {
-        static PQCQDbusServer instance;
+    static PQCQLocalServer& get() {
+        static PQCQLocalServer instance;
         return instance;
     }
 
-    PQCQDbusServer(PQCQDbusServer const&) = delete;
-    void operator=(PQCQDbusServer const&) = delete;
+    PQCQLocalServer(PQCQLocalServer const&) = delete;
+    void operator=(PQCQLocalServer const&) = delete;
 
-    QString requestData(QString what, QString message);
     void sendMessage(QString what, QString message);
     bool hasExistingServer() { return m_existingServer; }
 
     QImage getImage(QString path);
-
-    void setup() {}
+    QStringList getStartupMessage() { return m_startupMessage; }
+    void checkForData();
 
 private:
-    PQCQDbusServer();
-    ~PQCQDbusServer();
+    PQCQLocalServer();
+    ~PQCQLocalServer();
 
     QLocalServer *m_server;
     bool m_existingServer;
 
-    bool m_waitingForData;
+    // we store a duplicate here to be used during startup
+    QStringList m_startupMessage;
 
 private Q_SLOTS:
     void handleConnection();

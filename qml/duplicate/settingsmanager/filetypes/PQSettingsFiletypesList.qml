@@ -407,7 +407,7 @@ PQSetting {
 
     function applyChanges() {
 
-        PQDbusLayer.sendMessage("imageformats", "::setFormats\n"+listview.ft.join("\n"))
+        PQCLocalServer.sendMessage("imageformats", "::setFormats\n"+listview.ft.join("\n"))
         defaultSettings = composeChecker()
 
         PQCConstants.settingsManagerSettingChanged = false

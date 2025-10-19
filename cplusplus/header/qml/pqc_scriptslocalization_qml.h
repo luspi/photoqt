@@ -22,33 +22,21 @@
 #pragma once
 
 #include <QObject>
-#include <QMap>
+#include <QQmlEngine>
+#include <qml/pqc_scriptslocalization.h>
 
-class QTranslator;
-
-class PQCCScriptsLocalization : public QObject {
+class PQCScriptsLocalizationQML : public QObject {
 
     Q_OBJECT
+    QML_NAMED_ELEMENT(PQCScriptsLocalization)
+    QML_SINGLETON
 
 public:
-    static PQCCScriptsLocalization& get();
-    virtual ~PQCCScriptsLocalization();
+    PQCScriptsLocalizationQML() {}
+    ~PQCScriptsLocalizationQML() {}
 
-    PQCCScriptsLocalization(PQCCScriptsLocalization const&)     = delete;
-    void operator=(PQCCScriptsLocalization const&) = delete;
-
-    void updateTranslation(QString code);
-
-    // THESE ARE DUPLICATED IN qml/PQCScriptsLocalization
-    QStringList getAvailableTranslations();
-    QString getNameForLocalizationCode(QString code);
-    QString getCurrentTranslation();
-
-private:
-    PQCCScriptsLocalization();
-
-    QTranslator *trans;
-    QString currentTranslation;
-    QMap<QString,QString> langNames;
+    Q_INVOKABLE QStringList getAvailableTranslations() { return PQCScriptsLocalization::get().getAvailableTranslations(); }
+    Q_INVOKABLE QString getNameForLocalizationCode(QString code) { return PQCScriptsLocalization::get().getNameForLocalizationCode(code); }
+    Q_INVOKABLE QString getCurrentTranslation() { return PQCScriptsLocalization::get().getCurrentTranslation(); }
 
 };

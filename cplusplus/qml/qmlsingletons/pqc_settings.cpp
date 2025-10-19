@@ -35,7 +35,7 @@
 #include <QtSql/QSqlError>
 #include <QtSql/QSqlQuery>
 #include <qml/pqc_settings.h>
-#include <qml/pqc_qdbusserver.h>
+#include <qml/pqc_localserver.h>
 #include <shared/pqc_configfiles.h>
 #include <shared/pqc_csettings.h>
 // #include <pqc_notify_cpp.h>
@@ -113,7 +113,7 @@ PQCSettings::PQCSettings() {
         QSqlDatabase db = QSqlDatabase::database("settings");
         db.commit();
         PQCCSettings::get().readDB();
-        PQCQDbusServer::get().sendMessage("settings", "readdb");
+        PQCQLocalServer::get().sendMessage("settings", "readdb");
         dbIsTransaction = false;
         if(db.lastError().text().trimmed().length())
             qWarning() << "ERROR committing database:" << db.lastError().text();
@@ -432,7 +432,7 @@ PQCSettings::PQCSettings() {
 
     /******************************************************/
 
-    connect(&PQCQDbusServer::get(), &PQCQDbusServer::performAction, this, [=](QString what, QStringList args) { if(what == "colorspace" && args.length() > 0 && args[0] == ":disable") { setImageviewColorSpaceEnable(false); } });
+    connect(&PQCQLocalServer::get(), &PQCQLocalServer::performAction, this, [=](QString what, QStringList args) { if(what == "colorspace" && args.length() > 0 && args[0] == "::disable") { setImageviewColorSpaceEnable(false); } });
 
 }
 
@@ -7254,7 +7254,7 @@ bool PQCSettings::backupDatabase() {
         dbCommitTimer->stop();
         db.commit();
         PQCCSettings::get().readDB();
-        PQCQDbusServer::get().sendMessage("settings", "readdb");
+        PQCQLocalServer::get().sendMessage("settings", "readdb");
         dbIsTransaction = false;
         if(db.lastError().text().trimmed().length())
             qWarning() << "ERROR committing database:" << db.lastError().text();
@@ -7400,7 +7400,7 @@ void PQCSettings::closeDatabase() {
     if(dbIsTransaction) {
         db.commit();
         PQCCSettings::get().readDB();
-        PQCQDbusServer::get().sendMessage("settings", "readdb");
+        PQCQLocalServer::get().sendMessage("settings", "readdb");
         dbIsTransaction = false;
         if(db.lastError().text().trimmed().length())
             qWarning() << "ERROR committing database:" << db.lastError().text();

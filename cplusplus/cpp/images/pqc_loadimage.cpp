@@ -37,7 +37,7 @@
 
 #include <cpp/pqc_imageformats.h>
 #include <cpp/pqc_cscriptscolorprofiles.h>
-#include <cpp/pqc_cdbusserver.h>
+#include <cpp/pqc_localserver.h>
 #include <shared/pqc_sharedconstants.h>
 
 #include <QSize>
@@ -47,7 +47,7 @@
 #include <QtDebug>
 
 PQCLoadImage::PQCLoadImage() {
-    connect(&PQCCDbusServer::get(), &PQCCDbusServer::performAction, this, [=](QString what, QStringList message) {
+    connect(&PQCCLocalServer::get(), &PQCCLocalServer::performAction, this, [=](QString what, QStringList message) {
         if(what == "requestImage") {
             QString filename = message.at(0);
             QSize targetSize(message.at(1).toInt(), message.at(2).toInt());
@@ -423,7 +423,7 @@ QString PQCLoadImage::load(QString filename, QSize requestedSize, QSize &origSiz
 
     if(!img.isNull()) {
         err = "";
-        PQCCDbusServer::get().sendMessage("transparency", QString("%1\n%2").arg(filename, (img.hasAlphaChannel() ? 1 : 0)));
+        PQCCLocalServer::get().sendMessage("transparency", QString("%1\n%2").arg(filename, (img.hasAlphaChannel() ? 1 : 0)));
     }
 
     return err;

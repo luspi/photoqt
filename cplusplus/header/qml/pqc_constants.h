@@ -23,7 +23,7 @@
 
 #include <qml/pqc_resolutioncache.h>
 #include <qml/pqc_scriptsimages.h>
-#include <qml/pqc_qdbusserver.h>
+#include <qml/pqc_localserver.h>
 #include <shared/pqc_csettings.h>
 
 #include <QObject>
@@ -189,7 +189,7 @@ public:
 
 
 
-        connect(&PQCQDbusServer::get(), &PQCQDbusServer::performAction, this, [=](QString what, QStringList args) {
+        connect(&PQCQLocalServer::get(), &PQCQLocalServer::performAction, this, [=](QString what, QStringList args) {
 
             // a color profile was set for some file
             if(what == "colorprofile" && args.length() > 1) {

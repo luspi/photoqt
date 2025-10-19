@@ -59,9 +59,11 @@ Item {
 
     Connections {
 
-        target: PQDbusLayer
+        target: PQCLocalServer
 
         function onPerformAction(what : string, args : list<string>) {
+
+            var key, modifiers
 
             if(what === "startup") {
 
@@ -72,6 +74,47 @@ Item {
 
                 }
 
+            } else if(what === "eventKeyPress") {
+
+                key = parseInt(args[0])
+                modifiers = parseInt(args[1])
+
+                if(PQCConstants.modalWindowOpen || PQCConstants.idOfVisibleItem !== "") {
+
+                    // make sure contextmenu is closed on key press
+                    PQCScriptsShortcuts.sendShortcutDismissGlobalContextMenu()
+
+                    PQCNotify.loaderPassOn("keyEvent", [key, modifiers])
+
+                } else if(PQCConstants.currentArchiveComboOpen) {
+
+                    PQCNotify.currentArchiveCloseCombo()
+
+                } else {
+
+                    var combo = PQCScriptsShortcuts.analyzeModifier(modifiers).join("+")
+                    if(combo !== "")
+                        combo += "+"
+
+                    // this seems to be the id when a modifier but no key is pressed... ignore key in that case
+                    if(key !== 16777249)
+                        combo += PQCScriptsShortcuts.analyzeKeyPress(key)
+
+                    if(combo === "Shift+")
+                        PQCConstants.shiftKeyPressed = true
+
+                    keyshortcuts_top.checkComboForShortcut(combo, Qt.point(-1,-1), Qt.point(0,0))
+
+                }
+
+            } else if(what === "eventKeyRelease") {
+
+                key = parseInt(args[0])
+                modifiers = parseInt(args[1])
+
+                if(key < 16770000 || modifiers !== Qt.ShiftModifier)
+                    PQCConstants.shiftKeyPressed = false
+
             }
 
         }
@@ -81,43 +124,6 @@ Item {
     Connections {
 
         target: PQCNotify
-
-        function onKeyPress(key : int, modifiers : int) {
-
-            if(PQCConstants.modalWindowOpen || PQCConstants.idOfVisibleItem !== "") {
-
-                // make sure contextmenu is closed on key press
-                PQCScriptsShortcuts.sendShortcutDismissGlobalContextMenu()
-
-                PQCNotify.loaderPassOn("keyEvent", [key, modifiers])
-
-            } else if(PQCConstants.currentArchiveComboOpen) {
-
-                PQCNotify.currentArchiveCloseCombo()
-
-            } else {
-
-                var combo = PQCScriptsShortcuts.analyzeModifier(modifiers).join("+")
-                if(combo !== "")
-                    combo += "+"
-
-                // this seems to be the id when a modifier but no key is pressed... ignore key in that case
-                if(key !== 16777249)
-                    combo += PQCScriptsShortcuts.analyzeKeyPress(key)
-
-                if(combo === "Shift+")
-                    PQCConstants.shiftKeyPressed = true
-
-                keyshortcuts_top.checkComboForShortcut(combo, Qt.point(-1,-1), Qt.point(0,0))
-
-            }
-
-        }
-
-        function onKeyRelease(key: int, modifiers: int) {
-            if(key < 16770000 || modifiers !== Qt.ShiftModifier)
-                PQCConstants.shiftKeyPressed = false
-        }
 
         function onMouseWheel(mousePos: point, angleDelta : point, modifiers : int) {
 
@@ -241,7 +247,7 @@ Item {
                 PQCLocation.closeDatabase()
                 PQCScriptsContextMenu.closeDatabase()
                 PQCScriptsShareImgur.closeDatabase()
-                PQDbusLayer.sendMessage("imageformats", "::closeDatabase")
+                PQCLocalServer.sendMessage("imageformats", "::closeDatabase")
 
                 PQCScriptsConfig.callStartupSetupFresh()
 

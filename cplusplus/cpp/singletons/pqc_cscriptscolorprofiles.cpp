@@ -1,6 +1,5 @@
 #include <cpp/pqc_cscriptscolorprofiles.h>
-#include <cpp/pqc_cdbusserver.h>
-#include <cpp/pqc_cdbusserver.h>
+#include <cpp/pqc_localserver.h>
 #include <shared/pqc_csettings.h>
 #include <shared/pqc_configfiles.h>
 
@@ -189,7 +188,7 @@ QString PQCCScriptsColorProfiles::applyColorProfile(QString filename, QImage &im
     if(!PQCCSettings::get().getImageviewColorSpaceEnable()) {
         qDebug() << "Color space handling disabled";
         const QString csp = QColorSpace(QColorSpace::SRgb).description();
-        PQCCDbusServer::get().sendMessage("colorprofile", QString("%1\n%2").arg(filename, QColorSpace(QColorSpace::SRgb).description()));
+        PQCCLocalServer::get().sendMessage("colorprofile", QString("%1\n%2").arg(filename, QColorSpace(QColorSpace::SRgb).description()));
         return csp;
     }
 
@@ -218,7 +217,7 @@ QString PQCCScriptsColorProfiles::applyColorProfile(QString filename, QImage &im
         if(index < m_integratedColorProfiles.length()) {
             QString prf = _applyColorSpaceQt(img, filename, QColorSpace(m_integratedColorProfiles[index]));
             if(prf != "") {
-                PQCCDbusServer::get().sendMessage("colorprofile", QString("%1\n%2").arg(filename, prf));
+                PQCCLocalServer::get().sendMessage("colorprofile", QString("%1\n%2").arg(filename, prf));
                 return prf;
             } else
                 manualSelectionCausedError = true;
@@ -275,7 +274,7 @@ QString PQCCScriptsColorProfiles::applyColorProfile(QString filename, QImage &im
                 QString prf = _applyColorSpaceLCMS2(img, filename, targetProfile);
                 if(prf != "") {
                     m_lcms2CountFailedApplications = 0;
-                    PQCCDbusServer::get().sendMessage("colorprofile", QString("%1\n%2").arg(filename, prf));
+                    PQCCLocalServer::get().sendMessage("colorprofile", QString("%1\n%2").arg(filename, prf));
                     return prf;
                 } else
                     manualSelectionCausedError = true;
@@ -299,7 +298,7 @@ QString PQCCScriptsColorProfiles::applyColorProfile(QString filename, QImage &im
             QString prf = _applyColorSpaceLCMS2(img, filename, targetProfile);
             if(prf != "") {
                 m_lcms2CountFailedApplications = 0;
-                PQCCDbusServer::get().sendMessage("colorprofile", QString("%1\n%2").arg(filename, prf));
+                PQCCLocalServer::get().sendMessage("colorprofile", QString("%1\n%2").arg(filename, prf));
                 return prf;
             }
         }
@@ -325,7 +324,7 @@ QString PQCCScriptsColorProfiles::applyColorProfile(QString filename, QImage &im
             if(index < m_integratedColorProfiles.length()) {
                 QString prf = _applyColorSpaceQt(img, filename, QColorSpace(m_integratedColorProfiles[index]));
                 if(prf != "") {
-                    PQCCDbusServer::get().sendMessage("colorprofile", QString("%1\n%2").arg(filename, (manualSelectionCausedError ? "" : prf)));
+                    PQCCLocalServer::get().sendMessage("colorprofile", QString("%1\n%2").arg(filename, (manualSelectionCausedError ? "" : prf)));
                     return (manualSelectionCausedError ? "" : prf);
                 }
             }
@@ -349,7 +348,7 @@ QString PQCCScriptsColorProfiles::applyColorProfile(QString filename, QImage &im
                     QString prf = _applyColorSpaceLCMS2(img, filename, targetProfile);
                     if(prf != "") {
                         m_lcms2CountFailedApplications = 0;
-                        PQCCDbusServer::get().sendMessage("colorprofile", QString("%1\n%2").arg(filename, (manualSelectionCausedError ? "" : def)));
+                        PQCCLocalServer::get().sendMessage("colorprofile", QString("%1\n%2").arg(filename, (manualSelectionCausedError ? "" : def)));
                         return (manualSelectionCausedError ? "" : def);
                     }
                 }
@@ -387,18 +386,18 @@ QString PQCCScriptsColorProfiles::applyColorProfile(QString filename, QImage &im
 
         m_lcms2CountFailedApplications += 1;
 
-        PQCCDbusServer::get().sendMessage("notification", QString("%1\n\n%2").arg(QApplication::translate("imageprovider", "Application of color profile failed."), QFileInfo(filename).fileName()));
+        PQCCLocalServer::get().sendMessage("notification", QString("%1\n\n%2").arg(QApplication::translate("imageprovider", "Application of color profile failed."), QFileInfo(filename).fileName()));
 
         if(m_lcms2CountFailedApplications > 5) {
-            PQCCDbusServer::get().sendMessage("colorspace", ":disable");
-            PQCCDbusServer::get().sendMessage("notification", QApplication::translate("imageprovider", "Application of color profiles failed repeatedly. Support for color spaces will be disabled, but can be enabled again in the settings manager."));
+            PQCCLocalServer::get().sendMessage("colorspace", "::disable");
+            PQCCLocalServer::get().sendMessage("notification", QApplication::translate("imageprovider", "Application of color profiles failed repeatedly. Support for color spaces will be disabled, but can be enabled again in the settings manager."));
         }
 
     }
 
     // no profile (successfully) applied, set default name
     qDebug() << "Using default color profile";
-    PQCCDbusServer::get().sendMessage("colorprofile", QString("%1\n%2").arg(filename, (manualSelectionCausedError ? "" : QColorSpace(QColorSpace::SRgb).description())));
+    PQCCLocalServer::get().sendMessage("colorprofile", QString("%1\n%2").arg(filename, (manualSelectionCausedError ? "" : QColorSpace(QColorSpace::SRgb).description())));
     return (manualSelectionCausedError ? "" : QColorSpace(QColorSpace::SRgb).description());
 
 }

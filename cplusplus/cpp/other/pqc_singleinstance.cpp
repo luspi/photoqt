@@ -22,7 +22,7 @@
 
 #include <cpp/pqc_commandlineparser.h>
 #include <cpp/pqc_singleinstance.h>
-#include <cpp/pqc_cdbusserver.h>
+#include <cpp/pqc_localserver.h>
 #include <shared/pqc_configfiles.h>
 
 #include <QKeyEvent>
@@ -184,7 +184,7 @@ PQCSingleInstance::PQCSingleInstance(int &argc, char *argv[]) : QApplication(arg
     /* Server/Socket */
     /*****************/
 
-    if(PQCCDbusServer::get().hasExistingServer()) {
+    if(PQCCLocalServer::get().hasExistingServer()) {
 
         if(msg.size() == 0)
             msg << ":::SHOW:::";
@@ -198,7 +198,7 @@ PQCSingleInstance::PQCSingleInstance(int &argc, char *argv[]) : QApplication(arg
             }
         }
 
-        PQCCDbusServer::get().sendMessage("startup", msg.join("\n"));
+        PQCCLocalServer::get().sendMessage("startup", msg.join("\n"));
 
         // Inform user
         std::cout << "Running instance of PhotoQt detected, connecting to existing instance." << std::endl;
@@ -211,18 +211,7 @@ PQCSingleInstance::PQCSingleInstance(int &argc, char *argv[]) : QApplication(arg
 
     } else {
 
-        if(qApp->platformName() == "wayland") {
-
-            QString token = qgetenv("XDG_ACTIVATION_TOKEN");
-            if(!token.isEmpty()) {
-                msg << ":::TOKEN:::";
-                msg << token;
-            }
-        }
-
-        PQCCDbusServer::get().sendMessage("startup", msg.join("\n"));
-        // TODO!!! Is this still needed?
-        // PQCCPPConstants::get().setStartupMessage(composeMessage(msg, receivedFile, receivedShortcut, receivedSetting));
+        PQCCLocalServer::get().sendStartupMessageToBoth(msg.join("\n"));
 
     }
 
@@ -234,16 +223,16 @@ bool PQCSingleInstance::notify(QObject *obj, QEvent *e) {
     if(cn == "QQuickRootItem") {
         if(e->type() == QEvent::KeyPress) {
             QKeyEvent *ev = reinterpret_cast<QKeyEvent*>(e);
-            PQCCDbusServer::get().sendMessage("eventKeyPress", QString("%1\n%2").arg(ev->key()).arg(ev->modifiers()));
+            PQCCLocalServer::get().sendMessage("eventKeyPress", QString("%1\n%2").arg(ev->key()).arg(ev->modifiers()));
         } else if(e->type() == QEvent::KeyRelease) {
             QKeyEvent *ev = reinterpret_cast<QKeyEvent*>(e);
-            PQCCDbusServer::get().sendMessage("eventKeyRelease", QString("%1\n%2").arg(ev->key()).arg(ev->modifiers()));
+            PQCCLocalServer::get().sendMessage("eventKeyRelease", QString("%1\n%2").arg(ev->key()).arg(ev->modifiers()));
         }
     } else if(cn.startsWith("PQMainWindow")) {
         if(e->type() == QEvent::Leave)
-            PQCCDbusServer::get().sendMessage("eventMouseWindowExit", "");
+            PQCCLocalServer::get().sendMessage("eventMouseWindowExit", "");
         else if(e->type() == QEvent::Enter)
-            PQCCDbusServer::get().sendMessage("eventMouseWindowEnter", "");
+            PQCCLocalServer::get().sendMessage("eventMouseWindowEnter", "");
     }
 
     return QApplication::notify(obj, e);

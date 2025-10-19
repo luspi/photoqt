@@ -663,7 +663,7 @@ Item {
 
     Connections {
 
-        target: PQDbusLayer
+        target: PQCLocalServer
 
         function onPerformAction(what : string, message : list<string>) {
             if(what === "imageformats" && message.length > 0 && message[0] === "::formatsUpdated") {

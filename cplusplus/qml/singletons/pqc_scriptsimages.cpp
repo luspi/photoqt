@@ -38,7 +38,7 @@
 #include <QCryptographicHash>
 
 #include <qml/pqc_scriptsimages.h>
-#include <qml/pqc_qdbusserver.h>
+#include <qml/pqc_localserver.h>
 #include <qml/pqc_scriptsfilespaths.h>
 #include <shared/pqc_csettings.h>
 #include <shared/pqc_configfiles.h>
@@ -89,7 +89,7 @@ PQCScriptsImages::PQCScriptsImages() {
     // colorlastlocation = new QFile(QString("%1/%2").arg(PQCConfigFiles::get().CACHE_DIR(), "colorlastlocation"));
 
     // if the formats changed then we can't rely on the archive cache anymore
-    connect(&PQCQDbusServer::get(), &PQCQDbusServer::performAction, this, [=](QString what, QStringList args) {
+    connect(&PQCQLocalServer::get(), &PQCQLocalServer::performAction, this, [=](QString what, QStringList args) {
         if(what == "imageformats" && args.length() > 0 && args[0] == "::formatsUpdated")
             m_archiveContentCache.clear();
     });

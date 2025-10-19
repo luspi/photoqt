@@ -249,9 +249,18 @@ ApplicationWindow {
 
     Component.onCompleted: {
 
-        PQDbusLayer.setup()
+        PQCLocalServer.checkForData()
 
-        PQDbusLayer.sendMessage("updateTranslation", PQCSettings.interfaceLanguage)
+        // check if a file was passed at startup
+        var startup = PQCLocalServer.getStartupMessage()
+        for(var i = 0; i < startup.length; ++i) {
+            if(startup[i] === ":::FILE:::" && i < startup.length-1) {
+                PQCConstants.startupFilePath = startup[i+1]
+                break;
+            }
+        }
+
+        PQCLocalServer.sendMessage("updateTranslation", PQCSettings.interfaceLanguage)
 
         if(PQCScriptsConfig.amIOnWindows() && !PQCConstants.startupStartInTray)
             toplevel.opacity = 0
@@ -320,7 +329,7 @@ ApplicationWindow {
 
     Connections {
 
-        target: PQDbusLayer
+        target: PQCLocalServer
 
         function onPerformAction(what : string, args : list<string>) {
 

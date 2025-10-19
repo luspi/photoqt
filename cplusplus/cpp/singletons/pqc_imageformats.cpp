@@ -33,7 +33,7 @@
 
 #include <cpp/pqc_imageformats.h>
 #include <cpp/pqc_validate.h>
-#include <cpp/pqc_cdbusserver.h>
+#include <cpp/pqc_localserver.h>
 #include <shared/pqc_configfiles.h>
 #include <shared/pqc_sharedconstants.h>
 
@@ -108,7 +108,7 @@ PQCImageFormats::PQCImageFormats() {
     }
     readFromDatabase();
 
-    connect(&PQCCDbusServer::get(), &PQCCDbusServer::performAction, this, &PQCImageFormats::handleSocketMessage);
+    connect(&PQCCLocalServer::get(), &PQCCLocalServer::performAction, this, &PQCImageFormats::handleSocketMessage);
 
 }
 
@@ -117,7 +117,7 @@ void PQCImageFormats::handleSocketMessage(QString what, QStringList message) {
     if(what == "imageformats" && message.length() > 0) {
 
         if(message.at(0) == "getEnabledFormats") {
-            PQCCDbusServer::get().sendMessage("imageformats", QString(":::enabled:::\n%1").arg(getEnabledFormats().join(",")));
+            PQCCLocalServer::get().sendMessage("imageformats", QString(":::enabled:::\n%1").arg(getEnabledFormats().join(",")));
         } else if(message.at(0) == "::closeDatabase") {
             closeDatabase();
         } else if(message.at(0) == "::reopenDatabase") {
@@ -499,7 +499,7 @@ void PQCImageFormats::readFromDatabase() {
         PQCSharedMemory::get().setImageFormatsId2Description(m_id2Description);
         PQCSharedMemory::get().setImageFormatsEndings2Id(m_endings2Id);
 
-        PQCCDbusServer::get().sendMessage("imageformats", "::formatsUpdated");
+        PQCCLocalServer::get().sendMessage("imageformats", "::formatsUpdated");
 
     });
 

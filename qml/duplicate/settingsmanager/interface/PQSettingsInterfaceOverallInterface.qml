@@ -351,7 +351,7 @@ PQSetting {
             PQCSettings.interfaceLanguage = availableLanguages[langcombo.currentIndex]
         origIndex = langcombo.currentIndex
 
-        PQCScriptsLocalization.updateTranslation(PQCSettings.interfaceLanguage)
+        PQCLocalServer.sendMessage("updateTranslation", PQCSettings.interfaceLanguage)
 
         PQCSettings.generalInterfaceVariant = currentInterfaceVariant
 

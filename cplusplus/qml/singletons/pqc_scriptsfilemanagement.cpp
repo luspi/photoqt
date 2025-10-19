@@ -23,7 +23,7 @@
 #include <qml/pqc_scriptsfilemanagement.h>
 #include <qml/pqc_scriptsfilespaths.h>
 #include <qml/pqc_filefoldermodel_cpp.h>
-#include <qml/pqc_qdbusserver.h>
+#include <qml/pqc_localserver.h>
 #include <shared/pqc_configfiles.h>
 #include <shared/pqc_sharedconstants.h>
 
@@ -265,7 +265,7 @@ void PQCScriptsFileManagement::scaleImage(QString sourceFilename, QString target
 
         QImage img;
         PQCSharedMemory::get().setImage(QImage());
-        PQCQDbusServer::get().sendMessage("requestImage", QString("%1\n%2\n%3").arg(sourceFilename).arg(targetSize.width()).arg(targetSize.height()));
+        PQCQLocalServer::get().sendMessage("requestImage", QString("%1\n%2\n%3").arg(sourceFilename).arg(targetSize.width()).arg(targetSize.height()));
         int counter = 0;
         while(img.isNull() && counter < 100) {
             img = PQCSharedMemory::get().getImage();
@@ -483,7 +483,7 @@ void PQCScriptsFileManagement::cropImage(QString sourceFilename, QString targetF
         // create cropped QImage
         QImage img;
         PQCSharedMemory::get().setImage(QImage());
-        PQCQDbusServer::get().sendMessage("requestImage", QString("%1\n-1\n-1").arg(sourceFilename));
+        PQCQLocalServer::get().sendMessage("requestImage", QString("%1\n-1\n-1").arg(sourceFilename));
         int counter = 0;
         while(img.isNull() && counter < 100) {
             img = PQCSharedMemory::get().getImage();

@@ -86,11 +86,6 @@ Q_SIGNALS:
     void setColorProfileFor(QString path, QString val);
 
     /*************************************************************/
-    // these are signals from C++ to C++, no QML interaction
-
-    void disableColorSpaceSupport();
-
-    /*************************************************************/
     // this are picked up by PQCNotifyQML and passed on to QML
 
     // key/shortcuts related

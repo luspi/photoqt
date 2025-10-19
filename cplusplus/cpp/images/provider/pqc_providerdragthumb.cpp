@@ -24,7 +24,7 @@
 #include <cpp/pqc_providerthumb.h>
 #include <cpp/pqc_providericon.h>
 #include <cpp/pqc_imageformats.h>
-#include <cpp/pqc_cdbusserver.h>
+#include <cpp/pqc_localserver.h>
 #include <cpp/pqc_cscriptsfilespaths.h>
 #include <shared/pqc_csettings.h>
 
