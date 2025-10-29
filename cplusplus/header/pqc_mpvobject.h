@@ -66,10 +66,12 @@ private Q_SLOTS:
 #else
 
 #include <QObject>
+#include <QQmlElement>
 
 class PQCMPVObject : public QObject {
 
     Q_OBJECT
+    QML_ELEMENT
 
 public:
     PQCMPVObject(QObject *parent = nullptr) : QObject(parent) {}

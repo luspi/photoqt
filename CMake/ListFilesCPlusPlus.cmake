@@ -2,110 +2,159 @@
 #### C++ SOURCES ####
 #####################
 
-####################################################
-#
-# The sources are put into two categories:
-#
-# 1) Some sources are used from C++ only and are added to the executable directly.
-# 2) Some sources are put into a QML module and can only be used from QML directly.
-#
-####################################################
+SET(photoqt_SOURCES cplusplus/main.cpp
 
-SET(photoqt_4CPP_SOURCES "")
+                    cplusplus/other/pqc_commandlineparser.cpp
+                    cplusplus/other/pqc_singleinstance.cpp
+                    cplusplus/other/pqc_printtabimageoptions.cpp
+                    cplusplus/other/pqc_printtabimagepositiontile.cpp
+                    cplusplus/other/pqc_localhttpserver.cpp
+                    cplusplus/other/pqc_photosphereitem.cpp
+                    cplusplus/other/pqc_photosphererenderer.cpp
+                    cplusplus/other/pqc_filefoldermodelcache.cpp
+                    cplusplus/other/pqc_extensionsettings.cpp
+                    cplusplus/other/pqc_startuphandler.cpp
 
-SET(d "cplusplus")
-SET(photoqt_4CPP_SOURCES ${photoqt_4CPP_SOURCES} ${d}/main.cpp)
+                    cplusplus/other/startuphandler/pqc_migratesettings.cpp
+                    cplusplus/other/startuphandler/pqc_migrateshortcuts.cpp
+                    cplusplus/other/startuphandler/pqc_validate.cpp
+                    cplusplus/other/startuphandler/pqc_wizard.cpp
 
-SET(d "cplusplus/other")
-SET(photoqt_4CPP_SOURCES ${photoqt_4CPP_SOURCES} ${d}/pqc_commandlineparser.cpp ${d}/pqc_singleinstance.cpp)
-SET(photoqt_4CPP_SOURCES ${photoqt_4CPP_SOURCES} ${d}/pqc_printtabimageoptions.cpp ${d}/pqc_printtabimagepositiontile.cpp ${d}/pqc_localhttpserver.cpp)
-SET(photoqt_4CPP_SOURCES ${photoqt_4CPP_SOURCES} ${d}/pqc_photosphereitem.cpp ${d}/pqc_photosphererenderer.cpp ${d}/pqc_filefoldermodelcache.cpp)
-SET(photoqt_4CPP_SOURCES ${photoqt_4CPP_SOURCES} ${d}/pqc_extensionsettings.cpp ${d}/pqc_startuphandler.cpp)
+                    cplusplus/other/wayland-specific/pqc_xdg-output-unstable-v1-protocol.c
+                    cplusplus/other/wayland-specific/pqc_get-wayland-device-pixel-ratio.cpp
 
-SET(d "cplusplus/other/startuphandler")
-SET(photoqt_4CPP_SOURCES ${photoqt_4CPP_SOURCES} ${d}/pqc_migratesettings.cpp ${d}/pqc_migrateshortcuts.cpp ${d}/pqc_validate.cpp ${d}/pqc_wizard.cpp)
+                    cplusplus/header/pqc_commandlineparser.h
+                    cplusplus/header/pqc_singleinstance.h
+                    cplusplus/header/pqc_configfiles.h
+                    cplusplus/header/pqc_startuphandler.h
+                    cplusplus/header/pqc_settingscpp.h
+                    cplusplus/header/pqc_migratesettings.h
+                    cplusplus/header/pqc_validate.h
+                    cplusplus/header/pqc_migrateshortcuts.h
+                    cplusplus/header/pqc_wizard.h
+                    cplusplus/header/pqc_filefoldermodelcache.h
+                    cplusplus/header/pqc_providerfolderthumb.h
+                    cplusplus/header/pqc_printtabimageoptions.h
+                    cplusplus/header/pqc_printtabimagepositiontile.h
+                    cplusplus/header/pqc_httpreplytimeout.h
+                    cplusplus/header/pqc_localhttpserver.h
+                    cplusplus/header/pqc_filefoldermodelCPP.h
+                    cplusplus/header/pqc_imageformats.h
+                    cplusplus/header/pqc_photosphereitem.h
+                    cplusplus/header/pqc_photosphererenderer.h
+                    cplusplus/header/pqc_resolutioncache.h
+                    cplusplus/header/pqc_extensionshandler.h
+                    cplusplus/header/pqc_extensionsettings.h
+                    cplusplus/header/pqc_notify_cpp.h
 
-SET(d "cplusplus/other/wayland-specific")
-SET(photoqt_4CPP_SOURCES ${photoqt_4CPP_SOURCES} ${d}/pqc_xdg-output-unstable-v1-protocol.c ${d}/pqc_get-wayland-device-pixel-ratio.cpp)
+                    cplusplus/images/pqc_loadimage.cpp
+                    cplusplus/images/pqc_imagecache.cpp
 
-SET(d "cplusplus/header")
-SET(photoqt_4CPP_SOURCES ${photoqt_4CPP_SOURCES} ${d}/pqc_commandlineparser.h ${d}/pqc_singleinstance.h ${d}/pqc_configfiles.h ${d}/pqc_startuphandler.h)
-SET(photoqt_4CPP_SOURCES ${photoqt_4CPP_SOURCES} ${d}/pqc_settingscpp.h ${d}/pqc_migratesettings.h)
-SET(photoqt_4CPP_SOURCES ${photoqt_4CPP_SOURCES} ${d}/pqc_validate.h ${d}/pqc_migrateshortcuts.h ${d}/pqc_wizard.h)
-SET(photoqt_4CPP_SOURCES ${photoqt_4CPP_SOURCES} ${d}/pqc_filefoldermodelcache.h ${d}/pqc_providerfolderthumb.h)
-SET(photoqt_4CPP_SOURCES ${photoqt_4CPP_SOURCES} ${d}/pqc_printtabimageoptions.h ${d}/pqc_printtabimagepositiontile.h ${d}/pqc_httpreplytimeout.h)
-SET(photoqt_4CPP_SOURCES ${photoqt_4CPP_SOURCES} ${d}/pqc_localhttpserver.h ${d}/pqc_filefoldermodelCPP.h ${d}/pqc_imageformats.h)
-SET(photoqt_4CPP_SOURCES ${photoqt_4CPP_SOURCES} ${d}/pqc_photosphereitem.h ${d}/pqc_photosphererenderer.h ${d}/pqc_resolutioncache.h)
-SET(photoqt_4CPP_SOURCES ${photoqt_4CPP_SOURCES} ${d}/pqc_extensionshandler.h ${d}/pqc_extensionsettings.h ${d}/pqc_notify_cpp.h)
+                    cplusplus/images/provider/pqc_providericon.cpp
+                    cplusplus/images/provider/pqc_providertheme.cpp
+                    cplusplus/images/provider/pqc_providerthumb.cpp
+                    cplusplus/images/provider/pqc_providertooltipthumb.cpp
+                    cplusplus/images/provider/pqc_providerfolderthumb.cpp
+                    cplusplus/images/provider/pqc_providerdragthumb.cpp
+                    cplusplus/images/provider/pqc_providerfull.cpp
+                    cplusplus/images/provider/pqc_providerimgurhistory.cpp
+                    cplusplus/images/provider/pqc_providersvg.cpp
+                    cplusplus/images/provider/pqc_providersvgcolor.cpp
 
-SET(d "cplusplus/images")
-SET(photoqt_4CPP_SOURCES ${photoqt_4CPP_SOURCES} ${d}/pqc_loadimage.cpp ${d}/pqc_imagecache.cpp)
+                    cplusplus/images/plugins/pqc_loadimage_archive.cpp
+                    cplusplus/images/plugins/pqc_loadimage_devil.cpp
+                    cplusplus/images/plugins/pqc_loadimage_freeimage.cpp
+                    cplusplus/images/plugins/pqc_loadimage_libvips.cpp
+                    cplusplus/images/plugins/pqc_loadimage_magick.cpp
+                    cplusplus/images/plugins/pqc_loadimage_poppler.cpp
+                    cplusplus/images/plugins/pqc_loadimage_qt.cpp
+                    cplusplus/images/plugins/pqc_loadimage_qtpdf.cpp
+                    cplusplus/images/plugins/pqc_loadimage_raw.cpp
+                    cplusplus/images/plugins/pqc_loadimage_unrar.cpp
+                    cplusplus/images/plugins/pqc_loadimage_video.cpp
+                    cplusplus/images/plugins/pqc_loadimage_xcf.cpp
+                    cplusplus/images/plugins/pqc_loadimage_resvg.cpp
+                    cplusplus/images/plugins/pqc_loadimage_libsai.cpp
 
-SET(d "cplusplus/images/provider")
-SET(photoqt_4CPP_SOURCES ${photoqt_4CPP_SOURCES} ${d}/pqc_providericon.cpp ${d}/pqc_providertheme.cpp ${d}/pqc_providerthumb.cpp ${d}/pqc_providertooltipthumb.cpp)
-SET(photoqt_4CPP_SOURCES ${photoqt_4CPP_SOURCES} ${d}/pqc_providerfolderthumb.cpp ${d}/pqc_providerdragthumb.cpp ${d}/pqc_providerfull.cpp ${d}/pqc_providerimgurhistory.cpp)
-SET(photoqt_4CPP_SOURCES ${photoqt_4CPP_SOURCES} ${d}/pqc_providersvg.cpp ${d}/pqc_providersvgcolor.cpp)
+                    cplusplus/extensions/pqc_extensionshandler.cpp
+                    cplusplus/extensions/pqc_extensionactions.h
+                    cplusplus/singletons/other/pqc_resolutioncache.cpp
+                    cplusplus/singletons/engines/pqc_imageformats.cpp
 
-SET(d "cplusplus/images/plugins")
-SET(photoqt_4CPP_SOURCES ${photoqt_4CPP_SOURCES} ${d}/pqc_loadimage_archive.cpp ${d}/pqc_loadimage_devil.cpp ${d}/pqc_loadimage_freeimage.cpp)
-SET(photoqt_4CPP_SOURCES ${photoqt_4CPP_SOURCES} ${d}/pqc_loadimage_libvips.cpp ${d}/pqc_loadimage_magick.cpp ${d}/pqc_loadimage_poppler.cpp)
-SET(photoqt_4CPP_SOURCES ${photoqt_4CPP_SOURCES} ${d}/pqc_loadimage_qt.cpp ${d}/pqc_loadimage_qtpdf.cpp ${d}/pqc_loadimage_raw.cpp)
-SET(photoqt_4CPP_SOURCES ${photoqt_4CPP_SOURCES} ${d}/pqc_loadimage_unrar.cpp ${d}/pqc_loadimage_video.cpp ${d}/pqc_loadimage_xcf.cpp)
-SET(photoqt_4CPP_SOURCES ${photoqt_4CPP_SOURCES} ${d}/pqc_loadimage_resvg.cpp ${d}/pqc_loadimage_libsai.cpp)
+                    cplusplus/singletons/scripts/pqc_scriptscolorprofiles.cpp
+                    cplusplus/singletons/scripts/pqc_scriptsfilespaths.cpp
+                    cplusplus/singletons/scripts/pqc_scriptsimages.cpp
+                    cplusplus/singletons/scripts/pqc_scriptsmetadata.cpp
+                    cplusplus/singletons/scripts/pqc_scriptscrypt.cpp
+                    cplusplus/singletons/scripts/pqc_scriptslocalization.cpp
+                    cplusplus/singletons/scripts/pqc_scriptsother.cpp
+                    cplusplus/singletons/scripts/pqc_scriptsshortcuts.cpp
+                    cplusplus/singletons/scripts/pqc_scriptsfilemanagement.cpp
+                    cplusplus/singletons/scripts/pqc_scriptsfiledialog.cpp
+                    cplusplus/singletons/scripts/pqc_scriptscontextmenu.cpp
+                    cplusplus/singletons/scripts/pqc_scriptsconfig.cpp
+                    cplusplus/singletons/scripts/pqc_scriptsclipboard.cpp
+                    cplusplus/singletons/scripts/pqc_scriptschromecast.cpp
 
-SET(d "cplusplus/extensions")
-SET(photoqt_4CPP_SOURCES ${photoqt_4CPP_SOURCES} ${d}/pqc_extensionshandler.cpp ${d}/pqc_extensionactions.h)
+                    cplusplus/header/scripts/pqc_scriptscolorprofiles.h
+                    cplusplus/header/scripts/pqc_scriptsfilespaths.h
+                    cplusplus/header/scripts/pqc_scriptsimages.h
+                    cplusplus/header/scripts/pqc_scriptsmetadata.h
+                    cplusplus/header/scripts/pqc_scriptscrypt.h
+                    cplusplus/header/scripts/pqc_scriptslocalization.h
+                    cplusplus/header/scripts/pqc_scriptsother.h
+                    cplusplus/header/scripts/pqc_scriptsshortcuts.h
+                    cplusplus/header/scripts/pqc_scriptsfilemanagement.h
+                    cplusplus/header/scripts/pqc_scriptsfiledialog.h
+                    cplusplus/header/scripts/pqc_scriptscontextmenu.h
+                    cplusplus/header/scripts/pqc_scriptsconfig.h
+                    cplusplus/header/scripts/pqc_scriptsclipboard.h
+                    cplusplus/header/scripts/pqc_scriptschromecast.h
 
-SET(d "cplusplus/singletons/other")
-SET(photoqt_4CPP_SOURCES ${photoqt_4CPP_SOURCES} ${d}/pqc_resolutioncache.cpp)
+                    cplusplus/singletons/scripts/qmlcpp/pqc_scriptsshareimgur.cpp
+                    cplusplus/singletons/scripts/qmlcpp/pqc_scriptswallpaper.cpp
 
-SET(d "cplusplus/singletons/engines")
-SET(photoqt_4CPP_SOURCES ${photoqt_4CPP_SOURCES} ${d}/pqc_imageformats.cpp)
+                    cplusplus/header/scripts/qmlcpp/pqc_scriptsshareimgur.h
+                    cplusplus/header/scripts/qmlcpp/pqc_scriptswallpaper.h
 
-SET(d "cplusplus/singletons/scripts")
-SET(photoqt_4CPP_SOURCES ${photoqt_4CPP_SOURCES} ${d}/pqc_scriptscolorprofiles.cpp ${d}/pqc_scriptsfilespaths.cpp ${d}/pqc_scriptsimages.cpp)
-SET(photoqt_4CPP_SOURCES ${photoqt_4CPP_SOURCES} ${d}/pqc_scriptsmetadata.cpp ${d}/pqc_scriptscrypt.cpp ${d}/pqc_scriptslocalization.cpp)
-SET(photoqt_4CPP_SOURCES ${photoqt_4CPP_SOURCES} ${d}/pqc_scriptsother.cpp ${d}/pqc_scriptsshortcuts.cpp ${d}/pqc_scriptsfilemanagement.cpp)
-SET(photoqt_4CPP_SOURCES ${photoqt_4CPP_SOURCES} ${d}/pqc_scriptsfiledialog.cpp ${d}/pqc_scriptscontextmenu.cpp)
-SET(photoqt_4CPP_SOURCES ${photoqt_4CPP_SOURCES} ${d}/pqc_scriptsconfig.cpp ${d}/pqc_scriptsclipboard.cpp)
-SET(photoqt_4CPP_SOURCES ${photoqt_4CPP_SOURCES} ${d}/pqc_scriptschromecast.cpp)
+########################################################################
+########################################################################
 
-SET(d "cplusplus/header/scripts/")
-SET(photoqt_4CPP_SOURCES ${photoqt_4CPP_SOURCES} ${d}/pqc_scriptscolorprofiles.h ${d}/pqc_scriptsfilespaths.h ${d}/pqc_scriptsimages.h)
-SET(photoqt_4CPP_SOURCES ${photoqt_4CPP_SOURCES} ${d}/pqc_scriptsmetadata.h ${d}/pqc_scriptscrypt.h ${d}/pqc_scriptslocalization.h)
-SET(photoqt_4CPP_SOURCES ${photoqt_4CPP_SOURCES} ${d}/pqc_scriptsother.h ${d}/pqc_scriptsshortcuts.h ${d}/pqc_scriptsfilemanagement.h)
-SET(photoqt_4CPP_SOURCES ${photoqt_4CPP_SOURCES} ${d}/pqc_scriptsfiledialog.h ${d}/pqc_scriptscontextmenu.h)
-SET(photoqt_4CPP_SOURCES ${photoqt_4CPP_SOURCES} ${d}/pqc_scriptsconfig.h ${d}/pqc_scriptsclipboard.h ${d}/pqc_scriptschromecast.h)
+                    cplusplus/other/pqc_photosphere.cpp
+                    cplusplus/other/pqc_mpvobject.cpp
 
-SET(d "cplusplus/singletons/scripts/qmlcpp")
-SET(photoqt_4CPP_SOURCES ${photoqt_4CPP_SOURCES} ${d}/pqc_scriptsshareimgur.cpp ${d}/pqc_scriptswallpaper.cpp)
+                    cplusplus/header/pqc_photosphere.h
+                    cplusplus/header/pqc_mpvobject.h
+                    cplusplus/header/pqc_imageformats_qml.h
+                    cplusplus/header/pqc_filefoldermodel.h
+                    cplusplus/header/pqc_metadata.h
+                    cplusplus/header/pqc_settings.h
+                    cplusplus/header/pqc_shortcuts.h
+                    cplusplus/header/pqc_look.h
+                    cplusplus/header/pqc_location.h
+                    cplusplus/header/pqc_windowgeometry.h
+                    cplusplus/header/pqc_notify.h
+                    cplusplus/header/pqc_constants.h
 
-SET(d "cplusplus/header/scripts/qmlcpp")
-SET(photoqt_4CPP_SOURCES ${photoqt_4CPP_SOURCES} ${d}/pqc_scriptsshareimgur.h ${d}/pqc_scriptswallpaper.h)
+                    cplusplus/singletons/other/pqc_filefoldermodel.cpp
+                    cplusplus/singletons/other/pqc_metadata.cpp
 
-####################################
-####################################
+                    cplusplus/singletons/engines/pqc_settings.cpp
+                    cplusplus/singletons/engines/pqc_shortcuts.cpp
+                    cplusplus/singletons/engines/pqc_look.cpp
+                    cplusplus/singletons/engines/pqc_location.cpp
+                    cplusplus/singletons/engines/pqc_windowgeometry.cpp
 
-SET(photoqt_4QML_SOURCES "")
-
-SET(d "cplusplus/other")
-SET(photoqt_4QML_SOURCES ${photoqt_4QML_SOURCES} ${d}/pqc_photosphere.cpp ${d}/pqc_mpvobject.cpp)
-
-SET(d "cplusplus/header")
-SET(photoqt_4QML_SOURCES ${photoqt_4QML_SOURCES} ${d}/pqc_photosphere.h ${d}/pqc_mpvobject.h ${d}/pqc_imageformats_qml.h ${d}/pqc_filefoldermodel.h ${d}/pqc_metadata.h)
-SET(photoqt_4QML_SOURCES ${photoqt_4QML_SOURCES} ${d}/pqc_settings.h ${d}/pqc_shortcuts.h ${d}/pqc_look.h)
-SET(photoqt_4QML_SOURCES ${photoqt_4QML_SOURCES} ${d}/pqc_location.h ${d}/pqc_windowgeometry.h ${d}/pqc_notify.h ${d}/pqc_constants.h)
-
-SET(d "cplusplus/singletons/other")
-SET(photoqt_4QML_SOURCES ${photoqt_4QML_SOURCES} ${d}/pqc_filefoldermodel.cpp ${d}/pqc_metadata.cpp)
-
-SET(d "cplusplus/singletons/engines")
-SET(photoqt_4QML_SOURCES ${photoqt_4QML_SOURCES} ${d}/pqc_settings.cpp ${d}/pqc_shortcuts.cpp ${d}/pqc_look.cpp)
-SET(photoqt_4QML_SOURCES ${photoqt_4QML_SOURCES} ${d}/pqc_location.cpp ${d}/pqc_windowgeometry.cpp)
-
-SET(d "cplusplus/header/scripts/")
-SET(photoqt_4QML_SOURCES ${photoqt_4QML_SOURCES} ${d}/pqc_scriptsfilespaths_qml.h ${d}/pqc_scriptscolorprofiles_qml.h ${d}/pqc_scriptsimages_qml.h)
-SET(photoqt_4QML_SOURCES ${photoqt_4QML_SOURCES} ${d}/pqc_scriptsmetadata_qml.h ${d}/pqc_scriptsfilemanagement_qml.h ${d}/pqc_scriptscontextmenu_qml.h)
-SET(photoqt_4QML_SOURCES ${photoqt_4QML_SOURCES} ${d}/pqc_scriptsother_qml.h ${d}/pqc_scriptsshortcuts_qml.h ${d}/pqc_scriptsfiledialog_qml.h)
-SET(photoqt_4QML_SOURCES ${photoqt_4QML_SOURCES} ${d}/pqc_scriptsconfig_qml.h ${d}/pqc_scriptslocalization_qml.h ${d}/pqc_scriptsclipboard_qml.h)
-SET(photoqt_4QML_SOURCES ${photoqt_4QML_SOURCES} ${d}/pqc_scriptschromecast_qml.h)
+                    cplusplus/header/scripts/pqc_scriptsfilespaths_qml.h
+                    cplusplus/header/scripts/pqc_scriptscolorprofiles_qml.h
+                    cplusplus/header/scripts/pqc_scriptsimages_qml.h
+                    cplusplus/header/scripts/pqc_scriptsmetadata_qml.h
+                    cplusplus/header/scripts/pqc_scriptsfilemanagement_qml.h
+                    cplusplus/header/scripts/pqc_scriptscontextmenu_qml.h
+                    cplusplus/header/scripts/pqc_scriptsother_qml.h
+                    cplusplus/header/scripts/pqc_scriptsshortcuts_qml.h
+                    cplusplus/header/scripts/pqc_scriptsfiledialog_qml.h
+                    cplusplus/header/scripts/pqc_scriptsconfig_qml.h
+                    cplusplus/header/scripts/pqc_scriptslocalization_qml.h
+                    cplusplus/header/scripts/pqc_scriptsclipboard_qml.h
+                    cplusplus/header/scripts/pqc_scriptschromecast_qml.h)

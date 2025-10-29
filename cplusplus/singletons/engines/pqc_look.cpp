@@ -23,6 +23,7 @@
 #include <pqc_look.h>
 #include <pqc_settingscpp.h>
 #include <pqc_configfiles.h>
+
 #include <QColor>
 #include <QFont>
 #include <QtDebug>
@@ -43,6 +44,8 @@ PQCLook::PQCLook() : QObject() {
     m_fontWeightBold = std::min(900, std::max(100, PQCSettingsCPP::get().getInterfaceFontBoldWeight()));
 
     lightness_threshold = 96;
+
+    m_pal = QPalette();
 
     if(!m_interfaceModernVariant) {
 
@@ -125,6 +128,8 @@ void PQCLook::calculateColors(QString name) {
     qDebug() << "args: name =" << name;
     qDebug() << "m_interfaceModernVariant =" << m_interfaceModernVariant;
 
+    QPalette curPalette = m_pal;
+
     if(!m_interfaceModernVariant) {
 
         m_iconShade = "dark";
@@ -151,81 +156,60 @@ void PQCLook::calculateColors(QString name) {
 
         QColor baseCol(name);
 
-        m_pal.setColor(QPalette::Base, baseCol);
-        m_pal.setColor(QPalette::Window, baseCol);
+        curPalette = QPalette(QColor(name));
 
         if(baseCol.lightness() < lightness_threshold) {
 
             m_iconShade = "light";
 
-            m_pal.setColor(QPalette::AlternateBase, baseCol.darker(125));
-            m_pal.setColor(QPalette::ToolTipBase, baseCol.darker(30));
+            curPalette.setColor(QPalette::Base, baseCol);
+            curPalette.setColor(QPalette::AlternateBase, baseCol.lighter(115));
 
             QColor coltxt(255,255,255);
-            m_pal.setColor(QPalette::Normal, QPalette::Text, coltxt);
-            m_pal.setColor(QPalette::Normal, QPalette::WindowText, coltxt);
-            m_pal.setColor(QPalette::Disabled, QPalette::Text, coltxt.darker(150));
-            m_pal.setColor(QPalette::Disabled, QPalette::WindowText, coltxt.darker(150));
-
             QColor hightxt = coltxt;
             hightxt.setAlpha(125);
-            m_pal.setColor(QPalette::HighlightedText, coltxt);
-            m_pal.setColor(QPalette::Highlight, hightxt);
+            curPalette.setColor(QPalette::HighlightedText, coltxt);
+            curPalette.setColor(QPalette::Highlight, hightxt);
 
-            m_pal.setColor(QPalette::PlaceholderText, coltxt.darker(100));
-            m_pal.setColor(QPalette::ToolTipText, coltxt.darker(30));
-
-            m_pal.setColor(QPalette::Button, baseCol.lighter(50));
-            m_pal.setColor(QPalette::ButtonText, coltxt);
-
-            m_pal.setColor(QPalette::BrightText, QColor(75,75,75));
+            curPalette.setColor(QPalette::Disabled, QPalette::Text, curPalette.color(QPalette::Text).darker(200));
 
         } else {
 
             m_iconShade = "dark";
 
-            m_pal.setColor(QPalette::AlternateBase, baseCol.lighter(125));
-            m_pal.setColor(QPalette::ToolTipBase, baseCol.lighter(30));
+            curPalette.setColor(QPalette::Base, baseCol);
+            curPalette.setColor(QPalette::AlternateBase, baseCol.darker(105));
 
             QColor coltxt(0,0,0);
-            m_pal.setColor(QPalette::Normal, QPalette::Text, coltxt);
-            m_pal.setColor(QPalette::Normal, QPalette::WindowText, coltxt);
-            m_pal.setColor(QPalette::Disabled, QPalette::Text, coltxt.lighter(150));
-            m_pal.setColor(QPalette::Disabled, QPalette::WindowText, coltxt.lighter(150));
-
             QColor hightxt = coltxt;
             hightxt.setAlpha(125);
-            m_pal.setColor(QPalette::HighlightedText, coltxt);
-            m_pal.setColor(QPalette::Highlight, hightxt);
+            curPalette.setColor(QPalette::HighlightedText, coltxt);
+            curPalette.setColor(QPalette::Highlight, hightxt);
 
-            m_pal.setColor(QPalette::PlaceholderText, coltxt.lighter(100));
-            m_pal.setColor(QPalette::ToolTipText, coltxt.lighter(30));
-
-            m_pal.setColor(QPalette::Button, baseCol.darker(50));
-            m_pal.setColor(QPalette::ButtonText, coltxt);
-
-            m_pal.setColor(QPalette::BrightText, QColor(180, 180, 180));
+            curPalette.setColor(QPalette::Disabled, QPalette::Text, curPalette.color(QPalette::Text).lighter(200));
 
         }
 
-        qApp->setPalette(m_pal);
-
     }
 
-    QColor bb = m_pal.text().color();
+    qWarning() << ">>> m_iconShade =" << m_iconShade;
+
+    QColor bb = curPalette.text().color();
     bb.setAlpha(50);
     m_baseBorder = bb.name(QColor::HexArgb);
 
-    m_highlightedText = m_pal.highlightedText().color().name(QColor::HexArgb);
-    m_highlight = m_pal.highlight().color().name(QColor::HexArgb);
+    m_highlightedText = curPalette.highlightedText().color().name(QColor::HexArgb);
+    m_highlight = curPalette.highlight().color().name(QColor::HexArgb);
 
-    m_tooltipBase = m_pal.toolTipBase().color().name(QColor::HexArgb);
-    QColor col = m_pal.toolTipText().color();
+    m_tooltipBase = curPalette.toolTipBase().color().name(QColor::HexArgb);
+    QColor col = curPalette.toolTipText().color();
     m_tooltipText = col.name(QColor::HexArgb);
     col.setAlpha(175);
     m_tooltipBorder = col.name(QColor::HexArgb);
 
-    m_brightText = m_pal.brightText().color().name(QColor::HexArgb);
+    m_brightText = curPalette.brightText().color().name(QColor::HexArgb);
+
+    qApp->setPalette(curPalette);
 
 }
 

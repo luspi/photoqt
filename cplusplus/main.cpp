@@ -305,17 +305,17 @@ int main(int argc, char **argv) {
 
 #if QT_VERSION >= QT_VERSION_CHECK(6, 5, 0)
     if(useModernInterface)
-        engine.loadFromModule("PhotoQt.Modern", "PQMainWindow");
+        engine.loadFromModule("PhotoQt", "PQMainWindowModern");
     else
-        engine.loadFromModule("PhotoQt.Integrated", "PQMainWindow");
+        engine.loadFromModule("PhotoQt", "PQMainWindowIntegrated");
 #else
     // In Qt 6.4 this path is not automatically added as import path meaning without this PhotoQt wont find any of its modules
     // We also cannot use loadFromModule() as that does not exist yet.
     engine.addImportPath(":/");
     if(useModernInterface)
-        engine.load("qrc:/PhotoQt/Modern/qml/modern/PQMainWindow.qml");
+        engine.load("qrc:/PhotoQt/Modern/qml/PQMainWindowModern.qml");
     else
-        engine.load("qrc:/PhotoQt/Integrated/qml/integrated/PQMainWindow.qml");
+        engine.load("qrc:/PhotoQt/Integrated/qml/PQMainWindowIntegrated.qml");
 #endif
 
     int currentExitCode = app.exec();
