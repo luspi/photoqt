@@ -37,6 +37,8 @@ public:
 
 private:
     PQCProviderSVG *svg;
+    QString origTheme;
+    QString origFallbackTheme;
 
 };
 

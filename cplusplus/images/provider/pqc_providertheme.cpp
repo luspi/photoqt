@@ -22,6 +22,7 @@
 
 #include <pqc_providertheme.h>
 #include <pqc_providersvg.h>
+#include <pqc_settingscpp.h>
 #include <QIcon>
 #include <QFile>
 #include <QPainter>
@@ -29,6 +30,27 @@
 
 PQCProviderTheme::PQCProviderTheme() : QQuickImageProvider(QQuickImageProvider::Image) {
     svg = new PQCProviderSVG;
+#ifndef Q_OS_WIN
+    origTheme = QIcon::themeName();
+    origFallbackTheme = QIcon::fallbackThemeName();
+    // this is needed to 'fix' the icons on Linux
+    if(PQCSettingsCPP::get().getGeneralInterfaceVariant() == "modern") {
+        if(QColor(PQCSettingsCPP::get().getInterfaceAccentColor()).lightness() > 96)
+            QIcon::setThemeName(QString("%1-light").arg(origTheme));
+        else
+            QIcon::setThemeName(QString("%1-dark").arg(origTheme));
+        QIcon::setFallbackThemeName(origTheme);
+    }
+    connect(&PQCSettingsCPP::get(), &PQCSettingsCPP::interfaceAccentColorChanged, this, [=]() {
+        if(PQCSettingsCPP::get().getGeneralInterfaceVariant() == "modern") {
+            if(QColor(PQCSettingsCPP::get().getInterfaceAccentColor()).lightness() > 96)
+                QIcon::setThemeName(QString("%1-light").arg(origTheme));
+            else
+                QIcon::setThemeName(QString("%1-dark").arg(origTheme));
+            QIcon::setFallbackThemeName(origTheme);
+        }
+    });
+#endif
 }
 
 PQCProviderTheme::~PQCProviderTheme() {

@@ -192,8 +192,6 @@ void PQCLook::calculateColors(QString name) {
 
     }
 
-    qWarning() << ">>> m_iconShade =" << m_iconShade;
-
     QColor bb = curPalette.text().color();
     bb.setAlpha(50);
     m_baseBorder = bb.name(QColor::HexArgb);
