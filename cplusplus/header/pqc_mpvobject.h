@@ -66,7 +66,7 @@ private Q_SLOTS:
 #else
 
 #include <QObject>
-#include <QQmlElement>
+#include <QQmlEngine>
 
 class PQCMPVObject : public QObject {
 
