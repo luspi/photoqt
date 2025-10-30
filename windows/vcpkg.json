@@ -9,6 +9,7 @@
         "pugixml",
         "devil",
         "freeimage",
-        "nu-book-zxing-cpp"
+        "nu-book-zxing-cpp",
+        "yaml-cpp"
     ]
 }
