@@ -96,6 +96,11 @@ public:
     void        cleanupTemporaryFiles();
     void        setThumbnailBaseCacheDir(QString dir);
 
+    // navigating between folders
+    QString getSiblingFile(const QString currentFile, const int direction, int &remainingIteration, int &remainingLevelUp, int &remainingLevelDown);
+    QString _findFirstFileinFolderAndSubFolder(const QString folder, const bool ascendingFolder, int &remainingIteration, int &remainingDescending);
+    void _sortList(QStringList &lst, const bool ascending);
+
 
 private:
     PQCScriptsFilesPaths();

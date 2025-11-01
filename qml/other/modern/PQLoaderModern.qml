@@ -62,7 +62,7 @@ Item {
                 button3: smmod.button3
                 bottomLeft: smmod.bottomLeft
                 popInOutButton: smmod.popInOutButton
-                availableHeight: smmod.contentHeight
+                availableHeight: smmod.contentHeight-smmod.bottomrowHeight-smmod.toprowHeight
                 Component.onCompleted: {
                     smmod.elementId = elementId
                     smmod.title = title
@@ -93,7 +93,7 @@ Item {
                 button3: smpop.button3
                 bottomLeft: smpop.bottomLeft
                 popInOutButton: smpop.popInOutButton
-                availableHeight: smpop.contentHeight
+                availableHeight: smpop.contentHeight-smpop.bottomrowHeight-smpop.toprowHeight
                 Component.onCompleted: {
                     smpop.elementId = elementId
                     smpop.title = title

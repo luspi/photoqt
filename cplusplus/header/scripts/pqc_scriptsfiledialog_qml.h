@@ -88,6 +88,11 @@ public:
         PQCScriptsFileDialog::get().deletePlacesEntry(id);
     }
 
+    // quickly move between folders
+    Q_INVOKABLE QString getSiblingFolder(QString currentFolder, const int direction) {
+        return PQCScriptsFileDialog::get().getSiblingFolder(currentFolder, direction);
+    }
+
 Q_SIGNALS:
     void figuredOutNumberOfFilesInFolder(const QString &path, const unsigned int &num);
 

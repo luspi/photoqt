@@ -245,6 +245,16 @@ PQTemplate {
 
     }
 
+    Connections {
+
+        target: PQCScriptsShortcuts
+
+        function onSendShortcutShowFile(path : string) {
+            PQCFileFolderModel.folderFileDialog = PQCScriptsFilesPaths.getDir(path)
+        }
+
+    }
+
     function loadNewPath(path : string) {
         PQCNotify.filedialogShowAddressEdit(false)
         PQCFileFolderModel.folderFileDialog = PQCScriptsFilesPaths.cleanPath(path)

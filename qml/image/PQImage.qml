@@ -223,6 +223,11 @@ Item {
             image_top.showRandom()
         }
 
+        function onSendShortcutShowFile(path : string) {
+            PQCFileFolderModel.extraFoldersToLoad = []
+            PQCFileFolderModel.fileInFolderMainView = path
+        }
+
     }
 
     Connections {

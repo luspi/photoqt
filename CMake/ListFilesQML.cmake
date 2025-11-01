@@ -206,6 +206,8 @@ SET(photoqt_QML qml/PQMainWindowModern.qml
                 qml/settingsmanager/shortcuts/PQSettingsShortcutsExternalShortcuts.qml
                 qml/settingsmanager/shortcuts/PQSettingsShortcutsDuplicateShortcuts.qml
 
+                qml/settingsmanager/shortcuts/settings/PQSettingsShortcutsSiblingSettings.qml
+
                 qml/settingsmanager/other/PQSettingsOtherFileDialog.qml
                 qml/settingsmanager/other/PQSettingsOtherSlideshow.qml
 

@@ -81,21 +81,34 @@ public:
 
 
     // externally related
-    Q_INVOKABLE QString     selectFileFromDialog(QString buttonlabel, QString preselectFile, int formatId, bool confirmOverwrite)
-                                                                    { return PQCScriptsFilesPaths::get().selectFileFromDialog(buttonlabel,
-                                                                                                                              preselectFile,
-                                                                                                                              formatId,
-                                                                                                                              confirmOverwrite); }
-    Q_INVOKABLE QString     selectFolderFromDialog(QString buttonlabel, QString preselectFolder)
-                                                                    { return PQCScriptsFilesPaths::get().selectFolderFromDialog(buttonlabel, preselectFolder); }
-    Q_INVOKABLE void        saveLogToFile(QString txt)              {        PQCScriptsFilesPaths::get().saveLogToFile(txt); }
-    Q_INVOKABLE QString     openFileFromDialog(QString buttonlabel, QString preselectFile, QStringList endings)
-                                                                    { return PQCScriptsFilesPaths::get().openFileFromDialog(buttonlabel, preselectFile, endings); }
-    Q_INVOKABLE QStringList openFilesFromDialog(QString buttonlabel, QString preselectFile, QStringList endings)
-                                                                    { return PQCScriptsFilesPaths::get().openFilesFromDialog(buttonlabel, preselectFile, endings); }
-    Q_INVOKABLE QString     getExistingDirectory(QString startDir = QDir::homePath())
-                                                                    { return PQCScriptsFilesPaths::get().getExistingDirectory(startDir); }
-    Q_INVOKABLE void        cleanupTemporaryFiles()                 {        PQCScriptsFilesPaths::get().cleanupTemporaryFiles(); }
-    Q_INVOKABLE void        setThumbnailBaseCacheDir(QString dir)   {        PQCScriptsFilesPaths::get().setThumbnailBaseCacheDir(dir); }
+    Q_INVOKABLE QString     selectFileFromDialog(QString buttonlabel, QString preselectFile, int formatId, bool confirmOverwrite) {
+        return PQCScriptsFilesPaths::get().selectFileFromDialog(buttonlabel, preselectFile, formatId, confirmOverwrite);
+    }
+    Q_INVOKABLE QString     selectFolderFromDialog(QString buttonlabel, QString preselectFolder) {
+        return PQCScriptsFilesPaths::get().selectFolderFromDialog(buttonlabel, preselectFolder);
+    }
+    Q_INVOKABLE void        saveLogToFile(QString txt) {
+        PQCScriptsFilesPaths::get().saveLogToFile(txt);
+    }
+    Q_INVOKABLE QString     openFileFromDialog(QString buttonlabel, QString preselectFile, QStringList endings) {
+         return PQCScriptsFilesPaths::get().openFileFromDialog(buttonlabel, preselectFile, endings);
+    }
+    Q_INVOKABLE QStringList openFilesFromDialog(QString buttonlabel, QString preselectFile, QStringList endings) {
+        return PQCScriptsFilesPaths::get().openFilesFromDialog(buttonlabel, preselectFile, endings);
+    }
+    Q_INVOKABLE QString     getExistingDirectory(QString startDir = QDir::homePath()) {
+        return PQCScriptsFilesPaths::get().getExistingDirectory(startDir);
+    }
+    Q_INVOKABLE void        cleanupTemporaryFiles() {
+        PQCScriptsFilesPaths::get().cleanupTemporaryFiles();
+    }
+    Q_INVOKABLE void        setThumbnailBaseCacheDir(QString dir) {
+        PQCScriptsFilesPaths::get().setThumbnailBaseCacheDir(dir);
+    }
+
+    // navigating between folders
+    Q_INVOKABLE QString getSiblingFile(const QString currentFile, const int direction, int remainingIteration, int remainingLevelUp, int remainingLevelDown) {
+        return PQCScriptsFilesPaths::get().getSiblingFile(currentFile, direction, remainingIteration, remainingLevelUp, remainingLevelDown);
+    }
 
 };

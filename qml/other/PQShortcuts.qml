@@ -609,6 +609,20 @@ Item {
                 else
                     PQCNotify.showNotificationMessage(qsTranslate("unavailable", "Feature unavailable"), qsTranslate("unavailable", "Photo spheres are not supported by this build of PhotoQt."))
                 break
+            case "__nextSiblingFile":
+                var nextfile = PQCScriptsFilesPaths.getSiblingFile(PQCFileFolderModel.currentFile, 1, PQCSettings.imageviewSiblingFileMaxIterations, PQCSettings.imageviewSiblingFileMaxLevelUp, PQCSettings.imageviewSiblingFilemaxLevelDown)
+                if(nextfile === "")
+                    PQCNotify.showNotificationMessage(qsTr("navigation", "Nothing found"), qsTranslate("navigation", "No next sibling found."))
+                else
+                    PQCScriptsShortcuts.sendShortcutShowFile(nextfile)
+                break;
+            case "__prevSiblingFile":
+                var prevfile = PQCScriptsFilesPaths.getSiblingFile(PQCFileFolderModel.currentFile, -1, PQCSettings.imageviewSiblingFileMaxIterations, PQCSettings.imageviewSiblingFileMaxLevelUp, PQCSettings.imageviewSiblingFilemaxLevelDown)
+                if(prevfile === "")
+                    PQCNotify.showNotificationMessage(qsTr("navigation", "Nothing found"), qsTranslate("navigation", "No previous sibling found."))
+                else
+                    PQCScriptsShortcuts.sendShortcutShowFile(prevfile)
+                break;
 
             /**********************/
             // image functions

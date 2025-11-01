@@ -948,8 +948,6 @@ Item {
 
     function handleKeyEvent(key : int, modifiers : int) {
 
-        console.warn(">>> PQCConstants.whichContextMenusOpen =", PQCConstants.whichContextMenusOpen)
-
         if(PQCConstants.whichContextMenusOpen.length > 0)
             return
 
@@ -971,7 +969,13 @@ Item {
 
         } else if(key === Qt.Key_Right) {
 
-            if(modifiers & Qt.AltModifier || modifiers & Qt.ControlModifier) {
+            if(modifiers & Qt.ControlModifier && modifiers & Qt.ShiftModifier) {
+
+                var nextpath = PQCScriptsFileDialog.getSiblingFolder(PQCFileFolderModel.folderFileDialog, 1)
+                if(nextpath !== "")
+                    filedialog_top.loadNewPath(nextpath)
+
+            } else if(modifiers & Qt.AltModifier || modifiers & Qt.ControlModifier) {
 
                 filedialog_top.goForwardsInHistory()
 
@@ -988,7 +992,13 @@ Item {
 
         } else if(key === Qt.Key_Left) {
 
-            if(modifiers & Qt.AltModifier || modifiers & Qt.ControlModifier) {
+            if(modifiers & Qt.ControlModifier && modifiers & Qt.ShiftModifier) {
+
+                var prevpath = PQCScriptsFileDialog.getSiblingFolder(PQCFileFolderModel.folderFileDialog, -1)
+                if(prevpath !== "")
+                    filedialog_top.loadNewPath(prevpath)
+
+            } else if(modifiers & Qt.AltModifier || modifiers & Qt.ControlModifier) {
 
                 PQCNotify.filedialogGoBackInHistory()
 

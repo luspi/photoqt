@@ -779,3 +779,153 @@ void PQCScriptsFilesPaths::setThumbnailBaseCacheDir(QString dir) {
     PQCConfigFiles::get().setThumbnailCacheBaseDir(dir);
 
 }
+
+QString PQCScriptsFilesPaths::getSiblingFile(const QString currentFile, const int direction, int &remainingIteration, int &remainingLevelUp, int &remainingLevelDown) {
+
+    QString siblingFile = "";
+
+    QDir prefixDir(QFileInfo(currentFile).dir().absolutePath());
+
+    /////////////////////////////////////////////////////////////////////////
+    // Loop until we found a file or exceeded maximum counter
+
+    while(siblingFile == "" && remainingIteration > 0 && remainingLevelUp > 0) {
+
+        /////////////////////////////////////////////////////////////////////////
+        /// // Go up a folder to find siblings
+
+        // this is where we are currently in (stored so we don't check for files in ourselves)
+        QString origDirName = prefixDir.dirName();
+
+        // go up a level
+        if(!prefixDir.cdUp())
+            break;
+        remainingLevelDown += 1;
+        remainingLevelUp -= 1;
+
+        // we exclude root, this can be expensive
+        if(prefixDir.isRoot())
+            break;
+
+        qDebug() << "Going up to folder:" << prefixDir.absolutePath();
+
+        /////////////////////////////////////////////////////////////////////////
+        // Get all directories in parent directory (siblings to this folder)
+
+        QDir parentDir(prefixDir.absolutePath());
+        QStringList parentSiblings = parentDir.entryList(QDir::Dirs|QDir::NoDotAndDotDot);
+        _sortList(parentSiblings, true);
+
+        // our position in the directory
+        const int currentIndex = parentSiblings.indexOf(origDirName);
+
+        qDebug() << "currentIndex =" << currentIndex;
+
+        /////////////////////////////////////////////////////////////////////////
+        // check previous/next folders for content
+
+        // go backwards
+        if(direction == -1 && currentIndex > 0) {
+
+            // check all previous directories one by one
+            for(int i = currentIndex-1; i >= 0; --i) {
+                siblingFile = _findFirstFileinFolderAndSubFolder(prefixDir.absolutePath() + "/" + parentSiblings.at(i), false, remainingIteration, remainingLevelDown);
+                // if we found a file or reached maximum iteration level: stop
+                if(siblingFile != "" || remainingIteration <= 0) break;
+            }
+
+        // go forwards
+        } else if(direction == 1 && currentIndex < parentSiblings.length()-1) {
+
+            // check all next directories one by one
+            for(int i = currentIndex+1; i < parentSiblings.length(); ++i) {
+                siblingFile = _findFirstFileinFolderAndSubFolder(prefixDir.absolutePath() + "/" + parentSiblings.at(i), true, remainingIteration, remainingLevelDown);
+                // if we found a file or reached maximum iteration level: stop
+                if(siblingFile != "" || remainingIteration <= 0) break;
+            }
+
+        }
+
+        // if nothing found one level up, repeat
+
+    }
+
+    return siblingFile;
+
+}
+
+QString PQCScriptsFilesPaths::_findFirstFileinFolderAndSubFolder(const QString folder, const bool ascendingFolder, int &remainingIteration, int &remainingDescending) {
+
+    qDebug() << "Checking folder:" << folder;
+
+    remainingIteration -= 1;
+
+    QString ret = "";
+
+    QDir dir(folder);
+
+    QStringList fileList = dir.entryList(QDir::Files);
+
+    if(fileList.length() > 0) {
+
+        qDebug() << "Found" << fileList.length() << "files, checking for supported file types";
+
+        _sortList(fileList, true);
+
+        for(const QString &f : std::as_const(fileList)) {
+
+            const QString fullPath = dir.absolutePath() + "/" + f;
+
+            const QString suffix = QFileInfo(fullPath).suffix().toLower();
+            if(PQCImageFormats::get().getEnabledFormats().contains(suffix)) {
+                ret = fullPath;
+                break;
+            } else {
+                QMimeDatabase db;
+                QString mimetype = db.mimeTypeForFile(fullPath).name();
+                if(PQCImageFormats::get().getEnabledMimeTypes().contains(mimetype)) {
+                    ret = fullPath;
+                    break;
+                }
+            }
+
+        }
+
+    }
+
+    if(ret == "" && remainingDescending > 0) {
+
+        QStringList folderList = dir.entryList(QDir::Dirs|QDir::NoDotAndDotDot);
+
+        if(folderList.length() > 0) {
+
+            qDebug() << "Found" << folderList.length() << "subfolder, checking their contents";
+
+            _sortList(folderList, ascendingFolder);
+
+            for(const QString &f : std::as_const(folderList)) {
+
+                remainingDescending -= 1;
+                ret = _findFirstFileinFolderAndSubFolder(dir.absolutePath() + "/" + f, ascendingFolder, remainingIteration, remainingDescending);
+
+                if(ret != "")
+                    break;
+
+            }
+
+        }
+
+    }
+
+    return ret;
+
+}
+
+void PQCScriptsFilesPaths::_sortList(QStringList &lst, const bool ascending) {
+    QCollator collator;
+    collator.setNumericMode(true);
+    if(ascending)
+        std::sort(lst.begin(), lst.end(), [&collator](const QString &file1, const QString &file2) { return collator.compare(file1, file2) < 0; });
+    else
+        std::sort(lst.begin(), lst.end(), [&collator](const QString &file1, const QString &file2) { return collator.compare(file2, file1) < 0; });
+}

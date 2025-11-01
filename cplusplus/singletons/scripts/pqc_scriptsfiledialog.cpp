@@ -638,3 +638,35 @@ void PQCScriptsFileDialog::deletePlacesEntry(QString id) {
 #endif
 
 }
+
+QString PQCScriptsFileDialog::getSiblingFolder(QString currentFolder, const int direction) {
+
+    QFileInfo info(currentFolder);
+    if(info.isFile())
+        currentFolder = info.absolutePath();
+
+    QDir dir(currentFolder);
+    QString origDirName = dir.dirName();
+
+    dir.cdUp();
+
+    const QStringList allFolders = dir.entryList(QDir::Dirs|QDir::NoDotAndDotDot);
+
+    qDebug() << currentFolder;
+    qDebug() << allFolders << "//" << origDirName;
+
+    int currentIndex = allFolders.indexOf(origDirName);
+
+    if(currentIndex == -1) {
+        qWarning() << "Current folder not found... not sure what to do.";
+        return "";
+    }
+
+    if(direction == -1 && currentIndex > 0)
+        return dir.absolutePath() + "/" + allFolders.at(currentIndex-1);
+    else if(direction == 1 && currentIndex < allFolders.length()-1)
+        return dir.absolutePath() + "/" + allFolders.at(currentIndex+1);
+
+    return "";
+
+}

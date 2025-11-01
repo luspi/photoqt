@@ -70,6 +70,10 @@ PQSetting {
                                  //: Name of shortcut action
         ["__prevArcDoc",         qsTranslate("settingsmanager", "Previous archive or document"), "Previous archive or document", 0],
                                  //: Name of shortcut action
+        ["__nextSiblingFile",    qsTranslate("settingsmanager", "Next sibling file"), "Next sibling file", 0, "siblings"],
+                                 //: Name of shortcut action
+        ["__prevSiblingFile",    qsTranslate("settingsmanager", "Previous sibling file"), "Next sibling file", 0, "siblings"],
+                                 //: Name of shortcut action
         ["__zoomIn",             qsTranslate("settingsmanager", "Zoom In"), "Zoom In", 0],
                                  //: Name of shortcut action
         ["__zoomOut",            qsTranslate("settingsmanager", "Zoom Out"), "Zoom Out", 0],
@@ -248,6 +252,8 @@ PQSetting {
 
         PQSettingSubtitle {
 
+            id: ttl
+
             showLineAbove: false
             noIndent: true
 
@@ -258,6 +264,8 @@ PQSetting {
         },
 
         Row {
+
+            id: dupmsg
 
             spacing: 5
             visible: set_shcu.duplicateCombos.length>0
@@ -319,7 +327,7 @@ PQSetting {
             id: masterview
 
             width: set_shcu.contentWidth
-            height: set_shcu.availableHeight - masterview.y
+            height: set_shcu.availableHeight - filter_edit.height - (dupmsg.visible ? dupmsg.height : 0) - ttl.height - 3*set_shcu.contentSpacing
             clip: true
 
             // this is adjusted in load()
@@ -342,6 +350,10 @@ PQSetting {
                 opacity: 0.5
             }
 
+            onContentYChanged: {
+                extrasettings.hide()
+            }
+
             delegate:
             Item {
 
@@ -355,6 +367,7 @@ PQSetting {
                 property string desc_en: cmd==="-" ? "" : dat[2]
                 property string cat: cmd==="-" ? "" : set_shcu.allcategories[dat[3]][0]
                 property string cat_en: cmd==="-" ? "" : set_shcu.allcategories[dat[3]][1]
+                property string extra: dat.length<5||cmd==="-" ? "" : dat[4]
 
                 // this bool determines whether the current entry is supposed to be visible
                 // it gets adjusted based on what is entered in the filter box
@@ -462,12 +475,29 @@ PQSetting {
                             x: 10
                             spacing: 10
 
+                            Loader {
+                                id: extrasettings_button
+                                width: active ? 25 : 0
+                                height: parent.height
+                                active: deleg.extra!==""
+                                sourceComponent:
+                                PQButtonIcon {
+                                    y: (entrycomp.height-height)/2
+                                    implicitWidth: 25
+                                    implicitHeight: 25
+                                    source: "image://svg/:/" + PQCLook.iconShade + "/settings.svg"
+                                    onClicked: {
+                                        extrasettings.show(deleg.extra)
+                                    }
+                                }
+                            }
+
                             // the title text
                             PQText {
 
                                 id: header
                                 y: (entrycomp.height-height)/2
-                                width: Math.max(200, Math.min(entrycomp.width/2, 350))
+                                width: Math.max(200, Math.min(entrycomp.width/2, 350)) - (extrasettings_button.width>0 ? (extrasettings_button.width+10) : 0)
 
                                 wrapMode: Text.WrapAtWordBoundaryOrAnywhere
                                 font.weight: PQCLook.fontWeightBold
@@ -485,6 +515,7 @@ PQSetting {
                                 iconScale: 0.75
                                 source: "image://svg/:/" + PQCLook.iconShade + "/zoomin.svg"
                                 onClicked: {
+                                    extrasettings.hide()
                                     PQCNotify.settingsmanagerSendCommand("newShortcut", [deleg.modelData])
                                 }
                             }
@@ -628,6 +659,7 @@ PQSetting {
                                         hoverEnabled: true
                                         cursorShape: Qt.PointingHandCursor
                                         onClicked: {
+                                            extrasettings.hide()
                                             PQCNotify.settingsmanagerSendCommand("changeShortcut", [shdeleg.combo, deleg.modelData, shdeleg.modelData])
                                         }
                                     }
@@ -656,6 +688,7 @@ PQSetting {
                                             tooltip: qsTranslate("settingsmanager", "Delete?")
                                             cursorShape: Qt.PointingHandCursor
                                             onClicked: {
+                                                extrasettings.hide()
                                                 comboview.combos = comboview.combos.filter(item => item !== shdeleg.combo)
                                             }
                                         }
@@ -698,6 +731,97 @@ PQSetting {
 
     ]
 
+    Item {
+
+        id: extrasettings
+
+        parent: set_shcu.parent.parent.parent
+        y: (parent.height-height)
+        width: parent.width
+
+        height: 0
+        opacity: visible ? 1 : 0
+        Behavior on height { NumberAnimation { duration: 200 } }
+        Behavior on opacity { NumberAnimation { duration: 200 } }
+
+        visible: height>0
+        onVisibleChanged: {
+            set_shcu.checkForChanges()
+            if(!visible)
+                loadSubSettings.active = false
+        }
+
+        function show(comp : string) {
+
+            if(comp === "siblings") {
+                loadSubSettings.sourceComponent = subcomp_sibling
+            } else {
+                console.warn("Unknown component:", comp)
+                return
+            }
+
+            loadSubSettings.active = true
+            height = Math.min(250, set_shcu.availableHeight/2)
+
+        }
+
+        function hide() {
+            height = 0
+        }
+
+        Rectangle {
+            anchors.fill: parent
+            color: pqtPalette.base
+            opacity: 0.9
+        }
+
+        Rectangle {
+            width: parent.width
+            height: 1
+            color: pqtPalette.text
+        }
+
+        MouseArea {
+            anchors.fill: parent
+            hoverEnabled: true
+            acceptedButtons: Qt.AllButtons
+        }
+
+        Flickable {
+            anchors.fill: parent
+            anchors.margins: 5
+            anchors.bottomMargin: 0
+
+            ScrollBar.vertical: PQVerticalScrollBar {}
+
+            contentHeight: loadSubSettings.item!==null ? loadSubSettings.item.height : 0
+            clip: true
+
+            Loader {
+                id: loadSubSettings
+                width: parent.width
+            }
+
+        }
+
+        PQButtonIcon {
+            x: parent.width-width
+            y: 5
+            implicitWidth: 30
+            implicitHeight: 30
+            source: "image://svg/:/" + PQCLook.iconShade + "/close.svg"
+            onClicked: {
+                extrasettings.hide()
+            }
+        }
+
+        Component {
+            id: subcomp_sibling
+            PQSettingsShortcutsSiblingSettings {}
+        }
+
+    }
+
     function calculateDuplicates() {
 
         duplicateCombos = []
@@ -738,7 +862,7 @@ PQSetting {
             return
         }
 
-        PQCConstants.settingsManagerSettingChanged = !PQF.areTwoDictofListsEqual(currentData, defaultData)
+        PQCConstants.settingsManagerSettingChanged = !PQF.areTwoDictofListsEqual(currentData, defaultData) || extrasettings.visible
 
     }
 
@@ -750,6 +874,8 @@ PQSetting {
         masterview.model = list_shortcuts.length
 
         calculateDuplicates()
+
+        extrasettings.hide()
 
         PQCConstants.settingsManagerSettingChanged = false
         settingsLoaded = true

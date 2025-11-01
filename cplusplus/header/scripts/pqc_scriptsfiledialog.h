@@ -59,6 +59,9 @@ public:
     void hidePlacesEntry(QString id, bool hidden);
     void deletePlacesEntry(QString id);
 
+    // quickly move between folders
+    QString getSiblingFolder(QString currentFolder, const int direction);
+
 private:
     PQCScriptsFileDialog();
     ~PQCScriptsFileDialog();

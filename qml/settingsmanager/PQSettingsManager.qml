@@ -68,6 +68,7 @@ PQTemplate {
         button3.visible = true
         button3.text = button1.genericStringClose
         button3.font.weight = PQCLook.fontWeightNormal
+
     }
 
     onShowing: {

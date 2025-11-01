@@ -70,6 +70,8 @@ public:
                 this, &PQCScriptsShortcutsQML::sendShortcutShowLastImage);
         connect(&PQCScriptsShortcuts::get(), &PQCScriptsShortcuts::sendShortcutShowRandomImage,
                 this, &PQCScriptsShortcutsQML::sendShortcutShowRandomImage);
+        connect(&PQCScriptsShortcuts::get(), &PQCScriptsShortcuts::sendShortcutShowFile,
+                this, &PQCScriptsShortcutsQML::sendShortcutShowFile);
 
         connect(&PQCScriptsShortcuts::get(), &PQCScriptsShortcuts::sendShortcutZoomIn,
                 this, &PQCScriptsShortcutsQML::sendShortcutZoomIn);
@@ -147,6 +149,7 @@ Q_SIGNALS:
     void sendShortcutShowFirstImage();
     void sendShortcutShowLastImage();
     void sendShortcutShowRandomImage();
+    void sendShortcutShowFile(QString path);
 
     void sendShortcutZoomIn(QPoint mousePos, QPoint wheelDelta);
     void sendShortcutZoomOut(QPoint mousePos, QPoint wheelDelta);

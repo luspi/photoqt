@@ -688,6 +688,24 @@ public:
     Q_INVOKABLE const bool getDefaultForImageviewShowMinimap();
     Q_INVOKABLE void setDefaultForImageviewShowMinimap();
 
+    Q_PROPERTY(int imageviewSiblingFileMaxIterations READ getImageviewSiblingFileMaxIterations WRITE setImageviewSiblingFileMaxIterations NOTIFY imageviewSiblingFileMaxIterationsChanged)
+    int getImageviewSiblingFileMaxIterations();
+    void setImageviewSiblingFileMaxIterations(int val);
+    Q_INVOKABLE const int getDefaultForImageviewSiblingFileMaxIterations();
+    Q_INVOKABLE void setDefaultForImageviewSiblingFileMaxIterations();
+
+    Q_PROPERTY(int imageviewSiblingFileMaxLevelUp READ getImageviewSiblingFileMaxLevelUp WRITE setImageviewSiblingFileMaxLevelUp NOTIFY imageviewSiblingFileMaxLevelUpChanged)
+    int getImageviewSiblingFileMaxLevelUp();
+    void setImageviewSiblingFileMaxLevelUp(int val);
+    Q_INVOKABLE const int getDefaultForImageviewSiblingFileMaxLevelUp();
+    Q_INVOKABLE void setDefaultForImageviewSiblingFileMaxLevelUp();
+
+    Q_PROPERTY(int imageviewSiblingFilemaxLevelDown READ getImageviewSiblingFilemaxLevelDown WRITE setImageviewSiblingFilemaxLevelDown NOTIFY imageviewSiblingFilemaxLevelDownChanged)
+    int getImageviewSiblingFilemaxLevelDown();
+    void setImageviewSiblingFilemaxLevelDown(int val);
+    Q_INVOKABLE const int getDefaultForImageviewSiblingFilemaxLevelDown();
+    Q_INVOKABLE void setDefaultForImageviewSiblingFilemaxLevelDown();
+
     Q_PROPERTY(bool imageviewSortImagesAscending READ getImageviewSortImagesAscending WRITE setImageviewSortImagesAscending NOTIFY imageviewSortImagesAscendingChanged)
     bool getImageviewSortImagesAscending();
     void setImageviewSortImagesAscending(bool val);
@@ -1890,6 +1908,9 @@ private:
     bool m_imageviewResetViewShow;
     bool m_imageviewRespectDevicePixelRatio;
     bool m_imageviewShowMinimap;
+    int m_imageviewSiblingFileMaxIterations;
+    int m_imageviewSiblingFileMaxLevelUp;
+    int m_imageviewSiblingFilemaxLevelDown;
     bool m_imageviewSortImagesAscending;
     QString m_imageviewSortImagesBy;
     bool m_imageviewTransparencyMarker;
@@ -2198,6 +2219,9 @@ Q_SIGNALS:
     void imageviewResetViewShowChanged();
     void imageviewRespectDevicePixelRatioChanged();
     void imageviewShowMinimapChanged();
+    void imageviewSiblingFileMaxIterationsChanged();
+    void imageviewSiblingFileMaxLevelUpChanged();
+    void imageviewSiblingFilemaxLevelDownChanged();
     void imageviewSortImagesAscendingChanged();
     void imageviewSortImagesByChanged();
     void imageviewTransparencyMarkerChanged();

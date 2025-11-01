@@ -77,6 +77,7 @@ Q_SIGNALS:
     void sendShortcutShowFirstImage();
     void sendShortcutShowLastImage();
     void sendShortcutShowRandomImage();
+    void sendShortcutShowFile(QString path);
 
     void sendShortcutZoomIn(QPoint mousePos, QPoint wheelDelta);
     void sendShortcutZoomOut(QPoint mousePos, QPoint wheelDelta);

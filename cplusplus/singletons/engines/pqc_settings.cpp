@@ -136,7 +136,7 @@ PQCSettings::PQCSettings() {
         readDB();
 
     /******************************************************/
-
+    
     // table: filedialog
     connect(this, &PQCSettings::filedialogDetailsTooltipChanged, this, [=]() { saveChangedValue("filedialogDetailsTooltip", m_filedialogDetailsTooltip); });
     connect(this, &PQCSettings::filedialogDevicesChanged, this, [=]() { saveChangedValue("filedialogDevices", m_filedialogDevices); });
@@ -245,6 +245,9 @@ PQCSettings::PQCSettings() {
     connect(this, &PQCSettings::imageviewResetViewShowChanged, this, [=]() { saveChangedValue("imageviewResetViewShow", m_imageviewResetViewShow); });
     connect(this, &PQCSettings::imageviewRespectDevicePixelRatioChanged, this, [=]() { saveChangedValue("imageviewRespectDevicePixelRatio", m_imageviewRespectDevicePixelRatio); });
     connect(this, &PQCSettings::imageviewShowMinimapChanged, this, [=]() { saveChangedValue("imageviewShowMinimap", m_imageviewShowMinimap); });
+    connect(this, &PQCSettings::imageviewSiblingFileMaxIterationsChanged, this, [=]() { saveChangedValue("imageviewSiblingFileMaxIterations", m_imageviewSiblingFileMaxIterations); });
+    connect(this, &PQCSettings::imageviewSiblingFileMaxLevelUpChanged, this, [=]() { saveChangedValue("imageviewSiblingFileMaxLevelUp", m_imageviewSiblingFileMaxLevelUp); });
+    connect(this, &PQCSettings::imageviewSiblingFilemaxLevelDownChanged, this, [=]() { saveChangedValue("imageviewSiblingFilemaxLevelDown", m_imageviewSiblingFilemaxLevelDown); });
     connect(this, &PQCSettings::imageviewSortImagesAscendingChanged, this, [=]() { saveChangedValue("imageviewSortImagesAscending", m_imageviewSortImagesAscending); });
     connect(this, &PQCSettings::imageviewSortImagesByChanged, this, [=]() { saveChangedValue("imageviewSortImagesBy", m_imageviewSortImagesBy); });
     connect(this, &PQCSettings::imageviewTransparencyMarkerChanged, this, [=]() { saveChangedValue("imageviewTransparencyMarker", m_imageviewTransparencyMarker); });
@@ -2715,6 +2718,69 @@ void PQCSettings::setDefaultForImageviewShowMinimap() {
     if(true != m_imageviewShowMinimap) {
         m_imageviewShowMinimap = true;
         Q_EMIT imageviewShowMinimapChanged();
+    }
+}
+
+int PQCSettings::getImageviewSiblingFileMaxIterations() {
+    return m_imageviewSiblingFileMaxIterations;
+}
+
+void PQCSettings::setImageviewSiblingFileMaxIterations(int val) {
+    if(val != m_imageviewSiblingFileMaxIterations) {
+        m_imageviewSiblingFileMaxIterations = val;
+        Q_EMIT imageviewSiblingFileMaxIterationsChanged();
+    }
+}
+
+const int PQCSettings::getDefaultForImageviewSiblingFileMaxIterations() {
+        return 100;
+}
+
+void PQCSettings::setDefaultForImageviewSiblingFileMaxIterations() {
+    if(100 != m_imageviewSiblingFileMaxIterations) {
+        m_imageviewSiblingFileMaxIterations = 100;
+    }
+}
+
+int PQCSettings::getImageviewSiblingFileMaxLevelUp() {
+    return m_imageviewSiblingFileMaxLevelUp;
+}
+
+void PQCSettings::setImageviewSiblingFileMaxLevelUp(int val) {
+    if(val != m_imageviewSiblingFileMaxLevelUp) {
+        m_imageviewSiblingFileMaxLevelUp = val;
+        Q_EMIT imageviewSiblingFileMaxLevelUpChanged();
+    }
+}
+
+const int PQCSettings::getDefaultForImageviewSiblingFileMaxLevelUp() {
+        return 8;
+}
+
+void PQCSettings::setDefaultForImageviewSiblingFileMaxLevelUp() {
+    if(8 != m_imageviewSiblingFileMaxLevelUp) {
+        m_imageviewSiblingFileMaxLevelUp = 8;
+    }
+}
+
+int PQCSettings::getImageviewSiblingFilemaxLevelDown() {
+    return m_imageviewSiblingFilemaxLevelDown;
+}
+
+void PQCSettings::setImageviewSiblingFilemaxLevelDown(int val) {
+    if(val != m_imageviewSiblingFilemaxLevelDown) {
+        m_imageviewSiblingFilemaxLevelDown = val;
+        Q_EMIT imageviewSiblingFilemaxLevelDownChanged();
+    }
+}
+
+const int PQCSettings::getDefaultForImageviewSiblingFilemaxLevelDown() {
+        return 2;
+}
+
+void PQCSettings::setDefaultForImageviewSiblingFilemaxLevelDown() {
+    if(2 != m_imageviewSiblingFilemaxLevelDown) {
+        m_imageviewSiblingFilemaxLevelDown = 2;
     }
 }
 
@@ -6563,7 +6629,7 @@ void PQCSettings::readDB() {
 
             QString name = query.value(0).toString();
             QVariant value = query.value(1).toString();
-
+        
             // table: filedialog
             if(table == "filedialog") {
                 if(name == "DetailsTooltip") {
@@ -6807,6 +6873,12 @@ void PQCSettings::readDB() {
                     m_imageviewRespectDevicePixelRatio = value.toInt();
                 } else if(name == "ShowMinimap") {
                     m_imageviewShowMinimap = value.toInt();
+                } else if(name == "SiblingFileMaxIterations") {
+                    m_imageviewSiblingFileMaxIterations = value.toInt();
+                } else if(name == "SiblingFileMaxLevelUp") {
+                    m_imageviewSiblingFileMaxLevelUp = value.toInt();
+                } else if(name == "SiblingFilemaxLevelDown") {
+                    m_imageviewSiblingFilemaxLevelDown = value.toInt();
                 } else if(name == "SortImagesAscending") {
                     m_imageviewSortImagesAscending = value.toInt();
                 } else if(name == "SortImagesBy") {
@@ -7568,6 +7640,9 @@ void PQCSettings::setupFresh() {
     m_imageviewResetViewShow = false;
     m_imageviewRespectDevicePixelRatio = true;
     m_imageviewShowMinimap = true;
+    m_imageviewSiblingFileMaxIterations = 100;
+    m_imageviewSiblingFileMaxLevelUp = 8;
+    m_imageviewSiblingFilemaxLevelDown = 2;
     m_imageviewSortImagesAscending = true;
     m_imageviewSortImagesBy = "naturalname";
     m_imageviewTransparencyMarker = false;
@@ -7889,6 +7964,9 @@ void PQCSettings::resetToDefault() {
     setDefaultForImageviewResetViewShow();
     setDefaultForImageviewRespectDevicePixelRatio();
     setDefaultForImageviewShowMinimap();
+    setDefaultForImageviewSiblingFileMaxIterations();
+    setDefaultForImageviewSiblingFileMaxLevelUp();
+    setDefaultForImageviewSiblingFilemaxLevelDown();
     setDefaultForImageviewSortImagesAscending();
     setDefaultForImageviewSortImagesBy();
     setDefaultForImageviewTransparencyMarker();
@@ -8505,6 +8583,18 @@ void PQCSettings::updateFromCommandLine() {
     if(key == "imageviewShowMinimap") {
         m_imageviewShowMinimap = (val.toInt()==1);
         Q_EMIT imageviewShowMinimapChanged();
+    }
+    if(key == "imageviewSiblingFileMaxIterations") {
+        m_imageviewSiblingFileMaxIterations = val.toInt();
+        Q_EMIT imageviewSiblingFileMaxIterationsChanged();
+    }
+    if(key == "imageviewSiblingFileMaxLevelUp") {
+        m_imageviewSiblingFileMaxLevelUp = val.toInt();
+        Q_EMIT imageviewSiblingFileMaxLevelUpChanged();
+    }
+    if(key == "imageviewSiblingFilemaxLevelDown") {
+        m_imageviewSiblingFilemaxLevelDown = val.toInt();
+        Q_EMIT imageviewSiblingFilemaxLevelDownChanged();
     }
     if(key == "imageviewSortImagesAscending") {
         m_imageviewSortImagesAscending = (val.toInt()==1);
