@@ -58,11 +58,12 @@ void PQCExtensionsHandler::setup() {
         const QStringList dirlist = pluginsDir.entryList(QDir::Dirs|QDir::NoDotAndDotDot);
         for(const QString &id : dirlist) {
 
-            if(!PQCSettingsCPP::get().getGeneralEnabledExtensions().contains(id)) {
-                qDebug() << "Extension" << id << "disabled.";
-                m_extensionsDisabled.append(id);
-                continue;
-            }
+            // TODO: REENABLE
+            // if(!PQCSettingsCPP::get().getGeneralEnabledExtensions().contains(id)) {
+            //     qDebug() << "Extension" << id << "disabled.";
+            //     m_extensionsDisabled.append(id);
+            //     continue;
+            // }
 
             // if there is a YAML file, then we load that one
             QString yamlfile = QString("%1/%2/definition.yml").arg(baseDir, id);

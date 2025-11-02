@@ -41,6 +41,7 @@ Rectangle {
 
     ///////////////////
 
+    signal updateModalTexts()
     signal leftClicked(var mouse)
     signal rightClicked(var mouse)
     signal showing()
@@ -80,6 +81,7 @@ Rectangle {
             PQCScriptsConfig.inform("Faulty extension!", "An extension was added that is missing its extension id! This is bad and needs to be fixed!")
             return
         }
+        extension_top.updateModalTexts()
     }
 
     function modalButton1Action() {

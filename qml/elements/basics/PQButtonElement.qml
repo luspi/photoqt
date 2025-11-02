@@ -40,9 +40,7 @@ Button {
     property bool enableContextMenu: true
     property alias contextmenu: menu
 
-    property string tooltip: _text
-
-    property string _text: ""
+    property string tooltip: text
 
     //: This is a generic string written on clickable buttons - please keep short!
     property string genericStringOk: qsTranslate("buttongeneric", "Ok")
@@ -53,14 +51,8 @@ Button {
     //: This is a generic string written on clickable buttons - please keep short!
     property string genericStringClose: qsTranslate("buttongeneric", "Close")
 
-    Component.onCompleted: {
-        if(_text === "" && text !== "")
-            _text = text
-        text = ""
-    }
-
     contentItem: Text {
-        text: "  " + control._text + "  "
+        text: "  " + control.text + "  "
         font: control.font
         opacity: enabled ? 1.0 : 0.3
         color: pqtPalette.text
@@ -107,7 +99,7 @@ Button {
         PQMenuItem {
             enabled: false
             font.italic: true
-            text: control._text
+            text: control.text
         }
         PQMenuItem {
             text: qsTranslate("buttongeneric", "Activate button")

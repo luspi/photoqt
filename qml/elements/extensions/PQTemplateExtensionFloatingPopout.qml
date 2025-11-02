@@ -116,7 +116,7 @@ Window {
 
     Loader {
         id: popout_loader
-        source: "file:/" + PQCExtensionsHandler.getExtensionLocation(element_top.extensionId) + "/qml/integrated/PQ" + element_top.extensionId + ".qml"
+        source: "file:/" + PQCExtensionsHandler.getExtensionLocation(element_top.extensionId) + "/qml/PQ" + element_top.extensionId + ".qml"
         onStatusChanged:
             if(status == Loader.Ready) {
                 if(!element_top._fixSizeToContent) {

@@ -84,6 +84,9 @@ public:
     Q_INVOKABLE QString     selectFileFromDialog(QString buttonlabel, QString preselectFile, int formatId, bool confirmOverwrite) {
         return PQCScriptsFilesPaths::get().selectFileFromDialog(buttonlabel, preselectFile, formatId, confirmOverwrite);
     }
+    Q_INVOKABLE QString     selectFileFromDialog(QString buttonlabel, QString preselectFile, bool confirmOverwrite) {
+        return PQCScriptsFilesPaths::get().selectFileFromDialog(buttonlabel, preselectFile, confirmOverwrite);
+    }
     Q_INVOKABLE QString     selectFolderFromDialog(QString buttonlabel, QString preselectFolder) {
         return PQCScriptsFilesPaths::get().selectFolderFromDialog(buttonlabel, preselectFolder);
     }

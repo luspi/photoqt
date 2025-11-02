@@ -21,96 +21,36 @@
  **************************************************************************/
 
 import QtQuick
+import QtQuick.Controls
 import PhotoQt
 import ExtensionSettings
 import PQCExtensionsHandler
 
-Window {
+Rectangle {
 
     id: element_top
-
-    title: "Popout"
-
-    ///////////////////
 
     // set in extension container
     property string extensionId
     property ExtensionSettings settings
 
-    ///////////////////
-
-    property point defaultPopoutPosition: Qt.point(150,150)
-    property size defaultPopoutSize: Qt.size(500,300)
-
-    ///////////////////
+    /********************/
 
     SystemPalette { id: pqtPalette }
 
-    width: 100
-    height: 100
+    opacity: 0
+    Behavior on opacity { NumberAnimation { duration: 200 } }
+    visible: opacity>0
+    enabled: visible
 
-    Component.onCompleted: {
+    width: PQCConstants.availableWidth
+    height: PQCConstants.availableHeight
+    color: pqtPalette.alternateBase
 
-        var pos = settings["ExtPopoutPosition"]
-        var sze = settings["ExtPopoutSize"]
-
-        if(pos === undefined || pos.x === -1) pos = defaultPopoutPosition
-
-        if(sze === undefined || sze.width < 1)
-            sze = PQCExtensionsHandler.getExtensionPopoutDefaultSize(element_top.extensionId)
-
-        element_top.setX(pos.x)
-        element_top.setY(pos.y)
-
-        element_top.setWidth(sze.width)
-        element_top.setHeight(sze.height)
-
-        if(settings["ExtShow"]) {
-            element_top._show()
-        }
-
-        setupCompleted.restart()
-
-    }
-
-    onClosing: {
-        element_top.hide()
-    }
-
-    property bool setupHasBeenCompleted: false
-    Timer {
-        id: setupCompleted
-        interval: 300
-        onTriggered:
-            element_top.setupHasBeenCompleted = true
-    }
-
-    minimumWidth: 300
-    minimumHeight: 500
-
-    modality: PQCExtensionsHandler.getExtensionModalMake(extensionId) ? Qt.ApplicationModal : Qt.NonModal
-
-    visible: false
-    flags: Qt.Window|Qt.WindowStaysOnTopHint|Qt.WindowTitleHint|Qt.WindowMinMaxButtonsHint|Qt.WindowCloseButtonHint
-
-    color: "transparent"
-
-    Rectangle {
-        width: parent.width
-        height: parent.height
-        color: pqtPalette.base
-        opacity: 0.8
-    }
-
-    onXChanged:
-        updateGeometry.restart()
-    onYChanged:
-        updateGeometry.restart()
-    onWidthChanged: {
-        updateGeometry.restart()
-    }
-    onHeightChanged: {
-        updateGeometry.restart()
+    PQMouseArea {
+        id: mouseareaBG
+        anchors.fill: parent
+        hoverEnabled: true
     }
 
     Rectangle {
@@ -144,8 +84,9 @@ Window {
         height: parent.height-toprow.height-bottomrow.height
 
         Loader {
-            id: popout_loader
-            source: "file:/" + PQCExtensionsHandler.getExtensionLocation(element_top.extensionId) + "/qml/PQ" + element_top.extensionId + ".qml"
+            id: fullscreen_loader
+            anchors.fill: parent
+            source: "file:/" +  PQCExtensionsHandler.getExtensionLocation(element_top.extensionId) + "/qml/PQ" + element_top.extensionId + ".qml"
         }
 
     }
@@ -185,78 +126,48 @@ Window {
 
             PQButtonElement {
                 id: firstbutton
-                text: popout_loader.status===Loader.Ready ? popout_loader.item.modalButton1Text : genericStringClose
+                text: fullscreen_loader.status===Loader.Ready ? fullscreen_loader.item.modalButton1Text : genericStringClose
                 font.weight: PQCLook.fontWeightBold
                 y: 1
                 height: parent.height-1
                 onClicked: {
-                    if(popout_loader.status !== Loader.Ready)
+                    if(fullscreen_loader.status !== Loader.Ready)
                         element_top.hide()
                     else
-                        popout_loader.item.modalButton1Action()
+                        fullscreen_loader.item.modalButton1Action()
                 }
             }
 
             PQButtonElement {
                 id: secondbutton
-                text: popout_loader.status===Loader.Ready ? popout_loader.item.modalButton2Text : ""
+                text: fullscreen_loader.status===Loader.Ready ? fullscreen_loader.item.modalButton2Text : ""
                 visible: text!==""
                 y: 1
                 height: parent.height-1
                 onClicked: {
-                    if(popout_loader.status !== Loader.Ready)
+                    if(fullscreen_loader.status !== Loader.Ready)
                         element_top.hide()
                     else
-                        popout_loader.item.modalButton2Action()
+                        fullscreen_loader.item.modalButton2Action()
                 }
             }
 
             PQButtonElement {
                 id: thirdbutton
-                text: popout_loader.status===Loader.Ready ? popout_loader.item.modalButton3Text : ""
+                text: fullscreen_loader.status===Loader.Ready ? fullscreen_loader.item.modalButton3Text : ""
                 visible: text!==""
                 y: 1
                 height: parent.height-1
                 onClicked: {
-                    if(popout_loader.status !== Loader.Ready)
+                    if(fullscreen_loader.status !== Loader.Ready)
                         element_top.hide()
                     else
-                        popout_loader.item.modalButton3Action()
+                        fullscreen_loader.item.modalButton3Action()
                 }
             }
 
         }
 
-    }
-
-    PQMouseArea {
-        id: mousearea
-        anchors.fill: parent
-        hoverEnabled: true
-        acceptedButtons: Qt.LeftButton|Qt.RightButton
-        enabled: !PQCExtensionsHandler.getExtensionLetMeHandleMouseEvents(element_top.extensionId)
-        onWheel: (wheel) => {
-            wheel.accepted = true
-        }
-        onClicked: (mouse) => {
-            if(mouse.button === Qt.RightButton)
-                popout_loader.item.rightClicked(mouse)
-            else
-                popout_loader.item.leftClicked(mouse)
-            mouse.accepted = true
-        }
-    }
-
-    Timer {
-        id: updateGeometry
-        interval: 200
-        repeat: false
-        onTriggered: {
-            if(element_top.visibility !== Window.Maximized) {
-                element_top.settings["ExtPopoutPosition"] = Qt.point(element_top.x, element_top.y)
-                element_top.settings["ExtPopoutSize"] = Qt.size(element_top.width, element_top.height)
-            }
-        }
     }
 
     Image {
@@ -264,24 +175,22 @@ Window {
         y: 5
         width: 15
         height: 15
-        visible: !element_top.settings["ExtForcePopout"] && PQCExtensionsHandler.getExtensionIntegratedAllow(element_top.extensionId)
+        visible: PQCExtensionsHandler.getExtensionPopoutAllow(element_top.extensionId)
         enabled: visible
         z: 1
         source: "image://svg/:/" + PQCLook.iconShade + "/popinpopout.svg"
         sourceSize: Qt.size(width, height)
-        opacity: popinmouse.containsMouse ? 0.8 : 0.2
+        opacity: popinmouse.containsMouse ? 1 : 0.4
         Behavior on opacity { NumberAnimation { duration: 200 } }
         PQMouseArea {
             id: popinmouse
             anchors.fill: parent
             hoverEnabled: true
             cursorShape: Qt.PointingHandCursor
-                  //: Tooltip of small button to merge a popped out element (i.e., one in its own window) into the main interface
-            text: qsTranslate("popinpopout", "Merge into main interface")
+                  //: Tooltip of small button to show an element in its own window (i.e., not merged into main interface)
+            text: qsTranslate("popinpopout", "Move to its own window")
             onClicked: {
-                element_top.settings["ExtPopout"] = false
-                PQCNotify.loaderRegisterClose(element_top.extensionId)
-                PQCNotify.loaderShowExtension(element_top.extensionId)
+                element_top.settings["ExtPopout"] = true
             }
         }
 
@@ -295,20 +204,15 @@ Window {
         }
     }
 
-    Connections {
+    Component.onCompleted: {
 
-        target: element_top.settings
+        if(extensionId == "") {
+            PQCScriptsConfig.inform("Faulty extension!", "An extension was added that is missing its extension id! This is bad and needs to be fixed!")
+            return
+        }
 
-        enabled: element_top.setupHasBeenCompleted
-
-        function onValueChanged(key : string, value : var) {
-            if(key === element_top.extensionId) {
-                if(1*value) {
-                    element_top._show()
-                } else {
-                    element_top.hide()
-                }
-            }
+        if(settings["ExtShow"]) {
+            show()
         }
 
     }
@@ -316,8 +220,6 @@ Window {
     Connections {
 
         target: PQCNotify
-
-        enabled: element_top.setupHasBeenCompleted
 
         function onLoaderPassOn(what : string, args : list<var>) {
 
@@ -328,7 +230,7 @@ Window {
                 if(element_top.visible) {
                     element_top.hide()
                 } else {
-                    element_top._show()
+                    element_top.show()
                 }
             } else if(element_top.visible) {
                 if(what === "keyEvent") {
@@ -340,35 +242,31 @@ Window {
         }
     }
 
-    function _show() {
+    function show() {
 
         settings["ExtShow"] = true
 
-        if(settings["ExtForcePopout"]) {
-            var minsize = PQCExtensionsHandler.getExtensionIntegratedMinimumRequiredWindowSize(extensionId)
-            if(PQCConstants.availableWidth > minsize.width && PQCConstants.availableHeight > minsize.height) {
-                PQCNotify.loaderRegisterClose(extensionId)
-                settings["ExtForcePopout"] = false
-                settings["ExtPopout"] = false
-                PQCNotify.loaderShowExtension(extensionId)
-                return
-            }
+        var minsize = PQCExtensionsHandler.getExtensionIntegratedMinimumRequiredWindowSize(extensionId)
+        if(PQCConstants.availableWidth < minsize.width || PQCConstants.availableHeight < minsize.height) {
+            PQCNotify.loaderRegisterClose(extensionId)
+            settings["ExtForcePopout"] = true
+            settings["ExtPopout"] = true
+            return
+        } else {
+            settings["ExtForcePopout"] = false
+            settings["ExtPopout"] = false
         }
 
         PQCNotify.loaderRegisterOpen(element_top.extensionId)
-        show()
-        popout_loader.item.showing()
+        opacity = 1
+        fullscreen_loader.item.showing()
     }
 
     function hide() {
         PQCNotify.loaderRegisterClose(element_top.extensionId)
+        opacity = 0
         settings["ExtShow"] = false
-        element_top.close()
-        popout_loader.item.hiding()
-    }
-
-    function handleChangesBottomRowWidth(w : int) {
-        element_top.minimumWidth = Math.max(element_top.minimumWidth, w)
+        fullscreen_loader.item.hiding()
     }
 
 }

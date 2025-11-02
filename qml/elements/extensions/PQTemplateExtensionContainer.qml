@@ -72,8 +72,10 @@ Item {
         if(mdl) {
             ldr_floating.active = false
             ldr_floating_popout.active = false
-            ldr_fullscreen_popout.active = true
+            ldr_fullscreen.active = ((!val || !ppt) && itg)
+            ldr_fullscreen_popout.active = (val && ppt)
         } else {
+            ldr_fullscreen.active = false
             ldr_fullscreen_popout.active = false
             ldr_floating.active = ((!val || !ppt) && itg)
             ldr_floating_popout.active = (val && ppt)
@@ -88,6 +90,19 @@ Item {
 
         sourceComponent:
             PQTemplateExtensionFloating {
+                extensionId: extension_container.extensionId
+                settings: extsettings
+            }
+
+    }
+
+    Loader {
+
+        id: ldr_fullscreen
+        active: false
+
+        sourceComponent:
+            PQTemplateExtensionModal {
                 extensionId: extension_container.extensionId
                 settings: extsettings
             }

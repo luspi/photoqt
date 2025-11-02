@@ -43,6 +43,7 @@ SET(photoqt_QML qml/PQMainWindowModern.qml
                 qml/elements/extensions/PQTemplateExtensionContainer.qml
                 qml/elements/extensions/PQTemplateExtensionFloating.qml
                 qml/elements/extensions/PQTemplateExtensionFloatingPopout.qml
+                qml/elements/extensions/PQTemplateExtensionModal.qml
                 qml/elements/extensions/PQTemplateExtensionModalPopout.qml
                 qml/elements/extensions/PQTemplateExtensionSettings.qml
 

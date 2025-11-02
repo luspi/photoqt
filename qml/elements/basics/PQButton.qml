@@ -74,7 +74,8 @@ Button {
     property int forceWidth: 0
     property bool extraWide: false
     property bool extraextraWide: false
-    leftPadding: extraextraWide ? 300 : (extraWide ? 100 : 40)
+    property bool extraSmall: false
+    leftPadding: extraSmall ? 10 : (extraextraWide ? 300 : (extraWide ? 100 : 40))
     rightPadding: leftPadding
 
     property bool smallerVersion: false

@@ -114,7 +114,7 @@ Item {
 
     Loader {
         id: floating_loader
-        source: "file:/" +  PQCExtensionsHandler.getExtensionLocation(element_top.extensionId) + "/qml/integrated/PQ" + element_top.extensionId + ".qml"
+        source: "file:/" +  PQCExtensionsHandler.getExtensionLocation(element_top.extensionId) + "/qml/PQ" + element_top.extensionId + ".qml"
     }
 
     PQMouseArea {

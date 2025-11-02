@@ -415,6 +415,12 @@ void PQCScriptsFilesPaths::openInDefaultFileManager(QString filename) {
 
 }
 
+QString PQCScriptsFilesPaths::selectFileFromDialog(QString buttonlabel, QString preselectFile, bool confirmOverwrite) {
+
+    return PQCScriptsFilesPaths::selectFileFromDialog(buttonlabel, preselectFile, PQCImageFormats::get().detectFormatId(preselectFile), confirmOverwrite);
+
+}
+
 QString PQCScriptsFilesPaths::selectFileFromDialog(QString buttonlabel, QString preselectFile, int formatId, bool confirmOverwrite) {
 
     qDebug() << "args: buttonlabel" << buttonlabel;
