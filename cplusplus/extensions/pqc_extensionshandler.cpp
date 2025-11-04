@@ -1,5 +1,7 @@
 #include <pqc_extensionshandler.h>
 #include <pqc_configfiles.h>
+#include <pqc_notify_cpp.h>
+#include <scripts/pqc_scriptsshortcuts.h>
 #include <QDir>
 #include <QPluginLoader>
 #include <QtConcurrent/QtConcurrentRun>
@@ -26,6 +28,12 @@
 PQCExtensionsHandler::PQCExtensionsHandler() {
     previousCurrentFile = "";
     m_numExtensions = 0;
+    connect(&PQCNotifyCPP::get(), &PQCNotifyCPP::keyPress, this, [=](int key, int modifiers) {
+        QString combo = PQCScriptsShortcuts::get().analyzeModifier(static_cast<Qt::KeyboardModifiers>(modifiers)).join("+");
+        if(combo != "") combo += "+";
+        combo += PQCScriptsShortcuts::get().analyzeKeyPress(static_cast<Qt::Key>(key));
+        Q_EMIT receivedShortcut(combo);
+    });
 }
 
 void PQCExtensionsHandler::setup() {

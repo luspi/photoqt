@@ -191,7 +191,7 @@ public:
 
     Q_INVOKABLE QString getExtensionDefaultShortcut(QString id);
     Q_INVOKABLE bool    getExtensionRememberGeometry(QString id);
-    Q_INVOKABLE bool    getExtensionLetMeHandleMouseEvents(QString id);    
+    Q_INVOKABLE bool    getExtensionLetMeHandleMouseEvents(QString id);
     Q_INVOKABLE bool    getExtensionHasCPPActions(QString id);
     Q_INVOKABLE QList<QStringList> getExtensionSettings(QString id);
 
@@ -245,6 +245,8 @@ Q_SIGNALS:
     void replyForAction2(const QString id, QVariant val);
 
     void numExtensionsChanged();
+
+    void receivedShortcut(QString combo);
 
 };
 

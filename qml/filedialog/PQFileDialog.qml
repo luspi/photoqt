@@ -126,7 +126,7 @@ PQTemplate {
 
         function onLoaderPassOn(what : string, param : list<var>) {
 
-            if(filedialog_top.opacity > 0) {
+            if(PQCConstants.idOfVisibleItem === "FileDialog") {
 
                 if(what === "keyEvent") {
 
