@@ -65,9 +65,7 @@ Window {
         element_top.setWidth(sze.width)
         element_top.setHeight(sze.height)
 
-        if(settings["ExtShow"]) {
-            element_top._show()
-        }
+        element_top._show()
 
         setupCompleted.restart()
 
@@ -264,7 +262,7 @@ Window {
         y: 5
         width: 15
         height: 15
-        visible: !element_top.settings["ExtForcePopout"] && PQCExtensionsHandler.getExtensionIntegratedAllow(element_top.extensionId)
+        visible: !element_top.settings["ExtForcePopout"] && PQCExtensionsHandler.getExtensionIntegratedAllow(element_top.extensionId) && PQCSettings.generalInterfaceVariant==="modern"
         enabled: visible
         z: 1
         source: "image://svg/:/" + PQCLook.iconShade + "/popinpopout.svg"

@@ -69,6 +69,11 @@ Item {
         var ppt = PQCExtensionsHandler.getExtensionPopoutAllow(extensionId)
         var mdl = PQCExtensionsHandler.getExtensionModalMake(extensionId)
 
+        if(mdl && PQCSettings.generalInterfaceVariant === "integrated") {
+            val = true
+            extsettings["ExtPopout"] = true
+        }
+
         if(mdl) {
             ldr_floating.active = false
             ldr_floating_popout.active = false
