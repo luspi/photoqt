@@ -156,10 +156,8 @@ public:
     Q_PROPERTY(int numExtensions MEMBER m_numExtensions NOTIFY numExtensionsChanged)
 
     // REQUEST CUSTOM ACTIONS TO BE TAKEN
-    Q_INVOKABLE void requestCallActionWithImage1(const QString &id, QVariant additional = QVariant());
-    Q_INVOKABLE void requestCallActionWithImage2(const QString &id, QVariant additional = QVariant());
-    Q_INVOKABLE void requestCallAction1(const QString &id, QVariant additional = QVariant());
-    Q_INVOKABLE void requestCallAction2(const QString &id, QVariant additional = QVariant());
+    Q_INVOKABLE void requestCallActionWithImage(const QString &id, QVariant additional = QVariant());
+    Q_INVOKABLE void requestCallAction(const QString &id, QVariant additional = QVariant());
 
     // SOME SETTINGS STUFF
     Q_INVOKABLE bool getIsEnabled(const QString &id);
@@ -239,10 +237,8 @@ private:
 Q_SIGNALS:
     Q_INVOKABLE void requestResetGeometry(QString id);
 
-    void replyForActionWithImage1(const QString id, QVariant val);
-    void replyForActionWithImage2(const QString id, QVariant val);
-    void replyForAction1(const QString id, QVariant val);
-    void replyForAction2(const QString id, QVariant val);
+    void replyForActionWithImage(const QString id, QVariant val);
+    void replyForAction(const QString id, QVariant val);
 
     void numExtensionsChanged();
 

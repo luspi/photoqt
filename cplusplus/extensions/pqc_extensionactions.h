@@ -32,12 +32,10 @@ public:
     /////////////////////////////////////////
 
     // do something, but the actual image is not needed
-    virtual QVariant action1(QString filepath, QVariant additional = QVariant()) = 0;
-    virtual QVariant action2(QString filepath, QVariant additional = QVariant()) = 0;
+    virtual QVariant action(QString filepath, QVariant additional = QVariant()) = 0;
 
     // do something and also provide me with the image
-    virtual QVariant actionWithImage1(QString filepath, QImage &img, QVariant additional = QVariant()) = 0;
-    virtual QVariant actionWithImage2(QString filepath, QImage &img, QVariant additional = QVariant()) = 0;
+    virtual QVariant actionWithImage(QString filepath, QImage &img, QVariant additional = QVariant()) = 0;
 
 
 };
