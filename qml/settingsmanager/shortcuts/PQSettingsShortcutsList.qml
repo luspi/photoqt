@@ -157,10 +157,10 @@ PQSetting {
                                  //: Name of shortcut action
         ["__print",              qsTranslate("settingsmanager", "Print current photo"), "Print current photo", 1],
                                  //: Name of shortcut action
-        ["__imgurAnonym",        qsTranslate("settingsmanager", "Upload to imgur.com (anonymously)"), "Upload to imgur.com (anonymously)", 1],
-                                 //: Name of shortcut action
-        ["__imgur",              qsTranslate("settingsmanager", "Upload to imgur.com user account"), "Upload to imgur.com user account", 1],
-                                 //: Name of shortcut action
+        // ["__imgurAnonym",        qsTranslate("settingsmanager", "Upload to imgur.com (anonymously)"), "Upload to imgur.com (anonymously)", 1],
+        //                          //: Name of shortcut action
+        // ["__imgur",              qsTranslate("settingsmanager", "Upload to imgur.com user account"), "Upload to imgur.com user account", 1],
+        //                          //: Name of shortcut action
         ["__playPauseAni",       qsTranslate("settingsmanager", "Play/Pause animation/video"), "Play/Pause animation/video", 1],
                                  //: Name of shortcut action
         ["__videoJumpForwards",  qsTranslate("settingsmanager", "Go ahead 5 seconds in video"), "Go ahead 5 seconds in video", 1],

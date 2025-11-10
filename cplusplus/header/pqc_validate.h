@@ -41,7 +41,6 @@ public:
     bool validateShortcutsDatabase();
     bool validateDirectories(const QString &thumb_cache_basedir);
     bool validateLocationDatabase();
-    bool validateImgurHistoryDatabase();
 
 };
 

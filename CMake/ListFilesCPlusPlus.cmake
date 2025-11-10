@@ -57,7 +57,6 @@ SET(photoqt_SOURCES cplusplus/main.cpp
                     cplusplus/images/provider/pqc_providerfolderthumb.cpp
                     cplusplus/images/provider/pqc_providerdragthumb.cpp
                     cplusplus/images/provider/pqc_providerfull.cpp
-                    cplusplus/images/provider/pqc_providerimgurhistory.cpp
                     cplusplus/images/provider/pqc_providersvg.cpp
                     cplusplus/images/provider/pqc_providersvgcolor.cpp
 
@@ -110,12 +109,6 @@ SET(photoqt_SOURCES cplusplus/main.cpp
                     cplusplus/header/scripts/pqc_scriptsconfig.h
                     cplusplus/header/scripts/pqc_scriptsclipboard.h
                     cplusplus/header/scripts/pqc_scriptschromecast.h
-
-                    cplusplus/singletons/scripts/qmlcpp/pqc_scriptsshareimgur.cpp
-                    cplusplus/singletons/scripts/qmlcpp/pqc_scriptswallpaper.cpp
-
-                    cplusplus/header/scripts/qmlcpp/pqc_scriptsshareimgur.h
-                    cplusplus/header/scripts/qmlcpp/pqc_scriptswallpaper.h
 
 ########################################################################
 ########################################################################

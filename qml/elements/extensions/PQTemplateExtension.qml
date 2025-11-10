@@ -44,8 +44,8 @@ Rectangle {
     signal updateModalTexts()
     signal leftClicked(var mouse)
     signal rightClicked(var mouse)
-    signal showing()
-    signal hiding()
+    function showing() { return true }
+    function hiding() { return true }
 
     ///////////////////
 

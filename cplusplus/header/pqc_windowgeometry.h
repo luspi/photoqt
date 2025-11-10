@@ -139,18 +139,6 @@ public:
     Q_PROPERTY(bool slideshowcontrolsMaximized MEMBER m_slideshowcontrolsMaximized NOTIFY slideshowcontrolsMaximizedChanged)
     Q_PROPERTY(bool slideshowcontrolsForcePopout MEMBER m_slideshowcontrolsForcePopout NOTIFY slideshowcontrolsForcePopoutChanged)
 
-    // imgur
-    Q_PROPERTY(QRectF imgurGeometry MEMBER m_imgurGeometry NOTIFY imgurGeometryChanged)
-    Q_PROPERTY(QSize imgurPopoutThreshold MEMBER m_imgurPopoutThreshold NOTIFY imgurPopoutThresholdChanged)
-    Q_PROPERTY(bool imgurMaximized MEMBER m_imgurMaximized NOTIFY imgurMaximizedChanged)
-    Q_PROPERTY(bool imgurForcePopout MEMBER m_imgurForcePopout NOTIFY imgurForcePopoutChanged)
-
-    // wallpaper
-    Q_PROPERTY(QRectF wallpaperGeometry MEMBER m_wallpaperGeometry NOTIFY wallpaperGeometryChanged)
-    Q_PROPERTY(QSize wallpaperPopoutThreshold MEMBER m_wallpaperPopoutThreshold NOTIFY wallpaperPopoutThresholdChanged)
-    Q_PROPERTY(bool wallpaperMaximized MEMBER m_wallpaperMaximized NOTIFY wallpaperMaximizedChanged)
-    Q_PROPERTY(bool wallpaperForcePopout MEMBER m_wallpaperForcePopout NOTIFY wallpaperForcePopoutChanged)
-
     // mapexplorer
     Q_PROPERTY(QRectF mapexplorerGeometry MEMBER m_mapexplorerGeometry NOTIFY mapexplorerGeometryChanged)
     Q_PROPERTY(QSize mapexplorerPopoutThreshold MEMBER m_mapexplorerPopoutThreshold NOTIFY mapexplorerPopoutThresholdChanged)
@@ -163,7 +151,7 @@ public:
     Q_PROPERTY(bool chromecastmanagerMaximized MEMBER m_chromecastmanagerMaximized NOTIFY chromecastmanagerMaximizedChanged)
     Q_PROPERTY(bool chromecastmanagerForcePopout MEMBER m_chromecastmanagerForcePopout NOTIFY chromecastmanagerForcePopoutChanged)
 
-    // imgur
+    // settings manager
     Q_PROPERTY(QRectF settingsmanagerGeometry MEMBER m_settingsmanagerGeometry NOTIFY settingsmanagerGeometryChanged)
     Q_PROPERTY(QSize settingsmanagerPopoutThreshold MEMBER m_settingsmanagerPopoutThreshold NOTIFY settingsmanagerPopoutThresholdChanged)
     Q_PROPERTY(bool settingsmanagerMaximized MEMBER m_settingsmanagerMaximized NOTIFY settingsmanagerMaximizedChanged)
@@ -266,16 +254,6 @@ private:
     bool m_slideshowcontrolsMaximized;
     bool m_slideshowcontrolsForcePopout;
 
-    QRectF m_imgurGeometry;
-    QSize m_imgurPopoutThreshold;
-    bool m_imgurMaximized;
-    bool m_imgurForcePopout;
-
-    QRectF m_wallpaperGeometry;
-    QSize m_wallpaperPopoutThreshold;
-    bool m_wallpaperMaximized;
-    bool m_wallpaperForcePopout;
-
     QRectF m_mapexplorerGeometry;
     QSize m_mapexplorerPopoutThreshold;
     bool m_mapexplorerMaximized;
@@ -377,16 +355,6 @@ Q_SIGNALS:
     void slideshowcontrolsPopoutThresholdChanged();
     void slideshowcontrolsMaximizedChanged();
     void slideshowcontrolsForcePopoutChanged();
-
-    void imgurGeometryChanged();
-    void imgurPopoutThresholdChanged();
-    void imgurMaximizedChanged();
-    void imgurForcePopoutChanged();
-
-    void wallpaperGeometryChanged();
-    void wallpaperPopoutThresholdChanged();
-    void wallpaperMaximizedChanged();
-    void wallpaperForcePopoutChanged();
 
     void mapexplorerGeometryChanged();
     void mapexplorerPopoutThresholdChanged();

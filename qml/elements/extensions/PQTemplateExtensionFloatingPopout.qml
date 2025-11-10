@@ -288,14 +288,21 @@ Window {
 
     onVisibleChanged: {
         if(!visible) {
+            if(!popout_loader.item.hiding()) {
+                visible = true
+                return
+            }
             settings["ExtShow"] = false
             PQCSettings.generalSetupFloatingExtensionsAtStartup = PQCSettings.generalSetupFloatingExtensionsAtStartup.filter(function(entry) { return entry !== extensionId; });
-            popout_loader.item.hiding()
+
         } else {
+            if(!popout_loader.item.showing()) {
+                visible = false
+                return
+            }
             settings["ExtShow"] = true
             if(!PQCSettings.generalSetupFloatingExtensionsAtStartup.includes(extensionId))
                 PQCSettings.generalSetupFloatingExtensionsAtStartup.push(extensionId)
-            popout_loader.item.showing()
         }
 
     }

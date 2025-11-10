@@ -21,7 +21,6 @@
  **************************************************************************/
 
 import QtQuick
-import PQCScriptsShareImgur
 import PhotoQt
 
 PQSetting {

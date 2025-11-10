@@ -111,16 +111,6 @@ PQCWindowGeometry::PQCWindowGeometry() {
     m_slideshowcontrolsMaximized = false;
     m_slideshowcontrolsForcePopout = false;
 
-    m_imgurGeometry = QRectF((sw-800)/2.0, (sh-600)/2.0, 800, 600);
-    m_imgurPopoutThreshold = QSize(600, 400);
-    m_imgurMaximized = false;
-    m_imgurForcePopout = false;
-
-    m_wallpaperGeometry = QRectF((sw-800)/2.0, (sh-600)/2.0, 800, 600);
-    m_wallpaperPopoutThreshold = QSize(600, 400);
-    m_wallpaperMaximized = false;
-    m_wallpaperForcePopout = false;
-
     m_mapexplorerGeometry = QRectF((sw-1024)/2.0, (sh-768)/2.0, 1024, 768);
     m_mapexplorerPopoutThreshold = QSize(800, 700);
     m_mapexplorerMaximized = false;
@@ -232,16 +222,6 @@ PQCWindowGeometry::PQCWindowGeometry() {
     connect(this, &PQCWindowGeometry::slideshowcontrolsMaximizedChanged, this, [=]() { saveDelay->start(); });
     connect(this, &PQCWindowGeometry::slideshowcontrolsForcePopoutChanged, this, [=]() { saveDelay->start(); });
 
-    connect(this, &PQCWindowGeometry::imgurGeometryChanged, this, [=]() { saveDelay->start(); });
-    connect(this, &PQCWindowGeometry::imgurPopoutThresholdChanged, this, [=]() { saveDelay->start(); });
-    connect(this, &PQCWindowGeometry::imgurMaximizedChanged, this, [=]() { saveDelay->start(); });
-    connect(this, &PQCWindowGeometry::imgurForcePopoutChanged, this, [=]() { saveDelay->start(); });
-
-    connect(this, &PQCWindowGeometry::wallpaperGeometryChanged, this, [=]() { saveDelay->start(); });
-    connect(this, &PQCWindowGeometry::wallpaperPopoutThresholdChanged, this, [=]() { saveDelay->start(); });
-    connect(this, &PQCWindowGeometry::wallpaperMaximizedChanged, this, [=]() { saveDelay->start(); });
-    connect(this, &PQCWindowGeometry::wallpaperForcePopoutChanged, this, [=]() { saveDelay->start(); });
-
     connect(this, &PQCWindowGeometry::mapexplorerGeometryChanged, this, [=]() { saveDelay->start(); });
     connect(this, &PQCWindowGeometry::mapexplorerPopoutThresholdChanged, this, [=]() { saveDelay->start(); });
     connect(this, &PQCWindowGeometry::mapexplorerMaximizedChanged, this, [=]() { saveDelay->start(); });
@@ -335,11 +315,6 @@ void PQCWindowGeometry::load() {
         else if(key == "histogramMaximized")
             m_histogramMaximized = settings->value(key).toBool();
 
-        else if(key == "imgurGeometry")
-            m_imgurGeometry = settings->value(key).toRect();
-        else if(key == "imgurMaximized")
-            m_imgurMaximized = settings->value(key).toBool();
-
         else if(key == "mainWindowGeometry")
             m_mainWindowGeometry = settings->value(key).toRect();
         else if(key == "mainWindowMaximized")
@@ -390,12 +365,6 @@ void PQCWindowGeometry::load() {
         else if(key == "slideshowsetupMaximized")
             m_slideshowsetupMaximized = settings->value(key).toBool();
 
-        else if(key == "wallpaperGeometry")
-            m_wallpaperGeometry = settings->value(key).toRect();
-        else if(key == "wallpaperMaximized")
-            m_wallpaperMaximized = settings->value(key).toBool();
-
-
     }
 
 }
@@ -432,9 +401,6 @@ void PQCWindowGeometry::save() {
     settings->setValue("histogramGeometry", m_histogramGeometry);
     settings->setValue("histogramMaximized", m_histogramMaximized);
 
-    settings->setValue("imgurGeometry", m_imgurGeometry);
-    settings->setValue("imgurMaximized", m_imgurMaximized);
-
     settings->setValue("mainWindowGeometry", m_mainWindowGeometry);
     settings->setValue("mainWindowMaximized", m_mainWindowMaximized);
 
@@ -464,9 +430,6 @@ void PQCWindowGeometry::save() {
 
     settings->setValue("slideshowsetupGeometry", m_slideshowsetupGeometry);
     settings->setValue("slideshowsetupMaximized", m_slideshowsetupMaximized);
-
-    settings->setValue("wallpaperGeometry", m_wallpaperGeometry);
-    settings->setValue("wallpaperMaximized", m_wallpaperMaximized);
 
     computeSmallSizeBehavior();
 
@@ -540,14 +503,6 @@ void PQCWindowGeometry::computeSmallSizeBehavior() {
         const int tw = m_slideshowcontrolsGeometry.width();
         const int th = m_slideshowcontrolsGeometry.height();
         m_slideshowcontrolsForcePopout = (!dontForce && (h<th || w < tw));
-    }{
-        const int tw = m_imgurGeometry.width();
-        const int th = m_imgurGeometry.height();
-        m_imgurForcePopout = (!dontForce && (h<th || w < tw));
-    }{
-        const int tw = m_wallpaperGeometry.width();
-        const int th = m_wallpaperGeometry.height();
-        m_wallpaperForcePopout = (!dontForce && (h<th || w < tw));
     }{
         const int tw = m_mapexplorerGeometry.width();
         const int th = m_mapexplorerGeometry.height();

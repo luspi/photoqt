@@ -59,13 +59,6 @@ public:
         return PQCScriptsFileManagement::get().moveFileToTrash(filename);
     }
 
-    Q_INVOKABLE bool canThisBeScaled(QString filename) {
-        return PQCScriptsFileManagement::get().canThisBeScaled(filename);
-    }
-    Q_INVOKABLE void scaleImage(QString sourceFilename, QString targetFilename, int uniqueid, QSize targetSize, int targetQuality) {
-        PQCScriptsFileManagement::get().scaleImage(sourceFilename, targetFilename, uniqueid, targetSize, targetQuality);
-    }
-
     Q_INVOKABLE bool renameFile(QString dir, QString oldName, QString newName) {
         return PQCScriptsFileManagement::get().renameFile(dir, oldName, newName);
     }
@@ -74,13 +67,6 @@ public:
     }
     Q_INVOKABLE bool moveFile(QString filename, QString targetFilename) {
         return PQCScriptsFileManagement::get().moveFile(filename, targetFilename);
-    }
-
-    Q_INVOKABLE void cropImage(QString sourceFilename, QString targetFilename, int uniqueid, QPointF topLeft, QPointF botRight) {
-        PQCScriptsFileManagement::get().cropImage(sourceFilename, targetFilename, uniqueid, topLeft, botRight);
-    }
-    Q_INVOKABLE bool canThisBeCropped(QString filename) {
-        return PQCScriptsFileManagement::get().canThisBeCropped(filename);
     }
 
     Q_INVOKABLE QString undoLastAction(QString action) {

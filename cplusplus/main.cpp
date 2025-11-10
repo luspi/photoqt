@@ -54,10 +54,8 @@
 #include <pqc_providerfolderthumb.h>
 #include <pqc_providerdragthumb.h>
 #include <pqc_providerfull.h>
-#include <pqc_providerimgurhistory.h>
 #include <pqc_providersvg.h>
 #include <pqc_providersvgcolor.h>
-#include <scripts/qmlcpp/pqc_scriptsshareimgur.h>
 #include <pqc_extensionshandler.h>
 #include <pqc_extensionsettings.h>
 #include <pqc_look.h>
@@ -292,12 +290,10 @@ int main(int argc, char **argv) {
     engine.addImageProvider("folderthumb", new PQCAsyncImageProviderFolderThumb);
     engine.addImageProvider("dragthumb", new PQCAsyncImageProviderDragThumb);
     engine.addImageProvider("full", new PQCProviderFull);
-    engine.addImageProvider("imgurhistory", new PQCAsyncImageProviderImgurHistory);
     engine.addImageProvider("svg", new PQCProviderSVG);
     engine.addImageProvider("svgcolor", new PQCProviderSVGColor);
 
     // These only need to be imported where needed
-    qmlRegisterSingletonInstance("PQCScriptsShareImgur", 1, 0, "PQCScriptsShareImgur", &PQCScriptsShareImgur::get());
     qmlRegisterSingletonInstance("PQCExtensionsHandler", 1, 0, "PQCExtensionsHandler", &PQCExtensionsHandler::get());
 
     // the extension settings item

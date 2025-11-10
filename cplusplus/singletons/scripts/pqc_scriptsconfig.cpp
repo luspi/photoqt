@@ -30,7 +30,6 @@
 #include <QDirIterator>
 #include <pqc_configfiles.h>
 #include <scripts/pqc_scriptsconfig.h>
-#include <scripts/qmlcpp/pqc_scriptsshareimgur.h>
 #include <scripts/pqc_scriptslocalization.h>
 #include <pqc_startuphandler.h>
 #include <pqc_notify_cpp.h>

@@ -28,6 +28,7 @@
 #include <QSize>
 #include <QtDebug>
 #include <pqc_extensionactions.h>
+#include <scripts/pqc_scriptsshortcuts.h>
 
 class PQCExtensionInfo {
 public:
@@ -156,12 +157,19 @@ public:
     Q_PROPERTY(int numExtensions MEMBER m_numExtensions NOTIFY numExtensionsChanged)
 
     // REQUEST CUSTOM ACTIONS TO BE TAKEN
-    Q_INVOKABLE void requestCallActionWithImage(const QString &id, QVariant additional = QVariant());
-    Q_INVOKABLE void requestCallAction(const QString &id, QVariant additional = QVariant());
+    Q_INVOKABLE void requestCallActionWithImage(const QString &id, QVariant additional = QVariant(), bool async = true);
+    Q_INVOKABLE void requestCallAction(const QString &id, QVariant additional = QVariant(), bool async = true);
 
     // SOME SETTINGS STUFF
     Q_INVOKABLE bool getIsEnabled(const QString &id);
     Q_INVOKABLE bool getIsEnabledByDefault(const QString &id);
+
+    /**********************************/
+
+    // Some other actions that can be requested
+    Q_INVOKABLE void executeInternalCommand(QString cmd) {
+        PQCScriptsShortcuts::get().executeInternalCommand(cmd);
+    }
 
     /**********************************/
 
@@ -204,6 +212,9 @@ public:
 
     // get the base dir of the extension
     Q_INVOKABLE QString getExtensionLocation(QString id);
+    Q_INVOKABLE QString getExtensionConfigLocation(QString id);
+    Q_INVOKABLE QString getExtensionDataLocation(QString id);
+    Q_INVOKABLE QString getExtensionCacheLocation(QString id);
 
     // check whether an extension comes with a settings widget
     Q_INVOKABLE bool getHasSettings(const QString &id);
@@ -239,6 +250,7 @@ Q_SIGNALS:
 
     void replyForActionWithImage(const QString id, QVariant val);
     void replyForAction(const QString id, QVariant val);
+    void receivedMessage(const QString id, QVariant val);
 
     void numExtensionsChanged();
 

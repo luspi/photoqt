@@ -60,7 +60,7 @@ void PQCStartupHandler::setupDatabases() {
 
     // it is possible that a connection to the settings db already exists
 
-    QSqlDatabase dbcontextmenu, dbimageformats, dbimgurhistory, dblocation, dbshortcuts, dbsettings;
+    QSqlDatabase dbcontextmenu, dbimageformats, dblocation, dbshortcuts, dbsettings;
     QSqlDatabase dbsettingsRO, dbShortcutsRO;
 
     if(QSqlDatabase::isDriverAvailable("QSQLITE3")) {
@@ -69,7 +69,6 @@ void PQCStartupHandler::setupDatabases() {
             dbsettings = QSqlDatabase::addDatabase("QSQLITE3", "settings");
         dbshortcuts = QSqlDatabase::addDatabase("QSQLITE3", "shortcuts");
         dblocation = QSqlDatabase::addDatabase("QSQLITE3", "location");
-        dbimgurhistory = QSqlDatabase::addDatabase("QSQLITE3", "imgurhistory");
         dbimageformats = QSqlDatabase::addDatabase("QSQLITE3", "imageformats");
         dbcontextmenu = QSqlDatabase::addDatabase("QSQLITE3", "contextmenu");
 
@@ -84,7 +83,6 @@ void PQCStartupHandler::setupDatabases() {
             dbsettings = QSqlDatabase::addDatabase("QSQLITE", "settings");
         dbshortcuts = QSqlDatabase::addDatabase("QSQLITE", "shortcuts");
         dblocation = QSqlDatabase::addDatabase("QSQLITE", "location");
-        dbimgurhistory = QSqlDatabase::addDatabase("QSQLITE", "imgurhistory");
         dbimageformats = QSqlDatabase::addDatabase("QSQLITE", "imageformats");
         dbcontextmenu = QSqlDatabase::addDatabase("QSQLITE", "contextmenu");
 
@@ -96,7 +94,6 @@ void PQCStartupHandler::setupDatabases() {
     dbsettings.setDatabaseName(PQCConfigFiles::get().USERSETTINGS_DB());
     dbshortcuts.setDatabaseName(PQCConfigFiles::get().SHORTCUTS_DB());
     dblocation.setDatabaseName(PQCConfigFiles::get().LOCATION_DB());
-    dbimgurhistory.setDatabaseName(PQCConfigFiles::get().SHAREONLINE_IMGUR_HISTORY_DB());
     dbimageformats.setDatabaseName(PQCConfigFiles::get().IMAGEFORMATS_DB());
     dbcontextmenu.setDatabaseName(PQCConfigFiles::get().CONTEXTMENU_DB());
 
@@ -490,17 +487,6 @@ void PQCStartupHandler::setupFresh() {
         qWarning() << "Unable to create default contextmenu database";
     else {
         QFile file(PQCConfigFiles::get().CONTEXTMENU_DB());
-        file.setPermissions(file.permissions()|QFileDevice::WriteOwner);
-    }
-
-    /**************************************************************/
-    // create default imgurhistory database
-    if(QFile::exists(PQCConfigFiles::get().SHAREONLINE_IMGUR_HISTORY_DB()))
-        QFile::remove(PQCConfigFiles::get().SHAREONLINE_IMGUR_HISTORY_DB());
-    if(!QFile::copy(":/imgurhistory.db", PQCConfigFiles::get().SHAREONLINE_IMGUR_HISTORY_DB()))
-        qWarning() << "Unable to create default imgurhistory database";
-    else {
-        QFile file(PQCConfigFiles::get().SHAREONLINE_IMGUR_HISTORY_DB());
         file.setPermissions(file.permissions()|QFileDevice::WriteOwner);
     }
 

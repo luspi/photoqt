@@ -244,6 +244,9 @@ Rectangle {
 
     function show() {
 
+        if(!fullscreen_loader.item.showing())
+            return
+
         settings["ExtShow"] = true
 
         var minsize = PQCExtensionsHandler.getExtensionIntegratedMinimumRequiredWindowSize(extensionId)
@@ -259,14 +262,14 @@ Rectangle {
 
         PQCNotify.loaderRegisterOpen(element_top.extensionId)
         opacity = 1
-        fullscreen_loader.item.showing()
     }
 
     function hide() {
+        if(!fullscreen_loader.item.hiding())
+            return
         PQCNotify.loaderRegisterClose(element_top.extensionId)
         opacity = 0
         settings["ExtShow"] = false
-        fullscreen_loader.item.hiding()
     }
 
 }

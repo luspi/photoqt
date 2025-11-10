@@ -42,15 +42,9 @@ public:
     bool deletePermanent(QString filename);
     bool moveFileToTrash(QString filename);
 
-    bool canThisBeScaled(QString filename);
-    void scaleImage(QString sourceFilename, QString targetFilename, int uniqueid, QSize targetSize, int targetQuality);
-
     bool renameFile(QString dir, QString oldName, QString newName);
     bool copyFile(QString filename, QString targetFilename);
     bool moveFile(QString filename, QString targetFilename);
-
-    void cropImage(QString sourceFilename, QString targetFilename, int uniqueid, QPointF topLeft, QPointF botRight);
-    bool canThisBeCropped(QString filename);
 
     QString undoLastAction(QString action);
     void recordAction(QString actions, QVariantList args);

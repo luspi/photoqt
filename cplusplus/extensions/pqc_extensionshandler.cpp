@@ -354,6 +354,7 @@ void PQCExtensionsHandler::setup() {
                             PQCExtensionActions *actions = qobject_cast<PQCExtensionActions*>(plugin);
 
                             if(actions) {
+                                connect(actions, &PQCExtensionActions::sendMessage, this, [=](QVariant val) { Q_EMIT receivedMessage(id, val); });
                                 m_actions.insert(id, actions);
                             }
                         }
@@ -411,6 +412,30 @@ QString PQCExtensionsHandler::getExtensionLocation(QString id) {
         return m_allextensions[id]->location;
     qWarning() << "Unknown extension id:" << id;
     return "";
+}
+
+QString PQCExtensionsHandler::getExtensionConfigLocation(QString id) {
+    const QString path = QString("%1/%2").arg(PQCConfigFiles::get().EXTENSION_CONFIG_DIR(), id);
+    QDir dir(path);
+    if(!dir.exists(path))
+        dir.mkpath(path);
+    return path;
+}
+
+QString PQCExtensionsHandler::getExtensionDataLocation(QString id) {
+    const QString path = QString("%1/%2").arg(PQCConfigFiles::get().EXTENSION_DATA_DIR(), id);
+    QDir dir(path);
+    if(!dir.exists(path))
+        dir.mkpath(path);
+    return path;
+}
+
+QString PQCExtensionsHandler::getExtensionCacheLocation(QString id) {
+    const QString path = QString("%1/%2").arg(PQCConfigFiles::get().EXTENSION_CACHE_DIR(), id);
+    QDir dir(path);
+    if(!dir.exists(path))
+        dir.mkpath(path);
+    return path;
 }
 
 int PQCExtensionsHandler::getExtensionVersion(QString id) {
@@ -600,9 +625,23 @@ void PQCExtensionsHandler::removeShortcut(QString id) {
     }
 }
 
-void PQCExtensionsHandler::requestCallActionWithImage(const QString &id, QVariant additional) {
+void PQCExtensionsHandler::requestCallActionWithImage(const QString &id, QVariant additional, bool async) {
     qDebug() << "args: id =" << id;
-    QFuture<void> future = QtConcurrent::run([=] {
+    qDebug() << "args: async =" << async;
+    if(async) {
+        QFuture<void> future = QtConcurrent::run([=] {
+            QImage img;
+            QSize sze;
+            PQCLoadImage::get().load(PQCFileFolderModelCPP::get().getCurrentFile(), QSize(-1,-1), sze, img);
+            if(m_actions.contains(id)) {
+                QVariant ret = m_actions[id]->actionWithImage(PQCFileFolderModelCPP::get().getCurrentFile(), img, additional);
+                Q_EMIT replyForActionWithImage(id, ret);
+            } else {
+                qWarning() << "No action provided for extension" << id;
+                Q_EMIT replyForActionWithImage(id, QVariant(""));
+            }
+        });
+    } else {
         QImage img;
         QSize sze;
         PQCLoadImage::get().load(PQCFileFolderModelCPP::get().getCurrentFile(), QSize(-1,-1), sze, img);
@@ -613,12 +652,23 @@ void PQCExtensionsHandler::requestCallActionWithImage(const QString &id, QVarian
             qWarning() << "No action provided for extension" << id;
             Q_EMIT replyForActionWithImage(id, QVariant(""));
         }
-    });
+    }
 }
 
-void PQCExtensionsHandler::requestCallAction(const QString &id, QVariant additional) {
+void PQCExtensionsHandler::requestCallAction(const QString &id, QVariant additional, bool async) {
     qDebug() << "args: id =" << id;
-    QFuture<void> future = QtConcurrent::run([=] {
+    qDebug() << "args: async =" << async;
+    if(async) {
+        QFuture<void> future = QtConcurrent::run([=] {
+            if(m_actions.contains(id)) {
+                QVariant ret = m_actions[id]->action(PQCFileFolderModelCPP::get().getCurrentFile(), additional);
+                Q_EMIT replyForAction(id, ret);
+            } else {
+                qWarning() << "No action provided for extension" << id;
+                Q_EMIT replyForAction(id, QVariant(""));
+            }
+        });
+    } else {
         if(m_actions.contains(id)) {
             QVariant ret = m_actions[id]->action(PQCFileFolderModelCPP::get().getCurrentFile(), additional);
             Q_EMIT replyForAction(id, ret);
@@ -626,7 +676,7 @@ void PQCExtensionsHandler::requestCallAction(const QString &id, QVariant additio
             qWarning() << "No action provided for extension" << id;
             Q_EMIT replyForAction(id, QVariant(""));
         }
-    });
+    }
 }
 
 bool PQCExtensionsHandler::getIsEnabled(const QString &id) {

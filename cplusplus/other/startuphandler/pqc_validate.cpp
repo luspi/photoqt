@@ -86,12 +86,6 @@ bool PQCValidate::validate() {
         success = false;
     }
 
-    ret = validateImgurHistoryDatabase();
-    if(!ret) {
-        std::cout << " >> Failed: imgur history db" << std::endl;
-        success = false;
-    }
-
     std::cout << " >> Done!" << std::endl << std::endl;
     return success;
 
@@ -579,24 +573,6 @@ bool PQCValidate::validateLocationDatabase() {
             qWarning() << "Unable to (re-)create default location database";
         else {
             QFile file(PQCConfigFiles::get().LOCATION_DB());
-            file.setPermissions(file.permissions()|QFileDevice::WriteOwner);
-        }
-    }
-
-    return true;
-
-}
-
-bool PQCValidate::validateImgurHistoryDatabase() {
-
-    qDebug() << "";
-
-    // the db does not exist -> create it and finish
-    if(!QFile::exists(PQCConfigFiles::get().SHAREONLINE_IMGUR_HISTORY_DB())) {
-        if(!QFile::copy(":/imgurhistory.db", PQCConfigFiles::get().SHAREONLINE_IMGUR_HISTORY_DB()))
-            qWarning() << "Unable to (re-)create default imgurhistory database";
-        else {
-            QFile file(PQCConfigFiles::get().SHAREONLINE_IMGUR_HISTORY_DB());
             file.setPermissions(file.permissions()|QFileDevice::WriteOwner);
         }
     }

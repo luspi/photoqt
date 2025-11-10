@@ -218,7 +218,7 @@ Item {
             source: "image://svg/:/" + PQCLook.iconShade + "/close.svg"
             sourceSize: Qt.size(width, height)
 
-            opacity: closemouse.containsMouse ? 0.8 : 0.1
+            opacity: closemouse.containsMouse ? 0.8 : 0.05
             Behavior on opacity { NumberAnimation { duration: 150 } }
 
             PQMouseArea {
@@ -330,18 +330,20 @@ Item {
     }
 
     function show() {
+        if(!floating_loader.item.showing())
+            return
         opacity = 1
         settings["ExtShow"] = true
         if(!PQCSettings.generalSetupFloatingExtensionsAtStartup.includes(extensionId))
             PQCSettings.generalSetupFloatingExtensionsAtStartup.push(extensionId)
-        floating_loader.item.showing()
     }
 
     function hide() {
+        if(!floating_loader.item.hiding())
+            return
         opacity = 0
         settings["ExtShow"] = false
         PQCSettings.generalSetupFloatingExtensionsAtStartup = PQCSettings.generalSetupFloatingExtensionsAtStartup.filter(function(entry) { return entry !== extensionId; });
-        floating_loader.item.hiding()
     }
 
     function resetPositionAndSize() {

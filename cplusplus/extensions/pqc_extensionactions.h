@@ -24,7 +24,9 @@
 #include <QObject>
 #include <QVariant>
 
-class PQCExtensionActions {
+class PQCExtensionActions : public QObject {
+
+    Q_OBJECT
 
 public:
     virtual ~PQCExtensionActions() = default;
@@ -37,6 +39,8 @@ public:
     // do something and also provide me with the image
     virtual QVariant actionWithImage(QString filepath, QImage &img, QVariant additional = QVariant()) = 0;
 
+Q_SIGNALS:
+    void sendMessage(QVariant val);
 
 };
 

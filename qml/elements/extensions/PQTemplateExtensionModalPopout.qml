@@ -340,6 +340,9 @@ Window {
 
     function _show() {
 
+        if(!popout_loader.item.showing())
+            return
+
         settings["ExtShow"] = true
 
         if(settings["ExtForcePopout"]) {
@@ -355,14 +358,14 @@ Window {
 
         PQCNotify.loaderRegisterOpen(element_top.extensionId)
         show()
-        popout_loader.item.showing()
     }
 
     function hide() {
+        if(!popout_loader.item.hiding())
+            return
         PQCNotify.loaderRegisterClose(element_top.extensionId)
         settings["ExtShow"] = false
         element_top.close()
-        popout_loader.item.hiding()
     }
 
     function handleChangesBottomRowWidth(w : int) {

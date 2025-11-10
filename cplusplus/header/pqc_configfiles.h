@@ -47,6 +47,14 @@ public:
         return m_EXTENSION_CONFIG_DIR;
     }
 
+    const QString EXTENSION_DATA_DIR() {
+        return m_EXTENSION_DATA_DIR;
+    }
+
+    const QString EXTENSION_CACHE_DIR() {
+        return m_EXTENSION_CACHE_DIR;
+    }
+
     const QString DATA_DIR() {
         return m_DATA_DIR;
     }
@@ -111,14 +119,6 @@ public:
         return m_LASTOPENEDIMAGE_FILE;
     }
 
-    const QString SHAREONLINE_IMGUR_FILE() {
-        return m_SHAREONLINE_IMGUR_FILE;
-    }
-
-    const QString SHAREONLINE_IMGUR_HISTORY_DB() {
-        return m_SHAREONLINE_IMGUR_HISTORY_DB;
-    }
-
     const QString ICC_COLOR_PROFILE_DIR() {
         return m_ICC_COLOR_PROFILE_DIR;
     }
@@ -172,6 +172,8 @@ private:
         m_CACHE_DIR = QStandardPaths::writableLocation(QStandardPaths::CacheLocation);
 #endif
         m_EXTENSION_CONFIG_DIR = QString("%1/extensions/").arg(m_CONFIG_DIR);
+        m_EXTENSION_DATA_DIR = QString("%1/extensions/").arg(m_DATA_DIR);
+        m_EXTENSION_CACHE_DIR = QString("%1/extensions/").arg(m_CACHE_DIR);
 
         QDir dir;
         dir.mkpath(m_CONFIG_DIR);
@@ -222,14 +224,14 @@ private:
         m_WINDOW_GEOMETRY_FILE = QString("%1/geometry").arg(CONFIG_DIR());
         m_FILEDIALOG_LAST_LOCATION = QString("%1/filedialoglastlocation").arg(CACHE_DIR());
         m_LASTOPENEDIMAGE_FILE = QString("%1/lastimageloaded").arg(CONFIG_DIR());
-        m_SHAREONLINE_IMGUR_FILE = QString("%1/imgurconfig").arg(CONFIG_DIR());
-        m_SHAREONLINE_IMGUR_HISTORY_DB = QString("%1/imgurhistory.db").arg(CONFIG_DIR());
         m_ICC_COLOR_PROFILE_DIR = QString("%1/icc").arg(CACHE_DIR());
 
     }
 
     QString m_CONFIG_DIR;
     QString m_EXTENSION_CONFIG_DIR;
+    QString m_EXTENSION_DATA_DIR;
+    QString m_EXTENSION_CACHE_DIR;
     QString m_DATA_DIR;
     QString m_CACHE_DIR;
     QString m_USER_TRASH_FILES;
@@ -246,8 +248,6 @@ private:
     QString m_WINDOW_GEOMETRY_FILE;
     QString m_FILEDIALOG_LAST_LOCATION;
     QString m_LASTOPENEDIMAGE_FILE;
-    QString m_SHAREONLINE_IMGUR_FILE;
-    QString m_SHAREONLINE_IMGUR_HISTORY_DB;
     QString m_ICC_COLOR_PROFILE_DIR;
 
 #ifdef PQMPORTABLETWEAKS

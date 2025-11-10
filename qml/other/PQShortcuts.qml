@@ -23,7 +23,6 @@
 import QtQuick
 import QtQml
 import PQCExtensionsHandler
-import PQCScriptsShareImgur
 import PhotoQt
 
 Item {
@@ -220,7 +219,6 @@ Item {
                 PQCImageFormats.closeDatabase()
                 PQCLocation.closeDatabase()
                 PQCScriptsContextMenu.closeDatabase()
-                PQCScriptsShareImgur.closeDatabase()
 
                 PQCScriptsConfig.callStartupSetupFresh()
 
