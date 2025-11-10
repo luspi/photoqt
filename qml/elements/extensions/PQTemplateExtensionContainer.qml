@@ -67,7 +67,7 @@ Item {
 
         var itg = PQCExtensionsHandler.getExtensionIntegratedAllow(extensionId)
         var ppt = PQCExtensionsHandler.getExtensionPopoutAllow(extensionId)
-        var mdl = PQCExtensionsHandler.getExtensionModalMake(extensionId)
+        var mdl = PQCExtensionsHandler.getExtensionModal(extensionId)
 
         if(mdl && PQCSettings.generalInterfaceVariant === "integrated") {
             val = true

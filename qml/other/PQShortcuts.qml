@@ -415,9 +415,8 @@ Item {
 
             // check for shortcuts that are enabled for extensions
             var ext = PQCExtensionsHandler.getExtensionForShortcut(combo)
-            if(ext !== "" && (!PQCExtensionsHandler.getExtensionModalMake(ext) || (PQCExtensionsHandler.getExtensionModalRequireLoadedFile(ext) && PQCFileFolderModel.currentFile !== ""))) {
+            if(ext !== "")
                 PQCNotify.loaderShowExtension(ext)
-            }
 
             // we always stop, no matter what, in this case
             return

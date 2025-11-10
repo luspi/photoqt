@@ -254,25 +254,14 @@ void PQCExtensionsHandler::setup() {
 
 
             //////////////////////
-            // setup/modal
+            // setup
 
             // make element modal
             try {
-                extinfo->modalMake = config["setup"]["modal"]["make"].as<bool>();
+                extinfo->modal = config["setup"]["modal"].as<bool>();
             } catch(YAML::Exception &e) {
-                qDebug() << "Extension:" << id << "- Optional value for 'modal/make' invalid or not found, skipping:" << e.what();
+                qDebug() << "Extension:" << id << "- Optional value for 'modal' invalid or not found, skipping:" << e.what();
             }
-
-            // require loaded file
-            try {
-                extinfo->modalRequireLoadedFile = config["setup"]["modal"]["requireLoadedFile"].as<bool>();
-            } catch(YAML::Exception &e) {
-                qDebug() << "Extension:" << id << "- Optional value for 'modal/requireLoadedFile' invalid or not found, skipping:" << e.what();
-            }
-
-
-            //////////////////////
-            // setup
 
             // default shortcut to toggle element
             try {
@@ -510,16 +499,9 @@ QSize PQCExtensionsHandler::getExtensionIntegratedMinimumRequiredWindowSize(QStr
     return QSize(0,0);
 }
 
-bool PQCExtensionsHandler::getExtensionModalMake(QString id) {
+bool PQCExtensionsHandler::getExtensionModal(QString id) {
     if(m_allextensions.contains(id))
-        return m_allextensions[id]->modalMake;
-    qWarning() << "Unknown extension id:" << id;
-    return false;
-}
-
-bool PQCExtensionsHandler::getExtensionModalRequireLoadedFile(QString id) {
-    if(m_allextensions.contains(id))
-        return m_allextensions[id]->modalRequireLoadedFile;
+        return m_allextensions[id]->modal;
     qWarning() << "Unknown extension id:" << id;
     return false;
 }

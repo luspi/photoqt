@@ -57,7 +57,7 @@ public:
         popoutFixSizeToContent = false;
 
         // setup/modal
-        modalMake = false;
+        modal = false;
         modalRequireLoadedFile = true;
 
         // setup
@@ -95,7 +95,7 @@ public:
     bool  popoutFixSizeToContent;
 
     // setup/modal
-    bool modalMake;
+    bool modal;
     bool modalRequireLoadedFile;
 
     // setup
@@ -192,8 +192,7 @@ public:
     Q_INVOKABLE bool    getExtensionPopoutAllow(QString id);
     Q_INVOKABLE bool    getExtensionPopoutFixSizeToContent(QString id);
 
-    Q_INVOKABLE bool    getExtensionModalMake(QString id);
-    Q_INVOKABLE bool    getExtensionModalRequireLoadedFile(QString id);
+    Q_INVOKABLE bool    getExtensionModal(QString id);
 
     Q_INVOKABLE QString getExtensionDefaultShortcut(QString id);
     Q_INVOKABLE bool    getExtensionRememberGeometry(QString id);

@@ -86,7 +86,7 @@ Window {
     minimumWidth: 300
     minimumHeight: 500
 
-    modality: PQCExtensionsHandler.getExtensionModalMake(extensionId) ? Qt.ApplicationModal : Qt.NonModal
+    modality: PQCExtensionsHandler.getExtensionModal(extensionId) ? Qt.ApplicationModal : Qt.NonModal
 
     visible: false
     flags: Qt.Window|Qt.WindowStaysOnTopHint|Qt.WindowTitleHint|Qt.WindowMinMaxButtonsHint|Qt.WindowCloseButtonHint
@@ -341,8 +341,10 @@ Window {
     function _show() {
 
         var ret = popout_loader.item.showing()
-        if(ret !== undefined && !ret)
+        if(ret !== undefined && !ret) {
+            PQCNotify.loaderRegisterClose(element_top.extensionId)
             return
+        }
 
         settings["ExtShow"] = true
 

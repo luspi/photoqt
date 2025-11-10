@@ -89,7 +89,7 @@ Window {
     minimumWidth: 100
     minimumHeight: 100
 
-    modality: PQCExtensionsHandler.getExtensionModalMake(extensionId) ? Qt.ApplicationModal : Qt.NonModal
+    modality: PQCExtensionsHandler.getExtensionModal(extensionId) ? Qt.ApplicationModal : Qt.NonModal
 
     visible: false
     flags: Qt.Window|Qt.WindowStaysOnTopHint|Qt.WindowTitleHint|Qt.WindowMinMaxButtonsHint|Qt.WindowCloseButtonHint
@@ -202,7 +202,7 @@ Window {
         x: parent.width-additionalActionItem.width-closeimage.width-5
         y: 5
 
-        visible: !PQCExtensionsHandler.getExtensionModalMake(element_top.extensionId)
+        visible: !PQCExtensionsHandler.getExtensionModal(element_top.extensionId)
 
         Item {
             id: additionalActionItem

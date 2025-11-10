@@ -174,7 +174,7 @@ void ExtensionSettings::setup() {
     } else
         this->insert("ExtForcedPopout", false);
 
-    if(PQCExtensionsHandler::get().getExtensionModalMake(m_extensionId))
+    if(PQCExtensionsHandler::get().getExtensionModal(m_extensionId))
         this->insert("ExtShow", false);
 
     if(this->value("ExtShortcut").toString() != "")

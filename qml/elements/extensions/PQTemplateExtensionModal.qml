@@ -245,8 +245,10 @@ Rectangle {
     function show() {
 
         var ret = fullscreen_loader.item.showing()
-        if(ret !== undefined && !ret)
+        if(ret !== undefined && !ret) {
+            PQCNotify.loaderRegisterClose(element_top.extensionId)
             return
+        }
 
         settings["ExtShow"] = true
 

@@ -324,7 +324,7 @@ Loader {
                     return
                 }
 
-                if(PQCExtensionsHandler.getExtensionModalMake(ele)) {
+                if(PQCExtensionsHandler.getExtensionModal(ele)) {
                     if(PQCConstants.idOfVisibleItem !== "")
                         return
                     else
@@ -335,7 +335,7 @@ Loader {
 
                 // modal elements need to be shown on top, above things like mainmenu or metadata
                 // The value should be high but lower than that of the window buttons that are shown on top (currently set to 999)
-                if(PQCExtensionsHandler.getExtensionModalMake(ele))
+                if(PQCExtensionsHandler.getExtensionModal(ele))
                     loader_extensions.itemAt(ind).z = 888
 
                 if(!loader_extensions.itemAt(ind).item) {
@@ -364,7 +364,7 @@ Loader {
             function onLoaderSetupExtension(ele : string) {
                 var ind = PQCExtensionsHandler.getExtensions().indexOf(ele)
                 loader_extensions.itemAt(ind).active = true
-                if(PQCExtensionsHandler.getExtensionModalMake(ele))
+                if(PQCExtensionsHandler.getExtensionModal(ele))
                     loader_extensions.itemAt(ind).z = 888
             }
 
