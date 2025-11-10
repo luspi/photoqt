@@ -244,7 +244,8 @@ Rectangle {
 
     function show() {
 
-        if(!fullscreen_loader.item.showing())
+        var ret = fullscreen_loader.item.showing()
+        if(ret !== undefined && !ret)
             return
 
         settings["ExtShow"] = true
@@ -265,7 +266,9 @@ Rectangle {
     }
 
     function hide() {
-        if(!fullscreen_loader.item.hiding())
+
+        var ret = fullscreen_loader.item.hiding()
+        if(ret !== undefined && !ret)
             return
         PQCNotify.loaderRegisterClose(element_top.extensionId)
         opacity = 0

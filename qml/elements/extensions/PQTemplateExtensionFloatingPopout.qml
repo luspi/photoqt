@@ -288,7 +288,8 @@ Window {
 
     onVisibleChanged: {
         if(!visible) {
-            if(!popout_loader.item.hiding()) {
+            var ret = popout_loader.item.hiding()
+            if(ret !== undefined && !ret) {
                 visible = true
                 return
             }
@@ -296,7 +297,8 @@ Window {
             PQCSettings.generalSetupFloatingExtensionsAtStartup = PQCSettings.generalSetupFloatingExtensionsAtStartup.filter(function(entry) { return entry !== extensionId; });
 
         } else {
-            if(!popout_loader.item.showing()) {
+            var ret = popout_loader.item.showing()
+            if(ret !== undefined && !ret) {
                 visible = false
                 return
             }

@@ -340,7 +340,8 @@ Window {
 
     function _show() {
 
-        if(!popout_loader.item.showing())
+        var ret = popout_loader.item.showing()
+        if(ret !== undefined && !ret)
             return
 
         settings["ExtShow"] = true
@@ -361,7 +362,8 @@ Window {
     }
 
     function hide() {
-        if(!popout_loader.item.hiding())
+        var ret = popout_loader.item.hiding()
+        if(ret !== undefined && !ret)
             return
         PQCNotify.loaderRegisterClose(element_top.extensionId)
         settings["ExtShow"] = false

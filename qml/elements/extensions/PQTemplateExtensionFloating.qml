@@ -330,7 +330,8 @@ Item {
     }
 
     function show() {
-        if(!floating_loader.item.showing())
+        var ret = floating_loader.item.showing()
+        if(ret !== undefined && !ret)
             return
         opacity = 1
         settings["ExtShow"] = true
@@ -339,7 +340,8 @@ Item {
     }
 
     function hide() {
-        if(!floating_loader.item.hiding())
+        var ret = floating_loader.item.hiding()
+        if(ret !== undefined && !ret)
             return
         opacity = 0
         settings["ExtShow"] = false
