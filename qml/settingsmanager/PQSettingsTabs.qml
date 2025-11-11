@@ -546,7 +546,8 @@ Item {
                 }
 
                 property list<var> entries: [
-                    ["ext1", qsTranslate("settingsmanager", "Extension 1")],
+                    ["maex", qsTranslate("settingsmanager", "Manage extensions")],
+                    ["exse", qsTranslate("settingsmanager", "Extensions settings")]
                 ]
 
                 Repeater {
@@ -585,7 +586,7 @@ Item {
         PQTabButton {
             width: parent.width
             settingsManagerMainTab: true
-            isCurrentTab: tab_top.currentIndex===6
+            isCurrentTab: tab_top.currentIndex===7
             text: qsTranslate("settingsmanager", "Other")
             lineAbove: tab_top.currentIndex===6
             onClicked:

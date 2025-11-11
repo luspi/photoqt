@@ -1901,11 +1901,11 @@ void PQCSettings::setGeneralEnabledExtensions(QStringList val) {
 }
 
 const QStringList PQCSettings::getDefaultForGeneralEnabledExtensions() {
-        return QStringList() << "";
+        return QStringList() << "CropImage" << "ExportImage" << "FloatingNavigation" << "Histogram" << "ImgurCom" << "MapCurrent" << "QuickActions" << "ScaleImage" << "Wallpaper";
 }
 
 void PQCSettings::setDefaultForGeneralEnabledExtensions() {
-    QStringList tmp = QStringList() << "";
+    QStringList tmp = QStringList() << "CropImage" << "ExportImage" << "FloatingNavigation" << "Histogram" << "ImgurCom" << "MapCurrent" << "QuickActions" << "ScaleImage" << "Wallpaper";
     if(tmp != m_generalEnabledExtensions) {
         m_generalEnabledExtensions = tmp;
         Q_EMIT generalEnabledExtensionsChanged();
@@ -7600,7 +7600,7 @@ void PQCSettings::setupFresh() {
     // table: general
     m_generalAutoSaveSettings = false;
     m_generalCompactSettings = false;
-    m_generalEnabledExtensions = QStringList();
+    m_generalEnabledExtensions = QStringList() << "CropImage" << "ExportImage" << "FloatingNavigation" << "Histogram" << "ImgurCom" << "MapCurrent" << "QuickActions" << "ScaleImage" << "Wallpaper";
     m_generalInterfaceVariant = "modern";
     m_generalSetupFloatingExtensionsAtStartup = QStringList();
     m_generalVersion = PQMVERSION;

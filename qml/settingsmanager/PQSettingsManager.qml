@@ -187,6 +187,11 @@ PQTemplate {
                         else if(currentId === "tric") settings_loader.sourceComponent = man_tric
                         else if(currentId === "mana") settings_loader.sourceComponent = man_mana
 
+                    } else if(currentIndex === 6) {
+
+                             if(currentId === "maex") settings_loader.sourceComponent = ext_maex
+                        else if(currentId === "exse") settings_loader.sourceComponent = ext_exse
+
                     } else if(currentIndex === 7) {
 
                              if(currentId === "fidi") settings_loader.sourceComponent = oth_fidi
@@ -240,6 +245,9 @@ PQTemplate {
                 Component { id: man_seha; PQSettingsManageSession { availableHeight: flickable.height } }
                 Component { id: man_tric; PQSettingsManageTrayIcon { availableHeight: flickable.height } }
                 Component { id: man_mana; PQSettingsManageManage { availableHeight: flickable.height } }
+
+                Component { id: ext_maex; PQSettingsExtensionsManage { availableHeight: flickable.height } }
+                Component { id: ext_exse; PQSettingsExtensionsSettings { availableHeight: flickable.height } }
 
                 Component { id: oth_fidi; PQSettingsOtherFileDialog { availableHeight: flickable.height } }
                 Component { id: oth_slsh; PQSettingsOtherSlideshow { availableHeight: flickable.height } }

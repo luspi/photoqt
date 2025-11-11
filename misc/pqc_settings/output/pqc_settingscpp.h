@@ -419,7 +419,7 @@ private:
         m_filetypesRAWUseEmbeddedIfAvailable = true;
         m_filetypesVideoPreferLibmpv = true;
         m_filetypesVideoThumbnailer = "ffmpegthumbnailer";
-        m_generalEnabledExtensions = QStringList();
+        m_generalEnabledExtensions = QStringList() << "CropImage" << "ExportImage" << "FloatingNavigation" << "Histogram" << "ImgurCom" << "MapCurrent" << "QuickActions" << "ScaleImage" << "Wallpaper";
         m_generalInterfaceVariant = "modern";
         m_imageviewAdvancedSortAscending = true;
         m_imageviewAdvancedSortCriteria = "resolution";

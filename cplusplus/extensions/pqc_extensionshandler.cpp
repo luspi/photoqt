@@ -66,12 +66,12 @@ void PQCExtensionsHandler::setup() {
         const QStringList dirlist = pluginsDir.entryList(QDir::Dirs|QDir::NoDotAndDotDot);
         for(const QString &id : dirlist) {
 
-            // TODO: REENABLE
-            // if(!PQCSettingsCPP::get().getGeneralEnabledExtensions().contains(id)) {
-            //     qDebug() << "Extension" << id << "disabled.";
-            //     m_extensionsDisabled.append(id);
-            //     continue;
-            // }
+            bool extEnabled = true;
+
+            if(!PQCSettingsCPP::get().getGeneralEnabledExtensions().contains(id)) {
+                qDebug() << "Extension" << id << "disabled.";
+                extEnabled = false;
+            }
 
             // if there is a YAML file, then we load that one
             QString yamlfile = QString("%1/%2/definition.yml").arg(baseDir, id);
@@ -142,6 +142,15 @@ void PQCExtensionsHandler::setup() {
                 extinfo->contact = QString::fromStdString(config["about"]["contact"].as<std::string>());
             } catch(YAML::Exception &e) {
                 qWarning() << "Extension:" << id << "- Failed to read required value for 'contact':" << e.what();
+                delete extinfo;
+                continue;
+            }
+
+            // website
+            try {
+                extinfo->website = QString::fromStdString(config["about"]["website"].as<std::string>());
+            } catch(YAML::Exception &e) {
+                qWarning() << "Extension:" << id << "- Failed to read required value for 'website':" << e.what();
                 delete extinfo;
                 continue;
             }
@@ -359,7 +368,10 @@ void PQCExtensionsHandler::setup() {
             // all good so far, we have what we need
             qDebug() << "Successfully loaded extension" << id << "from location:" << baseDir;
 
-            m_extensions.append(id);
+            if(extEnabled)
+                m_extensions.append(id);
+            else
+                m_extensionsDisabled.append(id);
             m_allextensions.insert(id, extinfo);
 
         }
@@ -392,6 +404,10 @@ QStringList PQCExtensionsHandler::getExtensions() {
 
 QStringList PQCExtensionsHandler::getDisabledExtensions() {
     return m_extensionsDisabled;
+}
+
+QStringList PQCExtensionsHandler::getExtensionsEnabledAndDisabld() {
+    return QStringList() << m_extensions << m_extensionsDisabled;
 }
 
 /****************************************/
@@ -458,6 +474,13 @@ QString PQCExtensionsHandler::getExtensionContact(QString id) {
 QString PQCExtensionsHandler::getExtensionDescription(QString id) {
     if(m_allextensions.contains(id))
         return m_allextensions[id]->description;
+    qWarning() << "Unknown extension id:" << id;
+    return "";
+}
+
+QString PQCExtensionsHandler::getExtensionWebsite(QString id) {
+    if(m_allextensions.contains(id))
+        return m_allextensions[id]->website;
     qWarning() << "Unknown extension id:" << id;
     return "";
 }

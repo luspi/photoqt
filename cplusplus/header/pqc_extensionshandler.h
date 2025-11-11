@@ -41,6 +41,7 @@ public:
         description = "";
         author = "";
         contact = "";
+        website = "";
         targetAPI = 0;
 
         // setup/integrated
@@ -56,11 +57,8 @@ public:
         popoutDefaultSize = QSize(-1,-1);
         popoutFixSizeToContent = false;
 
-        // setup/modal
-        modal = false;
-        modalRequireLoadedFile = true;
-
         // setup
+        modal = false;
         defaultShortcut = "";
         rememberGeometry = true;
         letMeHandleMouseEvents = false;
@@ -79,6 +77,7 @@ public:
     QString description;
     QString author;
     QString contact;
+    QString website;
     int targetAPI;
 
     // setup/integrated
@@ -94,11 +93,8 @@ public:
     QSize popoutDefaultSize;
     bool  popoutFixSizeToContent;
 
-    // setup/modal
-    bool modal;
-    bool modalRequireLoadedFile;
-
     // setup
+    bool modal;
     QString defaultShortcut;
     bool    rememberGeometry;
     bool    letMeHandleMouseEvents;
@@ -179,6 +175,7 @@ public:
     Q_INVOKABLE QString getExtensionAuthor(QString id);
     Q_INVOKABLE QString getExtensionContact(QString id);
     Q_INVOKABLE QString getExtensionDescription(QString id);
+    Q_INVOKABLE QString getExtensionWebsite(QString id);
     Q_INVOKABLE int     getExtensionTargetAPIVersion(QString id);
 
     Q_INVOKABLE bool    getExtensionIntegratedAllow(QString id);
@@ -208,6 +205,9 @@ public:
 
     // get a list of all disabled extensions
     Q_INVOKABLE QStringList getDisabledExtensions();
+
+    // get a list of all extensions ids, enabled AND disabled
+    Q_INVOKABLE QStringList getExtensionsEnabledAndDisabld();
 
     // get the base dir of the extension
     Q_INVOKABLE QString getExtensionLocation(QString id);

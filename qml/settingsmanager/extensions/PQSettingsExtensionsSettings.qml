@@ -21,63 +21,13 @@
  **************************************************************************/
 
 import QtQuick
-import QtQuick.Controls
 import PhotoQt
 
-Button {
+PQSetting {
 
-    id: control
+    id: set_exts
 
-    implicitHeight: 40
-    implicitWidth: 40
-
-    opacity: enabled ? 1 : 0.5
-
-    property string source: ""
-    property alias tooltip: ttip.text
-    property real iconScale: 1
-    property alias tooltipWidth: ttip.width
-    property alias tooltipDelay: ttip.delay
-    property alias cursorShape: mousearea.cursorShape
-
-    // TODO: NOT YET IMPLEMENTED
-    property bool enableContextMenu: false
-    property string overrideBaseColor: ""
-    property Item dragTarget
-    property int radius
-
-    flat: true
-
-    signal rightClicked()
-
-    Image {
-        anchors.fill: parent
-        anchors.margins: 5
-        smooth: true
-        mipmap: true
-        sourceSize: Qt.size(width, height)
-        source: control.source
-        scale: control.iconScale
-    }
-
-    MouseArea {
-        id: mousearea
-        anchors.fill: parent
-        acceptedButtons: Qt.RightButton
-        drag.target: dragTarget
-        onClicked: (mouse) => {
-            control.rightClicked()
-            mouse.accepted = true
-        }
-    }
-
-    PQToolTip {
-
-        id: ttip
-
-        x: (parent != null ? (parent.width-width)/2 : 0)
-        y: -height-5
-
-    }
+    content: [
+    ]
 
 }
