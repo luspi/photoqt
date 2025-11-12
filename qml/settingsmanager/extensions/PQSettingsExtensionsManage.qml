@@ -149,41 +149,34 @@ PQSetting {
         PQButton {
             text: "Select and install extension"
             onClicked: {
-                extSuccess.visible = false
-                extAbort.visible = false
-                extFailure.visible = false
+                extStatus.visible = false
                 var f = PQCScriptsFilesPaths.openFileFromDialog("Install", PQCScriptsFilesPaths.getHomeDir(), "pqe")
                 if(PQCScriptsFilesPaths.doesItExist(f)) {
-                    var ret = PQCExtensionsHandler.installExtension(f)
-                    if(ret === 1)
-                        extSuccess.visible = true
-                    else if(ret === -1)
-                        extAbort.visible = true
-                    else
-                        extFailure.visible = true
+                    extStatus.code = PQCExtensionsHandler.installExtension(f)
+                    extStatus.visible = true
                 }
             }
         },
 
         PQTextL {
-            id: extSuccess
+            id: extStatus
             visible: false
-            text: "Extension successfully installed."
-            font.weight: PQCLook.fontWeightBold
-        },
-
-        PQTextL {
-            id: extAbort
-            visible: false
-            text: "Extension was not installed."
-            font.weight: PQCLook.fontWeightBold
-        },
-
-        PQTextL {
-            id: extFailure
-            text: "Extension failed to install..."
-            font.weight: PQCLook.fontWeightBold
-            visible: false
+            width: parent.width
+            wrapMode: Text.WrapAtWordBoundaryOrAnywhere
+            property int code: 0
+            text: "Result: " + (code==2 ?
+                      "Extension with this id exists already." :
+                      (code == 1 ?
+                           "Extension successfully installed." :
+                           (code == 0 ?
+                                "Extension failed to install." :
+                                (code == -1 ?
+                                     "Extension was not installed." :
+                                     (code == -2 ?
+                                          "Extensions support not available." :
+                                          (code == -3 ?
+                                               "Extension was installed but not all files could be extracted.\nIt might not work properly." :
+                                               ("Unknown status code: "+code)))))))
         }
 
     ]

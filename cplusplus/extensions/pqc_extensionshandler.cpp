@@ -87,287 +87,21 @@ void PQCExtensionsHandler::setup() {
                 continue;
 
             }
+            QFile fy(yamlfile);
+            if(!fy.open(QIODevice::ReadOnly)) {
+                qWarning() << "Unable to read definition.yml for reading";
+                continue;
+            }
+            QTextStream in(&fy);
+            QString definition = in.readAll();
 
             PQCExtensionInfo *extinfo = new PQCExtensionInfo;
 
             extinfo->location = QString("%1/%2").arg(baseDir, id);
 
-            YAML::Node config;
-
-            // LOAD yaml file
-            try {
-                config = YAML::LoadFile(yamlfile.toStdString());
-            } catch(YAML::Exception &e) {
-                qWarning() << "Extension:" << id << "- Failed to load YAML file:" << e.what();
+            if(!loadExtension(extinfo, id, baseDir, definition)) {
                 delete extinfo;
                 continue;
-            }
-
-            /***********************************/
-            // REQUIRED PROPERTIES: about
-
-            // version
-            try {
-                extinfo->version = config["about"]["version"].as<int>();
-            } catch(YAML::Exception &e) {
-                qWarning() << "Extension:" << id << "- Failed to read required value for 'version':" << e.what();
-                delete extinfo;
-                continue;
-            }
-
-            // name
-            try {
-                extinfo->name = QString::fromStdString(config["about"]["name"].as<std::string>());
-            } catch(YAML::Exception &e) {
-                qWarning() << "Extension:" << id << "- Failed to read required value for 'name':" << e.what();
-                delete extinfo;
-                continue;
-            }
-
-            // description
-            try {
-                extinfo->description = QString::fromStdString(config["about"]["description"].as<std::string>());
-            } catch(YAML::Exception &e) {
-                qWarning() << "Extension:" << id << "- Failed to read required value for 'description':" << e.what();
-                delete extinfo;
-                continue;
-            }
-
-            // author
-            try {
-                extinfo->author = QString::fromStdString(config["about"]["author"].as<std::string>());
-            } catch(YAML::Exception &e) {
-                qWarning() << "Extension:" << id << "- Failed to read required value for 'author':" << e.what();
-                delete extinfo;
-                continue;
-            }
-
-            // contact
-            try {
-                extinfo->contact = QString::fromStdString(config["about"]["contact"].as<std::string>());
-            } catch(YAML::Exception &e) {
-                qWarning() << "Extension:" << id << "- Failed to read required value for 'contact':" << e.what();
-                delete extinfo;
-                continue;
-            }
-
-            // website
-            try {
-                extinfo->website = QString::fromStdString(config["about"]["website"].as<std::string>());
-            } catch(YAML::Exception &e) {
-                qWarning() << "Extension:" << id << "- Failed to read required value for 'website':" << e.what();
-                delete extinfo;
-                continue;
-            }
-
-            // target API
-            try {
-                extinfo->targetAPI = config["about"]["targetAPI"].as<int>();
-
-                if(extinfo->targetAPI > CURRENTAPIVERSION) {
-                    qWarning() << "Required API version -" << extinfo->targetAPI << "- newer than what's supported:" << CURRENTAPIVERSION;
-                    qWarning() << "Extension" << id << "located at" << baseDir << "not enabled.";
-                    delete extinfo;
-                    continue;
-                }
-
-            } catch(YAML::Exception &e) {
-                qWarning() << "Extension:" << id << "- Failed to read required value for 'targetAPI':" << e.what();
-                delete extinfo;
-                continue;
-            }
-
-            /***********************************/
-            // OPTIONAL values
-
-            //////////////////////
-            // setup/integrated
-
-            // allow integrated
-            try {
-                extinfo->integratedAllow = config["setup"]["integrated"]["allow"].as<bool>();
-            } catch(YAML::Exception &e) {
-                qDebug() << "Extension:" << id << "- Optional value for 'integrated/allow' invalid or not found, skipping:" << e.what();
-            }
-
-            // minimum required window size
-            try {
-                std::list<int> vals = config["setup"]["integrated"]["minimumRequiredWindowSize"].as<std::list<int> >();
-                if(vals.size() != 2)
-                    qWarning() << "Extension:" << id << "- Expected two values (width, height) for property 'minimumRequiredWindowSize', but found" << vals.size();
-                else
-                    extinfo->integratedMinimumRequiredWindowSize = QSize(vals.front(), vals.back());
-            } catch(YAML::Exception &e) {
-                qDebug() << "Extension:" << id << "- Optional value for 'minimumRequiredWindowSize' invalid or not found, skipping:" << e.what();
-            }
-
-            // default position
-            try {
-                extinfo->integratedDefaultPosition = extinfo->getIntegerForPosition(config["setup"]["integrated"]["defaultPosition"].as<std::string>());
-            } catch(YAML::Exception &e) {
-                qDebug() << "Extension:" << id << "- Optional value for 'defaultPosition' invalid or not found, skipping:" << e.what();
-            }
-
-            // default distance from window edge
-            try {
-                extinfo->integratedDefaultDistanceFromEdge = config["setup"]["integrated"]["defaultDistanceFromEdge"].as<int>();
-            } catch(YAML::Exception &e) {
-                qDebug() << "Extension:" << id << "- Optional value for 'defaultDistanceFromEdge' invalid or not found, skipping:" << e.what();
-            }
-
-            // default integrated size
-            try {
-                std::list<int> vals = config["setup"]["integrated"]["defaultSize"].as<std::list<int> >();
-                if(vals.size() != 2)
-                    qWarning() << "Extension:" << id << "- Expected two values (width, height) for property 'integrated/defaultSize', but found" << vals.size();
-                else
-                    extinfo->integratedDefaultSize = QSize(vals.front(), vals.back());
-            } catch(YAML::Exception &e) {
-                qDebug() << "Extension:" << id << "- Optional value for 'integrated/defaultSize' invalid or not found, skipping:" << e.what();
-            }
-
-            // fix size to content
-            try {
-                extinfo->integratedFixSizeToContent = config["setup"]["integrated"]["fixSizeToContent"].as<bool>();
-            } catch(YAML::Exception &e) {
-                qDebug() << "Extension:" << id << "- Optional value for 'integrated/fixSizeToContent' invalid or not found, skipping:" << e.what();
-            }
-
-
-            //////////////////////
-            // setup/popout
-
-            // allow popout
-            try {
-                extinfo->popoutAllow = config["setup"]["popout"]["allow"].as<bool>();
-                if(!extinfo->popoutAllow && !extinfo->integratedAllow) {
-                    qWarning() << "Extension:" << id << "- At least one of integrated or popout needs to be enabled. Force-enabling integrated.";
-                    extinfo->integratedAllow = true;
-                }
-            } catch(YAML::Exception &e) {
-                qDebug() << "Extension:" << id << "- Optional value for 'popout/allow' invalid or not found, skipping:" << e.what();
-            }
-
-            // default popout size
-            try {
-                std::list<int> vals = config["setup"]["popout"]["defaultSize"].as<std::list<int> >();
-                if(vals.size() != 2)
-                    qWarning() << "Extension:" << id << "- Expected two values (width, height) for property 'popout/defaultSize', but found" << vals.size();
-                else
-                    extinfo->popoutDefaultSize = QSize(vals.front(), vals.back());
-            } catch(YAML::Exception &e) {
-                qDebug() << "Extension:" << id << "- Optional value for 'popout/defaultSize' invalid or not found, skipping:" << e.what();
-            }
-
-            // fix size to content
-            try {
-                extinfo->popoutFixSizeToContent = config["setup"]["popout"]["fixSizeToContent"].as<bool>();
-            } catch(YAML::Exception &e) {
-                qDebug() << "Extension:" << id << "- Optional value for 'popout/fixSizeToContent' invalid or not found, skipping:" << e.what();
-            }
-
-
-            //////////////////////
-            // setup
-
-            // make element modal
-            try {
-                extinfo->modal = config["setup"]["modal"].as<bool>();
-            } catch(YAML::Exception &e) {
-                qDebug() << "Extension:" << id << "- Optional value for 'modal' invalid or not found, skipping:" << e.what();
-            }
-
-            // default shortcut to toggle element
-            try {
-                extinfo->defaultShortcut = QString::fromStdString(config["setup"]["defaultShortcut"].as<std::string>());
-            } catch(YAML::Exception &e) {
-                qDebug() << "Extension:" << id << "- Optional value for 'defaultShortcut' invalid or not found, skipping:" << e.what();
-            }
-
-            // remember geometry
-            try {
-                extinfo->rememberGeometry = config["setup"]["rememberGeometry"].as<bool>();
-            } catch(YAML::Exception &e) {
-                qDebug() << "Extension:" << id << "- Optional value for 'rememberGeometry' invalid or not found, skipping:" << e.what();
-            }
-
-            // let me handle mouse events
-            try {
-                extinfo->letMeHandleMouseEvents = config["setup"]["letMeHandleMouseEvents"].as<bool>();
-            } catch(YAML::Exception &e) {
-                qDebug() << "Extension:" << id << "- Optional value for 'letMeHandleMouseEvents' invalid or not found, skipping:" << e.what();
-            }
-
-            // settings
-            try {
-
-                for(const auto &sets : config["setup"]["settings"]) {
-
-                    QStringList vals;
-                    for(auto const& l : sets)
-                        vals.append(QString::fromStdString(l.as<std::string>()));
-
-                    if(vals.length() == 3)
-                        extinfo->settings.append(vals);
-
-                }
-
-                // std::list<std::list<std::string> > vals = config["setup"]["shortcuts"].as<std::list<std::list<std::string> >();
-            } catch(YAML::Exception &e) {
-                qDebug() << "Extension:" << id << "- Optional value for 'settings' invalid or not found, skipping:" << e.what();
-            }
-
-            // whether CPP actions have been supplied
-            try {
-                extinfo->haveCPPActions = config["setup"]["haveCPPActions"].as<bool>();
-
-                if(extinfo->haveCPPActions) {
-
-                    // make sure we can find and load the actions
-                    QDir extDir(baseDir + "/" + id);
-#ifdef Q_OS_UNIX
-                    extDir.setNameFilters({"*.so"});
-#else
-                    extDir.setNameFilters({"*.dll"});
-#endif
-                    QStringList filList = extDir.entryList();
-
-                    if(filList.length() == 0) {
-
-                        qWarning() << "No shared library found at" << baseDir;
-                        qWarning() << "CPP actions of extension" << id << "have not been enabled!";
-                        extinfo->haveCPPActions = false;
-
-                    } else {
-
-                        const QString libName = QString("%1/%2/%3").arg(baseDir, id, filList.at(0));
-
-                        // linker file does not exist
-                        if(!QFile::exists(libName)) {
-                            qWarning() << "Expected file" << filList.at(0) << "not found.";
-                            qWarning() << "Extension" << id << "located at" << baseDir << "not enabled.";
-                            delete extinfo;
-                            continue;
-                        }
-
-                        QPluginLoader loader(libName);
-                        QObject *plugin = loader.instance();
-                        if(plugin) {
-
-                            PQCExtensionActions *actions = qobject_cast<PQCExtensionActions*>(plugin);
-
-                            if(actions) {
-                                connect(actions, &PQCExtensionActions::sendMessage, this, [=](QVariant val) { Q_EMIT receivedMessage(id, val); });
-                                m_actions.insert(id, actions);
-                            }
-                        }
-
-                    }
-
-                }
-
-            } catch(YAML::Exception &e) {
-                qDebug() << "Optional value for 'haveCPPActions' invalid or not found, skipping:" << e.what();
             }
 
             // all good so far, we have what we need
@@ -402,6 +136,286 @@ void PQCExtensionsHandler::setup() {
 }
 
 PQCExtensionsHandler::~PQCExtensionsHandler() {}
+
+bool PQCExtensionsHandler::loadExtension(PQCExtensionInfo *extinfo, QString id, QString baseDir, QString definition) {
+
+#ifdef PQMEXTENSIONS
+
+    YAML::Node config;
+
+    // LOAD yaml file
+    try {
+        config = YAML::Load(definition.toStdString());
+    } catch(YAML::Exception &e) {
+        qWarning() << "Extension:" << id << "- Failed to load YAML file:" << e.what();
+        return false;
+    }
+
+    /***********************************/
+    // REQUIRED PROPERTIES: about
+
+    // version
+    try {
+        extinfo->version = config["about"]["version"].as<int>();
+    } catch(YAML::Exception &e) {
+        qWarning() << "Extension:" << id << "- Failed to read required value for 'version':" << e.what();
+        return false;
+    }
+
+    // name
+    try {
+        extinfo->name = QString::fromStdString(config["about"]["name"].as<std::string>());
+    } catch(YAML::Exception &e) {
+        qWarning() << "Extension:" << id << "- Failed to read required value for 'name':" << e.what();
+        return false;
+    }
+
+    // description
+    try {
+        extinfo->description = QString::fromStdString(config["about"]["description"].as<std::string>());
+    } catch(YAML::Exception &e) {
+        qWarning() << "Extension:" << id << "- Failed to read required value for 'description':" << e.what();
+        return false;
+    }
+
+    // author
+    try {
+        extinfo->author = QString::fromStdString(config["about"]["author"].as<std::string>());
+    } catch(YAML::Exception &e) {
+        qWarning() << "Extension:" << id << "- Failed to read required value for 'author':" << e.what();
+        return false;
+    }
+
+    // contact
+    try {
+        extinfo->contact = QString::fromStdString(config["about"]["contact"].as<std::string>());
+    } catch(YAML::Exception &e) {
+        qWarning() << "Extension:" << id << "- Failed to read required value for 'contact':" << e.what();
+        return false;
+    }
+
+    // website
+    try {
+        extinfo->website = QString::fromStdString(config["about"]["website"].as<std::string>());
+    } catch(YAML::Exception &e) {
+        qWarning() << "Extension:" << id << "- Failed to read required value for 'website':" << e.what();
+        return false;
+    }
+
+    // target API
+    try {
+        extinfo->targetAPI = config["about"]["targetAPI"].as<int>();
+
+        if(extinfo->targetAPI > CURRENTAPIVERSION) {
+            qWarning() << "Required API version -" << extinfo->targetAPI << "- newer than what's supported:" << CURRENTAPIVERSION;
+            qWarning() << "Extension" << id << "located at" << baseDir << "not enabled.";
+            return false;
+        }
+
+    } catch(YAML::Exception &e) {
+        qWarning() << "Extension:" << id << "- Failed to read required value for 'targetAPI':" << e.what();
+        return false;
+    }
+
+    /***********************************/
+    // OPTIONAL values
+
+    //////////////////////
+    // setup/integrated
+
+    // allow integrated
+    try {
+        extinfo->integratedAllow = config["setup"]["integrated"]["allow"].as<bool>();
+    } catch(YAML::Exception &e) {
+        qDebug() << "Extension:" << id << "- Optional value for 'integrated/allow' invalid or not found, skipping:" << e.what();
+    }
+
+    // minimum required window size
+    try {
+        std::list<int> vals = config["setup"]["integrated"]["minimumRequiredWindowSize"].as<std::list<int> >();
+        if(vals.size() != 2)
+            qWarning() << "Extension:" << id << "- Expected two values (width, height) for property 'minimumRequiredWindowSize', but found" << vals.size();
+        else
+            extinfo->integratedMinimumRequiredWindowSize = QSize(vals.front(), vals.back());
+    } catch(YAML::Exception &e) {
+        qDebug() << "Extension:" << id << "- Optional value for 'minimumRequiredWindowSize' invalid or not found, skipping:" << e.what();
+    }
+
+    // default position
+    try {
+        extinfo->integratedDefaultPosition = extinfo->getIntegerForPosition(config["setup"]["integrated"]["defaultPosition"].as<std::string>());
+    } catch(YAML::Exception &e) {
+        qDebug() << "Extension:" << id << "- Optional value for 'defaultPosition' invalid or not found, skipping:" << e.what();
+    }
+
+    // default distance from window edge
+    try {
+        extinfo->integratedDefaultDistanceFromEdge = config["setup"]["integrated"]["defaultDistanceFromEdge"].as<int>();
+    } catch(YAML::Exception &e) {
+        qDebug() << "Extension:" << id << "- Optional value for 'defaultDistanceFromEdge' invalid or not found, skipping:" << e.what();
+    }
+
+    // default integrated size
+    try {
+        std::list<int> vals = config["setup"]["integrated"]["defaultSize"].as<std::list<int> >();
+        if(vals.size() != 2)
+            qWarning() << "Extension:" << id << "- Expected two values (width, height) for property 'integrated/defaultSize', but found" << vals.size();
+        else
+            extinfo->integratedDefaultSize = QSize(vals.front(), vals.back());
+    } catch(YAML::Exception &e) {
+        qDebug() << "Extension:" << id << "- Optional value for 'integrated/defaultSize' invalid or not found, skipping:" << e.what();
+    }
+
+    // fix size to content
+    try {
+        extinfo->integratedFixSizeToContent = config["setup"]["integrated"]["fixSizeToContent"].as<bool>();
+    } catch(YAML::Exception &e) {
+        qDebug() << "Extension:" << id << "- Optional value for 'integrated/fixSizeToContent' invalid or not found, skipping:" << e.what();
+    }
+
+
+    //////////////////////
+    // setup/popout
+
+    // allow popout
+    try {
+        extinfo->popoutAllow = config["setup"]["popout"]["allow"].as<bool>();
+        if(!extinfo->popoutAllow && !extinfo->integratedAllow) {
+            qWarning() << "Extension:" << id << "- At least one of integrated or popout needs to be enabled. Force-enabling integrated.";
+            extinfo->integratedAllow = true;
+        }
+    } catch(YAML::Exception &e) {
+        qDebug() << "Extension:" << id << "- Optional value for 'popout/allow' invalid or not found, skipping:" << e.what();
+    }
+
+    // default popout size
+    try {
+        std::list<int> vals = config["setup"]["popout"]["defaultSize"].as<std::list<int> >();
+        if(vals.size() != 2)
+            qWarning() << "Extension:" << id << "- Expected two values (width, height) for property 'popout/defaultSize', but found" << vals.size();
+        else
+            extinfo->popoutDefaultSize = QSize(vals.front(), vals.back());
+    } catch(YAML::Exception &e) {
+        qDebug() << "Extension:" << id << "- Optional value for 'popout/defaultSize' invalid or not found, skipping:" << e.what();
+    }
+
+    // fix size to content
+    try {
+        extinfo->popoutFixSizeToContent = config["setup"]["popout"]["fixSizeToContent"].as<bool>();
+    } catch(YAML::Exception &e) {
+        qDebug() << "Extension:" << id << "- Optional value for 'popout/fixSizeToContent' invalid or not found, skipping:" << e.what();
+    }
+
+
+    //////////////////////
+    // setup
+
+    // make element modal
+    try {
+        extinfo->modal = config["setup"]["modal"].as<bool>();
+    } catch(YAML::Exception &e) {
+        qDebug() << "Extension:" << id << "- Optional value for 'modal' invalid or not found, skipping:" << e.what();
+    }
+
+    // default shortcut to toggle element
+    try {
+        extinfo->defaultShortcut = QString::fromStdString(config["setup"]["defaultShortcut"].as<std::string>());
+    } catch(YAML::Exception &e) {
+        qDebug() << "Extension:" << id << "- Optional value for 'defaultShortcut' invalid or not found, skipping:" << e.what();
+    }
+
+    // remember geometry
+    try {
+        extinfo->rememberGeometry = config["setup"]["rememberGeometry"].as<bool>();
+    } catch(YAML::Exception &e) {
+        qDebug() << "Extension:" << id << "- Optional value for 'rememberGeometry' invalid or not found, skipping:" << e.what();
+    }
+
+    // let me handle mouse events
+    try {
+        extinfo->letMeHandleMouseEvents = config["setup"]["letMeHandleMouseEvents"].as<bool>();
+    } catch(YAML::Exception &e) {
+        qDebug() << "Extension:" << id << "- Optional value for 'letMeHandleMouseEvents' invalid or not found, skipping:" << e.what();
+    }
+
+    // settings
+    try {
+
+        for(const auto &sets : config["setup"]["settings"]) {
+
+            QStringList vals;
+            for(auto const& l : sets)
+                vals.append(QString::fromStdString(l.as<std::string>()));
+
+            if(vals.length() == 3)
+                extinfo->settings.append(vals);
+
+        }
+
+        // std::list<std::list<std::string> > vals = config["setup"]["shortcuts"].as<std::list<std::list<std::string> >();
+    } catch(YAML::Exception &e) {
+        qDebug() << "Extension:" << id << "- Optional value for 'settings' invalid or not found, skipping:" << e.what();
+    }
+
+    // whether CPP actions have been supplied
+    try {
+        extinfo->haveCPPActions = config["setup"]["haveCPPActions"].as<bool>();
+
+        if(extinfo->haveCPPActions) {
+
+            // make sure we can find and load the actions
+            QDir extDir(baseDir + "/" + id);
+#ifdef Q_OS_UNIX
+            extDir.setNameFilters({"*.so"});
+#else
+            extDir.setNameFilters({"*.dll"});
+#endif
+            QStringList filList = extDir.entryList();
+
+            if(filList.length() == 0) {
+
+                qWarning() << "No shared library found at" << baseDir;
+                qWarning() << "CPP actions of extension" << id << "have not been enabled!";
+                extinfo->haveCPPActions = false;
+
+            } else {
+
+                const QString libName = QString("%1/%2/%3").arg(baseDir, id, filList.at(0));
+
+                // linker file does not exist
+                if(!QFile::exists(libName)) {
+                    qWarning() << "Expected file" << filList.at(0) << "not found.";
+                    qWarning() << "Extension" << id << "located at" << baseDir << "not enabled.";
+                    return false;
+                }
+
+                QPluginLoader loader(libName);
+                QObject *plugin = loader.instance();
+                if(plugin) {
+
+                    PQCExtensionActions *actions = qobject_cast<PQCExtensionActions*>(plugin);
+
+                    if(actions) {
+                        connect(actions, &PQCExtensionActions::sendMessage, this, [=](QVariant val) { Q_EMIT receivedMessage(id, val); });
+                        m_actions.insert(id, actions);
+                    }
+                }
+
+            }
+
+        }
+
+    } catch(YAML::Exception &e) {
+        qDebug() << "Optional value for 'haveCPPActions' invalid or not found, skipping:" << e.what();
+    }
+
+    return true;
+
+#endif
+
+    return false;
+
+}
 
 QStringList PQCExtensionsHandler::getExtensions() {
     return m_extensions;
@@ -725,9 +739,20 @@ void PQCExtensionsHandler::setDisabledExtensions(QStringList ids) {
     m_extensionsDisabled = ids;
 }
 
+// return code:
+// 2: success, but id already exists (-> not loaded)
+// 1: success
+// 0: failure
+// -1: cancelled by user
+// -2: unsupported
+// -3: installed but not all files could be extracted successfully
 int PQCExtensionsHandler::installExtension(QString filepath) {
 
     qDebug() << "args: filepath =" << filepath;
+
+#if !defined(PQMEXTENSIONS) || !defined(PQMLIBARCHIVE)
+    return -2;
+#endif
 
     QHash<QString,QVariant> meta = getExtensionZipMetadata(filepath);
 
@@ -746,9 +771,120 @@ int PQCExtensionsHandler::installExtension(QString filepath) {
     if(msg.exec() == QMessageBox::No)
         return -1;
 
-    // TODO: install extension
+#ifdef PQMLIBARCHIVE
 
-    return 1;
+    // Create new archive handler
+    struct archive *a = archive_read_new();
+
+    // Read file
+    archive_read_support_format_all(a);
+    archive_read_support_filter_all(a);
+
+// Read file - if something went wrong, output error message and stop here
+#ifdef Q_OS_WIN
+    int r = archive_read_open_filename_w(a, reinterpret_cast<const wchar_t*>(archiveFile.utf16()), 10240);
+#else
+    int r = archive_read_open_filename(a, filepath.toLocal8Bit().data(), 10240);
+#endif
+    if(r != ARCHIVE_OK) {
+        QString msg = QString("ERROR: archive_read_open_filename() returned code of %1").arg(r);
+        qWarning() << msg;
+        return 0;
+    }
+
+    QByteArray definitionyml = "";
+
+    int numFilesSuccess = 0;
+    int numFilesFailure = 0;
+
+    QString extensionId = "";
+
+    // Loop over entries in archive
+    struct archive_entry *entry;
+    while(archive_read_next_header(a, &entry) == ARCHIVE_OK) {
+
+        // Read the current file entry
+        // We use the '_w' variant here, as otherwise on Windows this call causes a segfault when a file in an archive contains non-latin characters
+        QString filenameinside = QString::fromWCharArray(archive_entry_pathname_w(entry));
+
+        QString fullpath = PQCConfigFiles::get().DATA_DIR() + "/extensions/" + filenameinside;
+
+        if(fullpath.endsWith("/")) {
+            if(extensionId == "")
+                extensionId = filenameinside.replace("/", "").trimmed();
+            QDir dir;
+            if(!dir.mkpath(fullpath))
+                qWarning() << "Unable to make path:" << fullpath;
+        } else {
+
+            // store read data in here
+            const void *buff;
+            size_t size;
+            la_int64_t offset;
+
+            // The output file...
+            QFile file(fullpath);
+
+            // Overwrite old content
+            if(!file.open(QIODevice::WriteOnly | QIODevice::Truncate)) {
+                qWarning() << QString("ERROR: Unable to write file '%1'... Skipping file!").arg(filenameinside);
+                numFilesFailure += 1;
+                continue;
+            }
+            QDataStream out(&file);   // we will serialize the data into the file
+
+            // read data
+            while((r = archive_read_data_block(a, &buff, &size, &offset)) == ARCHIVE_OK) {
+                if(r != ARCHIVE_OK || size == 0) {
+                    numFilesFailure += 1;
+                    qWarning() << QString("ERROR: Unable to extract file '%1':").arg(filenameinside) << archive_error_string(a) << " " << QString("(%1)").arg(r) << " - Skipping file!";
+                    break;
+                }
+                out.writeRawData((const char*) buff, size);
+            }
+
+            numFilesSuccess += 1;
+
+            file.close();
+
+        }
+
+    }
+
+    if(numFilesSuccess > 0) {
+
+        if(m_allextensions.contains(extensionId))
+            return 2;
+
+        PQCExtensionInfo *extinfo = new PQCExtensionInfo;
+        extinfo->location = QString("%1/extensions/%2").arg(PQCConfigFiles::get().DATA_DIR(), extensionId);
+
+        QFile fy(QString("%1/definition.yml").arg(extinfo->location));
+        if(!fy.open(QIODevice::ReadOnly)) {
+            qWarning() << "Unable to read definition.yml for reading";
+            return -1;
+        }
+        QTextStream in(&fy);
+        QString definition = in.readAll();
+
+        if(!loadExtension(extinfo, extensionId, QString("%1/extensions/").arg(PQCConfigFiles::get().DATA_DIR()), definition)) {
+            delete extinfo;
+            return -1;
+        }
+
+        // all good so far, we have what we need
+        qDebug() << "Successfully loaded extension" << extensionId << "from location:" << PQCConfigFiles::get().DATA_DIR();
+
+        m_extensionsDisabled.append(extensionId);
+        m_allextensions.insert(extensionId, extinfo);
+
+    }
+
+    return (numFilesSuccess==0 ? 0 : (numFilesFailure > 0 ? -3 : 1));
+
+#endif
+
+    return -2;
 }
 
 QHash<QString,QVariant> PQCExtensionsHandler::getExtensionZipMetadata(QString filepath) {
@@ -758,6 +894,7 @@ QHash<QString,QVariant> PQCExtensionsHandler::getExtensionZipMetadata(QString fi
     QHash<QString,QVariant> ret;
 
 #ifdef PQMEXTENSIONS
+#ifdef PQMLIBARCHIVE
 
     // Create new archive handler
     struct archive *a = archive_read_new();
@@ -935,6 +1072,7 @@ QHash<QString,QVariant> PQCExtensionsHandler::getExtensionZipMetadata(QString fi
         return ret;
     return ret;
 
+#endif
 #endif
 
     ret.insert("error", "Extension support is not available.");

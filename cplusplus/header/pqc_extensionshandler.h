@@ -148,6 +148,7 @@ public:
 
     PQCExtensionsHandler(PQCExtensionsHandler const&)     = delete;
     void operator=(PQCExtensionsHandler const&) = delete;
+    bool loadExtension(PQCExtensionInfo *extinfo, QString id, QString baseDir, QString definition);
 
     // GLOBAL PROPERTIES
     Q_PROPERTY(int numExtensions MEMBER m_numExtensions NOTIFY numExtensionsChanged)
