@@ -709,3 +709,13 @@ void PQCExtensionsHandler::loadSettingsInBGToLookForShortcuts() {
     }
 
 }
+
+void PQCExtensionsHandler::setEnabledExtensions(QStringList ids) {
+    m_extensions = ids;
+    m_numExtensions = m_extensions.length();
+    Q_EMIT numExtensionsChanged();
+}
+
+void PQCExtensionsHandler::setDisabledExtensions(QStringList ids) {
+    m_extensionsDisabled = ids;
+}

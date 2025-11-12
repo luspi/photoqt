@@ -224,6 +224,11 @@ public:
     Q_INVOKABLE void addShortcut(QString id, QString sh);
     Q_INVOKABLE void removeShortcut(QString id);
 
+    /****************************/
+
+    Q_INVOKABLE void setEnabledExtensions(QStringList ids);
+    Q_INVOKABLE void setDisabledExtensions(QStringList ids);
+
 private:
     PQCExtensionsHandler();
 

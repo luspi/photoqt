@@ -115,6 +115,8 @@ PQSetting {
                                 set_maex.extensionsDisabled = set_maex.extensionsDisabled.filter(item => item!==deleg.extensionId)
                                 set_maex.extensionsEnabled.push(deleg.extensionId)
                             }
+                            set_maex.extensionsEnabled.sort()
+                            set_maex.extensionsDisabled.sort()
                         }
                     }
 
@@ -146,8 +148,11 @@ PQSetting {
             return
         }
 
-        PQCConstants.settingsManagerSettingChanged = (!PQF.areTwoListsEqual(extensionsEnabled, PQCExtensionsHandler.getExtensions()) ||
-                                                      !PQF.areTwoListsEqual(extensionsDisabled, PQCExtensionsHandler.getDisabledExtensions()))
+        var refE = PQCExtensionsHandler.getExtensions().sort()
+        var refD = PQCExtensionsHandler.getDisabledExtensions().sort()
+
+        PQCConstants.settingsManagerSettingChanged = (!PQF.areTwoListsEqual(extensionsEnabled, refE) ||
+                                                      !PQF.areTwoListsEqual(extensionsDisabled, refD))
 
     }
 
@@ -165,6 +170,13 @@ PQSetting {
 
     }
 
-    function applyChanges() {}
+    function applyChanges() {
+
+        PQCExtensionsHandler.setDisabledExtensions(extensionsDisabled)
+        PQCExtensionsHandler.setEnabledExtensions(extensionsEnabled)
+
+        PQCConstants.settingsManagerSettingChanged = false
+
+    }
 
 }
