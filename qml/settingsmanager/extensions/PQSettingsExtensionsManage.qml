@@ -78,6 +78,7 @@ PQSetting {
                     property string extAuthor: PQCExtensionsHandler.getExtensionAuthor(extensionId)
                     property string extContact: PQCExtensionsHandler.getExtensionContact(extensionId)
                     property string extWebsite: PQCExtensionsHandler.getExtensionWebsite(extensionId)
+                    property string extBaseDir: PQCExtensionsHandler.getExtensionLocation(extensionId)
 
                     width: col.width
                     height: 40
@@ -125,7 +126,7 @@ PQSetting {
                         x: deleg.width-width-5
                         y: (parent.height-height)/2
                         source: "image://svg/:/" + PQCLook.iconShade + "/about.svg"
-                        tooltip: "<h2>" + deleg.extName + "</h2><br><b>Version:</b> " + deleg.extVersion + "<br><b>Author:</b> " + deleg.extAuthor + "<br><b>Contact:</b> " + deleg.extContact + "<br><b>Website:</b> " + deleg.extWebsite
+                        tooltip: "<h2>" + deleg.extName + "</h2><b>Version:</b> " + deleg.extVersion + "<br><b>Author:</b> " + deleg.extAuthor + "<br><b>Contact:</b> " + deleg.extContact + "<br><b>Website:</b> " + deleg.extWebsite + "<br><br><b>Loaded from:</b><br>" + deleg.extBaseDir
                         tooltipDelay: 0
                     }
 

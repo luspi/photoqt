@@ -47,8 +47,8 @@ void PQCExtensionsHandler::setup() {
 
 #ifdef Q_OS_UNIX
 #ifdef NDEBUG
-    const QStringList checkDirs = {PQCConfigFiles::get().DATA_DIR() + "/extensions",
-                                   QString("%1/extensions").arg(PQMBUILDDIR)};
+    const QStringList checkDirs = {QString("%1/lib/PhotoQt/extensions").arg(PQMINSTALLPREFIX),
+                                   PQCConfigFiles::get().DATA_DIR() + "/extensions"};
 #else
     const QStringList checkDirs = {QString("%1/lib/PhotoQt/extensions").arg(PQMINSTALLPREFIX),
                                    PQCConfigFiles::get().DATA_DIR() + "/extensions",
@@ -72,6 +72,12 @@ void PQCExtensionsHandler::setup() {
         for(const QString &id : dirlist) {
 
             bool extEnabled = true;
+
+            if(m_allextensions.contains(id)) {
+                qDebug() << "Extension with id" << id << "exists already.";
+                qDebug() << "Extension located at" << QString("%1/%2").arg(baseDir,id) << "will not be loaded";
+                continue;
+            }
 
             if(!PQCSettingsCPP::get().getGeneralEnabledExtensions().contains(id)) {
                 qDebug() << "Extension" << id << "disabled.";
