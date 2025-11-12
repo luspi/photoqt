@@ -18,6 +18,11 @@
 #include <yaml-cpp/yaml.h>
 #endif
 
+#ifdef PQMLIBARCHIVE
+#include <archive.h>
+#include <archive_entry.h>
+#endif
+
 /****************************************************************/
 /****************************************************************/
 // This is the current/latest version supported by this build!
@@ -718,4 +723,221 @@ void PQCExtensionsHandler::setEnabledExtensions(QStringList ids) {
 
 void PQCExtensionsHandler::setDisabledExtensions(QStringList ids) {
     m_extensionsDisabled = ids;
+}
+
+int PQCExtensionsHandler::installExtension(QString filepath) {
+
+    qDebug() << "args: filepath =" << filepath;
+
+    QHash<QString,QVariant> meta = getExtensionZipMetadata(filepath);
+
+    if(meta.contains("error")) {
+        QMessageBox::critical(0, "Invalid extension", QString("The extension does not appear to be valid and cannot be installed.\n\nError message:\n%1").arg(meta["error"].toString()));
+        return 0;
+    }
+
+    QMessageBox msg;
+    msg.setWindowTitle("Install extension?");
+    msg.setText(QString("Do you want to install this extension?<br><br><b>Name:</b> %1 (version: %2)<br><b>Description:</b> %3<br><b>Author:</b> %4<br><b>Contact:</b> %5<br><b>Website:</b> %6").arg(meta["name"].toString()).arg(meta["version"].toInt()).arg(meta["description"].toString(), meta["author"].toString(), meta["contact"].toString(), meta["website"].toString()));
+    msg.setTextFormat(Qt::RichText);
+    msg.setStandardButtons(QMessageBox::Yes|QMessageBox::No);
+    msg.setDefaultButton(QMessageBox::No);
+
+    if(msg.exec() == QMessageBox::No)
+        return -1;
+
+    // TODO: install extension
+
+    return 1;
+}
+
+QHash<QString,QVariant> PQCExtensionsHandler::getExtensionZipMetadata(QString filepath) {
+
+    qDebug() << "args: filepath =" << filepath;
+
+    QHash<QString,QVariant> ret;
+
+#ifdef PQMEXTENSIONS
+
+    // Create new archive handler
+    struct archive *a = archive_read_new();
+
+    // Read file
+    archive_read_support_format_all(a);
+    archive_read_support_filter_all(a);
+
+// Read file - if something went wrong, output error message and stop here
+#ifdef Q_OS_WIN
+    int r = archive_read_open_filename_w(a, reinterpret_cast<const wchar_t*>(archiveFile.utf16()), 10240);
+#else
+    int r = archive_read_open_filename(a, filepath.toLocal8Bit().data(), 10240);
+#endif
+    if(r != ARCHIVE_OK) {
+        QString msg = QString("ERROR: archive_read_open_filename() returned code of %1").arg(r);
+        qWarning() << msg;
+        ret["error"] = msg;
+        return ret;
+    }
+
+    QByteArray definitionyml = "";
+
+    // Loop over entries in archive
+    struct archive_entry *entry;
+    while(archive_read_next_header(a, &entry) == ARCHIVE_OK) {
+
+        // Read the current file entry
+        // We use the '_w' variant here, as otherwise on Windows this call causes a segfault when a file in an archive contains non-latin characters
+        QString filenameinside = QString::fromWCharArray(archive_entry_pathname_w(entry));
+
+        QFileInfo info(filenameinside);
+
+        if(filenameinside.endsWith("definition.yml") && filenameinside.count("/") == 1) {
+
+            // store read data in here
+            const void *buff;
+            size_t size;
+            la_int64_t offset;
+
+            // read data
+            while((r = archive_read_data_block(a, &buff, &size, &offset)) == ARCHIVE_OK) {
+                if(r != ARCHIVE_OK || size == 0) {
+                    QString msg = QString("ERROR: Unable to read file 'definition.yml': %1 (%2)").arg(archive_error_string(a)).arg(r);
+                    qWarning() << msg;
+                    ret["error"] = msg;
+                    break;
+                }
+                definitionyml = QByteArray::fromRawData((const char*) buff, size);
+            }
+
+        }
+
+    }
+
+    bool err = false;
+
+    if(definitionyml != "") {
+
+        YAML::Node config;
+
+        // LOAD yaml file
+        try {
+            config = YAML::Load(definitionyml.toStdString());
+        } catch(YAML::Exception &e) {
+            QString msg = QString("Failed to load YAML file: %1").arg(e.what());
+            qWarning() << msg;
+            ret["error"] = msg;
+            err = true;
+        }
+
+        if(!err) {
+            // version
+            try {
+                ret["about"] = config["about"]["version"].as<int>();
+            } catch(YAML::Exception &e) {
+                QString msg = QString("Failed to read value for 'version': %1").arg(e.what());
+                qWarning() << msg;
+                ret["error"] = msg;
+                err = true;
+            }
+        }
+
+        if(!err) {
+            // name
+            try {
+                ret["name"] = QString::fromStdString(config["about"]["name"].as<std::string>());
+            } catch(YAML::Exception &e) {
+                QString msg = QString("Failed to read value for 'name': %1").arg(e.what());
+                qWarning() << msg;
+                ret["error"] = msg;
+                err = true;
+            }
+        }
+
+        if(!err) {
+            // description
+            try {
+                ret["description"] = QString::fromStdString(config["about"]["description"].as<std::string>());
+            } catch(YAML::Exception &e) {
+                QString msg = QString("Failed to read value for 'description': %1").arg(e.what());
+                qWarning() << msg;
+                ret["error"] = msg;
+                err = true;
+            }
+        }
+
+        if(!err) {
+            // author
+            try {
+                ret["author"] = QString::fromStdString(config["about"]["author"].as<std::string>());
+            } catch(YAML::Exception &e) {
+                QString msg = QString("Failed to read value for 'author': %1").arg(e.what());
+                qWarning() << msg;
+                ret["error"] = msg;
+                err = true;
+            }
+        }
+
+        if(!err) {
+            // contact
+            try {
+                ret["contact"] = QString::fromStdString(config["about"]["contact"].as<std::string>());
+            } catch(YAML::Exception &e) {
+                QString msg = QString("Failed to read value for 'contact': %1").arg(e.what());
+                qWarning() << msg;
+                ret["error"] = msg;
+                err = true;
+            }
+        }
+
+        if(!err) {
+            // website
+            try {
+                ret["website"] = QString::fromStdString(config["about"]["website"].as<std::string>());
+            } catch(YAML::Exception &e) {
+                QString msg = QString("Failed to read value for 'website': %1").arg(e.what());
+                qWarning() << msg;
+                ret["error"] = msg;
+                err = true;
+            }
+        }
+
+        if(!err) {
+            // target API
+            try {
+                ret["targetAPI"] = config["about"]["targetAPI"].as<int>();
+
+                if(ret["targetAPI"].toInt() > CURRENTAPIVERSION) {
+                    QString msg = QString("Required API version - %1 - newer than what's supported: %2").arg(ret["targetAPI"].toInt()).arg(CURRENTAPIVERSION);
+                    qWarning() << msg;
+                    ret["error"] = msg;
+                    err = true;
+                }
+
+            } catch(YAML::Exception &e) {
+                QString msg = QString("Failed to read value for 'targetAPI': %1").arg(e.what());
+                qWarning() << msg;
+                ret["error"] = msg;
+                err = true;
+            }
+        }
+
+    }
+
+    // Close archive
+    r = archive_read_close(a);
+    if(r != ARCHIVE_OK)
+        qWarning() << "ERROR: archive_read_close() returned code of" << r;
+    r = archive_read_free(a);
+    if(r != ARCHIVE_OK)
+        qWarning() << "ERROR: archive_read_free() returned code of" << r;
+
+    if(err)
+        return ret;
+    return ret;
+
+#endif
+
+    ret.insert("error", "Extension support is not available.");
+    return ret;
+
 }

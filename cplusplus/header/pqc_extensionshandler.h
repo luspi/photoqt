@@ -226,8 +226,10 @@ public:
 
     /****************************/
 
+    // these are predominantly used by the settings manager
     Q_INVOKABLE void setEnabledExtensions(QStringList ids);
     Q_INVOKABLE void setDisabledExtensions(QStringList ids);
+    Q_INVOKABLE int installExtension(QString filepath);
 
 private:
     PQCExtensionsHandler();
@@ -248,6 +250,8 @@ private:
     int m_numExtensions;
 
     void loadSettingsInBGToLookForShortcuts();
+
+    QHash<QString, QVariant> getExtensionZipMetadata(QString filepath);
 
 Q_SIGNALS:
     Q_INVOKABLE void requestResetGeometry(QString id);

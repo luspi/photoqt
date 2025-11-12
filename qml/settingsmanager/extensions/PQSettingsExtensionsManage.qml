@@ -133,6 +133,57 @@ PQSetting {
 
             }
 
+        },
+
+        /***************************************/
+
+        PQSettingSubtitle {
+
+            //: A settings title
+            title: qsTranslate("settingsmanager", "Install extension")
+
+            helptext: qsTranslate("settingsmanager", "PhotoQt can be extended with new extensions. Please be careful with where you get any extension and make sure that you trust the source before installing any extension.")
+
+        },
+
+        PQButton {
+            text: "Select and install extension"
+            onClicked: {
+                extSuccess.visible = false
+                extAbort.visible = false
+                extFailure.visible = false
+                var f = PQCScriptsFilesPaths.openFileFromDialog("Install", PQCScriptsFilesPaths.getHomeDir(), "pqe")
+                if(PQCScriptsFilesPaths.doesItExist(f)) {
+                    var ret = PQCExtensionsHandler.installExtension(f)
+                    if(ret === 1)
+                        extSuccess.visible = true
+                    else if(ret === -1)
+                        extAbort.visible = true
+                    else
+                        extFailure.visible = true
+                }
+            }
+        },
+
+        PQTextL {
+            id: extSuccess
+            visible: false
+            text: "Extension successfully installed."
+            font.weight: PQCLook.fontWeightBold
+        },
+
+        PQTextL {
+            id: extAbort
+            visible: false
+            text: "Extension was not installed."
+            font.weight: PQCLook.fontWeightBold
+        },
+
+        PQTextL {
+            id: extFailure
+            text: "Extension failed to install..."
+            font.weight: PQCLook.fontWeightBold
+            visible: false
         }
 
     ]
