@@ -93,6 +93,9 @@ void PQCExtensionsHandler::setup() {
                     continue;
 
                 }
+
+#else
+                qDebug() << "Debug build => extension verification is disabled";
 #endif
 
                 bool extEnabled = true;
