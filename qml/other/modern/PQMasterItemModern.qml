@@ -131,7 +131,7 @@ Loader {
                 var exts = PQCExtensionsHandler.getExtensions()
                 for(var iE in exts) {
                     var ext = exts[iE]
-                    if(PQCSettings.generalEnabledExtensions.indexOf(ext) > -1 && PQCSettings.generalSetupFloatingExtensionsAtStartup.indexOf(ext) > -1) {
+                    if(PQCSettings.generalExtensionsEnabled.indexOf(ext) > -1 && PQCSettings.generalExtensionsFloatingSetup.indexOf(ext) > -1) {
                         PQCNotify.loaderSetupExtension(ext)
                     }
                 }

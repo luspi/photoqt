@@ -200,6 +200,11 @@ if(WITH_EXTENSIONS_SUPPORT)
         message("** yaml-cpp not found. Disabling extensions.")
         SET(WITH_EXTENSIONS_SUPPORT OFF)
     endif()
+    find_package(Qca REQUIRED)
+    if(NOT ${Qca_FOUND})
+        message("** QCA not found. Disabling extensions.")
+        SET(WITH_EXTENSIONS_SUPPORT OFF)
+    endif()
 endif()
 
 if(WITH_EXIV2)
@@ -447,7 +452,8 @@ if(QT_KNOWN_POLICY_QTP0004)
 endif()
 
 # add qml files
-qt_add_qml_module(photoqt URI PhotoQt VERSION 1.0 QML_FILES ${photoqt_QML})
+qt_add_qml_module(photoqt URI PhotoQt VERSION 1.0 QML_FILES ${photoqt_QML}
+    RESOURCES misc/extensions/public_rsa.pem)
 
 ###########################
 # cmake macros
@@ -679,7 +685,7 @@ else()
 endif()
 
 if(WITH_EXTENSIONS_SUPPORT)
-    list(APPEND STATUS_ENABLED "Extensions (yaml-cpp)")
+    list(APPEND STATUS_ENABLED "Extensions (yaml-cpp/qac)")
     set(BUILD_EXTENSIONS_AS_PART_OF_PHOTOQT ON)
     add_subdirectory("extensions/")
     pqt_target_compile_definitions(PQMINSTALLPREFIX ${CMAKE_INSTALL_PREFIX})
@@ -687,6 +693,8 @@ if(WITH_EXTENSIONS_SUPPORT)
     pqt_target_compile_definitions(PQMSOURCEDIR ${CMAKE_SOURCE_DIR})
     pqt_target_compile_definitions(PQMEXTENSIONS)
     pqt_target_link_libraries(yaml-cpp)
+    pqt_target_link_libraries("${Qca_LIBRARY}")
+    pqt_target_include_directories("${Qca_INCLUDE_DIR}")
 else()
     list(APPEND STATUS_DISABLED "Extensions (yaml-cpp)")
 endif()

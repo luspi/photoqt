@@ -206,9 +206,10 @@ PQCSettings::PQCSettings() {
     // table: general
     connect(this, &PQCSettings::generalAutoSaveSettingsChanged, this, [=]() { saveChangedValue("generalAutoSaveSettings", m_generalAutoSaveSettings); });
     connect(this, &PQCSettings::generalCompactSettingsChanged, this, [=]() { saveChangedValue("generalCompactSettings", m_generalCompactSettings); });
-    connect(this, &PQCSettings::generalEnabledExtensionsChanged, this, [=]() { saveChangedValue("generalEnabledExtensions", m_generalEnabledExtensions); });
+    connect(this, &PQCSettings::generalExtensionsEnabledChanged, this, [=]() { saveChangedValue("generalExtensionsEnabled", m_generalExtensionsEnabled); });
+    connect(this, &PQCSettings::generalExtensionsEnforeVerificationChanged, this, [=]() { saveChangedValue("generalExtensionsEnforeVerification", m_generalExtensionsEnforeVerification); });
+    connect(this, &PQCSettings::generalExtensionsFloatingSetupChanged, this, [=]() { saveChangedValue("generalExtensionsFloatingSetup", m_generalExtensionsFloatingSetup); });
     connect(this, &PQCSettings::generalInterfaceVariantChanged, this, [=]() { saveChangedValue("generalInterfaceVariant", m_generalInterfaceVariant); });
-    connect(this, &PQCSettings::generalSetupFloatingExtensionsAtStartupChanged, this, [=]() { saveChangedValue("generalSetupFloatingExtensionsAtStartup", m_generalSetupFloatingExtensionsAtStartup); });
     connect(this, &PQCSettings::generalVersionChanged, this, [=]() { saveChangedValue("generalVersion", m_generalVersion); });
     // table: imageview
     connect(this, &PQCSettings::imageviewAdvancedSortAscendingChanged, this, [=]() { saveChangedValue("imageviewAdvancedSortAscending", m_imageviewAdvancedSortAscending); });
@@ -1889,26 +1890,71 @@ void PQCSettings::setDefaultForGeneralCompactSettings() {
     }
 }
 
-QStringList PQCSettings::getGeneralEnabledExtensions() {
-    return m_generalEnabledExtensions;
+QStringList PQCSettings::getGeneralExtensionsEnabled() {
+    return m_generalExtensionsEnabled;
 }
 
-void PQCSettings::setGeneralEnabledExtensions(QStringList val) {
-    if(val != m_generalEnabledExtensions) {
-        m_generalEnabledExtensions = val;
-        Q_EMIT generalEnabledExtensionsChanged();
+void PQCSettings::setGeneralExtensionsEnabled(QStringList val) {
+    if(val != m_generalExtensionsEnabled) {
+        m_generalExtensionsEnabled = val;
+        Q_EMIT generalExtensionsEnabledChanged();
     }
 }
 
-const QStringList PQCSettings::getDefaultForGeneralEnabledExtensions() {
+const QStringList PQCSettings::getDefaultForGeneralExtensionsEnabled() {
         return QStringList() << "CropImage" << "ExportImage" << "FloatingNavigation" << "Histogram" << "ImgurCom" << "MapCurrent" << "QuickActions" << "ScaleImage" << "Wallpaper";
 }
 
-void PQCSettings::setDefaultForGeneralEnabledExtensions() {
+void PQCSettings::setDefaultForGeneralExtensionsEnabled() {
     QStringList tmp = QStringList() << "CropImage" << "ExportImage" << "FloatingNavigation" << "Histogram" << "ImgurCom" << "MapCurrent" << "QuickActions" << "ScaleImage" << "Wallpaper";
-    if(tmp != m_generalEnabledExtensions) {
-        m_generalEnabledExtensions = tmp;
-        Q_EMIT generalEnabledExtensionsChanged();
+    if(tmp != m_generalExtensionsEnabled) {
+        m_generalExtensionsEnabled = tmp;
+        Q_EMIT generalExtensionsEnabledChanged();
+    }
+}
+
+bool PQCSettings::getGeneralExtensionsEnforeVerification() {
+    return m_generalExtensionsEnforeVerification;
+}
+
+void PQCSettings::setGeneralExtensionsEnforeVerification(bool val) {
+    if(val != m_generalExtensionsEnforeVerification) {
+        m_generalExtensionsEnforeVerification = val;
+        Q_EMIT generalExtensionsEnforeVerificationChanged();
+    }
+}
+
+const bool PQCSettings::getDefaultForGeneralExtensionsEnforeVerification() {
+        return true;
+}
+
+void PQCSettings::setDefaultForGeneralExtensionsEnforeVerification() {
+    if(true != m_generalExtensionsEnforeVerification) {
+        m_generalExtensionsEnforeVerification = true;
+        Q_EMIT generalExtensionsEnforeVerificationChanged();
+    }
+}
+
+QStringList PQCSettings::getGeneralExtensionsFloatingSetup() {
+    return m_generalExtensionsFloatingSetup;
+}
+
+void PQCSettings::setGeneralExtensionsFloatingSetup(QStringList val) {
+    if(val != m_generalExtensionsFloatingSetup) {
+        m_generalExtensionsFloatingSetup = val;
+        Q_EMIT generalExtensionsFloatingSetupChanged();
+    }
+}
+
+const QStringList PQCSettings::getDefaultForGeneralExtensionsFloatingSetup() {
+        return QStringList() << "";
+}
+
+void PQCSettings::setDefaultForGeneralExtensionsFloatingSetup() {
+    QStringList tmp = QStringList() << "";
+    if(tmp != m_generalExtensionsFloatingSetup) {
+        m_generalExtensionsFloatingSetup = tmp;
+        Q_EMIT generalExtensionsFloatingSetupChanged();
     }
 }
 
@@ -1931,29 +1977,6 @@ void PQCSettings::setDefaultForGeneralInterfaceVariant() {
     if("modern" != m_generalInterfaceVariant) {
         m_generalInterfaceVariant = "modern";
         Q_EMIT generalInterfaceVariantChanged();
-    }
-}
-
-QStringList PQCSettings::getGeneralSetupFloatingExtensionsAtStartup() {
-    return m_generalSetupFloatingExtensionsAtStartup;
-}
-
-void PQCSettings::setGeneralSetupFloatingExtensionsAtStartup(QStringList val) {
-    if(val != m_generalSetupFloatingExtensionsAtStartup) {
-        m_generalSetupFloatingExtensionsAtStartup = val;
-        Q_EMIT generalSetupFloatingExtensionsAtStartupChanged();
-    }
-}
-
-const QStringList PQCSettings::getDefaultForGeneralSetupFloatingExtensionsAtStartup() {
-        return QStringList() << "";
-}
-
-void PQCSettings::setDefaultForGeneralSetupFloatingExtensionsAtStartup() {
-    QStringList tmp = QStringList() << "";
-    if(tmp != m_generalSetupFloatingExtensionsAtStartup) {
-        m_generalSetupFloatingExtensionsAtStartup = tmp;
-        Q_EMIT generalSetupFloatingExtensionsAtStartupChanged();
     }
 }
 
@@ -6770,24 +6793,26 @@ void PQCSettings::readDB() {
                     m_generalAutoSaveSettings = value.toInt();
                 } else if(name == "CompactSettings") {
                     m_generalCompactSettings = value.toInt();
-                } else if(name == "EnabledExtensions") {
+                } else if(name == "ExtensionsEnabled") {
                     QString val = value.toString();
                     if(val.contains(":://::"))
-                        m_generalEnabledExtensions = val.split(":://::");
+                        m_generalExtensionsEnabled = val.split(":://::");
                     else if(val != "")
-                        m_generalEnabledExtensions = QStringList() << val;
+                        m_generalExtensionsEnabled = QStringList() << val;
                     else
-                        m_generalEnabledExtensions = QStringList();
+                        m_generalExtensionsEnabled = QStringList();
+                } else if(name == "ExtensionsEnforeVerification") {
+                    m_generalExtensionsEnforeVerification = value.toInt();
+                } else if(name == "ExtensionsFloatingSetup") {
+                    QString val = value.toString();
+                    if(val.contains(":://::"))
+                        m_generalExtensionsFloatingSetup = val.split(":://::");
+                    else if(val != "")
+                        m_generalExtensionsFloatingSetup = QStringList() << val;
+                    else
+                        m_generalExtensionsFloatingSetup = QStringList();
                 } else if(name == "InterfaceVariant") {
                     m_generalInterfaceVariant = value.toString();
-                } else if(name == "SetupFloatingExtensionsAtStartup") {
-                    QString val = value.toString();
-                    if(val.contains(":://::"))
-                        m_generalSetupFloatingExtensionsAtStartup = val.split(":://::");
-                    else if(val != "")
-                        m_generalSetupFloatingExtensionsAtStartup = QStringList() << val;
-                    else
-                        m_generalSetupFloatingExtensionsAtStartup = QStringList();
                 } else if(name == "Version") {
                     m_generalVersion = value.toString();
                 }
@@ -7600,9 +7625,10 @@ void PQCSettings::setupFresh() {
     // table: general
     m_generalAutoSaveSettings = false;
     m_generalCompactSettings = false;
-    m_generalEnabledExtensions = QStringList() << "CropImage" << "ExportImage" << "FloatingNavigation" << "Histogram" << "ImgurCom" << "MapCurrent" << "QuickActions" << "ScaleImage" << "Wallpaper";
+    m_generalExtensionsEnabled = QStringList() << "CropImage" << "ExportImage" << "FloatingNavigation" << "Histogram" << "ImgurCom" << "MapCurrent" << "QuickActions" << "ScaleImage" << "Wallpaper";
+    m_generalExtensionsEnforeVerification = true;
+    m_generalExtensionsFloatingSetup = QStringList();
     m_generalInterfaceVariant = "modern";
-    m_generalSetupFloatingExtensionsAtStartup = QStringList();
     m_generalVersion = PQMVERSION;
 
     // table: imageview
@@ -7924,9 +7950,10 @@ void PQCSettings::resetToDefault() {
     // table: general
     setDefaultForGeneralAutoSaveSettings();
     setDefaultForGeneralCompactSettings();
-    setDefaultForGeneralEnabledExtensions();
+    setDefaultForGeneralExtensionsEnabled();
+    setDefaultForGeneralExtensionsEnforeVerification();
+    setDefaultForGeneralExtensionsFloatingSetup();
     setDefaultForGeneralInterfaceVariant();
-    setDefaultForGeneralSetupFloatingExtensionsAtStartup();
     setDefaultForGeneralVersion();
 
     // table: imageview
@@ -8432,17 +8459,21 @@ void PQCSettings::updateFromCommandLine() {
         m_generalCompactSettings = (val.toInt()==1);
         Q_EMIT generalCompactSettingsChanged();
     }
-    if(key == "generalEnabledExtensions") {
-        m_generalEnabledExtensions = val.split(":://::");
-        Q_EMIT generalEnabledExtensionsChanged();
+    if(key == "generalExtensionsEnabled") {
+        m_generalExtensionsEnabled = val.split(":://::");
+        Q_EMIT generalExtensionsEnabledChanged();
+    }
+    if(key == "generalExtensionsEnforeVerification") {
+        m_generalExtensionsEnforeVerification = (val.toInt()==1);
+        Q_EMIT generalExtensionsEnforeVerificationChanged();
+    }
+    if(key == "generalExtensionsFloatingSetup") {
+        m_generalExtensionsFloatingSetup = val.split(":://::");
+        Q_EMIT generalExtensionsFloatingSetupChanged();
     }
     if(key == "generalInterfaceVariant") {
         m_generalInterfaceVariant = val;
         Q_EMIT generalInterfaceVariantChanged();
-    }
-    if(key == "generalSetupFloatingExtensionsAtStartup") {
-        m_generalSetupFloatingExtensionsAtStartup = val.split(":://::");
-        Q_EMIT generalSetupFloatingExtensionsAtStartupChanged();
     }
     if(key == "generalVersion") {
         m_generalVersion = val;

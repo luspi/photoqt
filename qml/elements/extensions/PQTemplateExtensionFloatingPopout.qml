@@ -294,7 +294,7 @@ Window {
                 return
             }
             settings["ExtShow"] = false
-            PQCSettings.generalSetupFloatingExtensionsAtStartup = PQCSettings.generalSetupFloatingExtensionsAtStartup.filter(function(entry) { return entry !== extensionId; });
+            PQCSettings.generalExtensionsFloatingSetup = PQCSettings.generalExtensionsFloatingSetup.filter(function(entry) { return entry !== extensionId; });
 
         } else {
             var ret = popout_loader.item.showing()
@@ -303,8 +303,8 @@ Window {
                 return
             }
             settings["ExtShow"] = true
-            if(!PQCSettings.generalSetupFloatingExtensionsAtStartup.includes(extensionId))
-                PQCSettings.generalSetupFloatingExtensionsAtStartup.push(extensionId)
+            if(!PQCSettings.generalExtensionsFloatingSetup.includes(extensionId))
+                PQCSettings.generalExtensionsFloatingSetup.push(extensionId)
         }
 
     }

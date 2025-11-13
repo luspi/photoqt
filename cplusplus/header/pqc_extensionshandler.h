@@ -254,6 +254,9 @@ private:
 
     QHash<QString, QVariant> getExtensionZipMetadata(QString filepath);
 
+    bool verifyExtension(QString baseDir, QString id);
+    QStringList listFilesIn(QString dir);
+
 Q_SIGNALS:
     Q_INVOKABLE void requestResetGeometry(QString id);
 

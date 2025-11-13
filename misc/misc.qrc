@@ -8,5 +8,6 @@
         <file>imgurhistory.db</file>
         <file>defaultsettings.db</file>
         <file>usersettings.db</file>
+        <file>extensions/public_rsa.pem</file>
     </qresource>
 </RCC>

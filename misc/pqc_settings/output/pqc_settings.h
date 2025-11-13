@@ -457,23 +457,29 @@ public:
     Q_INVOKABLE const bool getDefaultForGeneralCompactSettings();
     Q_INVOKABLE void setDefaultForGeneralCompactSettings();
 
-    Q_PROPERTY(QStringList generalEnabledExtensions READ getGeneralEnabledExtensions WRITE setGeneralEnabledExtensions NOTIFY generalEnabledExtensionsChanged)
-    QStringList getGeneralEnabledExtensions();
-    void setGeneralEnabledExtensions(QStringList val);
-    Q_INVOKABLE const QStringList getDefaultForGeneralEnabledExtensions();
-    Q_INVOKABLE void setDefaultForGeneralEnabledExtensions();
+    Q_PROPERTY(QStringList generalExtensionsEnabled READ getGeneralExtensionsEnabled WRITE setGeneralExtensionsEnabled NOTIFY generalExtensionsEnabledChanged)
+    QStringList getGeneralExtensionsEnabled();
+    void setGeneralExtensionsEnabled(QStringList val);
+    Q_INVOKABLE const QStringList getDefaultForGeneralExtensionsEnabled();
+    Q_INVOKABLE void setDefaultForGeneralExtensionsEnabled();
+
+    Q_PROPERTY(bool generalExtensionsEnforeVerification READ getGeneralExtensionsEnforeVerification WRITE setGeneralExtensionsEnforeVerification NOTIFY generalExtensionsEnforeVerificationChanged)
+    bool getGeneralExtensionsEnforeVerification();
+    void setGeneralExtensionsEnforeVerification(bool val);
+    Q_INVOKABLE const bool getDefaultForGeneralExtensionsEnforeVerification();
+    Q_INVOKABLE void setDefaultForGeneralExtensionsEnforeVerification();
+
+    Q_PROPERTY(QStringList generalExtensionsFloatingSetup READ getGeneralExtensionsFloatingSetup WRITE setGeneralExtensionsFloatingSetup NOTIFY generalExtensionsFloatingSetupChanged)
+    QStringList getGeneralExtensionsFloatingSetup();
+    void setGeneralExtensionsFloatingSetup(QStringList val);
+    Q_INVOKABLE const QStringList getDefaultForGeneralExtensionsFloatingSetup();
+    Q_INVOKABLE void setDefaultForGeneralExtensionsFloatingSetup();
 
     Q_PROPERTY(QString generalInterfaceVariant READ getGeneralInterfaceVariant WRITE setGeneralInterfaceVariant NOTIFY generalInterfaceVariantChanged)
     QString getGeneralInterfaceVariant();
     void setGeneralInterfaceVariant(QString val);
     Q_INVOKABLE const QString getDefaultForGeneralInterfaceVariant();
     Q_INVOKABLE void setDefaultForGeneralInterfaceVariant();
-
-    Q_PROPERTY(QStringList generalSetupFloatingExtensionsAtStartup READ getGeneralSetupFloatingExtensionsAtStartup WRITE setGeneralSetupFloatingExtensionsAtStartup NOTIFY generalSetupFloatingExtensionsAtStartupChanged)
-    QStringList getGeneralSetupFloatingExtensionsAtStartup();
-    void setGeneralSetupFloatingExtensionsAtStartup(QStringList val);
-    Q_INVOKABLE const QStringList getDefaultForGeneralSetupFloatingExtensionsAtStartup();
-    Q_INVOKABLE void setDefaultForGeneralSetupFloatingExtensionsAtStartup();
 
     Q_PROPERTY(QString generalVersion READ getGeneralVersion WRITE setGeneralVersion NOTIFY generalVersionChanged)
     QString getGeneralVersion();
@@ -1868,9 +1874,10 @@ private:
     // table: general
     bool m_generalAutoSaveSettings;
     bool m_generalCompactSettings;
-    QStringList m_generalEnabledExtensions;
+    QStringList m_generalExtensionsEnabled;
+    bool m_generalExtensionsEnforeVerification;
+    QStringList m_generalExtensionsFloatingSetup;
     QString m_generalInterfaceVariant;
-    QStringList m_generalSetupFloatingExtensionsAtStartup;
     QString m_generalVersion;
 
     // table: imageview
@@ -2179,9 +2186,10 @@ Q_SIGNALS:
     // table: general
     void generalAutoSaveSettingsChanged();
     void generalCompactSettingsChanged();
-    void generalEnabledExtensionsChanged();
+    void generalExtensionsEnabledChanged();
+    void generalExtensionsEnforeVerificationChanged();
+    void generalExtensionsFloatingSetupChanged();
     void generalInterfaceVariantChanged();
-    void generalSetupFloatingExtensionsAtStartupChanged();
     void generalVersionChanged();
 
     // table: imageview

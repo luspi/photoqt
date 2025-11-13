@@ -219,7 +219,7 @@ PQSetting {
 
         PQCExtensionsHandler.setDisabledExtensions(extensionsDisabled)
         PQCExtensionsHandler.setEnabledExtensions(extensionsEnabled)
-        PQCSettings.generalEnabledExtensions = extensionsEnabled
+        PQCSettings.generalExtensionsEnabled = extensionsEnabled
 
         PQCConstants.settingsManagerSettingChanged = false
 

@@ -13,9 +13,11 @@
 #include <scripts/pqc_scriptsfilespaths.h>
 #include <pqc_imageformats.h>
 #include <pqc_extensionsettings.h>
+#include <QCryptographicHash>
 
 #ifdef PQMEXTENSIONS
 #include <yaml-cpp/yaml.h>
+#include <QtCrypto>
 #endif
 
 #ifdef PQMLIBARCHIVE
@@ -43,100 +45,112 @@ PQCExtensionsHandler::PQCExtensionsHandler() {
 
 void PQCExtensionsHandler::setup() {
 
+    QFuture<void> future = QtConcurrent::run([=] {
+
 #ifdef PQMEXTENSIONS
 
 #ifdef Q_OS_UNIX
 #ifdef NDEBUG
-    const QStringList checkDirs = {QString("%1/lib/PhotoQt/extensions").arg(PQMINSTALLPREFIX),
-                                   PQCConfigFiles::get().DATA_DIR() + "/extensions"};
+        const QStringList checkDirs = {QString("%1/lib/PhotoQt/extensions").arg(PQMINSTALLPREFIX),
+                                       PQCConfigFiles::get().DATA_DIR() + "/extensions"};
 #else
-    const QStringList checkDirs = {QString("%1/lib/PhotoQt/extensions").arg(PQMINSTALLPREFIX),
-                                   PQCConfigFiles::get().DATA_DIR() + "/extensions",
-                                   QString("%1/extensions").arg(PQMBUILDDIR)};
+        const QStringList checkDirs = {QString("%1/lib/PhotoQt/extensions").arg(PQMINSTALLPREFIX),
+                                       PQCConfigFiles::get().DATA_DIR() + "/extensions",
+                                       QString("%1/extensions").arg(PQMBUILDDIR)};
 #endif
 #else
-    const QStringList checkDirs = {qgetenv("PHOTOQT_EXE_BASEDIR"),
-                                   PQCConfigFiles::get().DATA_DIR() + "/extensions"};
+        const QStringList checkDirs = {qgetenv("PHOTOQT_EXE_BASEDIR") + "/extensions",
+                                       PQCConfigFiles::get().DATA_DIR() + "/extensions"};
 #endif
 
-    // This needs to be instantiated to make sure that the CPP class has been populated.
-    // Even though this object is not to be used anywhere.
+        // This needs to be instantiated to make sure that the CPP class has been populated.
+        // Even though this object is not to be used anywhere.
 
-    qDebug() << "Checking the following directories for plugins:" << checkDirs.join(", ");
+        qDebug() << "Checking the following directories for plugins:" << checkDirs.join(", ");
 
-    for(const QString &baseDir : checkDirs) {
+        for(const QString &baseDir : checkDirs) {
 
-        QDir pluginsDir(baseDir);
+            QDir pluginsDir(baseDir);
 
-        const QStringList dirlist = pluginsDir.entryList(QDir::Dirs|QDir::NoDotAndDotDot);
-        for(const QString &id : dirlist) {
+            const QStringList dirlist = pluginsDir.entryList(QDir::Dirs|QDir::NoDotAndDotDot);
+            for(const QString &id : dirlist) {
 
-            bool extEnabled = true;
+                // if there is a YAML file, then we load that one
+                const QString yamlfile = QString("%1/%2/definition.yml").arg(baseDir, id);
+                if(!QFile::exists(yamlfile)) {
 
-            if(m_allextensions.contains(id)) {
-                qDebug() << "Extension with id" << id << "exists already.";
-                qDebug() << "Extension located at" << QString("%1/%2").arg(baseDir,id) << "will not be loaded";
-                continue;
+                    qWarning() << "Required YAML file not found for extension" << id;
+                    qWarning() << "File expected at" << yamlfile;
+                    continue;
+
+                }
+
+#ifdef NDEBUG
+                if(PQCSettingsCPP::get().getGeneralExtensionsEnforeVerification() && !verifyExtension(baseDir, id)) {
+
+                    qWarning() << "*********************************************************";
+                    qWarning() << "Extension with id" << id << "did not pass verification but verification is enforced.";
+                    continue;
+
+                }
+#endif
+
+                bool extEnabled = true;
+
+                if(m_allextensions.contains(id)) {
+                    qDebug() << "Extension with id" << id << "exists already.";
+                    qDebug() << "Extension located at" << QString("%1/%2").arg(baseDir,id) << "will not be loaded";
+                    continue;
+                }
+
+                if(!PQCSettingsCPP::get().getGeneralExtensionsEnabled().contains(id)) {
+                    qDebug() << "Extension" << id << "disabled.";
+                    extEnabled = false;
+                }
+                QFile fy(yamlfile);
+                if(!fy.open(QIODevice::ReadOnly)) {
+                    qWarning() << "Unable to read definition.yml for reading";
+                    continue;
+                }
+                QTextStream in(&fy);
+                QString definition = in.readAll();
+
+                PQCExtensionInfo *extinfo = new PQCExtensionInfo;
+
+                extinfo->location = QString("%1/%2").arg(baseDir, id);
+
+                if(!loadExtension(extinfo, id, baseDir, definition)) {
+                    delete extinfo;
+                    continue;
+                }
+
+                // all good so far, we have what we need
+                qDebug() << "Successfully loaded extension" << id << "from location:" << baseDir;
+
+                if(extEnabled)
+                    m_extensions.append(id);
+                else
+                    m_extensionsDisabled.append(id);
+                m_allextensions.insert(id, extinfo);
+
             }
-
-            if(!PQCSettingsCPP::get().getGeneralEnabledExtensions().contains(id)) {
-                qDebug() << "Extension" << id << "disabled.";
-                extEnabled = false;
-            }
-
-            // if there is a YAML file, then we load that one
-            QString yamlfile = QString("%1/%2/definition.yml").arg(baseDir, id);
-            if(!QFile::exists(yamlfile)) {
-
-                qWarning() << "Required YAML file not found for extension" << id;
-                qWarning() << "File expected at" << yamlfile;
-                continue;
-
-            }
-            QFile fy(yamlfile);
-            if(!fy.open(QIODevice::ReadOnly)) {
-                qWarning() << "Unable to read definition.yml for reading";
-                continue;
-            }
-            QTextStream in(&fy);
-            QString definition = in.readAll();
-
-            PQCExtensionInfo *extinfo = new PQCExtensionInfo;
-
-            extinfo->location = QString("%1/%2").arg(baseDir, id);
-
-            if(!loadExtension(extinfo, id, baseDir, definition)) {
-                delete extinfo;
-                continue;
-            }
-
-            // all good so far, we have what we need
-            qDebug() << "Successfully loaded extension" << id << "from location:" << baseDir;
-
-            if(extEnabled)
-                m_extensions.append(id);
-            else
-                m_extensionsDisabled.append(id);
-            m_allextensions.insert(id, extinfo);
 
         }
 
-    }
+        m_numExtensions = m_extensions.length();
+        Q_EMIT numExtensionsChanged();
 
-    m_numExtensions = m_extensions.length();
-    Q_EMIT numExtensionsChanged();
-
-    if(m_extensions.length())
-        qDebug() << "The following extensions have been enabled:" << m_extensions.join(", ");
-    else
-        qDebug() << "No extensions found.";
+        if(m_extensions.length())
+            qDebug() << "The following extensions have been enabled:" << m_extensions.join(", ");
+        else
+            qDebug() << "No extensions found.";
 
 #else
-    qDebug() << "Extension support has been disabled at compile time.";
+        qDebug() << "Extension support has been disabled at compile time.";
 #endif
 
-    QFuture<void> future = QtConcurrent::run([=] {
         loadSettingsInBGToLookForShortcuts();
+
     });
 
 }
@@ -1084,4 +1098,135 @@ QHash<QString,QVariant> PQCExtensionsHandler::getExtensionZipMetadata(QString fi
     ret.insert("error", "Extension support is not available.");
     return ret;
 
+}
+
+bool PQCExtensionsHandler::verifyExtension(QString baseDir, QString id) {
+
+    qDebug() << "args: baseDir =" << baseDir;
+    qDebug() << "args: id =" << id;
+
+#ifdef PQMEXTENSIONS
+
+    /*************************************/
+    // first verify signature of manifest
+
+    if(!QCA::isSupported("pkey") || !QCA::PKey::supportedIOTypes().contains(QCA::PKey::RSA)) {
+        qWarning() << "RSA used for extension signing not supported on this machine!";
+        return false;
+    }
+
+    QFile pemfile(":/extensions/public_rsa.pem");
+    if(!pemfile.open(QIODevice::ReadOnly)) {
+        qWarning() << "Unable to open public key for checking extension signature";
+        return false;
+    }
+
+    QCA::ConvertResult res;
+    QCA::PublicKey pubkey = QCA::PublicKey::fromPEM(pemfile.readAll(), &res);
+
+    if(res != QCA::ConvertGood) {
+        qWarning() << "Importing public key for signature verification failed.";
+        return false;
+    }
+
+    if(!pubkey.canVerify()) {
+        qWarning() << "Public key cannot verify signatures";
+        return false;
+    }
+
+    QFile fmanifest(QString("%1/%2/manifest.txt").arg(baseDir, id));
+    fmanifest.open(QIODevice::ReadOnly);
+    QByteArray manifest = fmanifest.readAll();
+
+    QFile fmanifestsig(QString("%1/%2/manifest.txt.sig").arg(baseDir, id));
+    fmanifestsig.open(QIODevice::ReadOnly);
+    QByteArray manifestsig = fmanifestsig.readAll();
+
+    if(!pubkey.verifyMessage(manifest, manifestsig, QCA::EMSA3_SHA256)) {
+        qWarning() << id << "- Signature of manifest is wrong";
+        return false;
+    }
+
+    /**************************************/
+    // next read manifest and compile map of all files and their hashes
+
+    QHash<QString,QString> hashMap;
+    for(const QString &l : manifest.split('\n')) {
+
+        if(l.trimmed() == "")
+            continue;
+
+        const QStringList parts = l.split(":");
+        if(parts.length() != 2) {
+            qWarning() << id << "- Invalid line in manifest found:" << l;
+            return false;
+        }
+
+        hashMap.insert(parts.value(0), parts.at(1));
+
+    }
+
+    /*************************************/
+    // finally look through all the files and make sure they all have a match
+
+    int counter = 0;
+
+    QStringList ignoreFiles = {QString("lib%2.so").arg(id), "manifest.txt", "manifest.txt.sig"};
+
+    const QStringList lst = listFilesIn(QString("%1/%2").arg(baseDir,id));
+    for(QString _f : lst) {
+
+        const QString f = _f.remove(0, baseDir.length()+id.length()+2);
+
+        if(ignoreFiles.contains(f))
+            continue;
+
+        counter += 1;
+
+        if(!hashMap.contains(f)) {
+            qWarning() << id << "- File not listed in manifest:" << f;
+            return false;
+        }
+
+        QFile file(QString("%1/%2/%3").arg(baseDir,id,f));
+        file.open(QIODevice::ReadOnly);
+        const QString hash = QCryptographicHash::hash(file.readAll(),QCryptographicHash::Sha256).toHex();
+
+        if(hash != hashMap.value(f)) {
+            qWarning() << id << "- Invalid hash for file:" << f;
+            return false;
+        }
+
+    }
+
+    if(counter != hashMap.count()) {
+        qWarning() << id << "- some expected files were not found";
+        return false;
+    }
+
+    qDebug() << id << "- signature verified.";
+    return true;
+
+#endif
+
+    qDebug() << id << "- extensions are not supported";
+    return false;
+
+}
+
+QStringList PQCExtensionsHandler::listFilesIn(QString dir) {
+
+    QStringList ret;
+
+    QDir d(dir);
+    const QStringList lstD = d.entryList(QDir::Dirs|QDir::NoDotAndDotDot);
+
+    for(const QString &e : lstD)
+        ret << listFilesIn(QString("%1/%2").arg(dir, e));
+
+    const QStringList lstF = d.entryList(QDir::Files);
+    for(const QString &e : lstF)
+        ret << QString("%1/%2").arg(dir, e);
+
+    return ret;
 }

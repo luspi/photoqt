@@ -335,8 +335,8 @@ Item {
             return
         opacity = 1
         settings["ExtShow"] = true
-        if(!PQCSettings.generalSetupFloatingExtensionsAtStartup.includes(extensionId))
-            PQCSettings.generalSetupFloatingExtensionsAtStartup.push(extensionId)
+        if(!PQCSettings.generalExtensionsFloatingSetup.includes(extensionId))
+            PQCSettings.generalExtensionsFloatingSetup.push(extensionId)
     }
 
     function hide() {
@@ -345,7 +345,7 @@ Item {
             return
         opacity = 0
         settings["ExtShow"] = false
-        PQCSettings.generalSetupFloatingExtensionsAtStartup = PQCSettings.generalSetupFloatingExtensionsAtStartup.filter(function(entry) { return entry !== extensionId; });
+        PQCSettings.generalExtensionsFloatingSetup = PQCSettings.generalExtensionsFloatingSetup.filter(function(entry) { return entry !== extensionId; });
     }
 
     function resetPositionAndSize() {

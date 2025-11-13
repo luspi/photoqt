@@ -91,6 +91,10 @@
 #include <gio/gio.h>
 #endif
 
+#ifdef PQMEXTENSIONS
+#include <QtCrypto>
+#endif
+
 int main(int argc, char **argv) {
 
     QFileInfo info_exe(argv[0]);
@@ -161,6 +165,12 @@ int main(int argc, char **argv) {
         }
         argc -= 1;
     }
+#endif
+
+    /******************************************/
+
+#ifdef PQMEXTENSIONS
+    QCA::Initializer init;
 #endif
 
     /******************************************/
