@@ -550,6 +550,14 @@ bool PQCScriptsConfig::isBetaVersion() {
     return QString(PQMVERSION).contains("-beta");
 }
 
+bool PQCScriptsConfig::isDebugBuild() {
+#ifdef NDEBUG
+    return false;
+#else
+    return true;
+#endif
+}
+
 void PQCScriptsConfig::inform(QString title, QString txt) {
 
     QMessageBox::information(0,

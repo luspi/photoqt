@@ -54,9 +54,9 @@ void PQCExtensionsHandler::setup() {
         const QStringList checkDirs = {QString("%1/lib/PhotoQt/extensions").arg(PQMINSTALLPREFIX),
                                        PQCConfigFiles::get().DATA_DIR() + "/extensions"};
 #else
-        const QStringList checkDirs = {QString("%1/lib/PhotoQt/extensions").arg(PQMINSTALLPREFIX),
-                                       PQCConfigFiles::get().DATA_DIR() + "/extensions",
-                                       QString("%1/extensions").arg(PQMBUILDDIR)};
+        const QStringList checkDirs = {QString("%1/extensions").arg(PQMBUILDDIR),
+                                       QString("%1/lib/PhotoQt/extensions").arg(PQMINSTALLPREFIX),
+                                       PQCConfigFiles::get().DATA_DIR() + "/extensions"};
 #endif
 #else
         const QStringList checkDirs = {qgetenv("PHOTOQT_EXE_BASEDIR") + "/extensions",

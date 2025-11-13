@@ -80,6 +80,11 @@ PQSetting {
                     property string extWebsite: PQCExtensionsHandler.getExtensionWebsite(extensionId)
                     property string extBaseDir: PQCExtensionsHandler.getExtensionLocation(extensionId)
 
+                    property bool isVerified: PQCScriptsConfig.isDebugBuild() ?
+                                                  false :
+                                                  PQCExtensionsHandler.verifyExtension(extBaseDir, extensionId)
+                    property bool isDebugBuild: PQCScriptsConfig.isDebugBuild()
+
                     width: col.width
                     height: 40
                     color: pqtPalette.alternateBase
@@ -93,11 +98,22 @@ PQSetting {
                         checked: set_maex.extensionsEnabled.indexOf(deleg.extensionId)>-1
                     }
 
+                    Image {
+                        id: verified
+                        visible: !deleg.isDebugBuild
+                        x: check.x+check.width+5
+                        y: (parent.height-height)/2
+                        width: visible ? check.height*0.75 : 0
+                        height: visible ? check.height*0.75 : 0
+                        source: "image://svg/:/other/verified_" + (deleg.isVerified ? "yes" : "no") + ".svg"
+                        sourceSize: Qt.size(width, height)
+                    }
+
                     PQText {
                         id: desc
-                        x: check.x+check.width+10
+                        x: verified.x+verified.width+10
                         y: (parent.height-height)/2
-                        width: deleg.width-check.width-author.width-15
+                        width: deleg.width-verified.width-check.width-20
                         enabled: false
                         text: deleg.extDesc
                         elide: Text.ElideRight
@@ -108,6 +124,12 @@ PQSetting {
                         anchors.fill: parent
                         hoverEnabled: true
                         cursorShape: Qt.PointingHandCursor
+                        text: "<h2>" + deleg.extName + "</h2>
+                              <b>" + qsTranslate("settingsmanager", "Version") + ":</b> " + deleg.extVersion + "<br>
+                              <b>" + qsTranslate("settingsmanager", "Author") + ":</b> " + deleg.extAuthor + "<br>
+                              <b>" + qsTranslate("settingsmanager", "Contact") + ":</b> " + deleg.extContact + "<br>
+                              <b>" + qsTranslate("settingsmanager", "Website:") + "</b> " + deleg.extWebsite + "<br><br>
+                              <b>" + qsTranslate("settingsmanager", "Loaded from") + ":</b><br>" + deleg.extBaseDir
                         onClicked: {
                             if(check.checked) {
                                 set_maex.extensionsEnabled = set_maex.extensionsEnabled.filter(item => item!==deleg.extensionId)
@@ -121,15 +143,6 @@ PQSetting {
                         }
                     }
 
-                    PQButtonIcon {
-                        id: author
-                        x: deleg.width-width-5
-                        y: (parent.height-height)/2
-                        source: "image://svg/:/" + PQCLook.iconShade + "/about.svg"
-                        tooltip: "<h2>" + deleg.extName + "</h2><b>Version:</b> " + deleg.extVersion + "<br><b>Author:</b> " + deleg.extAuthor + "<br><b>Contact:</b> " + deleg.extContact + "<br><b>Website:</b> " + deleg.extWebsite + "<br><br><b>Loaded from:</b><br>" + deleg.extBaseDir
-                        tooltipDelay: 0
-                    }
-
                 }
 
             }
@@ -141,14 +154,48 @@ PQSetting {
         PQSettingSubtitle {
 
             //: A settings title
+            title: qsTranslate("settingsmanager", "Verification")
+
+            helptext: qsTranslate("settingsmanager", "Loading and executing arbitrary code always has to be treated with some caution. PhotoQt by default verifies any extension to make sure it is an official extension that has not been modified. If you want to use a custom or unofficial extension, you can disable this check here.")
+
+        },
+
+        PQText {
+            x: -set_maex.indentWidth
+            text: qsTranslate("settingsmanager", "Please be cautious about using code from unknown sources and make sure you can trust the origin of your extension.")
+            font.weight: PQCLook.fontWeightBold
+            width: parent.width
+            wrapMode: Text.WrapAtWordBoundaryOrAnywhere
+        },
+
+        PQCheckBox {
+            id: verifyCheck
+            text: qsTranslate("settingsmanager", "Enforce extension verification")
+            enabled: !PQCScriptsConfig.isDebugBuild()
+            onCheckedChanged: set_maex.checkForChanges()
+        },
+
+        PQText {
+            x: -set_maex.indentWidth
+            // this string does not need to be translated, normal users will never see it
+            text: "Note: Debug builds never enforce verification of extensions."
+            width: parent.width
+            wrapMode: Text.WrapAtWordBoundaryOrAnywhere
+        },
+
+        /***************************************/
+
+        PQSettingSubtitle {
+
+            //: A settings title
             title: qsTranslate("settingsmanager", "Install extension")
 
-            helptext: qsTranslate("settingsmanager", "PhotoQt can be extended with new extensions. Please be careful with where you get any extension and make sure that you trust the source before installing any extension.")
+            helptext: qsTranslate("settingsmanager", "PhotoQt can be extended with new extensions. Please be careful with where you get any extension and make sure that you trust its origin before installing any extension.")
 
         },
 
         PQButton {
-            text: "Select and install extension"
+            text: qsTranslate("settingsmanager", "Select and install extension")
             onClicked: {
                 extStatus.visible = false
                 var f = PQCScriptsFilesPaths.openFileFromDialog("Install", PQCScriptsFilesPaths.getHomeDir(), "pqe")
@@ -165,18 +212,18 @@ PQSetting {
             width: parent.width
             wrapMode: Text.WrapAtWordBoundaryOrAnywhere
             property int code: 0
-            text: "Result: " + (code==2 ?
-                      "Extension with this id exists already." :
+            text: qsTranslate("settingsmanager", "Result:") + " " + (code==2 ?
+                      qsTranslate("settingsmanager", "Extension with this id exists already.") :
                       (code == 1 ?
-                           "Extension successfully installed." :
+                           qsTranslate("settingsmanager", "Extension successfully installed.") :
                            (code == 0 ?
-                                "Extension failed to install." :
+                                qsTranslate("settingsmanager", "Extension failed to install.") :
                                 (code == -1 ?
-                                     "Extension was not installed." :
+                                     qsTranslate("settingsmanager", "Extension was not installed.") :
                                      (code == -2 ?
-                                          "Extensions support not available." :
+                                          qsTranslate("settingsmanager", "Extensions support not available.") :
                                           (code == -3 ?
-                                               "Extension was installed but not all files could be extracted.\nIt might not work properly." :
+                                               qsTranslate("settingsmanager", "Extension was installed but not all files could be extracted. It might not work properly.") :
                                                ("Unknown status code: "+code)))))))
         }
 
@@ -197,7 +244,8 @@ PQSetting {
         var refD = PQCExtensionsHandler.getDisabledExtensions().sort()
 
         PQCConstants.settingsManagerSettingChanged = (!PQF.areTwoListsEqual(extensionsEnabled, refE) ||
-                                                      !PQF.areTwoListsEqual(extensionsDisabled, refD))
+                                                      !PQF.areTwoListsEqual(extensionsDisabled, refD) ||
+                                                      verifyCheck.hasChanged())
 
     }
 
@@ -210,6 +258,11 @@ PQSetting {
         extensionsEnabled = PQCExtensionsHandler.getExtensions()
         extensionsDisabled = PQCExtensionsHandler.getDisabledExtensions()
 
+        if(PQCScriptsConfig.isDebugBuild())
+            verifyCheck.checked = false
+        else
+            verifyCheck.loadAndSetDefault(PQCSettings.generalExtensionsEnforeVerification)
+
         PQCConstants.settingsManagerSettingChanged = false
         settingsLoaded = true
 
@@ -220,6 +273,9 @@ PQSetting {
         PQCExtensionsHandler.setDisabledExtensions(extensionsDisabled)
         PQCExtensionsHandler.setEnabledExtensions(extensionsEnabled)
         PQCSettings.generalExtensionsEnabled = extensionsEnabled
+
+        if(!PQCScriptsConfig.isDebugBuild())
+            PQCSettings.generalExtensionsEnforeVerification = verifyCheck.checked
 
         PQCConstants.settingsManagerSettingChanged = false
 

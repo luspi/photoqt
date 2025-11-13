@@ -70,6 +70,9 @@ public:
     Q_INVOKABLE bool isBetaVersion() {
         return PQCScriptsConfig::get().isBetaVersion();
     }
+    Q_INVOKABLE bool isDebugBuild() {
+        return PQCScriptsConfig::get().isDebugBuild();
+    }
     Q_INVOKABLE void callStartupSetupFresh() {
         PQCScriptsConfig::get().callStartupSetupFresh();
     }

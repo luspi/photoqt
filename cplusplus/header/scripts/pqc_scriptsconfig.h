@@ -50,6 +50,7 @@ public:
     bool isQtAtLeast6_5();
     QString getVersion();
     bool isBetaVersion();
+    bool isDebugBuild();
     void callStartupSetupFresh();
 
     // check for various supported features

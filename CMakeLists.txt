@@ -452,8 +452,7 @@ if(QT_KNOWN_POLICY_QTP0004)
 endif()
 
 # add qml files
-qt_add_qml_module(photoqt URI PhotoQt VERSION 1.0 QML_FILES ${photoqt_QML}
-    RESOURCES misc/extensions/public_rsa.pem)
+qt_add_qml_module(photoqt URI PhotoQt VERSION 1.0 QML_FILES ${photoqt_QML})
 
 ###########################
 # cmake macros

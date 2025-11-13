@@ -109,7 +109,7 @@ public:
 
     // convert string to int
     int getIntegerForPosition(std::string val) {
-        if(val == "TopLeft")
+        if(val == "TopLeft" || val == "")
             return 0;
         else if(val == "Top")
             return 1;
@@ -160,6 +160,9 @@ public:
     // SOME SETTINGS STUFF
     Q_INVOKABLE bool getIsEnabled(const QString &id);
     Q_INVOKABLE bool getIsEnabledByDefault(const QString &id);
+
+    // CHECK EXTENSION VERIFICATION
+    Q_INVOKABLE bool verifyExtension(QString baseDir, QString id);
 
     /**********************************/
 
@@ -254,7 +257,6 @@ private:
 
     QHash<QString, QVariant> getExtensionZipMetadata(QString filepath);
 
-    bool verifyExtension(QString baseDir, QString id);
     QStringList listFilesIn(QString dir);
 
 Q_SIGNALS:
