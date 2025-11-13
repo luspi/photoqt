@@ -1207,6 +1207,23 @@ bool PQCExtensionsHandler::verifyExtension(QString baseDir, QString id) {
         return false;
     }
 
+
+    /******************************************/
+    //
+    // THE CHECK BELOW IS CURRENTLY NOT USED
+    // it is left here in case that ever changes
+    //
+    // The reason is that we want to avoid running random code that was not intended
+    // by the user to be run. The checks above (the signed manifest) already takes
+    // care of that. Other than the signature, the check below is very easy to
+    // circumvent and thus of only limited usefulness.
+    //
+    // To my knowledge there is no way to verify the integrity of a compiled library
+    // that is compiled on the end user's system (reproducible builds could help here,
+    // but we are not there yet afaik).
+    //
+    /******************************************/
+
     /******************************************/
     // lastly, we check the hash of the compiled library (if any)
     // the first time this check is done, the hash does not yet exist and is created
@@ -1215,7 +1232,7 @@ bool PQCExtensionsHandler::verifyExtension(QString baseDir, QString id) {
     // after all, we want it to be secure but if something messed up the extension to
     // this extent then the system has bigger issues
 
-    const QString soname = QString("%1/%2/lib%3.so").arg(baseDir, id, id);
+    /*const QString soname = QString("%1/%2/lib%3.so").arg(baseDir, id, id);
 
     if(QFile::exists(soname)) {
 
@@ -1275,7 +1292,7 @@ bool PQCExtensionsHandler::verifyExtension(QString baseDir, QString id) {
             out.flush();
         }
 
-    }
+    }*/
 
     /******************************************/
 
