@@ -1204,6 +1204,78 @@ bool PQCExtensionsHandler::verifyExtension(QString baseDir, QString id) {
         return false;
     }
 
+    /******************************************/
+    // lastly, we check the hash of the compiled library (if any)
+    // the first time this check is done, the hash does not yet exist and is created
+    // this is not as secure as we might want but should be sufficient with the other
+    // verifications above
+    // after all, we want it to be secure but if something messed up the extension to
+    // this extent then the system has bigger issues
+
+    const QString soname = QString("%1/%2/lib%3.so").arg(baseDir, id, id);
+
+    if(QFile::exists(soname)) {
+
+        QFile fC(soname);
+        if(!fC.open(QIODevice::ReadOnly)) {
+            qWarning() << id << "- .so file cannot be read";
+            return false;
+        }
+
+        // find out version number of current extension
+        QFile fVer(QString("%1/%2/definition.yml").arg(baseDir, id));
+        if(!fVer.open(QIODevice::ReadOnly)) {
+            qWarning() << id << "- unable to open definition.yml to find version number";
+            return false;
+        }
+        int versionNumber = -1;
+        YAML::Node config;
+        try {
+            config = YAML::Load(fVer.readAll().toStdString());
+            versionNumber = config["about"]["version"].as<int>();
+        } catch(YAML::Exception &e) {
+            qWarning() << id << "- unable to find version number in yml file:" << e.what();
+            return false;
+        }
+
+        // get hash parts
+        const QString idHash  = QCryptographicHash::hash(id.toUtf8(),QCryptographicHash::Sha256).toHex();
+        const QString cppHash = QCryptographicHash::hash(fC.readAll(),QCryptographicHash::Sha256).toHex();
+
+        // access hash fle
+        QFile fCHash(PQCConfigFiles::get().DATA_DIR() + "/extensions/cpphashes");
+        if(!fCHash.open(QIODevice::ReadOnly)) {
+            qWarning() << id << "- unable to open cpp hash file -" << QString("%1/extensions/cpphashes").arg(PQCConfigFiles::get().DATA_DIR()) << "- for reading and writing";
+            return false;
+        }
+
+        QTextStream in(&fCHash);
+        QString existingHashes = in.readAll();
+
+        if(existingHashes.contains(QString("%1:%2:").arg(idHash).arg(versionNumber))) {
+
+            if(!existingHashes.contains(QString("%1:%2:%3").arg(idHash).arg(versionNumber).arg(cppHash))) {
+                qWarning() << id << "- the hash of the compiled library does not match.";
+                return false;
+            }
+
+        } else {
+
+            existingHashes = QString("%1%2:%3:%4\n").arg(existingHashes, idHash).arg(versionNumber).arg(cppHash);
+            fCHash.close();
+            if(!fCHash.open(QIODevice::WriteOnly|QIODevice::Truncate)) {
+                qWarning() << id << "- unable to store lib hash";
+                return false;
+            }
+            QTextStream out(&fCHash);
+            out << existingHashes;
+            out.flush();
+        }
+
+    }
+
+    /******************************************/
+
     qDebug() << id << "- signature verified.";
     return true;
 
