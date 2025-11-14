@@ -87,8 +87,17 @@ PQSetting {
                                                   PQCExtensionsHandler.verifyExtension(extBaseDir, extensionId)
                     property bool isDebugBuild: PQCScriptsConfig.isDebugBuild()
 
+                    property bool hasSettings: PQCExtensionsHandler.getHasSettings(extensionId)
+
+                    property string tooltipText: "<h2>" + deleg.extName + "</h2>
+                                                 <b>" + qsTranslate("settingsmanager", "Version") + ":</b> " + extVersion + "<br>
+                                                 <b>" + qsTranslate("settingsmanager", "Author") + ":</b> " + extAuthor + "<br>
+                                                 <b>" + qsTranslate("settingsmanager", "Contact") + ":</b> " + extContact + "<br>
+                                                 <b>" + qsTranslate("settingsmanager", "Website:") + "</b> " + extWebsite + "<br><br>
+                                                 <b>" + qsTranslate("settingsmanager", "Loaded from") + ":</b><br>" + extBaseDir
+
                     width: col.width
-                    height: (set_maex.currentExpandedSetting==index ? 250 : 40)
+                    height: (set_maex.currentExpandedSetting==index ? 300 : 40)
                     color: pqtPalette.alternateBase
                     clip: true
 
@@ -99,13 +108,65 @@ PQSetting {
                         width: parent.width
                         height: 40
 
+                        PQMouseArea {
+                            id: entrymouse
+                            width: parent.width
+                            height: 40
+                            hoverEnabled: true
+                            cursorShape: deleg.hasSettings ? Qt.PointingHandCursor : Qt.ArrowCursor
+                            text: (deleg.hasSettings ? "<i>Click here to show extension specific settings.</i>" : "") + deleg.tooltipText
+                            onClicked: {
+                                if(!deleg.hasSettings) return
+                                if(set_maex.currentExpandedSetting !== deleg.index)
+                                    set_maex.currentExpandedSetting = deleg.index
+                                else
+                                    set_maex.currentExpandedSetting = -1
+                            }
+                        }
+
                         PQCheckBox {
                             id: check
                             x: 5
                             y: (parent.height-height)/2
                             text: deleg.extName
-                            tooltip: deleg.extDesc
+                            tooltip: deleg.tooltipText
                             checked: set_maex.extensionsEnabled.indexOf(deleg.extensionId)>-1
+                            property bool ignoreNextChange: false
+                            onCheckedChanged: {
+
+                                if(!set_maex.settingsLoaded) return
+
+                                if(ignoreNextChange) {
+                                    ignoreNextChange = false
+                                    return
+                                }
+
+                                if(checked) {
+                                    set_maex.extensionsEnabled.push(deleg.extensionId)
+                                    set_maex.extensionsDisabled = set_maex.extensionsDisabled.filter(item => item!==deleg.extensionId)
+                                } else {
+                                    set_maex.extensionsDisabled.push(deleg.extensionId)
+                                    set_maex.extensionsEnabled = set_maex.extensionsEnabled.filter(item => item!==deleg.extensionId)
+                                }
+                                set_maex.extensionsEnabled.sort()
+                                set_maex.extensionsDisabled.sort()
+
+                                // remove property binding to avoid warnings about binding loops
+                                ignoreNextChange = true
+                                checked = checked
+                            }
+
+                        }
+
+                        PQMouseArea {
+                            width: check.width+10
+                            height: parent.height
+                            hoverEnabled: true
+                            cursorShape: Qt.PointingHandCursor
+                            text: "<i>Click here to enable/disable extension.</i>" + deleg.tooltipText
+                            onClicked: {
+                                check.checked = !check.checked
+                            }
                         }
 
                         Image {
@@ -129,43 +190,14 @@ PQSetting {
                             elide: Text.ElideRight
                         }
 
-                        PQMouseArea {
-                            id: entrymouse
-                            width: parent.width-setupButton.width-10
-                            height: 40
-                            hoverEnabled: true
-                            cursorShape: Qt.PointingHandCursor
-                            text: "<h2>" + deleg.extName + "</h2>
-                                  <b>" + qsTranslate("settingsmanager", "Version") + ":</b> " + deleg.extVersion + "<br>
-                                  <b>" + qsTranslate("settingsmanager", "Author") + ":</b> " + deleg.extAuthor + "<br>
-                                  <b>" + qsTranslate("settingsmanager", "Contact") + ":</b> " + deleg.extContact + "<br>
-                                  <b>" + qsTranslate("settingsmanager", "Website:") + "</b> " + deleg.extWebsite + "<br><br>
-                                  <b>" + qsTranslate("settingsmanager", "Loaded from") + ":</b><br>" + deleg.extBaseDir
-                            onClicked: {
-                                if(check.checked) {
-                                    set_maex.extensionsEnabled = set_maex.extensionsEnabled.filter(item => item!==deleg.extensionId)
-                                    set_maex.extensionsDisabled.push(deleg.extensionId)
-                                } else {
-                                    set_maex.extensionsDisabled = set_maex.extensionsDisabled.filter(item => item!==deleg.extensionId)
-                                    set_maex.extensionsEnabled.push(deleg.extensionId)
-                                }
-                                set_maex.extensionsEnabled.sort()
-                                set_maex.extensionsDisabled.sort()
-                            }
-                        }
-
-                        PQButtonIcon {
+                        Image {
                             id: setupButton
                             x: (parent.width-width-10)
+                            width: 40
+                            height: 40
                             enabled: PQCExtensionsHandler.getHasSettings(deleg.extensionId)
                             opacity: enabled ? 1 : 0.1
                             source: "image://svg/:/" + PQCLook.iconShade + "/settings.svg"
-                            onClicked: {
-                                if(set_maex.currentExpandedSetting !== deleg.index)
-                                    set_maex.currentExpandedSetting = deleg.index
-                                else
-                                    set_maex.currentExpandedSetting = -1
-                            }
                         }
 
                     }
