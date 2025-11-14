@@ -35,7 +35,7 @@ appimage:
     - wget -qO - http://archive.neon.kde.org/public.key | apt-key add -
     - apt-get update -qq && apt-get -y upgrade
     - apt-get -y install qt6-base-dev qt6-positioning-dev qt6-image-formats-plugins qt6-image-formats-plugin-pdf libqt6svg6-dev libqt6chartsqml6 qml6-module-qt-labs-platform qml6-module-qtcharts qml6-module-qtcore qml6-module-qtmultimedia qml6-module-qtpositioning qml6-module-qtqml qml6-module-qtquick-controls qml6-module-qtquick-layouts qml6-module-qtquick-window qt6-multimedia-dev qml6-module-qtqml-workerscript qml6-module-qtquick-templates qml6-module-qtquick-dialogs qt6-tools-dev qt6-l10n-tools qt6-tools-dev-tools qt6-pdf-dev qml6-module-qtlocation
-    - apt-get -y install libarchive-dev libraw-dev libfreeimage-dev libfreeimageplus-dev libdevil-dev libpugixml-dev gstreamer1.0-tools libexiv2-dev libmpv-dev python-is-python3 python3-pychromecast python3-requests ffmpegthumbnailer gstreamer1.0-libav libopenh264-6 libzxingcore-dev libdjvulibre-dev libheif-dev libjxl-dev liblqr-1-0-dev libopenexr-dev libopenjp2-7-dev libraqm-dev libwebp-dev libxml2-dev libzip-dev libbz2-dev libgraphviz-dev libyaml-cpp-dev
+    - apt-get -y install libarchive-dev libraw-dev libfreeimage-dev libfreeimageplus-dev libdevil-dev libpugixml-dev gstreamer1.0-tools libexiv2-dev libmpv-dev python-is-python3 python3-pychromecast python3-requests ffmpegthumbnailer gstreamer1.0-libav libopenh264-6 libzxingcore-dev libdjvulibre-dev libheif-dev libjxl-dev liblqr-1-0-dev libopenexr-dev libopenjp2-7-dev libraqm-dev libwebp-dev libxml2-dev libzip-dev libbz2-dev libgraphviz-dev libyaml-cpp-dev libqca-qt6-2-dev
     - cd ..
     - git clone https://github.com/ImageMagick/ImageMagick  # Install up-to-date ImageMagick
     - cd ImageMagick
