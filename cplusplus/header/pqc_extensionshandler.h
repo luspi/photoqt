@@ -160,6 +160,7 @@ public:
     // SOME SETTINGS STUFF
     Q_INVOKABLE bool getIsEnabled(const QString &id);
     Q_INVOKABLE bool getIsEnabledByDefault(const QString &id);
+    Q_INVOKABLE void showExtension(const QString &id);
 
     // CHECK EXTENSION VERIFICATION
     Q_INVOKABLE bool verifyExtension(QString baseDir, QString id);

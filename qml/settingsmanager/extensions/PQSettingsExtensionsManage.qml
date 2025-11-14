@@ -295,6 +295,8 @@ PQSetting {
 
         settingsLoaded = false
 
+        set_maex.currentExpandedSetting = -1
+
         // set without property bindings (i.e., here and not above where they are declared)
         allExtensions = PQCExtensionsHandler.getExtensionsEnabledAndDisabld()
         extensionsEnabled = PQCExtensionsHandler.getExtensions()

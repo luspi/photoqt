@@ -67,6 +67,8 @@ public:
 
         connect(&PQCNotifyCPP::get(), &PQCNotifyCPP::storeLocationToDatabase, this, &PQCNotify::storeLocationToDatabase);
 
+        connect(&PQCNotifyCPP::get(), &PQCNotifyCPP::showExtension, this, &PQCNotify::loaderShowExtension);
+
         connect(this, &PQCNotify::resetSessionData, &PQCNotifyCPP::get(), &PQCNotifyCPP::resetSessionData);
 
     }

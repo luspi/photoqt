@@ -740,6 +740,10 @@ bool PQCExtensionsHandler::getIsEnabledByDefault(const QString &id) {
     return false;
 }
 
+void PQCExtensionsHandler::showExtension(const QString &id) {
+    PQCNotifyCPP::get().showExtension(id);
+}
+
 void PQCExtensionsHandler::loadSettingsInBGToLookForShortcuts() {
 
     for(const QString &ext : std::as_const(m_extensions)) {

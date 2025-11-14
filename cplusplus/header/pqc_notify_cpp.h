@@ -129,4 +129,6 @@ Q_SIGNALS:
 
     void storeLocationToDatabase(QString path, QPointF location);
 
+    void showExtension(QString ele);
+
 };
