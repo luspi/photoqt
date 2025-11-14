@@ -7,15 +7,10 @@ localization:
 
   script:
     - export DEBIAN_FRONTEND=noninteractive
-    - apt-get update && apt-get install -y qt6-base-dev qt6-l10n-tools openssh-client git wget
-    - eval `ssh-agent -s`
-    - echo "${SSH_PRIVATE_KEY}" | tr -d '\r' | ssh-add - > /dev/null # add ssh key
-    - mkdir -p ~/.ssh && chmod 700 ~/.ssh
-    - echo "${SSH_PUBLIC_KEY}" >> ~/.ssh/id_rsa.pub
-    - echo "StrictHostKeyChecking no" > ~/.ssh/config
-    - git config --global user.email "${CI_EMAIL}"
-    - git config --global user.name "${CI_USERNAME}"
-    - git clone git@gitlab.com:lspies/photoqt-lang.git && cd photoqt-lang
+    - apt-get update && apt-get install -y qt6-base-dev qt6-l10n-tools git wget
+    - git config --global user.email "Lukas@photoqt.org"
+    - git config --global user.name "Lukas Spies"
+    - git clone https://luspi:${LANG_ACCESS_TOKEN}@gitlab.com/lspies/photoqt-lang.git && cd photoqt-lang
     - /usr/lib/qt6/bin/lupdate -no-obsolete ../qml/ ../cplusplus/ ../extensions/ -ts photoqt-qt6.ts
     - git add photoqt-qt6.ts
     - git diff-index --quiet HEAD || git commit -m "updating translation source files from CI - Qt6 version"
