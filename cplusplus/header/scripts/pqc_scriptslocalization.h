@@ -50,6 +50,7 @@ public:
     void updateTranslation(QString code);
     QString getNameForLocalizationCode(QString code);
     QString getCurrentTranslation();
+    QString getActiveTranslationCode();
 
 private:
     PQCScriptsLocalization();

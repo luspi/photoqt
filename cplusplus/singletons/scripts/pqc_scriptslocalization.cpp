@@ -8,6 +8,7 @@
 #include <QSqlQuery>
 #include <QSqlDatabase>
 #include <QSqlError>
+#include <pqc_notify_cpp.h>
 
 PQCScriptsLocalization::PQCScriptsLocalization() {
     trans = new QTranslator;
@@ -165,4 +166,8 @@ QString PQCScriptsLocalization::getCurrentTranslation() {
 
     return query.value(0).toString();
 
+}
+
+QString PQCScriptsLocalization::getActiveTranslationCode() {
+    return currentTranslation;
 }

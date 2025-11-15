@@ -135,6 +135,8 @@ public:
 
 };
 
+class QTranslator;
+
 class PQCExtensionsHandler : public QObject {
 
     Q_OBJECT
@@ -232,8 +234,8 @@ public:
     /****************************/
 
     // these are predominantly used by the settings manager
-    Q_INVOKABLE void setEnabledExtensions(QStringList ids);
-    Q_INVOKABLE void setDisabledExtensions(QStringList ids);
+    Q_INVOKABLE void setEnabledExtensions(const QStringList &ids);
+    Q_INVOKABLE void setDisabledExtensions(const QStringList &ids);
     Q_INVOKABLE int installExtension(QString filepath);
 
 private:
@@ -259,6 +261,11 @@ private:
     QHash<QString, QVariant> getExtensionZipMetadata(QString filepath);
 
     QStringList listFilesIn(QString dir);
+
+    QHash<QString, QTranslator*> extTrans;
+
+private Q_SLOTS:
+    void updateTranslationLanguage();
 
 Q_SIGNALS:
     Q_INVOKABLE void requestResetGeometry(QString id);

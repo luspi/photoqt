@@ -6,13 +6,14 @@
 #include <QPluginLoader>
 #include <QtConcurrent/QtConcurrentRun>
 #include <QImage>
-#include <pqc_notify_cpp.h>
+#include <QTranslator>
 #include <pqc_filefoldermodelCPP.h>
 #include <pqc_settingscpp.h>
 #include <pqc_loadimage.h>
 #include <scripts/pqc_scriptsfilespaths.h>
 #include <pqc_imageformats.h>
 #include <pqc_extensionsettings.h>
+#include <scripts/pqc_scriptslocalization.h>
 #include <QCryptographicHash>
 
 #ifdef PQMEXTENSIONS
@@ -41,6 +42,7 @@ PQCExtensionsHandler::PQCExtensionsHandler() {
         combo += PQCScriptsShortcuts::get().analyzeKeyPress(static_cast<Qt::Key>(key));
         Q_EMIT receivedShortcut(combo);
     });
+    connect(&PQCSettingsCPP::get(), &PQCSettingsCPP::interfaceLanguageChanged, this, &PQCExtensionsHandler::updateTranslationLanguage);
 }
 
 void PQCExtensionsHandler::setup() {
@@ -130,9 +132,22 @@ void PQCExtensionsHandler::setup() {
                 // all good so far, we have what we need
                 qDebug() << "Successfully loaded extension" << id << "from location:" << baseDir;
 
-                if(extEnabled)
+                // create translator for this extension
+                QTranslator *trans = new QTranslator;
+                extTrans.insert(id, trans);
+
+                if(extEnabled) {
                     m_extensions.append(id);
-                else
+                    const QString qmfile = QString("%1/lang/%2_%3.qm").arg(extinfo->location,id,PQCScriptsLocalization::get().getActiveTranslationCode());
+                    if(!QFile::exists(qmfile))
+                        qDebug() << id << "- no translation file found:" << qmfile;
+                    else {
+                        if(trans->load(qmfile))
+                            qApp->installTranslator(trans);
+                        else
+                            qWarning() << id << "- unable to install translator:" << PQCScriptsLocalization::get().getActiveTranslationCode();
+                    }
+                } else
                     m_extensionsDisabled.append(id);
                 m_allextensions.insert(id, extinfo);
 
@@ -756,14 +771,27 @@ void PQCExtensionsHandler::loadSettingsInBGToLookForShortcuts() {
 
 }
 
-void PQCExtensionsHandler::setEnabledExtensions(QStringList ids) {
+void PQCExtensionsHandler::setEnabledExtensions(const QStringList &ids) {
     m_extensions = ids;
     m_numExtensions = m_extensions.length();
+    for(const QString &id : ids) {
+        const QString qmfile = QString("%1/lang/%2_%3.qm").arg(m_allextensions.value(id)->location,id,PQCScriptsLocalization::get().getActiveTranslationCode());
+        if(!QFile::exists(qmfile))
+            qDebug() << id << "- no translation file found:" << qmfile;
+        else {
+            if(extTrans.value(id)->load(qmfile))
+                qApp->installTranslator(extTrans.value(id));
+            else
+                qWarning() << id << "- unable to install translator:" << PQCScriptsLocalization::get().getActiveTranslationCode();
+        }
+    }
     Q_EMIT numExtensionsChanged();
 }
 
-void PQCExtensionsHandler::setDisabledExtensions(QStringList ids) {
+void PQCExtensionsHandler::setDisabledExtensions(const QStringList &ids) {
     m_extensionsDisabled = ids;
+    for(const QString &id : ids)
+        qApp->removeTranslator(extTrans.value(id));
 }
 
 // return code:
@@ -898,6 +926,10 @@ int PQCExtensionsHandler::installExtension(QString filepath) {
             delete extinfo;
             return -1;
         }
+
+        // create translator for this extension
+        QTranslator *trans = new QTranslator;
+        extTrans.insert(extensionId, trans);
 
         // all good so far, we have what we need
         qDebug() << "Successfully loaded extension" << extensionId << "from location:" << PQCConfigFiles::get().DATA_DIR();
@@ -1325,4 +1357,23 @@ QStringList PQCExtensionsHandler::listFilesIn(QString dir) {
         ret << QString("%1/%2").arg(dir, e);
 
     return ret;
+}
+
+void PQCExtensionsHandler::updateTranslationLanguage() {
+
+    for(const QString &id : std::as_const(m_extensions))
+        qApp->removeTranslator(extTrans.value(id));
+
+    for(const QString &id : std::as_const(m_extensions)) {
+        const QString qmfile = QString("%1/lang/%2_%3.qm").arg(m_allextensions.value(id)->location,id,PQCScriptsLocalization::get().getActiveTranslationCode());
+        if(!QFile::exists(qmfile))
+            qDebug() << id << "- no translation file found:" << qmfile;
+        else {
+            if(extTrans.value(id)->load(qmfile))
+                qApp->installTranslator(extTrans.value(id));
+            else
+                qWarning() << id << "- unable to install translator:" << PQCScriptsLocalization::get().getActiveTranslationCode();
+        }
+    }
+
 }
