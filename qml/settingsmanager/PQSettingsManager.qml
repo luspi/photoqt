@@ -190,7 +190,7 @@ PQTemplate {
                     } else if(currentIndex === 6) {
 
                              if(currentId === "maex") settings_loader.sourceComponent = ext_maex
-                        else if(currentId === "exse") settings_loader.sourceComponent = ext_exse
+                        else if(currentId === "exsh") settings_loader.sourceComponent = ext_exsh
 
                     } else if(currentIndex === 7) {
 
@@ -247,7 +247,7 @@ PQTemplate {
                 Component { id: man_mana; PQSettingsManageManage { availableHeight: flickable.height } }
 
                 Component { id: ext_maex; PQSettingsExtensionsManage { availableHeight: flickable.height } }
-                Component { id: ext_exse; PQSettingsExtensionsSettings { availableHeight: flickable.height } }
+                Component { id: ext_exsh; PQSettingsExtensionsShortcuts { availableHeight: flickable.height } }
 
                 Component { id: oth_fidi; PQSettingsOtherFileDialog { availableHeight: flickable.height } }
                 Component { id: oth_slsh; PQSettingsOtherSlideshow { availableHeight: flickable.height } }

@@ -547,7 +547,7 @@ Item {
 
                 property list<var> entries: [
                     ["maex", qsTranslate("settingsmanager", "Manage")],
-                    ["exse", qsTranslate("settingsmanager", "Settings")]
+                    ["exsh", qsTranslate("settingsmanager", "Shortcuts")]
                 ]
 
                 Repeater {

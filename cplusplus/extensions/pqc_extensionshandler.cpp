@@ -677,6 +677,10 @@ void PQCExtensionsHandler::addShortcut(QString id, QString sh) {
     if(!m_activeShortcutToExtension.contains(sh)) {
         m_extensionToActiveShortcut.insert(id, sh);
         m_activeShortcutToExtension.insert(sh, id);
+
+        ExtensionSettings set(id);
+        set.saveShortcut(sh);
+
     }
 }
 
@@ -1174,11 +1178,17 @@ bool PQCExtensionsHandler::verifyExtension(QString baseDir, QString id) {
     }
 
     QFile fmanifest(QString("%1/%2/manifest.txt").arg(baseDir, id));
-    fmanifest.open(QIODevice::ReadOnly);
+    if(!fmanifest.open(QIODevice::ReadOnly)) {
+        qWarning() << id << "- unable to read manifest.txt";
+        return false;
+    }
     QByteArray manifest = fmanifest.readAll();
 
     QFile fmanifestsig(QString("%1/%2/manifest.txt.sig").arg(baseDir, id));
-    fmanifestsig.open(QIODevice::ReadOnly);
+    if(!fmanifestsig.open(QIODevice::ReadOnly)) {
+        qWarning() << id << "- unable to read manifest.txt.sig";
+        return false;
+    }
     QByteArray manifestsig = fmanifestsig.readAll();
 
     if(!pubkey.verifyMessage(manifest, manifestsig, QCA::EMSA3_SHA256)) {
@@ -1228,7 +1238,10 @@ bool PQCExtensionsHandler::verifyExtension(QString baseDir, QString id) {
         }
 
         QFile file(QString("%1/%2/%3").arg(baseDir,id,f));
-        file.open(QIODevice::ReadOnly);
+        if(!file.open(QIODevice::ReadOnly)) {
+            qWarning() << id << "- unable to read found file:" << f;
+            return false;
+        }
         const QString hash = QCryptographicHash::hash(file.readAll(),QCryptographicHash::Sha256).toHex();
 
         if(hash != hashMap.value(f)) {

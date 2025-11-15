@@ -17,7 +17,16 @@ ExtensionSettings::ExtensionSettings(QObject *parent) : QQmlPropertyMap(this, pa
 }
 
 ExtensionSettings::ExtensionSettings(QString extensionId, QObject* parent) : QQmlPropertyMap(this, parent) {
-    qDebug() << "WARNING: ExtensionSettings are loaded read-only!";
+
+    /*****************************************************************
+     *
+     * WARNING!
+     * In this case the settings will NOT pick up any changes to any settings values
+     * They serve as a snapshot in time. The only settings that can be changed
+     * are the ones that are manually implemented (see, e.g., saveShortcut()).
+     *
+     *****************************************************************/
+
     set = nullptr;
     watcher = nullptr;
     m_status = getLoading();
@@ -247,4 +256,8 @@ void ExtensionSettings::readFile() {
 
 QVariant ExtensionSettings::getDefaultFor(const QString &key) {
     return defaultValues.value(key, "");
+}
+
+void ExtensionSettings::saveShortcut(const QString &sh) {
+    saveExtensionValue("ExtShortcut", sh);
 }

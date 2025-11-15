@@ -40,6 +40,8 @@ PQSetting {
 
     SystemPalette { id: pqtPalette }
 
+    signal loadCheckedStatus()
+
     content: [
 
         PQSettingSubtitle {
@@ -130,16 +132,9 @@ PQSetting {
                             y: (parent.height-height)/2
                             text: deleg.extName
                             tooltip: deleg.tooltipText
-                            checked: set_maex.extensionsEnabled.indexOf(deleg.extensionId)>-1
-                            property bool ignoreNextChange: false
                             onCheckedChanged: {
 
                                 if(!set_maex.settingsLoaded) return
-
-                                if(ignoreNextChange) {
-                                    ignoreNextChange = false
-                                    return
-                                }
 
                                 if(checked) {
                                     set_maex.extensionsEnabled.push(deleg.extensionId)
@@ -151,9 +146,13 @@ PQSetting {
                                 set_maex.extensionsEnabled.sort()
                                 set_maex.extensionsDisabled.sort()
 
-                                // remove property binding to avoid warnings about binding loops
-                                ignoreNextChange = true
-                                checked = checked
+                            }
+
+                            Connections {
+                                target: set_maex
+                                function onLoadCheckedStatus() {
+                                    check.loadAndSetDefault(set_maex.extensionsEnabled.indexOf(deleg.extensionId)>-1)
+                                }
                             }
 
                         }
@@ -334,6 +333,8 @@ PQSetting {
         extensionsEnabled = PQCExtensionsHandler.getExtensions()
         extensionsDisabled = PQCExtensionsHandler.getDisabledExtensions()
 
+        set_maex.loadCheckedStatus()
+
         if(PQCScriptsConfig.isDebugBuild())
             verifyCheck.checked = false
         else
@@ -346,9 +347,12 @@ PQSetting {
 
     function applyChanges() {
 
-        PQCExtensionsHandler.setDisabledExtensions(extensionsDisabled)
-        PQCExtensionsHandler.setEnabledExtensions(extensionsEnabled)
-        PQCSettings.generalExtensionsEnabled = extensionsEnabled
+        var enabledUnique = extensionsEnabled.filter((item, index) => extensionsEnabled.indexOf(item) === index).sort()
+        var disabledUnique = extensionsDisabled.filter((item, index) => extensionsDisabled.indexOf(item) === index).sort()
+
+        PQCExtensionsHandler.setDisabledExtensions(disabledUnique)
+        PQCExtensionsHandler.setEnabledExtensions(enabledUnique)
+        PQCSettings.generalExtensionsEnabled = enabledUnique
 
         if(!PQCScriptsConfig.isDebugBuild())
             PQCSettings.generalExtensionsEnforeVerification = verifyCheck.checked

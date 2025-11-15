@@ -49,6 +49,8 @@ public:
 
     QMap<QString, QVariant> defaultValues;
 
+    void saveShortcut(const QString &sh);
+
 private:
     QString m_extensionId;
 

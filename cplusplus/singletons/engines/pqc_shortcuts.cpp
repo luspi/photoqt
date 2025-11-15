@@ -427,8 +427,14 @@ QVariantList PQCShortcuts::getShortcutsForCommand(QString cmd) {
 }
 
 int PQCShortcuts::getNumberInternalCommandsForShortcut(QString combo) {
+
     int num = 0;
-    for(const QString &c : shortcuts.value(combo).toList()[0].toStringList()) {
+
+    const QList<QVariant> lst = shortcuts.value(combo).toList();
+    if(lst.length() == 0)
+        return num;
+
+    for(const QString &c : lst.toList()[0].toStringList()) {
         if(c.startsWith("__"))
             num += 1;
     }
