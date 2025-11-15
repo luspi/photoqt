@@ -46,7 +46,7 @@ appimage:
     - mv photoqt-lang/localized lang
     - cd extensions
     - git clone https://gitlab.com/lspies/photoqt-extensions-lang
-    - bash obtain_latest_translations.sh
+    - bash obtain_latest_translations.sh "/usr/lib/qt6/bin/lrelease"
     - rm -rf photoqt-extensions-lang
     - cd ../build/
     - cmake .. -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=/usr -DEXIV2=ON -DGRAPHICSMAGICK=OFF -DIMAGEMAGICK=ON -DCHROMECAST=ON -DVIDEO_QT=ON -DPOPPLER=OFF -DQTPDF=ON -DEXIV2_ENABLE_BMFF=ON -DRESVG=OFF -DMOTIONPHOTO=ON -DZXING=ON -DLCMS2=ON -DLOCATION=ON -DLIBVIPS=OFF -DWITH_WAYLANDSPECIFIC=OFF
