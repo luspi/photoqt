@@ -376,6 +376,41 @@ bool PQCExtensionsHandler::loadExtension(PQCExtensionInfo *extinfo, QString id, 
         qDebug() << "Extension:" << id << "- Optional value for 'letMeHandleMouseEvents' invalid or not found, skipping:" << e.what();
     }
 
+    // context menu section
+    try {
+        extinfo->contextMenuSection = QString::fromStdString(config["setup"]["contextmenu"]["section"].as<std::string>());
+        qWarning() << ">>> SECTION:" << extinfo->contextMenuSection;
+        if(extinfo->contextMenuSection == "use") {
+            m_contextMenuUse.append(id);
+            Q_EMIT contextMenuUseChanged();
+        } else if(extinfo->contextMenuSection == "manipulate") {
+            m_contextMenuManipulate.append(id);
+            Q_EMIT contextMenuManipulateChanged();
+        } else if(extinfo->contextMenuSection == "about") {
+            m_contextMenuAbout.append(id);
+            Q_EMIT contextMenuAboutChanged();
+        } else if(extinfo->contextMenuSection == "other") {
+            m_contextMenuOther.append(id);
+            Q_EMIT contextMenuOtherChanged();
+        }
+    } catch(YAML::Exception &e) {
+        qDebug() << "Extension:" << id << "- Optional value for 'contextmenu/section' invalid or not found, skipping:" << e.what();
+    }
+
+    // context menu title
+    try {
+        extinfo->contextMenuTitle = QString::fromStdString(config["setup"]["contextmenu"]["title"].as<std::string>());
+    } catch(YAML::Exception &e) {
+        qDebug() << "Extension:" << id << "- Optional value for 'contextmenu/title' invalid or not found, skipping:" << e.what();
+    }
+
+    // context menu icon
+    try {
+        extinfo->contextMenuIcon = QString::fromStdString(config["setup"]["contextmenu"]["icon"].as<std::string>());
+    } catch(YAML::Exception &e) {
+        qDebug() << "Extension:" << id << "- Optional value for 'contextmenu/icon' invalid or not found, skipping:" << e.what();
+    }
+
     // settings
     try {
 
@@ -640,6 +675,27 @@ bool PQCExtensionsHandler::getExtensionLetMeHandleMouseEvents(QString id) {
         return m_allextensions[id]->letMeHandleMouseEvents;
     qWarning() << "Unknown extension id:" << id;
     return false;
+}
+
+QString PQCExtensionsHandler::getExtensionContextMenuSection(QString id) {
+    if(m_allextensions.contains(id))
+        return m_allextensions[id]->contextMenuSection;
+    qWarning() << "Unknown extension id:" << id;
+    return "";
+}
+
+QString PQCExtensionsHandler::getExtensionContextMenuTitle(QString id) {
+    if(m_allextensions.contains(id))
+        return m_allextensions[id]->contextMenuTitle;
+    qWarning() << "Unknown extension id:" << id;
+    return "";
+}
+
+QString PQCExtensionsHandler::getExtensionContextMenuIcon(QString id) {
+    if(m_allextensions.contains(id))
+        return m_allextensions[id]->contextMenuIcon;
+    qWarning() << "Unknown extension id:" << id;
+    return "";
 }
 
 /****************************************/

@@ -63,6 +63,9 @@ public:
         rememberGeometry = true;
         letMeHandleMouseEvents = false;
         haveCPPActions = false;
+        contextMenuSection = "";
+        contextMenuTitle = "";
+        contextMenuIcon = "";
         settings = {};
 
         /***********************/
@@ -99,6 +102,9 @@ public:
     bool    rememberGeometry;
     bool    letMeHandleMouseEvents;
     bool    haveCPPActions;
+    QString contextMenuSection;
+    QString contextMenuTitle;
+    QString contextMenuIcon;
     QList<QStringList>
             settings;
 
@@ -155,6 +161,12 @@ public:
     // GLOBAL PROPERTIES
     Q_PROPERTY(int numExtensions MEMBER m_numExtensions NOTIFY numExtensionsChanged)
 
+    // CONTEXT MENU ENTRIES
+    Q_PROPERTY(QStringList contextMenuUse MEMBER m_contextMenuUse NOTIFY contextMenuUseChanged)
+    Q_PROPERTY(QStringList contextMenuManipulate MEMBER m_contextMenuManipulate NOTIFY contextMenuManipulateChanged)
+    Q_PROPERTY(QStringList contextMenuAbout MEMBER m_contextMenuAbout NOTIFY contextMenuAboutChanged)
+    Q_PROPERTY(QStringList contextMenuOther MEMBER m_contextMenuOther NOTIFY contextMenuOtherChanged)
+
     // REQUEST CUSTOM ACTIONS TO BE TAKEN
     Q_INVOKABLE void requestCallActionWithImage(const QString &id, QVariant additional = QVariant(), bool async = true);
     Q_INVOKABLE void requestCallAction(const QString &id, QVariant additional = QVariant(), bool async = true);
@@ -201,6 +213,9 @@ public:
     Q_INVOKABLE QString getExtensionDefaultShortcut(QString id);
     Q_INVOKABLE bool    getExtensionRememberGeometry(QString id);
     Q_INVOKABLE bool    getExtensionLetMeHandleMouseEvents(QString id);
+    Q_INVOKABLE QString getExtensionContextMenuSection(QString id);
+    Q_INVOKABLE QString getExtensionContextMenuIcon(QString id);
+    Q_INVOKABLE QString getExtensionContextMenuTitle(QString id);
     Q_INVOKABLE bool    getExtensionHasCPPActions(QString id);
     Q_INVOKABLE QList<QStringList> getExtensionSettings(QString id);
 
@@ -264,6 +279,11 @@ private:
 
     QHash<QString, QTranslator*> extTrans;
 
+    QStringList m_contextMenuUse;
+    QStringList m_contextMenuManipulate;
+    QStringList m_contextMenuAbout;
+    QStringList m_contextMenuOther;
+
 private Q_SLOTS:
     void updateTranslationLanguage();
 
@@ -275,6 +295,10 @@ Q_SIGNALS:
     void receivedMessage(const QString id, QVariant val);
 
     void numExtensionsChanged();
+    void contextMenuUseChanged();
+    void contextMenuManipulateChanged();
+    void contextMenuAboutChanged();
+    void contextMenuOtherChanged();
 
     void receivedShortcut(QString combo);
 

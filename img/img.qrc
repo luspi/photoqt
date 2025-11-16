@@ -98,7 +98,6 @@
         <file>dark/volume_medium.svg</file>
         <file>dark/volume_mute.svg</file>
         <file>dark/volume_noaudio.svg</file>
-        <file>dark/wallpaper.svg</file>
         <file>dark/windows-maximize.svg</file>
         <file>dark/windows-minimize.svg</file>
         <file>dark/windows-restore.svg</file>
@@ -188,7 +187,6 @@
         <file>light/volume_medium.svg</file>
         <file>light/volume_mute.svg</file>
         <file>light/volume_noaudio.svg</file>
-        <file>light/wallpaper.svg</file>
         <file>light/windows-maximize.svg</file>
         <file>light/windows-minimize.svg</file>
         <file>light/windows-restore.svg</file>

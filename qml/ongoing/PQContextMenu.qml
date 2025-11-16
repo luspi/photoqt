@@ -23,6 +23,7 @@ pragma ComponentBehavior: Bound
 
 import QtQuick
 import PhotoQt
+import PQCExtensionsHandler
 
 Loader {
 
@@ -89,27 +90,27 @@ Loader {
             title: qsTranslate("contextmenu", "Manipulate image")
 
             PQMenuItem {
-                iconSource: "image://svg/:/" + PQCLook.iconShade + "/scale.svg"
-                text: qsTranslate("contextmenu", "Scale image")
-                enabled: !PQCConstants.showingPhotoSphere
-                onTriggered:
-                    PQCScriptsShortcuts.executeInternalCommand("__scale")
-            }
-
-            PQMenuItem {
-                iconSource: "image://svg/:/" + PQCLook.iconShade + "/crop.svg"
-                text: qsTranslate("contextmenu", "Crop image")
-                enabled: !PQCConstants.showingPhotoSphere
-                onTriggered:
-                    PQCScriptsShortcuts.executeInternalCommand("__crop")
-            }
-
-            PQMenuItem {
                 iconSource: "image://svg/:/" + PQCLook.iconShade + "/faces.svg"
                 text: qsTranslate("contextmenu", "Tag faces")
                 enabled: !PQCConstants.showingPhotoSphere
                 onTriggered:
                     PQCScriptsShortcuts.executeInternalCommand("__tagFaces")
+            }
+
+            Repeater {
+
+                model: PQCExtensionsHandler.contextMenuManipulate
+
+                PQMenuItem {
+                    required property string modelData
+                    text: PQCExtensionsHandler.getExtensionContextMenuTitle(modelData)
+                    property string iconName: PQCExtensionsHandler.getExtensionContextMenuIcon(modelData)
+                    iconSource: PQCScriptsImages.isSVG(iconName) ?
+                                   "image://svg/" + PQCExtensionsHandler.getExtensionLocation(modelData) + "/img/" + PQCLook.iconShade + "/" + iconName :
+                                    "file://" + PQCExtensionsHandler.getExtensionLocation(modelData) + "/img/" + PQCLook.iconShade + "/" + iconName
+                    onTriggered:
+                        PQCNotify.loaderShowExtension(modelData)
+                }
             }
 
         }
@@ -128,22 +129,6 @@ Loader {
                 }
             }
 
-            PQMenuItem {
-                iconSource: "image://svg/:/" + PQCLook.iconShade + "/convert.svg"
-                text: qsTranslate("contextmenu", "Export to different format")
-                enabled: !PQCConstants.showingPhotoSphere
-                onTriggered:
-                    PQCScriptsShortcuts.executeInternalCommand("__export")
-            }
-
-            PQMenuItem {
-                iconSource: "image://svg/:/" + PQCLook.iconShade + "/wallpaper.svg"
-                text: qsTranslate("contextmenu", "Set as wallpaper")
-                enabled: !PQCConstants.showingPhotoSphere
-                onTriggered:
-                    PQCScriptsShortcuts.executeInternalCommand("__wallpaper")
-            }
-
             Repeater {
                 model: PQCScriptsConfig.isZXingSupportEnabled() ? 1 : 0
                 PQMenuItem {
@@ -154,29 +139,96 @@ Loader {
                 }
             }
 
-        }
+            Repeater {
 
-        PQMenu {
+                model: PQCExtensionsHandler.contextMenuUse
 
-            id: aboutmenu
-
-            title: qsTranslate("contextmenu", "About image")
-
-            PQMenuItem {
-                iconSource: "image://svg/:/" + PQCLook.iconShade + "/histogram.svg"
-                text: qsTranslate("contextmenu", "Show histogram")
-                onTriggered:
-                    PQCScriptsShortcuts.executeInternalCommand("__histogram")
+                PQMenuItem {
+                    required property string modelData
+                    text: PQCExtensionsHandler.getExtensionContextMenuTitle(modelData)
+                    property string iconName: PQCExtensionsHandler.getExtensionContextMenuIcon(modelData)
+                    iconSource: PQCScriptsImages.isSVG(iconName) ?
+                                   "image://svg/" + PQCExtensionsHandler.getExtensionLocation(modelData) + "/img/" + PQCLook.iconShade + "/" + iconName :
+                                    "file://" + PQCExtensionsHandler.getExtensionLocation(modelData) + "/img/" + PQCLook.iconShade + "/" + iconName
+                    onTriggered:
+                        PQCNotify.loaderShowExtension(modelData)
+                }
             }
 
-            Repeater {
-                model: PQCScriptsConfig.isLocationSupportEnabled() ? 1 : 0
-                PQMenuItem {
-                    iconSource: "image://svg/:/" + PQCLook.iconShade + "/mapmarker.svg"
-                    text: qsTranslate("contextmenu", "Show on map")
-                    onTriggered:
-                        PQCScriptsShortcuts.executeInternalCommand("__showMapCurrent")
+        }
+
+        // We need to hide this behind an instantiator in order to dynamically add/remove this submenu
+        // as there might be no extensions in this category
+        Instantiator {
+
+            model: PQCExtensionsHandler.contextMenuAbout.length ? 1 : 0
+
+            PQMenu {
+
+                id: aboutmenu
+
+                title: qsTranslate("contextmenu", "About image")
+
+                Repeater {
+
+                    model: PQCExtensionsHandler.contextMenuAbout
+
+                    PQMenuItem {
+                        required property string modelData
+                        text: PQCExtensionsHandler.getExtensionContextMenuTitle(modelData)
+                        property string iconName: PQCExtensionsHandler.getExtensionContextMenuIcon(modelData)
+                        iconSource: PQCScriptsImages.isSVG(iconName) ?
+                                       "image://svg/" + PQCExtensionsHandler.getExtensionLocation(modelData) + "/img/" + PQCLook.iconShade + "/" + iconName :
+                                        "file://" + PQCExtensionsHandler.getExtensionLocation(modelData) + "/img/" + PQCLook.iconShade + "/" + iconName
+                        onTriggered:
+                            PQCNotify.loaderShowExtension(modelData)
+                    }
                 }
+
+            }
+
+            // add/remove item into/from the correct position in the global menu
+            onObjectAdded: (index, object) => {
+                menutop.insertMenu(8, object)
+            }
+            onObjectRemoved: (index, object) => {
+                menutop.removeMenu(object)
+            }
+
+        }
+
+        // We need to hide this behind an instantiator in order to dynamically add/remove this submenu
+        // as there might be no extensions in this category
+        Instantiator {
+
+            model: PQCExtensionsHandler.contextMenuOther.length ? 1 : 0
+
+            PQMenu {
+
+                title: qsTranslate("contextmenu", "Extensions")
+
+                Repeater{
+                    model: PQCExtensionsHandler.contextMenuOther
+                    PQMenuItem {
+                        required property string modelData
+                        text: PQCExtensionsHandler.getExtensionContextMenuTitle(modelData)
+                        property string iconName: PQCExtensionsHandler.getExtensionContextMenuIcon(modelData)
+                        iconSource: PQCScriptsImages.isSVG(iconName) ?
+                                       "image://svg/" + PQCExtensionsHandler.getExtensionLocation(modelData) + "/img/" + PQCLook.iconShade + "/" + iconName :
+                                        "file://" + PQCExtensionsHandler.getExtensionLocation(modelData) + "/img/" + PQCLook.iconShade + "/" + iconName
+                        onTriggered:
+                            PQCNotify.loaderShowExtension(modelData)
+                    }
+                }
+
+            }
+
+            // add/remove item into/from the correct position in the global menu
+            onObjectAdded: (index, object) => {
+                menutop.insertMenu(9, object)
+            }
+            onObjectRemoved: (index, object) => {
+                menutop.removeMenu(object)
             }
 
         }
@@ -227,7 +279,7 @@ Loader {
 
             // add/remove item into/from the correct position in the global menu
             onObjectAdded: (index, object) => {
-                menutop.insertMenu(9, object)
+                menutop.insertMenu(10, object)
             }
             onObjectRemoved: (index, object) => {
                 menutop.removeMenu(object)
