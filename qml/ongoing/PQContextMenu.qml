@@ -163,7 +163,7 @@ Loader {
 
             model: PQCExtensionsHandler.contextMenuAbout.length ? 1 : 0
 
-            PQMenu {
+            delegate: PQMenu {
 
                 id: aboutmenu
 
@@ -203,7 +203,7 @@ Loader {
 
             model: PQCExtensionsHandler.contextMenuOther.length ? 1 : 0
 
-            PQMenu {
+            delegate: PQMenu {
 
                 title: qsTranslate("contextmenu", "Extensions")
 
@@ -240,7 +240,7 @@ Loader {
 
             model: PQCSettings.imageviewColorSpaceEnable ? 1 : 0
 
-            PQMenu {
+            delegate: PQMenu {
                 id: iccmenu
                 enabled: menutop.currentFileSupportsColorSpaces
                 title: qsTranslate("contextmenu", "Select color profile")

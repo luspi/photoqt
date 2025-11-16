@@ -23,6 +23,7 @@
 import QtQuick
 import QtQuick.Controls
 import PhotoQt
+import PQCExtensionsHandler
 
 MenuBar {
 
@@ -449,6 +450,77 @@ MenuBar {
             onTriggered: {
                 PQCScriptsShortcuts.executeInternalCommand("__defaultFileManager")
             }
+        }
+
+    }
+
+    Menu {
+
+        id: menu_extensions
+
+        title: qsTranslate("other", "&Extensions")
+
+        MenuItem {
+            text: "Manage extensions"
+        }
+
+        MenuSeparator {}
+
+        Instantiator {
+
+            model: PQCExtensionsHandler.numExtensionsAll
+
+            delegate: Menu {
+
+                id: deleg
+                required property int index
+                property string extensionId: PQCExtensionsHandler.getExtensionsEnabledAndDisabld()[index]
+                property bool isEnabled: true//PQCExtensionsHandler. deleg.index < PQCExtensionsHandler.numExtensions
+
+                title: (deleg.isEnabled ? "" : "<s>")+PQCExtensionsHandler.getExtensionName(extensionId)+(deleg.isEnabled ? "" : "</s>")
+
+                MenuItem {
+                    text: deleg.isEnabled ? "Disable extension" : "Enable extension"
+                    onTriggered: {
+                        if(deleg.isEnabled) {
+                            PQCExtensionsHandler.disableExtension(deleg.extensionId)
+                            deleg.isEnabled = false
+                        } else {
+                            PQCExtensionsHandler.enableExtension(deleg.extensionId)
+                            deleg.isEnabled = true
+                        }
+                        PQCSettings.generalExtensionsEnabled = PQCExtensionsHandler.getExtensions()
+                    }
+                }
+
+                MenuItem {
+                    enabled: deleg.isEnabled
+                    text: PQCExtensionsHandler.getExtensionModal(extensionId) ? "Show extension" : "Toggle extension"
+                    onTriggered:
+                        PQCNotify.loaderShowExtension(deleg.extensionId)
+                }
+
+                Component.onCompleted: {
+                    deleg.isEnabled = PQCExtensionsHandler.getDisabledExtensions().indexOf(deleg.extensionId)===-1
+                }
+
+                Connections {
+                    target: PQCExtensionsHandler
+                    function onNumExtensionsAllChanged() {
+                        deleg.isEnabled = PQCExtensionsHandler.getDisabledExtensions().indexOf(deleg.extensionId)===-1
+                    }
+                }
+
+            }
+
+            // add/remove item into/from the correct position in the global menu
+            onObjectAdded: (index, object) => {
+                menu_extensions.addMenu(object)
+            }
+            onObjectRemoved: (index, object) => {
+                menu_extensions.removeMenu(object)
+            }
+
         }
 
     }

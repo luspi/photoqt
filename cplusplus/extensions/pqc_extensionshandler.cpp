@@ -7,6 +7,7 @@
 #include <QtConcurrent/QtConcurrentRun>
 #include <QImage>
 #include <QTranslator>
+#include <QTimer>
 #include <pqc_filefoldermodelCPP.h>
 #include <pqc_settingscpp.h>
 #include <pqc_loadimage.h>
@@ -36,6 +37,16 @@
 PQCExtensionsHandler::PQCExtensionsHandler() {
     previousCurrentFile = "";
     m_numExtensions = 0;
+    m_numExtensionsAll = 0;
+    resetNumExtensionsAll = new QTimer;
+    resetNumExtensionsAll->setInterval(250);
+    resetNumExtensionsAll->setSingleShot(false);
+    connect(resetNumExtensionsAll, &QTimer::timeout, this, [=]() {
+        m_numExtensions = m_extensions.length();
+        m_numExtensionsAll = m_extensions.length()+m_extensionsDisabled.length();
+        Q_EMIT numExtensionsChanged();
+        Q_EMIT numExtensionsAllChanged();
+    });
     connect(&PQCNotifyCPP::get(), &PQCNotifyCPP::keyPress, this, [=](int key, int modifiers) {
         QString combo = PQCScriptsShortcuts::get().analyzeModifier(static_cast<Qt::KeyboardModifiers>(modifiers)).join("+");
         if(combo != "") combo += "+";
@@ -156,7 +167,9 @@ void PQCExtensionsHandler::setup() {
         }
 
         m_numExtensions = m_extensions.length();
+        m_numExtensionsAll = m_extensions.length()+m_extensionsDisabled.length();
         Q_EMIT numExtensionsChanged();
+        Q_EMIT numExtensionsAllChanged();
 
         if(m_extensions.length())
             qDebug() << "The following extensions have been enabled:" << m_extensions.join(", ");
@@ -845,13 +858,34 @@ void PQCExtensionsHandler::setEnabledExtensions(const QStringList &ids) {
                 qWarning() << id << "- unable to install translator:" << PQCScriptsLocalization::get().getActiveTranslationCode();
         }
     }
-    Q_EMIT numExtensionsChanged();
+    resetNumExtensionsAll->start();
 }
 
 void PQCExtensionsHandler::setDisabledExtensions(const QStringList &ids) {
     m_extensionsDisabled = ids;
     for(const QString &id : ids)
         qApp->removeTranslator(extTrans.value(id));
+    resetNumExtensionsAll->start();
+}
+
+void PQCExtensionsHandler::enableExtension(const QString &id) {
+    qDebug() << "args: id =" << id;
+    if(!m_extensions.contains(id)) {
+        m_extensions.append(id);
+        if(m_extensionsDisabled.contains(id))
+            m_extensionsDisabled.removeAt(m_extensionsDisabled.indexOf(id));
+    }
+    resetNumExtensionsAll->start();
+}
+
+void PQCExtensionsHandler::disableExtension(const QString &id) {
+    qDebug() << "args: id =" << id;
+    if(!m_extensionsDisabled.contains(id)) {
+        m_extensionsDisabled.append(id);
+        if(m_extensions.contains(id))
+            m_extensions.removeAt(m_extensions.indexOf(id));
+    }
+    resetNumExtensionsAll->start();
 }
 
 // return code:

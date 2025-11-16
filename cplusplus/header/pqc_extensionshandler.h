@@ -142,6 +142,7 @@ public:
 };
 
 class QTranslator;
+class QTimer;
 
 class PQCExtensionsHandler : public QObject {
 
@@ -160,6 +161,7 @@ public:
 
     // GLOBAL PROPERTIES
     Q_PROPERTY(int numExtensions MEMBER m_numExtensions NOTIFY numExtensionsChanged)
+    Q_PROPERTY(int numExtensionsAll MEMBER m_numExtensionsAll NOTIFY numExtensionsAllChanged)
 
     // CONTEXT MENU ENTRIES
     Q_PROPERTY(QStringList contextMenuUse MEMBER m_contextMenuUse NOTIFY contextMenuUseChanged)
@@ -251,6 +253,8 @@ public:
     // these are predominantly used by the settings manager
     Q_INVOKABLE void setEnabledExtensions(const QStringList &ids);
     Q_INVOKABLE void setDisabledExtensions(const QStringList &ids);
+    Q_INVOKABLE void enableExtension(const QString &id);
+    Q_INVOKABLE void disableExtension(const QString &id);
     Q_INVOKABLE int installExtension(QString filepath);
 
 private:
@@ -270,6 +274,8 @@ private:
     QString previousCurrentFile;
 
     int m_numExtensions;
+    int m_numExtensionsAll;
+    QTimer *resetNumExtensionsAll;
 
     void loadSettingsInBGToLookForShortcuts();
 
@@ -295,6 +301,7 @@ Q_SIGNALS:
     void receivedMessage(const QString id, QVariant val);
 
     void numExtensionsChanged();
+    void numExtensionsAllChanged();
     void contextMenuUseChanged();
     void contextMenuManipulateChanged();
     void contextMenuAboutChanged();
