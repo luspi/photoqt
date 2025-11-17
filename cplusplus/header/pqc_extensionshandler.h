@@ -50,16 +50,20 @@ public:
     PQCExtensionsHandler(PQCExtensionsHandler const&) = delete;
     void operator=(PQCExtensionsHandler const&) = delete;
 
-    /**************************************************************/
+    /************************************************************************************/
+    /************************************************************************************/
+    //
+    // THESE ARE NOT TO BE CALLED (DIRECTLY) BY EXTENSIONS!!!
+    // Extension MUST use PQCExtensionMethod and PQCExtensionProperties
+    //
+    /************************************************************************************/
+    /************************************************************************************/
 
     // these can be called from PQCExtensionMethods, but should not be called directly here!
     void requestCallActionWithImage(const QString &id, QVariant additional = QVariant(), bool async = true);
     void requestCallAction(const QString &id, QVariant additional = QVariant(), bool async = true);
 
-    /**************************************************************/
-    /**************************************************************/
-    /**************************************************************/
-    // below is not intended to be used by extensions!
+    /************************************************/
 
     Q_PROPERTY(int numExtensionsEnabled MEMBER m_numExtensionsEnabled NOTIFY numExtensionsEnabledChanged)
     Q_PROPERTY(int numExtensionsAll MEMBER m_numExtensionsAll NOTIFY numExtensionsAllChanged)

@@ -41,9 +41,6 @@ public:
     Q_INVOKABLE void requestCallActionWithImage(const QString &id, QVariant additional = QVariant(), bool async = true);
     Q_INVOKABLE void requestCallAction(const QString &id, QVariant additional = QVariant(), bool async = true);
 
-    // TODO: remove this one
-    Q_INVOKABLE QString getExtensionLocation(QString id);
-
     /**********************************/
 
     // execute an internal command

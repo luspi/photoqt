@@ -21,101 +21,22 @@
  **************************************************************************/
 
 import QtQuick
+import QtQuick.Controls
 import PhotoQt
 import PQCExtensionsHandler
 
-Row {
+Flickable {
 
-    id: setctrl
+    id: set_top
 
-    width: parent.width
+    anchors.fill: parent
+    anchors.margins: 10
+    anchors.topMargin: 15
 
-    property string extensionId: ""
-    property alias settings: extsettings
-    property alias content: cont.children
+    clip: true
+    ScrollBar.vertical: PQVerticalScrollBar {}
 
-    property bool _showSetting: false
-
-    SystemPalette { id: pqtPalette }
-
-    signal hasChanged()
-    signal resetToDefaults()
-
-    ExtensionSettings {
-        id: extsettings
-        extensionId: setctrl.extensionId
-    }
-
-    Column {
-
-        x: 15
-        width: parent.width-30
-
-        spacing: 10
-
-        Rectangle {
-            id: heading
-            width: parent.width
-            height: 50
-            color: pqtPalette.alternateBase
-            radius: 5
-            Row {
-                id: headingrow
-                x: 5
-                spacing: 5
-                height: parent.height
-                Image {
-                    y: (parent.height-height)/2
-                    height: heading.height*0.4
-                    width: height
-                    sourceSize: Qt.size(width, height)
-                    rotation: setctrl._showSetting ? 90 : 0
-                    Behavior on rotation { NumberAnimation { duration: 200 } }
-                    source: "image://svg/:/" + PQCLook.iconShade + "/forwards.svg"
-                }
-
-                PQTextL {
-                    y: (parent.height-height)/2
-                    text: PQCExtensionsHandler.getExtensionName(setctrl.extensionId)
-                    font.weight: PQCLook.fontWeightBold
-                }
-            }
-            PQMouseArea {
-                anchors.fill: parent
-                hoverEnabled: true
-                cursorShape: Qt.PointingHandCursor
-                text: "<b>" + PQCExtensionsHandler.getExtensionDescription(setctrl.extensionId) + "</b><br><br>Author: " + PQCExtensionsHandler.getExtensionAuthor(setctrl.extensionId) + "<br>Contact:" + PQCExtensionsHandler.getExtensionContact(setctrl.extensionId)
-                tooltipReference: headingrow
-                onClicked: {
-                    setctrl._showSetting = !setctrl._showSetting
-                }
-            }
-        }
-
-        Rectangle {
-            id: contcol
-            radius: 5
-            width: parent.width
-            height: flick.height
-            clip: true
-            opacity: height > 0 ? 1 : 0
-            Behavior on opacity { NumberAnimation { duration: 200 } }
-            visible: (opacity>0)
-            color: pqtPalette.alternateBase
-            Flickable {
-                id: flick
-                width: parent.width
-                height: (setctrl._showSetting ? Math.min(500, cont.height) : 0)
-                Behavior on height { NumberAnimation { duration: 200 } }
-                contentHeight: cont.height
-                Column {
-                    id: cont
-                    width: parent.width
-                    spacing: 10
-                }
-            }
-        }
-
-    }
+    property string extensionId: extension_setting.extensionId
+    property string baseDir: PQCExtensionsHandler.getExtensionLocation(extensionId)
 
 }

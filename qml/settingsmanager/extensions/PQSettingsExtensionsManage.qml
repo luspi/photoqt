@@ -68,7 +68,7 @@ PQSetting {
 
                 Rectangle {
 
-                    id: deleg
+                    id: extension_setting
 
                     required property int index
                     property string extensionId: set_maex.allExtensions[index]
@@ -91,7 +91,7 @@ PQSetting {
 
                     property bool hasSettings: PQCExtensionsHandler.getHasSettings(extensionId)
 
-                    property string tooltipText: "<h2>" + deleg.extName + "</h2>
+                    property string tooltipText: "<h2>" + extension_setting.extName + "</h2>
                                                  <b>" + qsTranslate("settingsmanager", "Version") + ":</b> " + extVersion + "<br>
                                                  <b>" + qsTranslate("settingsmanager", "Author") + ":</b> " + extAuthor + "<br>
                                                  <b>" + qsTranslate("settingsmanager", "Contact") + ":</b> " + extContact + "<br>
@@ -115,12 +115,12 @@ PQSetting {
                             width: parent.width
                             height: 40
                             hoverEnabled: true
-                            cursorShape: deleg.hasSettings ? Qt.PointingHandCursor : Qt.ArrowCursor
-                            text: (deleg.hasSettings ? "<i>" + qsTranslate("settingsmanager", "Click here to show extension specific settings.") + "</i>" : "") + deleg.tooltipText
+                            cursorShape: extension_setting.hasSettings ? Qt.PointingHandCursor : Qt.ArrowCursor
+                            text: (extension_setting.hasSettings ? "<i>" + qsTranslate("settingsmanager", "Click here to show extension specific settings.") + "</i>" : "") + extension_setting.tooltipText
                             onClicked: {
-                                if(!deleg.hasSettings) return
-                                if(set_maex.currentExpandedSetting !== deleg.index)
-                                    set_maex.currentExpandedSetting = deleg.index
+                                if(!extension_setting.hasSettings) return
+                                if(set_maex.currentExpandedSetting !== extension_setting.index)
+                                    set_maex.currentExpandedSetting = extension_setting.index
                                 else
                                     set_maex.currentExpandedSetting = -1
                             }
@@ -130,18 +130,18 @@ PQSetting {
                             id: check
                             x: 5
                             y: (parent.height-height)/2
-                            text: deleg.extName
-                            tooltip: deleg.tooltipText
+                            text: extension_setting.extName
+                            tooltip: extension_setting.tooltipText
                             onCheckedChanged: {
 
                                 if(!set_maex.settingsLoaded) return
 
                                 if(checked) {
-                                    set_maex.extensionsEnabled.push(deleg.extensionId)
-                                    set_maex.extensionsDisabled = set_maex.extensionsDisabled.filter(item => item!==deleg.extensionId)
+                                    set_maex.extensionsEnabled.push(extension_setting.extensionId)
+                                    set_maex.extensionsDisabled = set_maex.extensionsDisabled.filter(item => item!==extension_setting.extensionId)
                                 } else {
-                                    set_maex.extensionsDisabled.push(deleg.extensionId)
-                                    set_maex.extensionsEnabled = set_maex.extensionsEnabled.filter(item => item!==deleg.extensionId)
+                                    set_maex.extensionsDisabled.push(extension_setting.extensionId)
+                                    set_maex.extensionsEnabled = set_maex.extensionsEnabled.filter(item => item!==extension_setting.extensionId)
                                 }
                                 set_maex.extensionsEnabled.sort()
                                 set_maex.extensionsDisabled.sort()
@@ -151,7 +151,7 @@ PQSetting {
                             Connections {
                                 target: set_maex
                                 function onLoadCheckedStatus() {
-                                    check.loadAndSetDefault(set_maex.extensionsEnabled.indexOf(deleg.extensionId)>-1)
+                                    check.loadAndSetDefault(set_maex.extensionsEnabled.indexOf(extension_setting.extensionId)>-1)
                                 }
                             }
 
@@ -162,7 +162,7 @@ PQSetting {
                             height: parent.height
                             hoverEnabled: true
                             cursorShape: Qt.PointingHandCursor
-                            text: "<i>" + qsTranslate("settingsmanager", "Click here to enable/disable extension.") + "</i>" + deleg.tooltipText
+                            text: "<i>" + qsTranslate("settingsmanager", "Click here to enable/disable extension.") + "</i>" + extension_setting.tooltipText
                             onClicked: {
                                 check.checked = !check.checked
                             }
@@ -170,12 +170,12 @@ PQSetting {
 
                         Image {
                             id: verified
-                            visible: !deleg.isDebugBuild
+                            visible: !extension_setting.isDebugBuild
                             x: check.x+check.width+5
                             y: (parent.height-height)/2
                             width: visible ? check.height*0.75 : 0
                             height: visible ? check.height*0.75 : 0
-                            source: "image://svg/:/other/verified_" + (deleg.isVerified ? "yes" : "no") + ".svg"
+                            source: "image://svg/:/other/verified_" + (extension_setting.isVerified ? "yes" : "no") + ".svg"
                             sourceSize: Qt.size(width, height)
                         }
 
@@ -183,9 +183,9 @@ PQSetting {
                             id: desc
                             x: verified.x+verified.width+10
                             y: (parent.height-height)/2
-                            width: deleg.width-verified.width-setupButton.width-check.width-30
+                            width: extension_setting.width-verified.width-setupButton.width-check.width-30
                             enabled: false
-                            text: deleg.extDesc
+                            text: extension_setting.extDesc
                             elide: Text.ElideRight
                         }
 
@@ -194,7 +194,7 @@ PQSetting {
                             x: (parent.width-width-10)
                             width: 40
                             height: 40
-                            enabled: PQCExtensionsHandler.getHasSettings(deleg.extensionId)
+                            enabled: PQCExtensionsHandler.getHasSettings(extension_setting.extensionId)
                             opacity: enabled ? 1 : 0.1
                             source: "image://svg/:/" + PQCLook.iconShade + "/settings.svg"
                         }
@@ -206,14 +206,14 @@ PQSetting {
                         width: parent.width
                         height: 1
                         color: PQCLook.baseBorder
-                        visible: deleg.height>41
+                        visible: extension_setting.height>41
                     }
 
                     Loader {
                         anchors.fill: parent
                         anchors.topMargin: 40
-                        active: deleg.height>41
-                        source: "file:/"+PQCExtensionsHandler.getExtensionLocation(deleg.extensionId) + "/qml/PQ"+deleg.extensionId+"Settings.qml"
+                        active: extension_setting.height>41
+                        source: "file:/"+PQCExtensionsHandler.getExtensionLocation(extension_setting.extensionId) + "/qml/PQ"+extension_setting.extensionId+"Settings.qml"
                     }
 
                 }

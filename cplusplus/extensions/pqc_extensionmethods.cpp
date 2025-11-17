@@ -47,11 +47,6 @@ void PQCExtensionMethods::requestCallAction(const QString &id, QVariant addition
     PQCExtensionsHandler::get().requestCallAction(id, additional, async);
 }
 
-// TODO: remove this one
-QString PQCExtensionMethods::getExtensionLocation(QString id) {
-    return PQCExtensionsHandler::get().getExtensionLocation(id);
-}
-
 /**********************************/
 
 // execute an internal command
