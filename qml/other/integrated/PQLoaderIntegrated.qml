@@ -44,8 +44,8 @@ Item {
             defaultPopoutGeometry: PQCWindowGeometry.aboutGeometry
             defaultPopoutMaximized: PQCWindowGeometry.aboutMaximized
             showTopBottom: false
-            onShowing: tmpl.showing()
-            onHiding: tmpl.hiding()
+            function showing() { return tmpl.showing() }
+            function hiding() { return tmpl.hiding() }
             popInOutButton.visible: false
             onRectUpdated: (r) => {
                 PQCWindowGeometry.aboutGeometry = r
@@ -112,8 +112,8 @@ Item {
             id: smpop
             defaultPopoutGeometry: PQCWindowGeometry.settingsmanagerGeometry
             defaultPopoutMaximized: PQCWindowGeometry.settingsmanagerMaximized
-            onShowing: tmpl.showing()
-            onHiding: tmpl.hiding()
+            function showing() { return tmpl.showing() }
+            function hiding() { return tmpl.hiding() }
             popInOutButton.visible: false
             onRectUpdated: (r) => {
                 PQCWindowGeometry.settingsmanagerGeometry = r
@@ -151,8 +151,8 @@ Item {
             showTopBottom: false
             defaultPopoutGeometry: PQCWindowGeometry.settingsmanagerGeometry
             defaultPopoutMaximized: PQCWindowGeometry.settingsmanagerMaximized
-            onShowing: tmpl.showing()
-            onHiding: tmpl.hiding()
+            function showing() { return tmpl.showing() }
+            function hiding() { return tmpl.hiding() }
             popInOutButton.visible: false
             onRectUpdated: (r) => {
                 PQCWindowGeometry.settingsmanagerGeometry = r
@@ -189,8 +189,8 @@ Item {
             id: smpop
             defaultPopoutGeometry: PQCWindowGeometry.filterGeometry
             defaultPopoutMaximized: PQCWindowGeometry.filterMaximized
-            onShowing: tmpl.showing()
-            onHiding: tmpl.hiding()
+            function showing() { return tmpl.showing() }
+            function hiding() { return tmpl.hiding() }
             popInOutButton.visible: false
             onRectUpdated: (r) => {
                 PQCWindowGeometry.filterGeometry = r
@@ -227,8 +227,8 @@ Item {
             id: smpop
             defaultPopoutGeometry: PQCWindowGeometry.slideshowsetupGeometry
             defaultPopoutMaximized: PQCWindowGeometry.slideshowsetupMaximized
-            onShowing: tmpl.showing()
-            onHiding: tmpl.hiding()
+            function showing() { return tmpl.showing() }
+            function hiding() { return tmpl.hiding() }
             popInOutButton.visible: false
             onRectUpdated: (r) => {
                 PQCWindowGeometry.slideshowsetupGeometry = r
@@ -282,8 +282,8 @@ Item {
             id: smpop
             defaultPopoutGeometry: PQCWindowGeometry.advancedsortGeometry
             defaultPopoutMaximized: PQCWindowGeometry.advancedsortMaximized
-            onShowing: tmpl.showing()
-            onHiding: tmpl.hiding()
+            function showing() { return tmpl.showing() }
+            function hiding() { return tmpl.hiding() }
             popInOutButton.visible: false
             onRectUpdated: (r) => {
                 PQCWindowGeometry.advancedsortGeometry = r
@@ -338,8 +338,8 @@ Item {
             id: smpop
             defaultPopoutGeometry: PQCWindowGeometry.chromecastmanagerGeometry
             defaultPopoutMaximized: PQCWindowGeometry.chromecastmanagerMaximized
-            onShowing: tmpl.showing()
-            onHiding: tmpl.hiding()
+            function showing() { return tmpl.showing() }
+            function hiding() { return tmpl.hiding() }
             popInOutButton.visible: false
             onRectUpdated: (r) => {
                 PQCWindowGeometry.chromecastmanagerGeometry = r

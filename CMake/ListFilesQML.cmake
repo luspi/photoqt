@@ -154,6 +154,7 @@ SET(photoqt_QML qml/PQMainWindowModern.qml
 
                 qml/settingsmanager/PQSettingsManager.qml
                 qml/settingsmanager/PQSettingsTabs.qml
+                qml/settingsmanager/PQSettingsConfirmUnsaved.qml
 
                 qml/settingsmanager/elements/PQSettingsSeparator.qml
                 qml/settingsmanager/elements/PQSetting.qml

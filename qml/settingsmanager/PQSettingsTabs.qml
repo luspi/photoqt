@@ -111,10 +111,8 @@ Item {
                             subtabbar_interface.tabheight = height
                         isCurrentTab: tab_top.currentComponents[0]===subtabbar_interface.entries[index][0]
                         text: subtabbar_interface.entries[index][1]
-                        onClicked: {
-                            tab_top.currentComponents[0] = subtabbar_interface.entries[index][0]
-                            tab_top.currentComponentsChanged()
-                        }
+                        onClicked:
+                            tab_top.changeCategory(0, subtabbar_interface.entries[index][0])
                         Rectangle {
                             y: parent.height-height
                             width: parent.width
@@ -189,10 +187,8 @@ Item {
                             subtabbar_imageview.tabheight = height
                         isCurrentTab: tab_top.currentComponents[1]===subtabbar_imageview.entries[index][0]
                         text: subtabbar_imageview.entries[index][1]
-                        onClicked: {
-                            tab_top.currentComponents[1] = subtabbar_imageview.entries[index][0]
-                            tab_top.currentComponentsChanged()
-                        }
+                        onClicked:
+                            tab_top.changeCategory(1, subtabbar_imageview.entries[index][0])
                         Rectangle {
                             y: parent.height-height
                             width: parent.width
@@ -263,10 +259,8 @@ Item {
                             subtabbar_thumbnails.tabheight = height
                         isCurrentTab: tab_top.currentComponents[2]===subtabbar_thumbnails.entries[index][0]
                         text: subtabbar_thumbnails.entries[index][1]
-                        onClicked: {
-                            tab_top.currentComponents[2] = subtabbar_thumbnails.entries[index][0]
-                            tab_top.currentComponentsChanged()
-                        }
+                        onClicked:
+                            tab_top.changeCategory(2, subtabbar_thumbnails.entries[index][0])
                         Rectangle {
                             y: parent.height-height
                             width: parent.width
@@ -341,10 +335,8 @@ Item {
                             subtabbar_filetypes.tabheight = height
                         isCurrentTab: tab_top.currentComponents[3]===subtabbar_filetypes.entries[index][0]
                         text: subtabbar_filetypes.entries[index][1]
-                        onClicked: {
-                            tab_top.currentComponents[3] = subtabbar_filetypes.entries[index][0]
-                            tab_top.currentComponentsChanged()
-                        }
+                        onClicked:
+                            tab_top.changeCategory(3, subtabbar_filetypes.entries[index][0])
                         Rectangle {
                             y: parent.height-height
                             width: parent.width
@@ -416,10 +408,8 @@ Item {
                             subtabbar_mousekeys.tabheight = height
                         isCurrentTab: tab_top.currentComponents[4]===subtabbar_mousekeys.entries[index][0]
                         text: subtabbar_mousekeys.entries[index][1]
-                        onClicked: {
-                            tab_top.currentComponents[4] = subtabbar_mousekeys.entries[index][0]
-                            tab_top.currentComponentsChanged()
-                        }
+                        onClicked:
+                            tab_top.changeCategory(4, subtabbar_mousekeys.entries[index][0])
                         Rectangle {
                             y: parent.height-height
                             width: parent.width
@@ -489,10 +479,8 @@ Item {
                             subtabbar_manage.tabheight = height
                         isCurrentTab: tab_top.currentComponents[5]===subtabbar_manage.entries[index][0]
                         text: subtabbar_manage.entries[index][1]
-                        onClicked: {
-                            tab_top.currentComponents[5] = subtabbar_manage.entries[index][0]
-                            tab_top.currentComponentsChanged()
-                        }
+                        onClicked:
+                            tab_top.changeCategory(5, subtabbar_manage.entries[index][0])
                         Rectangle {
                             y: parent.height-height
                             width: parent.width
@@ -561,10 +549,8 @@ Item {
                             subtabbar_extensions.tabheight = height
                         isCurrentTab: tab_top.currentComponents[6]===subtabbar_extensions.entries[index][0]
                         text: subtabbar_extensions.entries[index][1]
-                        onClicked: {
-                            tab_top.currentComponents[6] = subtabbar_extensions.entries[index][0]
-                            tab_top.currentComponentsChanged()
-                        }
+                        onClicked:
+                            tab_top.changeCategory(6, subtabbar_extensions.entries[index][0])
                         Rectangle {
                             y: parent.height-height
                             width: parent.width
@@ -633,10 +619,8 @@ Item {
                             subtabbar_other.tabheight = height
                         isCurrentTab: tab_top.currentComponents[7]===subtabbar_other.entries[index][0]
                         text: subtabbar_other.entries[index][1]
-                        onClicked: {
-                            tab_top.currentComponents[7] = subtabbar_other.entries[index][0]
-                            tab_top.currentComponentsChanged()
-                        }
+                        onClicked:
+                            tab_top.changeCategory(7, subtabbar_other.entries[index][0])
                         Rectangle {
                             y: parent.height-height
                             width: parent.width
@@ -655,6 +639,34 @@ Item {
 
         /**********************************************/
 
+    }
+
+    PQSettingsConfirmUnsaved {
+        id: confirmUnsaved
+    }
+
+    Connections {
+
+        target: confirmUnsaved
+
+        function onUpdateTabTo(mainCat : int, subCat : string) {
+
+            tab_top.currentComponents[mainCat] = subCat
+            tab_top.currentComponentsChanged()
+
+        }
+
+    }
+
+    function changeCategory(mainCat : int, subCat : string) {
+        if(PQCConstants.settingsManagerSettingChanged) {
+            confirmUnsaved.ind = mainCat
+            confirmUnsaved.cat = subCat
+            confirmUnsaved.opacity = 1
+        } else {
+            tab_top.currentComponents[mainCat] = subCat
+            tab_top.currentComponentsChanged()
+        }
     }
 
 }

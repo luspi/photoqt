@@ -658,11 +658,10 @@ PQTemplate {
         interval_slider.acceptValue()
     }
 
-    function onShowing() {
+    function showing() {
 
         if(PQCFileFolderModel.currentIndex === -1 || PQCFileFolderModel.countMainView === 0) {
-            hide()
-            return
+            return false
         }
 
         var animArray = ["kenburns", "opacity", "x", "y", "rotation", "explosion", "implosion", "random"]
@@ -691,7 +690,7 @@ PQTemplate {
 
     }
 
-    function onHiding() {
+    function hiding() {
         closePopupMenuSpin()
     }
 

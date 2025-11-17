@@ -299,20 +299,6 @@ MenuBar {
 
         MenuSeparator {}
 
-        // MenuItem {
-        //     text: qsTranslate("other", "&Scale image")
-        //     onTriggered: {
-        //          // EXTENSION
-        //     }
-        // }
-
-        // MenuItem {
-        //     text: qsTranslate("other", "&Crop image")
-        //     onTriggered: {
-        //          // EXTENSION
-        //     }
-        // }
-
         MenuItem {
             icon.source: "image://svg/:/" + PQCLook.iconShade + "/faces.svg"
             text: qsTranslate("other", "&Tag faces")
@@ -339,34 +325,6 @@ MenuBar {
                 PQCScriptsShortcuts.executeInternalCommand("__detectBarCodes")
             }
         }
-
-        // MenuItem {
-        //     text: qsTranslate("other", "&Export to different format")
-        //     onTriggered: {
-        //         // EXTENSION
-        //     }
-        // }
-
-        // MenuItem {
-        //     text: qsTranslate("other", "&Set as wallpaper")
-        //     onTriggered: {
-        //         // EXTENSION
-        //     }
-        // }
-
-        // MenuItem {
-        //     text: qsTranslate("other", "&Histogram")
-        //     onTriggered: {
-        //         // EXTENSION
-        //     }
-        // }
-
-        // MenuItem {
-        //     text: qsTranslate("other", "&Show on map")
-        //     onTriggered: {
-        //         // EXTENSION
-        //     }
-        // }
 
     }
 
@@ -461,7 +419,7 @@ MenuBar {
         title: qsTranslate("other", "&Extensions")
 
         MenuItem {
-            text: "Manage extensions"
+            text: qsTranslate("other", "Manage extensions")
         }
 
         MenuSeparator {}
@@ -475,12 +433,12 @@ MenuBar {
                 id: deleg
                 required property int index
                 property string extensionId: PQCExtensionsHandler.getExtensionsEnabledAndDisabld()[index]
-                property bool isEnabled: true//PQCExtensionsHandler. deleg.index < PQCExtensionsHandler.numExtensions
+                property bool isEnabled: true
 
                 title: (deleg.isEnabled ? "" : "<s>")+PQCExtensionsHandler.getExtensionName(extensionId)+(deleg.isEnabled ? "" : "</s>")
 
                 MenuItem {
-                    text: deleg.isEnabled ? "Disable extension" : "Enable extension"
+                    text: deleg.isEnabled ? qsTranslate("other", "Disable extension") : qsTranslate("other", "Enable extension")
                     onTriggered: {
                         if(deleg.isEnabled) {
                             PQCExtensionsHandler.disableExtension(deleg.extensionId)
@@ -495,7 +453,7 @@ MenuBar {
 
                 MenuItem {
                     enabled: deleg.isEnabled
-                    text: PQCExtensionsHandler.getExtensionModal(extensionId) ? "Show extension" : "Toggle extension"
+                    text: PQCExtensionsHandler.getExtensionModal(extensionId) ? qsTranslate("other", "Show extension") : qsTranslate("other", "Toggle extension")
                     onTriggered:
                         PQCNotify.loaderShowExtension(deleg.extensionId)
                 }

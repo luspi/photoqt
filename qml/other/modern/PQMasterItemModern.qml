@@ -199,8 +199,8 @@ Loader {
             id: comp_filedialog
             PQTemplateModal {
                 id: smmod
-                onShowing: tmpl.showing()
-                onHiding: tmpl.hiding()
+                function showing() { return tmpl.showing() }
+                function hiding() { return tmpl.hiding() }
                 showTopBottom: false
                 dontAnimateFirstShow: true
                 content: PQFileDialog {
@@ -226,8 +226,8 @@ Loader {
                 id: smpop
                 defaultPopoutGeometry: PQCWindowGeometry.filedialogGeometry
                 defaultPopoutMaximized: PQCWindowGeometry.filedialogMaximized
-                onShowing: tmpl.showing()
-                onHiding: tmpl.hiding()
+                function showing() { return tmpl.showing() }
+                function hiding() { return tmpl.hiding() }
                 showTopBottom: false
                 onRectUpdated: (r) => {
                     PQCWindowGeometry.filedialogGeometry = r

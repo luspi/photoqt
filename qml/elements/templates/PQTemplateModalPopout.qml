@@ -57,9 +57,6 @@ Window {
     signal button2Clicked()
     signal button3Clicked()
 
-    signal showing()
-    signal hiding()
-
     ///////////////////
 
     signal rectUpdated(var r)
@@ -323,23 +320,35 @@ Window {
     }
 
     function _show() {
+
+        var ret = cont.item.showing()
+        if(ret !== undefined && !ret) {
+            PQCNotify.loaderRegisterClose(element_top.elementId)
+            return false
+        }
+
         PQCNotify.loaderRegisterOpen(element_top.elementId)
         if(defaultPopoutMaximized)
             element_top.showMaximized()
         else
             element_top.show()
         _cacheCurrentMaxState = defaultPopoutMaximized
-        cont.item.showing()
+
     }
 
     function _hide() {
+
         if(!letElementHandleClosing) {
             _hideNoCheck()
         }
-        cont.item.hiding()
     }
 
     function _hideNoCheck() {
+
+        var ret = cont.item.hiding()
+        if(ret !== undefined && !ret)
+            return
+
         PQCNotify.loaderRegisterClose(element_top.elementId)
         element_top.close()
         PQCNotify.resetActiveFocus()

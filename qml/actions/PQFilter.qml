@@ -369,10 +369,9 @@ PQTemplate {
         filesize.acceptValue()
     }
 
-    function onShowing() {
+    function showing() {
         if((PQCFileFolderModel.currentIndex === -1 || PQCFileFolderModel.countMainView === 0) && !PQCFileFolderModel.filterCurrentlyActive) {
-            hide()
-            return
+            return false
         }
         opacity = 1
         if(popoutWindowUsed)
@@ -435,7 +434,7 @@ PQTemplate {
 
     }
 
-    function onHiding() {
+    function hiding() {
         closePopupMenuSpin()
     }
 

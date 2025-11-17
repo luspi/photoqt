@@ -54,9 +54,6 @@ Rectangle {
     signal button2Clicked()
     signal button3Clicked()
 
-    signal showing()
-    signal hiding()
-
     /********************/
 
     SystemPalette { id: pqtPalette }
@@ -260,20 +257,32 @@ Rectangle {
     }
 
     function _show() {
+
+        var ret = cont.item.showing()
+        if(ret !== undefined && !ret) {
+            PQCNotify.loaderRegisterClose(element_top.elementId)
+            return false
+        }
+
         PQCNotify.loaderRegisterOpen(element_top.elementId)
         opacity = 1
-        cont.item.showing()
         dontAnimateFirstShow = false
     }
 
     function _hide() {
+
         if(!letElementHandleClosing) {
             _hideNoCheck()
         }
-        cont.item.hiding()
+
     }
 
     function _hideNoCheck() {
+
+        var ret = cont.item.hiding()
+        if(ret !== undefined && !ret)
+            return false
+
         PQCNotify.loaderRegisterClose(element_top.elementId)
         opacity = 0
         PQCNotify.resetActiveFocus()

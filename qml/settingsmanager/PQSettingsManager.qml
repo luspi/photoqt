@@ -71,12 +71,22 @@ PQTemplate {
 
     }
 
-    onShowing: {
+    function showing() {
         PQCNotify.settingsmanagerSendCommand("loadcurrent", [])
     }
 
-    onHiding: {
-        button3.clicked()
+    function hiding() {
+
+        if(PQCConstants.settingsManagerSettingChanged) {
+            confirmUnsaved.cat = "-"
+            confirmUnsaved.opacity = 1
+            return false
+        }
+
+        confirmUnsaved.opacity = 0
+
+        return true
+
     }
 
     bottomLeftContent: [
@@ -287,6 +297,10 @@ PQTemplate {
 
     ]
 
+    PQSettingsConfirmUnsaved {
+        id: confirmUnsaved
+    }
+
     PQSettingsShortcutsDetectNew {
         id: detectNew
         parent: settingsmanager_top.parent.parent
@@ -307,11 +321,25 @@ PQTemplate {
 
                     if(param[0] === Qt.Key_Escape) {
 
-                        button3.clicked()
+                        if(confirmUnsaved.visible)
+                            confirmUnsaved.cancelDialog()
+                        else
+                            button3.clicked()
 
                     } else if(param[0] === Qt.Key_S && param[1] === Qt.ControlModifier) {
 
-                        PQCNotify.settingsmanagerSendCommand("applychanges", []);
+                        if(confirmUnsaved.opacity < 1)
+                            PQCNotify.settingsmanagerSendCommand("applychanges", []);
+
+                    } else if(param[0] === Qt.Key_Enter || param[0] === Qt.Key_Return) {
+
+                        if(confirmUnsaved.visible)
+                            confirmApply.clicked()
+
+                    } else if(param[0] === Qt.Key_R && param[1] === Qt.ControlModifier) {
+
+                        if(confirmUnsaved.opacity < 1)
+                            PQCNotify.settingsmanagerSendCommand("loadcurrent", []);
 
                     }
 

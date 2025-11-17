@@ -43,8 +43,8 @@ Rectangle {
 
     property int availableHeight
 
-    signal showing()
-    signal hiding()
+    function showing() { PQCNotify.resetActiveFocus(); return true }
+    function hiding() { return true }
 
     ///////////////////
 
@@ -60,10 +60,6 @@ Rectangle {
     }
 
     ///////////////////
-
-    function onHiding() {
-        PQCNotify.resetActiveFocus()
-    }
 
     MouseArea {
         anchors.fill: parent

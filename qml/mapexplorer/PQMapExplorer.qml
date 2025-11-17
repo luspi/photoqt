@@ -260,8 +260,9 @@ PQTemplate {
 
     }
 
-    onShowing:
+    function showing() {
         loadExplorerData()
+    }
 
     function loadExplorerData() {
 

@@ -60,7 +60,7 @@ PQTemplate {
     signal loadData()
     signal saveData()
 
-    onShowing: {
+    function showing() {
         working.hide()
         loadData()
     }

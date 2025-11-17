@@ -53,8 +53,8 @@ Item {
         id: comp_settingsmanager
         PQTemplateModal {
             id: smmod
-            onShowing: tmpl.showing()
-            onHiding: tmpl.hiding()
+            function showing() { return tmpl.showing() }
+            function hiding() { return tmpl.hiding() }
             content: PQSettingsManager {
                 id: tmpl
                 button1: smmod.button1
@@ -78,8 +78,8 @@ Item {
             id: smpop
             defaultPopoutGeometry: PQCWindowGeometry.settingsmanagerGeometry
             defaultPopoutMaximized: PQCWindowGeometry.settingsmanagerMaximized
-            onShowing: tmpl.showing()
-            onHiding: tmpl.hiding()
+            function showing() { return tmpl.showing() }
+            function hiding() { return tmpl.hiding() }
             onRectUpdated: (r) => {
                 PQCWindowGeometry.settingsmanagerGeometry = r
             }
@@ -106,69 +106,6 @@ Item {
 
     /*********************************************************************/
 
-    // Loader {
-    //     id: loader_filerename
-    //     active: false
-    //     anchors.fill: parent
-    //     sourceComponent: ((PQCSettings.interfacePopoutFileRename || PQCWindowGeometry.filerenameForcePopout) ? comp_filerename_popout : comp_filerename)
-    // }
-    // Component {
-    //     id: comp_filerename
-    //     PQTemplateModal {
-    //         id: smmod
-    //         onShowing: tmpl.showing()
-    //         onHiding: tmpl.hiding()
-    //         content: PQRename {
-    //             id: tmpl
-    //             button1: smmod.button1
-    //             button2: smmod.button2
-    //             button3: smmod.button3
-    //             bottomLeft: smmod.bottomLeft
-    //             popInOutButton: smmod.popInOutButton
-    //             availableHeight: smmod.contentHeight
-    //             Component.onCompleted: {
-    //                 smmod.elementId = elementId
-    //                 smmod.title = title
-    //                 smmod.letElementHandleClosing = letMeHandleClosing
-    //                 smmod.bottomLeftContent = bottomLeftContent
-    //             }
-    //         }
-    //     }
-    // }
-    // Component {
-    //     id: comp_filerename_popout
-    //     PQTemplateModalPopout {
-    //         id: smpop
-    //         defaultPopoutGeometry: PQCWindowGeometry.filerenameGeometry
-    //         defaultPopoutMaximized: PQCWindowGeometry.filerenameMaximized
-    //         onShowing: tmpl.showing()
-    //         onHiding: tmpl.hiding()
-    //         onRectUpdated: (r) => {
-    //             PQCWindowGeometry.filerenameGeometry = r
-    //         }
-    //         onMaximizedUpdated: (m) => {
-    //             PQCWindowGeometry.filerenameMaximized = m
-    //         }
-    //         content: PQRename {
-    //             id: tmpl
-    //             button1: smpop.button1
-    //             button2: smpop.button2
-    //             button3: smpop.button3
-    //             bottomLeft: smpop.bottomLeft
-    //             popInOutButton: smpop.popInOutButton
-    //             availableHeight: smpop.contentHeight
-    //             Component.onCompleted: {
-    //                 smpop.elementId = elementId
-    //                 smpop.title = title
-    //                 smpop.letElementHandleClosing = letMeHandleClosing
-    //                 smpop.bottomLeftContent = bottomLeftContent
-    //             }
-    //         }
-    //     }
-    // }
-
-    /*********************************************************************/
-
     Loader {
         id: loader_mapexplorer
         active: false
@@ -180,8 +117,8 @@ Item {
         PQTemplateModal {
             id: smmod
             showTopBottom: false
-            onShowing: tmpl.showing()
-            onHiding: tmpl.hiding()
+            function showing() { return tmpl.showing() }
+            function hiding() { return tmpl.hiding() }
             content: PQMapExplorer {
                 id: tmpl
                 button1: smmod.button1
@@ -206,8 +143,8 @@ Item {
             showTopBottom: false
             defaultPopoutGeometry: PQCWindowGeometry.mapexplorerGeometry
             defaultPopoutMaximized: PQCWindowGeometry.mapexplorerMaximized
-            onShowing: tmpl.showing()
-            onHiding: tmpl.hiding()
+            function showing() { return tmpl.showing() }
+            function hiding() { return tmpl.hiding() }
             onRectUpdated: (r) => {
                 PQCWindowGeometry.mapexplorerGeometry = r
             }
@@ -244,8 +181,8 @@ Item {
         id: comp_filter
         PQTemplateModal {
             id: smmod
-            onShowing: tmpl.showing()
-            onHiding: tmpl.hiding()
+            function showing() { return tmpl.showing() }
+            function hiding() { return tmpl.hiding() }
             content: PQFilter {
                 id: tmpl
                 button1: smmod.button1
@@ -269,8 +206,8 @@ Item {
             id: smpop
             defaultPopoutGeometry: PQCWindowGeometry.filterGeometry
             defaultPopoutMaximized: PQCWindowGeometry.filterMaximized
-            onShowing: tmpl.showing()
-            onHiding: tmpl.hiding()
+            function showing() { return tmpl.showing() }
+            function hiding() { return tmpl.hiding() }
             onRectUpdated: (r) => {
                 PQCWindowGeometry.filterGeometry = r
             }
@@ -307,8 +244,8 @@ Item {
         id: comp_slideshowsetup
         PQTemplateModal {
             id: smmod
-            onShowing: tmpl.showing()
-            onHiding: tmpl.hiding()
+            function showing() { return tmpl.showing() }
+            function hiding() { return tmpl.hiding() }
             content: PQSlideshowSetup {
                 id: tmpl
                 button1: smmod.button1
@@ -332,8 +269,8 @@ Item {
             id: smpop
             defaultPopoutGeometry: PQCWindowGeometry.slideshowsetupGeometry
             defaultPopoutMaximized: PQCWindowGeometry.slideshowsetupMaximized
-            onShowing: tmpl.showing()
-            onHiding: tmpl.hiding()
+            function showing() { return tmpl.showing() }
+            function hiding() { return tmpl.hiding() }
             onRectUpdated: (r) => {
                 PQCWindowGeometry.filterGeometry = r
             }
@@ -370,8 +307,8 @@ Item {
         id: comp_advancedsort
         PQTemplateModal {
             id: smmod
-            onShowing: tmpl.showing()
-            onHiding: tmpl.hiding()
+            function showing() { return tmpl.showing() }
+            function hiding() { return tmpl.hiding() }
             content: PQAdvancedSort {
                 id: tmpl
                 button1: smmod.button1
@@ -395,8 +332,8 @@ Item {
             id: smpop
             defaultPopoutGeometry: PQCWindowGeometry.advancedsortGeometry
             defaultPopoutMaximized: PQCWindowGeometry.advancedsortMaximized
-            onShowing: tmpl.showing()
-            onHiding: tmpl.hiding()
+            function showing() { return tmpl.showing() }
+            function hiding() { return tmpl.hiding() }
             onRectUpdated: (r) => {
                 PQCWindowGeometry.advancedsortGeometry = r
             }
@@ -433,8 +370,8 @@ Item {
         id: comp_about
         PQTemplateModal {
             id: smmod
-            onShowing: tmpl.showing()
-            onHiding: tmpl.hiding()
+            function showing() { return tmpl.showing() }
+            function hiding() { return tmpl.hiding() }
             content: PQAbout {
                 id: tmpl
                 button1: smmod.button1
@@ -458,8 +395,8 @@ Item {
             id: smpop
             defaultPopoutGeometry: PQCWindowGeometry.aboutGeometry
             defaultPopoutMaximized: PQCWindowGeometry.aboutMaximized
-            onShowing: tmpl.showing()
-            onHiding: tmpl.hiding()
+            function showing() { return tmpl.showing() }
+            function hiding() { return tmpl.hiding() }
             onRectUpdated: (r) => {
                 PQCWindowGeometry.aboutGeometry = r
             }
@@ -496,67 +433,6 @@ Item {
     Component { id: comp_mainmenu_popout; PQMainMenuModernPopout {} }
 
     /*********************************************************************/
-
-    // Loader {
-    //     id: loader_filedelete
-    //     active: false
-    //     anchors.fill: parent
-    //     sourceComponent: ((PQCSettings.interfacePopoutFileDelete || PQCWindowGeometry.filedeleteForcePopout) ? comp_filedelete_popout : comp_filedelete)
-    // }
-    // Component {
-    //     id: comp_filedelete
-    //     PQTemplateModal {
-    //         id: smmod
-    //         onShowing: tmpl.showing()
-    //         onHiding: tmpl.hiding()
-    //         content: PQDelete {
-    //             id: tmpl
-    //             button1: smmod.button1
-    //             button2: smmod.button2
-    //             button3: smmod.button3
-    //             bottomLeft: smmod.bottomLeft
-    //             popInOutButton: smmod.popInOutButton
-    //             availableHeight: smmod.contentHeight
-    //             Component.onCompleted: {
-    //                 smmod.elementId = elementId
-    //                 smmod.title = title
-    //                 smmod.letElementHandleClosing = letMeHandleClosing
-    //                 smmod.bottomLeftContent = bottomLeftContent
-    //             }
-    //         }
-    //     }
-    // }
-    // Component {
-    //     id: comp_filedelete_popout
-    //     PQTemplateModalPopout {
-    //         id: smpop
-    //         defaultPopoutGeometry: PQCWindowGeometry.filedeleteGeometry
-    //         defaultPopoutMaximized: PQCWindowGeometry.filedeleteMaximized
-    //         onShowing: tmpl.showing()
-    //         onHiding: tmpl.hiding()
-    //         onRectUpdated: (r) => {
-    //             PQCWindowGeometry.filedeleteGeometry = r
-    //         }
-    //         onMaximizedUpdated: (m) => {
-    //             PQCWindowGeometry.filedeleteMaximized = m
-    //         }
-    //         content: PQDelete {
-    //             id: tmpl
-    //             button1: smpop.button1
-    //             button2: smpop.button2
-    //             button3: smpop.button3
-    //             bottomLeft: smpop.bottomLeft
-    //             popInOutButton: smpop.popInOutButton
-    //             availableHeight: smpop.contentHeight
-    //             Component.onCompleted: {
-    //                 smpop.elementId = elementId
-    //                 smpop.title = title
-    //                 smpop.letElementHandleClosing = letMeHandleClosing
-    //                 smpop.bottomLeftContent = bottomLeftContent
-    //             }
-    //         }
-    //     }
-    // }
 
     Loader {
         id: loader_rename
@@ -634,8 +510,8 @@ Item {
         id: comp_chromecastmanager
         PQTemplateModal {
             id: smmod
-            onShowing: tmpl.showing()
-            onHiding: tmpl.hiding()
+            function showing() { return tmpl.showing() }
+            function hiding() { return tmpl.hiding() }
             content: PQChromeCastManager {
                 id: tmpl
                 button1: smmod.button1
@@ -659,8 +535,8 @@ Item {
             id: smpop
             defaultPopoutGeometry: PQCWindowGeometry.chromecastmanagerGeometry
             defaultPopoutMaximized: PQCWindowGeometry.chromecastmanagerMaximized
-            onShowing: tmpl.showing()
-            onHiding: tmpl.hiding()
+            function showing() { return tmpl.showing() }
+            function hiding() { return tmpl.hiding() }
             onRectUpdated: (r) => {
                 PQCWindowGeometry.chromecastmanagerGeometry = r
             }

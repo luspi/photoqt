@@ -46,8 +46,7 @@ PQTemplate {
 
     }
 
-    onShowing: {
-        console.warn(">>> SHWOING")
+    function showing() {
         // we also show the chromecast handler
         PQCNotify.loaderShow("Chromecast")
         PQCScriptsChromeCast.startDiscovery()

@@ -137,8 +137,8 @@ Loader {
                 id: smpop
                 width: PQCConstants.availableWidth+PQCSettings.metadataSideBarWidth
                 forceShow: (PQCConstants.startupFilePath===""||PQCConstants.startupFileIsFolder)
-                onShowing: tmpl.showing()
-                onHiding: tmpl.hiding()
+                function showing() { return tmpl.showing() }
+                function hiding() { return tmpl.hiding() }
                 popInOutButton.visible: false
                 showTopBottom: false
                 customSizeSet: true
