@@ -162,6 +162,8 @@ public:
     // GLOBAL PROPERTIES
     Q_PROPERTY(int numExtensions MEMBER m_numExtensions NOTIFY numExtensionsChanged)
     Q_PROPERTY(int numExtensionsAll MEMBER m_numExtensionsAll NOTIFY numExtensionsAllChanged)
+    Q_PROPERTY(QString currentFile MEMBER m_currentFile NOTIFY currentFileChanged)
+    Q_PROPERTY(QString currentFolder MEMBER m_currentFolder NOTIFY currentFolderChanged)
 
     // CONTEXT MENU ENTRIES
     Q_PROPERTY(QStringList contextMenuUse MEMBER m_contextMenuUse NOTIFY contextMenuUseChanged)
@@ -277,6 +279,9 @@ private:
     int m_numExtensionsAll;
     QTimer *resetNumExtensionsAll;
 
+    QString m_currentFile;
+    QString m_currentFolder;
+
     void loadSettingsInBGToLookForShortcuts();
 
     QHash<QString, QVariant> getExtensionZipMetadata(QString filepath);
@@ -306,6 +311,8 @@ Q_SIGNALS:
     void contextMenuManipulateChanged();
     void contextMenuAboutChanged();
     void contextMenuOtherChanged();
+    void currentFileChanged();
+    void currentFolderChanged();
 
     void receivedShortcut(QString combo);
 

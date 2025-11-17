@@ -54,6 +54,15 @@ PQCExtensionsHandler::PQCExtensionsHandler() {
         Q_EMIT receivedShortcut(combo);
     });
     connect(&PQCSettingsCPP::get(), &PQCSettingsCPP::interfaceLanguageChanged, this, &PQCExtensionsHandler::updateTranslationLanguage);
+    connect(&PQCFileFolderModelCPP::get(), &PQCFileFolderModelCPP::currentFileChanged, this, [=]() {
+        m_currentFile = PQCFileFolderModelCPP::get().getCurrentFile();
+        Q_EMIT currentFileChanged();
+        QString folder = QFileInfo(m_currentFile).absolutePath();
+        if(folder != m_currentFolder) {
+            m_currentFolder = folder;
+            Q_EMIT currentFolderChanged();
+        }
+    });
 }
 
 void PQCExtensionsHandler::setup() {
