@@ -31,9 +31,9 @@ Rectangle {
 
     ///////////////////
 
-    property alias content: contentItem.children
     property ExtensionSettings settings: element_top.settings
     property string baseDir: PQCExtensionsHandler.getExtensionLocation(extensionId)
+    property bool isPoppedOut: settings["ExtPopout"]
 
     property string modalButton1Text: "Close"
     property string modalButton2Text: ""
@@ -49,6 +49,8 @@ Rectangle {
 
     ///////////////////
 
+    property int contentHeight: 0
+
     property string extensionId: extension_container.extensionId
 
     ///////////////////
@@ -56,24 +58,11 @@ Rectangle {
 
     SystemPalette { id: pqtPalette }
 
-    width: _fixSizeToContent ? contentItem.width : parent.parent.width
-    height: _fixSizeToContent ? contentItem.height : parent.parent.height
+    width: _fixSizeToContent ? contentHeight : parent.parent.width
+    height: _fixSizeToContent ? contentHeight : parent.parent.height
 
     color: pqtPalette.base
     radius: 5
-
-    Item {
-
-        id: contentItem
-
-        width: extension_top._fixSizeToContent ? childrenRect.width : extension_top.width
-        height: extension_top._fixSizeToContent ? childrenRect.height : extension_top.height
-
-        clip: true
-
-        // CONTENT WILL GO HERE
-
-    }
 
 
     Component.onCompleted: {
