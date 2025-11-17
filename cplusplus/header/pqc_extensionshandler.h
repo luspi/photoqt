@@ -28,121 +28,13 @@
 #include <QSize>
 #include <QtDebug>
 #include <pqc_extensionactions.h>
+#include <pqc_notify_cpp.h>
 #include <scripts/pqc_scriptsshortcuts.h>
-
-class PQCExtensionInfo {
-public:
-
-    PQCExtensionInfo() {
-
-        // about
-        version = 0;
-        name = "";
-        description = "";
-        author = "";
-        contact = "";
-        website = "";
-        targetAPI = 0;
-
-        // setup/integrated
-        integratedAllow = true;
-        integratedMinimumRequiredWindowSize = QSize(0,0);
-        integratedDefaultPosition = 0;
-        integratedDefaultDistanceFromEdge = 50;
-        integratedDefaultSize = QSize(-1,-1);
-        integratedFixSizeToContent = false;
-
-        // setup/popout
-        popoutAllow = true;
-        popoutDefaultSize = QSize(-1,-1);
-        popoutFixSizeToContent = false;
-
-        // setup
-        modal = false;
-        defaultShortcut = "";
-        rememberGeometry = true;
-        letMeHandleMouseEvents = false;
-        haveCPPActions = false;
-        contextMenuSection = "";
-        contextMenuTitle = "";
-        contextMenuIcon = "";
-        settings = {};
-
-        /***********************/
-        // auto generated
-        location = "";
-
-    }
-
-    // about
-    int version;
-    QString name;
-    QString description;
-    QString author;
-    QString contact;
-    QString website;
-    int targetAPI;
-
-    // setup/integrated
-    bool  integratedAllow;
-    QSize integratedMinimumRequiredWindowSize;
-    int   integratedDefaultPosition;
-    int   integratedDefaultDistanceFromEdge;
-    QSize integratedDefaultSize;
-    bool  integratedFixSizeToContent;
-
-    // setup/popout
-    bool  popoutAllow;
-    QSize popoutDefaultSize;
-    bool  popoutFixSizeToContent;
-
-    // setup
-    bool modal;
-    QString defaultShortcut;
-    bool    rememberGeometry;
-    bool    letMeHandleMouseEvents;
-    bool    haveCPPActions;
-    QString contextMenuSection;
-    QString contextMenuTitle;
-    QString contextMenuIcon;
-    QList<QStringList>
-            settings;
-
-    /***************/
-
-    // extension location in file system
-    QString location;
-
-    // convert string to int
-    int getIntegerForPosition(std::string val) {
-        if(val == "TopLeft" || val == "")
-            return 0;
-        else if(val == "Top")
-            return 1;
-        else if(val == "TopRight")
-            return 2;
-        else if(val == "Left")
-            return 3;
-        else if(val == "Center")
-            return 4;
-        else if(val == "Right")
-            return 5;
-        else if(val == "BottomLeft")
-            return 6;
-        else if(val == "Bottom")
-            return 7;
-        else if(val == "BottomRight")
-            return 8;
-        else {
-            qWarning() << "Invalid enum value found:" << val;
-            return 0;
-        }
-    }
-
-};
+#include <scripts/pqc_scriptsconfig.h>
 
 class QTranslator;
 class QTimer;
+class PQCExtensionInfo;
 
 class PQCExtensionsHandler : public QObject {
 
@@ -155,42 +47,28 @@ public:
     }
     ~PQCExtensionsHandler();
 
-    PQCExtensionsHandler(PQCExtensionsHandler const&)     = delete;
+    PQCExtensionsHandler(PQCExtensionsHandler const&) = delete;
     void operator=(PQCExtensionsHandler const&) = delete;
-    bool loadExtension(PQCExtensionInfo *extinfo, QString id, QString baseDir, QString definition);
 
-    // GLOBAL PROPERTIES
-    Q_PROPERTY(int numExtensions MEMBER m_numExtensions NOTIFY numExtensionsChanged)
+    /**************************************************************/
+
+    // these can be called from PQCExtensionMethods, but should not be called directly here!
+    void requestCallActionWithImage(const QString &id, QVariant additional = QVariant(), bool async = true);
+    void requestCallAction(const QString &id, QVariant additional = QVariant(), bool async = true);
+
+    /**************************************************************/
+    /**************************************************************/
+    /**************************************************************/
+    // below is not intended to be used by extensions!
+
+    Q_PROPERTY(int numExtensionsEnabled MEMBER m_numExtensionsEnabled NOTIFY numExtensionsEnabledChanged)
     Q_PROPERTY(int numExtensionsAll MEMBER m_numExtensionsAll NOTIFY numExtensionsAllChanged)
-    Q_PROPERTY(QString currentFile MEMBER m_currentFile NOTIFY currentFileChanged)
-    Q_PROPERTY(QString currentFolder MEMBER m_currentFolder NOTIFY currentFolderChanged)
 
-    // CONTEXT MENU ENTRIES
+    // proeprties regarding which context menu to add an extension to
     Q_PROPERTY(QStringList contextMenuUse MEMBER m_contextMenuUse NOTIFY contextMenuUseChanged)
     Q_PROPERTY(QStringList contextMenuManipulate MEMBER m_contextMenuManipulate NOTIFY contextMenuManipulateChanged)
     Q_PROPERTY(QStringList contextMenuAbout MEMBER m_contextMenuAbout NOTIFY contextMenuAboutChanged)
     Q_PROPERTY(QStringList contextMenuOther MEMBER m_contextMenuOther NOTIFY contextMenuOtherChanged)
-
-    // REQUEST CUSTOM ACTIONS TO BE TAKEN
-    Q_INVOKABLE void requestCallActionWithImage(const QString &id, QVariant additional = QVariant(), bool async = true);
-    Q_INVOKABLE void requestCallAction(const QString &id, QVariant additional = QVariant(), bool async = true);
-
-    // SOME SETTINGS STUFF
-    Q_INVOKABLE bool getIsEnabled(const QString &id);
-    Q_INVOKABLE bool getIsEnabledByDefault(const QString &id);
-    Q_INVOKABLE void showExtension(const QString &id);
-
-    // CHECK EXTENSION VERIFICATION
-    Q_INVOKABLE bool verifyExtension(QString baseDir, QString id);
-
-    /**********************************/
-
-    // Some other actions that can be requested
-    Q_INVOKABLE void executeInternalCommand(QString cmd) {
-        PQCScriptsShortcuts::get().executeInternalCommand(cmd);
-    }
-
-    /**********************************/
 
     // get some extensions properties
     Q_INVOKABLE int     getExtensionVersion(QString id);
@@ -223,9 +101,6 @@ public:
     Q_INVOKABLE bool    getExtensionHasCPPActions(QString id);
     Q_INVOKABLE QList<QStringList> getExtensionSettings(QString id);
 
-    // called when setup is supposed to start
-    Q_INVOKABLE void setup();
-
     // get a list of all extension ids
     Q_INVOKABLE QStringList getExtensions();
 
@@ -250,7 +125,11 @@ public:
     Q_INVOKABLE void addShortcut(QString id, QString sh);
     Q_INVOKABLE void removeShortcut(QString id);
 
-    /****************************/
+    /*************************************************************/
+    // everything below is not to be used by any extension!
+
+    // called when setup is supposed to start
+    Q_INVOKABLE void setup();
 
     // these are predominantly used by the settings manager
     Q_INVOKABLE void setEnabledExtensions(const QStringList &ids);
@@ -258,6 +137,9 @@ public:
     Q_INVOKABLE void enableExtension(const QString &id);
     Q_INVOKABLE void disableExtension(const QString &id);
     Q_INVOKABLE int installExtension(QString filepath);
+    Q_INVOKABLE bool verifyExtension(QString baseDir, QString id);
+
+    bool loadExtension(PQCExtensionInfo *extinfo, QString id, QString baseDir, QString definition);
 
 private:
     PQCExtensionsHandler();
@@ -273,14 +155,9 @@ private:
     QMap<QString, QString> m_activeShortcutToExtension;
     QMap<QString, QString> m_extensionToActiveShortcut;
 
-    QString previousCurrentFile;
-
-    int m_numExtensions;
+    int m_numExtensionsEnabled;
     int m_numExtensionsAll;
     QTimer *resetNumExtensionsAll;
-
-    QString m_currentFile;
-    QString m_currentFolder;
 
     void loadSettingsInBGToLookForShortcuts();
 
@@ -299,22 +176,24 @@ private Q_SLOTS:
     void updateTranslationLanguage();
 
 Q_SIGNALS:
-    Q_INVOKABLE void requestResetGeometry(QString id);
-
-    void replyForActionWithImage(const QString id, QVariant val);
-    void replyForAction(const QString id, QVariant val);
-    void receivedMessage(const QString id, QVariant val);
-
-    void numExtensionsChanged();
+    void numExtensionsEnabledChanged();
     void numExtensionsAllChanged();
+
     void contextMenuUseChanged();
     void contextMenuManipulateChanged();
     void contextMenuAboutChanged();
     void contextMenuOtherChanged();
-    void currentFileChanged();
-    void currentFolderChanged();
 
-    void receivedShortcut(QString combo);
+    // THESE ARE PICKED UP IN PQCExtensionMethods
+    void replyForActionWithImage(const QString id, QVariant val);
+    void replyForAction(const QString id, QVariant val);
+    void receivedMessage(const QString id, QVariant val);
+
+    // THESE ARE CALLED FROM WITHIN PQCExtensionMethods
+    void requestResetGeometry(QString id);
+
+
+
 
 };
 

@@ -116,7 +116,7 @@ PQSetting {
                             height: 40
                             hoverEnabled: true
                             cursorShape: deleg.hasSettings ? Qt.PointingHandCursor : Qt.ArrowCursor
-                            text: (deleg.hasSettings ? "<i>Click here to show extension specific settings.</i>" : "") + deleg.tooltipText
+                            text: (deleg.hasSettings ? "<i>" + qsTranslate("settingsmanager", "Click here to show extension specific settings.") + "</i>" : "") + deleg.tooltipText
                             onClicked: {
                                 if(!deleg.hasSettings) return
                                 if(set_maex.currentExpandedSetting !== deleg.index)
@@ -162,7 +162,7 @@ PQSetting {
                             height: parent.height
                             hoverEnabled: true
                             cursorShape: Qt.PointingHandCursor
-                            text: "<i>Click here to enable/disable extension.</i>" + deleg.tooltipText
+                            text: "<i>" + qsTranslate("settingsmanager", "Click here to enable/disable extension.") + "</i>" + deleg.tooltipText
                             onClicked: {
                                 check.checked = !check.checked
                             }

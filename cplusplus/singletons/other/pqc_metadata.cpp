@@ -26,6 +26,7 @@
 #include <scripts/pqc_scriptsmetadata.h>
 #include <pqc_configfiles.h>
 #include <pqc_notify_cpp.h>
+#include <pqc_metadata_cpp.h>
 
 #include <QFileInfo>
 #include <QtDebug>
@@ -271,6 +272,33 @@ void PQCMetaData::updateMetadata() {
         setIptcLocation(city);
     else
         setIptcLocation(country);
+
+    /*********************/
+    // assemble data to emit it for extensions use
+    QMap<QString,QVariant> dat;
+    dat.insert("fileSize", m_fileSize);
+    dat.insert("exifMake", m_exifMake);
+    dat.insert("exifModel", m_exifModel);
+    dat.insert("exifSoftware", m_exifSoftware);
+
+    dat.insert("exifDateTimeOriginal", m_exifDateTimeOriginal);
+    dat.insert("exifExposureTime", m_exifExposureTime);
+    dat.insert("exifFlash", m_exifFlash);
+    dat.insert("exifISOSpeedRatings", m_exifISOSpeedRatings);
+    dat.insert("exifSceneCaptureType", m_exifSceneCaptureType);
+    dat.insert("exifFocalLength", m_exifFocalLength);
+    dat.insert("exifFNumber", m_exifFNumber);
+    dat.insert("exifLightSource", m_exifLightSource);
+    dat.insert("exifPixelXDimension", m_exifPixelXDimension);
+    dat.insert("exifPixelYDimension", m_exifPixelYDimension);
+
+    dat.insert("exifGPS", m_exifGPS);
+
+    dat.insert("iptcKeywords", m_iptcKeywords);
+    dat.insert("iptcLocation", m_iptcLocation);
+    dat.insert("iptcCopyright", m_iptcCopyright);
+
+    Q_EMIT PQCMetadataCPP::get().metadataUpdatedMap(dat);
 
 #endif
 

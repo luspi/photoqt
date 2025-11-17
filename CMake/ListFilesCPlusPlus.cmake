@@ -44,7 +44,10 @@ SET(photoqt_SOURCES cplusplus/main.cpp
                     cplusplus/header/pqc_photosphererenderer.h
                     cplusplus/header/pqc_resolutioncache.h
                     cplusplus/header/pqc_extensionshandler.h
+                    cplusplus/header/pqc_extensioninfo.h
                     cplusplus/header/pqc_extensionsettings.h
+                    cplusplus/header/pqc_extensionmethods.h
+                    cplusplus/header/pqc_extensionproperties.h
                     cplusplus/header/pqc_notify_cpp.h
 
                     cplusplus/images/pqc_loadimage.cpp
@@ -76,6 +79,8 @@ SET(photoqt_SOURCES cplusplus/main.cpp
                     cplusplus/images/plugins/pqc_loadimage_libsai.cpp
 
                     cplusplus/extensions/pqc_extensionshandler.cpp
+                    cplusplus/extensions/pqc_extensionmethods.cpp
+                    cplusplus/extensions/pqc_extensionproperties.cpp
                     cplusplus/extensions/pqc_extensionactions.h
                     cplusplus/singletons/other/pqc_resolutioncache.cpp
                     cplusplus/singletons/engines/pqc_imageformats.cpp
@@ -121,6 +126,7 @@ SET(photoqt_SOURCES cplusplus/main.cpp
                     cplusplus/header/pqc_imageformats_qml.h
                     cplusplus/header/pqc_filefoldermodel.h
                     cplusplus/header/pqc_metadata.h
+                    cplusplus/header/pqc_metadata_cpp.h
                     cplusplus/header/pqc_settings.h
                     cplusplus/header/pqc_shortcuts.h
                     cplusplus/header/pqc_look.h

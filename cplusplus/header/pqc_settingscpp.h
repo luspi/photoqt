@@ -53,9 +53,6 @@ public:
 
     void forceInterfaceVariant(QString var) { m_generalInterfaceVariant = var; }
 
-    QVariant getExtensionValue(const QString &key) { return m_extensions.value(key, ""); }
-    QVariant getExtensionDefaultValue(const QString &key) { return m_extensions_defaults.value(key, ""); }
-
     bool getFiledialogDevicesShowTmpfs() { return m_filedialogDevicesShowTmpfs; }
     bool getFiledialogShowHiddenFilesFolders() { return m_filedialogShowHiddenFilesFolders; }
     bool getFiletypesArchiveAlwaysEnterAutomatically() { return m_filetypesArchiveAlwaysEnterAutomatically; }
@@ -464,8 +461,6 @@ private:
 
     ~PQCSettingsCPP() {}
 
-    QVariantHash m_extensions;
-    QVariantHash m_extensions_defaults;
 
     bool m_filedialogDevicesShowTmpfs;
     bool m_filedialogShowHiddenFilesFolders;

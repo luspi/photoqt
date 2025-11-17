@@ -1,3 +1,25 @@
+/**************************************************************************
+ **                                                                      **
+ ** Copyright (C) 2011-2025 Lukas Spies                                  **
+ ** Contact: https://photoqt.org                                         **
+ **                                                                      **
+ ** This file is part of PhotoQt.                                        **
+ **                                                                      **
+ ** PhotoQt is free software: you can redistribute it and/or modify      **
+ ** it under the terms of the GNU General Public License as published by **
+ ** the Free Software Foundation, either version 2 of the License, or    **
+ ** (at your option) any later version.                                  **
+ **                                                                      **
+ ** PhotoQt is distributed in the hope that it will be useful,           **
+ ** but WITHOUT ANY WARRANTY; without even the implied warranty of       **
+ ** MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the        **
+ ** GNU General Public License for more details.                         **
+ **                                                                      **
+ ** You should have received a copy of the GNU General Public License    **
+ ** along with PhotoQt. If not, see <http://www.gnu.org/licenses/>.      **
+ **                                                                      **
+ **************************************************************************/
+
 #include <pqc_extensionshandler.h>
 #include <pqc_configfiles.h>
 #include <pqc_notify_cpp.h>
@@ -15,6 +37,8 @@
 #include <pqc_imageformats.h>
 #include <pqc_extensionsettings.h>
 #include <scripts/pqc_scriptslocalization.h>
+#include <pqc_metadata_cpp.h>
+#include <pqc_extensioninfo.h>
 #include <QCryptographicHash>
 
 #ifdef PQMEXTENSIONS
@@ -35,34 +59,20 @@
 /****************************************************************/
 
 PQCExtensionsHandler::PQCExtensionsHandler() {
-    previousCurrentFile = "";
-    m_numExtensions = 0;
+    m_numExtensionsEnabled = 0;
     m_numExtensionsAll = 0;
     resetNumExtensionsAll = new QTimer;
     resetNumExtensionsAll->setInterval(250);
     resetNumExtensionsAll->setSingleShot(false);
     connect(resetNumExtensionsAll, &QTimer::timeout, this, [=]() {
-        m_numExtensions = m_extensions.length();
+        m_numExtensionsEnabled = m_extensions.length();
         m_numExtensionsAll = m_extensions.length()+m_extensionsDisabled.length();
-        Q_EMIT numExtensionsChanged();
+        Q_EMIT numExtensionsEnabledChanged();
         Q_EMIT numExtensionsAllChanged();
     });
-    connect(&PQCNotifyCPP::get(), &PQCNotifyCPP::keyPress, this, [=](int key, int modifiers) {
-        QString combo = PQCScriptsShortcuts::get().analyzeModifier(static_cast<Qt::KeyboardModifiers>(modifiers)).join("+");
-        if(combo != "") combo += "+";
-        combo += PQCScriptsShortcuts::get().analyzeKeyPress(static_cast<Qt::Key>(key));
-        Q_EMIT receivedShortcut(combo);
-    });
+
     connect(&PQCSettingsCPP::get(), &PQCSettingsCPP::interfaceLanguageChanged, this, &PQCExtensionsHandler::updateTranslationLanguage);
-    connect(&PQCFileFolderModelCPP::get(), &PQCFileFolderModelCPP::currentFileChanged, this, [=]() {
-        m_currentFile = PQCFileFolderModelCPP::get().getCurrentFile();
-        Q_EMIT currentFileChanged();
-        QString folder = QFileInfo(m_currentFile).absolutePath();
-        if(folder != m_currentFolder) {
-            m_currentFolder = folder;
-            Q_EMIT currentFolderChanged();
-        }
-    });
+
 }
 
 void PQCExtensionsHandler::setup() {
@@ -175,9 +185,9 @@ void PQCExtensionsHandler::setup() {
 
         }
 
-        m_numExtensions = m_extensions.length();
+        m_numExtensionsEnabled = m_extensions.length();
         m_numExtensionsAll = m_extensions.length()+m_extensionsDisabled.length();
-        Q_EMIT numExtensionsChanged();
+        Q_EMIT numExtensionsEnabledChanged();
         Q_EMIT numExtensionsAllChanged();
 
         if(m_extensions.length())
@@ -823,24 +833,6 @@ void PQCExtensionsHandler::requestCallAction(const QString &id, QVariant additio
     }
 }
 
-bool PQCExtensionsHandler::getIsEnabled(const QString &id) {
-    if(m_allextensions.contains(id))
-        return PQCSettingsCPP::get().getExtensionValue(id).toBool();
-    qWarning() << "Unknown extension id:" << id;
-    return false;
-}
-
-bool PQCExtensionsHandler::getIsEnabledByDefault(const QString &id) {
-    if(m_allextensions.contains(id))
-        return PQCSettingsCPP::get().getExtensionDefaultValue(id).toBool();
-    qWarning() << "Unknown extension id:" << id;
-    return false;
-}
-
-void PQCExtensionsHandler::showExtension(const QString &id) {
-    PQCNotifyCPP::get().showExtension(id);
-}
-
 void PQCExtensionsHandler::loadSettingsInBGToLookForShortcuts() {
 
     for(const QString &ext : std::as_const(m_extensions)) {
@@ -855,7 +847,7 @@ void PQCExtensionsHandler::loadSettingsInBGToLookForShortcuts() {
 
 void PQCExtensionsHandler::setEnabledExtensions(const QStringList &ids) {
     m_extensions = ids;
-    m_numExtensions = m_extensions.length();
+    m_numExtensionsEnabled = m_extensions.length();
     for(const QString &id : ids) {
         const QString qmfile = QString("%1/lang/%2_%3.qm").arg(m_allextensions.value(id)->location,id,PQCScriptsLocalization::get().getActiveTranslationCode());
         if(!QFile::exists(qmfile))

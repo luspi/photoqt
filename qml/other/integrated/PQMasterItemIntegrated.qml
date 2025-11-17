@@ -62,7 +62,7 @@ Loader {
         // These are the extensions loader
         Repeater {
             id: loader_extensions
-            model: PQCExtensionsHandler.numExtensions
+            model: PQCExtensionsHandler.numExtensionsEnabled
             Loader {
 
                 id: ldr

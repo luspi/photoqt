@@ -95,9 +95,6 @@ public:
     void operator=(PQCSettingsCPP const&) = delete;
 
     void forceInterfaceVariant(QString var) { m_generalInterfaceVariant = var; }
-
-    QVariant getExtensionValue(const QString &key) { return m_extensions.value(key, ""); }
-    QVariant getExtensionDefaultValue(const QString &key) { return m_extensions_defaults.value(key, ""); }
 """
 
     for tab in dbtables:
@@ -301,8 +298,6 @@ private:
 
     ~PQCSettingsCPP() {}
 
-    QVariantHash m_extensions;
-    QVariantHash m_extensions_defaults;
 """
 
     for tab in dbtables:
