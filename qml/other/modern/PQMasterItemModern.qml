@@ -343,6 +343,8 @@ Loader {
             PQCNotify.loaderSetup("thumbnails")
 
             PQCExtensionsHandler.setup()
+            PQCExtensionMethods.setup()
+            PQCExtensionProperties.setup()
 
             waitForExtLoaderToBeReady.start()
 

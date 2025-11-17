@@ -205,6 +205,51 @@ public:
         connect(&PQCNotifyCPP::get(), &PQCNotifyCPP::haveScreenshotsChanged, this, [=](bool val) { m_startupHaveScreenshots = val; Q_EMIT startupHaveScreenshotsChanged(); });
         connect(&PQCNotifyCPP::get(), &PQCNotifyCPP::settingUpdateChanged, this, [=](QStringList val) { m_startupHaveSettingUpdate = (val.length()>0); Q_EMIT startupHaveSettingUpdateChanged(); });
 
+        // update currently visible area (used, e.g., by extensions)
+        connect(this, &PQCConstants::currentVisibleAreaXChanged, this, [=]() {
+            Q_EMIT PQCNotifyCPP::get().currentlyVisibleAreaChanged(QRectF(m_currentVisibleAreaX,
+                                                                          m_currentVisibleAreaY,
+                                                                          m_currentVisibleAreaWidthRatio,
+                                                                          m_currentVisibleAreaHeightRatio));
+        });
+        connect(this, &PQCConstants::currentVisibleAreaYChanged, this, [=]() {
+            Q_EMIT PQCNotifyCPP::get().currentlyVisibleAreaChanged(QRectF(m_currentVisibleAreaX,
+                                                                          m_currentVisibleAreaY,
+                                                                          m_currentVisibleAreaWidthRatio,
+                                                                          m_currentVisibleAreaHeightRatio));
+        });
+        connect(this, &PQCConstants::currentVisibleAreaWidthRatioChanged, this, [=]() {
+            Q_EMIT PQCNotifyCPP::get().currentlyVisibleAreaChanged(QRectF(m_currentVisibleAreaX,
+                                                                          m_currentVisibleAreaY,
+                                                                          m_currentVisibleAreaWidthRatio,
+                                                                          m_currentVisibleAreaHeightRatio));
+        });
+        connect(this, &PQCConstants::currentVisibleAreaHeightRatioChanged, this, [=]() {
+            Q_EMIT PQCNotifyCPP::get().currentlyVisibleAreaChanged(QRectF(m_currentVisibleAreaX,
+                                                                          m_currentVisibleAreaY,
+                                                                          m_currentVisibleAreaWidthRatio,
+                                                                          m_currentVisibleAreaHeightRatio));
+        });
+
+        // update current window size (used, e.g., by extensions)
+        connect(this, &PQCConstants::availableWidthChanged, this, [=]() {
+            Q_EMIT PQCNotifyCPP::get().currentWindowSizeChanged(QSize(m_availableWidth, m_availableHeight));
+        });
+        connect(this, &PQCConstants::availableHeightChanged, this, [=]() {
+            Q_EMIT PQCNotifyCPP::get().currentWindowSizeChanged(QSize(m_availableWidth, m_availableHeight));
+        });
+
+        // update some image properties
+        connect(this, &PQCConstants::currentImageResolutionChanged, this, [=]() {
+            Q_EMIT PQCNotifyCPP::get().currentImageResolutionChanged(m_currentImageResolution);
+        });
+        connect(this, &PQCConstants::currentImageRotationChanged, this, [=]() {
+            Q_EMIT PQCNotifyCPP::get().currentImageRotationChanged(m_currentImageRotation);
+        });
+        connect(this, &PQCConstants::currentImageScaleChanged, this, [=]() {
+            Q_EMIT PQCNotifyCPP::get().currentImageScaleChanged(m_currentImageScale);
+        });
+
     }
 
     /******************************************************/

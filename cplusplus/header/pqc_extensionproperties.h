@@ -23,9 +23,7 @@
 
 #include <QObject>
 #include <QQmlEngine>
-#include <QFileInfo>
-#include <pqc_filefoldermodelCPP.h>
-#include <pqc_metadata_cpp.h>
+#include <QRectF>
 
 class PQCExtensionProperties : public QObject {
 
@@ -41,19 +39,45 @@ public:
     Q_PROPERTY(QString currentFolder MEMBER m_currentFolder NOTIFY currentFolderChanged)
     Q_PROPERTY(QVariantMap currentMetadata MEMBER m_currentMetadata NOTIFY currentMetadataChanged)
 
+    // image properties
+    Q_PROPERTY(QSize currentImageResolution MEMBER m_currentImageResolution NOTIFY currentImageResolutionChanged)
+    Q_PROPERTY(int currentImageRotation MEMBER m_currentImageRotation NOTIFY currentImageRotationChanged)
+    Q_PROPERTY(double currentImageScale MEMBER m_currentImageScale NOTIFY currentImageScaleChanged)
+
+    // visible properties
+    Q_PROPERTY(QRectF currentVisibleArea MEMBER m_currentVisibleArea NOTIFY currentVisibleAreaChanged)
+    Q_PROPERTY(QSize currentWindowSize MEMBER m_currentWindowSize NOTIFY currentWindowSizeChanged)
+
     // properties regarding the currently loaded folder
     Q_PROPERTY(QStringList currentFileList MEMBER m_currentFileList NOTIFY currentFileListChanged)
+
+    /*******************************************/
+    // no-op to ensure this class is setup
+    Q_INVOKABLE void setup() {}
 
 private:
     QString m_currentFile;
     QString m_currentFolder;
-    QStringList m_currentFileList;
     QVariantMap m_currentMetadata;
+
+    QSize m_currentImageResolution;
+    int m_currentImageRotation;
+    double m_currentImageScale;
+
+    QRectF m_currentVisibleArea;
+    QSize m_currentWindowSize;
+
+    QStringList m_currentFileList;
 
 Q_SIGNALS:
     void currentFileChanged();
     void currentFolderChanged();
-    void currentFileListChanged();
     void currentMetadataChanged();
+    void currentImageResolutionChanged();
+    void currentImageRotationChanged();
+    void currentImageScaleChanged();
+    void currentVisibleAreaChanged();
+    void currentWindowSizeChanged();
+    void currentFileListChanged();
 
 };

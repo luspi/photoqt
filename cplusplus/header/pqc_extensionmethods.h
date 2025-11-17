@@ -23,10 +23,6 @@
 
 #include <QObject>
 #include <QQmlEngine>
-#include <pqc_notify_cpp.h>
-#include <scripts/pqc_scriptsshortcuts.h>
-#include <scripts/pqc_scriptsconfig.h>
-#include <pqc_extensionshandler.h>
 
 class PQCExtensionMethods : public QObject {
 
@@ -55,8 +51,21 @@ public:
     // run another extension
     Q_INVOKABLE void runExtension(const QString &id);
 
+    // image formats methods
+    Q_INVOKABLE QVariantMap getImageFormatInfo(const int uniqueid);
+    Q_INVOKABLE int getImageFormatWriteStatus(const int uniqueid);
+    Q_INVOKABLE int getImageFormatId(const QString filename);
+    Q_INVOKABLE QString getImageFormatName(const int uniqueid);
+    Q_INVOKABLE QStringList getImageFormatEndings(const int uniqueid);
+    Q_INVOKABLE QVariantList getImageFormatsThatAreWriteable();
+
+    /*******************************************/
+    // no-op to ensure this class is setup
+    Q_INVOKABLE void setup() {}
+
 Q_SIGNALS:
     Q_INVOKABLE void requestResetGeometry(QString id);
+    Q_INVOKABLE void communicateBetweenExtensions(const QString &fromId, const QString &toId, QVariant arguments);
 
     void replyForActionWithImage(const QString id, QVariant val);
     void replyForAction(const QString id, QVariant val);

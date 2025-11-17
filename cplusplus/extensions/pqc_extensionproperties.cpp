@@ -21,6 +21,10 @@
  **************************************************************************/
 
 #include <pqc_extensionproperties.h>
+#include <pqc_filefoldermodelCPP.h>
+#include <pqc_metadata_cpp.h>
+#include <pqc_notify_cpp.h>
+#include <QFileInfo>
 
 PQCExtensionProperties::PQCExtensionProperties(QObject *parent) : QObject(parent) {
 
@@ -44,6 +48,27 @@ PQCExtensionProperties::PQCExtensionProperties(QObject *parent) : QObject(parent
     connect(&PQCMetadataCPP::get(), &PQCMetadataCPP::metadataUpdatedMap, this, [=](const QVariantMap dat) {
         m_currentMetadata = dat;
         Q_EMIT currentMetadataChanged();
+    });
+
+    connect(&PQCNotifyCPP::get(), &PQCNotifyCPP::currentlyVisibleAreaChanged, this, [=](QRectF rect) {
+        m_currentVisibleArea = rect;
+        Q_EMIT currentVisibleAreaChanged();
+    });
+    connect(&PQCNotifyCPP::get(), &PQCNotifyCPP::currentWindowSizeChanged, this, [=](QSize sze) {
+        m_currentWindowSize = sze;
+        Q_EMIT currentWindowSizeChanged();
+    });
+    connect(&PQCNotifyCPP::get(), &PQCNotifyCPP::currentImageResolutionChanged, this, [=](QSize sze) {
+        m_currentImageResolution = sze;
+        Q_EMIT currentImageResolutionChanged();
+    });
+    connect(&PQCNotifyCPP::get(), &PQCNotifyCPP::currentImageRotationChanged, this, [=](int rot) {
+        m_currentImageRotation = rot;
+        Q_EMIT currentImageRotationChanged();
+    });
+    connect(&PQCNotifyCPP::get(), &PQCNotifyCPP::currentImageScaleChanged, this, [=](double scale) {
+        m_currentImageScale = scale;
+        Q_EMIT currentImageScaleChanged();
     });
 
 }

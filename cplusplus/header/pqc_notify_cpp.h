@@ -85,8 +85,10 @@ private:
 
 Q_SIGNALS:
 
+    /*************************************************************/
+    // these are passed from PQCNotifyQML to C++ (be careful)
+
     // reset current session to free up as much memory as possible
-    // NOTE: THIS ONE IS PASSED ON FROM PQCNotifyQML
     void resetSessionData();
 
     /*************************************************************/
@@ -130,5 +132,13 @@ Q_SIGNALS:
     void storeLocationToDatabase(QString path, QPointF location);
 
     void showExtension(QString ele);
+
+    /*************************************************************/
+    // these are passed from PQCConstants to C++
+    void currentlyVisibleAreaChanged(QRectF val);
+    void currentWindowSizeChanged(QSize sze);
+    void currentImageResolutionChanged(QSize sze);
+    void currentImageRotationChanged(int rot);
+    void currentImageScaleChanged(double scale);
 
 };
