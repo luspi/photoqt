@@ -58,6 +58,8 @@ PQCExtensionProperties::PQCExtensionProperties(QObject *parent) : QObject(parent
         m_currentWindowSize = sze;
         Q_EMIT currentWindowSizeChanged();
     });
+
+
     connect(&PQCNotifyCPP::get(), &PQCNotifyCPP::currentImageResolutionChanged, this, [=](QSize sze) {
         m_currentImageResolution = sze;
         Q_EMIT currentImageResolutionChanged();
@@ -69,6 +71,54 @@ PQCExtensionProperties::PQCExtensionProperties(QObject *parent) : QObject(parent
     connect(&PQCNotifyCPP::get(), &PQCNotifyCPP::currentImageScaleChanged, this, [=](double scale) {
         m_currentImageScale = scale;
         Q_EMIT currentImageScaleChanged();
+    });
+
+
+    connect(&PQCNotifyCPP::get(), &PQCNotifyCPP::currentImageIsAnimatedChanged, this, [=](bool val) {
+        m_currentImageIsAnimated = val;
+        Q_EMIT currentImageIsAnimatedChanged();
+    });
+    connect(&PQCNotifyCPP::get(), &PQCNotifyCPP::currentImageIsArchiveChanged, this, [=](bool val) {
+        m_currentImageIsArchive = val;
+        Q_EMIT currentImageIsArchiveChanged();
+    });
+    connect(&PQCNotifyCPP::get(), &PQCNotifyCPP::currentImageIsDocumentChanged, this, [=](bool val) {
+        m_currentImageIsDocument = val;
+        Q_EMIT currentImageIsDocumentChanged();
+    });
+    connect(&PQCNotifyCPP::get(), &PQCNotifyCPP::currentImageIsMotionPhotoChanged, this, [=](bool val) {
+        m_currentImageIsMotionPhoto = val;
+        Q_EMIT currentImageIsMotionPhotoChanged();
+    });
+    connect(&PQCNotifyCPP::get(), &PQCNotifyCPP::currentImageIsPhotoSphereChanged, this, [=](bool val) {
+        m_currentImageIsPhotoSphere = val;
+        Q_EMIT currentImageIsPhotoSphereChanged();
+    });
+    connect(&PQCNotifyCPP::get(), &PQCNotifyCPP::currentImageIsVideoChanged, this, [=](bool val) {
+        m_currentImageIsVideo = val;
+        Q_EMIT currentImageIsVideoChanged();
+    });
+
+
+    connect(&PQCNotifyCPP::get(), &PQCNotifyCPP::insidePhotoSphereChanged, this, [=](bool val) {
+        m_insidePhotoSphere = val;
+        Q_EMIT insidePhotoSphereChanged();
+    });
+    connect(&PQCNotifyCPP::get(), &PQCNotifyCPP::motionPhotoIsPlayingChanged, this, [=](bool val) {
+        m_motionPhotoIsPlaying = val;
+        Q_EMIT motionPhotoIsPlayingChanged();
+    });
+    connect(&PQCNotifyCPP::get(), &PQCNotifyCPP::animatedImageIsPlayingChanged, this, [=](bool val) {
+        m_animatedImageIsPlaying = val;
+        Q_EMIT animatedImageIsPlayingChanged();
+    });
+    connect(&PQCNotifyCPP::get(), &PQCNotifyCPP::barcodesAreDisplayedChanged, this, [=](bool val) {
+        m_barcodesAreDisplayed = val;
+        Q_EMIT barcodesAreDisplayedChanged();
+    });
+    connect(&PQCNotifyCPP::get(), &PQCNotifyCPP::slideshowActiveChanged, this, [=](bool val) {
+        m_slideshowActive = val;
+        Q_EMIT slideshowActiveChanged();
     });
 
 }

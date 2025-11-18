@@ -33,7 +33,7 @@ class PQCExtensionMethods : public QObject {
 public:
     PQCExtensionMethods(QObject *parent = 0);
 
-    // REQUEST ONE OF THE CPP ACTIONS TO BE EXECUTED
+    // request that one of the custom cpp actions is implemented
     Q_INVOKABLE void requestCallActionWithImage(const QString &id, QVariant additional = QVariant(), bool async = true);
     Q_INVOKABLE void requestCallAction(const QString &id, QVariant additional = QVariant(), bool async = true);
 
@@ -45,31 +45,38 @@ public:
     // show a notification
     Q_INVOKABLE void showNotification(QString title, QString txt);
 
-    // check if we are operating on Windows
-    Q_INVOKABLE bool amIOnWindows();
-
     // run another extension
     Q_INVOKABLE void runExtension(const QString &id);
 
     // image formats methods
-    Q_INVOKABLE QVariantMap getImageFormatInfo(const int uniqueid);
-    Q_INVOKABLE int getImageFormatWriteStatus(const int uniqueid);
-    Q_INVOKABLE int getImageFormatId(const QString filename);
-    Q_INVOKABLE QString getImageFormatName(const int uniqueid);
-    Q_INVOKABLE QStringList getImageFormatEndings(const int uniqueid);
+    Q_INVOKABLE QVariantList getImageFormatsAllInformation();
+    Q_INVOKABLE QStringList  getImageFormatsThatAreEnabled();
+    Q_INVOKABLE QStringList  getImageFormatsMimeTypesThatAreEnabled();
     Q_INVOKABLE QVariantList getImageFormatsThatAreWriteable();
+
+    Q_INVOKABLE int          getImageFormatId(const QString filename);
+    Q_INVOKABLE QString      getImageFormatName(const int uniqueid);
+    Q_INVOKABLE QStringList  getImageFormatEndings(const int uniqueid);
+    Q_INVOKABLE QVariantMap  getImageFormatInfo(const int uniqueid);
+    Q_INVOKABLE int          getImageFormatWriteStatus(const int uniqueid);
 
     /*******************************************/
     // no-op to ensure this class is setup
     Q_INVOKABLE void setup() {}
 
 Q_SIGNALS:
-    Q_INVOKABLE void requestResetGeometry(QString id);
+    // communicate between two currently active extensions
     Q_INVOKABLE void communicateBetweenExtensions(const QString &fromId, const QString &toId, QVariant arguments);
 
+    // resuest resetting position
+    // this can be used by floating extensions to put them back into their default spot
+    Q_INVOKABLE void requestResetGeometry(QString id);
+
+    // Whatever result the two possible actions produces
     void replyForActionWithImage(const QString id, QVariant val);
     void replyForAction(const QString id, QVariant val);
 
+    // When a shortcut happened while a modal extension is visible
     void receivedShortcut(QString combo);
     void receivedMessage(const QString id, QVariant val);
 

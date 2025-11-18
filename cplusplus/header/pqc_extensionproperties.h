@@ -44,6 +44,20 @@ public:
     Q_PROPERTY(int currentImageRotation MEMBER m_currentImageRotation NOTIFY currentImageRotationChanged)
     Q_PROPERTY(double currentImageScale MEMBER m_currentImageScale NOTIFY currentImageScaleChanged)
 
+    // viewing properties
+    Q_PROPERTY(bool currentImageIsVideo MEMBER m_currentImageIsVideo NOTIFY currentImageIsVideoChanged)
+    Q_PROPERTY(bool currentImageIsPhotoSphere MEMBER m_currentImageIsPhotoSphere NOTIFY currentImageIsPhotoSphereChanged)
+    Q_PROPERTY(bool currentImageIsMotionPhoto MEMBER m_currentImageIsMotionPhoto NOTIFY currentImageIsMotionPhotoChanged)
+    Q_PROPERTY(bool currentImageIsAnimated MEMBER m_currentImageIsAnimated NOTIFY currentImageIsAnimatedChanged)
+    Q_PROPERTY(bool currentImageIsDocument MEMBER m_currentImageIsDocument NOTIFY currentImageIsDocumentChanged)
+    Q_PROPERTY(bool currentImageIsArchive MEMBER m_currentImageIsArchive NOTIFY currentImageIsArchiveChanged)
+
+    Q_PROPERTY(bool insidePhotoSphere MEMBER m_insidePhotoSphere NOTIFY insidePhotoSphereChanged)
+    Q_PROPERTY(bool motionPhotoIsPlaying MEMBER m_motionPhotoIsPlaying NOTIFY motionPhotoIsPlayingChanged)
+    Q_PROPERTY(bool animatedImageIsPlaying MEMBER m_animatedImageIsPlaying NOTIFY animatedImageIsPlayingChanged)
+    Q_PROPERTY(bool barcodesAreDisplayed MEMBER m_barcodesAreDisplayed NOTIFY barcodesAreDisplayedChanged)
+    Q_PROPERTY(bool slideshowActive MEMBER m_slideshowActive NOTIFY slideshowActiveChanged)
+
     // visible properties
     Q_PROPERTY(QRectF currentVisibleArea MEMBER m_currentVisibleArea NOTIFY currentVisibleAreaChanged)
     Q_PROPERTY(QSize currentWindowSize MEMBER m_currentWindowSize NOTIFY currentWindowSizeChanged)
@@ -64,6 +78,19 @@ private:
     int m_currentImageRotation;
     double m_currentImageScale;
 
+    bool m_currentImageIsVideo;
+    bool m_currentImageIsPhotoSphere;
+    bool m_currentImageIsMotionPhoto;
+    bool m_currentImageIsAnimated;
+    bool m_currentImageIsDocument;
+    bool m_currentImageIsArchive;
+
+    bool m_insidePhotoSphere;
+    bool m_motionPhotoIsPlaying;
+    bool m_animatedImageIsPlaying;
+    bool m_barcodesAreDisplayed;
+    bool m_slideshowActive;
+
     QRectF m_currentVisibleArea;
     QSize m_currentWindowSize;
 
@@ -76,6 +103,17 @@ Q_SIGNALS:
     void currentImageResolutionChanged();
     void currentImageRotationChanged();
     void currentImageScaleChanged();
+    void currentImageIsVideoChanged();
+    void currentImageIsPhotoSphereChanged();
+    void currentImageIsMotionPhotoChanged();
+    void currentImageIsAnimatedChanged();
+    void currentImageIsDocumentChanged();
+    void currentImageIsArchiveChanged();
+    void insidePhotoSphereChanged();
+    void motionPhotoIsPlayingChanged();
+    void animatedImageIsPlayingChanged();
+    void barcodesAreDisplayedChanged();
+    void slideshowActiveChanged();
     void currentVisibleAreaChanged();
     void currentWindowSizeChanged();
     void currentFileListChanged();

@@ -249,6 +249,39 @@ public:
         connect(this, &PQCConstants::currentImageScaleChanged, this, [=]() {
             Q_EMIT PQCNotifyCPP::get().currentImageScaleChanged(m_currentImageScale);
         });
+        connect(this, &PQCConstants::currentlyShowingVideoChanged, this, [=]() {
+            Q_EMIT PQCNotifyCPP::get().currentImageIsVideoChanged(m_currentlyShowingVideo);
+        });
+        connect(this, &PQCConstants::currentImageIsAnimatedChanged, this, [=]() {
+            Q_EMIT PQCNotifyCPP::get().currentImageIsAnimatedChanged(m_currentImageIsAnimated);
+        });
+        connect(this, &PQCConstants::currentImageIsArchiveChanged, this, [=]() {
+            Q_EMIT PQCNotifyCPP::get().currentImageIsArchiveChanged(m_currentImageIsArchive);
+        });
+        connect(this, &PQCConstants::currentImageIsDocumentChanged, this, [=]() {
+            Q_EMIT PQCNotifyCPP::get().currentImageIsDocumentChanged(m_currentImageIsDocument);
+        });
+        connect(this, &PQCConstants::currentImageIsMotionPhotoChanged, this, [=]() {
+            Q_EMIT PQCNotifyCPP::get().currentImageIsMotionPhotoChanged(m_currentImageIsMotionPhoto);
+        });
+        connect(this, &PQCConstants::currentImageIsPhotoSphereChanged, this, [=]() {
+            Q_EMIT PQCNotifyCPP::get().currentImageIsPhotoSphereChanged(m_currentImageIsPhotoSphere);
+        });
+        connect(this, &PQCConstants::showingPhotoSphereChanged, this, [=]() {
+            Q_EMIT PQCNotifyCPP::get().insidePhotoSphereChanged(m_showingPhotoSphere);
+        });
+        connect(this, &PQCConstants::motionPhotoIsPlayingChanged, this, [=]() {
+            Q_EMIT PQCNotifyCPP::get().motionPhotoIsPlayingChanged(m_motionPhotoIsPlaying);
+        });
+        connect(this, &PQCConstants::animatedImageIsPlayingChanged, this, [=]() {
+            Q_EMIT PQCNotifyCPP::get().animatedImageIsPlayingChanged(m_animatedImageIsPlaying);
+        });
+        connect(this, &PQCConstants::barcodeDisplayedChanged, this, [=]() {
+            Q_EMIT PQCNotifyCPP::get().barcodesAreDisplayedChanged(m_barcodeDisplayed);
+        });
+        connect(this, &PQCConstants::slideshowRunningChanged, this, [=]() {
+            Q_EMIT PQCNotifyCPP::get().slideshowActiveChanged(m_slideshowRunning);
+        });
 
     }
 

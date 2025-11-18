@@ -140,5 +140,16 @@ Q_SIGNALS:
     void currentImageResolutionChanged(QSize sze);
     void currentImageRotationChanged(int rot);
     void currentImageScaleChanged(double scale);
+    void currentImageIsVideoChanged(bool val);
+    void currentImageIsPhotoSphereChanged(bool val);
+    void currentImageIsMotionPhotoChanged(bool val);
+    void currentImageIsAnimatedChanged(bool val);
+    void currentImageIsDocumentChanged(bool val);
+    void currentImageIsArchiveChanged(bool val);
+    void insidePhotoSphereChanged(bool val);
+    void motionPhotoIsPlayingChanged(bool val);
+    void animatedImageIsPlayingChanged(bool val);
+    void barcodesAreDisplayedChanged(bool val);
+    void slideshowActiveChanged(bool val);
 
 };

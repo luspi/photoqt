@@ -64,11 +64,6 @@ void PQCExtensionMethods::showNotification(QString title, QString txt) {
     PQCNotifyCPP::get().showNotificationMessage(title, txt);
 }
 
-// check if we are operating on Windows
-bool PQCExtensionMethods::amIOnWindows() {
-    return PQCScriptsConfig::get().amIOnWindows();
-}
-
 // run another extension
 void PQCExtensionMethods::runExtension(const QString &id) {
     PQCNotifyCPP::get().showExtension(id);
@@ -96,4 +91,14 @@ QStringList PQCExtensionMethods::getImageFormatEndings(const int uniqueid) {
 
 QVariantList PQCExtensionMethods::getImageFormatsThatAreWriteable() {
     return PQCImageFormats::get().getWriteableFormats();
+}
+
+QVariantList PQCExtensionMethods::getImageFormatsAllInformation() {
+    return PQCImageFormats::get().getAllFormats();
+}
+QStringList PQCExtensionMethods::getImageFormatsThatAreEnabled() {
+    return PQCImageFormats::get().getEnabledFormats();
+}
+QStringList PQCExtensionMethods::getImageFormatsMimeTypesThatAreEnabled() {
+    return PQCImageFormats::get().getEnabledMimeTypes();
 }
