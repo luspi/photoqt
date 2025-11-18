@@ -21,11 +21,12 @@
  **************************************************************************/
 
 import QtQuick
+import QtQuick.Controls
 import PhotoQt
 import ExtensionSettings
 import PQCExtensionsHandler
 
-Rectangle {
+Flickable {
 
     id: extension_top
 
@@ -34,6 +35,8 @@ Rectangle {
     property ExtensionSettings settings: element_top.settings
     property string baseDir: PQCExtensionsHandler.getExtensionLocation(extensionId)
     property bool isPoppedOut: settings["ExtPopout"]
+    property alias color: background.color
+    property alias radius: background.radius
 
     property string modalButton1Text: "Close"
     property string modalButton2Text: ""
@@ -49,20 +52,34 @@ Rectangle {
 
     ///////////////////
 
-    property int contentHeight: 0
-
     property string extensionId: extension_container.extensionId
 
     ///////////////////
     property bool _fixSizeToContent: ((settings["ExtPopout"] && PQCExtensionsHandler.getExtensionPopoutFixSizeToContent(extensionId)) || (!settings["ExtPopout"] && PQCExtensionsHandler.getExtensionIntegratedFixSizeToContent(extensionId)))
 
     SystemPalette { id: pqtPalette }
+    ScrollBar.vertical: PQVerticalScrollBar {}
 
     width: _fixSizeToContent ? contentHeight : parent.parent.width
     height: _fixSizeToContent ? contentHeight : parent.parent.height
 
-    color: pqtPalette.base
-    radius: 5
+    clip: true
+
+    Rectangle {
+        id: background
+        parent: extension_top.parent
+        z: -1
+        anchors.fill: parent
+        color: pqtPalette.base
+        radius: 5
+        MouseArea {
+            anchors.fill: parent
+            hoverEnabled: true
+            acceptedButtons: Qt.AllButtons
+            onWheel: {}
+            onClicked: {}
+        }
+    }
 
 
     Component.onCompleted: {

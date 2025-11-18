@@ -79,13 +79,14 @@ Rectangle {
 
     Item {
 
+        id: loader_wrapper
         y: toprow.height
         width: parent.width
         height: parent.height-toprow.height-bottomrow.height
 
         Loader {
             id: fullscreen_loader
-            anchors.fill: parent
+            anchors.fill: loader_wrapper
             source: "file:/" +  PQCExtensionsHandler.getExtensionLocation(element_top.extensionId) + "/qml/PQ" + element_top.extensionId + ".qml"
         }
 
