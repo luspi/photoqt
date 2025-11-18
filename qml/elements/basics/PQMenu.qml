@@ -24,4 +24,44 @@ import QtQuick
 import QtQuick.Controls
 import PhotoQt
 
-Menu { id: control }
+Menu {
+
+    id: control
+
+    SystemPalette { id: pqtPalette }
+    SystemPalette { id: pqtPaletteDisabled; colorGroup: SystemPalette.Disabled }
+
+    // setting the inset and padding properties are necessary in particular on Windows
+    // See: https://bugreports.qt.io/browse/QTBUG-131499
+
+    topInset: 0
+    leftInset: 0
+    rightInset: 0
+    bottomInset: 0
+
+    topPadding: 1
+    leftPadding: 1
+    rightPadding: 1
+    bottomPadding: 1
+
+    delegate: PQMenuItem {
+        // this cannot be a parameter in the Menu section as its value would be ignored
+        moveToRightABit: false
+    }
+
+    background: Rectangle {
+        implicitWidth: 250
+        implicitHeight: 40
+        color: pqtPalette.base
+        radius: 2
+        Rectangle {
+            anchors.fill: parent
+            color: "transparent"
+            border.color: PQCLook.brightText
+            border.width: 1
+            radius: 2
+            opacity: 0.2
+        }
+    }
+
+}

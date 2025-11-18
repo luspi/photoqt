@@ -25,24 +25,130 @@ import QtQuick.Controls
 import PhotoQt
 
 MenuItem {
-
     id: control
+    implicitWidth: 250
+    implicitHeight: h
 
+    property int h: 30
+
+    onImplicitWidthChanged: {
+        if(menu !== null && implicitWidth > menu.width+10) {
+            menu.implicitWidth = implicitWidth
+        }
+    }
 
     SystemPalette { id: pqtPalette }
     SystemPalette { id: pqtPaletteDisabled; colorGroup: SystemPalette.Disabled }
 
-    // not currently used but needed for compatibility with modern style
-    property bool keepOpenWhenCheckedChanges
-    property bool checkableLikeRadioButton
-    property bool moveToRightABit
+    property string iconSource: ""
+    property bool checkableLikeRadioButton: false
+    property bool moveToRightABit: false
+
+    font.weight: PQCLook.fontWeightNormal
 
     property int elide: Text.ElideMiddle
 
-    property string iconSource: ""
-    onIconSourceChanged:
-        icon.source = iconSource
-    Component.onCompleted:
-        icon.source = iconSource
+    // NOTE
+    // When entry is checkable then by default clicking on an entry WILL NOT call the triggered() signal
+    // Instead the checkedChanged() signal will be emitted and the menu will remain open
+    // If the property below is set to false then both signals will be emitted and the menu will close.
 
-}
+    property bool keepOpenWhenCheckedChanges: true
+
+    contentItem:
+        Text {
+            id: controltxt
+            leftPadding: control.checkable||control.iconSource!=""||control.moveToRightABit ? 30 : 5
+            height: control.h
+            text: control.text
+            font: control.font
+            color: control.enabled ? pqtPalette.text : pqtPaletteDisabled.text
+            opacity: control.enabled ? 1 : 0.6
+            Behavior on opacity { NumberAnimation { duration: 200 } }
+            horizontalAlignment: Text.AlignLeft
+            verticalAlignment: Text.AlignVCenter
+            elide: control.elide
+            Timer {
+                id: increaseWidth
+                running: controltxt.truncated&&control.implicitWidth<400
+                interval: 400
+                repeat: true
+                onTriggered: {
+                    if(!controltxt.truncated)
+                        stop()
+                    control.implicitWidth += 50
+                }
+            }
+        }
+
+    indicator: Item {
+        implicitWidth: 30
+        implicitHeight: control.h
+        visible: control.checkable||control.iconSource!=""
+        Image {
+            visible: control.iconSource!=""
+            x: 5
+            y: control.h/4
+            width: control.h/2
+            height: control.h/2
+            opacity: control.enabled ? 1 : 0.6
+            Behavior on opacity { NumberAnimation { duration: 200 } }
+            fillMode: Image.Pad
+            source: control.iconSource
+            sourceSize: Qt.size(width, height)
+        }
+        Rectangle {
+            visible: control.iconSource==""
+            width: control.h/2
+            height: control.h/2
+            anchors.centerIn: parent
+            border.color: PQCLook.baseBorder
+            color: pqtPalette.alternateBase
+            radius: control.checkableLikeRadioButton ? 10 : 2
+            Rectangle {
+                width: control.h/4
+                height: control.h/4
+                anchors.centerIn: parent
+                visible: control.checked
+                color: control.enabled ? pqtPalette.text : PQCLook.baseBorder
+                radius: control.checkableLikeRadioButton ? 5 : 2
+            }
+        }
+    }
+
+    arrow: Canvas {
+        x: parent.width - width
+        implicitWidth: control.h
+        implicitHeight: control.h
+        visible: control.subMenu
+        onPaint: {
+            var ctx = getContext("2d")
+            ctx.fillStyle = PQCLook.baseBorder
+            ctx.moveTo(control.h/3, control.h/3)
+            ctx.lineTo(width - control.h/3, height / 2)
+            ctx.lineTo(control.h/3, height - control.h/3)
+            ctx.closePath()
+            ctx.fill()
+        }
+    }
+
+    background: PQHighlightMarker {
+        visible: control.highlighted
+    }
+
+    MouseArea {
+        id: mouseArea
+        anchors.fill: parent
+        hoverEnabled: false
+        acceptedButtons: Qt.LeftButton
+
+        onClicked: function(mouse) {
+            if(control.checkable) {
+                control.checked = (control.checkableLikeRadioButton || !control.checked)
+                if(control.keepOpenWhenCheckedChanges)
+                    return
+            }
+            control.triggered()
+        }
+    }
+ }
