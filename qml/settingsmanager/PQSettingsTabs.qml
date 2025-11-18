@@ -21,9 +21,10 @@
  **************************************************************************/
 
 import QtQuick
+import QtQuick.Controls
 import PhotoQt
 
-Item {
+Flickable {
 
     id: tab_top
 
@@ -39,9 +40,16 @@ Item {
 
     property bool makeFlickableInteractive: _flickableNotInteractiveFor.indexOf(currentIndex.toString()+"_"+currentComponents[currentIndex])===-1
 
+    contentHeight: col.height
+
+    ScrollBar.vertical: PQVerticalScrollBar { id: scroll }
+
     Column {
 
-        width: parent.width
+        id: col
+
+        width: parent.width - (scroll.visible ? scroll.width : 0)
+        Behavior on width { NumberAnimation { duration: 20 } }
 
         PQTabButton {
             id: maintab1
