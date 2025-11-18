@@ -120,8 +120,8 @@ void PQCExtensionsHandler::setup() {
 #ifdef NDEBUG
                 if(PQCSettingsCPP::get().getGeneralExtensionsEnforeVerification() && !verifyExtension(baseDir, id)) {
 
-                    qWarning() << "*********************************************************";
                     qWarning() << "Extension with id" << id << "did not pass verification but verification is enforced.";
+                    qWarning() << "*********************************************************";
                     continue;
 
                 }

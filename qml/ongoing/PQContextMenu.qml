@@ -53,6 +53,7 @@ Loader {
             id: renitem
             iconSource: "image://svg/:/" + PQCLook.iconShade + "/rename.svg"
             text: qsTranslate("contextmenu", "Rename file")
+            enabled: (PQCFileFolderModel.currentFile !== "")
             onTriggered:
                 PQCScriptsShortcuts.executeInternalCommand("__rename")
         }
@@ -61,6 +62,7 @@ Loader {
             id: copitem
             iconSource: "image://svg/:/" + PQCLook.iconShade + "/copy.svg"
             text: qsTranslate("contextmenu", "Copy file")
+            enabled: (PQCFileFolderModel.currentFile !== "")
             onTriggered:
                 PQCScriptsShortcuts.executeInternalCommand("__copy")
         }
@@ -69,6 +71,7 @@ Loader {
             id: movitem
             iconSource: "image://svg/:/" + PQCLook.iconShade + "/move.svg"
             text: qsTranslate("contextmenu", "Move file")
+            enabled: (PQCFileFolderModel.currentFile !== "")
             onTriggered:
                 PQCScriptsShortcuts.executeInternalCommand("__move")
         }
@@ -77,6 +80,7 @@ Loader {
             id: delitem
             iconSource: "image://svg/:/" + PQCLook.iconShade + "/delete.svg"
             text: qsTranslate("contextmenu", "Delete file")
+            enabled: (PQCFileFolderModel.currentFile !== "")
             onTriggered:
                 PQCScriptsShortcuts.executeInternalCommand("__deleteTrash")
         }
@@ -88,6 +92,7 @@ Loader {
             id: manimenu
 
             title: qsTranslate("contextmenu", "Manipulate image")
+            enabled: (PQCFileFolderModel.currentFile !== "")
 
             PQMenuItem {
                 iconSource: "image://svg/:/" + PQCLook.iconShade + "/faces.svg"
@@ -120,6 +125,7 @@ Loader {
             id: usemenu
 
             title: qsTranslate("contextmenu", "Use image")
+            enabled: (PQCFileFolderModel.currentFile !== "")
 
             PQMenuItem {
                 iconSource: "image://svg/:/" + PQCLook.iconShade + "/clipboard.svg"
@@ -168,6 +174,7 @@ Loader {
                 id: aboutmenu
 
                 title: qsTranslate("contextmenu", "About image")
+                enabled: (PQCFileFolderModel.currentFile !== "")
 
                 Repeater {
 
@@ -190,42 +197,6 @@ Loader {
             // add/remove item into/from the correct position in the global menu
             onObjectAdded: (index, object) => {
                 menutop.insertMenu(8, object)
-            }
-            onObjectRemoved: (index, object) => {
-                menutop.removeMenu(object)
-            }
-
-        }
-
-        // We need to hide this behind an instantiator in order to dynamically add/remove this submenu
-        // as there might be no extensions in this category
-        Instantiator {
-
-            model: PQCExtensionsHandler.contextMenuOther.length ? 1 : 0
-
-            delegate: PQMenu {
-
-                title: qsTranslate("contextmenu", "Extensions")
-
-                Repeater{
-                    model: PQCExtensionsHandler.contextMenuOther
-                    PQMenuItem {
-                        required property string modelData
-                        text: PQCExtensionsHandler.getExtensionContextMenuTitle(modelData)
-                        property string iconName: PQCExtensionsHandler.getExtensionContextMenuIcon(modelData)
-                        iconSource: PQCScriptsImages.isSVG(iconName) ?
-                                       "image://svg/" + PQCExtensionsHandler.getExtensionLocation(modelData) + "/img/" + PQCLook.iconShade + "/" + iconName :
-                                        "file://" + PQCExtensionsHandler.getExtensionLocation(modelData) + "/img/" + PQCLook.iconShade + "/" + iconName
-                        onTriggered:
-                            PQCNotify.loaderShowExtension(modelData)
-                    }
-                }
-
-            }
-
-            // add/remove item into/from the correct position in the global menu
-            onObjectAdded: (index, object) => {
-                menutop.insertMenu(9, object)
             }
             onObjectRemoved: (index, object) => {
                 menutop.removeMenu(object)
@@ -272,6 +243,42 @@ Loader {
                             PQCNotify.currentImageReload()
                             PQCFileFolderModel.currentFileChanged()
                         }
+                    }
+                }
+
+            }
+
+            // add/remove item into/from the correct position in the global menu
+            onObjectAdded: (index, object) => {
+                menutop.insertMenu(9, object)
+            }
+            onObjectRemoved: (index, object) => {
+                menutop.removeMenu(object)
+            }
+
+        }
+
+        // We need to hide this behind an instantiator in order to dynamically add/remove this submenu
+        // as there might be no extensions in this category
+        Instantiator {
+
+            model: PQCExtensionsHandler.contextMenuOther.length ? 1 : 0
+
+            delegate: PQMenu {
+
+                title: qsTranslate("contextmenu", "Extensions")
+
+                Repeater{
+                    model: PQCExtensionsHandler.contextMenuOther
+                    PQMenuItem {
+                        required property string modelData
+                        text: PQCExtensionsHandler.getExtensionContextMenuTitle(modelData)
+                        property string iconName: PQCExtensionsHandler.getExtensionContextMenuIcon(modelData)
+                        iconSource: PQCScriptsImages.isSVG(iconName) ?
+                                       "image://svg/" + PQCExtensionsHandler.getExtensionLocation(modelData) + "/img/" + PQCLook.iconShade + "/" + iconName :
+                                        "file://" + PQCExtensionsHandler.getExtensionLocation(modelData) + "/img/" + PQCLook.iconShade + "/" + iconName
+                        onTriggered:
+                            PQCNotify.loaderShowExtension(modelData)
                     }
                 }
 
@@ -369,16 +376,6 @@ Loader {
             interval: 200
             running: true   // this makes sure the status is evaluated at startup
             onTriggered: {
-
-                renitem.enabled = (PQCFileFolderModel.currentFile !== "")
-                copitem.enabled = (PQCFileFolderModel.currentFile !== "")
-                movitem.enabled = (PQCFileFolderModel.currentFile !== "")
-                delitem.enabled = (PQCFileFolderModel.currentFile !== "")
-
-                manimenu.enabled = (PQCFileFolderModel.currentFile !== "")
-                usemenu.enabled = (PQCFileFolderModel.currentFile !== "")
-                aboutmenu.enabled = (PQCFileFolderModel.currentFile !== "")
-
                 // color spaces submenu
                 if(PQCSettings.imageviewColorSpaceEnable)
                     menutop.currentFileSupportsColorSpaces =
