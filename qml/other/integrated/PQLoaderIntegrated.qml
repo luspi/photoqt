@@ -380,6 +380,8 @@ Item {
         target: PQCNotify
 
         function onOpenSettingsManagerAt(category : string, subcategory : string) {
+            if(PQCConstants.idOfVisibleItem !== "")
+                return
             if(!loader_settingsmanager.active)
                 loader_settingsmanager.active = true
             PQCConstants.idOfVisibleItem = "SettingsManager"
@@ -390,6 +392,9 @@ Item {
         function onLoaderShow(ele : string) {
 
             console.log("args: ele =", ele)
+
+            if(PQCConstants.idOfVisibleItem !== "")
+                return
 
             var ind = PQCExtensionsHandler.getExtensions().indexOf(ele)
             if(ind > -1) {
