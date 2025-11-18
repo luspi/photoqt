@@ -420,6 +420,8 @@ MenuBar {
 
         MenuItem {
             text: qsTranslate("other", "Manage extensions")
+            onClicked:
+                PQCNotify.openSettingsManagerAt(6, "maex")
         }
 
         MenuSeparator {}
@@ -438,20 +440,6 @@ MenuBar {
                 title: (deleg.isEnabled ? "" : "<s>")+PQCExtensionsHandler.getExtensionName(extensionId)+(deleg.isEnabled ? "" : "</s>")
 
                 MenuItem {
-                    text: deleg.isEnabled ? qsTranslate("other", "Disable extension") : qsTranslate("other", "Enable extension")
-                    onTriggered: {
-                        if(deleg.isEnabled) {
-                            PQCExtensionsHandler.disableExtension(deleg.extensionId)
-                            deleg.isEnabled = false
-                        } else {
-                            PQCExtensionsHandler.enableExtension(deleg.extensionId)
-                            deleg.isEnabled = true
-                        }
-                        PQCSettings.generalExtensionsEnabled = PQCExtensionsHandler.getExtensions()
-                    }
-                }
-
-                MenuItem {
                     enabled: deleg.isEnabled
                     text: PQCExtensionsHandler.getExtensionModal(extensionId) ? qsTranslate("other", "Show extension") : qsTranslate("other", "Toggle extension")
                     onTriggered:
@@ -466,6 +454,20 @@ MenuBar {
                     target: PQCExtensionsHandler
                     function onNumExtensionsAllChanged() {
                         deleg.isEnabled = PQCExtensionsHandler.getDisabledExtensions().indexOf(deleg.extensionId)===-1
+                    }
+                }
+
+                MenuItem {
+                    text: deleg.isEnabled ? qsTranslate("other", "Disable extension") : qsTranslate("other", "Enable extension")
+                    onTriggered: {
+                        if(deleg.isEnabled) {
+                            PQCExtensionsHandler.disableExtension(deleg.extensionId)
+                            deleg.isEnabled = false
+                        } else {
+                            PQCExtensionsHandler.enableExtension(deleg.extensionId)
+                            deleg.isEnabled = true
+                        }
+                        PQCSettings.generalExtensionsEnabled = PQCExtensionsHandler.getExtensions()
                     }
                 }
 
