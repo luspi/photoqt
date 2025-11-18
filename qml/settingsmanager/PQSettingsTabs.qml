@@ -658,10 +658,21 @@ Flickable {
         target: confirmUnsaved
 
         function onUpdateTabTo(mainCat : int, subCat : string) {
-
             tab_top.currentComponents[mainCat] = subCat
             tab_top.currentComponentsChanged()
+        }
 
+    }
+
+    Connections {
+        target: PQCNotify
+
+        function onLoaderPassOn(what : string, param : list<var>) {
+            if(what === "showSettings") {
+                tab_top.currentIndex = param[0]
+                tab_top.currentComponents[param[0]] = param[1]
+                tab_top.currentComponentsChanged()
+            }
         }
 
     }

@@ -778,14 +778,9 @@ Item {
 
         function onOpenSettingsManagerAt(category : string, subcategory : string) {
             loader_top.ensureItIsReady("SettingsManager")
-            PQCNotify.loaderPassOn("showSettings", [subcategory])
+            loader_top.show("SettingsManager")
+            PQCNotify.loaderPassOn("showSettings", [category, subcategory])
         }
-
-    }
-
-    Connections {
-
-        target: PQCNotify
 
         function onLoaderRegisterOpen(ele : string) {
             loader_top.elementOpened(ele)

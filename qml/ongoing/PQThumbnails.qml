@@ -930,7 +930,7 @@ Rectangle {
             text: qsTranslate("settingsmanager", "Manage in settings manager")
             iconSource: "image://svg/:/" + PQCLook.iconShade + "/settings.svg"
             onTriggered: {
-                PQCNotify.openSettingsManagerAt("showSettings", ["thumbnails"])
+                PQCNotify.openSettingsManagerAt(2, "imag")
             }
         }
 

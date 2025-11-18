@@ -379,6 +379,14 @@ Item {
 
         target: PQCNotify
 
+        function onOpenSettingsManagerAt(category : string, subcategory : string) {
+            if(!loader_settingsmanager.active)
+                loader_settingsmanager.active = true
+            PQCConstants.idOfVisibleItem = "SettingsManager"
+            PQCNotify.loaderPassOn("show", ["SettingsManager"])
+            PQCNotify.loaderPassOn("showSettings", [category, subcategory])
+        }
+
         function onLoaderShow(ele : string) {
 
             console.log("args: ele =", ele)

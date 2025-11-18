@@ -180,7 +180,7 @@ Q_SIGNALS:
     // other
     void showNotificationMessage(QString title, QString msg); // -> also picked up from PQCNotify
     void currentImageLoadedAndDisplayed(QString filename);
-    void openSettingsManagerAt(QString category, QString subcategory);
+    void openSettingsManagerAt(int categoryIndex, QString subcategory);
     void playPauseAnimationVideo();
     void showToolTip(QString txt, QPoint mouseXY);
     void hideToolTip(QString txt);
