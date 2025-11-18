@@ -49,7 +49,7 @@ Item {
     onXChanged: {
         if(PQCConstants.mainWindowBeingResized)
             return
-        if(_dragActive)
+        if(_dragActive || PQCExtensionsHandler.getExtensionLetMeHandleMouseEvents(extensionId))
             storeSize.restart()
         if(_finishedSetup) {
             element_top.x = element_top.x
