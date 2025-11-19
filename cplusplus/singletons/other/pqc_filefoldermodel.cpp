@@ -944,20 +944,22 @@ void PQCFileFolderModel::loadDataMainView() {
     qDebug() << "";
 
     ////////////////////////
-    // clear old entries
-
-    m_entriesMainView.clear();
-    PQCFileFolderModelCPP::get().setEntriesMainView({});
-    if(watcherMainView->directories().length())
-        watcherMainView->removePaths(watcherMainView->directories());
-    if(watcherMainView->files().length())
-        watcherMainView->removePaths(watcherMainView->files());
-    setCountMainView(0);
-
-    ////////////////////////
     // no new directory
 
     if(m_fileInFolderMainView.isEmpty()) {
+
+        qDebug() << "No file in main view -> nothing here";
+
+        // clear old entries
+        m_entriesMainView.clear();
+        PQCFileFolderModelCPP::get().setEntriesMainView({});
+        if(watcherMainView->directories().length())
+            watcherMainView->removePaths(watcherMainView->directories());
+        if(watcherMainView->files().length())
+            watcherMainView->removePaths(watcherMainView->files());
+        setCountMainView(0);
+
+        // reset variables
         m_currentFile = "";
         PQCFileFolderModelCPP::get().setCurrentFile(m_currentFile);
         m_currentIndex = -1;
@@ -988,8 +990,15 @@ void PQCFileFolderModel::loadDataMainView() {
         m_fileInFolderMainView = m_fileInFolderMainView.split("::ARC::").at(1);
     }
 
-    const bool isFolder = !QFileInfo(m_fileInFolderMainView).isFile();
+    const bool isFolder = (QFile::exists(m_fileInFolderMainView) && !QFileInfo(m_fileInFolderMainView).isFile()) || m_fileInFolderMainView.endsWith("/");
 
+    // clear any old watchers
+    if(watcherMainView->directories().length())
+        watcherMainView->removePaths(watcherMainView->directories());
+    if(watcherMainView->files().length())
+        watcherMainView->removePaths(watcherMainView->files());
+
+    // and set the current one
     watcherMainView->addPath(isFolder ? m_fileInFolderMainView : QFileInfo(m_fileInFolderMainView).absolutePath());
     connect(watcherMainView, &QFileSystemWatcher::directoryChanged, this, [=]() { m_fileInFolderMainView = m_currentFile; loadDelayMainView->start(); });
 
@@ -1000,6 +1009,8 @@ void PQCFileFolderModel::loadDataMainView() {
         setCountMainView(m_entriesMainView.length());
         m_readDocumentOnly = false;
         setCurrentIndex(numberPageDocument);
+
+        qDebug() << "Found" << m_entriesMainView.length() << "pages in document";
 
     } else if(m_readArchiveOnly) {// && PQCImageFormats::get().getEnabledFormatsLibArchive().contains(QFileInfo(m_fileInFolderMainView).suffix().toLower())) {
 
@@ -1012,11 +1023,15 @@ void PQCFileFolderModel::loadDataMainView() {
         m_readArchiveOnly = false;
         setCurrentIndex(numberPageDocument);
 
+        qDebug() << "Found" << m_entriesMainView.length() << "files in archive";
+
     } else {
 
         m_entriesMainView = getAllFiles(isFolder ? m_fileInFolderMainView : QFileInfo(m_fileInFolderMainView).absolutePath());
         PQCFileFolderModelCPP::get().setEntriesMainView(m_entriesMainView);
         setCountMainView(m_entriesMainView.length());
+
+        qDebug() << "Found" << m_entriesMainView.length() << "files";
 
         if(isFolder && m_entriesMainView.length())
             m_fileInFolderMainView = m_entriesMainView[0];
@@ -1066,25 +1081,21 @@ void PQCFileFolderModel::loadDataFileDialog() {
     qDebug() << "";
 
     ////////////////////////
-    // clear old entries
-
-    m_entriesFileDialog.clear();
-    m_countFoldersFileDialog = 0;
-    m_countFilesFileDialog = 0;
-    m_countAllFileDialog = 0;
-    if(watcherMainView->directories().length())
-        watcherFileDialog->removePaths(watcherMainView->directories());
-    if(watcherMainView->files().length())
-        watcherFileDialog->removePaths(watcherMainView->files());
-
-    ////////////////////////
     // no new directory
 
     if(m_folderFileDialog.isEmpty()) {
+
+        // clear old entries
+        m_entriesFileDialog.clear();
+        m_countFoldersFileDialog = 0;
+        m_countFilesFileDialog = 0;
+        m_countAllFileDialog = 0;
+
         Q_EMIT newDataLoadedFileDialog();
         Q_EMIT countFoldersFileDialogChanged();
         Q_EMIT countFilesFileDialogChanged();
         Q_EMIT countAllFileDialogChanged();
+
         return;
     }
 
@@ -1104,10 +1115,11 @@ void PQCFileFolderModel::loadDataFileDialog() {
     // load files
 
     m_entriesFileDialog.append(getAllFiles(m_folderFileDialog, true, true));
-
     m_countFilesFileDialog = m_entriesFileDialog.length()-m_countFoldersFileDialog;
 
     m_countAllFileDialog = m_countFoldersFileDialog+m_countFilesFileDialog;
+
+    qDebug() << "Found" << m_countFoldersFileDialog << "folders and" << m_countFilesFileDialog << "files";
 
     Q_EMIT newDataLoadedFileDialog();
     Q_EMIT countFoldersFileDialogChanged();

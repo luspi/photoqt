@@ -38,7 +38,7 @@
 #include <QFileDialog>
 #include <QMessageBox>
 #include <QPushButton>
-#ifdef WIN32
+#ifdef Q_OS_WIN
 #include <thread>
 #else
 #include <unistd.h>
