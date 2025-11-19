@@ -124,6 +124,7 @@ Item {
                         return
                     }
                     keyshortcuts_top.wheelRepeatDelayWait = true
+                    resetRepeatDelay.start()
                 }
 
                 var combo = PQCScriptsShortcuts.analyzeModifier(modifiers).join("+")
