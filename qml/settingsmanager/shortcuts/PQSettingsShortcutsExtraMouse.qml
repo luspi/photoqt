@@ -127,11 +127,39 @@ PQSetting {
 
         },
 
+        Item {
+            x: -set_exmo.indentWidth
+            width: set_exmo.contentWidth
+            height: PQCSettings.generalCompactSettings||!desc_txt.visible ? 0 : desc_txt.height
+            Behavior on height { NumberAnimation { duration: 200 } }
+            clip: true
+            PQText {
+                id: desc_txt
+                text: "On certain hardware, moving the mouse wheel by a single click can trigger multiple distinct mouse wheel events. Here a repeat delay can be set, which makes sure that any shortcut using mouse wheels is only triggered once until the configured delay has passed. Setting this to a value of 0 disabled this check altogether."
+                width: parent.width
+                wrapMode: Text.WrapAtWordBoundaryOrAnywhere
+            }
+        },
+
+        PQSliderSpinBox {
+            id: repeatdelay_value
+            width: set_exmo.contentWidth
+            minval: 0
+            maxval: 250
+            title: "Repeat delay"
+            suffix: "ms"
+            animateWidth: false
+            onValueChanged:
+                set_exmo.checkForChanges()
+
+        },
+
         PQSettingsResetButton {
             onResetToDefaults: {
 
                 scrollspeed.checked = PQCSettings.getDefaultForInterfaceFlickAdjustSpeed()
                 scrollspeed_value.value = PQCSettings.getDefaultForInterfaceFlickAdjustSpeedSpeedup()
+                repeatdelay_value.value = PQCSettings.getDefaultForImageviewMouseWheelRepeatDelay()
 
                 set_exmo.checkForChanges()
 
@@ -198,7 +226,8 @@ PQSetting {
 
         PQCConstants.settingsManagerSettingChanged = (movewhl.hasChanged() || movebut.hasChanged() || dblclk.hasChanged() ||
                                                       scrollspeed.hasChanged() || scrollspeed_value.hasChanged() ||
-                                                      hidetimeout.hasChanged() || hidetimeout_check.hasChanged())
+                                                      hidetimeout.hasChanged() || hidetimeout_check.hasChanged() ||
+                                                      repeatdelay_value.hasChanged())
 
     }
 
@@ -213,6 +242,7 @@ PQSetting {
 
         scrollspeed.loadAndSetDefault(PQCSettings.interfaceFlickAdjustSpeed)
         scrollspeed_value.loadAndSetDefault(PQCSettings.interfaceFlickAdjustSpeedSpeedup)
+        repeatdelay_value.loadAndSetDefault(PQCSettings.imageviewMouseWheelRepeatDelay)
 
         hidetimeout_check.loadAndSetDefault(PQCSettings.imageviewHideCursorTimeout!==0)
         hidetimeout.loadAndSetDefault(PQCSettings.imageviewHideCursorTimeout)
@@ -234,8 +264,10 @@ PQSetting {
 
         PQCSettings.interfaceFlickAdjustSpeed = scrollspeed.checked
         PQCSettings.interfaceFlickAdjustSpeedSpeedup = scrollspeed_value.value
+        PQCSettings.imageviewMouseWheelRepeatDelay = repeatdelay_value.value
         scrollspeed.saveDefault()
         scrollspeed_value.saveDefault()
+        repeatdelay_value.saveDefault()
 
         PQCSettings.imageviewHideCursorTimeout = (hidetimeout_check.checked ? hidetimeout.value : 0)
         hidetimeout.saveDefault()

@@ -237,6 +237,7 @@ PQCSettings::PQCSettings() {
     connect(this, &PQCSettings::imageviewMarginChanged, this, [=]() { saveChangedValue("imageviewMargin", m_imageviewMargin); });
     connect(this, &PQCSettings::imageviewMinimapSizeLevelChanged, this, [=]() { saveChangedValue("imageviewMinimapSizeLevel", m_imageviewMinimapSizeLevel); });
     connect(this, &PQCSettings::imageviewMirrorAnimateChanged, this, [=]() { saveChangedValue("imageviewMirrorAnimate", m_imageviewMirrorAnimate); });
+    connect(this, &PQCSettings::imageviewMouseWheelRepeatDelayChanged, this, [=]() { saveChangedValue("imageviewMouseWheelRepeatDelay", m_imageviewMouseWheelRepeatDelay); });
     connect(this, &PQCSettings::imageviewPreloadInBackgroundChanged, this, [=]() { saveChangedValue("imageviewPreloadInBackground", m_imageviewPreloadInBackground); });
     connect(this, &PQCSettings::imageviewPreserveMirrorChanged, this, [=]() { saveChangedValue("imageviewPreserveMirror", m_imageviewPreserveMirror); });
     connect(this, &PQCSettings::imageviewPreserveRotationChanged, this, [=]() { saveChangedValue("imageviewPreserveRotation", m_imageviewPreserveRotation); });
@@ -2545,6 +2546,27 @@ void PQCSettings::setDefaultForImageviewMirrorAnimate() {
     if(true != m_imageviewMirrorAnimate) {
         m_imageviewMirrorAnimate = true;
         Q_EMIT imageviewMirrorAnimateChanged();
+    }
+}
+
+int PQCSettings::getImageviewMouseWheelRepeatDelay() {
+    return m_imageviewMouseWheelRepeatDelay;
+}
+
+void PQCSettings::setImageviewMouseWheelRepeatDelay(int val) {
+    if(val != m_imageviewMouseWheelRepeatDelay) {
+        m_imageviewMouseWheelRepeatDelay = val;
+        Q_EMIT imageviewMouseWheelRepeatDelayChanged();
+    }
+}
+
+const int PQCSettings::getDefaultForImageviewMouseWheelRepeatDelay() {
+        return 0;
+}
+
+void PQCSettings::setDefaultForImageviewMouseWheelRepeatDelay() {
+    if(0 != m_imageviewMouseWheelRepeatDelay) {
+        m_imageviewMouseWheelRepeatDelay = 0;
     }
 }
 
@@ -6880,6 +6902,8 @@ void PQCSettings::readDB() {
                     m_imageviewMinimapSizeLevel = value.toInt();
                 } else if(name == "MirrorAnimate") {
                     m_imageviewMirrorAnimate = value.toInt();
+                } else if(name == "MouseWheelRepeatDelay") {
+                    m_imageviewMouseWheelRepeatDelay = value.toInt();
                 } else if(name == "PreloadInBackground") {
                     m_imageviewPreloadInBackground = value.toInt();
                 } else if(name == "PreserveMirror") {
@@ -7657,6 +7681,7 @@ void PQCSettings::setupFresh() {
     m_imageviewMargin = 5;
     m_imageviewMinimapSizeLevel = 0;
     m_imageviewMirrorAnimate = true;
+    m_imageviewMouseWheelRepeatDelay = 0;
     m_imageviewPreloadInBackground = 1;
     m_imageviewPreserveMirror = false;
     m_imageviewPreserveRotation = false;
@@ -7982,6 +8007,7 @@ void PQCSettings::resetToDefault() {
     setDefaultForImageviewMargin();
     setDefaultForImageviewMinimapSizeLevel();
     setDefaultForImageviewMirrorAnimate();
+    setDefaultForImageviewMouseWheelRepeatDelay();
     setDefaultForImageviewPreloadInBackground();
     setDefaultForImageviewPreserveMirror();
     setDefaultForImageviewPreserveRotation();
@@ -8578,6 +8604,10 @@ void PQCSettings::updateFromCommandLine() {
     if(key == "imageviewMirrorAnimate") {
         m_imageviewMirrorAnimate = (val.toInt()==1);
         Q_EMIT imageviewMirrorAnimateChanged();
+    }
+    if(key == "imageviewMouseWheelRepeatDelay") {
+        m_imageviewMouseWheelRepeatDelay = val.toInt();
+        Q_EMIT imageviewMouseWheelRepeatDelayChanged();
     }
     if(key == "imageviewPreloadInBackground") {
         m_imageviewPreloadInBackground = val.toInt();

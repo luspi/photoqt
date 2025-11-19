@@ -640,6 +640,12 @@ public:
     Q_INVOKABLE const bool getDefaultForImageviewMirrorAnimate();
     Q_INVOKABLE void setDefaultForImageviewMirrorAnimate();
 
+    Q_PROPERTY(int imageviewMouseWheelRepeatDelay READ getImageviewMouseWheelRepeatDelay WRITE setImageviewMouseWheelRepeatDelay NOTIFY imageviewMouseWheelRepeatDelayChanged)
+    int getImageviewMouseWheelRepeatDelay();
+    void setImageviewMouseWheelRepeatDelay(int val);
+    Q_INVOKABLE const int getDefaultForImageviewMouseWheelRepeatDelay();
+    Q_INVOKABLE void setDefaultForImageviewMouseWheelRepeatDelay();
+
     Q_PROPERTY(int imageviewPreloadInBackground READ getImageviewPreloadInBackground WRITE setImageviewPreloadInBackground NOTIFY imageviewPreloadInBackgroundChanged)
     int getImageviewPreloadInBackground();
     void setImageviewPreloadInBackground(int val);
@@ -1906,6 +1912,7 @@ private:
     int m_imageviewMargin;
     int m_imageviewMinimapSizeLevel;
     bool m_imageviewMirrorAnimate;
+    int m_imageviewMouseWheelRepeatDelay;
     int m_imageviewPreloadInBackground;
     bool m_imageviewPreserveMirror;
     bool m_imageviewPreserveRotation;
@@ -2218,6 +2225,7 @@ Q_SIGNALS:
     void imageviewMarginChanged();
     void imageviewMinimapSizeLevelChanged();
     void imageviewMirrorAnimateChanged();
+    void imageviewMouseWheelRepeatDelayChanged();
     void imageviewPreloadInBackgroundChanged();
     void imageviewPreserveMirrorChanged();
     void imageviewPreserveRotationChanged();

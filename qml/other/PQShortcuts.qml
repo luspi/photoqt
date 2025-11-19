@@ -38,6 +38,18 @@ Item {
     property list<string> mousePath: []
     property point mousePreviousPos: Qt.point(-1,-1)
 
+    // this implements a repeat delay for mouse wheel
+    // on certain hardware a mouse wheel event might be triggered repeatedly for a
+    // single mouse wheel movement. This ensures that only one is considered
+    // per event.
+    property bool wheelRepeatDelayWait: false
+    Timer {
+        id: resetRepeatDelay
+        interval: PQCSettings.imageviewMouseWheelRepeatDelay
+        onTriggered:
+            keyshortcuts_top.wheelRepeatDelayWait = false
+    }
+
     Connections {
 
         target: PQCScriptsShortcuts
@@ -104,6 +116,15 @@ Item {
                 PQCNotify.loaderPassOn("mouseWheel", [mousePos, angleDelta, modifiers])
 
             else {
+
+                // respect repeat delay if enabled
+                if(PQCSettings.imageviewMouseWheelRepeatDelay > 0) {
+                    if(keyshortcuts_top.wheelRepeatDelayWait) {
+                        resetRepeatDelay.start()
+                        return
+                    }
+                    keyshortcuts_top.wheelRepeatDelayWait = true
+                }
 
                 var combo = PQCScriptsShortcuts.analyzeModifier(modifiers).join("+")
                 if(combo !== "")
