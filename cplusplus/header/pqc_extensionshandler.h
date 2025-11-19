@@ -60,8 +60,12 @@ public:
     /************************************************************************************/
 
     // these can be called from PQCExtensionMethods, but should not be called directly here!
-    void requestCallActionWithImage(const QString &id, QVariant additional = QVariant(), bool async = true);
-    void requestCallAction(const QString &id, QVariant additional = QVariant(), bool async = true);
+
+    QVariant callAction(const QString &id, QVariant additional = QVariant());
+    QVariant callActionWithImage(const QString &id, QVariant additional = QVariant());
+
+    void callActionNonBlocking(const QString &id, QVariant additional = QVariant());
+    void callActionWithImageNonBlocking(const QString &id, QVariant additional = QVariant());
 
     /************************************************/
 
@@ -194,7 +198,7 @@ Q_SIGNALS:
     void receivedMessage(const QString id, QVariant val);
 
     // THESE ARE CALLED FROM WITHIN PQCExtensionMethods
-    void requestResetGeometry(QString id);
+    void resetGeometry(QString id);
 
 
 

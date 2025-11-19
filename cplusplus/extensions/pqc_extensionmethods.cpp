@@ -33,7 +33,7 @@ PQCExtensionMethods::PQCExtensionMethods(QObject *parent) : QObject(parent) {
     connect(&PQCExtensionsHandler::get(), &PQCExtensionsHandler::replyForActionWithImage, this, &PQCExtensionMethods::replyForActionWithImage);
     connect(&PQCExtensionsHandler::get(), &PQCExtensionsHandler::receivedMessage, this, &PQCExtensionMethods::receivedMessage);
 
-    connect(this, &PQCExtensionMethods::requestResetGeometry, &PQCExtensionsHandler::get(), &PQCExtensionsHandler::requestResetGeometry);
+    connect(this, &PQCExtensionMethods::resetGeometry, &PQCExtensionsHandler::get(), &PQCExtensionsHandler::resetGeometry);
 
     connect(&PQCNotifyCPP::get(), &PQCNotifyCPP::keyPress, this, [=](int key, int modifiers) {
         QString combo = PQCScriptsShortcuts::get().analyzeModifier(static_cast<Qt::KeyboardModifiers>(modifiers)).join("+");
@@ -44,12 +44,20 @@ PQCExtensionMethods::PQCExtensionMethods(QObject *parent) : QObject(parent) {
 
 }
 
-void PQCExtensionMethods::requestCallActionWithImage(const QString &id, QVariant additional, bool async) {
-    PQCExtensionsHandler::get().requestCallActionWithImage(id, additional, async);
+QVariant PQCExtensionMethods::callAction(const QString &id, QVariant additional) {
+    return PQCExtensionsHandler::get().callAction(id, additional);
 }
 
-void PQCExtensionMethods::requestCallAction(const QString &id, QVariant additional, bool async) {
-    PQCExtensionsHandler::get().requestCallAction(id, additional, async);
+QVariant PQCExtensionMethods::callActionWithImage(const QString &id, QVariant additional) {
+    return PQCExtensionsHandler::get().callActionWithImage(id, additional);
+}
+
+void PQCExtensionMethods::callActionNonBlocking(const QString &id, QVariant additional) {
+    PQCExtensionsHandler::get().callActionNonBlocking(id, additional);
+}
+
+void PQCExtensionMethods::callActionWithImageNonBlocking(const QString &id, QVariant additional) {
+    PQCExtensionsHandler::get().callActionWithImageNonBlocking(id, additional);
 }
 
 /**********************************/

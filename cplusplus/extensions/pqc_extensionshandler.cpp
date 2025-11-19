@@ -779,50 +779,39 @@ void PQCExtensionsHandler::removeShortcut(QString id) {
     }
 }
 
-void PQCExtensionsHandler::requestCallActionWithImage(const QString &id, QVariant additional, bool async) {
+QVariant PQCExtensionsHandler::callAction(const QString &id, QVariant additional) {
+
     qDebug() << "args: id =" << id;
-    qDebug() << "args: async =" << async;
-    if(async) {
-        QFuture<void> future = QtConcurrent::run([=] {
-            QImage img;
-            QSize sze;
-            PQCLoadImage::get().load(PQCFileFolderModelCPP::get().getCurrentFile(), QSize(-1,-1), sze, img);
-            if(m_actions.contains(id)) {
-                QVariant ret = m_actions[id]->actionWithImage(PQCFileFolderModelCPP::get().getCurrentFile(), img, additional);
-                Q_EMIT replyForActionWithImage(id, ret);
-            } else {
-                qWarning() << "No action provided for extension" << id;
-                Q_EMIT replyForActionWithImage(id, QVariant(""));
-            }
-        });
-    } else {
+
+    if(m_actions.contains(id))
+        return m_actions[id]->action(PQCFileFolderModelCPP::get().getCurrentFile(), additional);
+
+    qWarning() << "No action provided for extension" << id;
+    return QVariant();
+
+}
+
+QVariant PQCExtensionsHandler::callActionWithImage(const QString &id, QVariant additional) {
+
+    qDebug() << "args: id =" << id;
+
+    if(m_actions.contains(id)) {
         QImage img;
         QSize sze;
         PQCLoadImage::get().load(PQCFileFolderModelCPP::get().getCurrentFile(), QSize(-1,-1), sze, img);
-        if(m_actions.contains(id)) {
-            QVariant ret = m_actions[id]->actionWithImage(PQCFileFolderModelCPP::get().getCurrentFile(), img, additional);
-            Q_EMIT replyForActionWithImage(id, ret);
-        } else {
-            qWarning() << "No action provided for extension" << id;
-            Q_EMIT replyForActionWithImage(id, QVariant(""));
-        }
+        return m_actions[id]->actionWithImage(PQCFileFolderModelCPP::get().getCurrentFile(), img, additional);
     }
+
+    qWarning() << "No action with image provided for extension" << id;
+    return QVariant();
+
 }
 
-void PQCExtensionsHandler::requestCallAction(const QString &id, QVariant additional, bool async) {
+void PQCExtensionsHandler::callActionNonBlocking(const QString &id, QVariant additional) {
+
     qDebug() << "args: id =" << id;
-    qDebug() << "args: async =" << async;
-    if(async) {
-        QFuture<void> future = QtConcurrent::run([=] {
-            if(m_actions.contains(id)) {
-                QVariant ret = m_actions[id]->action(PQCFileFolderModelCPP::get().getCurrentFile(), additional);
-                Q_EMIT replyForAction(id, ret);
-            } else {
-                qWarning() << "No action provided for extension" << id;
-                Q_EMIT replyForAction(id, QVariant(""));
-            }
-        });
-    } else {
+
+    QFuture<void> future = QtConcurrent::run([=] {
         if(m_actions.contains(id)) {
             QVariant ret = m_actions[id]->action(PQCFileFolderModelCPP::get().getCurrentFile(), additional);
             Q_EMIT replyForAction(id, ret);
@@ -830,7 +819,27 @@ void PQCExtensionsHandler::requestCallAction(const QString &id, QVariant additio
             qWarning() << "No action provided for extension" << id;
             Q_EMIT replyForAction(id, QVariant(""));
         }
-    }
+    });
+
+}
+
+void PQCExtensionsHandler::callActionWithImageNonBlocking(const QString &id, QVariant additional) {
+
+    qDebug() << "args: id =" << id;
+
+    QFuture<void> future = QtConcurrent::run([=] {
+        QImage img;
+        QSize sze;
+        PQCLoadImage::get().load(PQCFileFolderModelCPP::get().getCurrentFile(), QSize(-1,-1), sze, img);
+        if(m_actions.contains(id)) {
+            QVariant ret = m_actions[id]->actionWithImage(PQCFileFolderModelCPP::get().getCurrentFile(), img, additional);
+            Q_EMIT replyForActionWithImage(id, ret);
+        } else {
+            qWarning() << "No action with image provided for extension" << id;
+            Q_EMIT replyForActionWithImage(id, QVariant(""));
+        }
+    });
+
 }
 
 void PQCExtensionsHandler::loadSettingsInBGToLookForShortcuts() {

@@ -34,8 +34,10 @@ public:
     PQCExtensionMethods(QObject *parent = 0);
 
     // request that one of the custom cpp actions is implemented
-    Q_INVOKABLE void requestCallActionWithImage(const QString &id, QVariant additional = QVariant(), bool async = true);
-    Q_INVOKABLE void requestCallAction(const QString &id, QVariant additional = QVariant(), bool async = true);
+    Q_INVOKABLE QVariant callAction(const QString &id, QVariant additional = QVariant());
+    Q_INVOKABLE QVariant callActionWithImage(const QString &id, QVariant additional = QVariant());
+    Q_INVOKABLE void callActionNonBlocking(const QString &id, QVariant additional = QVariant());
+    Q_INVOKABLE void callActionWithImageNonBlocking(const QString &id, QVariant additional = QVariant());
 
     /**********************************/
 
@@ -70,7 +72,7 @@ Q_SIGNALS:
 
     // resuest resetting position
     // this can be used by floating extensions to put them back into their default spot
-    Q_INVOKABLE void requestResetGeometry(QString id);
+    Q_INVOKABLE void resetGeometry(QString id);
 
     // Whatever result the two possible actions produces
     void replyForActionWithImage(const QString id, QVariant val);
