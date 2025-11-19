@@ -114,7 +114,7 @@ Item {
 
     Loader {
         id: floating_loader
-        source: "file:/" +  PQCExtensionsHandler.getExtensionLocation(element_top.extensionId) + "/qml/PQ" + element_top.extensionId + ".qml"
+        source: "file:/" +  PQCExtensionsHandler.getExtensionLocation(element_top.extensionId) + "/qml/" + element_top.extensionId + ".qml"
     }
 
     PQMouseArea {
@@ -305,7 +305,7 @@ Item {
 
         target: PQCExtensionsHandler
 
-        function onRequestResetGeometry(id : string) {
+        function onResetGeometry(id : string) {
             if(id === element_top.extensionId) {
                 element_top.resetPositionAndSize()
             }

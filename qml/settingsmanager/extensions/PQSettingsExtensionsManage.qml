@@ -213,7 +213,7 @@ PQSetting {
                         anchors.fill: parent
                         anchors.topMargin: 40
                         active: extension_setting.height>41
-                        source: "file:/"+PQCExtensionsHandler.getExtensionLocation(extension_setting.extensionId) + "/qml/PQ"+extension_setting.extensionId+"Settings.qml"
+                        source: "file:/"+PQCExtensionsHandler.getExtensionLocation(extension_setting.extensionId) + "/qml/"+extension_setting.extensionId+"Settings.qml"
                     }
 
                 }

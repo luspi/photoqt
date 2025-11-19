@@ -411,7 +411,6 @@ bool PQCExtensionsHandler::loadExtension(PQCExtensionInfo *extinfo, QString id, 
     // context menu section
     try {
         extinfo->contextMenuSection = QString::fromStdString(config["setup"]["contextmenu"]["section"].as<std::string>());
-        qWarning() << ">>> SECTION:" << extinfo->contextMenuSection;
         if(extinfo->contextMenuSection == "use") {
             m_contextMenuUse.append(id);
             Q_EMIT contextMenuUseChanged();

@@ -145,7 +145,7 @@ Window {
         Loader {
             id: popout_loader
             anchors.fill: loader_wrapper
-            source: "file:/" + PQCExtensionsHandler.getExtensionLocation(element_top.extensionId) + "/qml/PQ" + element_top.extensionId + ".qml"
+            source: "file:/" + PQCExtensionsHandler.getExtensionLocation(element_top.extensionId) + "/qml/" + element_top.extensionId + ".qml"
         }
 
     }
@@ -181,14 +181,14 @@ Window {
 
             height: parent.height
 
-            spacing: 0
+            spacing: 10
 
             PQButtonElement {
                 id: firstbutton
                 text: popout_loader.status===Loader.Ready ? popout_loader.item.modalButton1Text : genericStringClose
                 font.weight: PQCLook.fontWeightBold
-                y: 1
-                height: parent.height-1
+                y: 8
+                height: parent.height-14
                 onClicked: {
                     if(popout_loader.status !== Loader.Ready)
                         element_top.hide()
@@ -201,8 +201,8 @@ Window {
                 id: secondbutton
                 text: popout_loader.status===Loader.Ready ? popout_loader.item.modalButton2Text : ""
                 visible: text!==""
-                y: 1
-                height: parent.height-1
+                y: 8
+                height: parent.height-14
                 onClicked: {
                     if(popout_loader.status !== Loader.Ready)
                         element_top.hide()
@@ -215,8 +215,8 @@ Window {
                 id: thirdbutton
                 text: popout_loader.status===Loader.Ready ? popout_loader.item.modalButton3Text : ""
                 visible: text!==""
-                y: 1
-                height: parent.height-1
+                y: 8
+                height: parent.height-14
                 onClicked: {
                     if(popout_loader.status !== Loader.Ready)
                         element_top.hide()

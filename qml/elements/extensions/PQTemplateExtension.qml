@@ -35,6 +35,9 @@ Flickable {
     property ExtensionSettings settings: element_top.settings
     property string baseDir: PQCExtensionsHandler.getExtensionLocation(extensionId)
     property bool isPoppedOut: settings["ExtPopout"]
+    property bool isModernInterface: PQCSettings.generalInterfaceVariant==="modern"
+    property bool isIntegratedInterface: !isModernInterface
+
     property alias color: background.color
     property alias radius: background.radius
 

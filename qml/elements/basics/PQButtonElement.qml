@@ -28,8 +28,6 @@ Button {
 
     id: control
 
-    implicitHeight: 40
-
     font.pointSize: PQCLook.fontSize
     font.weight: PQCLook.fontWeightBold
 
