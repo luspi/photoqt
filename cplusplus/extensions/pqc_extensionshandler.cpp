@@ -83,16 +83,16 @@ void PQCExtensionsHandler::setup() {
 
 #ifdef Q_OS_UNIX
 #ifdef NDEBUG
-        const QStringList checkDirs = {QString("%1/lib/PhotoQt/extensions").arg(PQMINSTALLPREFIX),
-                                       PQCConfigFiles::get().DATA_DIR() + "/extensions"};
+        const QStringList checkDirs = {PQCConfigFiles::get().EXTENSION_DATA_DIR(),
+                                       QString("%1/lib/PhotoQt/extensions").arg(PQMINSTALLPREFIX)};
 #else
         const QStringList checkDirs = {QString("%1/extensions").arg(PQMBUILDDIR),
-                                       QString("%1/lib/PhotoQt/extensions").arg(PQMINSTALLPREFIX),
-                                       PQCConfigFiles::get().DATA_DIR() + "/extensions"};
+                                       PQCConfigFiles::get().EXTENSION_DATA_DIR(),
+                                       QString("%1/lib/PhotoQt/extensions").arg(PQMINSTALLPREFIX)};
 #endif
 #else
-        const QStringList checkDirs = {qgetenv("PHOTOQT_EXE_BASEDIR") + "/extensions",
-                                       PQCConfigFiles::get().DATA_DIR() + "/extensions"};
+        const QStringList checkDirs = {PQCConfigFiles::get().EXTENSION_DATA_DIR(),
+                                       qgetenv("PHOTOQT_EXE_BASEDIR") + "/extensions"};
 #endif
 
         // This needs to be instantiated to make sure that the CPP class has been populated.
