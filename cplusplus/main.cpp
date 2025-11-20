@@ -181,7 +181,7 @@ int main(int argc, char **argv) {
     /******************************************/
     // we take care of any startup checks and potential migrations
 
-    PQCStartupHandler startupHandler;
+    PQCStartupHandler startupHandler(app.getForceShowWizard(), app.getForceSkipWizard());
 
     /******************************************/
 

@@ -85,7 +85,11 @@ PQCCommandLineParser::PQCCommandLineParser(QApplication &app, QObject *parent) :
                    //: Command line option
         {"modern", QApplication::translate("commandlineparser", "Launch with modern interface.")},
                    //: Command line option
-        {"integrated", QApplication::translate("commandlineparser", "Launch with integrated interface.")}
+        {"integrated", QApplication::translate("commandlineparser", "Launch with integrated interface.")},
+                   //: Command line option
+        {"show-wizard", QApplication::translate("commandlineparser", "Show the startup wizard.")},
+                   //: Command line option
+        {"skip-wizard", QApplication::translate("commandlineparser", "Don't show the startup wizard.")}
     });
 
     process(app);
@@ -176,8 +180,13 @@ PQCCommandLineResult PQCCommandLineParser::getResult() {
             settingUpdate[0] = tmp[0];
             settingUpdate[1] = tmp[1];
         }
-
     }
+
+    if(isSet("show-wizard"))
+        ret = ret|PQCCommandLineShowStartupWizard;
+
+    if(isSet("skip-wizard"))
+        ret = ret|PQCCommandLineDontShowStartupWizard;
 
     return ret;
 

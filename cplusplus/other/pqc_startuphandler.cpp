@@ -37,7 +37,9 @@
 #include <QSqlError>
 #include <iostream>
 
-PQCStartupHandler::PQCStartupHandler(QObject *parent) : QObject(parent) {
+PQCStartupHandler::PQCStartupHandler(bool forceShowWizard, bool forceSkipWizard, QObject *parent) : QObject(parent),
+                                                                                                    m_forceShowWizard(forceShowWizard),
+                                                                                                    m_forceSkipWizard(forceSkipWizard) {
 
     // check if sqlite is available
     if(!QSqlDatabase::isDriverAvailable("QSQLITE3") && !QSqlDatabase::isDriverAvailable("QSQLITE")) {
@@ -172,15 +174,13 @@ void PQCStartupHandler::performChecksAndUpdates() {
 
     }
 
-    // askForInterfaceVariant(true);
-    // askForInterfaceVariant(false);
-
     if(settingsChecker == PQEUpdateCheck::FreshInstall) {
 
         setupFresh();
         setupDatabases();   // ... again.
 
-        askForInterfaceVariant(true);
+        if(!m_forceSkipWizard)
+            showStartupWizard(true);
 
         // WE CAN STOP HERE!
         return;
@@ -192,10 +192,11 @@ void PQCStartupHandler::performChecksAndUpdates() {
         validate.validateSettingsDatabase();
         validate.validateSettingsValues();
 
-        if(oldSettingsVersion.startsWith("4") || oldSettingsVersion.startsWith("3"))
-            askForInterfaceVariant(false);
+        if(!m_forceSkipWizard && (oldSettingsVersion.startsWith("4") || oldSettingsVersion.startsWith("3") || m_forceShowWizard))
+            showStartupWizard(false);
 
-    }
+    } else if(!m_forceSkipWizard)
+        showStartupWizard(false);
 
     /********************************************************************/
     /********************************************************************/
@@ -510,7 +511,7 @@ void PQCStartupHandler::showInfo() {
 /**************************************************************/
 /**************************************************************/
 
-void PQCStartupHandler::askForInterfaceVariant(bool freshInstall) {
+void PQCStartupHandler::showStartupWizard(bool freshInstall) {
 
     qDebug() << "";
 

@@ -603,7 +603,7 @@ bool PQCScriptsConfig::isICUSupportEnabled() {
 
 void PQCScriptsConfig::callStartupSetupFresh() {
 
-    PQCStartupHandler startup;
+    PQCStartupHandler startup(false, false);
     startup.setupFresh();
 
 }

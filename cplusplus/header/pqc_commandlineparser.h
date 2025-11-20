@@ -26,7 +26,6 @@
 #include <QApplication>
 #include <QTranslator>
 #include <QFile>
-#include <iostream>
 
 enum PQCCommandLineResult {
     PQCCommandLineNothing = 0,
@@ -49,7 +48,9 @@ enum PQCCommandLineResult {
     PQCCommandLineSettingUpdate = 524288,
     PQCCommandLineQuit = 1048576,
     PQCCommandLineModernInterface = 2097152,
-    PQCCommandLineIntegratedInterface = 4194304
+    PQCCommandLineIntegratedInterface = 4194304,
+    PQCCommandLineShowStartupWizard = 8388608,
+    PQCCommandLineDontShowStartupWizard = 16777216
 };
 inline PQCCommandLineResult operator|(PQCCommandLineResult a, PQCCommandLineResult b) {
     return static_cast<PQCCommandLineResult>(static_cast<int>(a) | static_cast<int>(b));

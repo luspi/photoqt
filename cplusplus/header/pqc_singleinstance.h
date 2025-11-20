@@ -72,6 +72,9 @@ public:
     QQmlApplicationEngine *qmlEngine;
     QVector<void*> qmlWindowAddresses;
 
+    bool getForceShowWizard() { return m_forceShowWizard; }
+    bool getForceSkipWizard() { return m_forceSkipWizard; }
+
 protected:
     virtual bool notify(QObject *obj, QEvent *e) override;
 
@@ -90,6 +93,9 @@ private:
     QString m_receivedFile;
     QString m_receivedShortcut;
     QString m_receivedSetting[2];
+
+    bool m_forceShowWizard;
+    bool m_forceSkipWizard;
 
     // This one is used in main process, handling the message sent by sub-instances
     void handleMessage(const QList<Actions> msg);

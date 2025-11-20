@@ -24,6 +24,7 @@
 #include <QFileInfo>
 #include <QDir>
 #include <thread>
+#include <iostream>
 #include <qlogging.h>   // needed in this form to compile with Qt 6.2
 
 #include <QQmlApplicationEngine>
@@ -54,6 +55,9 @@ PQCSingleInstance::PQCSingleInstance(int &argc, char *argv[]) : QApplication(arg
 
     forceModernInterface = false;
     forceIntegratedInterface = false;
+
+    m_forceShowWizard = false;
+    m_forceSkipWizard = false;
 
     if(result & PQCCommandLineFile) {
         for(const auto &f : std::as_const(parser.filenames)) {
@@ -110,6 +114,12 @@ PQCSingleInstance::PQCSingleInstance(int &argc, char *argv[]) : QApplication(arg
 
     if(result & PQCCommandLineIntegratedInterface)
         forceIntegratedInterface = true;
+
+    if(result & PQCCommandLineShowStartupWizard)
+        m_forceShowWizard = true;
+
+    if(result & PQCCommandLineDontShowStartupWizard)
+        m_forceSkipWizard = true;
 
     if(result & PQCCommandLineSettingUpdate) {
         receivedSetting[0] = parser.settingUpdate[0];

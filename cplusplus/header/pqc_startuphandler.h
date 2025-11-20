@@ -34,7 +34,7 @@ class PQCStartupHandler : public QObject {
     Q_OBJECT
 
 public:
-    PQCStartupHandler(QObject *parent = 0);
+    PQCStartupHandler(bool forceShowWizard, bool forceSkipWizard, QObject *parent = 0);
 
     void performChecksAndUpdates();
     QString getInterfaceVariant();
@@ -52,6 +52,9 @@ public:
 private:
     QStringList m_allVersions;
 
-    void askForInterfaceVariant(bool freshInstall);
+    bool m_forceShowWizard;
+    bool m_forceSkipWizard;
+
+    void showStartupWizard(bool freshInstall);
 
 };
