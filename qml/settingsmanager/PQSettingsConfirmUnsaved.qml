@@ -42,10 +42,11 @@ Item {
     Behavior on opacity { NumberAnimation { duration: 200 } }
     visible: opacity>0
 
-    property string cat: ""
     property int ind: -1
+    property string cat: ""
+    property int catIndex: -1
 
-    signal updateTabTo(mainCat : int, subCat : string)
+    signal updateTabTo(mainCat : int, subCat : string, subCatIndex : int)
 
     Column {
 
@@ -85,7 +86,7 @@ Item {
                     if(confirmUnsaved.cat == "-") {
                         settingsmanager_top.hide()
                     } else {
-                        confirmUnsaved.updateTabTo(confirmUnsaved.ind, confirmUnsaved.cat)
+                        confirmUnsaved.updateTabTo(confirmUnsaved.ind, confirmUnsaved.cat, confirmUnsaved.catIndex)
                     }
 
                     confirmUnsaved.opacity = 0
@@ -102,7 +103,7 @@ Item {
                         PQCConstants.settingsManagerSettingChanged = false
                         settingsmanager_top.hide()
                     } else {
-                        confirmUnsaved.updateTabTo(confirmUnsaved.ind, confirmUnsaved.cat)
+                        confirmUnsaved.updateTabTo(confirmUnsaved.ind, confirmUnsaved.cat, confirmUnsaved.catIndex)
                     }
                     confirmUnsaved.opacity = 0
                     confirmUnsaved.cat = ""

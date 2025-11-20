@@ -341,6 +341,23 @@ PQTemplate {
                         if(confirmUnsaved.opacity < 1)
                             PQCNotify.settingsmanagerSendCommand("loadcurrent", []);
 
+                    } else if((param[0] === Qt.Key_Tab && param[1] === Qt.ControlModifier) || (param[0] === Qt.Key_Down && param[1] === Qt.AltModifier)) {
+
+                        maintabbar.gotoSubCategory(1)
+
+                    } else if(((param[0] === Qt.Key_Backtab || param[0] === Qt.Key_Tab) && param[1] === Qt.ShiftModifier+Qt.ControlModifier) ||
+                               (param[0] === Qt.Key_Up && param[1] === Qt.AltModifier)) {
+
+                        maintabbar.gotoSubCategory(-1)
+
+                    } else if(param[0] === Qt.Key_Down && param[1] === Qt.ControlModifier) {
+
+                        maintabbar.gotoMainCategory(1)
+
+                    } else if(param[0] === Qt.Key_Up && param[1] === Qt.ControlModifier) {
+
+                        maintabbar.gotoMainCategory(-1)
+
                     }
 
                 }

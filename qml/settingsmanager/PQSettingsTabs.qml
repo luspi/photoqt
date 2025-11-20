@@ -35,6 +35,7 @@ Flickable {
 
     property int currentIndex: 0
     property list<string> currentComponents: ["", "", "", "", "", "", ""]
+    property list<int> currentIndices: [0, 0, 0, 0, 0, 0, 0]
 
     property list<string> _flickableNotInteractiveFor: ["4_list", "4_exsh", "4_dush"]
 
@@ -119,8 +120,9 @@ Flickable {
                             subtabbar_interface.tabheight = height
                         isCurrentTab: tab_top.currentComponents[0]===subtabbar_interface.entries[index][0]
                         text: subtabbar_interface.entries[index][1]
-                        onClicked:
-                            tab_top.changeCategory(0, subtabbar_interface.entries[index][0])
+                        onClicked: {
+                            tab_top.changeCategory(0, subtabbar_interface.entries[index][0], index)
+                        }
                         Rectangle {
                             y: parent.height-height
                             width: parent.width
@@ -196,7 +198,7 @@ Flickable {
                         isCurrentTab: tab_top.currentComponents[1]===subtabbar_imageview.entries[index][0]
                         text: subtabbar_imageview.entries[index][1]
                         onClicked:
-                            tab_top.changeCategory(1, subtabbar_imageview.entries[index][0])
+                            tab_top.changeCategory(1, subtabbar_imageview.entries[index][0], -1)
                         Rectangle {
                             y: parent.height-height
                             width: parent.width
@@ -268,7 +270,7 @@ Flickable {
                         isCurrentTab: tab_top.currentComponents[2]===subtabbar_thumbnails.entries[index][0]
                         text: subtabbar_thumbnails.entries[index][1]
                         onClicked:
-                            tab_top.changeCategory(2, subtabbar_thumbnails.entries[index][0])
+                            tab_top.changeCategory(2, subtabbar_thumbnails.entries[index][0], -1)
                         Rectangle {
                             y: parent.height-height
                             width: parent.width
@@ -344,7 +346,7 @@ Flickable {
                         isCurrentTab: tab_top.currentComponents[3]===subtabbar_filetypes.entries[index][0]
                         text: subtabbar_filetypes.entries[index][1]
                         onClicked:
-                            tab_top.changeCategory(3, subtabbar_filetypes.entries[index][0])
+                            tab_top.changeCategory(3, subtabbar_filetypes.entries[index][0], -1)
                         Rectangle {
                             y: parent.height-height
                             width: parent.width
@@ -417,7 +419,7 @@ Flickable {
                         isCurrentTab: tab_top.currentComponents[4]===subtabbar_mousekeys.entries[index][0]
                         text: subtabbar_mousekeys.entries[index][1]
                         onClicked:
-                            tab_top.changeCategory(4, subtabbar_mousekeys.entries[index][0])
+                            tab_top.changeCategory(4, subtabbar_mousekeys.entries[index][0], -1)
                         Rectangle {
                             y: parent.height-height
                             width: parent.width
@@ -488,7 +490,7 @@ Flickable {
                         isCurrentTab: tab_top.currentComponents[5]===subtabbar_manage.entries[index][0]
                         text: subtabbar_manage.entries[index][1]
                         onClicked:
-                            tab_top.changeCategory(5, subtabbar_manage.entries[index][0])
+                            tab_top.changeCategory(5, subtabbar_manage.entries[index][0], -1)
                         Rectangle {
                             y: parent.height-height
                             width: parent.width
@@ -558,7 +560,7 @@ Flickable {
                         isCurrentTab: tab_top.currentComponents[6]===subtabbar_extensions.entries[index][0]
                         text: subtabbar_extensions.entries[index][1]
                         onClicked:
-                            tab_top.changeCategory(6, subtabbar_extensions.entries[index][0])
+                            tab_top.changeCategory(6, subtabbar_extensions.entries[index][0], -1)
                         Rectangle {
                             y: parent.height-height
                             width: parent.width
@@ -628,7 +630,7 @@ Flickable {
                         isCurrentTab: tab_top.currentComponents[7]===subtabbar_other.entries[index][0]
                         text: subtabbar_other.entries[index][1]
                         onClicked:
-                            tab_top.changeCategory(7, subtabbar_other.entries[index][0])
+                            tab_top.changeCategory(7, subtabbar_other.entries[index][0], -1)
                         Rectangle {
                             y: parent.height-height
                             width: parent.width
@@ -657,7 +659,8 @@ Flickable {
 
         target: confirmUnsaved
 
-        function onUpdateTabTo(mainCat : int, subCat : string) {
+        function onUpdateTabTo(mainCat : int, subCat : string, subCatIndex : int) {
+            tab_top.currentIndices[mainCat] = subCatIndex
             tab_top.currentComponents[mainCat] = subCat
             tab_top.currentComponentsChanged()
         }
@@ -677,15 +680,57 @@ Flickable {
 
     }
 
-    function changeCategory(mainCat : int, subCat : string) {
+    function changeCategory(mainCat : int, subCat : string, subCatIndex : int) {
         if(PQCConstants.settingsManagerSettingChanged) {
             confirmUnsaved.ind = mainCat
             confirmUnsaved.cat = subCat
+            confirmUnsaved.catIndex = subCatIndex
             confirmUnsaved.opacity = 1
         } else {
+            currentIndices[mainCat] = subCatIndex
             tab_top.currentComponents[mainCat] = subCat
             tab_top.currentComponentsChanged()
         }
+    }
+
+    function gotoSubCategory(dir : int) {
+
+        var entr = []
+             if(currentIndex == 0) entr = subtabbar_interface.entries
+        else if(currentIndex == 1) entr = subtabbar_imageview.entries
+        else if(currentIndex == 2) entr = subtabbar_thumbnails.entries
+        else if(currentIndex == 3) entr = subtabbar_filetypes.entries
+        else if(currentIndex == 4) entr = subtabbar_mousekeys.entries
+        else if(currentIndex == 5) entr = subtabbar_manage.entries
+        else if(currentIndex == 6) entr = subtabbar_extensions.entries
+        else if(currentIndex == 7) entr = subtabbar_other.entries
+
+        if(dir === 1) {
+            if(currentIndices[currentIndex] < entr.length-1)
+                tab_top.changeCategory(currentIndex, entr[currentIndices[currentIndex]+1][0], currentIndices[currentIndex]+1)
+            else
+                tab_top.changeCategory(currentIndex, entr[0][0], 0)
+        } else {
+            if(currentIndices[currentIndex] > 0)
+                tab_top.changeCategory(currentIndex, entr[entr.length-1][0], entr.length-1)
+        }
+
+    }
+
+    function gotoMainCategory(dir : int) {
+
+        if(dir === 1) {
+            if(currentIndex < 7)
+                currentIndex += 1
+            else
+                currentIndex = 0
+        } else {
+            if(currentIndex > 0)
+                currentIndex -= 1
+            else
+                currentIndex = 7
+        }
+
     }
 
 }
