@@ -328,19 +328,19 @@ PQSetting {
         PQSettingSubtitle {
             //: Settings title
             title: qsTranslate("settingsmanager", "Sidebar")
-            visible: PQCSettings.generalInterfaceVariant==="integrated"
+            visible: !set_meta.modernInterface
             helptext: qsTranslate("settingsmanager",  "Some information about the image can be shown in a side bar either along the left or the right edge of the window.")
         },
 
         PQCheckBox {
             id: sidebarcheck
-            visible: PQCSettings.generalInterfaceVariant==="integrated"
+            visible: !set_meta.modernInterface
             text: qsTranslate("settingsmanager", "Show information in sidebar")
             onCheckedChanged: set_meta.checkForChanges()
         },
 
         Row {
-            visible: PQCSettings.generalInterfaceVariant==="integrated"
+            visible: !set_meta.modernInterface
             spacing: 10
             PQRadioButton {
                 id: sidebarleft

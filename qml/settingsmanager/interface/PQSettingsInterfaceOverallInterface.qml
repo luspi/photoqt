@@ -284,6 +284,53 @@ PQSetting {
             text: qsTranslate("settingsmanager", "Use native file dialog")
             ButtonGroup.group: grp_fd
             onCheckedChanged: set_lang.checkForChanges()
+        },
+
+        /***********************************/
+
+        /************************************************/
+
+        PQSettingSubtitle {
+            //: Settings title
+            title: qsTranslate("settingsmanager", "Sidebar")
+            visible: !set_lang.modernInterface
+            helptext: qsTranslate("settingsmanager",  "Some information about the image can be shown in a side bar either along the left or the right edge of the window.")
+        },
+
+        PQCheckBox {
+            id: sidebarcheck
+            visible: !set_lang.modernInterface
+            text: qsTranslate("settingsmanager", "Show information in sidebar")
+            onCheckedChanged: set_lang.checkForChanges()
+        },
+
+        Row {
+            visible: !set_lang.modernInterface
+            spacing: 10
+            PQRadioButton {
+                id: sidebarleft
+                enabled: sidebarcheck.checked
+                text: qsTranslate("settingsmanager", "left edge")
+                onCheckedChanged: set_lang.checkForChanges()
+            }
+            PQRadioButton {
+                id: sidebarright
+                enabled: sidebarcheck.checked
+                text: qsTranslate("settingsmanager", "right edge")
+                onCheckedChanged: set_lang.checkForChanges()
+            }
+        },
+
+        PQSettingsResetButton {
+            onResetToDefaults: {
+
+                sidebarcheck.checked = PQCSettings.getDefaultForMetadataSideBar()
+                sidebarleft.checked = (PQCSettings.getDefaultForMetadataSideBarLocation()==="left")
+                sidebarright.checked = (PQCSettings.getDefaultForMetadataSideBarLocation()==="right")
+
+                set_lang.checkForChanges()
+
+            }
         }
 
     ]
@@ -299,8 +346,10 @@ PQSetting {
             return
         }
 
-        PQCConstants.settingsManagerSettingChanged = (origIndex !== langcombo.currentIndex || currentInterfaceVariant!==PQCSettings.generalInterfaceVariant ||
-                                                      fd_native.hasChanged() || fd_custom.hasChanged())
+        PQCConstants.settingsManagerSettingChanged = (origIndex !== langcombo.currentIndex ||
+                                                      currentInterfaceVariant!==PQCSettings.generalInterfaceVariant ||
+                                                      fd_native.hasChanged() || fd_custom.hasChanged() ||
+                                                      sidebarcheck.hasChanged() || sidebarleft.hasChanged() || sidebarright.hasChanged())
 
     }
 
@@ -334,8 +383,11 @@ PQSetting {
         fd_native.loadAndSetDefault(PQCSettings.filedialogUseNativeFileDialog)
         fd_custom.loadAndSetDefault(!PQCSettings.filedialogUseNativeFileDialog)
 
-        PQCConstants.settingsManagerSettingChanged = false
+        sidebarcheck.loadAndSetDefault(PQCSettings.metadataSideBar)
+        sidebarright.loadAndSetDefault(PQCSettings.metadataSideBarLocation==="right")
+        sidebarleft.loadAndSetDefault(PQCSettings.metadataSideBarLocation==="left")
 
+        PQCConstants.settingsManagerSettingChanged = false
         settingsLoaded = true
 
     }
@@ -355,6 +407,13 @@ PQSetting {
         PQCSettings.filedialogUseNativeFileDialog = fd_native.checked
         fd_native.saveDefault()
         fd_custom.saveDefault()
+
+        PQCSettings.metadataSideBar = sidebarcheck.checked
+        PQCSettings.metadataSideBarLocation = (sidebarleft.checked ? "left" : "right")
+
+        sidebarcheck.saveDefault()
+        sidebarleft.saveDefault()
+        sidebarright.saveDefault()
 
         PQCConstants.settingsManagerSettingChanged = false
 

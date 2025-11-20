@@ -311,17 +311,19 @@ Rectangle {
             id: managemenu
             PQMenuItem {
                 enabled: false
-                text: "manage sidebar"
+                text: qsTranslate("settingsmanager", "manage sidebar")
             }
             PQMenuItem {
-                text: PQCSettings.metadataSideBarLocation==="left" ? "move to right edge" : "move to left edge"
-                onClicked: {
+                text: PQCSettings.metadataSideBarLocation==="left" ?
+                          qsTranslate("settingsmanager", "move to right edge") :
+                          qsTranslate("settingsmanager", "move to left edge")
+                onTriggered: {
                     PQCSettings.metadataSideBarLocation = (PQCSettings.metadataSideBarLocation === "left" ? "right" : "left")
                 }
             }
             PQMenuItem {
-                text: "close sidebar"
-                onClicked: {
+                text: qsTranslate("settingsmanager", "close sidebar")
+                onTriggered: {
                     PQCSettings.metadataSideBar = false
                 }
             }
@@ -373,7 +375,8 @@ Rectangle {
             PQMenuSeparator {}
 
             PQMenu {
-                title: "Visible labels"
+                //: The labels here are metadata labels
+                title: qsTranslate("metadata", "Visible labels")
 
                 Repeater {
 
@@ -395,7 +398,7 @@ Rectangle {
             }
 
             PQMenu {
-                title: "GPS map"
+                title: qsTranslate("metadata", "Map service")
                 PQMenuItem {
                     checkable: true
                     checkableLikeRadioButton: true
