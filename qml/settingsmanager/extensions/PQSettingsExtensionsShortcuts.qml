@@ -52,6 +52,24 @@ PQSetting {
 
         },
 
+        Item {
+
+            width: parent.width
+            height: noext.height+20
+            visible: set_exsh.allExtensions.length===0
+
+            PQTextL {
+                id: noext
+                y: 10
+                anchors.horizontalCenter: parent.horizontalCenter
+                font.weight: PQCLook.fontWeightBold
+                enabled: false
+                font.italic: true
+                text: qsTranslate("settingsmanager", "No extensions installed")
+            }
+
+        },
+
         Column {
 
             id: col

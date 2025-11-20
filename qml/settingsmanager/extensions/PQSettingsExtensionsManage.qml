@@ -49,9 +49,27 @@ PQSetting {
             //: A settings title
             title: qsTranslate("settingsmanager", "Enabled extensions")
 
-            helptext: qsTranslate("settingsmanager",  "PhotoQt's capabilities can be increased with various extensions. Here you can find a list of extensions currently known to PhotoQt and you can choose which one should be enabled. Some extensions come with additional settings accessible through the button on the far right.")
+            helptext: qsTranslate("settingsmanager", "PhotoQt's capabilities can be increased with various extensions. Here you can find a list of extensions currently known to PhotoQt and you can choose which one should be enabled. Some extensions come with additional settings accessible through the button on the far right.")
 
             showLineAbove: false
+
+        },
+
+        Item {
+
+            width: parent.width
+            height: noext.height+20
+            visible: set_maex.allExtensions.length===0
+
+            PQTextL {
+                id: noext
+                y: 10
+                anchors.horizontalCenter: parent.horizontalCenter
+                font.weight: PQCLook.fontWeightBold
+                enabled: false
+                font.italic: true
+                text: qsTranslate("settingsmanager", "No extensions installed")
+            }
 
         },
 
@@ -184,7 +202,7 @@ PQSetting {
                             x: verified.x+verified.width+10
                             y: (parent.height-height)/2
                             width: extension_setting.width-verified.width-setupButton.width-check.width-30
-                            enabled: false
+                            opacity: 0.8
                             text: extension_setting.extDesc
                             elide: Text.ElideRight
                         }
@@ -263,7 +281,7 @@ PQSetting {
             //: A settings title
             title: qsTranslate("settingsmanager", "Install extension")
 
-            helptext: qsTranslate("settingsmanager", "PhotoQt can be extended with new extensions. Please be careful with where you get any extension and make sure that you trust its origin before installing any extension.")
+            helptext: qsTranslate("settingsmanager", "PhotoQt can be extended with new extensions. Please be careful with where you get any extension and make sure that you trust its origin before installing anything.")
 
         },
 
