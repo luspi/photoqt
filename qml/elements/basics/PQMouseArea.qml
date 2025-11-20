@@ -31,7 +31,6 @@ MouseArea {
     property alias tooltip: control.text
     property alias delay: control.delay
 
-    // TODO
     property Item tooltipReference
 
     property bool hovered : false

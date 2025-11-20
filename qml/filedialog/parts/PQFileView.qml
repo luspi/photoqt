@@ -282,7 +282,6 @@ Item {
         }
         PQMenuSeparator { }
         PQMenuItem {
-            // implicitHeight: visible ? 40 : 0
             visible: !PQCScriptsConfig.amIOnWindows()
             enabled: visible && (fileview_entry_menu.isFile || fileview_entry_menu.isFolder || PQCConstants.filedialogCurrentSelection.length)
             font.weight: PQCConstants.shiftKeyPressed ? PQCLook.fontWeightBold : PQCLook.fontWeightNormal

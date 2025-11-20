@@ -33,6 +33,8 @@ Button {
 
     property string tooltip: ""
 
+    signal rightClicked()
+
     //: This is a generic string written on clickable buttons - please keep short!
     property string genericStringOk: qsTranslate("buttongeneric", "Ok")
     //: This is a generic string written on clickable buttons - please keep short!
@@ -46,7 +48,7 @@ Button {
         text: but_top.text
         font: but_top.font
         color: enabled ? pqtPalette.text : pqtPaletteDisabled.text
-        horizontalAlignment: Text.AlignHCenter
+        horizontalAlignment: but_top.horizontalAlignment
         verticalAlignment: Text.AlignVCenter
         elide: Text.ElideRight
     }
@@ -55,21 +57,15 @@ Button {
         implicitWidth: 100
         implicitHeight: 40
         opacity: enabled ? 1 : 0.3
-        color: but_top.down ? pqtPalette.highlight : pqtPalette.button
+        color: but_top.down||but_top.forceHovered ? pqtPalette.highlight : pqtPalette.button
         border.color: PQCLook.baseBorder
         border.width: 1
         radius: 2
     }
 
-    property int cursorShape
-    // property alias horizontalAlignment: txt.horizontalAlignment
-
-    // property bool forceHovered: false
-
-    // property bool enableContextMenu: true
-    // property alias contextmenu: menu
-
-    // property bool contextmenuVisible: false
+    property int horizontalAlignment: Text.AlignHCenter
+    property bool forceHovered: false
+    property bool enableContextMenu: true
 
     property int forceWidth: 0
     property bool extraWide: false
@@ -90,6 +86,17 @@ Button {
             PQCNotify.hideToolTip(tooltip)
     }
 
+    MouseArea {
+        anchors.fill: parent
+        acceptedButtons: Qt.RightButton
+        onClicked: {
+            if(enableContextMenu)
+                menu.popup()
+            else
+                but_top.rightClicked()
+        }
+    }
+
     PQToolTip {
         id: ttip
         delay: 500
@@ -98,8 +105,19 @@ Button {
         text: but_top.tooltip
     }
 
-    function closeContextmenu() {
-        // menu.close()
+    PQMenu {
+        id: menu
+        PQMenuItem {
+            enabled: false
+            font.italic: true
+            text: but_top.text
+        }
+        PQMenuItem {
+            text: qsTranslate("buttongeneric", "Activate button")
+            onTriggered: {
+                but_top.clicked()
+            }
+        }
     }
 
 }

@@ -525,7 +525,7 @@ PQTemplate {
                     Item {
 
                         implicitWidth: 400
-                        implicitHeight: 300//Math.min(parent.height, Math.max(parent.height, col5.height))
+                        implicitHeight: 300
 
                         Column {
 
@@ -756,10 +756,7 @@ PQTemplate {
                 if(working.visible) {
 
                     if(param[0] === Qt.Key_Escape || param[0] === Qt.Key_Enter || param[0] === Qt.Key_Return) {
-                        if(workingcancel.contextmenuVisible)
-                            workingcancel.closeContextmenu()
-                        else
-                            workingcancel.clicked()
+                        workingcancel.clicked()
                     }
 
                 } else {

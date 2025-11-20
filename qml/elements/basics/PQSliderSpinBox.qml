@@ -63,9 +63,6 @@ Item {
 
     property bool editMode: false
 
-    // TODO
-    property bool contextMenuOpen: false//txt.contextmenu.visible || acceptbut.contextmenu.visible
-
     onVisibleChanged: {
         if(!visible) {
             txt.visible = true
@@ -172,12 +169,6 @@ Item {
             }
         }
 
-    }
-
-    function closeContextMenus() {
-        // TODO
-        // txt.contextmenu.close()
-        // acceptbut.contextmenu.close()
     }
 
     function saveDefault() {

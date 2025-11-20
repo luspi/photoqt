@@ -442,7 +442,6 @@ PQSetting {
                                     width: 40
                                     height: 40
                                     iconScale: 0.5
-                                    radius: 0
                                     enabled: musicdeleg.modelData>0
                                     source: "image://svg/:/" + PQCLook.iconShade + "/upwards.svg"
                                     //: This relates to the list of music files for slideshows
@@ -457,7 +456,6 @@ PQSetting {
                                     height: 40
                                     rotation: 180
                                     iconScale: 0.5
-                                    radius: 0
                                     enabled: musicdeleg.modelData < music_view.model-1
                                     source: "image://svg/:/" + PQCLook.iconShade + "/upwards.svg"
                                     //: This relates to the list of music files for slideshows
@@ -471,7 +469,6 @@ PQSetting {
                                     width: 40
                                     height: 40
                                     iconScale: 0.35
-                                    radius: 0
                                     source: "image://svg/:/" + PQCLook.iconShade + "/x.svg"
                                     //: This relates to the list of music files for slideshows
                                     tooltip: qsTranslate("settingsmanager", "Delete this file from the list")

@@ -345,9 +345,4 @@ Rectangle {
         exist_top.opacity = 0
     }
 
-    function closeContextMenus() {
-        firstbutton.contextmenu.close()
-        secondbutton.contextmenu.close()
-    }
-
 }

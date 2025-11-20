@@ -40,11 +40,9 @@ Button {
     property alias tooltipDelay: ttip.delay
     property alias cursorShape: mousearea.cursorShape
 
-    // TODO: NOT YET IMPLEMENTED
     property bool enableContextMenu: false
-    property string overrideBaseColor: ""
+
     property Item dragTarget
-    property int radius
 
     flat: true
 
@@ -66,7 +64,10 @@ Button {
         acceptedButtons: Qt.RightButton
         drag.target: dragTarget
         onClicked: (mouse) => {
-            control.rightClicked()
+            if(enableContextMenu)
+                menu.popup()
+            else
+                control.rightClicked()
             mouse.accepted = true
         }
     }
@@ -78,6 +79,21 @@ Button {
         x: (parent != null ? (parent.width-width)/2 : 0)
         y: -height-5
 
+    }
+
+    PQMenu {
+        id: menu
+        PQMenuItem {
+            enabled: false
+            font.italic: true
+            text: control.text
+        }
+        PQMenuItem {
+            text: qsTranslate("buttongeneric", "Activate button")
+            onTriggered: {
+                control.clicked()
+            }
+        }
     }
 
 }

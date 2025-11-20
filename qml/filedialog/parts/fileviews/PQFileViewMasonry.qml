@@ -451,8 +451,6 @@ Flickable {
 
                     if(!PQCConstants.isContextmenuOpen("fileviewentry"))
                         view_top.currentIndex = deleg.modelData
-                    // else
-                        // contextmenu.setCurrentIndexToThisAfterClose = deleg.modelData
 
                     // we only need this when a potential drag might occur
                     // otherwise no need to load this drag thumbnail

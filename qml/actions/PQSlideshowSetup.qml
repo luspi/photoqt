@@ -538,7 +538,6 @@ PQTemplate {
                                                 width: 40
                                                 height: 40
                                                 iconScale: 0.5
-                                                radius: 0
                                                 enabled: musicdeleg.modelData>0
                                                 source: "image://svg/:/" + PQCLook.iconShade + "/upwards.svg"
                                                 //: This relates to the list of music files for slideshows
@@ -554,7 +553,6 @@ PQTemplate {
                                                 height: 40
                                                 rotation: 180
                                                 iconScale: 0.5
-                                                radius: 0
                                                 enabled: musicdeleg.modelData < music_view.model-1
                                                 source: "image://svg/:/" + PQCLook.iconShade + "/upwards.svg"
                                                 //: This relates to the list of music files for slideshows
@@ -569,7 +567,6 @@ PQTemplate {
                                                 width: 40
                                                 height: 40
                                                 iconScale: 0.35
-                                                radius: 0
                                                 source: "image://svg/:/" + PQCLook.iconShade + "/x.svg"
                                                 //: This relates to the list of music files for slideshows
                                                 tooltip: qsTranslate("settingsmanager", "Delete this file from the list")
@@ -623,17 +620,7 @@ PQTemplate {
 
         function onLoaderPassOn(what : string, param : list<var>) {
 
-            /*if(what === "show") {
-
-                if(param[0] === slideshowsettings_top.thisis)
-                    slideshowsettings_top.show()
-
-            } else if(what === "hide") {
-
-                if(param[0] === slideshowsettings_top.thisis)
-                    slideshowsettings_top.hide()
-
-            } else */if(slideshowsettings_top.visible) {
+            if(slideshowsettings_top.visible) {
 
                 if(what === "keyEvent") {
 

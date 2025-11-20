@@ -127,7 +127,6 @@ PQSetting {
                 PQButton {
                     id: butsave
                     text: genericStringSave
-                    cursorShape: enabled ? Qt.PointingHandCursor : Qt.BusyCursor
                     onClicked: {
                         authpinrow.enabled = false
                         var ret = PQCScriptsShareImgur.authorizeHandlePin(pinholder.text)

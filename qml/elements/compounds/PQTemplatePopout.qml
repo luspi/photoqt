@@ -24,6 +24,8 @@ import QtQuick
 import QtQuick.Window
 import PhotoQt
 
+// TODO: REMOVE THIS TEMPLATE
+
 Window {
 
     id: ele_window

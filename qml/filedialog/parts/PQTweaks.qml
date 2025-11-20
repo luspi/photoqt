@@ -79,7 +79,6 @@ Item {
                 to: 100
 
                 stepSize: 1
-                // wheelStepSize: 1
 
                 value: PQCSettings.filedialogZoom
                 onValueChanged: {

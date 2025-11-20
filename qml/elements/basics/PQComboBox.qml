@@ -157,9 +157,6 @@ ComboBox {
         }
     }
 
-    // TODO !!!
-    property list<int> hideEntries: []
-
     implicitWidth: extrawide ? 300 : (extrasmall ? 100 : 200)
 
     property bool extrawide: false

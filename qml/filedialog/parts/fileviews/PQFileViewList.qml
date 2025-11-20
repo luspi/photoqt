@@ -91,7 +91,7 @@ ListView {
 
         required property int modelData
 
-                                     // this check is necessary as some data might be available quicker than other. This avoid errant warnings.
+        // this check is necessary as some data might be available quicker than other. This avoid errant warnings.
         property string currentPath: modelData < PQCFileFolderModel.entriesFileDialog.length ? PQCFileFolderModel.entriesFileDialog[modelData] : ""
         property string currentFile: decodeURIComponent(PQCScriptsFilesPaths.getFilename(currentPath))
         property int numberFilesInsideFolder: 0
@@ -245,8 +245,6 @@ ListView {
 
                 if(!PQCConstants.isContextmenuOpen("fileviewentry"))
                     view_top.currentIndex = deleg.modelData
-                // else
-                    // contextmenu.setCurrentIndexToThisAfterClose = deleg.modelData
 
                 // we only need this when a potential drag might occur
                 // otherwise no need to load this drag thumbnail
@@ -261,9 +259,7 @@ ListView {
                 if(!PQCConstants.isContextmenuOpen("fileviewentry")) {
                     view_top.currentIndex = deleg.modelData
                     resetCurrentIndex.stop()
-                } /*else
-                    contextmenu.setCurrentIndexToThisAfterClose = deleg.modelData*/
-
+                }
             }
 
             onExited: {
@@ -306,8 +302,6 @@ ListView {
 
                 if(!PQCConstants.isContextmenuOpen("fileviewentry"))
                     view_top.currentIndex = deleg.modelData
-                // else
-                    // contextmenu.setCurrentIndexToThisAfterClose = deleg.modelData
 
             }
 

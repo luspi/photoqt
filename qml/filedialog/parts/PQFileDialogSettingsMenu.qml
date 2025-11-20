@@ -43,7 +43,7 @@ PQMenu {
 
         PQMenuItem {
             enabled: false
-            // moveToRightABit: true
+            moveToRightABit: true
             //: file manager settings popdown: submenu title
             text: qsTranslate("filedialog", "layout")
         }
@@ -52,7 +52,6 @@ PQMenu {
             id: mi_listview
             text: qsTranslate("filedialog", "list view")
             checkable: true
-            // checkableLikeRadioButton: true
             checked: PQCSettings.filedialogLayout==="list"
             onCheckedChanged: {
                 if(checked) PQCSettings.filedialogLayout = "list"
@@ -63,7 +62,6 @@ PQMenu {
             id: mi_iconview
             text: qsTranslate("filedialog", "grid view")
             checkable: true
-            // checkableLikeRadioButton: true
             checked: PQCSettings.filedialogLayout==="grid"
             onCheckedChanged: {
                 if(checked) PQCSettings.filedialogLayout = "grid"
@@ -74,7 +72,6 @@ PQMenu {
             id: mi_masonryview
             text: qsTranslate("filedialog", "masonry view")
             checkable: true
-            // checkableLikeRadioButton: true
             checked: PQCSettings.filedialogLayout==="masonry"
             onCheckedChanged: {
                 if(checked) PQCSettings.filedialogLayout = "masonry"
@@ -86,7 +83,7 @@ PQMenu {
 
         PQMenuItem {
             enabled: false
-            // moveToRightABit: true
+            moveToRightABit: true
             //: file manager settings popdown: submenu title
             text: qsTranslate("filedialog", "drag and drop")
         }
@@ -265,7 +262,7 @@ PQMenu {
 
         PQMenuItem {
             enabled: false
-            // moveToRightABit: true
+            moveToRightABit: true
             text: qsTranslate("filedialog", "folder thumbnails")
         }
         PQMenuItem {
@@ -317,7 +314,7 @@ PQMenu {
 
         PQMenuItem {
             enabled: false
-            // moveToRightABit: true
+            moveToRightABit: true
             //: file manager settings popdown: timeout between switching folder thumbnails
             text: qsTranslate("filedialog", "timeout")
         }
@@ -326,7 +323,6 @@ PQMenu {
             enabled: folderthumbshow.checked
             text: "2 seconds"
             checkable: true
-            // checkableLikeRadioButton: true
             checked: PQCSettings.filedialogFolderContentThumbnailsSpeed===1
             onCheckedChanged: {
                 if(checked)
@@ -344,7 +340,6 @@ PQMenu {
             enabled: folderthumbshow.checked
             text: qsTranslate("filedialog", "1 second")
             checkable: true
-            // checkableLikeRadioButton: true
             checked: PQCSettings.filedialogFolderContentThumbnailsSpeed===2
             onCheckedChanged: {
                 if(checked)
@@ -362,7 +357,6 @@ PQMenu {
             enabled: folderthumbshow.checked
             text: qsTranslate("filedialog", "half a second")
             checkable: true
-            // checkableLikeRadioButton: true
             checked: PQCSettings.filedialogFolderContentThumbnailsSpeed===3
             onCheckedChanged: {
                 if(checked)
@@ -482,7 +476,6 @@ PQMenu {
                     required property int modelData
                     text: (10-modelData)*10 + "%"
                     checkable: true
-                    // checkableLikeRadioButton: true
                     checked: Math.round(PQCSettings.filedialogPreviewColorIntensity/10)===(10-modelData)
                     onCheckedChanged: {
                         if(checked)

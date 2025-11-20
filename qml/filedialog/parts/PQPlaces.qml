@@ -548,12 +548,12 @@ Item {
         for(var i = 0; i < s.length; i+=4) {
 
             entries_devices.push({"index" : i+1,
-                      "folder" : s[i],       // folder
-                      "path" : s[i+3],     // path
-                      "icon" : "drive-harddisk",     // icon
-                      "theid" : s[i+2],     // id
-                      "hidden" : "false",
-                      "part" : 2})    // hidden
+                      "folder" : s[i],           // folder
+                      "path" : s[i+3],           // path
+                      "icon" : "drive-harddisk", // icon
+                      "theid" : s[i+2],          // id
+                      "hidden" : "false",        // hidden
+                      "part" : 2})
 
         }
 
@@ -576,11 +576,11 @@ Item {
 
         for(var i = 0; i < upl.length; i+=5) {
             entries_favorites.push({"index" : i+1,
-                                    "folder" : upl[i],       // folder
-                                    "path" : upl[i+1],     // path
-                                    "icon" : upl[i+2],     // icon
-                                    "theid" : upl[i+3],     // id
-                                    "hidden" : upl[i+4]})    // hidden
+                                    "folder" : upl[i],    // folder
+                                    "path" : upl[i+1],    // path
+                                    "icon" : upl[i+2],    // icon
+                                    "theid" : upl[i+3],   // id
+                                    "hidden" : upl[i+4]}) // hidden
         }
 
     }

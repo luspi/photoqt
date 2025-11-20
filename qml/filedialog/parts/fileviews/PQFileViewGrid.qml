@@ -182,7 +182,6 @@ GridView {
                 y: deleg.height-height
                 Rectangle {
                     anchors.fill: parent
-                    // color: deleg.isSelected ? pqtPalette.text : (deleg.isHovered ? pqtPalette.alternateBase : pqtPalette.base)
                     color: pqtPalette.base
                     Behavior on color { ColorAnimation { duration: 200 } }
                     border.width: 1
@@ -326,8 +325,6 @@ GridView {
 
                 if(!PQCConstants.isContextmenuOpen("fileviewentry"))
                     view_top.currentIndex = deleg.modelData
-                // else
-                    // contextmenu.setCurrentIndexToThisAfterClose = deleg.modelData
 
                 // we only need this when a potential drag might occur
                 // otherwise no need to load this drag thumbnail
