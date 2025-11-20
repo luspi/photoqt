@@ -844,61 +844,59 @@ endif()
 
 if(UNIX)
 
+    include(GNUInstallDirs)
+
     # Install executable
     install(
         TARGETS photoqt
-        DESTINATION bin/
+        DESTINATION ${CMAKE_INSTALL_BINDIR}
     )
-    # install(
-        # TARGETS photoqt-modern photoqt-integrated photoqt-cplusplus
-        # DESTINATION lib/
-    # )
 
     # Install desktop file
     install(
         FILES org.photoqt.PhotoQt.desktop
-        DESTINATION share/applications
+        DESTINATION ${CMAKE_INSTALL_DATADIR}/applications
     )
 
     # And install all the icons
     install(
         FILES icons/16x16/org.photoqt.PhotoQt.png
-        DESTINATION share/icons/hicolor/16x16/apps/
+        DESTINATION ${CMAKE_INSTALL_DATADIR}/icons/hicolor/16x16/apps/
     )
     install(
         FILES icons/32x32/org.photoqt.PhotoQt.png
-        DESTINATION share/icons/hicolor/32x32/apps/
+        DESTINATION ${CMAKE_INSTALL_DATADIR}/icons/hicolor/32x32/apps/
     )
     install(
         FILES icons/48x48/org.photoqt.PhotoQt.png
-        DESTINATION share/icons/hicolor/48x48/apps/
+        DESTINATION ${CMAKE_INSTALL_DATADIR}/icons/hicolor/48x48/apps/
     )
     install(
         FILES icons/64x64/org.photoqt.PhotoQt.png
-        DESTINATION share/icons/hicolor/64x64/apps/
+        DESTINATION ${CMAKE_INSTALL_DATADIR}/icons/hicolor/64x64/apps/
     )
     install(
         FILES icons/128x128/org.photoqt.PhotoQt.png
-        DESTINATION share/icons/hicolor/128x128/apps/
+        DESTINATION ${CMAKE_INSTALL_DATADIR}/icons/hicolor/128x128/apps/
     )
     install(
         FILES icons/256x256/org.photoqt.PhotoQt.png
-        DESTINATION share/icons/hicolor/256x256/apps/
+        DESTINATION ${CMAKE_INSTALL_DATADIR}/icons/hicolor/256x256/apps/
     )
     install(
         FILES icons/512x512/org.photoqt.PhotoQt.png
-        DESTINATION share/icons/hicolor/512x512/apps/
+        DESTINATION ${CMAKE_INSTALL_DATADIR}/icons/hicolor/512x512/apps/
     )
     # the max allowed icon size for flathub is 512x512
     if(NOT WITH_FLATPAKBUILD)
         install(
             FILES icons/1024x1024/org.photoqt.PhotoQt.png
-            DESTINATION share/icons/hicolor/1024x1024/apps/
+            DESTINATION ${CMAKE_INSTALL_DATADIR}/icons/hicolor/1024x1024/apps/
         )
     endif()
     install(
         FILES org.photoqt.PhotoQt.metainfo.xml
-        DESTINATION share/metainfo/
+        DESTINATION ${CMAKE_INSTALL_DATADIR}/metainfo/
     )
 
 endif()
