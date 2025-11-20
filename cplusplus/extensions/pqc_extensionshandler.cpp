@@ -747,7 +747,7 @@ bool PQCExtensionsHandler::getExtensionHasCPPActions(QString id) {
 
 bool PQCExtensionsHandler::getHasSettings(const QString &id) {
     if(m_allextensions.contains(id))
-        return QFile::exists(QString("%1/qml/PQ%2Settings.qml").arg(m_allextensions[id]->location, id));
+        return QFile::exists(QString("%1/qml/%2Settings.qml").arg(m_allextensions[id]->location, id));
     qWarning() << "Unknown extension id:" << id;
     return false;
 }
