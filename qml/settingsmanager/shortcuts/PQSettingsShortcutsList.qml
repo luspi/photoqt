@@ -541,10 +541,16 @@ PQSetting {
                                 property list<string> default_combos: PQCShortcuts.getShortcutsForCommand(deleg.cmd)
                                 onCombosChanged: {
                                     if(!PQF.areTwoListsEqual(combos, default_combos)) {
+
                                         set_shcu.currentData[deleg.cmd] = comboview.combos
-                                        default_combos = combos
                                         set_shcu.calculateDuplicates()
                                         set_shcu.currentDataChanged()
+
+                                        // do deep copy
+                                        default_combos = []
+                                        for(i in combos)
+                                            default_combos.append(combos[i])
+
                                     }
                                 }
 
