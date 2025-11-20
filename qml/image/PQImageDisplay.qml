@@ -733,9 +733,9 @@ Loader {
                     onStatusChanged: {
                         if(status == Image.Ready) {
                             imageloaderitem.imageLoadedAndReady = true
+                            timer_busyloading.stop()
+                            busyloading.hide()
                             if(loader_top.isMainImage) {
-                                timer_busyloading.stop()
-                                busyloading.hide()
                                 var tmp = image_wrapper.computeDefaultScale()
                                 if(Math.abs(tmp-1) > 1e-6)
                                     image_wrapper.startupScale = true
