@@ -429,7 +429,7 @@ MenuBar {
                 PQCNotify.openSettingsManagerAt(6, "maex")
         }
 
-        MenuSeparator {}
+        MenuSeparator { visible: PQCExtensionsHandler.numExtensionsAll>0 }
 
         Instantiator {
 
