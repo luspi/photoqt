@@ -195,7 +195,7 @@ void PQCStartupHandler::performChecksAndUpdates() {
         if(!m_forceSkipWizard && (oldSettingsVersion.startsWith("4") || oldSettingsVersion.startsWith("3") || m_forceShowWizard))
             showStartupWizard(false);
 
-    } else if(!m_forceSkipWizard)
+    } else if(m_forceShowWizard)
         showStartupWizard(false);
 
     /********************************************************************/
