@@ -637,10 +637,13 @@ Item {
                 "Chromecast" : loader_chromecast
             }
 
+            var notModal = ["SlideshowControls", "SlideshowHandler"]
+
             if(ele in allele) {
                 if(!allele[ele].active)
                     allele[ele].active = true
-                PQCConstants.idOfVisibleItem = ele
+                if(notModal.indexOf(ele) == -1)
+                    PQCConstants.idOfVisibleItem = ele
                 PQCNotify.loaderPassOn("show", [ele])
             } else
                 console.warn("Warning: element not found:", ele)

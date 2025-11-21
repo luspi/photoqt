@@ -38,6 +38,8 @@ Row {
 
     property bool prop: true
 
+    property bool isModern: PQCSettings.generalInterfaceVariant==="modern"
+
     height: prop ? childrenRect.height : 0
     opacity: prop ? 1 : 0
 
@@ -45,13 +47,15 @@ Row {
 
     spacing: 10
 
+    property int useWidth: (entry.isModern ? PQCSettings.metadataElementSize.width : PQCSettings.metadataSideBarWidth)
+
     PQText {
         id: which
         text: entry.whichtxt+":"
         font.weight: PQCLook.fontWeightBold
         horizontalAlignment: Text.AlignRight
         wrapMode: Text.WrapAtWordBoundaryOrAnywhere
-        width: Math.max(100, Math.min(300, PQCSettings.metadataSideBarWidth*0.3))
+        width: Math.max(100, Math.min(300, entry.useWidth*0.3))
         enabled: !entry.fadeout
         visible: PQCFileFolderModel.countMainView>0
     }
@@ -62,7 +66,7 @@ Row {
         enabled: !entry.fadeout
         wrapMode: Text.WrapAtWordBoundaryOrAnywhere
         visible: PQCFileFolderModel.countMainView>0
-        width: PQCSettings.metadataSideBarWidth-which.width-5 - 20 // the 20 comes from the content margin
+        width: entry.useWidth-which.width-5 - 20 // the 20 comes from the content margin
 
         PQMouseArea {
             anchors.fill: parent
@@ -77,6 +81,10 @@ Row {
                     PQCScriptsClipboard.copyTextToClipboard(valtxt)
             }
         }
+    }
+
+    Component.onCompleted: {
+        isModern = isModern
     }
 
 }

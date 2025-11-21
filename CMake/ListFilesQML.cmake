@@ -36,7 +36,6 @@ SET(photoqt_QML qml/PQMainWindow.qml
                 qml/elements/compounds/PQMainMenuEntry.qml
                 qml/elements/compounds/PQMainMenuIcon.qml
                 qml/elements/compounds/PQMetaDataEntry.qml
-                qml/elements/compounds/PQTemplatePopout.qml
 
                 qml/elements/extensions/PQTemplateExtension.qml
                 qml/elements/extensions/PQTemplateExtensionContainer.qml

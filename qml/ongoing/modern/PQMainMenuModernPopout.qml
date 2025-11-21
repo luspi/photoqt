@@ -23,45 +23,65 @@
 import QtQuick
 import PhotoQt
 
-PQTemplatePopout {
+Window {
 
     id: mainmenu_popout
 
     //: Window title
     title: qsTranslate("actions", "Main Menu") + " | PhotoQt"
 
-    geometry: PQCWindowGeometry.mainmenuGeometry
-    originalGeometry: PQCWindowGeometry.mainmenuGeometry
-    isMax: PQCWindowGeometry.mainmenuMaximized
-    popout: PQCSettings.interfacePopoutMainMenu
-    sizepopout: PQCWindowGeometry.mainmenuForcePopout
-    loaderSourceComponent: PQMainMenuModern {}
+    PQMainMenuModern {
+        id: mainmenu
+        setVisible: true
+        state: "popout"
+    }
 
     modality: Qt.NonModal
 
     minimumWidth: 400
     minimumHeight: 600
 
-    onPopoutClosed: {
-        PQCSettings.interfacePopoutMainMenu = false
-        close()
-        PQCScriptsShortcuts.executeInternalCommand("__showMainMenu")
+    color: "transparent"
+
+    onClosing: {
+        if(!PQCConstants.photoQtShuttingDown)
+            PQCSettings.interfacePopoutMainMenu = false
+        PQCConstants.mainmenuShowWhenReady = true
     }
 
-    onPopoutChanged: {
-        if(popout !== PQCSettings.interfacePopoutMainMenu)
-            PQCSettings.interfacePopoutMainMenu = popout
+    onWidthChanged: {
+        if(width != PQCSettings.mainmenuElementSize.width)
+            PQCSettings.mainmenuElementSize.width = width
+        mainmenu.parentWidth = width
+    }
+    onHeightChanged: {
+        if(height != PQCSettings.mainmenuElementSize.height)
+            PQCSettings.mainmenuElementSize.height = height
+        mainmenu.parentHeight = height
+    }
+    onXChanged: {
+        if(x != PQCSettings.mainmenuElementPosition.x)
+            PQCSettings.mainmenuElementPosition.x = x
+    }
+    onYChanged: {
+        if(y != PQCSettings.mainmenuElementPosition.y)
+            PQCSettings.mainmenuElementPosition.y = y
     }
 
-    onGeometryChanged: {
-        // Note: needs to be handled this way for proper aot compilation
-        if(geometry.width !== originalGeometry.width || geometry.height !== originalGeometry.height)
-            PQCWindowGeometry.mainmenuGeometry = geometry
-    }
-
-    onIsMaxChanged: {
+    onVisibilityChanged: {
+        var isMax = (visibility === Qt.WindowMaximized)
         if(isMax !== PQCWindowGeometry.mainmenuMaximized)
             PQCWindowGeometry.mainmenuMaximized = isMax
+    }
+
+    Component.onCompleted: {
+        mainmenu_popout.setX(PQCSettings.mainmenuElementPosition.x)
+        mainmenu_popout.setY(PQCSettings.mainmenuElementPosition.y)
+        mainmenu_popout.setWidth(PQCSettings.mainmenuElementSize.width)
+        mainmenu_popout.setHeight(PQCSettings.mainmenuElementSize.height)
+        mainmenu.parentWidth = width
+        mainmenu.parentHeight = height
+        showNormal()
     }
 
 }

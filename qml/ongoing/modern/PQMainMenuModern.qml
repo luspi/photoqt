@@ -161,12 +161,17 @@ Rectangle {
         if(isPopout) {
             mainmenu_top.opacity = 1
         }
+        if(PQCConstants.mainmenuShowWhenReady) {
+            mainmenu_top.ignoreMouseMoveShortly = true
+            mainmenu_top.setVisible = true
+            resetIgnoreMouseMoveShortly.restart()
+        }
     }
 
     MouseArea {
         anchors.fill: parent
         hoverEnabled: true
-        acceptedButtons: Qt.LeftButton|Qt.RightButton
+        acceptedButtons: Qt.AllButtons
         onWheel: (wheel) =>{
             wheel.accepted = true
         }
@@ -245,7 +250,6 @@ Rectangle {
         anchors.topMargin: 20
 
         contentHeight: flickable_col.height
-        contentWidth: flickable_col.width
 
         clip: true
 

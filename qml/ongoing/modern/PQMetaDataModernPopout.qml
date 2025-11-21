@@ -23,45 +23,65 @@
 import QtQuick
 import PhotoQt
 
-PQTemplatePopout {
+Window {
 
     id: metadata_popout
 
     //: Window title
     title: qsTranslate("actions", "Metadata") + " | PhotoQt"
 
-    geometry: PQCWindowGeometry.metadataGeometry
-    originalGeometry: PQCWindowGeometry.metadataGeometry
-    isMax: PQCWindowGeometry.metadataMaximized
-    popout: PQCSettings.interfacePopoutMetadata
-    sizepopout: PQCWindowGeometry.metadataForcePopout
-    loaderSourceComponent: PQMetaDataModern {}
+    PQMetaDataModern {
+        id: metadata
+        setVisible: true
+        state: "popout"
+    }
 
     modality: Qt.NonModal
 
     minimumWidth: 400
-    minimumHeight: 300
+    minimumHeight: 600
 
-    onPopoutClosed: {
-        PQCSettings.interfacePopoutMetadata = false
-        close()
-        PQCScriptsShortcuts.executeInternalCommand("__showMetaData")
+    color: "transparent"
+
+    onClosing: {
+        if(!PQCConstants.photoQtShuttingDown)
+            PQCSettings.interfacePopoutMetadata = false
+        PQCConstants.metadataShowWhenReady = true
     }
 
-    onPopoutChanged: {
-        if(popout !== PQCSettings.interfacePopoutMetadata)
-            PQCSettings.interfacePopoutMetadata = popout
+    onWidthChanged: {
+        if(width != PQCSettings.metadataElementSize.width)
+            PQCSettings.metadataElementSize.width = width
+        metadata.parentWidth = width
+    }
+    onHeightChanged: {
+        if(height != PQCSettings.metadataElementSize.height)
+            PQCSettings.metadataElementSize.height = height
+        metadata.parentHeight = height
+    }
+    onXChanged: {
+        if(x != PQCSettings.metadataElementPosition.x)
+            PQCSettings.metadataElementPosition.x = x
+    }
+    onYChanged: {
+        if(y != PQCSettings.metadataElementPosition.y)
+            PQCSettings.metadataElementPosition.y = y
     }
 
-    onGeometryChanged: {
-        // Note: needs to be handled this way for proper aot compilation
-        if(geometry.width !== originalGeometry.width || geometry.height !== originalGeometry.height)
-            PQCWindowGeometry.metadataGeometry = geometry
-    }
-
-    onIsMaxChanged: {
+    onVisibilityChanged: {
+        var isMax = (visibility === Qt.WindowMaximized)
         if(isMax !== PQCWindowGeometry.metadataMaximized)
             PQCWindowGeometry.metadataMaximized = isMax
+    }
+
+    Component.onCompleted: {
+        metadata_popout.setX(PQCSettings.metadataElementPosition.x)
+        metadata_popout.setY(PQCSettings.metadataElementPosition.y)
+        metadata_popout.setWidth(PQCSettings.metadataElementSize.width)
+        metadata_popout.setHeight(PQCSettings.metadataElementSize.height)
+        metadata.parentWidth = width
+        metadata.parentHeight = height
+        showNormal()
     }
 
 }

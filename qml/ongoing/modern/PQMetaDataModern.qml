@@ -175,8 +175,13 @@ Rectangle {
     ]
 
     Component.onCompleted: {
-        if(PQCSettings.interfacePopoutMetadata) {
+        if(isPopout) {
             metadata_top.opacity = 1
+        }
+        if(PQCConstants.metadataShowWhenReady) {
+            metadata_top.ignoreMouseMoveShortly = true
+            metadata_top.setVisible = true
+            resetIgnoreMouseMoveShortly.restart()
         }
     }
 
@@ -761,7 +766,11 @@ Rectangle {
                       //: Tooltip of small button to show an element in its own window (i.e., not merged into main interface)
                       qsTranslate("popinpopout", "Move to its own window")
             onClicked: {
-                PQCSettings.interfacePopoutMetadata = !PQCSettings.interfacePopoutMetadata
+                if(!PQCSettings.interfacePopoutMetadata)
+                    PQCSettings.interfacePopoutMetadata = true
+                else
+                    metadata_popout.close()
+                PQCScriptsShortcuts.executeInternalCommand("__showMetaData")
             }
         }
     }
@@ -779,10 +788,6 @@ Rectangle {
     Connections {
 
         target: PQCNotify
-
-        function onCloseAllContextMenus() {
-            menu.item.dismiss()
-        }
 
     }
 
@@ -804,11 +809,7 @@ Rectangle {
 
             if(what === "show") {
                 if(param[0] === "MetaData") {
-                    if(!PQCSettings.metadataElementFloating)
-                        metadata_top.setVisible = !metadata_top.setVisible
-
-                    if(metadata_top.popoutWindowUsed)
-                        metadata_popout.visible = true
+                    metadata_popout.visible = true
                 }
             } else if(what === "toggle" && param[0] === "MetaData") {
                 metadata_top.toggle()
@@ -857,6 +858,10 @@ Rectangle {
 
         function onMouseWindowEnter() {
             hideElementWithDelay.stop()
+        }
+
+        function onCloseAllContextMenus() {
+            menu.item.dismiss()
         }
 
     }

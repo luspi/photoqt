@@ -109,6 +109,8 @@ public:
         m_thumbnailsMenuReloadIndex = -1;
         m_metadataOpacity = 0;
         m_mainmenuOpacity = 0;
+        m_mainmenuShowWhenReady = false;
+        m_metadataShowWhenReady = false;
 
         m_filedialogCurrentSelection.clear();
         m_filedialogCurrentIndex = -1;
@@ -338,6 +340,8 @@ public:
     Q_PROPERTY(int thumbnailsMenuReloadIndex MEMBER m_thumbnailsMenuReloadIndex NOTIFY thumbnailsMenuReloadIndexChanged)
     Q_PROPERTY(double mainmenuOpacity MEMBER m_mainmenuOpacity NOTIFY mainmenuOpacityChanged)
     Q_PROPERTY(double metadataOpacity MEMBER m_metadataOpacity NOTIFY metadataOpacityChanged)
+    Q_PROPERTY(double mainmenuShowWhenReady MEMBER m_mainmenuShowWhenReady NOTIFY mainmenuShowWhenReadyChanged)
+    Q_PROPERTY(double metadataShowWhenReady MEMBER m_metadataShowWhenReady NOTIFY metadataShowWhenReadyChanged)
 
     Q_PROPERTY(QList<int> filedialogCurrentSelection MEMBER m_filedialogCurrentSelection NOTIFY filedialogCurrentSelectionChanged)
     Q_PROPERTY(int filedialogCurrentIndex MEMBER m_filedialogCurrentIndex NOTIFY filedialogCurrentIndexChanged)
@@ -489,6 +493,8 @@ private:
     int m_thumbnailsMenuReloadIndex;
     double m_mainmenuOpacity;
     double m_metadataOpacity;
+    double m_mainmenuShowWhenReady;
+    double m_metadataShowWhenReady;
 
     QList<int> m_filedialogCurrentSelection;
     int m_filedialogCurrentIndex;
@@ -612,7 +618,9 @@ Q_SIGNALS:
     void thumbnailsBarOpacityChanged();
     void thumbnailsMenuReloadIndexChanged();
     void mainmenuOpacityChanged();
+    void mainmenuShowWhenReadyChanged();
     void metadataOpacityChanged();
+    void metadataShowWhenReadyChanged();
     void showingPhotoSphereChanged();
     void motionPhotoIsPlayingChanged();
     void animatedImageIsPlayingChanged();

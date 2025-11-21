@@ -74,7 +74,7 @@ Item {
 
         function onKeyPress(key : int, modifiers : int) {
 
-            if(PQCConstants.modalWindowOpen || PQCConstants.idOfVisibleItem !== "") {
+            if(PQCConstants.modalWindowOpen || PQCConstants.idOfVisibleItem !== "" || PQCConstants.slideshowRunning) {
 
                 // make sure contextmenu is closed on key press
                 PQCScriptsShortcuts.sendShortcutDismissGlobalContextMenu()

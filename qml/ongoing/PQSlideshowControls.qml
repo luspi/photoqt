@@ -323,7 +323,7 @@ Item {
         y: 4
         width: 15
         height: 15
-        visible: PQCSettings.generalInterfaceVariant==="modern" && PQCSettings.interfacePopoutSlideshowControls && !PQCWindowGeometry.slideshowcontrolsForcePopout
+        visible: PQCSettings.generalInterfaceVariant==="modern" && !PQCWindowGeometry.slideshowcontrolsForcePopout
         enabled: visible
         source: "image://svg/:/" + PQCLook.iconShade + "/popinpopout.svg"
         sourceSize: Qt.size(width, height)
@@ -341,8 +341,6 @@ Item {
                       qsTranslate("popinpopout", "Move to its own window")
             onClicked: {
                 PQCSettings.interfacePopoutSlideshowControls = !PQCSettings.interfacePopoutSlideshowControls
-                slideshowcontrols_top.hide()
-                PQCNotify.loaderRegisterClose("SlideshowControls")
             }
         }
     }
@@ -386,7 +384,7 @@ Item {
                 if(param[0] === "SlideshowControls")
                     slideshowcontrols_top.hide()
 
-            } else if(what === "keyEvent") {
+            } else if(PQCConstants.slideshowRunning) {
 
                 if(param[0] === Qt.Key_Left)
                     PQCNotify.slideshowPrevImage(true)
@@ -441,6 +439,8 @@ Item {
             slideshowcontrols_top.updateState()
         else
             removeHighlightTimeout.restart()
+        if(PQCConstants.slideshowRunning)
+            show()
     }
 
 

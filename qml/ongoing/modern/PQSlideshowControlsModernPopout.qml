@@ -23,44 +23,75 @@
 import QtQuick
 import PhotoQt
 
-PQTemplatePopout {
+Window {
 
-    id: slideshowcontrols_popout
+    id: slideshow_popout
 
     //: Window title
     title: qsTranslate("slideshow", "Slideshow") + " | PhotoQt"
 
-    geometry: PQCWindowGeometry.slideshowcontrolsGeometry
-    originalGeometry: PQCWindowGeometry.slideshowcontrolsGeometry
-    isMax: PQCWindowGeometry.slideshowcontrolsMaximized
-    popout: PQCSettings.interfacePopoutSlideshowControls
-    sizepopout: PQCWindowGeometry.slideshowcontrolsForcePopout
-    loaderSourceComponent: PQSlideshowControls {}
+    PQSlideshowControls {
+        id: slideshow
+        state: "popout"
+    }
 
     modality: Qt.NonModal
 
-    minimumWidth: 100
-    minimumHeight: 100
+    minimumWidth: 400
+    minimumHeight: 600
 
-    onPopoutClosed: {
-        close()
+    SystemPalette { id: pqtPalette }
+
+    color: pqtPalette.base
+
+    onClosing: {
         PQCNotify.slideshowHideHandler()
     }
 
-    onPopoutChanged: {
-        if(popout !== PQCSettings.interfacePopoutSlideshowControls)
-            PQCSettings.interfacePopoutSlideshowControls = popout
+    onWidthChanged: {
+        if(width != PQCWindowGeometry.slideshowcontrolsGeometry.width)
+            PQCWindowGeometry.slideshowcontrolsGeometry.width = width
+        slideshow.parentWidth = width
+    }
+    onHeightChanged: {
+        if(height != PQCWindowGeometry.slideshowcontrolsGeometry.height)
+            PQCWindowGeometry.slideshowcontrolsGeometry.height = height
+        slideshow.parentHeight = height
+    }
+    onXChanged: {
+        if(x != PQCWindowGeometry.slideshowcontrolsGeometry.x)
+            PQCWindowGeometry.slideshowcontrolsGeometry.x = x
+    }
+    onYChanged: {
+        if(y != PQCWindowGeometry.slideshowcontrolsGeometry.y)
+            PQCWindowGeometry.slideshowcontrolsGeometry.y = y
     }
 
-    onGeometryChanged: {
-        // Note: needs to be handled this way for proper aot compilation
-        if(geometry.width !== originalGeometry.width || geometry.height !== originalGeometry.height)
-            PQCWindowGeometry.slideshowcontrolsGeometry = geometry
-    }
-
-    onIsMaxChanged: {
+    onVisibilityChanged: {
+        var isMax = (visibility === Qt.WindowMaximized)
         if(isMax !== PQCWindowGeometry.slideshowcontrolsMaximized)
             PQCWindowGeometry.slideshowcontrolsMaximized = isMax
+    }
+
+    Component.onCompleted: {
+        slideshow_popout.setX(PQCWindowGeometry.slideshowcontrolsGeometry.x)
+        slideshow_popout.setY(PQCWindowGeometry.slideshowcontrolsGeometry.y)
+        slideshow_popout.setWidth(PQCWindowGeometry.slideshowcontrolsGeometry.width)
+        slideshow_popout.setHeight(PQCWindowGeometry.slideshowcontrolsGeometry.height)
+        slideshow.parentWidth = width
+        slideshow.parentHeight = height
+        if(PQCConstants.slideshowRunning)
+            showNormal()
+    }
+
+    Connections {
+        target: PQCConstants
+        function onSlideshowRunningChanged() {
+            if(PQCConstants.slideshowRunning)
+                slideshow_popout.showNormal()
+            else
+                slideshow_popout.close()
+        }
     }
 
 }
