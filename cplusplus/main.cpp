@@ -226,6 +226,8 @@ int main(int argc, char **argv) {
     } else if(app.showInfo) {
         startupHandler.showInfo();
         return 0;
+    } else if(app.installExtensionFileName != "") {
+        PQCExtensionsHandler::get().installExtension(app.installExtensionFileName);
     }
 
     // setting up databases needs to happen here for the Release build

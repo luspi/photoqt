@@ -127,6 +127,10 @@ PQCSingleInstance::PQCSingleInstance(int &argc, char *argv[]) : QApplication(arg
         msg << Actions::Setting;
     }
 
+    if(result & PQCCommandLineInstallExtension) {
+        installExtensionFileName = parser.extensionFileName;
+    }
+
     // validation requested
     checkConfig = false;
     if(result & PQCCommandLineCheckConfig) {

@@ -66,6 +66,8 @@ public:
     bool resetConfig;
     bool showInfo;
 
+    QString installExtensionFileName;
+
     bool forceModernInterface;
     bool forceIntegratedInterface;
 
