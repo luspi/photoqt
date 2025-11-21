@@ -50,6 +50,9 @@ public:
     // run another extension
     Q_INVOKABLE void runExtension(const QString &id);
 
+    // open settings for extension
+    Q_INVOKABLE void showSettingsFor(const QString &id);
+
     // image formats methods
     Q_INVOKABLE QVariantList getImageFormatsAllInformation();
     Q_INVOKABLE QStringList  getImageFormatsThatAreEnabled();

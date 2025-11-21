@@ -133,6 +133,8 @@ Q_SIGNALS:
 
     void showExtension(QString ele);
 
+    void showSettingsForExtension(QString id);
+
     /*************************************************************/
     // these are passed from PQCConstants to C++
     void currentlyVisibleAreaChanged(QRectF val);

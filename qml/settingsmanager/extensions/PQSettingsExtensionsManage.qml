@@ -123,6 +123,13 @@ PQSetting {
 
                     Behavior on height { NumberAnimation { duration: 200 } }
 
+                    Component.onCompleted: {
+                        if(PQCConstants.settingsManagerStartWithExtensionOpen === extensionId) {
+                            set_maex.currentExpandedSetting = index
+                            PQCConstants.settingsManagerStartWithExtensionOpen = ""
+                        }
+                    }
+
                     Item {
 
                         width: parent.width

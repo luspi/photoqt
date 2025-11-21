@@ -110,3 +110,7 @@ QStringList PQCExtensionMethods::getImageFormatsThatAreEnabled() {
 QStringList PQCExtensionMethods::getImageFormatsMimeTypesThatAreEnabled() {
     return PQCImageFormats::get().getEnabledMimeTypes();
 }
+
+void PQCExtensionMethods::showSettingsFor(const QString &id) {
+    PQCNotifyCPP::get().showSettingsForExtension(id);
+}

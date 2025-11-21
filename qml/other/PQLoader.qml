@@ -604,6 +604,17 @@ Item {
             PQCNotify.loaderPassOn("showSettings", [category, subcategory])
         }
 
+        function onShowSettingsForExtension(id : string) {
+            if(PQCConstants.idOfVisibleItem !== "")
+                return
+            if(!loader_settingsmanager.active)
+                loader_settingsmanager.active = true
+            PQCConstants.idOfVisibleItem = "SettingsManager"
+            PQCNotify.loaderPassOn("show", ["SettingsManager"])
+            PQCConstants.settingsManagerStartWithExtensionOpen = id
+            PQCNotify.loaderPassOn("showExtensionSettings", [id])
+        }
+
         function onLoaderShow(ele : string) {
 
             console.log("args: ele =", ele)

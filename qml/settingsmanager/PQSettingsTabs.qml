@@ -675,6 +675,10 @@ Flickable {
                 tab_top.currentIndex = param[0]
                 tab_top.currentComponents[param[0]] = param[1]
                 tab_top.currentComponentsChanged()
+            } else if(what === "showExtensionSettings") {
+                tab_top.currentIndex = 6
+                tab_top.currentComponents[6] = "maex"
+                tab_top.currentComponentsChanged()
             }
         }
 
