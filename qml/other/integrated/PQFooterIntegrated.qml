@@ -34,6 +34,25 @@ ToolBar {
 
     SystemPalette { id: pqtPaletteDisabled; colorGroup: SystemPalette.Disabled }
 
+    property bool isIntegrated: PQCSettings.generalInterfaceVariant==="integrated"
+    Component.onCompleted:
+        isIntegrated = isIntegrated
+
+    PQMenu {
+        id: statusinfoMouse
+        PQMenuItem {
+            enabled: false
+            font.italic: true
+            moveToRightABit: true
+            text: "Status info"
+        }
+        PQMenuItem {
+            text: "Manage status info"
+            onTriggered:
+                PQCNotify.openSettingsManagerAt(0, "stin")
+        }
+    }
+
     RowLayout {
 
         anchors.fill: parent
@@ -55,6 +74,13 @@ ToolBar {
             elide: Label.ElideMiddle
             horizontalAlignment: Qt.AlignHCenter
             verticalAlignment: Qt.AlignVCenter
+            PQMouseArea {
+                anchors.fill: parent
+                acceptedButtons: Qt.RightButton
+                onClicked: {
+                    statusinfoMouse.popup()
+                }
+            }
         }
 
         Item {
