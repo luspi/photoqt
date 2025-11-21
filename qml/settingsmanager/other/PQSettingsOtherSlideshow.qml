@@ -530,11 +530,6 @@ PQSetting {
         music_volumevideos.popup.close()
     }
 
-    // TODO!!!!
-    // do not make this function typed, it will break
-    function areTwoListsEqual(l1, l2) {
-    }
-
     function checkForChanges() {
 
         if(!settingsLoaded) return

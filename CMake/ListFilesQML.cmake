@@ -2,8 +2,7 @@
 #### QML INTERFACE ####
 #######################
 
-SET(photoqt_QML qml/PQMainWindowModern.qml
-                qml/PQMainWindowIntegrated.qml
+SET(photoqt_QML qml/PQMainWindow.qml
 
                 qml/elements/basics/PQButton.qml
                 qml/elements/basics/PQButtonElement.qml
@@ -113,18 +112,16 @@ SET(photoqt_QML qml/PQMainWindowModern.qml
                 qml/other/PQCommonFunctions.js
                 qml/other/PQGenericStuff.qml
                 qml/other/PQToolTipDisplay.qml
+                qml/other/PQLoader.qml
+                qml/other/PQMasterItem.qml
 
                 qml/other/integrated/PQSideBarIntegrated.qml
                 qml/other/integrated/PQMenuBarIntegrated.qml
                 qml/other/integrated/PQFooterIntegrated.qml
-                qml/other/integrated/PQMasterItemIntegrated.qml
                 qml/other/integrated/PQBackgroundMessageIntegrated.qml
-                qml/other/integrated/PQLoaderIntegrated.qml
 
                 qml/other/modern/PQMainWindowBackgroundModern.qml
                 qml/other/modern/PQBackgroundMessageModern.qml
-                qml/other/modern/PQMasterItemModern.qml
-                qml/other/modern/PQLoaderModern.qml
                 qml/other/modern/PQGestureTouchAreasModern.qml
 
                 qml/image/PQImage.qml

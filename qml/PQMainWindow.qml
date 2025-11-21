@@ -22,12 +22,22 @@
 
 import QtQuick
 import QtQuick.Controls
-import QtQuick.Layouts
 import PhotoQt
 
 ApplicationWindow {
 
     id: toplevel
+
+
+    flags: isIntegrated ? Qt.Window :
+                PQCSettings.interfaceWindowDecoration ?
+               (PQCSettings.interfaceKeepWindowOnTop ? (Qt.Window|Qt.WindowStaysOnTopHint|Qt.WindowTitleHint|Qt.WindowMinMaxButtonsHint|Qt.WindowCloseButtonHint) : Qt.Window) :
+               (PQCSettings.interfaceKeepWindowOnTop ? (Qt.FramelessWindowHint|Qt.WindowStaysOnTopHint|Qt.Window|Qt.WindowMinMaxButtonsHint|Qt.WindowCloseButtonHint) : (Qt.FramelessWindowHint|Qt.Window|Qt.WindowMinMaxButtonsHint))
+
+    SystemPalette { id: pqtPalette }
+    SystemPalette { id: pqtPaletteDisabled; colorGroup: SystemPalette.Disabled }
+
+    color: isModern ? "transparent" : pqtPalette.base
 
     property string titleOverride: ""
     title: titleOverride!="" ?
@@ -41,21 +51,20 @@ ApplicationWindow {
     width: 800
     height: 600
 
-    color: pqtPalette.base
-
-    SystemPalette { id: pqtPalette }
-    SystemPalette { id: pqtPaletteDisabled; colorGroup: SystemPalette.Disabled }
+    property bool isModern: PQCSettings.generalInterfaceVariant==="modern"
+    property bool isIntegrated: !isModern
 
     // this signals whether the window is currently being resized or not
     onWidthChanged: {
         storeWindowGeometry.restart()
-        PQCConstants.availableWidth = width - (PQCSettings.metadataSideBar ? PQCSettings.metadataSideBarWidth : 0)
+        PQCConstants.availableWidth = width- ((isIntegrated && PQCSettings.metadataSideBar) ? PQCSettings.metadataSideBarWidth : 0)
         PQCConstants.mainWindowBeingResized = true
         resetResizing.restart()
     }
     onHeightChanged: {
         storeWindowGeometry.restart()
-        PQCConstants.availableHeight = height-footer.height-menuBar.height
+        console.warn(">>> STORE:", height, footer.height, menuBar.height)
+        PQCConstants.availableHeight = height-(isIntegrated ? (footer.height+menuBar.height) : 0)
         PQCConstants.mainWindowBeingResized = true
         resetResizing.restart()
     }
@@ -66,15 +75,19 @@ ApplicationWindow {
         storeWindowGeometry.restart()
     }
 
-    Connections {
-        target: PQCSettings
-        function onMetadataSideBarWidthChanged() {
-            PQCConstants.availableWidth = toplevel.width - (PQCSettings.metadataSideBar ? PQCSettings.metadataSideBarWidth : 0)
+    /**************************************/
+    // INTEGRATED INTERFACE ONLY
+        Connections {
+            target: PQCSettings
+            enabled: toplevel.isIntegrated
+            function onMetadataSideBarWidthChanged() {
+                PQCConstants.availableWidth = toplevel.width - (PQCSettings.metadataSideBar ? PQCSettings.metadataSideBarWidth : 0)
+            }
+            function onMetadataSideBarChanged() {
+                PQCConstants.availableWidth = toplevel.width - (PQCSettings.metadataSideBar ? PQCSettings.metadataSideBarWidth : 0)
+            }
         }
-        function onMetadataSideBarChanged() {
-            PQCConstants.availableWidth = toplevel.width - (PQCSettings.metadataSideBar ? PQCSettings.metadataSideBarWidth : 0)
-        }
-    }
+    /**************************************/
 
     Timer {
         id: resetResizing
@@ -84,7 +97,7 @@ ApplicationWindow {
         }
     }
 
-    // we store this with a delay to make sure the visibility property is properly updated
+    // we store this with a delay to make sure the visibility properyt is properly updated
     Timer {
         id: storeWindowGeometry
         interval: 200
@@ -120,24 +133,30 @@ ApplicationWindow {
 
     }
 
-    // divider between menubar and content
-    Rectangle {
-        width: parent.width
-        height: 1
-        color: pqtPaletteDisabled.text
-        opacity: 0.5
-    }
-    // divider between footer and content
-    Rectangle {
-        y: (parent.height-height)
-        width: parent.width
-        height: 1
-        color: pqtPaletteDisabled.text
-        opacity: 0.5
-    }
-
-    menuBar: PQMenuBarIntegrated {}
-    footer: PQFooterIntegrated {}
+    /**************************************/
+    // INTEGRATED INTERFACE ONLY
+        Loader {
+            anchors.fill: parent
+            active: toplevel.isIntegrated
+            // divider between menubar and content
+            Rectangle {
+                width: parent.width
+                height: 1
+                color: pqtPaletteDisabled.text
+                opacity: 0.5
+            }
+            // divider between footer and content
+            Rectangle {
+                y: (parent.height-height)
+                width: parent.width
+                height: 1
+                color: pqtPaletteDisabled.text
+                opacity: 0.5
+            }
+        }
+        menuBar: PQMenuBarIntegrated { visible: isIntegrated }
+        footer: PQFooterIntegrated { visible: isIntegrated }
+    /**************************************/
 
     Item {
         id: fullscreenitem
@@ -151,22 +170,47 @@ ApplicationWindow {
         }
     }
 
+    /**************************************/
+    // MODERN INTERFACE ONLY
     Loader {
+        anchors.fill: parent
+        active: toplevel.isModern
         asynchronous: (PQCConstants.startupFilePath!=="")
-        sourceComponent: PQBackgroundMessageIntegrated {
+        sourceComponent: PQMainWindowBackgroundModern {}
+    }
+    Loader {
+        anchors.fill: parent
+        asynchronous: (PQCConstants.startupFilePath!=="")
+        active: toplevel.isModern
+        sourceComponent: PQBackgroundMessageModern {
             x: (PQCSettings.metadataSideBar&&PQCSettings.metadataSideBarLocation==="left" ? PQCSettings.metadataSideBarWidth : 0)
             width: PQCConstants.availableWidth
             height: PQCConstants.availableHeight
         }
     }
+    /**************************************/
 
-    /****************************************************/
+    /**************************************/
+    // INTEGRATED INTERFACE ONLY
+        Loader {
+            anchors.fill: parent
+            asynchronous: (PQCConstants.startupFilePath!=="")
+            active: toplevel.isIntegrated
+            sourceComponent: PQBackgroundMessageIntegrated {
+                x: (PQCSettings.metadataSideBar&&PQCSettings.metadataSideBarLocation==="left" ? PQCSettings.metadataSideBarWidth : 0)
+                width: PQCConstants.availableWidth
+                height: PQCConstants.availableHeight
+            }
+        }
 
-    Loader {
-        active: PQCSettings.metadataSideBar&&PQCSettings.metadataSideBarLocation==="left"
-        sourceComponent: PQSideBarIntegrated {}
-    }
+        Loader {
+            active: toplevel.isIntegrated &&
+                    PQCSettings.metadataSideBar&&PQCSettings.metadataSideBarLocation==="left"
+            sourceComponent: PQSideBarIntegrated {}
+        }
+    /**************************************/
 
+    // very cheap to set up, many properties needed everywhere -> no loader
     Loader {
         id: imageloader
         asynchronous: true
@@ -176,12 +220,15 @@ ApplicationWindow {
         }
     }
 
-    Loader {
-        active: PQCSettings.metadataSideBar&&PQCSettings.metadataSideBarLocation==="right"
-        sourceComponent: PQSideBarIntegrated {
+    /**************************************/
+    // INTEGRATED INTERFACE ONLY
+        Loader {
             x: toplevel.width-width
+            active: toplevel.isIntegrated &&
+                    PQCSettings.metadataSideBar&&PQCSettings.metadataSideBarLocation==="right"
+            sourceComponent: PQSideBarIntegrated {}
         }
-    }
+    /**************************************/
 
     /****************************************************/
 
@@ -191,11 +238,16 @@ ApplicationWindow {
         sourceComponent: PQShortcuts {}
     }
 
+    // This is a Loader that loads the rest of the application in the background after set up
+    PQMasterItem {
+        id: masteritemattop
+    }
+
     Loader {
         id: masterloader
         anchors.fill: parent
         asynchronous: true
-        sourceComponent: PQLoaderIntegrated {
+        sourceComponent: PQLoader {
             onShowExtension: (ele) => {
                 masteritemattop.showExtension(ele)
             }
@@ -203,12 +255,6 @@ ApplicationWindow {
     }
 
     /****************************************************/
-
-    // This is a Loader that loads the rest of the application in the background after set up
-    PQMasterItemIntegrated {
-        id: masteritemattop
-    }
-
     /****************************************************/
 
     Timer {
@@ -225,16 +271,17 @@ ApplicationWindow {
             masteritemattop.active = true
     }
 
-    // on windows there is a white flash when the window is created
-    // thus we set up the window with opacity set to 0
-    // and this animation fades the window without white flash
-    PropertyAnimation {
-        id: showOpacity
-        target: toplevel
-        property: "opacity"
-        from: 0
-        to: 1
-        duration: 100
+    /****************************************************/
+
+    // this is called only when triggered from status info
+    // if this is not done with a short delay then the state is not applied properly
+    Timer {
+        id: setStateTimer
+        interval: 100
+        property int newstate
+        onTriggered: {
+            toplevel.visibility = newstate
+        }
     }
 
     /****************************************************/
@@ -248,30 +295,42 @@ ApplicationWindow {
 
     Component.onCompleted: {
 
+        isModern = isModern
+        isIntegrated = isIntegrated
+
         PQCScriptsLocalization.updateTranslation(PQCSettings.interfaceLanguage)
 
         if(PQCScriptsConfig.amIOnWindows() && !PQCConstants.startupStartInTray)
             toplevel.opacity = 0
 
         // show window according to settings
-        if(PQCSettings.interfaceSaveWindowGeometry) {
-            var geo = PQCWindowGeometry.mainWindowGeometry
-            setXYWidthHeight(geo)
-            if(PQCConstants.startupStartInTray) {
-                PQCSettings.interfaceTrayIcon = 1
-                toplevel.hide()
+        // the integrated interface is always shown in window mode
+        if(PQCSettings.interfaceWindowMode || isIntegrated) {
+            if(PQCSettings.interfaceSaveWindowGeometry) {
+                var geo = PQCWindowGeometry.mainWindowGeometry
+                setXYWidthHeight(geo)
+                if(PQCConstants.startupStartInTray) {
+                    PQCSettings.interfaceTrayIcon = 1
+                    toplevel.hide()
+                } else {
+                    if(PQCWindowGeometry.mainWindowMaximized)
+                        showMaximized()
+                    else
+                        showNormal()
+                }
             } else {
-                if(PQCWindowGeometry.mainWindowMaximized)
+                if(PQCConstants.startupStartInTray) {
+                    PQCSettings.interfaceTrayIcon = 1
+                    toplevel.hide()
+                } else
                     showMaximized()
-                else
-                    showNormal()
             }
         } else {
             if(PQCConstants.startupStartInTray) {
                 PQCSettings.interfaceTrayIcon = 1
                 toplevel.hide()
             } else
-                showMaximized()
+                showFullScreen()
         }
 
         if(PQCConstants.startupFilePath !== "") {
@@ -295,6 +354,16 @@ ApplicationWindow {
             loadAppInBackgroundTimer.start()
 
         setVersion.start()
+
+    }
+
+    Connections {
+
+        target: PQCSettings
+
+        function onInterfaceWindowModeChanged() {
+            toplevel.visibility = (PQCSettings.interfaceWindowMode ? (PQCConstants.windowMaxAndNotWindowed ? Window.Maximized : Window.Windowed) : Window.FullScreen)
+        }
 
     }
 
@@ -400,6 +469,11 @@ ApplicationWindow {
 
         }
 
+        function onSetWindowState(state : int) {
+            setStateTimer.newstate = state
+            setStateTimer.restart()
+        }
+
         function onWindowRaiseAndFocus() {
             toplevel.raise()
             toplevel.requestActivate()
@@ -465,6 +539,20 @@ ApplicationWindow {
     function quitPhotoQt() {
         handleBeforeClosing()
         Qt.quit()
+    }
+
+    /*************************************************/
+
+    // on windows there is a white flash when the window is created
+    // thus we set up the window with opacity set to 0
+    // and this animation fades the window without white flash
+    PropertyAnimation {
+        id: showOpacity
+        target: toplevel
+        property: "opacity"
+        from: 0
+        to: 1
+        duration: 100
     }
 
 }

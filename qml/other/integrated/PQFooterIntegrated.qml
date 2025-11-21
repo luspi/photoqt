@@ -94,6 +94,7 @@ ToolBar {
         Connections {
 
             target: PQCConstants
+            enabled: ftr.isIntegrated
 
             function onFaceTaggingModeChanged() {
                 ftr.checkFooterSpecialAction()
@@ -104,6 +105,7 @@ ToolBar {
         Connections {
 
             target: PQCNotify
+            enabled: ftr.isIntegrated
 
             function onNewImageHasBeenDisplayed() {
                 ftr.checkFooterSpecialAction()
@@ -115,6 +117,7 @@ ToolBar {
     Connections {
 
         target: PQCFileFolderModel
+        enabled: ftr.isIntegrated
 
         function onCurrentIndexNoDelayChanged() {
             ftr.craftString()
@@ -133,6 +136,7 @@ ToolBar {
     Connections {
 
         target: PQCConstants
+        enabled: ftr.isIntegrated
 
         function onCurrentImageResolutionChanged() {
             ftr.craftString()
@@ -161,6 +165,8 @@ ToolBar {
     }
 
     function craftString() {
+
+        if(!isIntegrated) return
 
         if(PQCFileFolderModel.countMainView === 0) {
             statusinfo.text = ""
@@ -235,6 +241,8 @@ ToolBar {
     }
 
     function checkFooterSpecialAction() {
+
+        if(!isIntegrated) return
 
         specialaction.visible = false
 

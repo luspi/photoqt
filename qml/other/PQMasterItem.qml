@@ -21,8 +21,8 @@
  **************************************************************************/
 
 import QtQuick
-import PQCExtensionsHandler
 import PhotoQt
+import PQCExtensionsHandler
 
 Loader {
 
@@ -31,69 +31,34 @@ Loader {
     active: false
     anchors.fill: parent
 
+    property bool isModern: PQCSettings.generalInterfaceVariant==="modern"
+    property bool isIntegrated: !isModern
+
     // If no file has been passed on at startup we don't want to load this item asynchronously.
     // Otherwise the UI will seem to not work when, e.g., immediately clicking to open a file.
     Component.onCompleted: {
         asynchronous = (PQCConstants.startupFilePath === "" || PQCConstants.startupFileIsFolder)
+        isModern = isModern
+        isIntegrated = isIntegrated
     }
 
-    // this tells us when the background message is ready
-    // that way we can have an active mouse area to register clicks right away
-    // this will make the UI appear more responsive
-    property bool backgroundMessageReady: false
+    signal showExtension(var ele)
 
     sourceComponent:
     Item {
 
         id: masteritem
 
-        anchors.fill: masteritemloader
+        width: parent.parent.width
+        height: parent.parent.height
 
         property bool readyToContinueLoading: false
-
-        Loader {
-            id: bgmessage
-            asynchronous: true
-            sourceComponent: PQBackgroundMessageModern {}
-            onStatusChanged: (status) => {
-                if(status === Loader.Ready)
-                    masteritemloader.backgroundMessageReady = true
-            }
-        }
 
         // The tray icon loads right away WITHOUT any delay.
         Loader {
             id: loader_trayicon
             asynchronous: true
             sourceComponent: PQTrayIcon {}
-        }
-
-        Loader {
-            id: windowbuttons
-            asynchronous: true
-            active: masteritem.readyToContinueLoading
-            sourceComponent: PQWindowButtonsModern {}
-        }
-        Loader {
-            id: windowbuttons_ontop
-            asynchronous: true
-            active: masteritem.readyToContinueLoading
-            sourceComponent: PQWindowButtonsModern {}
-            visible: opacity>0
-            opacity: PQCConstants.idOfVisibleItem!=="" ? 1 : 0
-            Behavior on opacity { NumberAnimation { duration: 200 } }
-            z: PQCConstants.idOfVisibleItem!=="FileDialog" ? 999 : 0
-            onStatusChanged: {
-                if(windowbuttons_ontop.status == Loader.Ready)
-                    windowbuttons_ontop.item.visibleAlways = true
-            }
-        }
-
-        Loader {
-            id: statusinfo
-            active: masteritem.readyToContinueLoading
-            asynchronous: true
-            sourceComponent: PQStatusInfoModern {}
         }
 
         /******************************************/
@@ -143,28 +108,47 @@ Loader {
         // the thumbnails loader can be asynchronous as it is always integrated and never popped out
         Loader {
             id: loader_thumbnails
-            active: masteritem.readyToContinueLoading
             asynchronous: true
+            active: masteritem.readyToContinueLoading
             sourceComponent: PQThumbnails {}
         }
 
-        PQLoaderModern { id: masterloader }
+        /*********************************************************************/
 
-        Loader {
-            id: mastertouchareas
-            active: masteritem.readyToContinueLoading
-            asynchronous: true
-            sourceComponent: PQGestureTouchAreasModern {}
-        }
+        /**************************************/
+        // MODERN INTERFACE ONLY
+            Loader {
+                id: loader_mainmenu
+                active: masteritemloader.isModern && masteritem.readyToContinueLoading
+                asynchronous: true
+                sourceComponent: ((PQCSettings.interfacePopoutMainMenu|| PQCWindowGeometry.mainmenuForcePopout) ? comp_mainmenu_popout : comp_mainmenu)
+            }
+            Component { id: comp_mainmenu; PQMainMenuModern {} }
+            Component { id: comp_mainmenu_popout; PQMainMenuModernPopout {} }
 
-        /******************************************/
+            Loader {
+                id: loader_metadata
+                active: masteritemloader.isModern && masteritem.readyToContinueLoading
+                asynchronous: true
+                sourceComponent: ((PQCSettings.interfacePopoutMetadata || PQCWindowGeometry.metadataForcePopout) ? comp_metadata_popout : comp_metadata)
+            }
+            Component { id: comp_metadata; PQMetaDataModern {} }
+            Component { id: comp_metadata_popout; PQMetaDataModernPopout {} }
 
-        Loader {
-            id: loader_windowhandles
-            asynchronous: true
-            active: masteritem.readyToContinueLoading && PQCSettings.interfaceWindowMode && !PQCSettings.interfaceWindowDecoration
-            sourceComponent: PQWindowHandlesModern {}
-        }
+            Loader {
+                id: mastertouchareas
+                active: masteritemloader.isModern && masteritem.readyToContinueLoading
+                asynchronous: true
+                sourceComponent: PQGestureTouchAreasModern {}
+            }
+
+            Loader {
+                id: loader_windowhandles
+                asynchronous: true
+                active: masteritemloader.isModern && masteritem.readyToContinueLoading && PQCSettings.interfaceWindowMode && !PQCSettings.interfaceWindowDecoration
+                sourceComponent: PQWindowHandlesModern {}
+            }
+        /**************************************/
 
         Loader {
             id: loader_contextmenu
@@ -173,8 +157,9 @@ Loader {
             sourceComponent: PQContextMenu {}
         }
 
-        /******************************************/
+        /*****************************************/
 
+        // this needs to be out here to be loaded faster if needed
         Loader {
             id: loader_filedialog
             active: false
@@ -201,7 +186,9 @@ Loader {
                 id: smmod
                 function showing() { return tmpl.showing() }
                 function hiding() { return tmpl.hiding() }
+                popInOutButton.visible: masteritemloader.isModern
                 showTopBottom: false
+                customSizeSet: masteritemloader.isIntegrated
                 dontAnimateFirstShow: true
                 content: PQFileDialog {
                     id: tmpl
@@ -253,7 +240,7 @@ Loader {
             }
         }
 
-        /******************************************/
+        /*****************************************/
 
         Loader {
             active: masteritem.readyToContinueLoading
@@ -272,19 +259,20 @@ Loader {
 
             // load files in folder
             if(PQCConstants.startupFilePath !== "") {
-                PQCFileFolderModel.fileInFolderMainView = PQCConstants.startupFilePath
+                // if it's a folder then we already set this property in PQMainWindow::onCompleted
+                if(!PQCConstants.startupFileIsFolder)
+                    PQCFileFolderModel.fileInFolderMainView = PQCConstants.startupFilePath
                 if(PQCConstants.imageInitiallyLoaded) {
                     masteritem.readyToContinueLoading = true
                     finishSetup()
                 } else
                     checkForFileFinished.restart()
             } else {
+                if(!PQCSettings.filedialogUseNativeFileDialog || PQCConstants.startupFileIsFolder) {
+                    PQCNotify.loaderShow("FileDialog")
+                }
                 masteritem.readyToContinueLoading = true
                 finishSetup()
-            }
-
-            if(PQCConstants.startupFilePath === "" || (PQCFileFolderModel.firstFolderMainViewLoaded && PQCFileFolderModel.countMainView === 0)) {
-                PQCNotify.loaderShow("FileDialog")
             }
 
         }
@@ -307,16 +295,16 @@ Loader {
 
         Timer {
             id: checkForFileFinished
-            interval: 2000
-            property bool secondrun: false
+            interval: 200
+            property int numRun: 0
             onTriggered: {
-                if(secondrun) {
-                    masteritem.finishSetup_part2()
+                if(numRun > 9) {
+                    masteritem.finishSetup()
                     return
                 }
                 if(!PQCConstants.imageInitiallyLoaded) {
                     masteritem.finishSetup_part1()
-                    secondrun = true
+                    numRun += 1
                     checkForFileFinished.restart()
                     return
                 }
@@ -324,23 +312,55 @@ Loader {
             }
         }
 
+        Timer {
+            id: showExtensionWhenReady
+            property Loader theloader
+            property list<var> args: []
+            interval: 10
+            triggeredOnStart: true
+            onTriggered: {
+                if(theloader.status !== Loader.Ready) {
+                    showWhenReady.start()
+                    return
+                }
+                PQCNotify.loaderPassOn("show", args)
+                args = []
+            }
+        }
+
+        Timer {
+            id: showExtensionWhenReady2
+            property Loader theloader
+            property list<var> args: []
+            interval: 10
+            triggeredOnStart: true
+            onTriggered: {
+                if(theloader.status !== Loader.Ready) {
+                    showWhenReady2.start()
+                    return
+                }
+                PQCNotify.loaderPassOn("show", args)
+                args = []
+            }
+        }
+
         property int finishSetupCalled: 0
 
         function finishSetup() {
-            finishSetup_part1()
-            finishSetup_part2()
+            if(finishSetupCalled == 0)
+                finishSetup_part1()
+            if(finishSetupCalled == 1)
+                finishSetup_part2()
         }
 
         function finishSetup_part1() {
             finishSetupCalled += 1
             masteritem.readyToContinueLoading = true
-            PQCNotify.loaderSetup("MainMenu")
-            PQCNotify.loaderSetup("MetaData")
         }
 
         function finishSetup_part2() {
+
             finishSetupCalled += 1
-            PQCNotify.loaderSetup("thumbnails")
 
             PQCExtensionsHandler.setup()
             PQCExtensionMethods.setup()
@@ -351,7 +371,71 @@ Loader {
             if(PQCConstants.startupHaveSettingUpdate.length === 2)
                 PQCSettings.updateFromCommandLine();
 
-            PQCSettings.generalInterfaceVariant = "modern"
+            // PQCSettings.generalInterfaceVariant = "modern"
+
+        }
+
+        Connections {
+
+            target: masteritemloader
+
+            function onShowExtension(ele : string) {
+
+                console.log("args: ele =", ele)
+
+                var ind = PQCExtensionsHandler.getExtensions().indexOf(ele)
+                if(ind === -1) {
+                    console.warn("Unknown extension requested:", ele)
+                    return
+                }
+
+                if(PQCExtensionsHandler.getExtensionModal(ele)) {
+                    if(PQCConstants.idOfVisibleItem !== "")
+                        return
+                    else
+                        PQCConstants.idOfVisibleItem = ele
+                }
+
+                loader_extensions.itemAt(ind).active = true
+
+                // modal elements need to be shown on top, above things like mainmenu or metadata
+                // The value should be high but lower than that of the window buttons that are shown on top (currently set to 999)
+                if(PQCExtensionsHandler.getExtensionModal(ele))
+                    loader_extensions.itemAt(ind).z = 888
+
+                if(!loader_extensions.itemAt(ind).item) {
+                    if(showExtensionWhenReady.args.length == 0) {
+                        showExtensionWhenReady.theloader = loader_extensions.itemAt(ind)
+                        showExtensionWhenReady.args = [ele]
+                        showExtensionWhenReady.start()
+                    } else if(showExtensionWhenReady2.args.length == 0) {
+                        showExtensionWhenReady2.theloader = loader_extensions.itemAt(ind)
+                        showExtensionWhenReady2.args = [ele]
+                        showExtensionWhenReady2.start()
+                    } else
+                        console.error("Unable to set up extension, too few timers available.")
+                } else {
+                    PQCNotify.loaderPassOn("show", [ele])
+                }
+
+            }
+
+        }
+
+        Connections {
+
+            target: PQCNotify
+
+            function onLoaderSetupExtension(ele : string) {
+                var ind = PQCExtensionsHandler.getExtensions().indexOf(ele)
+                loader_extensions.itemAt(ind).active = true
+                if(PQCExtensionsHandler.getExtensionModal(ele))
+                    loader_extensions.itemAt(ind).z = 888
+            }
+
+            function onLoaderShowExtension(ele : string) {
+                PQCNotify.loaderShow(ele)
+            }
 
         }
 
