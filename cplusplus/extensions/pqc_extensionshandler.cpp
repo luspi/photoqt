@@ -940,7 +940,7 @@ int PQCExtensionsHandler::installExtension(QString filepath) {
 
 // Read file - if something went wrong, output error message and stop here
 #ifdef Q_OS_WIN
-    int r = archive_read_open_filename_w(a, reinterpret_cast<const wchar_t*>(archiveFile.utf16()), 10240);
+    int r = archive_read_open_filename_w(a, reinterpret_cast<const wchar_t*>(filepath.utf16()), 10240);
 #else
     int r = archive_read_open_filename(a, filepath.toLocal8Bit().data(), 10240);
 #endif
@@ -1067,7 +1067,7 @@ QHash<QString,QVariant> PQCExtensionsHandler::getExtensionZipMetadata(QString fi
 
 // Read file - if something went wrong, output error message and stop here
 #ifdef Q_OS_WIN
-    int r = archive_read_open_filename_w(a, reinterpret_cast<const wchar_t*>(archiveFile.utf16()), 10240);
+    int r = archive_read_open_filename_w(a, reinterpret_cast<const wchar_t*>(filepath.utf16()), 10240);
 #else
     int r = archive_read_open_filename(a, filepath.toLocal8Bit().data(), 10240);
 #endif
