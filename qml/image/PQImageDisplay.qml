@@ -51,8 +51,8 @@ Loader {
 
         id: loader_top
 
-        width: image_top.width
-        height: image_top.height
+        width: image_top.width-2*PQCSettings.imageviewMargin
+        height: image_top.height-2*PQCSettings.imageviewMargin
 
         visible: false
 

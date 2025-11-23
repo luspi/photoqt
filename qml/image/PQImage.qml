@@ -28,12 +28,10 @@ Item {
 
     id: image_top
 
-    x: extraX + PQCSettings.imageviewMargin + integratedXOffset
-    y: extraY + PQCSettings.imageviewMargin
-    width: PQCConstants.availableWidth-2*PQCSettings.imageviewMargin - lessW
-    height: PQCConstants.availableHeight-2*PQCSettings.imageviewMargin - lessH
-
-    property Item toplevelItem
+    x: extraX + integratedXOffset
+    y: extraY
+    width: PQCConstants.availableWidth - lessW
+    height: PQCConstants.availableHeight - lessH
 
     property bool thumbnailsHoldVisible: (PQCSettings.thumbnailsVisibility===1 || (PQCSettings.thumbnailsVisibility===2 && (imageIsAtDefaultScale || PQCConstants.currentImageScale < PQCConstants.currentImageDefaultScale)))
 
@@ -44,6 +42,8 @@ Item {
 
     property bool integratedInterface: PQCSettings.generalInterfaceVariant==="integrated"
     property int integratedXOffset: ((integratedInterface&&PQCSettings.metadataSideBar&&PQCSettings.metadataSideBarLocation==="left") ? PQCSettings.metadataSideBarWidth : 0)
+
+    property Item toplevelItem
 
     property list<string> visibleSourcePrevCur: ["",""]
     Connections{
@@ -76,456 +76,467 @@ Item {
     property int bgOffset: 0
     property list<string> bgFiles: []
 
-    Repeater {
+    clip: true
 
-        id: repeaterimage
+    Item {
 
-        property list<bool> allactive: [false,false,false,false,
-                                        false,false,false,false,
-                                        false,false,false,false]
+        x: PQCSettings.imageviewMargin
+        y: PQCSettings.imageviewMargin
+        width: parent.width-2*PQCSettings.imageviewMargin
+        height: parent.height-2*PQCSettings.imageviewMargin
 
-        // we set this to the max number so that the delegates don't get reloaded when the number of images to be preloaded is changed
-        model: 12
+        Repeater {
 
-        PQImageDisplay {
+            id: repeaterimage
 
-            required property int modelData
+            property list<bool> allactive: [false,false,false,false,
+                                            false,false,false,false,
+                                            false,false,false,false]
 
-            toplevelItem: image_top.toplevelItem
+            // we set this to the max number so that the delegates don't get reloaded when the number of images to be preloaded is changed
+            model: 12
 
-            onActiveChanged: {
-                repeaterimage.allactive[modelData] = active
-            }
+            PQImageDisplay {
 
-            onIAmReady: {
-                image_top.newMainImageReady(modelData)
-            }
-            onImageLoadedAndReadyChanged: {
-                if(PQCConstants.currentImageSource !== imageSource && PQCFileFolderModel.currentFile !== imageSource) {
-                    if(image_top.bgOffset < image_top.bgFiles.length)
-                        timer_loadbg.restart()
+                required property int modelData
+
+                toplevelItem: image_top.toplevelItem
+
+                onActiveChanged: {
+                    repeaterimage.allactive[modelData] = active
+                }
+
+                onIAmReady: {
+                    image_top.newMainImageReady(modelData)
+                }
+                onImageLoadedAndReadyChanged: {
+                    if(PQCConstants.currentImageSource !== imageSource && PQCFileFolderModel.currentFile !== imageSource) {
+                        if(image_top.bgOffset < image_top.bgFiles.length)
+                            timer_loadbg.restart()
+                    }
                 }
             }
         }
-    }
 
-    /*********************************************************/
-    // different controls for various image items
+        /*********************************************************/
+        // different controls for various image items
 
-    PQAnimatedImageControls {}
-    PQPhotoSphereControls {}
-    PQArchiveControls {}
-    PQDocumentControls {}
-    PQVideoControls {}
-    PQMotionPhotoControls {}
+        PQAnimatedImageControls {}
+        PQPhotoSphereControls {}
+        PQArchiveControls {}
+        PQDocumentControls {}
+        PQVideoControls {}
+        PQMotionPhotoControls {}
 
-    /*********************************************************/
+        /*********************************************************/
 
-    Loader {
-        id: minimap_loader
-        active: PQCSettings.imageviewShowMinimap && !PQCConstants.showingPhotoSphere
-        asynchronous: true
-        sourceComponent:
-            PQMinimap {}
-    }
-
-    Component.onCompleted: {
-
-        var fpath = PQCConstants.startupFilePath
-        if(fpath === "")
-            fpath = PQCFileFolderModel.currentFile
-
-        if(fpath !== "") {
-
-            var img = repeaterimage.itemAt(0)
-
-            if(img === null || (PQCScriptsFilesPaths.isFolder(fpath) && PQCFileFolderModel.countMainView === 0)) {
-                loadFirstImage.counter = 0
-                loadFirstImage.start()
-                return
-            }
-
-            if(PQCScriptsFilesPaths.isFolder(fpath))
-                fpath = (PQCFileFolderModel.countMainView > 0 ? PQCFileFolderModel.entriesMainView[0] : "")
-
-            if(PQCConstants.startupFilePath !== "")
-                PQCConstants.startupFilePath = fpath
-
-            img.containingFolder = PQCScriptsFilesPaths.getDir(fpath)
-            img.lastModified = PQCScriptsFilesPaths.getFileModified(fpath).toLocaleString()
-            img.imageSource = fpath
-            img.thisIsStartupFile = true
-
+        Loader {
+            id: minimap_loader
+            active: PQCSettings.imageviewShowMinimap && !PQCConstants.showingPhotoSphere
+            asynchronous: true
+            sourceComponent:
+                PQMinimap {}
         }
 
-    }
-
-    Timer {
-        id: loadFirstImage
-        interval: 10
-        property int counter: 0
-        onTriggered: {
+        Component.onCompleted: {
 
             var fpath = PQCConstants.startupFilePath
             if(fpath === "")
                 fpath = PQCFileFolderModel.currentFile
 
-            var img = repeaterimage.itemAt(0)
-            if(img === null || (PQCScriptsFilesPaths.isFolder(fpath) && PQCFileFolderModel.countMainView === 0 && counter < 50)) {
-                counter += 1
-                loadFirstImage.restart()
-                return
-            }
+            if(fpath !== "") {
 
-            if(PQCScriptsFilesPaths.isFolder(fpath))
-                fpath = (PQCFileFolderModel.countMainView > 0 ? PQCFileFolderModel.entriesMainView[0] : "")
+                var img = repeaterimage.itemAt(0)
 
-            if(PQCConstants.startupFilePath !== "")
-                PQCConstants.startupFilePath = fpath
-
-            img.containingFolder = PQCScriptsFilesPaths.getDir(fpath)
-            img.lastModified = PQCScriptsFilesPaths.getFileModified(fpath).toLocaleString()
-            img.imageSource = fpath
-            img.thisIsStartupFile = true
-
-        }
-    }
-
-    Connections {
-
-        target: PQCScriptsShortcuts
-
-        function onSendShortcutShowNextImage() {
-            image_top.showNext()
-        }
-
-        function onSendShortcutShowPrevImage() {
-            image_top.showPrev()
-        }
-
-        function onSendShortcutShowNextArcDocImage() {
-            image_top.showNextArchiveDocument()
-        }
-
-        function onSendShortcutShowPrevArcDocImage() {
-            image_top.showPreviousArchiveDocument()
-        }
-
-        function onSendShortcutShowFirstImage() {
-            image_top.showFirst()
-        }
-
-        function onSendShortcutShowLastImage() {
-            image_top.showLast()
-        }
-
-        function onSendShortcutShowRandomImage() {
-            image_top.showRandom()
-        }
-
-        function onSendShortcutShowFile(path : string) {
-            PQCFileFolderModel.extraFoldersToLoad = []
-            PQCFileFolderModel.fileInFolderMainView = path
-        }
-
-    }
-
-    Connections {
-
-        target: PQCFileFolderModel
-
-        function onCurrentIndexChanged() {
-
-            if(PQCConstants.ignoreFileFolderChangesTemporary) {
-                console.debug("Ignoring new currentIndex:", PQCFileFolderModel.currentIndex)
-                return
-            }
-
-            if(PQCFileFolderModel.countMainView === 0) {
-                for(var i = 0; i < howManyLoaders; ++i) {
-                    var curimg = repeaterimage.itemAt(i)
-                    if(curimg.item)
-                        curimg.item.hideImage()
-                }
-                return
-            }
-
-            timer_loadbg.stop()
-
-            var showItem = -1
-
-            var newFile = PQCFileFolderModel.entriesMainView[PQCFileFolderModel.currentIndex]
-            var newFolder = PQCScriptsFilesPaths.getDir(newFile)
-            var newModified = PQCScriptsFilesPaths.getFileModified(newFile).toLocaleString()
-
-            // if the current image is already loaded we only need to show it
-            for(var h = 0; h < image_top.howManyLoaders; ++h) {
-
-                var img = repeaterimage.itemAt(h)
-
-                if(img.imageSource === newFile && img.containingFolder === newFolder && img.lastModified === newModified) {
-                    showItem = h
-                    break;
+                if(img === null || (PQCScriptsFilesPaths.isFolder(fpath) && PQCFileFolderModel.countMainView === 0)) {
+                    loadFirstImage.counter = 0
+                    loadFirstImage.start()
+                    return
                 }
 
+                if(PQCScriptsFilesPaths.isFolder(fpath))
+                    fpath = (PQCFileFolderModel.countMainView > 0 ? PQCFileFolderModel.entriesMainView[0] : "")
+
+                if(PQCConstants.startupFilePath !== "")
+                    PQCConstants.startupFilePath = fpath
+
+                img.containingFolder = PQCScriptsFilesPaths.getDir(fpath)
+                img.lastModified = PQCScriptsFilesPaths.getFileModified(fpath).toLocaleString()
+                img.imageSource = fpath
+                img.thisIsStartupFile = true
+
             }
 
-            // these need to be loaded
-            var cur_showing = PQCFileFolderModel.currentIndex
+        }
 
-            image_top.bgFiles = []
-            for(var b = 0; b < PQCSettings.imageviewPreloadInBackground; ++b) {
-                var newp = (cur_showing-(b+1)+PQCFileFolderModel.countMainView)%PQCFileFolderModel.countMainView
-                var newn = (cur_showing+(b+1))%PQCFileFolderModel.countMainView
-                image_top.bgFiles.push(PQCFileFolderModel.entriesMainView[newp])
-                image_top.bgFiles.push(PQCFileFolderModel.entriesMainView[newn])
+        Timer {
+            id: loadFirstImage
+            interval: 10
+            property int counter: 0
+            onTriggered: {
+
+                var fpath = PQCConstants.startupFilePath
+                if(fpath === "")
+                    fpath = PQCFileFolderModel.currentFile
+
+                var img = repeaterimage.itemAt(0)
+                if(img === null || (PQCScriptsFilesPaths.isFolder(fpath) && PQCFileFolderModel.countMainView === 0 && counter < 50)) {
+                    counter += 1
+                    loadFirstImage.restart()
+                    return
+                }
+
+                if(PQCScriptsFilesPaths.isFolder(fpath))
+                    fpath = (PQCFileFolderModel.countMainView > 0 ? PQCFileFolderModel.entriesMainView[0] : "")
+
+                if(PQCConstants.startupFilePath !== "")
+                    PQCConstants.startupFilePath = fpath
+
+                img.containingFolder = PQCScriptsFilesPaths.getDir(fpath)
+                img.lastModified = PQCScriptsFilesPaths.getFileModified(fpath).toLocaleString()
+                img.imageSource = fpath
+                img.thisIsStartupFile = true
+
+            }
+        }
+
+        Connections {
+
+            target: PQCScriptsShortcuts
+
+            function onSendShortcutShowNextImage() {
+                image_top.showNext()
             }
 
-            // image not already loaded
-            if(showItem == -1) {
+            function onSendShortcutShowPrevImage() {
+                image_top.showPrev()
+            }
 
-                for(var j = 0; j < image_top.howManyLoaders; ++j) {
+            function onSendShortcutShowNextArcDocImage() {
+                image_top.showNextArchiveDocument()
+            }
 
-                    var spare = repeaterimage.itemAt(j)
+            function onSendShortcutShowPrevArcDocImage() {
+                image_top.showPreviousArchiveDocument()
+            }
 
-                    // this is a spare item
-                    if((image_top.bgFiles.indexOf(spare.imageSource) === -1 || spare.containingFolder !== newFolder || spare.lastModified !== newModified || spare.imageSource !== newFile) && (!spare.active || !spare.item.visible)) {
-                        spare.containingFolder = newFolder
-                        spare.lastModified = newModified
-                        spare.imageSource = newFile
-                        spare.thisIsStartupFile = false
-                        showItem = j
+            function onSendShortcutShowFirstImage() {
+                image_top.showFirst()
+            }
+
+            function onSendShortcutShowLastImage() {
+                image_top.showLast()
+            }
+
+            function onSendShortcutShowRandomImage() {
+                image_top.showRandom()
+            }
+
+            function onSendShortcutShowFile(path : string) {
+                PQCFileFolderModel.extraFoldersToLoad = []
+                PQCFileFolderModel.fileInFolderMainView = path
+            }
+
+        }
+
+        Connections {
+
+            target: PQCFileFolderModel
+
+            function onCurrentIndexChanged() {
+
+                if(PQCConstants.ignoreFileFolderChangesTemporary) {
+                    console.debug("Ignoring new currentIndex:", PQCFileFolderModel.currentIndex)
+                    return
+                }
+
+                if(PQCFileFolderModel.countMainView === 0) {
+                    for(var i = 0; i < howManyLoaders; ++i) {
+                        var curimg = repeaterimage.itemAt(i)
+                        if(curimg.item)
+                            curimg.item.hideImage()
+                    }
+                    return
+                }
+
+                timer_loadbg.stop()
+
+                var showItem = -1
+
+                var newFile = PQCFileFolderModel.entriesMainView[PQCFileFolderModel.currentIndex]
+                var newFolder = PQCScriptsFilesPaths.getDir(newFile)
+                var newModified = PQCScriptsFilesPaths.getFileModified(newFile).toLocaleString()
+
+                // if the current image is already loaded we only need to show it
+                for(var h = 0; h < image_top.howManyLoaders; ++h) {
+
+                    var img = repeaterimage.itemAt(h)
+
+                    if(img.imageSource === newFile && img.containingFolder === newFolder && img.lastModified === newModified) {
+                        showItem = h
                         break;
                     }
 
                 }
-            }
 
-            // show item
-            for(var k = 0; k < image_top.howManyLoaders; ++k) {
-                if(showItem == k) {
-                    var newimg = repeaterimage.itemAt(k)
-                    newimg.item.showImage()
-                    newimg.thisIsStartupFile = false
-                    break;
+                // these need to be loaded
+                var cur_showing = PQCFileFolderModel.currentIndex
+
+                image_top.bgFiles = []
+                for(var b = 0; b < PQCSettings.imageviewPreloadInBackground; ++b) {
+                    var newp = (cur_showing-(b+1)+PQCFileFolderModel.countMainView)%PQCFileFolderModel.countMainView
+                    var newn = (cur_showing+(b+1))%PQCFileFolderModel.countMainView
+                    image_top.bgFiles.push(PQCFileFolderModel.entriesMainView[newp])
+                    image_top.bgFiles.push(PQCFileFolderModel.entriesMainView[newn])
                 }
-            }
 
-        }
+                // image not already loaded
+                if(showItem == -1) {
 
-    }
+                    for(var j = 0; j < image_top.howManyLoaders; ++j) {
 
-    function newMainImageReady(curIndex : int) {
+                        var spare = repeaterimage.itemAt(j)
 
-        // hide images that should not be visible
-        for(var i = 0; i < howManyLoaders; ++i) {
-            var curimg = repeaterimage.itemAt(i)
-            if(curIndex !== i && repeaterimage.allactive[i]) {
-                curimg.item.hideImage()
-                curimg.thisIsStartupFile = false
-            }
-        }
+                        // this is a spare item
+                        if((image_top.bgFiles.indexOf(spare.imageSource) === -1 || spare.containingFolder !== newFolder || spare.lastModified !== newModified || spare.imageSource !== newFile) && (!spare.active || !spare.item.visible)) {
+                            spare.containingFolder = newFolder
+                            spare.lastModified = newModified
+                            spare.imageSource = newFile
+                            spare.thisIsStartupFile = false
+                            showItem = j
+                            break;
+                        }
 
-        // start the timer to load images in background
-        bgOffset = 0
-        if(bgFiles.length > 0)
-            timer_loadbg.restart()
-
-    }
-
-    // make sure next/prev image is loaded in background
-    // we make sure this doesn't start until the main image is fully shown
-    Timer {
-        id: timer_loadbg
-        interval: PQCSettings.imageviewAnimationDuration*100
-        onTriggered: {
-
-            var nexttwo = [image_top.bgFiles[image_top.bgOffset], image_top.bgFiles[image_top.bgOffset+1]]
-            image_top.bgOffset += 2
-
-            // get the filepath of the previous/next files
-            var prevFile = nexttwo[0]
-            var nextFile = nexttwo[1]
-
-            // the current folder and the modified timestamps
-            var curFolder = PQCScriptsFilesPaths.getDir(PQCFileFolderModel.currentFile)
-            var prevModified = PQCScriptsFilesPaths.getFileModified(prevFile).toLocaleString()
-            var nextModified = PQCScriptsFilesPaths.getFileModified(nextFile).toLocaleString()
-
-            // first check whether images already loaded
-            var foundPrev = -1
-            var foundNext = -1
-
-            // look for previous image
-            if(!PQCScriptsImages.isMpvVideo(prevFile) && !PQCScriptsImages.isQtVideo(prevFile)) {
-                for(var i = 0; i < image_top.howManyLoaders; ++i) {
-                    var previmg = repeaterimage.itemAt(i)
-                    if(previmg.imageSource === prevFile && previmg.containingFolder === curFolder && previmg.lastModified === prevModified) {
-                        foundPrev = i
-                        break;
                     }
                 }
-            }
 
-            // look for next image
-            if(!PQCScriptsImages.isMpvVideo(nextFile) && !PQCScriptsImages.isQtVideo(nextFile)) {
-                for(var j = 0; j < image_top.howManyLoaders; ++j) {
-                    var nextimg = repeaterimage.itemAt(j)
-                    if(nextimg.imageSource === nextFile && nextimg.containingFolder === curFolder && nextimg.lastModified === nextModified) {
-                        foundNext = j
-                        break;
-                    }
-                }
-            }
-
-            // previous image not yet setup
-            if(foundPrev == -1 && !PQCScriptsImages.isMpvVideo(prevFile) && !PQCScriptsImages.isQtVideo(prevFile)) {
-
-                var thenextimg = repeaterimage.itemAt(foundNext)
-
+                // show item
                 for(var k = 0; k < image_top.howManyLoaders; ++k) {
-
-                    var curprevimg = repeaterimage.itemAt(k)
-
-                    // k not the current main image and not the next image
-                    if(curprevimg.imageSource !== PQCFileFolderModel.currentFile && (foundNext === -1 || curprevimg.imageSource !== thenextimg.imageSource)) {
-                        foundPrev = k
-                        curprevimg.containingFolder = curFolder
-                        curprevimg.lastModified = prevModified
-                        curprevimg.imageSource = prevFile
+                    if(showItem == k) {
+                        var newimg = repeaterimage.itemAt(k)
+                        newimg.item.showImage()
+                        newimg.thisIsStartupFile = false
                         break;
                     }
-
                 }
 
             }
-
-            // next image not yet setup
-            if(foundNext == -1 && !PQCScriptsImages.isMpvVideo(nextFile) && !PQCScriptsImages.isQtVideo(nextFile)) {
-
-                for(var l = 0; l < image_top.howManyLoaders; ++l) {
-
-                    var curnextimg = repeaterimage.itemAt(l)
-
-                    // l not the current main image and not the next image
-                    if(curnextimg.imageSource !== PQCFileFolderModel.currentFile && foundPrev != l) {
-                        curnextimg.containingFolder = curFolder
-                        curnextimg.lastModified = nextModified
-                        curnextimg.imageSource = nextFile
-                        break;
-                    }
-
-                }
-
-            }
-
 
         }
-    }
 
-    // some global handlers
-    function showNext() {
+        function newMainImageReady(curIndex : int) {
 
-        if(PQCFileFolderModel.countMainView !== 0) {
-            if(PQCSettings.imageviewLoopThroughFolder && PQCFileFolderModel.currentIndex === PQCFileFolderModel.countMainView-1)
+            // hide images that should not be visible
+            for(var i = 0; i < howManyLoaders; ++i) {
+                var curimg = repeaterimage.itemAt(i)
+                if(curIndex !== i && repeaterimage.allactive[i]) {
+                    curimg.item.hideImage()
+                    curimg.thisIsStartupFile = false
+                }
+            }
+
+            // start the timer to load images in background
+            bgOffset = 0
+            if(bgFiles.length > 0)
+                timer_loadbg.restart()
+
+        }
+
+        // make sure next/prev image is loaded in background
+        // we make sure this doesn't start until the main image is fully shown
+        Timer {
+            id: timer_loadbg
+            interval: PQCSettings.imageviewAnimationDuration*100
+            onTriggered: {
+
+                var nexttwo = [image_top.bgFiles[image_top.bgOffset], image_top.bgFiles[image_top.bgOffset+1]]
+                image_top.bgOffset += 2
+
+                // get the filepath of the previous/next files
+                var prevFile = nexttwo[0]
+                var nextFile = nexttwo[1]
+
+                // the current folder and the modified timestamps
+                var curFolder = PQCScriptsFilesPaths.getDir(PQCFileFolderModel.currentFile)
+                var prevModified = PQCScriptsFilesPaths.getFileModified(prevFile).toLocaleString()
+                var nextModified = PQCScriptsFilesPaths.getFileModified(nextFile).toLocaleString()
+
+                // first check whether images already loaded
+                var foundPrev = -1
+                var foundNext = -1
+
+                // look for previous image
+                if(!PQCScriptsImages.isMpvVideo(prevFile) && !PQCScriptsImages.isQtVideo(prevFile)) {
+                    for(var i = 0; i < image_top.howManyLoaders; ++i) {
+                        var previmg = repeaterimage.itemAt(i)
+                        if(previmg.imageSource === prevFile && previmg.containingFolder === curFolder && previmg.lastModified === prevModified) {
+                            foundPrev = i
+                            break;
+                        }
+                    }
+                }
+
+                // look for next image
+                if(!PQCScriptsImages.isMpvVideo(nextFile) && !PQCScriptsImages.isQtVideo(nextFile)) {
+                    for(var j = 0; j < image_top.howManyLoaders; ++j) {
+                        var nextimg = repeaterimage.itemAt(j)
+                        if(nextimg.imageSource === nextFile && nextimg.containingFolder === curFolder && nextimg.lastModified === nextModified) {
+                            foundNext = j
+                            break;
+                        }
+                    }
+                }
+
+                // previous image not yet setup
+                if(foundPrev == -1 && !PQCScriptsImages.isMpvVideo(prevFile) && !PQCScriptsImages.isQtVideo(prevFile)) {
+
+                    var thenextimg = repeaterimage.itemAt(foundNext)
+
+                    for(var k = 0; k < image_top.howManyLoaders; ++k) {
+
+                        var curprevimg = repeaterimage.itemAt(k)
+
+                        // k not the current main image and not the next image
+                        if(curprevimg.imageSource !== PQCFileFolderModel.currentFile && (foundNext === -1 || curprevimg.imageSource !== thenextimg.imageSource)) {
+                            foundPrev = k
+                            curprevimg.containingFolder = curFolder
+                            curprevimg.lastModified = prevModified
+                            curprevimg.imageSource = prevFile
+                            break;
+                        }
+
+                    }
+
+                }
+
+                // next image not yet setup
+                if(foundNext == -1 && !PQCScriptsImages.isMpvVideo(nextFile) && !PQCScriptsImages.isQtVideo(nextFile)) {
+
+                    for(var l = 0; l < image_top.howManyLoaders; ++l) {
+
+                        var curnextimg = repeaterimage.itemAt(l)
+
+                        // l not the current main image and not the next image
+                        if(curnextimg.imageSource !== PQCFileFolderModel.currentFile && foundPrev != l) {
+                            curnextimg.containingFolder = curFolder
+                            curnextimg.lastModified = nextModified
+                            curnextimg.imageSource = nextFile
+                            break;
+                        }
+
+                    }
+
+                }
+
+
+            }
+        }
+
+        // some global handlers
+        function showNext() {
+
+            if(PQCFileFolderModel.countMainView !== 0) {
+                if(PQCSettings.imageviewLoopThroughFolder && PQCFileFolderModel.currentIndex === PQCFileFolderModel.countMainView-1)
+                    PQCFileFolderModel.currentIndex = 0
+                else
+                    PQCFileFolderModel.currentIndex = Math.min(PQCFileFolderModel.currentIndex+1, PQCFileFolderModel.countMainView-1)
+            }
+
+        }
+
+        function showPrev() {
+
+            if(PQCFileFolderModel.countMainView !== 0) {
+                if(PQCSettings.imageviewLoopThroughFolder &&PQCFileFolderModel.currentIndex === 0)
+                    PQCFileFolderModel.currentIndex = PQCFileFolderModel.countMainView-1
+                else
+                    PQCFileFolderModel.currentIndex = Math.max(PQCFileFolderModel.currentIndex-1, 0)
+            }
+        }
+
+        function showFirst() {
+            if(PQCFileFolderModel.countMainView !== 0)
                 PQCFileFolderModel.currentIndex = 0
-            else
-                PQCFileFolderModel.currentIndex = Math.min(PQCFileFolderModel.currentIndex+1, PQCFileFolderModel.countMainView-1)
         }
 
-    }
-
-    function showPrev() {
-
-        if(PQCFileFolderModel.countMainView !== 0) {
-            if(PQCSettings.imageviewLoopThroughFolder &&PQCFileFolderModel.currentIndex === 0)
+        function showLast() {
+            if(PQCFileFolderModel.countMainView !== 0)
                 PQCFileFolderModel.currentIndex = PQCFileFolderModel.countMainView-1
-            else
-                PQCFileFolderModel.currentIndex = Math.max(PQCFileFolderModel.currentIndex-1, 0)
         }
-    }
 
-    function showFirst() {
-        if(PQCFileFolderModel.countMainView !== 0)
-            PQCFileFolderModel.currentIndex = 0
-    }
+        function showRandom() {
 
-    function showLast() {
-        if(PQCFileFolderModel.countMainView !== 0)
-            PQCFileFolderModel.currentIndex = PQCFileFolderModel.countMainView-1
-    }
+            if(PQCFileFolderModel.countMainView === 0 || PQCFileFolderModel.countMainView === 1)
+                return
 
-    function showRandom() {
+            // special case: load other image
+            if(PQCFileFolderModel.countMainView === 2)
+                PQCFileFolderModel.currentIndex = (PQCFileFolderModel.currentIndex+1)%2
 
-        if(PQCFileFolderModel.countMainView === 0 || PQCFileFolderModel.countMainView === 1)
-            return
-
-        // special case: load other image
-        if(PQCFileFolderModel.countMainView === 2)
-            PQCFileFolderModel.currentIndex = (PQCFileFolderModel.currentIndex+1)%2
-
-        // find new image that's not the current one (if possible)
-        var ran = PQCFileFolderModel.currentIndex
-        var iter = 0
-        while(ran === PQCFileFolderModel.currentIndex) {
-            ran = Math.floor(Math.random() * PQCFileFolderModel.countMainView);
-            iter += 1
-            if(iter > 100)
-                break
-        }
-        PQCFileFolderModel.currentIndex = ran
-    }
-
-    function showNextArchiveDocument() {
-
-        if(PQCFileFolderModel.isARC || PQCFileFolderModel.isPDF)
-            PQCFileFolderModel.disableViewerMode(false)
-
-        var found = -1
-        for(var i = PQCFileFolderModel.currentIndex+1; i < PQCFileFolderModel.countMainView; ++i) {
-            if(PQCScriptsImages.isArchive(PQCFileFolderModel.entriesMainView[i]) || PQCScriptsImages.isPDFDocument(PQCFileFolderModel.entriesMainView[i])) {
-                found = i
-                break
+            // find new image that's not the current one (if possible)
+            var ran = PQCFileFolderModel.currentIndex
+            var iter = 0
+            while(ran === PQCFileFolderModel.currentIndex) {
+                ran = Math.floor(Math.random() * PQCFileFolderModel.countMainView);
+                iter += 1
+                if(iter > 100)
+                    break
             }
+            PQCFileFolderModel.currentIndex = ran
         }
-        if(found == -1 && PQCSettings.imageviewLoopThroughFolder) {
-            for(var j = 0; j < PQCFileFolderModel.currentIndex; ++j) {
-                if(PQCScriptsImages.isArchive(PQCFileFolderModel.entriesMainView[j]) || PQCScriptsImages.isPDFDocument(PQCFileFolderModel.entriesMainView[j])) {
-                    found = j
+
+        function showNextArchiveDocument() {
+
+            if(PQCFileFolderModel.isARC || PQCFileFolderModel.isPDF)
+                PQCFileFolderModel.disableViewerMode(false)
+
+            var found = -1
+            for(var i = PQCFileFolderModel.currentIndex+1; i < PQCFileFolderModel.countMainView; ++i) {
+                if(PQCScriptsImages.isArchive(PQCFileFolderModel.entriesMainView[i]) || PQCScriptsImages.isPDFDocument(PQCFileFolderModel.entriesMainView[i])) {
+                    found = i
                     break
                 }
             }
-        }
-
-        if(found != -1) {
-            PQCFileFolderModel.currentIndex = found
-        }
-
-    }
-
-    function showPreviousArchiveDocument() {
-
-        if(PQCFileFolderModel.isARC || PQCFileFolderModel.isPDF)
-            PQCFileFolderModel.disableViewerMode(false)
-
-        var found = -1
-        for(var i = PQCFileFolderModel.currentIndex-1; i >= 0; --i) {
-            if(PQCScriptsImages.isArchive(PQCFileFolderModel.entriesMainView[i]) || PQCScriptsImages.isPDFDocument(PQCFileFolderModel.entriesMainView[i])) {
-                found = i
-                break
+            if(found == -1 && PQCSettings.imageviewLoopThroughFolder) {
+                for(var j = 0; j < PQCFileFolderModel.currentIndex; ++j) {
+                    if(PQCScriptsImages.isArchive(PQCFileFolderModel.entriesMainView[j]) || PQCScriptsImages.isPDFDocument(PQCFileFolderModel.entriesMainView[j])) {
+                        found = j
+                        break
+                    }
+                }
             }
+
+            if(found != -1) {
+                PQCFileFolderModel.currentIndex = found
+            }
+
         }
-        if(found == -1 && PQCSettings.imageviewLoopThroughFolder) {
-            for(var j = PQCFileFolderModel.countMainView-1; j > PQCFileFolderModel.currentIndex; --j) {
-                if(PQCScriptsImages.isArchive(PQCFileFolderModel.entriesMainView[j]) || PQCScriptsImages.isPDFDocument(PQCFileFolderModel.entriesMainView[j])) {
-                    found = j
+
+        function showPreviousArchiveDocument() {
+
+            if(PQCFileFolderModel.isARC || PQCFileFolderModel.isPDF)
+                PQCFileFolderModel.disableViewerMode(false)
+
+            var found = -1
+            for(var i = PQCFileFolderModel.currentIndex-1; i >= 0; --i) {
+                if(PQCScriptsImages.isArchive(PQCFileFolderModel.entriesMainView[i]) || PQCScriptsImages.isPDFDocument(PQCFileFolderModel.entriesMainView[i])) {
+                    found = i
                     break
                 }
             }
-        }
+            if(found == -1 && PQCSettings.imageviewLoopThroughFolder) {
+                for(var j = PQCFileFolderModel.countMainView-1; j > PQCFileFolderModel.currentIndex; --j) {
+                    if(PQCScriptsImages.isArchive(PQCFileFolderModel.entriesMainView[j]) || PQCScriptsImages.isPDFDocument(PQCFileFolderModel.entriesMainView[j])) {
+                        found = j
+                        break
+                    }
+                }
+            }
 
-        if(found != -1)
-            PQCFileFolderModel.currentIndex = found
+            if(found != -1)
+                PQCFileFolderModel.currentIndex = found
+
+        }
 
     }
 
