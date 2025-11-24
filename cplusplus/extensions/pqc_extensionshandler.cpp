@@ -108,7 +108,7 @@ void PQCExtensionsHandler::setup() {
             for(const QString &id : dirlist) {
 
                 // if there is a YAML file, then we load that one
-                const QString yamlfile = QString("%1/%2/definition.yml").arg(baseDir, id);
+                const QString yamlfile = QString("%1/%2/manifest.yml").arg(baseDir, id);
                 if(!QFile::exists(yamlfile)) {
 
                     qWarning() << "Required YAML file not found for extension" << id;
@@ -144,7 +144,7 @@ void PQCExtensionsHandler::setup() {
                 }
                 QFile fy(yamlfile);
                 if(!fy.open(QIODevice::ReadOnly)) {
-                    qWarning() << "Unable to read definition.yml for reading";
+                    qWarning() << "Unable to read manifest.yml for reading";
                     continue;
                 }
                 QTextStream in(&fy);
@@ -1017,9 +1017,9 @@ int PQCExtensionsHandler::installExtension(QString filepath) {
         PQCExtensionInfo *extinfo = new PQCExtensionInfo;
         extinfo->location = QString("%1/extensions/%2").arg(PQCConfigFiles::get().DATA_DIR(), extensionId);
 
-        QFile fy(QString("%1/definition.yml").arg(extinfo->location));
+        QFile fy(QString("%1/manifest.yml").arg(extinfo->location));
         if(!fy.open(QIODevice::ReadOnly)) {
-            qWarning() << "Unable to read definition.yml for reading";
+            qWarning() << "Unable to read manifest.yml for reading";
             return -1;
         }
         QTextStream in(&fy);
@@ -1090,7 +1090,7 @@ QHash<QString,QVariant> PQCExtensionsHandler::getExtensionZipMetadata(QString fi
 
         QFileInfo info(filenameinside);
 
-        if(filenameinside.endsWith("definition.yml") && filenameinside.count("/") == 1) {
+        if(filenameinside.endsWith("manifest.yml") && filenameinside.count("/") == 1) {
 
             // store read data in here
             const void *buff;
@@ -1100,7 +1100,7 @@ QHash<QString,QVariant> PQCExtensionsHandler::getExtensionZipMetadata(QString fi
             // read data
             while((r = archive_read_data_block(a, &buff, &size, &offset)) == ARCHIVE_OK) {
                 if(r != ARCHIVE_OK || size == 0) {
-                    QString msg = QString("ERROR: Unable to read file 'definition.yml': %1 (%2)").arg(archive_error_string(a)).arg(r);
+                    QString msg = QString("ERROR: Unable to read file 'manifest.yml': %1 (%2)").arg(archive_error_string(a)).arg(r);
                     qWarning() << msg;
                     ret["error"] = msg;
                     break;
@@ -1276,16 +1276,16 @@ bool PQCExtensionsHandler::verifyExtension(QString baseDir, QString id) {
         return false;
     }
 
-    QFile fmanifest(QString("%1/%2/manifest.txt").arg(baseDir, id));
+    QFile fmanifest(QString("%1/%2/verification.txt").arg(baseDir, id));
     if(!fmanifest.open(QIODevice::ReadOnly)) {
-        qWarning() << id << "- unable to read manifest.txt";
+        qWarning() << id << "- unable to read verification.txt";
         return false;
     }
     QByteArray manifest = fmanifest.readAll();
 
-    QFile fmanifestsig(QString("%1/%2/manifest.txt.sig").arg(baseDir, id));
+    QFile fmanifestsig(QString("%1/%2/verification.txt.sig").arg(baseDir, id));
     if(!fmanifestsig.open(QIODevice::ReadOnly)) {
-        qWarning() << id << "- unable to read manifest.txt.sig";
+        qWarning() << id << "- unable to read verification.txt.sig";
         return false;
     }
     QByteArray manifestsig = fmanifestsig.readAll();
@@ -1319,7 +1319,7 @@ bool PQCExtensionsHandler::verifyExtension(QString baseDir, QString id) {
 
     int counter = 0;
 
-    QStringList ignoreFiles = {QString("lib%2.so").arg(id), "manifest.txt", "manifest.txt.sig"};
+    QStringList ignoreFiles = {QString("lib%2.so").arg(id), "verification.txt", "verification.txt.sig"};
 
     const QStringList lst = listFilesIn(QString("%1/%2").arg(baseDir,id));
     for(QString _f : lst) {
@@ -1391,9 +1391,9 @@ bool PQCExtensionsHandler::verifyExtension(QString baseDir, QString id) {
         }
 
         // find out version number of current extension
-        QFile fVer(QString("%1/%2/definition.yml").arg(baseDir, id));
+        QFile fVer(QString("%1/%2/manifest.yml").arg(baseDir, id));
         if(!fVer.open(QIODevice::ReadOnly)) {
-            qWarning() << id << "- unable to open definition.yml to find version number";
+            qWarning() << id << "- unable to open manifest.yml to find version number";
             return false;
         }
         int versionNumber = -1;
