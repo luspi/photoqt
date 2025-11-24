@@ -24,6 +24,7 @@ pragma ComponentBehavior: Bound
 import QtQuick
 import QtQuick.Controls
 import PhotoQt
+import PQCExtensionsHandler
 
 Rectangle {
 
@@ -275,7 +276,7 @@ Rectangle {
                     radius: 5
                 }
 
-                PQTextXL {
+                PQTextL {
                     id: nav_txt
                     x: 5
                     y: 5
@@ -382,7 +383,7 @@ Rectangle {
                     radius: 5
                 }
 
-                PQTextXL {
+                PQTextL {
                     id: view_txt
                     x: 5
                     y: 5
@@ -614,7 +615,7 @@ Rectangle {
                     radius: 5
                 }
 
-                PQTextXL {
+                PQTextL {
                     id: folder_txt
                     x: 5
                     y: 5
@@ -754,6 +755,94 @@ Rectangle {
 
             }
 
+
+
+            /*************************/
+            // Extensions
+
+            Loader {
+
+                active: PQCExtensionsHandler.mainmenu.length>0
+
+                sourceComponent:
+                Item {
+
+                    width: flickable.width
+                    height: ext_txt.height+10
+                    Rectangle {
+                        anchors.fill: parent
+                        color: pqtPalette.alternateBase
+                        opacity: 0.8
+                        radius: 5
+                    }
+
+                    PQTextL {
+                        id: ext_txt
+                        x: 5
+                        y: 5
+                        //: This is a category in the main menu.
+                        text: qsTranslate("MainMenu", "extensions")
+                        font.weight: PQCLook.fontWeightBold
+                        opacity: 0.8
+                    }
+
+                }
+
+            }
+
+            Loader {
+
+                active: PQCExtensionsHandler.mainmenu.length>0
+
+                sourceComponent:
+                Column {
+
+                    id: photoqt_col
+
+                    spacing: 5
+
+                    Repeater {
+
+                        model: PQCExtensionsHandler.mainmenu.length
+
+                        PQMainMenuEntry {
+                            id: dele
+                            required property int index
+                            property string eId: PQCExtensionsHandler.mainmenu[index]
+
+                            property string sourceSVG: PQCExtensionsHandler.getExtensionLocation(eId) + "/img/" + PQCLook.iconShade + "/extension.svg"
+                            property string sourcePNG: PQCExtensionsHandler.getExtensionLocation(eId) + "/img/" + PQCLook.iconShade + "/extension.png"
+                            property string sourceJPG: PQCExtensionsHandler.getExtensionLocation(eId) + "/img/" + PQCLook.iconShade + "/extension.jpg"
+                            property bool haveSVG: PQCScriptsFilesPaths.doesItExist(sourceSVG)
+                            property bool havePNG: PQCScriptsFilesPaths.doesItExist(sourcePNG)
+                            property bool haveJPG: PQCScriptsFilesPaths.doesItExist(sourceJPG)
+                            img: haveSVG ?
+                                           "image://svg/" + sourceSVG :
+                                            (havePNG||haveJPG ? ("file://" + (havePNG ? sourcePNG : sourceJPG)) : "")
+
+                            txt: PQCExtensionsHandler.getExtensionLongName(eId)
+                            extensionId: eId
+                            closeMenu: true
+                            active: mainmenu_top.anythingLoaded
+                            menuColWidth: mainmenu_top.colwidth
+
+                            Timer {
+                                interval: 1000
+                                running: true
+                                repeat: true
+                                onTriggered: {
+                                    console.warn(">>>", dele.eId, dele.sourceSVG, dele.haveSVG)
+                                }
+                            }
+
+                        }
+
+                    }
+
+                }
+
+            }
+
             /*************************/
             // PhotoQt
 
@@ -768,7 +857,7 @@ Rectangle {
                     radius: 5
                 }
 
-                PQTextXL {
+                PQTextL {
                     id: photoqt_txt
                     x: 5
                     y: 5

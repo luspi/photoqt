@@ -77,10 +77,12 @@ public:
     Q_PROPERTY(QStringList contextMenuManipulate MEMBER m_contextMenuManipulate NOTIFY contextMenuManipulateChanged)
     Q_PROPERTY(QStringList contextMenuAbout MEMBER m_contextMenuAbout NOTIFY contextMenuAboutChanged)
     Q_PROPERTY(QStringList contextMenuOther MEMBER m_contextMenuOther NOTIFY contextMenuOtherChanged)
+    Q_PROPERTY(QStringList mainmenu MEMBER m_mainmenu NOTIFY mainmenuChanged);
 
     // get some extensions properties
     Q_INVOKABLE int     getExtensionVersion(QString id);
     Q_INVOKABLE QString getExtensionName(QString id);
+    Q_INVOKABLE QString getExtensionLongName(QString id);
     Q_INVOKABLE QString getExtensionAuthor(QString id);
     Q_INVOKABLE QString getExtensionContact(QString id);
     Q_INVOKABLE QString getExtensionDescription(QString id);
@@ -99,13 +101,11 @@ public:
     Q_INVOKABLE bool    getExtensionPopoutFixSizeToContent(QString id);
 
     Q_INVOKABLE bool    getExtensionModal(QString id);
-
+    Q_INVOKABLE bool    getExtensionMainMenu(QString id);
     Q_INVOKABLE QString getExtensionDefaultShortcut(QString id);
     Q_INVOKABLE bool    getExtensionRememberGeometry(QString id);
     Q_INVOKABLE bool    getExtensionLetMeHandleMouseEvents(QString id);
     Q_INVOKABLE QString getExtensionContextMenuSection(QString id);
-    Q_INVOKABLE QString getExtensionContextMenuIcon(QString id);
-    Q_INVOKABLE QString getExtensionContextMenuTitle(QString id);
     Q_INVOKABLE bool    getExtensionHasCPPActions(QString id);
     Q_INVOKABLE QList<QStringList> getExtensionSettings(QString id);
 
@@ -175,6 +175,7 @@ private:
 
     QHash<QString, QTranslator*> extTrans;
 
+    QStringList m_mainmenu;
     QStringList m_contextMenuUse;
     QStringList m_contextMenuManipulate;
     QStringList m_contextMenuAbout;
@@ -187,6 +188,7 @@ Q_SIGNALS:
     void numExtensionsEnabledChanged();
     void numExtensionsAllChanged();
 
+    void mainmenuChanged();
     void contextMenuUseChanged();
     void contextMenuManipulateChanged();
     void contextMenuAboutChanged();

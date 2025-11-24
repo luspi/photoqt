@@ -108,11 +108,16 @@ Loader {
 
                 PQMenuItem {
                     required property string modelData
-                    text: PQCExtensionsHandler.getExtensionContextMenuTitle(modelData)
-                    property string iconName: PQCExtensionsHandler.getExtensionContextMenuIcon(modelData)
-                    iconSource: PQCScriptsImages.isSVG(iconName) ?
-                                   "image://svg/" + PQCExtensionsHandler.getExtensionLocation(modelData) + "/img/" + PQCLook.iconShade + "/" + iconName :
-                                    "file://" + PQCExtensionsHandler.getExtensionLocation(modelData) + "/img/" + PQCLook.iconShade + "/" + iconName
+                    text: PQCExtensionsHandler.getExtensionLongName(modelData)
+                    property string sourceSVG: PQCExtensionsHandler.getExtensionLocation(modelData) + "/img/" + PQCLook.iconShade + "/extension.svg"
+                    property string sourcePNG: PQCExtensionsHandler.getExtensionLocation(modelData) + "/img/" + PQCLook.iconShade + "/extension.png"
+                    property string sourceJPG: PQCExtensionsHandler.getExtensionLocation(modelData) + "/img/" + PQCLook.iconShade + "/extension.jpg"
+                    property bool haveSVG: PQCScriptsFilesPaths.doesItExist(sourceSVG)
+                    property bool havePNG: PQCScriptsFilesPaths.doesItExist(sourcePNG)
+                    property bool haveJPG: PQCScriptsFilesPaths.doesItExist(sourceJPG)
+                    iconSource: haveSVG ?
+                                   "image://svg/" + sourceSVG :
+                                    (havePNG||haveJPG ? ("file://" + (havePNG ? sourcePNG : sourceJPG)) : "")
                     onTriggered:
                         PQCNotify.loaderShowExtension(modelData)
                 }
@@ -151,11 +156,16 @@ Loader {
 
                 PQMenuItem {
                     required property string modelData
-                    text: PQCExtensionsHandler.getExtensionContextMenuTitle(modelData)
-                    property string iconName: PQCExtensionsHandler.getExtensionContextMenuIcon(modelData)
-                    iconSource: PQCScriptsImages.isSVG(iconName) ?
-                                   "image://svg/" + PQCExtensionsHandler.getExtensionLocation(modelData) + "/img/" + PQCLook.iconShade + "/" + iconName :
-                                    "file://" + PQCExtensionsHandler.getExtensionLocation(modelData) + "/img/" + PQCLook.iconShade + "/" + iconName
+                    text: PQCExtensionsHandler.getExtensionLongName(modelData)
+                    property string sourceSVG: PQCExtensionsHandler.getExtensionLocation(modelData) + "/img/" + PQCLook.iconShade + "/extension.svg"
+                    property string sourcePNG: PQCExtensionsHandler.getExtensionLocation(modelData) + "/img/" + PQCLook.iconShade + "/extension.png"
+                    property string sourceJPG: PQCExtensionsHandler.getExtensionLocation(modelData) + "/img/" + PQCLook.iconShade + "/extension.jpg"
+                    property bool haveSVG: PQCScriptsFilesPaths.doesItExist(sourceSVG)
+                    property bool havePNG: PQCScriptsFilesPaths.doesItExist(sourcePNG)
+                    property bool haveJPG: PQCScriptsFilesPaths.doesItExist(sourceJPG)
+                    iconSource: haveSVG ?
+                                   "image://svg/" + sourceSVG :
+                                    (havePNG||haveJPG ? ("file://" + (havePNG ? sourcePNG : sourceJPG)) : "")
                     onTriggered:
                         PQCNotify.loaderShowExtension(modelData)
                 }
@@ -182,11 +192,16 @@ Loader {
 
                     PQMenuItem {
                         required property string modelData
-                        text: PQCExtensionsHandler.getExtensionContextMenuTitle(modelData)
-                        property string iconName: PQCExtensionsHandler.getExtensionContextMenuIcon(modelData)
-                        iconSource: PQCScriptsImages.isSVG(iconName) ?
-                                       "image://svg/" + PQCExtensionsHandler.getExtensionLocation(modelData) + "/img/" + PQCLook.iconShade + "/" + iconName :
-                                        "file://" + PQCExtensionsHandler.getExtensionLocation(modelData) + "/img/" + PQCLook.iconShade + "/" + iconName
+                        text: PQCExtensionsHandler.getExtensionLongName(modelData)
+                        property string sourceSVG: PQCExtensionsHandler.getExtensionLocation(modelData) + "/img/" + PQCLook.iconShade + "/extension.svg"
+                        property string sourcePNG: PQCExtensionsHandler.getExtensionLocation(modelData) + "/img/" + PQCLook.iconShade + "/extension.png"
+                        property string sourceJPG: PQCExtensionsHandler.getExtensionLocation(modelData) + "/img/" + PQCLook.iconShade + "/extension.jpg"
+                        property bool haveSVG: PQCScriptsFilesPaths.doesItExist(sourceSVG)
+                        property bool havePNG: PQCScriptsFilesPaths.doesItExist(sourcePNG)
+                        property bool haveJPG: PQCScriptsFilesPaths.doesItExist(sourceJPG)
+                        iconSource: haveSVG ?
+                                       "image://svg/" + sourceSVG :
+                                        (havePNG||haveJPG ? ("file://" + (havePNG ? sourcePNG : sourceJPG)) : "")
                         onTriggered:
                             PQCNotify.loaderShowExtension(modelData)
                     }
@@ -272,11 +287,16 @@ Loader {
                     model: PQCExtensionsHandler.contextMenuOther
                     PQMenuItem {
                         required property string modelData
-                        text: PQCExtensionsHandler.getExtensionContextMenuTitle(modelData)
-                        property string iconName: PQCExtensionsHandler.getExtensionContextMenuIcon(modelData)
-                        iconSource: PQCScriptsImages.isSVG(iconName) ?
-                                       "image://svg/" + PQCExtensionsHandler.getExtensionLocation(modelData) + "/img/" + PQCLook.iconShade + "/" + iconName :
-                                        "file://" + PQCExtensionsHandler.getExtensionLocation(modelData) + "/img/" + PQCLook.iconShade + "/" + iconName
+                        text: PQCExtensionsHandler.getExtensionLongName(modelData)
+                        property string sourceSVG: PQCExtensionsHandler.getExtensionLocation(modelData) + "/img/" + PQCLook.iconShade + "/extension.svg"
+                        property string sourcePNG: PQCExtensionsHandler.getExtensionLocation(modelData) + "/img/" + PQCLook.iconShade + "/extension.png"
+                        property string sourceJPG: PQCExtensionsHandler.getExtensionLocation(modelData) + "/img/" + PQCLook.iconShade + "/extension.jpg"
+                        property bool haveSVG: PQCScriptsFilesPaths.doesItExist(sourceSVG)
+                        property bool havePNG: PQCScriptsFilesPaths.doesItExist(sourcePNG)
+                        property bool haveJPG: PQCScriptsFilesPaths.doesItExist(sourceJPG)
+                        iconSource: haveSVG ?
+                                       "image://svg/" + sourceSVG :
+                                        (havePNG||haveJPG ? ("file://" + (havePNG ? sourcePNG : sourceJPG)) : "")
                         onTriggered:
                             PQCNotify.loaderShowExtension(modelData)
                     }

@@ -34,6 +34,7 @@ public:
         // about
         version = 0;
         name = "";
+        longName= "";
         description = "";
         author = "";
         contact = "";
@@ -55,13 +56,12 @@ public:
 
         // setup
         modal = false;
+        mainmenu = false;
         defaultShortcut = "";
         rememberGeometry = true;
         letMeHandleMouseEvents = false;
         haveCPPActions = false;
         contextMenuSection = "";
-        contextMenuTitle = "";
-        contextMenuIcon = "";
         settings = {};
 
         /***********************/
@@ -73,6 +73,7 @@ public:
     // about
     int version;
     QString name;
+    QString longName;
     QString description;
     QString author;
     QString contact;
@@ -94,13 +95,12 @@ public:
 
     // setup
     bool modal;
+    bool mainmenu;
     QString defaultShortcut;
     bool    rememberGeometry;
     bool    letMeHandleMouseEvents;
     bool    haveCPPActions;
     QString contextMenuSection;
-    QString contextMenuTitle;
-    QString contextMenuIcon;
     QList<QStringList> settings;
 
     /***************/

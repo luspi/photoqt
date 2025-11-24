@@ -442,6 +442,16 @@ MenuBar {
                 property string extensionId: PQCExtensionsHandler.getExtensionsEnabledAndDisabld()[index]
                 property bool isEnabled: true
 
+                property string sourceSVG: PQCExtensionsHandler.getExtensionLocation(extensionId) + "/img/" + PQCLook.iconShade + "/extension.svg"
+                property string sourcePNG: PQCExtensionsHandler.getExtensionLocation(extensionId) + "/img/" + PQCLook.iconShade + "/extension.png"
+                property string sourceJPG: PQCExtensionsHandler.getExtensionLocation(extensionId) + "/img/" + PQCLook.iconShade + "/extension.jpg"
+                property bool haveSVG: PQCScriptsFilesPaths.doesItExist(sourceSVG)
+                property bool havePNG: PQCScriptsFilesPaths.doesItExist(sourcePNG)
+                property bool haveJPG: PQCScriptsFilesPaths.doesItExist(sourceJPG)
+                icon.source: haveSVG ?
+                               "image://svg/" + sourceSVG :
+                                (havePNG||haveJPG ? ("file://" + (havePNG ? sourcePNG : sourceJPG)) : "")
+
                 title: (deleg.isEnabled ? "" : "<s>")+PQCExtensionsHandler.getExtensionName(extensionId)+(deleg.isEnabled ? "" : "</s>")
 
                 MenuItem {

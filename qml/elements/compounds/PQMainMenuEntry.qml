@@ -45,6 +45,7 @@ Item {
     property bool active: true
     property string tooltip: txt
 
+    property string extensionId: "" // set this to the extension id if this is an entry for an extension
     property bool customEntry: false
     property string custom_args: ""
     property string custom_close: ""
@@ -72,7 +73,9 @@ Item {
         Image {
             visible: entrytop.img!=""
             sourceSize: Qt.size(entry.height, entry.height)
-            source: entrytop.img.startsWith("data:image/png;base64") ? entrytop.img : (entrytop.img!="" ? ("image://svg/:/" + PQCLook.iconShade + "/" + entrytop.img) : "")
+            source: entrytop.extensionId!=="" ?
+                        entrytop.img :
+                        (entrytop.img.startsWith("data:image/png;base64") ? entrytop.img : (entrytop.img!="" ? ("image://svg/:/" + PQCLook.iconShade + "/" + entrytop.img) : ""))
             opacity: entrytop.active ? (entrytop.hovered ? 1 : 0.8) : 0.4
             Behavior on opacity { enabled: !PQCSettings.generalDisableAllAnimations; NumberAnimation { duration: 200 } }
         }
@@ -110,7 +113,9 @@ Item {
             executeClick()
         }
         function executeClick() {
-            if(entrytop.cmd == "") {
+            if(entrytop.extensionId != "") {
+                PQCNotify.loaderShowExtension(entrytop.extensionId)
+            } else if(entrytop.cmd == "") {
                 entrytop.clicked()
             } else if(!entrytop.customEntry || entrytop.cmd.startsWith("__")) {
                 PQCScriptsShortcuts.executeInternalCommand(entrytop.cmd)
