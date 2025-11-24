@@ -463,6 +463,8 @@ Loader {
             contentWidth: flickable_content.width
             contentHeight: flickable_content.height
 
+            boundsMovement: Flickable.DragOverBounds
+
             visibleArea.onXPositionChanged: {
                 if(loader_top.isMainImage)
                     PQCConstants.currentVisibleAreaX = visibleArea.xPosition
