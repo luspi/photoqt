@@ -110,7 +110,7 @@ Loader {
             id: loader_thumbnails
             asynchronous: true
             active: masteritem.readyToContinueLoading
-            sourceComponent: PQThumbnails {}
+            sourceComponent: PQThumbnails { parent: fullscreenitem.parent }
         }
 
         /*********************************************************************/

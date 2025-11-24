@@ -172,24 +172,23 @@ ApplicationWindow {
 
     /**************************************/
     // MODERN INTERFACE ONLY
-    Loader {
-        anchors.fill: parent
-        active: toplevel.isModern
-        asynchronous: (PQCConstants.startupFilePath!=="")
-        sourceComponent: PQMainWindowBackgroundModern {}
-    }
-    Loader {
-        anchors.fill: parent
-        asynchronous: (PQCConstants.startupFilePath!=="")
-        active: toplevel.isModern
-        sourceComponent: PQBackgroundMessageModern {
-            x: (PQCSettings.metadataSideBar&&PQCSettings.metadataSideBarLocation==="left" ? PQCSettings.metadataSideBarWidth : 0)
-            width: PQCConstants.availableWidth
-            height: PQCConstants.availableHeight
+        Loader {
+            anchors.fill: parent
+            active: toplevel.isModern
+            asynchronous: (PQCConstants.startupFilePath!=="")
+            sourceComponent: PQMainWindowBackgroundModern {}
         }
-    }
+        Loader {
+            anchors.fill: parent
+            asynchronous: (PQCConstants.startupFilePath!=="")
+            active: toplevel.isModern
+            sourceComponent: PQBackgroundMessageModern {
+                x: (PQCSettings.metadataSideBar&&PQCSettings.metadataSideBarLocation==="left" ? PQCSettings.metadataSideBarWidth : 0)
+                width: PQCConstants.availableWidth
+                height: PQCConstants.availableHeight
+            }
+        }
     /**************************************/
-
     /**************************************/
     // INTEGRATED INTERFACE ONLY
         Loader {
@@ -201,12 +200,6 @@ ApplicationWindow {
                 width: PQCConstants.availableWidth
                 height: PQCConstants.availableHeight
             }
-        }
-
-        Loader {
-            active: toplevel.isIntegrated &&
-                    PQCSettings.metadataSideBar&&PQCSettings.metadataSideBarLocation==="left"
-            sourceComponent: PQSideBarIntegrated {}
         }
     /**************************************/
 
@@ -223,10 +216,21 @@ ApplicationWindow {
     /**************************************/
     // INTEGRATED INTERFACE ONLY
         Loader {
+            z: 1
+            active: toplevel.isIntegrated &&
+                    PQCSettings.metadataSideBar&&PQCSettings.metadataSideBarLocation==="left"
+            sourceComponent: PQSideBarIntegrated {
+                z: 1
+            }
+        }
+        Loader {
             x: toplevel.width-width
+            z: 1
             active: toplevel.isIntegrated &&
                     PQCSettings.metadataSideBar&&PQCSettings.metadataSideBarLocation==="right"
-            sourceComponent: PQSideBarIntegrated {}
+            sourceComponent: PQSideBarIntegrated {
+                z: 1
+            }
         }
     /**************************************/
 
@@ -241,10 +245,12 @@ ApplicationWindow {
     // This is a Loader that loads the rest of the application in the background after set up
     PQMasterItem {
         id: masteritemattop
+        z: 2
     }
 
     Loader {
         id: masterloader
+        z: 3
         anchors.fill: parent
         asynchronous: true
         sourceComponent: PQLoader {

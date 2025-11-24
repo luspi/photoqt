@@ -43,7 +43,6 @@ Rectangle {
     SystemPalette { id: pqtPalette }
     SystemPalette { id: pqtPaletteDisabled; colorGroup: SystemPalette.Disabled }
 
-    clip: true
     radius: 0
 
     // which edge the bar should be shown at
@@ -178,8 +177,6 @@ Rectangle {
     ListView {
 
         id: view
-
-        clip: true
 
         // the model is the total image count
         property int numModel: thumbnails_top.state==="disabled"||!PQCConstants.imageInitiallyLoaded ? 0 : PQCFileFolderModel.countMainView
