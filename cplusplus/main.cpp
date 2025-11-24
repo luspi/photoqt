@@ -56,6 +56,7 @@
 #include <pqc_providerfull.h>
 #include <pqc_providersvg.h>
 #include <pqc_providersvgcolor.h>
+#include <pqc_providermipmap.h>
 #include <pqc_extensionshandler.h>
 #include <pqc_extensionsettings.h>
 #include <pqc_look.h>
@@ -304,6 +305,7 @@ int main(int argc, char **argv) {
     engine.addImageProvider("full", new PQCProviderFull);
     engine.addImageProvider("svg", new PQCProviderSVG);
     engine.addImageProvider("svgcolor", new PQCProviderSVGColor);
+    engine.addImageProvider("mipmap", new PQCAsyncImageProviderMipMap);
 
     // These only need to be imported where needed
     qmlRegisterSingletonInstance("PQCExtensionsHandler", 1, 0, "PQCExtensionsHandler", &PQCExtensionsHandler::get());

@@ -56,6 +56,7 @@ SET(photoqt_SOURCES cplusplus/main.cpp
                     cplusplus/images/provider/pqc_providericon.cpp
                     cplusplus/images/provider/pqc_providertheme.cpp
                     cplusplus/images/provider/pqc_providerthumb.cpp
+                    cplusplus/images/provider/pqc_providermipmap.cpp
                     cplusplus/images/provider/pqc_providertooltipthumb.cpp
                     cplusplus/images/provider/pqc_providerfolderthumb.cpp
                     cplusplus/images/provider/pqc_providerdragthumb.cpp

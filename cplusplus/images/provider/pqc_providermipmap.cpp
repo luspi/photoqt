@@ -19,31 +19,48 @@
  ** along with PhotoQt. If not, see <http://www.gnu.org/licenses/>.      **
  **                                                                      **
  **************************************************************************/
-#pragma once
 
-#include <QObject>
+#include <pqc_providermipmap.h>
+#include <pqc_settingscpp.h>
+#include <pqc_configfiles.h>
+#include <pqc_loadimage.h>
+#include <pqc_providerthumb.h>
+#include <QPainter>
 
-class PQCMigrateSettings : public QObject {
+QQuickImageResponse *PQCAsyncImageProviderMipMap::requestImageResponse(const QString &url, const QSize &requestedSize) {
 
-    Q_OBJECT
+    PQCAsyncImageResponseMipMap *response = new PQCAsyncImageResponseMipMap(url, ((requestedSize.isValid() && !requestedSize.isNull()) ? requestedSize : QSize(256,256)));
+    QThreadPool::globalInstance()->setMaxThreadCount(qMax(1,PQCSettingsCPP::get().getThumbnailsMaxNumberThreads()));
+    pool.start(response);
+    return response;
+}
 
-public:
-    static void migrate(const QString &oldVersion, const QStringList allVersions);
+PQCAsyncImageResponseMipMap::PQCAsyncImageResponseMipMap(const QString &url, const QSize &requestedSize) : m_requestedSize(requestedSize) {
+    m_url = url;
+    setAutoDelete(false);
+    loader = new PQCAsyncImageResponseThumb(url, requestedSize);
+}
 
-private:
-    static void migrate500();
-    static void migrate491();
-    static void migrate490();
-    static void migrate480();
-    static void migrate470();
-    static void migrate450();
-    static void migrate440();
-    static void migrate400();
+PQCAsyncImageResponseMipMap::~PQCAsyncImageResponseMipMap() {
+    delete loader;
+}
 
-    static void migrationHelperChangeSettingsName(const QList<QStringList> &mig);
-    static QVariant migrationHelperGetOldValue(const QString &table, const QString &setting);
-    static void migrationHelperRemoveValue(const QString &table, const QString &setting);
-    static void migrationHelperInsertValue(const QString &table, const QString &setting, const QVariantList &value);
-    static void migrationHelperSetNewValue(const QString &table, const QString &setting, const QVariant &value);
+QQuickTextureFactory *PQCAsyncImageResponseMipMap::textureFactory() const {
+    return QQuickTextureFactory::textureFactoryForImage(m_image);
+}
 
-};
+void PQCAsyncImageResponseMipMap::run() {
+    loadImage();
+}
+
+void PQCAsyncImageResponseMipMap::loadImage() {
+
+    qDebug() << "";
+
+    loader->loadImage();
+    m_image = loader->m_image.scaled(m_requestedSize, Qt::KeepAspectRatio);
+
+    // aaaaand done!
+    Q_EMIT finished();
+
+}

@@ -78,6 +78,9 @@ void PQCMigrateSettings::migrate(const QString &oldVersion, const QStringList al
         else if(curVer == "4.9.1")
             migrate491();
 
+        else if(curVer == "5.0")
+            migrate500();
+
     }
 
     db.commit();
@@ -87,7 +90,24 @@ void PQCMigrateSettings::migrate(const QString &oldVersion, const QStringList al
 /******************************************************/
 /******************************************************/
 
+void PQCMigrateSettings::migrate500() {
+
+    qDebug() << "";
+
+    // PQCSettings.imageviewMinimapSizeLevel must be incremented by 1
+    const int oldVal = migrationHelperGetOldValue("imageview", "MinimapSizeLevel").toInt();
+    if(oldVal < 4)
+        migrationHelperSetNewValue("imageview", "MinimapSizeLevel", oldVal+1);
+
+
+}
+
+/******************************************************/
+/******************************************************/
+
 void PQCMigrateSettings::migrate491() {
+
+    qDebug() << "";
 
     // a bug in 4.9.1 might have reduced the thumbnails size down to 1px
     const int oldVal = migrationHelperGetOldValue("thumbnails", "Size").toInt();
@@ -100,6 +120,8 @@ void PQCMigrateSettings::migrate491() {
 /******************************************************/
 
 void PQCMigrateSettings::migrate490() {
+
+    qDebug() << "";
 
     // first make sure all tables have UNIQUE constraint set for name column
     // it is not possible to add such a constraint to an existing table in sqlite
@@ -201,6 +223,8 @@ void PQCMigrateSettings::migrate490() {
 
 void PQCMigrateSettings::migrate480() {
 
+    qDebug() << "";
+
     migrationHelperSetNewValue("imageview", "ZoomToCenter", 0);
 
 }
@@ -209,6 +233,8 @@ void PQCMigrateSettings::migrate480() {
 /******************************************************/
 
 void PQCMigrateSettings::migrate470() {
+
+    qDebug() << "";
 
     // convert color names
 
@@ -238,6 +264,8 @@ void PQCMigrateSettings::migrate470() {
 
 void PQCMigrateSettings::migrate450() {
 
+    qDebug() << "";
+
     migrationHelperChangeSettingsName({{"MusicFile", "slideshow", "MusicFiles", "slideshow"},
                                        {"PopoutFileDialogKeepOpen", "interface", "PopoutFileDialogNonModal", "interface"},
                                        {"PopoutMapExplorerKeepOpen", "interface", "PopoutMapExplorerNonModal", "interface"},
@@ -249,6 +277,8 @@ void PQCMigrateSettings::migrate450() {
 /******************************************************/
 
 void PQCMigrateSettings::migrate440() {
+
+    qDebug() << "";
 
     // adjust value of 'PreviewColorIntensity' in 'filedialog'
     const QVariant oldValue = migrationHelperGetOldValue("filedialog", "PreviewColorIntensity");
@@ -264,6 +294,8 @@ void PQCMigrateSettings::migrate440() {
 /******************************************************/
 
 void PQCMigrateSettings::migrate400() {
+
+    qDebug() << "";
 
     // change table name 'openfile' to 'filedialog'
 

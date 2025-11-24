@@ -21,29 +21,39 @@
  **************************************************************************/
 #pragma once
 
-#include <QObject>
+#include <QQuickAsyncImageProvider>
+#include <QThreadPool>
+#include <QMimeDatabase>
 
-class PQCMigrateSettings : public QObject {
+class PQCAsyncImageResponseThumb;
 
-    Q_OBJECT
+class PQCAsyncImageProviderMipMap : public QQuickAsyncImageProvider {
 
 public:
-    static void migrate(const QString &oldVersion, const QStringList allVersions);
+    QQuickImageResponse *requestImageResponse(const QString &url, const QSize &requestedSize) override;
 
 private:
-    static void migrate500();
-    static void migrate491();
-    static void migrate490();
-    static void migrate480();
-    static void migrate470();
-    static void migrate450();
-    static void migrate440();
-    static void migrate400();
+    QThreadPool pool;
+};
 
-    static void migrationHelperChangeSettingsName(const QList<QStringList> &mig);
-    static QVariant migrationHelperGetOldValue(const QString &table, const QString &setting);
-    static void migrationHelperRemoveValue(const QString &table, const QString &setting);
-    static void migrationHelperInsertValue(const QString &table, const QString &setting, const QVariantList &value);
-    static void migrationHelperSetNewValue(const QString &table, const QString &setting, const QVariant &value);
+class PQCAsyncImageResponseMipMap : public QQuickImageResponse, public QRunnable {
+
+public:
+    PQCAsyncImageResponseMipMap(const QString &url, const QSize &requestedSize);
+    ~PQCAsyncImageResponseMipMap();
+
+    QQuickTextureFactory *textureFactory() const override;
+
+    void run() override;
+    void loadImage();
+
+    QString m_url;
+    QSize m_requestedSize;
+    QImage m_image;
+
+    QMimeDatabase mimedb;
+
+private:
+    PQCAsyncImageResponseThumb *loader;
 
 };

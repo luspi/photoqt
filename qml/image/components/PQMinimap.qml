@@ -27,8 +27,6 @@ Rectangle {
 
     id: minimap_top
 
-    property int sl: PQCSettings.imageviewMinimapSizeLevel
-
     SystemPalette { id: pqtPalette }
 
     Item {
@@ -145,27 +143,33 @@ Rectangle {
         id: rightclickmenu
 
         PQMenuItem {
-            text: qsTranslate("image", "Small minimap")
+            text: qsTranslate("image", "Very small minimap")
             onTriggered:
             PQCSettings.imageviewMinimapSizeLevel = 0
         }
 
         PQMenuItem {
-            text: qsTranslate("image", "Normal minimap")
+            text: qsTranslate("image", "Small minimap")
             onTriggered:
             PQCSettings.imageviewMinimapSizeLevel = 1
         }
 
         PQMenuItem {
-            text: qsTranslate("image", "Large minimap")
+            text: qsTranslate("image", "Normal minimap")
             onTriggered:
             PQCSettings.imageviewMinimapSizeLevel = 2
         }
 
         PQMenuItem {
-            text: qsTranslate("image", "Very large minimap")
+            text: qsTranslate("image", "Large minimap")
             onTriggered:
             PQCSettings.imageviewMinimapSizeLevel = 3
+        }
+
+        PQMenuItem {
+            text: qsTranslate("image", "Very large minimap")
+            onTriggered:
+            PQCSettings.imageviewMinimapSizeLevel = 4
         }
 
         PQMenuSeparator {}
@@ -183,14 +187,15 @@ Rectangle {
 
         x: PQCScriptsConfig.isQtAtLeast6_5() ? 0 : 3
         y: PQCScriptsConfig.isQtAtLeast6_5() ? 0 : 3
-        sourceSize: minimap_top.sl == 0 ?
-                            Qt.size(125,125) :
-                            (minimap_top.sl == 1 ?
+        sourceSize: PQCSettings.imageviewMinimapSizeLevel === 4 ?
+                        Qt.size(650, 650) :
+                        (PQCSettings.imageviewMinimapSizeLevel === 3 ?
+                            Qt.size(450,450) :
+                            (PQCSettings.imageviewMinimapSizeLevel === 2 ?
                                  Qt.size(250, 250) :
-                                 (minimap_top.sl == 2 ?
-                                      Qt.size(450,450) :
-                                      Qt.size(650,650)))
-
+                                 (PQCSettings.imageviewMinimapSizeLevel === 1 ?
+                                      Qt.size(125,125) :
+                                      Qt.size(75,75))))
 
         fillMode: Image.PreserveAspectFit
         source: ""
@@ -248,7 +253,7 @@ Rectangle {
                 hasBeenTriggered = true
                 var cl = PQCScriptsFilesPaths.cleanPath(PQCFileFolderModel.currentFile)
                 if(cl !== "")
-                    img.source = encodeURI("image://thumb/" + cl)
+                    img.source = encodeURI("image://mipmap/" + cl)
             }
         }
 
@@ -259,7 +264,7 @@ Rectangle {
         function onCurrentFileChanged() {
             var cl = PQCScriptsFilesPaths.cleanPath(PQCFileFolderModel.currentFile)
             if(cl !== "")
-                img.source = encodeURI("image://thumb/" + cl)
+                img.source = encodeURI("image://mipmap/" + cl)
         }
     }
 
