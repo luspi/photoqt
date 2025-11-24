@@ -64,7 +64,7 @@ MenuItem {
             font: control.font
             color: control.enabled ? pqtPalette.text : pqtPaletteDisabled.text
             opacity: control.enabled ? 1 : 0.6
-            Behavior on opacity { NumberAnimation { duration: 200 } }
+            Behavior on opacity { enabled: !PQCSettings.generalDisableAllAnimations; NumberAnimation { duration: 200 } }
             horizontalAlignment: Text.AlignLeft
             verticalAlignment: Text.AlignVCenter
             elide: control.elide
@@ -92,7 +92,7 @@ MenuItem {
             width: control.h/2
             height: control.h/2
             opacity: control.enabled ? 1 : 0.6
-            Behavior on opacity { NumberAnimation { duration: 200 } }
+            Behavior on opacity { enabled: !PQCSettings.generalDisableAllAnimations; NumberAnimation { duration: 200 } }
             fillMode: Image.Pad
             source: control.iconSource
             sourceSize: Qt.size(width, height)

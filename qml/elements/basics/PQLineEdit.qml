@@ -30,7 +30,7 @@ Rectangle {
     width: 300
     height: 40
     color: warning ? "red" : (enabled ? pqtPalette.alternateBase : pqtPalette.base)
-    Behavior on color { ColorAnimation { duration: 200 } }
+    Behavior on color { enabled: !PQCSettings.generalDisableAllAnimations; ColorAnimation { duration: 200 } }
     border.width: 1
     border.color: PQCLook.baseBorder
     z: -1

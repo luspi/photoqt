@@ -457,6 +457,12 @@ public:
     Q_INVOKABLE const bool getDefaultForGeneralCompactSettings();
     Q_INVOKABLE void setDefaultForGeneralCompactSettings();
 
+    Q_PROPERTY(bool generalDisableAllAnimations READ getGeneralDisableAllAnimations WRITE setGeneralDisableAllAnimations NOTIFY generalDisableAllAnimationsChanged)
+    bool getGeneralDisableAllAnimations();
+    void setGeneralDisableAllAnimations(bool val);
+    Q_INVOKABLE const bool getDefaultForGeneralDisableAllAnimations();
+    Q_INVOKABLE void setDefaultForGeneralDisableAllAnimations();
+
     Q_PROPERTY(QStringList generalExtensionsEnabled READ getGeneralExtensionsEnabled WRITE setGeneralExtensionsEnabled NOTIFY generalExtensionsEnabledChanged)
     QStringList getGeneralExtensionsEnabled();
     void setGeneralExtensionsEnabled(QStringList val);
@@ -1880,6 +1886,7 @@ private:
     // table: general
     bool m_generalAutoSaveSettings;
     bool m_generalCompactSettings;
+    bool m_generalDisableAllAnimations;
     QStringList m_generalExtensionsEnabled;
     bool m_generalExtensionsEnforeVerification;
     QStringList m_generalExtensionsFloatingSetup;
@@ -2193,6 +2200,7 @@ Q_SIGNALS:
     // table: general
     void generalAutoSaveSettingsChanged();
     void generalCompactSettingsChanged();
+    void generalDisableAllAnimationsChanged();
     void generalExtensionsEnabledChanged();
     void generalExtensionsEnforeVerificationChanged();
     void generalExtensionsFloatingSetupChanged();

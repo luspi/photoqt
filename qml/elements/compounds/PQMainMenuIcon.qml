@@ -44,7 +44,7 @@ Item {
         color: PQCLook.baseBorder
         radius: 5
         opacity: menuicon.hovered ? 0.4 : 0
-        Behavior on opacity { NumberAnimation { duration: 200 } }
+        Behavior on opacity { enabled: !PQCSettings.generalDisableAllAnimations; NumberAnimation { duration: 200 } }
     }
 
     Image {

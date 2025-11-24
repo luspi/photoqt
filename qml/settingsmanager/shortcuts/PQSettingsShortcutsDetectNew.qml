@@ -39,7 +39,7 @@ Item {
 
     opacity: 0
     visible: opacity>0
-    Behavior on opacity { NumberAnimation { duration: 200 } }
+    Behavior on opacity { enabled: !PQCSettings.generalDisableAllAnimations; NumberAnimation { duration: 200 } }
 
     property string prevShortcut: ""
     property int toChangeCommandIndex: -1
@@ -78,7 +78,7 @@ Item {
             }
 
             visible: opacity>0
-            Behavior on opacity { NumberAnimation { duration: 200 } }
+            Behavior on opacity { enabled: !PQCSettings.generalDisableAllAnimations; NumberAnimation { duration: 200 } }
             PQText {
                 id: resetmessagetxt
                 y: 10
@@ -108,7 +108,7 @@ Item {
             }
 
             visible: opacity>0
-            Behavior on opacity { NumberAnimation { duration: 200 } }
+            Behavior on opacity { enabled: !PQCSettings.generalDisableAllAnimations; NumberAnimation { duration: 200 } }
             PQText {
                 id: leftbutmessagetxt
                 y: 10

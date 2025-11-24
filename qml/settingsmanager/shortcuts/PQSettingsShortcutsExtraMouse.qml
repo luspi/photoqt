@@ -131,7 +131,7 @@ PQSetting {
             x: -set_exmo.indentWidth
             width: set_exmo.contentWidth
             height: PQCSettings.generalCompactSettings||!desc_txt.visible ? 0 : desc_txt.height
-            Behavior on height { NumberAnimation { duration: 200 } }
+            Behavior on height { enabled: !PQCSettings.generalDisableAllAnimations; NumberAnimation { duration: 200 } }
             clip: true
             PQText {
                 id: desc_txt

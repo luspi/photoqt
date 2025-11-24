@@ -51,7 +51,7 @@ PQTemplate {
                 implicitWidth: 8
                 implicitHeight: 8
                 color: SplitHandle.hovered ? pqtPalette.alternateBase : pqtPalette.button
-                Behavior on color { ColorAnimation { duration: 200 } }
+                Behavior on color { enabled: !PQCSettings.generalDisableAllAnimations; ColorAnimation { duration: 200 } }
 
                 Image {
                     y: (hndl.height-height)/2

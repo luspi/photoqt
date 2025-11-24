@@ -176,7 +176,7 @@ ListView {
         Label {
             id: filename_label
             opacity: view_top.currentFileCut ? 0.3 : 1
-            Behavior on opacity { NumberAnimation { duration: 200 } }
+            Behavior on opacity { enabled: !PQCSettings.generalDisableAllAnimations; NumberAnimation { duration: 200 } }
             x: fileicon.width+10
             width: deleg.width-fileicon.width-fileinfo.width-10
             height: deleg.height
@@ -191,7 +191,7 @@ ListView {
         Label {
             id: fileinfo
             opacity: view_top.currentFileCut ? 0.3 : 1
-            Behavior on opacity { NumberAnimation { duration: 200 } }
+            Behavior on opacity { enabled: !PQCSettings.generalDisableAllAnimations; NumberAnimation { duration: 200 } }
             x: deleg.width-width-10
             height: deleg.height
             font.pointSize: PQCLook.fontSize
@@ -342,14 +342,14 @@ ListView {
                             ? 0.8
                             : (view_top.currentIndex===deleg.modelData
                                     ? 0.4 : 0)
-            Behavior on opacity { NumberAnimation { duration: 200 } }
+            Behavior on opacity { enabled: !PQCSettings.generalDisableAllAnimations; NumberAnimation { duration: 200 } }
 
             Image {
                 anchors.fill: parent
                 source: (PQCConstants.filedialogCurrentSelection.indexOf(deleg.modelData)!==-1 ? ("image://svg/:/" + PQCLook.iconShade + "/deselectfile.svg") : ("image://svg/:/" + PQCLook.iconShade + "/selectfile.svg"))
                 mipmap: true
                 opacity: selectmouse.containsMouse ? 0.8 : 0.4
-                Behavior on opacity { NumberAnimation { duration: 200 } }
+                Behavior on opacity { enabled: !PQCSettings.generalDisableAllAnimations; NumberAnimation { duration: 200 } }
                 MouseArea {
                     id: selectmouse
                     anchors.fill: parent

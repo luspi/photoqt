@@ -64,13 +64,13 @@ Loader {
                     height: 30
 
                     opacity: autoplaymouse.containsMouse ? (PQCSettings.filetypesMotionAutoPlay ? 1 : 0.6) : 0.2
-                    Behavior on opacity { NumberAnimation { duration: 200 } }
+                    Behavior on opacity { enabled: !PQCSettings.generalDisableAllAnimations; NumberAnimation { duration: 200 } }
 
                     Image {
                         anchors.fill: parent
                         anchors.margins: 5
                         opacity: PQCSettings.filetypesMotionAutoPlay ? 1 : 0.5
-                        Behavior on opacity { NumberAnimation { duration: 200 } }
+                        Behavior on opacity { enabled: !PQCSettings.generalDisableAllAnimations; NumberAnimation { duration: 200 } }
                         sourceSize: Qt.size(width, height)
                         source: PQCSettings.filetypesMotionAutoPlay ? ("image://svg/:/" + PQCLook.iconShade + "/autoplay.svg") : ("image://svg/:/" + PQCLook.iconShade + "/autoplay_off.svg")
                     }
@@ -94,7 +94,7 @@ Loader {
                     height: 30
 
                     opacity: playpausemouse.containsMouse ? 1 : 0.2
-                    Behavior on opacity { NumberAnimation { duration: 200 } }
+                    Behavior on opacity { enabled: !PQCSettings.generalDisableAllAnimations; NumberAnimation { duration: 200 } }
 
                     Image {
                         anchors.fill: parent

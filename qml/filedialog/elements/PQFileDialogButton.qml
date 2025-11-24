@@ -30,7 +30,7 @@ Rectangle {
     implicitWidth: forceWidth>0 ? forceWidth : (txt.width + padding)
     implicitHeight: smallerVersion ? 30 : 40
     opacity: enabled ? 1 : 0.6
-    Behavior on opacity { NumberAnimation { duration: 200 } }
+    Behavior on opacity { enabled: !PQCSettings.generalDisableAllAnimations; NumberAnimation { duration: 200 } }
     radius: 5
 
     SystemPalette { id: pqtPalette }
@@ -84,7 +84,7 @@ Rectangle {
         font.pointSize: control.smallerVersion ? PQCLook.fontSize : PQCLook.fontSizeL
         font.weight: control.smallerVersion ? PQCLook.fontWeightNormal : PQCLook.fontWeightBold
         opacity: enabled ? 1.0 : 0.6
-        Behavior on opacity { NumberAnimation { duration: 200 } }
+        Behavior on opacity { enabled: !PQCSettings.generalDisableAllAnimations; NumberAnimation { duration: 200 } }
         horizontalAlignment: Text.AlignHCenter
         verticalAlignment: Text.AlignVCenter
         color: pqtPalette.text

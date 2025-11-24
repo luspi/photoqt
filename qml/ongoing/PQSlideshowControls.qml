@@ -82,7 +82,7 @@ Item {
     ]
 
     opacity: 0
-    Behavior on opacity { NumberAnimation { duration: slideshowcontrols_top.isPopout ? 0 : 200 } }
+    Behavior on opacity { enabled: !PQCSettings.generalDisableAllAnimations; NumberAnimation { duration: slideshowcontrols_top.isPopout ? 0 : 200 } }
     visible: opacity>0
     enabled: visible
 
@@ -328,7 +328,7 @@ Item {
         source: "image://svg/:/" + PQCLook.iconShade + "/popinpopout.svg"
         sourceSize: Qt.size(width, height)
         opacity: popinmouse.containsMouse ? 1 : 0.4
-        Behavior on opacity { NumberAnimation { duration: 200 } }
+        Behavior on opacity { enabled: !PQCSettings.generalDisableAllAnimations; NumberAnimation { duration: 200 } }
         PQMouseArea {
             id: popinmouse
             anchors.fill: parent

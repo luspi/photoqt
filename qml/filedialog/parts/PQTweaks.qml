@@ -40,7 +40,7 @@ Item {
         id: leftcolrect
 
         y: 0
-        Behavior on y { NumberAnimation { duration: 200; easing.type: Easing.OutElastic } }
+        Behavior on y { enabled: !PQCSettings.generalDisableAllAnimations; NumberAnimation { duration: 200; easing.type: Easing.OutElastic } }
 
         width: leftcol.width+15
         height: parent.height
@@ -144,7 +144,7 @@ Item {
         anchors.left: parent.left
         anchors.right: rightcol.parent.left
         anchors.leftMargin: leftcolrect.state==="moveup" ? 0 : (leftcol.width+leftcol.x)
-        Behavior on anchors.leftMargin { NumberAnimation { duration: 200; easing.type: Easing.OutBounce } }
+        Behavior on anchors.leftMargin { enabled: !PQCSettings.generalDisableAllAnimations; NumberAnimation { duration: 200; easing.type: Easing.OutBounce } }
         height: parent.height
 
         PQButtonElement {

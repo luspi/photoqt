@@ -32,13 +32,13 @@ Rectangle {
     // positioning
     x: (setVisible||holdVisible) ? visiblePos[0] : invisiblePos[0]
     y: (setVisible||holdVisible) ? visiblePos[1] : invisiblePos[1]
-    Behavior on x { NumberAnimation { duration: 200 } }
-    Behavior on y { NumberAnimation { duration: 200 } }
+    Behavior on x { enabled: !PQCSettings.generalDisableAllAnimations; NumberAnimation { duration: 200 } }
+    Behavior on y { enabled: !PQCSettings.generalDisableAllAnimations; NumberAnimation { duration: 200 } }
 
     // visibility status
     opacity: ((setVisible||holdVisible) && windowSizeOkay) ? 1 : 0
     visible: opacity>0
-    Behavior on opacity { NumberAnimation { duration: 200 } }
+    Behavior on opacity { enabled: !PQCSettings.generalDisableAllAnimations; NumberAnimation { duration: 200 } }
 
     SystemPalette { id: pqtPalette }
     SystemPalette { id: pqtPaletteDisabled; colorGroup: SystemPalette.Disabled }
@@ -287,8 +287,8 @@ Rectangle {
         /*************************************************************/
 
         // make the potential adjustments to its size based on above timer smooth
-        Behavior on width { NumberAnimation { duration: PQCSettings.thumbnailsSameHeightVaryWidth ? 200 : 0 } }
-        Behavior on height { NumberAnimation { duration: PQCSettings.thumbnailsSameHeightVaryWidth ? 200 : 0 } }
+        Behavior on width { enabled: !PQCSettings.generalDisableAllAnimations; NumberAnimation { duration: PQCSettings.thumbnailsSameHeightVaryWidth ? 200 : 0 } }
+        Behavior on height { enabled: !PQCSettings.generalDisableAllAnimations; NumberAnimation { duration: PQCSettings.thumbnailsSameHeightVaryWidth ? 200 : 0 } }
 
         // whether the view is smaller than screen edge
         property bool smallerThanSize: contentWidth<parent.width
@@ -466,7 +466,7 @@ Rectangle {
 
             // set the background color
             color: (active&&view.hlInvertBg) ? pqtPalette.alternateBase : "transparent"
-            Behavior on color { ColorAnimation { duration: 200 } }
+            Behavior on color { enabled: !PQCSettings.generalDisableAllAnimations; ColorAnimation { duration: 200 } }
 
             state: thumbnails_top.state
 
@@ -535,12 +535,12 @@ Rectangle {
                                               : (view.state==="bottom" ? -thumbnails_top.effectiveThumbnailLiftup : 0))
                         : 0
 
-                Behavior on x { NumberAnimation { duration: 200 } }
-                Behavior on y { NumberAnimation { duration: 200 } }
+                Behavior on x { enabled: !PQCSettings.generalDisableAllAnimations; NumberAnimation { duration: 200 } }
+                Behavior on y { enabled: !PQCSettings.generalDisableAllAnimations; NumberAnimation { duration: 200 } }
 
                 // the magnify animation
                 scale: (deleg.active&&view.hlMagnify) ? 1.2 : 1
-                Behavior on scale { NumberAnimation { duration: 200 } }
+                Behavior on scale { enabled: !PQCSettings.generalDisableAllAnimations; NumberAnimation { duration: 200 } }
 
                 // some general properties
                 // the width/height is set by the state above
@@ -630,9 +630,9 @@ Rectangle {
                     Rectangle {
                         anchors.fill: parent
                         color: view.hlInvertLabel&&deleg.active ? pqtPalette.text : pqtPalette.base
-                        Behavior on color { ColorAnimation { duration: 200 } }
+                        Behavior on color { enabled: !PQCSettings.generalDisableAllAnimations; ColorAnimation { duration: 200 } }
                         opacity: (PQCSettings.thumbnailsInactiveTransparent&&!deleg.active) ? 0.5 : 0.8
-                        Behavior on opacity { NumberAnimation { duration: 200 } }
+                        Behavior on opacity { enabled: !PQCSettings.generalDisableAllAnimations; NumberAnimation { duration: 200 } }
                     }
                     visible: PQCSettings.thumbnailsFilename
                     x: (img.x+img.width-width)
@@ -649,9 +649,9 @@ Rectangle {
                         elide: Text.ElideMiddle
                         text: deleg.filename
                         color: view.hlInvertLabel&&deleg.active ? pqtPalette.base : pqtPalette.text
-                        Behavior on color { ColorAnimation { duration: 200 } }
+                        Behavior on color { enabled: !PQCSettings.generalDisableAllAnimations; ColorAnimation { duration: 200 } }
                         opacity: (PQCSettings.thumbnailsInactiveTransparent&&!deleg.active) ? 0.5 : 0.8
-                        Behavior on opacity { NumberAnimation { duration: 200 } }
+                        Behavior on opacity { enabled: !PQCSettings.generalDisableAllAnimations; NumberAnimation { duration: 200 } }
                     }
                 }
             }
@@ -664,7 +664,7 @@ Rectangle {
                 opacity: (deleg.active&&view.hlLine) ? 1 : 0
                 visible: opacity>0
 
-                Behavior on opacity { NumberAnimation { duration: 200 } }
+                Behavior on opacity { enabled: !PQCSettings.generalDisableAllAnimations; NumberAnimation { duration: 200 } }
                 color: pqtPalette.text
 
                 // the state follows the global thumbnails state

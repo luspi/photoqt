@@ -304,7 +304,7 @@ PQTemplate {
                         width: parent.width
 
                         height: rescheck.checked ? infotxt.height : 0
-                        Behavior on height { NumberAnimation { duration: 250 } }
+                        Behavior on height { enabled: !PQCSettings.generalDisableAllAnimations; NumberAnimation { duration: 250 } }
 
                         clip: true
 

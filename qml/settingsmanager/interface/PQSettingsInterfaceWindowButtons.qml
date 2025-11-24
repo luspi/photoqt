@@ -62,7 +62,7 @@ PQSetting {
 
             height: 60+(scrollbar.size<1.0 ? (scrollbar.height+5) : 0)
             opacity: enabled ? 1 : 0.8
-            Behavior on opacity { NumberAnimation { duration: 150 } }
+            Behavior on opacity { enabled: !PQCSettings.generalDisableAllAnimations; NumberAnimation { duration: 150 } }
 
             color: pqtPalette.alternateBase
             ListView {
@@ -306,7 +306,7 @@ PQSetting {
                             sourceSize: Qt.size(width, height)
 
                             opacity: closemouse.containsMouse ? 0.8 : 0.2
-                            Behavior on opacity { NumberAnimation { duration: 150 } }
+                            Behavior on opacity { enabled: !PQCSettings.generalDisableAllAnimations; NumberAnimation { duration: 150 } }
 
                             PQMouseArea {
                                 id: closemouse
@@ -351,7 +351,7 @@ PQSetting {
             id: helpmsg
             enabled: integbut_show.checked
             opacity: enabled ? 1 : 0.8
-            Behavior on opacity { NumberAnimation { duration: 150 } }
+            Behavior on opacity { enabled: !PQCSettings.generalDisableAllAnimations; NumberAnimation { duration: 150 } }
             text: qsTranslate("settingsmanager", "(a right click on an entry shows more options)")
         },
 
@@ -361,7 +361,7 @@ PQSetting {
 
             height: combo_add.height
             opacity: enabled ? 1 : 0.8
-            Behavior on opacity { NumberAnimation { duration: 150 } }
+            Behavior on opacity { enabled: !PQCSettings.generalDisableAllAnimations; NumberAnimation { duration: 150 } }
 
             PQComboBox {
                 id: combo_add
@@ -416,7 +416,7 @@ PQSetting {
 
             enabled: integbut_show.checked
             opacity: enabled ? 1 : 0.8
-            Behavior on opacity { NumberAnimation { duration: 150 } }
+            Behavior on opacity { enabled: !PQCSettings.generalDisableAllAnimations; NumberAnimation { duration: 150 } }
 
             PQSliderSpinBox {
                 id: butsize
@@ -472,7 +472,7 @@ PQSetting {
 
             enabled: integbut_show.checked
             opacity: enabled ? 1 : 0.8
-            Behavior on opacity { NumberAnimation { duration: 150 } }
+            Behavior on opacity { enabled: !PQCSettings.generalDisableAllAnimations; NumberAnimation { duration: 150 } }
 
             PQRadioButton {
                 id: autohide_always

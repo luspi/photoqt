@@ -42,7 +42,7 @@ Item {
     property bool _containsMouse: mousearea.containsMouse || mouseareaBG.containsMouse
 
     opacity: 0
-    Behavior on opacity { NumberAnimation { duration: 200 } }
+    Behavior on opacity { enabled: !PQCSettings.generalDisableAllAnimations; NumberAnimation { duration: 200 } }
     visible: opacity>0 && !PQCConstants.slideshowRunning
     enabled: visible
 
@@ -175,7 +175,7 @@ Item {
         source: "image://svg/:/" + PQCLook.iconShade + "/popinpopout.svg"
         sourceSize: Qt.size(width, height)
         opacity: popinmouse.containsMouse ? 0.8 : 0.1
-        Behavior on opacity { NumberAnimation { duration: 200 } }
+        Behavior on opacity { enabled: !PQCSettings.generalDisableAllAnimations; NumberAnimation { duration: 200 } }
         PQMouseArea {
             id: popinmouse
             anchors.fill: parent
@@ -219,7 +219,7 @@ Item {
             sourceSize: Qt.size(width, height)
 
             opacity: closemouse.containsMouse ? 0.8 : 0.05
-            Behavior on opacity { NumberAnimation { duration: 150 } }
+            Behavior on opacity { enabled: !PQCSettings.generalDisableAllAnimations; NumberAnimation { duration: 150 } }
 
             PQMouseArea {
                 id: closemouse

@@ -378,7 +378,7 @@ PQSetting {
                 visible: height>0
                 clip: true
 
-                Behavior on height { NumberAnimation { duration: 200 } }
+                Behavior on height { enabled: !PQCSettings.generalDisableAllAnimations; NumberAnimation { duration: 200 } }
 
                 // this is the header item with no shortcuts
                 Loader {
@@ -677,7 +677,7 @@ PQSetting {
                                         width: 15
                                         height: 15
                                         opacity: entrymouse.containsMouse ? 0.3 : 0.1
-                                        Behavior on opacity { NumberAnimation { duration: 200 } }
+                                        Behavior on opacity { enabled: !PQCSettings.generalDisableAllAnimations; NumberAnimation { duration: 200 } }
                                         sourceSize: Qt.size(width, height)
                                         source: "image://svg/:/" + PQCLook.iconShade + "/close.svg"
                                         Rectangle {
@@ -747,8 +747,8 @@ PQSetting {
 
         height: 0
         opacity: visible ? 1 : 0
-        Behavior on height { NumberAnimation { duration: 200 } }
-        Behavior on opacity { NumberAnimation { duration: 200 } }
+        Behavior on height { enabled: !PQCSettings.generalDisableAllAnimations; NumberAnimation { duration: 200 } }
+        Behavior on opacity { enabled: !PQCSettings.generalDisableAllAnimations; NumberAnimation { duration: 200 } }
 
         visible: height>0
         onVisibleChanged: {

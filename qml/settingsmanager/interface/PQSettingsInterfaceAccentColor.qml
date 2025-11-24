@@ -231,10 +231,10 @@ PQSetting {
             id: bgcustomuse
             x: 25
             height: bgcustomusecheck.checked ? 50 : 0
-            Behavior on height { NumberAnimation { duration: 200 } }
+            Behavior on height { enabled: !PQCSettings.generalDisableAllAnimations; NumberAnimation { duration: 200 } }
             width: 200
             opacity: bgcustomusecheck.checked ? 1 : 0
-            Behavior on opacity { NumberAnimation { duration: 150 } }
+            Behavior on opacity { enabled: !PQCSettings.generalDisableAllAnimations; NumberAnimation { duration: 150 } }
             clip: true
             color: PQCSettings.interfaceBackgroundCustomOverlayColor==="" ? pqtPalette.base : PQCSettings.interfaceBackgroundCustomOverlayColor
             onColorChanged: set_accent.checkForChanges()

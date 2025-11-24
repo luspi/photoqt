@@ -176,7 +176,6 @@ SET(photoqt_QML qml/PQMainWindow.qml
                 qml/settingsmanager/imageview/PQSettingsImageViewFaceTags.qml
                 qml/settingsmanager/imageview/PQSettingsImageViewFileList.qml
                 qml/settingsmanager/imageview/PQSettingsImageViewLook.qml
-                qml/settingsmanager/imageview/PQSettingsImageViewShareOnline.qml
                 qml/settingsmanager/imageview/PQSettingsImageViewInteraction.qml
 
                 qml/settingsmanager/thumbnails/PQSettingsThumbnailsBar.qml

@@ -92,7 +92,7 @@ PQSetting {
                     property string extensionId: set_maex.allExtensions[index]
 
                     opacity: check.checked ? 1 : (entrymouse.containsMouse ? 0.8 : 0.6)
-                    Behavior on opacity { NumberAnimation { duration: 200 } }
+                    Behavior on opacity { enabled: !PQCSettings.generalDisableAllAnimations; NumberAnimation { duration: 200 } }
 
                     property string extVersion: PQCExtensionsHandler.getExtensionVersion(extensionId)
                     property string extName: PQCExtensionsHandler.getExtensionName(extensionId)
@@ -121,7 +121,7 @@ PQSetting {
                     color: pqtPalette.alternateBase
                     clip: true
 
-                    Behavior on height { NumberAnimation { duration: 200 } }
+                    Behavior on height { enabled: !PQCSettings.generalDisableAllAnimations; NumberAnimation { duration: 200 } }
 
                     Component.onCompleted: {
                         if(PQCConstants.settingsManagerStartWithExtensionOpen === extensionId) {

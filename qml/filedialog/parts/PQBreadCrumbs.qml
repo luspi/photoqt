@@ -358,7 +358,7 @@ Item {
                                     font.pointSize: PQCLook.fontSize
                                     text: deleg.modelData>0 ? crumbs.parts[deleg.modelData] : ""
                                     color: pqtPalette.text
-                                    Behavior on color { ColorAnimation { duration: 200 } }
+                                    Behavior on color { enabled: !PQCSettings.generalDisableAllAnimations; ColorAnimation { duration: 200 } }
                                 }
                                 PQMouseArea {
                                     id: mousearea2

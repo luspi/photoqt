@@ -68,7 +68,7 @@ Loader {
                 height: lockrow.height+6
 
                 opacity: PQCSettings.filetypesPhotoSphereArrowKeys ? 1 : 0.3
-                Behavior on opacity { NumberAnimation { duration: 200 } }
+                Behavior on opacity { enabled: !PQCSettings.generalDisableAllAnimations; NumberAnimation { duration: 200 } }
 
                 Row {
                     id: lockrow

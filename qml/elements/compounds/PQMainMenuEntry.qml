@@ -58,7 +58,7 @@ Item {
         color: PQCLook.baseBorder
         radius: 5
         opacity: entrytop.hovered ? 0.4 : 0
-        Behavior on opacity { NumberAnimation { duration: 200 } }
+        Behavior on opacity { enabled: !PQCSettings.generalDisableAllAnimations; NumberAnimation { duration: 200 } }
     }
 
     Row {
@@ -74,14 +74,14 @@ Item {
             sourceSize: Qt.size(entry.height, entry.height)
             source: entrytop.img.startsWith("data:image/png;base64") ? entrytop.img : (entrytop.img!="" ? ("image://svg/:/" + PQCLook.iconShade + "/" + entrytop.img) : "")
             opacity: entrytop.active ? (entrytop.hovered ? 1 : 0.8) : 0.4
-            Behavior on opacity { NumberAnimation { duration: 200 } }
+            Behavior on opacity { enabled: !PQCSettings.generalDisableAllAnimations; NumberAnimation { duration: 200 } }
         }
 
         PQText {
             id: entry
             text: entrytop.txt
             opacity: entrytop.active ? (entrytop.hovered ? 1 : 0.8) : 0.4
-            Behavior on opacity { NumberAnimation { duration: 200 } }
+            Behavior on opacity { enabled: !PQCSettings.generalDisableAllAnimations; NumberAnimation { duration: 200 } }
         }
 
         Image {
@@ -89,7 +89,7 @@ Item {
             sourceSize: Qt.size(entry.height, entry.height)
             source: (entrytop.img_end!="") ? ("image://svg/:/" + PQCLook.iconShade + "/" + entrytop.img_end) : ""
             opacity: entrytop.active ? (entrytop.hovered ? 1 : 0.8) : 0.4
-            Behavior on opacity { NumberAnimation { duration: 200 } }
+            Behavior on opacity { enabled: !PQCSettings.generalDisableAllAnimations; NumberAnimation { duration: 200 } }
         }
 
     }

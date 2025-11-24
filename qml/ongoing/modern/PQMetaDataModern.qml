@@ -31,7 +31,7 @@ Rectangle {
 
     x: (setVisible ? visiblePos[0] : invisiblePos[0])
     y: (PQCSettings.metadataElementHeightDynamic ? statusinfoOffset : 0) + (setVisible ? visiblePos[1] : invisiblePos[1])
-    Behavior on x { NumberAnimation { duration: dragrightMouse.enabled&&dragrightMouse.clickStart!=-1&&!animateResize ? 0 : 200 } }
+    Behavior on x { enabled: !PQCSettings.generalDisableAllAnimations; NumberAnimation { duration: dragrightMouse.enabled&&dragrightMouse.clickStart!=-1&&!animateResize ? 0 : 200 } }
 
     property bool animateResize: false
     onAnimateResizeChanged: {
@@ -85,7 +85,7 @@ Rectangle {
     // visibility status
     opacity: setVisible&&windowSizeOkay ? 1 : 0
     visible: opacity>0
-    Behavior on opacity { NumberAnimation { duration: 200 } }
+    Behavior on opacity { enabled: !PQCSettings.generalDisableAllAnimations; NumberAnimation { duration: 200 } }
 
     property bool setVisible: false
     property var visiblePos: [0,0]
@@ -754,7 +754,7 @@ Rectangle {
         source: "image://svg/:/" + PQCLook.iconShade + "/popinpopout.svg"
         sourceSize: Qt.size(width, height)
         opacity: popinmouse.containsMouse ? 1 : 0.4
-        Behavior on opacity { NumberAnimation { duration: 200 } }
+        Behavior on opacity { enabled: !PQCSettings.generalDisableAllAnimations; NumberAnimation { duration: 200 } }
         PQMouseArea {
             id: popinmouse
             anchors.fill: parent

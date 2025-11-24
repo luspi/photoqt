@@ -40,7 +40,7 @@ Rectangle {
     property string title: "Existing files"
 
     opacity: 0
-    Behavior on opacity { NumberAnimation { duration: 200 } }
+    Behavior on opacity { enabled: !PQCSettings.generalDisableAllAnimations; NumberAnimation { duration: 200 } }
     visible: opacity>0
     enabled: visible
 
@@ -171,12 +171,12 @@ Rectangle {
                         width: view.width
                         height: 40
                         color: check.checked ? PQCLook.baseBorder : (view.currentIndex===modelData ? pqtPalette.alternateBase : pqtPalette.button)
-                        Behavior on color { ColorAnimation { duration: 200 } }
+                        Behavior on color { enabled: !PQCSettings.generalDisableAllAnimations; ColorAnimation { duration: 200 } }
                         border.color: PQCLook.baseBorder
                         border.width: 1
 
                         opacity: check.checked ? 1 : 0.6
-                        Behavior on opacity{ NumberAnimation { duration: 200 } }
+                        Behavior on opacity{ enabled: !PQCSettings.generalDisableAllAnimations; NumberAnimation { duration: 200 } }
 
                         Row {
 

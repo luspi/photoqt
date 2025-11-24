@@ -45,7 +45,7 @@ Column {
             y: (title_txt.height-height)/2
             height: title_txt.height*0.9
             width: PQCSettings.generalCompactSettings&&settitle.title!=="" ? height : 0
-            Behavior on width { NumberAnimation { duration: 200 } }
+            Behavior on width { enabled: !PQCSettings.generalDisableAllAnimations; NumberAnimation { duration: 200 } }
             clip: true
             PQButtonIcon {
                 width: parent.width
@@ -58,7 +58,7 @@ Column {
         }
         Item {
             width: PQCSettings.generalCompactSettings ? 10 : 0
-            Behavior on width { NumberAnimation { duration: 200 } }
+            Behavior on width { enabled: !PQCSettings.generalDisableAllAnimations; NumberAnimation { duration: 200 } }
             height: 1
         }
 
@@ -78,7 +78,7 @@ Column {
     Item {
         width: parent.width
         height: PQCSettings.generalCompactSettings||!desc_txt.visible ? 0 : desc_txt.height
-        Behavior on height { NumberAnimation { duration: 200 } }
+        Behavior on height { enabled: !PQCSettings.generalDisableAllAnimations; NumberAnimation { duration: 200 } }
         clip: true
         PQText {
             id: desc_txt

@@ -50,7 +50,7 @@ Flickable {
         id: col
 
         width: parent.width - (scroll.visible ? scroll.width : 0)
-        Behavior on width { NumberAnimation { duration: 20 } }
+        Behavior on width { enabled: !PQCSettings.generalDisableAllAnimations; NumberAnimation { duration: 20 } }
 
         PQTabButton {
             id: maintab1
@@ -66,7 +66,7 @@ Flickable {
 
             width: parent.width
             height: tab_top.currentIndex===0 ? subtabbar_interface.height : 0
-            Behavior on height { NumberAnimation { duration: 200 } }
+            Behavior on height { enabled: !PQCSettings.generalDisableAllAnimations; NumberAnimation { duration: 200 } }
             clip: true
             visible: height>1
             enabled: tab_top.currentIndex === 0
@@ -155,7 +155,7 @@ Flickable {
 
             width: parent.width
             height: tab_top.currentIndex===1 ? subtabbar_imageview.height : 0
-            Behavior on height { NumberAnimation { duration: 200 } }
+            Behavior on height { enabled: !PQCSettings.generalDisableAllAnimations; NumberAnimation { duration: 200 } }
             clip: true
             visible: height>1
             enabled: tab_top.currentIndex === 1
@@ -182,8 +182,7 @@ Flickable {
                     ["impr", qsTranslate("settingsmanager", "Image processing")],
                     ["capr", qsTranslate("settingsmanager", "Cache and Preloading")],
                     ["meta", qsTranslate("settingsmanager", "Metadata")],
-                    ["fata", qsTranslate("settingsmanager", "Face tags")],
-                    ["shon", qsTranslate("settingsmanager", "Share online")]
+                    ["fata", qsTranslate("settingsmanager", "Face tags")]
                 ]
 
                 Repeater {
@@ -231,7 +230,7 @@ Flickable {
 
             width: parent.width
             height: tab_top.currentIndex===2 ? subtabbar_thumbnails.height : 0
-            Behavior on height { NumberAnimation { duration: 200 } }
+            Behavior on height { enabled: !PQCSettings.generalDisableAllAnimations; NumberAnimation { duration: 200 } }
             clip: true
             visible: height>1
             enabled: tab_top.currentIndex === 2
@@ -303,7 +302,7 @@ Flickable {
 
             width: parent.width
             height: tab_top.currentIndex===3 ? subtabbar_filetypes.height : 0
-            Behavior on height { NumberAnimation { duration: 200 } }
+            Behavior on height { enabled: !PQCSettings.generalDisableAllAnimations; NumberAnimation { duration: 200 } }
             clip: true
             visible: height>1
             enabled: tab_top.currentIndex === 3
@@ -379,7 +378,7 @@ Flickable {
 
             width: parent.width
             height: tab_top.currentIndex===4 ? subtabbar_mousekeys.height : 0
-            Behavior on height { NumberAnimation { duration: 200 } }
+            Behavior on height { enabled: !PQCSettings.generalDisableAllAnimations; NumberAnimation { duration: 200 } }
             clip: true
             visible: height>1
             enabled: tab_top.currentIndex === 4
@@ -452,7 +451,7 @@ Flickable {
 
             width: parent.width
             height: tab_top.currentIndex===5 ? subtabbar_manage.height : 0
-            Behavior on height { NumberAnimation { duration: 200 } }
+            Behavior on height { enabled: !PQCSettings.generalDisableAllAnimations; NumberAnimation { duration: 200 } }
             clip: true
             visible: height>1
             enabled: tab_top.currentIndex === 5
@@ -523,7 +522,7 @@ Flickable {
 
             width: parent.width
             height: tab_top.currentIndex===6 ? subtabbar_extensions.height : 0
-            Behavior on height { NumberAnimation { duration: 200 } }
+            Behavior on height { enabled: !PQCSettings.generalDisableAllAnimations; NumberAnimation { duration: 200 } }
             clip: true
             visible: height>1
             enabled: tab_top.currentIndex === 6
@@ -593,7 +592,7 @@ Flickable {
 
             width: parent.width
             height: tab_top.currentIndex===7 ? subtabbar_other.height : 0
-            Behavior on height { NumberAnimation { duration: 200 } }
+            Behavior on height { enabled: !PQCSettings.generalDisableAllAnimations; NumberAnimation { duration: 200 } }
             clip: true
             visible: height>1
             enabled: tab_top.currentIndex === 7

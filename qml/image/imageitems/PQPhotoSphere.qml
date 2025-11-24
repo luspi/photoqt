@@ -37,9 +37,9 @@ PQCPhotoSphere {
 
     // these need to have a small duration as otherwise touchpad handling is awkward
     // key events are handled with their own animations below
-    Behavior on fieldOfView { NumberAnimation { id: behavior_fov; duration: thesphere.aniDuration } }
-    Behavior on azimuth { NumberAnimation { id: behavior_az; duration: thesphere.aniDuration } }
-    Behavior on elevation { NumberAnimation { id: behavior_ele; duration: thesphere.aniDuration } }
+    Behavior on fieldOfView { enabled: !PQCSettings.generalDisableAllAnimations; NumberAnimation { id: behavior_fov; duration: thesphere.aniDuration } }
+    Behavior on azimuth { enabled: !PQCSettings.generalDisableAllAnimations; NumberAnimation { id: behavior_az; duration: thesphere.aniDuration } }
+    Behavior on elevation { enabled: !PQCSettings.generalDisableAllAnimations; NumberAnimation { id: behavior_ele; duration: thesphere.aniDuration } }
 
     property int aniDuration: 0
 
@@ -128,7 +128,7 @@ PQCPhotoSphere {
         id: animatedAzimuth
         target: thesphere
         property: "azimuth"
-        duration: 200
+        duration: PQCSettings.generalDisableAllAnimations ? 0 : 200
         onRunningChanged: {
             if(!running) {
                 animatedAzimuth.easing.type = Easing.Linear
@@ -140,7 +140,7 @@ PQCPhotoSphere {
         id: animatedElevation
         target: thesphere
         property: "elevation"
-        duration: 200
+        duration: PQCSettings.generalDisableAllAnimations ? 0 : 200
         onRunningChanged: {
             if(!running) {
                 animatedElevation.easing.type = Easing.Linear
@@ -152,7 +152,7 @@ PQCPhotoSphere {
         id: animatedFieldOfView
         target: thesphere
         property: "fieldOfView"
-        duration: 200
+        duration: PQCSettings.generalDisableAllAnimations ? 0 : 200
     }
 
     Connections {
@@ -450,7 +450,7 @@ PQCPhotoSphere {
         id: panOnCompleted
         interval: PQCSettings.imageviewAnimationDuration*100
         onTriggered: {
-            if(!mousearea.pressed)
+            if(!mousearea.pressed && !PQCSettings.generalDisableAllAnimations)
                 leftrightani.start()
         }
     }

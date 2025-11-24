@@ -394,8 +394,8 @@ PQSetting {
             height: enabled ? thumb_scalecrop.height : 0
             opacity: enabled ? 1 : 0
 
-            Behavior on height { NumberAnimation { duration: 200 } }
-            Behavior on opacity { NumberAnimation { duration: 150 } }
+            Behavior on height { enabled: !PQCSettings.generalDisableAllAnimations; NumberAnimation { duration: 200 } }
+            Behavior on opacity { enabled: !PQCSettings.generalDisableAllAnimations; NumberAnimation { duration: 150 } }
 
             PQCheckBox {
                 id: thumb_scalecrop
@@ -498,8 +498,8 @@ PQSetting {
             height: enabled ? folderthumb_col.height : 0
             opacity: enabled ? 1 : 0
 
-            Behavior on height { NumberAnimation { duration: 200 } }
-            Behavior on opacity { NumberAnimation { duration: 150 } }
+            Behavior on height { enabled: !PQCSettings.generalDisableAllAnimations; NumberAnimation { duration: 200 } }
+            Behavior on opacity { enabled: !PQCSettings.generalDisableAllAnimations; NumberAnimation { duration: 150 } }
 
             Column {
                 id: folderthumb_col
@@ -590,8 +590,8 @@ PQSetting {
             height: enabled ? previewcol.height : 0
             opacity: enabled ? 1 : 0
 
-            Behavior on height { NumberAnimation { duration: 200 } }
-            Behavior on opacity { NumberAnimation { duration: 150 } }
+            Behavior on height { enabled: !PQCSettings.generalDisableAllAnimations; NumberAnimation { duration: 200 } }
+            Behavior on opacity { enabled: !PQCSettings.generalDisableAllAnimations; NumberAnimation { duration: 150 } }
 
             Column {
 

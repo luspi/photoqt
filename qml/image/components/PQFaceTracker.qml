@@ -68,7 +68,7 @@ Loader {
                 property bool hovered: false
 
                 opacity: 0
-                Behavior on opacity { NumberAnimation { duration: 200 } }
+                Behavior on opacity { enabled: !PQCSettings.generalDisableAllAnimations; NumberAnimation { duration: 200 } }
                 visible: opacity>0 && width > 10 && height > 10
 
                 state: "hideentry"

@@ -86,7 +86,7 @@ Rectangle {
     z: PQCConstants.currentZValue
 
 
-    Behavior on opacity { NumberAnimation { duration: 200 } }
+    Behavior on opacity { enabled: !PQCSettings.generalDisableAllAnimations; NumberAnimation { duration: 200 } }
     visible: opacity>0
 
     Text {

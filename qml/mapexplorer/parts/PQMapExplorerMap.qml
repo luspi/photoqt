@@ -226,7 +226,7 @@ Item {
             anchorPoint.y: curposImage.height*(198/201)
 
             opacity: mapmenu.visible ? 1 : 0
-            Behavior on opacity { NumberAnimation { duration: 100 } }
+            Behavior on opacity { enabled: !PQCSettings.generalDisableAllAnimations; NumberAnimation { duration: 100 } }
             visible: opacity>0
 
             sourceItem:
@@ -265,13 +265,13 @@ Item {
             anchorPoint.y: highlightImage.height*(198/201)
 
             opacity: 0
-            Behavior on opacity { NumberAnimation { duration: 100 } }
+            Behavior on opacity { enabled: !PQCSettings.generalDisableAllAnimations; NumberAnimation { duration: 100 } }
             visible: opacity>0
 
             property real latitude
             property real longitude
-            Behavior on latitude { NumberAnimation { duration: 100 } }
-            Behavior on longitude { NumberAnimation { duration: 100 } }
+            Behavior on latitude { enabled: !PQCSettings.generalDisableAllAnimations; NumberAnimation { duration: 100 } }
+            Behavior on longitude { enabled: !PQCSettings.generalDisableAllAnimations; NumberAnimation { duration: 100 } }
             coordinate: QtPositioning.coordinate(latitude, longitude)
 
             z: map.curZ+1
@@ -303,7 +303,7 @@ Item {
             model: ListModel { id: mdl }
 
             opacity: highlightMarker.visible ? 0.5 : 1
-            Behavior on opacity { NumberAnimation { duration: 100 } }
+            Behavior on opacity { enabled: !PQCSettings.generalDisableAllAnimations; NumberAnimation { duration: 100 } }
 
             delegate: MapQuickItem {
 

@@ -187,7 +187,7 @@ PQSetting {
                                 sourceSize: Qt.size(width, height)
 
                                 opacity: closemouse.containsMouse ? 0.8 : 0.2
-                                Behavior on opacity { NumberAnimation { duration: 150 } }
+                                Behavior on opacity { enabled: !PQCSettings.generalDisableAllAnimations; NumberAnimation { duration: 150 } }
 
                                 PQMouseArea {
                                     id: closemouse
@@ -370,9 +370,9 @@ PQSetting {
                 width: imgchange.width
                 enabled: !autohide_always.checked
                 height: enabled ? imgchange.height : 0
-                Behavior on height { NumberAnimation { duration: 200 } }
+                Behavior on height { enabled: !PQCSettings.generalDisableAllAnimations; NumberAnimation { duration: 200 } }
                 opacity: enabled ? 1 : 0
-                Behavior on opacity { NumberAnimation { duration: 150 } }
+                Behavior on opacity { enabled: !PQCSettings.generalDisableAllAnimations; NumberAnimation { duration: 150 } }
 
                 PQCheckBox {
                     id: imgchange

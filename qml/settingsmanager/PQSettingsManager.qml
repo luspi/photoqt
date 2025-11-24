@@ -162,7 +162,6 @@ PQTemplate {
                         else if(currentId === "impr") settings_loader.sourceComponent = imv_impr
                         else if(currentId === "capr") settings_loader.sourceComponent = imv_capr
                         else if(currentId === "meta") settings_loader.sourceComponent = imv_meta
-                        else if(currentId === "shon") settings_loader.sourceComponent = imv_shon
                         else if(currentId === "fata") settings_loader.sourceComponent = imv_fata
 
                     } else if(currentIndex === 2) {
@@ -229,7 +228,6 @@ PQTemplate {
                 Component { id: imv_impr; PQSettingsImageViewImageProcessing { availableHeight: flickable.height } }
                 Component { id: imv_capr; PQSettingsImageViewCache { availableHeight: flickable.height } }
                 Component { id: imv_meta; PQSettingsImageViewMetadata { availableHeight: flickable.height } }
-                Component { id: imv_shon; PQSettingsImageViewShareOnline { availableHeight: flickable.height } }
                 Component { id: imv_fata; PQSettingsImageViewFaceTags { availableHeight: flickable.height } }
 
                 Component { id: thb_imag; PQSettingsThumbnailsImage { availableHeight: flickable.height } }

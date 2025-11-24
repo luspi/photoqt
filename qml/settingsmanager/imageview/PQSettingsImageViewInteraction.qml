@@ -181,8 +181,15 @@ PQSetting {
 
         },
 
+        PQText {
+            visible: PQCSettings.generalDisableAllAnimations
+            font.weight: PQCLook.fontWeightBold
+            text: qsTranslate("settingsmanager", "All animations are currently disabled globally.")
+        },
+
         PQCheckBox {
             id: mirroranim
+            enabled: !PQCSettings.generalDisableAllAnimations
             enforceMaxWidth: set_inte.contentWidth
             text: qsTranslate("settingsmanager", "Animate mirror/flip")
             onCheckedChanged: set_inte.checkForChanges()
@@ -191,7 +198,8 @@ PQSetting {
         PQSettingsResetButton {
             onResetToDefaults: {
 
-                mirroranim.checked = PQCSettings.getDefaultForImageviewMirrorAnimate()
+                if(!PQCSettings.generalDisableAllAnimations)
+                    mirroranim.checked = PQCSettings.getDefaultForImageviewMirrorAnimate()
 
                 set_inte.checkForChanges()
 
@@ -209,9 +217,16 @@ PQSetting {
 
         },
 
+        PQText {
+            visible: PQCSettings.generalDisableAllAnimations
+            font.weight: PQCLook.fontWeightBold
+            text: qsTranslate("settingsmanager", "All animations are currently disabled globally.")
+        },
+
         PQCheckBox {
             id: anispeed_check
             enforceMaxWidth: set_inte.contentWidth
+            enabled: !PQCSettings.generalDisableAllAnimations
             text: qsTranslate("settingsmanager", "animate switching between images")
             onCheckedChanged: set_inte.checkForChanges()
         },
@@ -286,9 +301,11 @@ PQSetting {
         PQSettingsResetButton {
             onResetToDefaults: {
 
-                anispeed_check.checked = (PQCSettings.getDefaultForImageviewAnimationDuration() > 0)
-                anicombo.currentIndex = 0
-                anispeed.setValue(PQCSettings.getDefaultForImageviewAnimationDuration())
+                if(!PQCSettings.generalDisableAllAnimations) {
+                    anispeed_check.checked = (PQCSettings.getDefaultForImageviewAnimationDuration() > 0)
+                    anicombo.currentIndex = 0
+                    anispeed.setValue(PQCSettings.getDefaultForImageviewAnimationDuration())
+                }
 
                 set_inte.checkForChanges()
 
@@ -366,13 +383,16 @@ PQSetting {
 
         settingsLoaded = false
 
-        anispeed_check.loadAndSetDefault(PQCSettings.imageviewAnimationDuration>0)
-        var aniValues = ["opacity", "x", "y", "rotation", "explosion", "implosion", "random"]
-        if(aniValues.indexOf(PQCSettings.imageviewAnimationType) > -1)
-            anicombo.loadAndSetDefault(aniValues.indexOf(PQCSettings.imageviewAnimationType))
-        else
-            anicombo.loadAndSetDefault(0)
-        anispeed.loadAndSetDefault(PQCSettings.imageviewAnimationDuration)
+        if(!PQCSettings.generalDisableAllAnimations) {
+            anispeed_check.loadAndSetDefault(PQCSettings.imageviewAnimationDuration>0)
+            var aniValues = ["opacity", "x", "y", "rotation", "explosion", "implosion", "random"]
+            if(aniValues.indexOf(PQCSettings.imageviewAnimationType) > -1)
+                anicombo.loadAndSetDefault(aniValues.indexOf(PQCSettings.imageviewAnimationType))
+            else
+                anicombo.loadAndSetDefault(0)
+            anispeed.loadAndSetDefault(PQCSettings.imageviewAnimationDuration)
+        } else
+            anispeed_check.loadAndSetDefault(false)
 
         zoomspeed.loadAndSetDefault(PQCSettings.imageviewZoomSpeed)
         zoom_rel.loadAndSetDefault(PQCSettings.imageviewZoomSpeedRelative)
@@ -384,7 +404,10 @@ PQSetting {
         zoom_mousepos.loadAndSetDefault(!PQCSettings.imageviewZoomToCenter)
         zoom_imcent.loadAndSetDefault(PQCSettings.imageviewZoomToCenter)
 
-        mirroranim.loadAndSetDefault(PQCSettings.imageviewMirrorAnimate)
+        if(!PQCSettings.generalDisableAllAnimations)
+            mirroranim.loadAndSetDefault(PQCSettings.imageviewMirrorAnimate)
+        else
+            mirroranim.loadAndSetDefault(false)
 
         minimap.loadAndSetDefault(PQCSettings.imageviewShowMinimap)
         minimapsizelevel.loadAndSetDefault(PQCSettings.imageviewMinimapSizeLevel)
@@ -396,17 +419,21 @@ PQSetting {
 
     function applyChanges() {
 
-        if(!anispeed_check.checked)
-            PQCSettings.imageviewAnimationDuration = 0
-        else {
-            var aniValues = ["opacity", "x", "y", "rotation", "explosion", "implosion", "random"]
-            PQCSettings.imageviewAnimationType = aniValues[anicombo.currentIndex]
-            PQCSettings.imageviewAnimationDuration = anispeed.value
-        }
+        if(!PQCSettings.generalDisableAllAnimations) {
 
-        anicombo.saveDefault()
-        anispeed_check.saveDefault()
-        anispeed.saveDefault()
+            if(!anispeed_check.checked)
+                PQCSettings.imageviewAnimationDuration = 0
+            else {
+                var aniValues = ["opacity", "x", "y", "rotation", "explosion", "implosion", "random"]
+                PQCSettings.imageviewAnimationType = aniValues[anicombo.currentIndex]
+                PQCSettings.imageviewAnimationDuration = anispeed.value
+            }
+
+            anicombo.saveDefault()
+            anispeed_check.saveDefault()
+            anispeed.saveDefault()
+
+        }
 
         PQCSettings.imageviewZoomSpeed = zoomspeed.value
         PQCSettings.imageviewZoomSpeedRelative = zoom_rel.checked
@@ -426,8 +453,10 @@ PQSetting {
         zoom_mousepos.saveDefault()
         zoom_imcent.saveDefault()
 
-        PQCSettings.imageviewMirrorAnimate = mirroranim.checked
-        mirroranim.saveDefault()
+        if(!PQCSettings.generalDisableAllAnimations) {
+            PQCSettings.imageviewMirrorAnimate = mirroranim.checked
+            mirroranim.saveDefault()
+        }
 
         PQCSettings.imageviewShowMinimap = minimap.checked
         PQCSettings.imageviewMinimapSizeLevel = minimapsizelevel.currentIndex

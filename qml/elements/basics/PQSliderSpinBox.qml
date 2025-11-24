@@ -37,9 +37,9 @@ Item {
     height: (enabled||!animateHeight) ? controlrow.height : 0
     opacity: (enabled||(!animateWidth&&!animateHeight)) ? 1 : 0
 
-    Behavior on width { NumberAnimation { duration: control.animateWidth ? 200 : 0 } }
-    Behavior on height { NumberAnimation { duration: control.animateHeight ? 200 : 0 } }
-    Behavior on opacity { NumberAnimation { duration: control.animateWidth||control.animateHeight ? 150 : 0 } }
+    Behavior on width { enabled: !PQCSettings.generalDisableAllAnimations; NumberAnimation { duration: control.animateWidth ? 200 : 0 } }
+    Behavior on height { enabled: !PQCSettings.generalDisableAllAnimations; NumberAnimation { duration: control.animateHeight ? 200 : 0 } }
+    Behavior on opacity { enabled: !PQCSettings.generalDisableAllAnimations; NumberAnimation { duration: control.animateWidth||control.animateHeight ? 150 : 0 } }
 
     visible: width>0&&height>0
 

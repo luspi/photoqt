@@ -141,7 +141,7 @@ Rectangle {
                     mipmap: false
 
                     opacity: 1
-                    Behavior on opacity { NumberAnimation { duration: 200 } }
+                    Behavior on opacity { enabled: !PQCSettings.generalDisableAllAnimations; NumberAnimation { duration: 200 } }
 
                     // if we do not cache this image, then we keep the generic icon here
                     source: filethumb.status==Image.Ready ? "" : "image://icon/"+PQCScriptsFilesPaths.getSuffix(maindeleg.fname)
@@ -176,7 +176,7 @@ Rectangle {
                     height: gridview.currentIndex === maindeleg.modelData ? parent.height/2 : parent.height/3.5
                     y: deleg_container.height-height
 
-                    Behavior on height { NumberAnimation { duration: 100 } }
+                    Behavior on height { enabled: !PQCSettings.generalDisableAllAnimations; NumberAnimation { duration: 100 } }
 
                     Rectangle {
                         anchors.fill: parent

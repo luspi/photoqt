@@ -83,8 +83,8 @@ PQSetting {
             clip: true
             enabled: false
 
-            Behavior on height { NumberAnimation { duration: 200 } }
-            Behavior on opacity { NumberAnimation { duration: 150 } }
+            Behavior on height { enabled: !PQCSettings.generalDisableAllAnimations; NumberAnimation { duration: 200 } }
+            Behavior on opacity { enabled: !PQCSettings.generalDisableAllAnimations; NumberAnimation { duration: 150 } }
 
             property string action: ""
             property int timeout: 5

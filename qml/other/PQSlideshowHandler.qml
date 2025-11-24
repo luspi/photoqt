@@ -52,7 +52,7 @@ Item {
                 id: audiooutput
                 property real reduceVolume: (PQCSettings.slideshowMusicVolumeVideos === 0 ? 0 : (PQCSettings.slideshowMusicVolumeVideos === 1 ? 0.1 : 1))
                 volume: PQCConstants.slideshowVolume*(slideshowhandler_top.videoWithVolume ? reduceVolume : 1)
-                Behavior on volume { NumberAnimation { duration: 200 } }
+                Behavior on volume { enabled: !PQCSettings.generalDisableAllAnimations; NumberAnimation { duration: 200 } }
 
                 // this is needed to ensure we don't play music if the very first file is a video file with sound
                 Component.onCompleted: {

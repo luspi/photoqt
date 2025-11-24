@@ -54,7 +54,7 @@ Loader {
                                mouselast.containsMouse || mousenext.containsMouse || mouseprev.containsMouse || mousefirst.containsMouse ||
                                fileselect.hovered || fileselect.popup.opened
         opacity: hovered ? 1 : 0.4
-        Behavior on opacity { NumberAnimation { duration: 200 } }
+        Behavior on opacity { enabled: !PQCSettings.generalDisableAllAnimations; NumberAnimation { duration: 200 } }
 
         property bool manuallyDragged: false
 
@@ -175,7 +175,7 @@ Loader {
                     height: controlitem.height/2.5 + 10
 
                     opacity: mousefirst.containsMouse ? 1 : 0.2
-                    Behavior on opacity { NumberAnimation { duration: 200 } }
+                    Behavior on opacity { enabled: !PQCSettings.generalDisableAllAnimations; NumberAnimation { duration: 200 } }
 
                     Image {
                         x: 5
@@ -209,7 +209,7 @@ Loader {
                     height: controlitem.height/1.5 + 6
 
                     opacity: mouseprev.containsMouse ? 1 : 0.2
-                    Behavior on opacity { NumberAnimation { duration: 200 } }
+                    Behavior on opacity { enabled: !PQCSettings.generalDisableAllAnimations; NumberAnimation { duration: 200 } }
 
                     Image {
                         y: 3
@@ -242,7 +242,7 @@ Loader {
                     height: controlitem.height/1.5 + 6
 
                     opacity: mousenext.containsMouse ? 1 : 0.2
-                    Behavior on opacity { NumberAnimation { duration: 200 } }
+                    Behavior on opacity { enabled: !PQCSettings.generalDisableAllAnimations; NumberAnimation { duration: 200 } }
 
                     Image {
                         y: 3
@@ -275,7 +275,7 @@ Loader {
                     height: controlitem.height/2.5 + 10
 
                     opacity: mouselast.containsMouse ? 1 : 0.2
-                    Behavior on opacity { NumberAnimation { duration: 200 } }
+                    Behavior on opacity { enabled: !PQCSettings.generalDisableAllAnimations; NumberAnimation { duration: 200 } }
 
                     Image {
                         x: 5
@@ -355,7 +355,7 @@ Loader {
                 height: width
 
                 opacity: viewermodemouse.containsMouse ? 1 : 0.5
-                Behavior on opacity { NumberAnimation { duration: 200 } }
+                Behavior on opacity { enabled: !PQCSettings.generalDisableAllAnimations; NumberAnimation { duration: 200 } }
 
                 visible: controlitem.isComicBook
 
@@ -393,7 +393,7 @@ Loader {
                 height: lockrow.height+6
 
                 opacity: PQCSettings.filetypesArchiveLeftRight ? 1 : 0.3
-                Behavior on opacity { NumberAnimation { duration: 200 } }
+                Behavior on opacity { enabled: !PQCSettings.generalDisableAllAnimations; NumberAnimation { duration: 200 } }
 
                 visible: controlitem.isComicBook
 

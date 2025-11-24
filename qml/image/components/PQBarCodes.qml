@@ -121,7 +121,7 @@ Item {
                         spacing: 1
 
                         scale: 1/bartop.loaderImageScale
-                        Behavior on scale { NumberAnimation { duration: 200 } }
+                        Behavior on scale { enabled: !PQCSettings.generalDisableAllAnimations; NumberAnimation { duration: 200 } }
 
                         Rectangle {
                             id: txtcont
@@ -133,7 +133,7 @@ Item {
                             border.color: PQCLook.baseBorder
                             radius: 5
                             opacity: bardeleg.hovered||copycont.hovered||linkcont.hovered||(bartop.barcodes.length<4) ? 1 : 0.4
-                            Behavior on opacity { NumberAnimation { duration: 200 } }
+                            Behavior on opacity { enabled: !PQCSettings.generalDisableAllAnimations; NumberAnimation { duration: 200 } }
                             Label {
                                 id: valtxt
                                 x: 5
@@ -164,7 +164,7 @@ Item {
                                 }
                                 property bool hovered: false
                                 opacity: hovered ? 1 : 0.4
-                                Behavior on opacity { NumberAnimation { duration: 200 } }
+                                Behavior on opacity { enabled: !PQCSettings.generalDisableAllAnimations; NumberAnimation { duration: 200 } }
                                 Image {
                                     anchors.fill: parent
                                     anchors.margins: 5
@@ -187,7 +187,7 @@ Item {
                                 }
                                 property bool hovered: false
                                 opacity: hovered ? 1 : 0.4
-                                Behavior on opacity { NumberAnimation { duration: 200 } }
+                                Behavior on opacity { enabled: !PQCSettings.generalDisableAllAnimations; NumberAnimation { duration: 200 } }
                                 visible: PQCScriptsFilesPaths.isUrl(bardeleg.val)
                                 enabled: visible
                                 Image {

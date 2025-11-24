@@ -411,8 +411,8 @@ PQTemplate {
 
                         height: music_check.checked ? music_volumevideos.height+filescont.height+filesbut.height+music_shuffle.height+3*10 : 0
                         opacity: music_check.checked ? 1 : 0
-                        Behavior on height { NumberAnimation { duration: 200 } }
-                        Behavior on opacity { NumberAnimation { duration: 150 } }
+                        Behavior on height { enabled: !PQCSettings.generalDisableAllAnimations; NumberAnimation { duration: 200 } }
+                        Behavior on opacity { enabled: !PQCSettings.generalDisableAllAnimations; NumberAnimation { duration: 150 } }
                         clip: true
 
                         Row {
@@ -462,7 +462,7 @@ PQTemplate {
                                 y: (parent.height-height)/2
                                 width: parent.width-20
                                 opacity: slideshowsettings_top.musicfiles.length===0 ? 1 : 0
-                                Behavior on opacity { NumberAnimation { duration: 200 } }
+                                Behavior on opacity { enabled: !PQCSettings.generalDisableAllAnimations; NumberAnimation { duration: 200 } }
                                 font.weight: PQCLook.fontWeightBold
                                 horizontalAlignment: Text.AlignHCenter
                                 wrapMode: Text.WrapAtWordBoundaryOrAnywhere
@@ -531,7 +531,7 @@ PQTemplate {
                                             x: parent.width-width
                                             visible: width>0
                                             width: slideshowsettings_top.width-1.5*slideshowsettings_top.leftcolwidth > 300 ? 120 : 0
-                                            Behavior on width { NumberAnimation { duration: 200 } }
+                                            Behavior on width { enabled: !PQCSettings.generalDisableAllAnimations; NumberAnimation { duration: 200 } }
                                             height: 40
                                             PQButtonIcon {
                                                 id: delegbutup

@@ -91,7 +91,7 @@ PQSetting {
                     property string extensionId: set_exsh.allExtensions[index]
 
                     opacity: extEnabled ? 1 : 0.6
-                    Behavior on opacity { NumberAnimation { duration: 200 } }
+                    Behavior on opacity { enabled: !PQCSettings.generalDisableAllAnimations; NumberAnimation { duration: 200 } }
 
                     property string extVersion: PQCExtensionsHandler.getExtensionVersion(extensionId)
                     property string extName: PQCExtensionsHandler.getExtensionName(extensionId)

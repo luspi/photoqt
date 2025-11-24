@@ -31,7 +31,7 @@ Rectangle {
 
     x: setVisible ? visiblePos[0] : invisiblePos[0]
     y: (PQCSettings.mainmenuElementHeightDynamic ? statusinfoOffset : 0) + (setVisible ? visiblePos[1] : invisiblePos[1])
-    Behavior on x { NumberAnimation { duration: dragrightMouse.enabled&&dragrightMouse.clickStart!=-1&&!animateResize ? 0 : 200 } }
+    Behavior on x { enabled: !PQCSettings.generalDisableAllAnimations; NumberAnimation { duration: dragrightMouse.enabled&&dragrightMouse.clickStart!=-1&&!animateResize ? 0 : 200 } }
 
     property bool animateResize: false
     onAnimateResizeChanged: {
@@ -72,7 +72,7 @@ Rectangle {
     // visibility status
     opacity: setVisible&&windowSizeOkay ? 1 : 0
     visible: opacity>0
-    Behavior on opacity { NumberAnimation { duration: 200 } }
+    Behavior on opacity { enabled: !PQCSettings.generalDisableAllAnimations; NumberAnimation { duration: 200 } }
 
     property int parentWidth
     property int parentHeight
@@ -466,7 +466,7 @@ Rectangle {
                         menuColWidth: mainmenu_top.colwidth
                         opacity: PQCSettings.imageviewPreserveZoom ? 1 : 0.1
                         tooltip: qsTranslate("MainMenu", "Enable to preserve zoom levels across images")
-                        Behavior on opacity { NumberAnimation { duration: 200 } }
+                        Behavior on opacity { enabled: !PQCSettings.generalDisableAllAnimations; NumberAnimation { duration: 200 } }
                         onClicked: PQCSettings.imageviewPreserveZoom = !PQCSettings.imageviewPreserveZoom
                     }
 
@@ -528,7 +528,7 @@ Rectangle {
                         menuColWidth: mainmenu_top.colwidth
                         opacity: PQCSettings.imageviewPreserveRotation ? 1 : 0.1
                         tooltip: qsTranslate("MainMenu", "Enable to preserve rotation angle across images")
-                        Behavior on opacity { NumberAnimation { duration: 200 } }
+                        Behavior on opacity { enabled: !PQCSettings.generalDisableAllAnimations; NumberAnimation { duration: 200 } }
                         onClicked: PQCSettings.imageviewPreserveRotation = !PQCSettings.imageviewPreserveRotation
                     }
 
@@ -590,7 +590,7 @@ Rectangle {
                         menuColWidth: mainmenu_top.colwidth
                         opacity: PQCSettings.imageviewPreserveMirror ? 1 : 0.1
                         tooltip: qsTranslate("MainMenu", "Enable to preserve mirror across images")
-                        Behavior on opacity { NumberAnimation { duration: 200 } }
+                        Behavior on opacity { enabled: !PQCSettings.generalDisableAllAnimations; NumberAnimation { duration: 200 } }
                         onClicked: PQCSettings.imageviewPreserveMirror = !PQCSettings.imageviewPreserveMirror
                     }
 
@@ -1093,7 +1093,7 @@ Rectangle {
         source: "image://svg/:/" + PQCLook.iconShade + "/popinpopout.svg"
         sourceSize: Qt.size(width, height)
         opacity: popinmouse.containsMouse ? 1 : 0.4
-        Behavior on opacity { NumberAnimation { duration: 200 } }
+        Behavior on opacity { enabled: !PQCSettings.generalDisableAllAnimations; NumberAnimation { duration: 200 } }
         PQMouseArea {
             id: popinmouse
             anchors.fill: parent

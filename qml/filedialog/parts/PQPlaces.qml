@@ -220,7 +220,7 @@ Item {
             width: parent.width
             height: (hidden==="false"||PQCConstants.filedialogPlacesShowHidden) ? 35 : 0
             opacity: (hidden==="false") ? 1 : 0.5
-            Behavior on opacity { NumberAnimation { duration: 200 } }
+            Behavior on opacity { enabled: !PQCSettings.generalDisableAllAnimations; NumberAnimation { duration: 200 } }
 
             property int part: mouseArea.drag.active ? 1 : parent.parent.part
 

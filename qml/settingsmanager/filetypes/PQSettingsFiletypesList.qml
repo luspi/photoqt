@@ -212,7 +212,7 @@ PQSetting {
 
                     property bool filterPass: true
                     height: filterPass ? 50 : 0
-                    Behavior on height { NumberAnimation { duration: 50 } }
+                    Behavior on height { enabled: !PQCSettings.generalDisableAllAnimations; NumberAnimation { duration: 50 } }
 
                     color: entry_rect.modelData%2==0 ? pqtPalette.alternateBase : pqtPalette.base
                     visible: height > 0
@@ -245,7 +245,7 @@ PQSetting {
                         verticalAlignment: Text.AlignVCenter
                         text: "<b>" + listview.ft[entry_rect.modelData][2] + "</b> &nbsp;&nbsp; *." + listview.ft[entry_rect.modelData][0].split(",").join(", *.")
                         opacity: checkenable.checked ? 1 : 0.3
-                        Behavior on opacity { NumberAnimation { duration: 200 } }
+                        Behavior on opacity { enabled: !PQCSettings.generalDisableAllAnimations; NumberAnimation { duration: 200 } }
                         textFormat: Text.StyledText
                     }
 
@@ -261,7 +261,7 @@ PQSetting {
                         verticalAlignment: Text.AlignVCenter
                         text: listview.ft[entry_rect.modelData].slice(4).join(", ")
                         opacity: checkenable.checked ? 1 : 0.3
-                        Behavior on opacity { NumberAnimation { duration: 200 } }
+                        Behavior on opacity { enabled: !PQCSettings.generalDisableAllAnimations; NumberAnimation { duration: 200 } }
                     }
 
                     PQMouseArea {

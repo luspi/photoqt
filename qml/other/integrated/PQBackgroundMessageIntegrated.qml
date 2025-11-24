@@ -124,7 +124,7 @@ Item {
                 font.pointSize: Math.min(40, Math.max(20, (PQCConstants.availableWidth+PQCConstants.availableHeight)/80))
                 font.weight: PQCLook.fontWeightBold
                 opacity: PQCConstants.availableWidth>750&&PQCConstants.availableHeight>500 ? 0.8 : 0
-                Behavior on opacity { NumberAnimation { duration: 200 } }
+                Behavior on opacity { enabled: !PQCSettings.generalDisableAllAnimations; NumberAnimation { duration: 200 } }
                 visible: opacity>0
                 wrapMode: Text.WordWrap
                 horizontalAlignment: Text.AlignHCenter

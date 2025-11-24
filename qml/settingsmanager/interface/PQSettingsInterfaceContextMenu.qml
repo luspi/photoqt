@@ -204,7 +204,7 @@ PQSetting {
                                 sourceSize: Qt.size(width, height)
                                 property bool hovered: false
                                 opacity: hovered ? 1 : 0.3
-                                Behavior on opacity { NumberAnimation { duration: 200 } }
+                                Behavior on opacity { enabled: !PQCSettings.generalDisableAllAnimations; NumberAnimation { duration: 200 } }
                                 PQMouseArea {
                                     anchors.fill: parent
                                     hoverEnabled: true

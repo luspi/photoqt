@@ -30,7 +30,7 @@ Image {
     visible: !deleg.isFolder && PQCSettings.filedialogThumbnails && !view_top.currentFolderExcluded && !deleg.onNetwork
 
     opacity: view_top.currentFileCut ? 0.3 : 1
-    Behavior on opacity { NumberAnimation { duration: 200 } }
+    Behavior on opacity { enabled: !PQCSettings.generalDisableAllAnimations; NumberAnimation { duration: 200 } }
 
     smooth: true
     mipmap: false

@@ -77,7 +77,7 @@ PQTemplate {
             implicitHeight: 8
             color: pqtPalette.text
             opacity: SplitHandle.hovered ? 0.5 : 0.2
-            Behavior on opacity { NumberAnimation { duration: 200 } }
+            Behavior on opacity { enabled: !PQCSettings.generalDisableAllAnimations; NumberAnimation { duration: 200 } }
             onOpacityChanged:
                 filedialog_top.splitDividerHovered = SplitHandle.hovered
 

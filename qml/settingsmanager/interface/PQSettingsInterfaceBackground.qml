@@ -97,8 +97,8 @@ PQSetting {
                     height: radio_nobg.checked ? nobgwarning.height+20 : 0
                     width: nobgwarning.width+radio_nobg.leftPadding
                     opacity: radio_nobg.checked ? 1 : 0
-                    Behavior on height { NumberAnimation { duration: 200 } }
-                    Behavior on opacity { NumberAnimation { duration: 150 } }
+                    Behavior on height { enabled: !PQCSettings.generalDisableAllAnimations; NumberAnimation { duration: 200 } }
+                    Behavior on opacity { enabled: !PQCSettings.generalDisableAllAnimations; NumberAnimation { duration: 150 } }
                     clip: true
                     PQText {
                         id: nobgwarning
@@ -132,9 +132,9 @@ PQSetting {
 
                 clip: true
                 height: enabled ? custombg_optcol.height : 0
-                Behavior on height { NumberAnimation { duration: 200 } }
+                Behavior on height { enabled: !PQCSettings.generalDisableAllAnimations; NumberAnimation { duration: 200 } }
                 opacity: enabled ? 1 : 0
-                Behavior on opacity { NumberAnimation { duration: 150 } }
+                Behavior on opacity { enabled: !PQCSettings.generalDisableAllAnimations; NumberAnimation { duration: 150 } }
 
                 Rectangle {
 
@@ -147,7 +147,7 @@ PQSetting {
                     border.width: 1
 
                     opacity: radio_custom.checked ? 1 : 0.3
-                    Behavior on opacity { NumberAnimation { duration: 200 } }
+                    Behavior on opacity { enabled: !PQCSettings.generalDisableAllAnimations; NumberAnimation { duration: 200 } }
 
                     PQText {
                         anchors.centerIn: parent
@@ -302,10 +302,10 @@ PQSetting {
                 id: bgcustomuse
                 x: 25
                 height: bgcustomusecheck.checked ? 50 : 0
-                Behavior on height { NumberAnimation { duration: 200 } }
+                Behavior on height { enabled: !PQCSettings.generalDisableAllAnimations; NumberAnimation { duration: 200 } }
                 width: 200
                 opacity: bgcustomusecheck.checked ? 1 : 0
-                Behavior on opacity { NumberAnimation { duration: 150 } }
+                Behavior on opacity { enabled: !PQCSettings.generalDisableAllAnimations; NumberAnimation { duration: 150 } }
                 clip: true
                 property string setColor: ""
                 color: setColor==="" ? pqtPalette.base : setColor

@@ -34,10 +34,10 @@ Item {
 
     SystemPalette { id: pqtPalette }
 
-    Behavior on y { NumberAnimation { duration: (PQCSettings.interfaceStatusInfoAutoHide || PQCSettings.interfaceStatusInfoAutoHideTopEdge) ? 200 : 0 } }
+    Behavior on y { enabled: !PQCSettings.generalDisableAllAnimations; NumberAnimation { duration: (PQCSettings.interfaceStatusInfoAutoHide || PQCSettings.interfaceStatusInfoAutoHideTopEdge) ? 200 : 0 } }
 
     opacity: (!(PQCConstants.slideshowRunning && PQCSettings.slideshowHideLabels) && !PQCConstants.faceTaggingMode && PQCSettings.interfaceStatusInfoShow && !hideAtStartup) ? 1 : 0
-    Behavior on opacity { NumberAnimation { duration: 200 } }
+    Behavior on opacity { enabled: !PQCSettings.generalDisableAllAnimations; NumberAnimation { duration: 200 } }
     visible: opacity>0
 
     onVisibleChanged:
@@ -233,7 +233,7 @@ Item {
             height: filterrow.height+20
 
             opacity: filterset ? 1 : 0
-            Behavior on opacity { NumberAnimation { duration: 200 } }
+            Behavior on opacity { enabled: !PQCSettings.generalDisableAllAnimations; NumberAnimation { duration: 200 } }
             visible: opacity>0
 
             radius: 5
@@ -356,7 +356,7 @@ Item {
             radius: 5
 
             opacity: (!PQCConstants.slideshowRunning && ((currentIsPDF && PQCSettings.filetypesDocumentViewerModeExitButton)||(currentIsARC && PQCSettings.filetypesArchiveViewerModeExitButton))) ? 1 : 0
-            Behavior on opacity { NumberAnimation { duration: 200 } }
+            Behavior on opacity { enabled: !PQCSettings.generalDisableAllAnimations; NumberAnimation { duration: 200 } }
             visible: opacity>0
 
             property bool currentIsPDF: false
@@ -417,7 +417,7 @@ Item {
         width: 32
         height: 32
         opacity: PQCScriptsChromeCast.connected ? 1 : 0
-        Behavior on opacity { NumberAnimation { duration: 200 } }
+        Behavior on opacity { enabled: !PQCSettings.generalDisableAllAnimations; NumberAnimation { duration: 200 } }
         visible: opacity>0
         sourceSize: Qt.size(width, height)
         anchors.left: maincol.right
@@ -516,7 +516,7 @@ Item {
         PQText {
             id: csptxt
             font.pointSize: PQCSettings.interfaceStatusInfoFontSize
-            Behavior on color { ColorAnimation { duration: 200 } }
+            Behavior on color { enabled: !PQCSettings.generalDisableAllAnimations; ColorAnimation { duration: 200 } }
             Component.onCompleted: {
                 var val = PQCConstants.colorProfileCache[PQCFileFolderModel.currentFileNoDelay]
                 if(val !== undefined) {

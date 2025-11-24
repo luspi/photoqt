@@ -98,9 +98,16 @@ PQSetting {
 
         PQCheckBox {
             id: ps_pan
+            enabled: !PQCSettings.generalDisableAllAnimations
             enforceMaxWidth: set_phsp.contentWidth
             text: qsTranslate("settingsmanager", "perform short panning animation after loading photo spheres")
             onCheckedChanged: set_phsp.checkForChanges()
+        },
+
+        PQText {
+            visible: PQCSettings.generalDisableAllAnimations
+            font.weight: PQCLook.fontWeightBold
+            text: qsTranslate("settingsmanager", "All animations are currently disabled globally.")
         },
 
         PQSettingsResetButton {
@@ -113,7 +120,8 @@ PQSetting {
                                                      2))
                 ps_controls.checked = PQCSettings.getDefaultForFiletypesPhotoSphereControls()
                 ps_arrows.checked = PQCSettings.getDefaultForFiletypesPhotoSphereArrowKeys()
-                ps_pan.checked = PQCSettings.getDefaultForFiletypesPhotoSpherePanOnLoad()
+                if(!PQCSettings.generalDisableAllAnimations)
+                    ps_pan.checked = PQCSettings.getDefaultForFiletypesPhotoSpherePanOnLoad()
                 ps_escape.checked = PQCSettings.getDefaultForImageviewEscapeExitSphere()
 
                 set_phsp.checkForChanges()
@@ -146,7 +154,10 @@ PQSetting {
         ps_entering.loadAndSetDefault(PQCSettings.filetypesPhotoSphereAutoLoad ? 0 : (PQCSettings.filetypesPhotoSphereBigButton ? 1 : 2))
         ps_controls.loadAndSetDefault(PQCSettings.filetypesPhotoSphereControls)
         ps_arrows.loadAndSetDefault(PQCSettings.filetypesPhotoSphereArrowKeys)
-        ps_pan.loadAndSetDefault(PQCSettings.filetypesPhotoSpherePanOnLoad)
+        if(!PQCSettings.generalDisableAllAnimations)
+            ps_pan.loadAndSetDefault(PQCSettings.filetypesPhotoSpherePanOnLoad)
+        else
+            ps_pan.loadAndSetDefault(false)
         ps_escape.loadAndSetDefault(PQCSettings.imageviewEscapeExitSphere)
 
         PQCConstants.settingsManagerSettingChanged = false
@@ -160,7 +171,8 @@ PQSetting {
         PQCSettings.filetypesPhotoSphereBigButton = ps_entering.currentIndex===1
         PQCSettings.filetypesPhotoSphereControls = ps_controls.checked
         PQCSettings.filetypesPhotoSphereArrowKeys = ps_arrows.checked
-        PQCSettings.filetypesPhotoSpherePanOnLoad = ps_pan.checked
+        if(!PQCSettings.generalDisableAllAnimations)
+            PQCSettings.filetypesPhotoSpherePanOnLoad = ps_pan.checked
         PQCSettings.imageviewEscapeExitSphere = ps_escape.checked
 
         ps_entering.saveDefault()

@@ -377,7 +377,7 @@ PQSetting {
                     y: (parent.height-height)/2
                     width: parent.width-20
                     opacity: musicont.musicfiles.length===0 ? 1 : 0
-                    Behavior on opacity { NumberAnimation { duration: 200 } }
+                    Behavior on opacity { enabled: !PQCSettings.generalDisableAllAnimations; NumberAnimation { duration: 200 } }
                     font.weight: PQCLook.fontWeightBold
                     horizontalAlignment: Text.AlignHCenter
                     wrapMode: Text.WrapAtWordBoundaryOrAnywhere
@@ -436,7 +436,7 @@ PQSetting {
                                 x: parent.width-width
                                 visible: width>0
                                 width: set_slsh.contentWidth > 300 ? 120 : 0
-                                Behavior on width { NumberAnimation { duration: 200 } }
+                                Behavior on width { enabled: !PQCSettings.generalDisableAllAnimations; NumberAnimation { duration: 200 } }
                                 height: 40
                                 PQButtonIcon {
                                     width: 40

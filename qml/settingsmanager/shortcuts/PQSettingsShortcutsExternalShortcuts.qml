@@ -413,7 +413,7 @@ PQSetting {
                                     width: 15
                                     height: 15
                                     opacity: entrymouse.containsMouse ? 0.3 : 0.1
-                                    Behavior on opacity { NumberAnimation { duration: 200 } }
+                                    Behavior on opacity { enabled: !PQCSettings.generalDisableAllAnimations; NumberAnimation { duration: 200 } }
                                     sourceSize: Qt.size(width, height)
                                     source: "image://svg/:/" + PQCLook.iconShade + "/close.svg"
                                     Rectangle {
@@ -474,7 +474,7 @@ PQSetting {
                     width: 25
                     height: 25
                     opacity: delextmouse.containsMouse ? 0.3 : 0.1
-                    Behavior on opacity { NumberAnimation { duration: 200 } }
+                    Behavior on opacity { enabled: !PQCSettings.generalDisableAllAnimations; NumberAnimation { duration: 200 } }
                     sourceSize: Qt.size(width, height)
                     source: "image://svg/:/" + PQCLook.iconShade + "/close.svg"
                     Rectangle {

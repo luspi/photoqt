@@ -69,7 +69,7 @@ PQSetting {
                 enabled: wmmode.checked
                 height: keeptop.height+rememgeo.height+wmdeco_show.height+2*15
                 opacity: enabled ? 1 : 0.8
-                Behavior on opacity { NumberAnimation { duration: 200 } }
+                Behavior on opacity { enabled: !PQCSettings.generalDisableAllAnimations; NumberAnimation { duration: 200 } }
 
                 PQCheckBox {
                     id: keeptop

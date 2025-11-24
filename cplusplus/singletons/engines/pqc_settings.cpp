@@ -206,6 +206,7 @@ PQCSettings::PQCSettings() {
     // table: general
     connect(this, &PQCSettings::generalAutoSaveSettingsChanged, this, [=]() { saveChangedValue("generalAutoSaveSettings", m_generalAutoSaveSettings); });
     connect(this, &PQCSettings::generalCompactSettingsChanged, this, [=]() { saveChangedValue("generalCompactSettings", m_generalCompactSettings); });
+    connect(this, &PQCSettings::generalDisableAllAnimationsChanged, this, [=]() { saveChangedValue("generalDisableAllAnimations", m_generalDisableAllAnimations); });
     connect(this, &PQCSettings::generalExtensionsEnabledChanged, this, [=]() { saveChangedValue("generalExtensionsEnabled", m_generalExtensionsEnabled); });
     connect(this, &PQCSettings::generalExtensionsEnforeVerificationChanged, this, [=]() { saveChangedValue("generalExtensionsEnforeVerification", m_generalExtensionsEnforeVerification); });
     connect(this, &PQCSettings::generalExtensionsFloatingSetupChanged, this, [=]() { saveChangedValue("generalExtensionsFloatingSetup", m_generalExtensionsFloatingSetup); });
@@ -1888,6 +1889,28 @@ void PQCSettings::setDefaultForGeneralCompactSettings() {
     if(false != m_generalCompactSettings) {
         m_generalCompactSettings = false;
         Q_EMIT generalCompactSettingsChanged();
+    }
+}
+
+bool PQCSettings::getGeneralDisableAllAnimations() {
+    return m_generalDisableAllAnimations;
+}
+
+void PQCSettings::setGeneralDisableAllAnimations(bool val) {
+    if(val != m_generalDisableAllAnimations) {
+        m_generalDisableAllAnimations = val;
+        Q_EMIT generalDisableAllAnimationsChanged();
+    }
+}
+
+const bool PQCSettings::getDefaultForGeneralDisableAllAnimations() {
+        return false;
+}
+
+void PQCSettings::setDefaultForGeneralDisableAllAnimations() {
+    if(false != m_generalDisableAllAnimations) {
+        m_generalDisableAllAnimations = false;
+        Q_EMIT generalDisableAllAnimationsChanged();
     }
 }
 
@@ -6815,6 +6838,8 @@ void PQCSettings::readDB() {
                     m_generalAutoSaveSettings = value.toInt();
                 } else if(name == "CompactSettings") {
                     m_generalCompactSettings = value.toInt();
+                } else if(name == "DisableAllAnimations") {
+                    m_generalDisableAllAnimations = value.toInt();
                 } else if(name == "ExtensionsEnabled") {
                     QString val = value.toString();
                     if(val.contains(":://::"))
@@ -7649,6 +7674,7 @@ void PQCSettings::setupFresh() {
     // table: general
     m_generalAutoSaveSettings = false;
     m_generalCompactSettings = false;
+    m_generalDisableAllAnimations = false;
     m_generalExtensionsEnabled = QStringList() << "CropImage" << "ExportImage" << "FloatingNavigation" << "Histogram" << "ImgurCom" << "MapCurrent" << "QuickActions" << "ScaleImage" << "Wallpaper";
     m_generalExtensionsEnforeVerification = true;
     m_generalExtensionsFloatingSetup = QStringList();
@@ -7975,6 +8001,7 @@ void PQCSettings::resetToDefault() {
     // table: general
     setDefaultForGeneralAutoSaveSettings();
     setDefaultForGeneralCompactSettings();
+    setDefaultForGeneralDisableAllAnimations();
     setDefaultForGeneralExtensionsEnabled();
     setDefaultForGeneralExtensionsEnforeVerification();
     setDefaultForGeneralExtensionsFloatingSetup();
@@ -8484,6 +8511,10 @@ void PQCSettings::updateFromCommandLine() {
     if(key == "generalCompactSettings") {
         m_generalCompactSettings = (val.toInt()==1);
         Q_EMIT generalCompactSettingsChanged();
+    }
+    if(key == "generalDisableAllAnimations") {
+        m_generalDisableAllAnimations = (val.toInt()==1);
+        Q_EMIT generalDisableAllAnimationsChanged();
     }
     if(key == "generalExtensionsEnabled") {
         m_generalExtensionsEnabled = val.split(":://::");

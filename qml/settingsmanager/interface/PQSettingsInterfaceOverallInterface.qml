@@ -331,6 +331,22 @@ PQSetting {
                 set_lang.checkForChanges()
 
             }
+        },
+
+        /***********************************/
+
+        PQSettingSubtitle {
+
+            title: qsTranslate("settingsmanager", "Disable all animations")
+
+            helptext: qsTranslate("settingsmanager", "PhotoQt animates all parts of its interface in small ways to support the user friendliness of the interface. If your system has only very limited resources it can be helpful to disable all animations in PhotoQt. Note that this setting trumps any area-sepcific animation settings.")
+
+        },
+
+        PQCheckBox {
+            id: animcheck
+            text: qsTranslate("settingsmanager", "Disable ALL animations")
+            onCheckedChanged: set_lang.checkForChanges()
         }
 
     ]
@@ -349,7 +365,8 @@ PQSetting {
         PQCConstants.settingsManagerSettingChanged = (origIndex !== langcombo.currentIndex ||
                                                       currentInterfaceVariant!==PQCSettings.generalInterfaceVariant ||
                                                       fd_native.hasChanged() || fd_custom.hasChanged() ||
-                                                      sidebarcheck.hasChanged() || sidebarleft.hasChanged() || sidebarright.hasChanged())
+                                                      sidebarcheck.hasChanged() || sidebarleft.hasChanged() || sidebarright.hasChanged() ||
+                                                      animcheck.hasChanged())
 
     }
 
@@ -387,6 +404,8 @@ PQSetting {
         sidebarright.loadAndSetDefault(PQCSettings.metadataSideBarLocation==="right")
         sidebarleft.loadAndSetDefault(PQCSettings.metadataSideBarLocation==="left")
 
+        animcheck.loadAndSetDefault(PQCSettings.generalDisableAllAnimations)
+
         PQCConstants.settingsManagerSettingChanged = false
         settingsLoaded = true
 
@@ -414,6 +433,9 @@ PQSetting {
         sidebarcheck.saveDefault()
         sidebarleft.saveDefault()
         sidebarright.saveDefault()
+
+        PQCSettings.generalDisableAllAnimations = animcheck.checked
+        animcheck.saveDefault()
 
         PQCConstants.settingsManagerSettingChanged = false
 

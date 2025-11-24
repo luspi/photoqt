@@ -51,7 +51,7 @@ Loader {
 
         opacity: 0
         visible: opacity>0
-        Behavior on opacity { NumberAnimation { duration: 200 } }
+        Behavior on opacity { enabled: !PQCSettings.generalDisableAllAnimations; NumberAnimation { duration: 200 } }
 
         property list<var> faceTags: []
         property int threshold: 5
@@ -85,7 +85,7 @@ Loader {
                     border.width: 5
                     border.color: PQCLook.baseBorder
                     opacity: facedeleg.hovered ? 0.8 : 0.4
-                    Behavior on opacity { NumberAnimation { duration: 200 } }
+                    Behavior on opacity { enabled: !PQCSettings.generalDisableAllAnimations; NumberAnimation { duration: 200 } }
                 }
 
                 Label {
@@ -96,7 +96,7 @@ Loader {
                     renderType: Text.CurveRendering
                     renderTypeQuality: Text.VeryHighRenderTypeQuality
                     opacity: facedeleg.hovered ? 1 : 0
-                    Behavior on opacity { NumberAnimation { duration: 200 } }
+                    Behavior on opacity { enabled: !PQCSettings.generalDisableAllAnimations; NumberAnimation { duration: 200 } }
                 }
 
                 // This is the background of the text (semi-transparent black rectangle)
@@ -210,7 +210,7 @@ Loader {
             height: whoisthis_col.height
             opacity: 0
             visible: opacity>0
-            Behavior on opacity { NumberAnimation { duration: 200 } }
+            Behavior on opacity { enabled: !PQCSettings.generalDisableAllAnimations; NumberAnimation { duration: 200 } }
 
             scale: facetagger_top.adjustedScale ? 1/ldr_top.parent.scale : (1/PQCConstants.currentImageDefaultScale)
 

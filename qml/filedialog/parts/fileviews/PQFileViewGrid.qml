@@ -178,12 +178,12 @@ GridView {
                 id: filename_label
                 width: deleg.width
                 height: deleg.height/4 + (deleg.isSelected||deleg.isHovered ? 10 : 0)
-                Behavior on height { NumberAnimation { duration: 200 } }
+                Behavior on height { enabled: !PQCSettings.generalDisableAllAnimations; NumberAnimation { duration: 200 } }
                 y: deleg.height-height
                 Rectangle {
                     anchors.fill: parent
                     color: pqtPalette.base
-                    Behavior on color { ColorAnimation { duration: 200 } }
+                    Behavior on color { enabled: !PQCSettings.generalDisableAllAnimations; ColorAnimation { duration: 200 } }
                     border.width: 1
                     border.color: pqtPalette.button
                 }
@@ -199,7 +199,7 @@ GridView {
                     text: deleg.currentFile
                     font.pointSize: PQCLook.fontSize
                     color: pqtPalette.text
-                    Behavior on color { ColorAnimation { duration: 200 } }
+                    Behavior on color { enabled: !PQCSettings.generalDisableAllAnimations; ColorAnimation { duration: 200 } }
                 }
 
                 Image {
@@ -380,14 +380,14 @@ GridView {
                             ? 0.8
                             : (view_top.currentIndex===deleg.modelData
                                     ? 0.8 : 0)
-            Behavior on opacity { NumberAnimation { duration: 200 } }
+            Behavior on opacity { enabled: !PQCSettings.generalDisableAllAnimations; NumberAnimation { duration: 200 } }
 
             Image {
                 anchors.fill: parent
                 source: (PQCConstants.filedialogCurrentSelection.indexOf(deleg.modelData)!==-1 ? ("image://svg/:/" + PQCLook.iconShade + "/deselectfile.svg") : ("image://svg/:/" + PQCLook.iconShade + "/selectfile.svg"))
                 mipmap: true
                 opacity: selectmouse.containsMouse ? 0.8 : 0.4
-                Behavior on opacity { NumberAnimation { duration: 200 } }
+                Behavior on opacity { enabled: !PQCSettings.generalDisableAllAnimations; NumberAnimation { duration: 200 } }
                 MouseArea {
                     id: selectmouse
                     anchors.fill: parent

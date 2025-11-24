@@ -32,8 +32,8 @@ Item {
 
     x: PQCConstants.availableWidth-width-distanceFromEdge
 
-    Behavior on y { NumberAnimation { duration: (PQCSettings.interfaceWindowButtonsAutoHide || PQCSettings.interfaceWindowButtonsAutoHideTopEdge || wb_top.movedByMouse) ? 200 : 0 } }
-    Behavior on x { NumberAnimation { duration: (wb_top.movedByMouse) ? 200 : 0 } }
+    Behavior on y { enabled: !PQCSettings.generalDisableAllAnimations; NumberAnimation { duration: (PQCSettings.interfaceWindowButtonsAutoHide || PQCSettings.interfaceWindowButtonsAutoHideTopEdge || wb_top.movedByMouse) ? 200 : 0 } }
+    Behavior on x { enabled: !PQCSettings.generalDisableAllAnimations; NumberAnimation { duration: (wb_top.movedByMouse) ? 200 : 0 } }
 
     property bool movedByMouse: false
     property int distanceFromEdge: 5
@@ -44,7 +44,7 @@ Item {
     // this is set to false in a timer at the end to blend in the status info once properly positioned
     property bool hideAtStartup: true
     opacity: hideAtStartup ? 0 : 1
-    Behavior on opacity { NumberAnimation { duration: 200 } }
+    Behavior on opacity { enabled: !PQCSettings.generalDisableAllAnimations; NumberAnimation { duration: 200 } }
 
     width: row.width
     height: row.height
@@ -208,7 +208,7 @@ Item {
             source: wb_top.iconSourcePrefix + ":/" + PQCLook.iconShade + "/" + "leftarrow.svg"
             enabled: PQCFileFolderModel.countMainView>0
             opacity: PQCConstants.modalWindowOpen||PQCConstants.slideshowRunning ? 0 : (enabled ? (left_mouse.containsMouse ? 1 : 0.8) : 0.5)
-            Behavior on opacity { NumberAnimation { duration: 200 } }
+            Behavior on opacity { enabled: !PQCSettings.generalDisableAllAnimations; NumberAnimation { duration: 200 } }
             visible: opacity > 0 && !PQCConstants.slideshowRunning
             mipmap: true
             PQMouseArea {
@@ -283,7 +283,7 @@ Item {
             source: wb_top.iconSourcePrefix + ":/" + PQCLook.iconShade + "/rightarrow.svg"
             enabled: PQCFileFolderModel.countMainView>0
             opacity: PQCConstants.modalWindowOpen||PQCConstants.slideshowRunning ? 0 : (enabled ? (right_mouse.containsMouse ? 1 : 0.8) : 0.5)
-            Behavior on opacity { NumberAnimation { duration: 200 } }
+            Behavior on opacity { enabled: !PQCSettings.generalDisableAllAnimations; NumberAnimation { duration: 200 } }
             visible: opacity > 0
             mipmap: true
             PQMouseArea {
@@ -358,7 +358,7 @@ Item {
             source: wb_top.iconSourcePrefix + ":/" + PQCLook.iconShade + "/menu.svg"
 
             opacity: (PQCConstants.modalWindowOpen||PQCConstants.slideshowRunning) ? 0 : (mainmenu_mouse.containsMouse ? 1 : 0.8)
-            Behavior on opacity { NumberAnimation { duration: 200 } }
+            Behavior on opacity { enabled: !PQCSettings.generalDisableAllAnimations; NumberAnimation { duration: 200 } }
 
             mipmap: true
 
@@ -434,7 +434,7 @@ Item {
             source: wb_top.iconSourcePrefix + ":/" + PQCLook.iconShade + "/keepforeground.svg"
 
             opacity: (fore_mouse.containsMouse ? 1 : 0.5)*(PQCSettings.interfaceKeepWindowOnTop ? 1 : 0.8)
-            Behavior on opacity { NumberAnimation { duration: 200 } }
+            Behavior on opacity { enabled: !PQCSettings.generalDisableAllAnimations; NumberAnimation { duration: 200 } }
 
             mipmap: true
 
@@ -510,7 +510,7 @@ Item {
                         (wb_top.iconSourcePrefix + ":/" + PQCLook.iconShade + "/fullscreen_off.svg")
 
             opacity: fullscreen_mouse.containsMouse ? 1 : 0.8
-            Behavior on opacity { NumberAnimation { duration: 200 } }
+            Behavior on opacity { enabled: !PQCSettings.generalDisableAllAnimations; NumberAnimation { duration: 200 } }
 
             mipmap: true
 
@@ -588,7 +588,7 @@ Item {
                         (wb_top.iconSourcePrefix + ":/" + PQCLook.iconShade + "/minimize.svg")
 
             opacity: mini_mouse.containsMouse ? 1 : 0.8
-            Behavior on opacity { NumberAnimation { duration: 200 } }
+            Behavior on opacity { enabled: !PQCSettings.generalDisableAllAnimations; NumberAnimation { duration: 200 } }
 
             mipmap: true
 
@@ -668,7 +668,7 @@ Item {
                              (wb_top.iconSourcePrefix + ":/" + PQCLook.iconShade + "/restore.svg"))
 
             opacity: minimaxi_mouse.containsMouse ? 1 : 0.8
-            Behavior on opacity { NumberAnimation { duration: 200 } }
+            Behavior on opacity { enabled: !PQCSettings.generalDisableAllAnimations; NumberAnimation { duration: 200 } }
 
             mipmap: true
 
@@ -747,7 +747,7 @@ Item {
             sourceSize: Qt.size(width, height)
 
             opacity: closemouse.containsMouse ? 1 : 0.8
-            Behavior on opacity { NumberAnimation { duration: 200 } }
+            Behavior on opacity { enabled: !PQCSettings.generalDisableAllAnimations; NumberAnimation { duration: 200 } }
 
             mipmap: true
 

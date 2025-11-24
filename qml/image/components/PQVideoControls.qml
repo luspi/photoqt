@@ -51,7 +51,7 @@ Loader {
         property bool hovered: bgmouse.containsMouse || leftrightmouse.containsMouse || volumeslider.hovered || volumebg.containsMouse ||
                                playpausemouse.containsMouse || volumeiconmouse.containsMouse || posslider.hovered
         opacity: hovered ? 1 : 0.4
-        Behavior on opacity { NumberAnimation { duration: 200 } }
+        Behavior on opacity { enabled: !PQCSettings.generalDisableAllAnimations; NumberAnimation { duration: 200 } }
 
         property bool manuallyDragged: false
 
@@ -292,7 +292,7 @@ Loader {
                 height: lockrow.height
 
                 opacity: PQCSettings.filetypesVideoLeftRightJumpVideo ? 1 : 0.3
-                Behavior on opacity { NumberAnimation { duration: 200 } }
+                Behavior on opacity { enabled: !PQCSettings.generalDisableAllAnimations; NumberAnimation { duration: 200 } }
 
                 Row {
                     id: lockrow
@@ -343,7 +343,7 @@ Loader {
 
             opacity: 0
             visible: opacity>0
-            Behavior on opacity { NumberAnimation { duration: 200 } }
+            Behavior on opacity { enabled: !PQCSettings.generalDisableAllAnimations; NumberAnimation { duration: 200 } }
 
             MouseArea {
                 id: volumebg

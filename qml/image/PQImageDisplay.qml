@@ -523,6 +523,7 @@ Loader {
             }
 
             rebound: Transition {
+                enabled: !PQCSettings.generalDisableAllAnimations
                 NumberAnimation {
                     properties: "x,y"
                     // we set this duration to 0 for slideshows as for certain effects (e.g. ken burns) we rather have an immediate return
@@ -2196,7 +2197,8 @@ Loader {
             property: "opacity"
             from: 0
             to: 1
-            duration: PQCSettings.imageviewAnimationDuration*100 + (PQCConstants.slideshowRunning&&PQCSettings.slideshowTypeAnimation==="kenburns" ? 500 : 0)
+            duration: PQCSettings.generalDisableAllAnimations ? 0 :
+                            PQCSettings.imageviewAnimationDuration*100 + (PQCConstants.slideshowRunning&&PQCSettings.slideshowTypeAnimation==="kenburns" ? 500 : 0)
 
             onStarted: {
                 if(loader_top.opacity > 0.9)
@@ -2401,6 +2403,8 @@ Loader {
 
         function showImage() {
 
+            console.warn(">>> showImage()", imageloaderitem.imageLoadedAndReady, imageloaderitem.imageFullyShown)
+
             if(imageloaderitem.imageLoadedAndReady) {
 
                 if(shouldEnableViewerMode()) {
@@ -2468,7 +2472,7 @@ Loader {
 
                 // don't pipe showing animation through the property animators
                 // when no animation is set or no previous image has been shown
-                if(PQCSettings.imageviewAnimationDuration === 0 || noPreviousImage) {
+                if(PQCSettings.imageviewAnimationDuration === 0 || noPreviousImage || PQCSettings.generalDisableAllAnimations) {
 
                     loader_top.opacity = 1
                     imageloaderitem.imageFullyShown = true

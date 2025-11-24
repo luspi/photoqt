@@ -33,7 +33,7 @@ Image {
     mipmap: false
 
     opacity: view_top.currentFileCut ? 0.3 : 1
-    Behavior on opacity { NumberAnimation { duration: 200 } }
+    Behavior on opacity { enabled: !PQCSettings.generalDisableAllAnimations; NumberAnimation { duration: 200 } }
 
     property bool gridlike: false
 

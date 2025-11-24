@@ -142,8 +142,8 @@ PQSetting {
                             height: matchesFilter ? 30 : 0
                             opacity: matchesFilter ? 1 : 0
 
-                            Behavior on height { NumberAnimation { duration: 200 } }
-                            Behavior on opacity { NumberAnimation { duration: 150 } }
+                            Behavior on height { enabled: !PQCSettings.generalDisableAllAnimations; NumberAnimation { duration: 200 } }
+                            Behavior on opacity { enabled: !PQCSettings.generalDisableAllAnimations; NumberAnimation { duration: 150 } }
 
                             property bool hovered: false
 

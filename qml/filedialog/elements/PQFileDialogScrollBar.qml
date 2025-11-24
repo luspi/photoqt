@@ -43,8 +43,8 @@ ScrollBar {
         visible: control.size < 1.0
 
         // Animate the changes in color/opacity
-        Behavior on opacity { NumberAnimation { duration: 200 } }
-        Behavior on color { ColorAnimation { duration: 200} }
+        Behavior on opacity { enabled: !PQCSettings.generalDisableAllAnimations; NumberAnimation { duration: 200 } }
+        Behavior on color { enabled: !PQCSettings.generalDisableAllAnimations; ColorAnimation { duration: 200} }
     }
 
 }

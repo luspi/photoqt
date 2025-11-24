@@ -57,7 +57,7 @@ Item {
             sourceComponent: PQWindowButtonsModern {}
             visible: opacity>0
             opacity: PQCConstants.idOfVisibleItem!=="" ? 1 : 0
-            Behavior on opacity { NumberAnimation { duration: 200 } }
+            Behavior on opacity { enabled: !PQCSettings.generalDisableAllAnimations; NumberAnimation { duration: 200 } }
             z: PQCConstants.idOfVisibleItem!=="FileDialog" ? 999 : 0
             onStatusChanged: {
                 if(windowbuttons_ontop.status == Loader.Ready)
