@@ -94,10 +94,15 @@ void PQCMigrateSettings::migrate500() {
 
     qDebug() << "";
 
+    /**********************************************************/
     // PQCSettings.imageviewMinimapSizeLevel must be incremented by 1
+
     const int oldVal = migrationHelperGetOldValue("imageview", "MinimapSizeLevel").toInt();
     if(oldVal < 4)
         migrationHelperSetNewValue("imageview", "MinimapSizeLevel", oldVal+1);
+
+    /**********************************************************/
+    // PQCSettings.extensions -> extensions settings
 
 
 }

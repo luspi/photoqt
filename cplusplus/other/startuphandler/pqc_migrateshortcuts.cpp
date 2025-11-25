@@ -4,6 +4,7 @@
 #include <QSqlQuery>
 #include <QSqlError>
 #include <QFile>
+#include <QSettings>
 
 void PQCMigrateShortcuts::migrate(const QString &oldVersion, const QStringList &allVersions) {
 
@@ -64,9 +65,65 @@ void PQCMigrateShortcuts::migrate(const QString &oldVersion, const QStringList &
         else if(curVer == "4.9.1")
             migrate491();
 
+        else if(curVer == "5.0")
+            migrate500();
+
     }
 
     db.commit();
+
+}
+
+/******************************************************/
+/******************************************************/
+
+void PQCMigrateShortcuts::migrate500() {
+
+    // check for extensions that were removed now
+
+    migrate500_helperMoveShortcut({"__crop"}, "CropImage");
+    migrate500_helperMoveShortcut({"__export", "__save", "__saveAs"}, "ExportImage");
+    migrate500_helperMoveShortcut({"__navigationFloating"}, "FloatingNavigation");
+    migrate500_helperMoveShortcut({"__histogram"}, "Histogram");
+    migrate500_helperMoveShortcut({"__imgurAnonym", "__imgur"}, "ImgurCom");
+    migrate500_helperMoveShortcut({"__showMapCurrent"}, "MapCurrent");
+    migrate500_helperMoveShortcut({"__quickActions"}, "QuickActions");
+    migrate500_helperMoveShortcut({"__scale"}, "ScaleImage");
+    migrate500_helperMoveShortcut({"__wallpaper"}, "Wallpaper");
+
+
+}
+
+void PQCMigrateShortcuts::migrate500_helperMoveShortcut(const QStringList &cmds, const QString &extId) {
+
+    // there might be multiple shortcuts, we take the first one and discard the rest
+    bool foundOne = false;
+
+    QSettings set(QString("%1/%2").arg(PQCConfigFiles::get().EXTENSION_CONFIG_DIR(), extId), QSettings::IniFormat);
+
+    for(const QString &c : cmds) {
+        QSqlQuery query(QSqlDatabase::database("shortcuts"));
+        query.exec(QString("SELECT `combo` FROM `shortcuts` WHERE `commands` LIKE '%1'").arg(c));
+        if(query.lastError().text().trimmed().length()) {
+            qWarning() << "Unable to query for" << c << "shortcut:" << query.lastError().text();
+            return;
+        }
+        bool thisOne = false;
+        if(query.next()) {
+            thisOne = true;
+            if(!foundOne)
+                set.setValue("ExtShortcut", query.value(0).toString());
+            foundOne = true;
+        }
+
+        query.clear();
+        if(thisOne) {
+            query.exec(QString("DELETE FROM `shortcuts` WHERE `commands` LIKE '%1'").arg(c));
+            if(query.lastError().text().trimmed().length()) {
+                qWarning() << "Unable to remove old shortcut for" << c << ":" << query.lastError().text();
+            }
+        }
+    }
 
 }
 
