@@ -88,6 +88,16 @@ ToolBar {
         }
 
         Label {
+            visible: PQCScriptsConfig.isBetaVersion()
+            font.weight: PQCLook.fontWeightBold
+            text: "This is a beta release and is intended for testing only."
+        }
+
+        Item {
+            Layout.fillWidth: true
+        }
+
+        Label {
             visible: specialaction.visible
             text:"|"
         }

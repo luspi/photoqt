@@ -826,15 +826,6 @@ Rectangle {
                             active: mainmenu_top.anythingLoaded
                             menuColWidth: mainmenu_top.colwidth
 
-                            Timer {
-                                interval: 1000
-                                running: true
-                                repeat: true
-                                onTriggered: {
-                                    console.warn(">>>", dele.eId, dele.sourceSVG, dele.haveSVG)
-                                }
-                            }
-
                         }
 
                     }

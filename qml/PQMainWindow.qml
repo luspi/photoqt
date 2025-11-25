@@ -261,6 +261,22 @@ ApplicationWindow {
     }
 
     /****************************************************/
+
+    Loader {
+        active: PQCScriptsConfig.isBetaVersion()
+        sourceComponent:
+        PQText {
+            x: fullscreenitem.width-width-5
+            y: fullscreenitem.height-height-5
+            z: 9999
+            parent: fullscreenitem.parent
+            font.weight: PQCLook.fontWeightBold
+            opacity: 0.5
+            text: "This is a beta release and is intended for testing only."
+        }
+    }
+
+    /****************************************************/
     /****************************************************/
 
     Timer {
