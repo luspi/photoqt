@@ -114,15 +114,10 @@ int main(int argc, char **argv) {
     // This allows for semi-transparent windows
     // By default Qt6 uses Direct3D which does not seem to support this
     QQuickWindow::setGraphicsApi(QSGRendererInterface::OpenGL);
-#ifndef PQMPORTABLETWEAKS
-    // this is used, for exmaple, to add a directory for checking for extensions
-    qputenv("PHOTOQT_EXE_BASEDIR", info_exe.absolutePath().toLocal8Bit());
-#endif
 #endif
 
 #ifdef PQMPORTABLETWEAKS
     if(argc > 1) {
-        qputenv("PHOTOQT_EXE_BASEDIR", argv[1]);
         // create directory and set hidden attribute
 #ifdef Q_OS_WIN
         QString folder = QString("%1/photoqt-data").arg(argv[1]);
@@ -134,14 +129,8 @@ int main(int argc, char **argv) {
         QDir dir;
         dir.mkdir(folder);
 #endif
-    } else {
-        QFileInfo f(argv[0]);
-        qputenv("PHOTOQT_EXE_BASEDIR", f.absolutePath().toLocal8Bit());
     }
 #endif
-
-    // this is used, for exmaple, to add a directory for
-    qputenv("PHOTOQT_EXE_BASEDIR", info_exe.absolutePath().toLocal8Bit());
 
     // avoids warning for customizing native styles (observed in particular on Windows)
     qputenv("QT_QUICK_CONTROLS_IGNORE_CUSTOMIZATION_WARNINGS", "1");
