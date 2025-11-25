@@ -59,7 +59,6 @@ public:
         mainmenu = false;
         defaultShortcut = "";
         rememberGeometry = true;
-        letMeHandleMouseEvents = false;
         haveCPPActions = false;
         contextMenuSection = "";
         settings = {};
@@ -98,7 +97,6 @@ public:
     bool mainmenu;
     QString defaultShortcut;
     bool    rememberGeometry;
-    bool    letMeHandleMouseEvents;
     bool    haveCPPActions;
     QString contextMenuSection;
     QList<QStringList> settings;

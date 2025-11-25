@@ -229,24 +229,6 @@ Window {
 
     }
 
-    PQMouseArea {
-        id: mousearea
-        anchors.fill: parent
-        hoverEnabled: true
-        acceptedButtons: Qt.LeftButton|Qt.RightButton
-        enabled: !PQCExtensionsHandler.getExtensionLetMeHandleMouseEvents(element_top.extensionId)
-        onWheel: (wheel) => {
-            wheel.accepted = true
-        }
-        onClicked: (mouse) => {
-            if(mouse.button === Qt.RightButton)
-                popout_loader.item.rightClicked(mouse)
-            else
-                popout_loader.item.leftClicked(mouse)
-            mouse.accepted = true
-        }
-    }
-
     Timer {
         id: updateGeometry
         interval: 200

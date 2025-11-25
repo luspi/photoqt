@@ -409,13 +409,6 @@ bool PQCExtensionsHandler::loadExtension(PQCExtensionInfo *extinfo, QString id, 
         qDebug() << "Extension:" << id << "- Optional value for 'rememberGeometry' invalid or not found, skipping:" << e.what();
     }
 
-    // let me handle mouse events
-    try {
-        extinfo->letMeHandleMouseEvents = config["setup"]["letMeHandleMouseEvents"].as<bool>();
-    } catch(YAML::Exception &e) {
-        qDebug() << "Extension:" << id << "- Optional value for 'letMeHandleMouseEvents' invalid or not found, skipping:" << e.what();
-    }
-
     // context menu section
     try {
         extinfo->contextMenuSection = QString::fromStdString(config["setup"]["contextmenu"].as<std::string>());
@@ -461,7 +454,6 @@ bool PQCExtensionsHandler::loadExtension(PQCExtensionInfo *extinfo, QString id, 
 
         }
 
-        // std::list<std::list<std::string> > vals = config["setup"]["shortcuts"].as<std::list<std::list<std::string> >();
     } catch(YAML::Exception &e) {
         qDebug() << "Extension:" << id << "- Optional value for 'settings' invalid or not found, skipping:" << e.what();
     }
@@ -716,13 +708,6 @@ bool PQCExtensionsHandler::getExtensionIntegratedFixSizeToContent(QString id) {
 bool PQCExtensionsHandler::getExtensionPopoutFixSizeToContent(QString id) {
     if(m_allextensions.contains(id))
         return m_allextensions[id]->popoutFixSizeToContent;
-    qWarning() << "Unknown extension id:" << id;
-    return false;
-}
-
-bool PQCExtensionsHandler::getExtensionLetMeHandleMouseEvents(QString id) {
-    if(m_allextensions.contains(id))
-        return m_allextensions[id]->letMeHandleMouseEvents;
     qWarning() << "Unknown extension id:" << id;
     return false;
 }

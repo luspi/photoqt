@@ -49,7 +49,7 @@ Item {
     onXChanged: {
         if(PQCConstants.mainWindowBeingResized)
             return
-        if(_dragActive || PQCExtensionsHandler.getExtensionLetMeHandleMouseEvents(extensionId))
+        if(_dragActive)
             storeSize.restart()
         if(_finishedSetup) {
             element_top.x = element_top.x
@@ -96,7 +96,6 @@ Item {
         id: mouseareaBG
         anchors.fill: parent
         hoverEnabled: true
-        enabled: !PQCExtensionsHandler.getExtensionLetMeHandleMouseEvents(element_top.extensionId)
         acceptedButtons: Qt.LeftButton|Qt.RightButton
         drag.target: parent
         text: qsTr("Click-and-drag to move.")
@@ -121,7 +120,6 @@ Item {
         id: mousearea
         anchors.fill: parent
         hoverEnabled: true
-        enabled: !PQCExtensionsHandler.getExtensionLetMeHandleMouseEvents(element_top.extensionId)
         acceptedButtons: Qt.LeftButton|Qt.RightButton
         drag.target: parent
         text: qsTr("Click-and-drag to move.")
