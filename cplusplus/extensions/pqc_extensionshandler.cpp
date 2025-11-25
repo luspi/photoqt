@@ -1283,7 +1283,7 @@ bool PQCExtensionsHandler::verifyExtension(QString baseDir, QString id) {
 
     QFile fmanifest(QString("%1/%2/verification.txt").arg(baseDir, id));
     if(!fmanifest.open(QIODevice::ReadOnly)) {
-        qWarning() << id << "- unable to read verification.txt";
+        qWarning() << id << "- unable to read verification.txt:" << QString("%1/%2/verification.txt").arg(baseDir, id);
         return false;
     }
     QByteArray manifest = fmanifest.readAll();
@@ -1325,6 +1325,7 @@ bool PQCExtensionsHandler::verifyExtension(QString baseDir, QString id) {
     int counter = 0;
 
     QStringList ignoreFiles = {QString("lib%2.so").arg(id), "verification.txt", "verification.txt.sig"};
+    QStringList considerFileEndings = {"qml", "txt", "yml"};
 
     const QStringList lst = listFilesIn(QString("%1/%2").arg(baseDir,id));
     for(QString _f : lst) {
@@ -1332,6 +1333,9 @@ bool PQCExtensionsHandler::verifyExtension(QString baseDir, QString id) {
         const QString f = _f.remove(0, baseDir.length()+id.length()+2);
 
         if(ignoreFiles.contains(f))
+            continue;
+
+        if(!considerFileEndings.contains(QFileInfo(f).suffix().toLower()))
             continue;
 
         counter += 1;

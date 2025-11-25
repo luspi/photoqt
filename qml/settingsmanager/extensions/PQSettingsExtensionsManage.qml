@@ -104,7 +104,7 @@ PQSetting {
 
                     property bool isVerified: PQCScriptsConfig.isDebugBuild() ?
                                                   false :
-                                                  PQCExtensionsHandler.verifyExtension(extBaseDir, extensionId)
+                                                  PQCExtensionsHandler.verifyExtension(extBaseDir, "")
                     property bool isDebugBuild: PQCScriptsConfig.isDebugBuild()
 
                     property bool hasSettings: PQCExtensionsHandler.getHasSettings(extensionId)
