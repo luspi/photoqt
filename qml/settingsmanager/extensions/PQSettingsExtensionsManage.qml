@@ -275,6 +275,7 @@ PQSetting {
 
         PQText {
             x: -set_maex.indentWidth
+            visible: PQCScriptsConfig.isDebugBuild()
             // this string does not need to be translated, normal users will never see it
             text: "Note: Debug builds never enforce verification of extensions."
             width: parent.width
