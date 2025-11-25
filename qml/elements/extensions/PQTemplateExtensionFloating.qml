@@ -121,6 +121,7 @@ Item {
         anchors.fill: parent
         hoverEnabled: true
         acceptedButtons: Qt.LeftButton|Qt.RightButton
+        enabled: !PQCExtensionsHandler.getExtensionCustomMouseHandling(element_top.extensionId)
         drag.target: parent
         text: qsTr("Click-and-drag to move.")
         onWheel: (wheel) => {

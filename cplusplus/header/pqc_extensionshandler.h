@@ -104,6 +104,7 @@ public:
     Q_INVOKABLE bool    getExtensionMainMenu(QString id);
     Q_INVOKABLE QString getExtensionDefaultShortcut(QString id);
     Q_INVOKABLE bool    getExtensionRememberGeometry(QString id);
+    Q_INVOKABLE bool    getExtensionCustomMouseHandling(QString id);
     Q_INVOKABLE QString getExtensionContextMenuSection(QString id);
     Q_INVOKABLE bool    getExtensionHasCPPActions(QString id);
     Q_INVOKABLE QList<QStringList> getExtensionSettings(QString id);

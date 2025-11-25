@@ -445,6 +445,13 @@ bool PQCExtensionsHandler::loadExtension(PQCExtensionInfo *extinfo, QString id, 
         qDebug() << "Extension:" << id << "- Optional value for 'mainmenu' invalid or not found, skipping:" << e.what();
     }
 
+    // add entry to main menu
+    try {
+        extinfo->customMouseHandling = config["setup"]["customMouseHandling"].as<bool>();
+    } catch(YAML::Exception &e) {
+        qDebug() << "Extension:" << id << "- Optional value for 'customMouseHandling' invalid or not found, skipping:" << e.what();
+    }
+
     // settings
     try {
 
@@ -701,6 +708,13 @@ bool PQCExtensionsHandler::getExtensionRememberGeometry(QString id) {
         return m_allextensions[id]->rememberGeometry;
     qWarning() << "Unknown extension id:" << id;
     return true;
+}
+
+bool PQCExtensionsHandler::getExtensionCustomMouseHandling(QString id) {
+    if(m_allextensions.contains(id))
+        return m_allextensions[id]->customMouseHandling;
+    qWarning() << "Unknown extension id:" << id;
+    return false;
 }
 
 bool PQCExtensionsHandler::getExtensionIntegratedFixSizeToContent(QString id) {

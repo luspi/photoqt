@@ -59,6 +59,7 @@ public:
         mainmenu = false;
         defaultShortcut = "";
         rememberGeometry = true;
+        customMouseHandling = false;
         haveCPPActions = false;
         contextMenuSection = "";
         settings = {};
@@ -93,10 +94,11 @@ public:
     bool  popoutFixSizeToContent;
 
     // setup
-    bool modal;
-    bool mainmenu;
+    bool    modal;
+    bool    mainmenu;
     QString defaultShortcut;
     bool    rememberGeometry;
+    bool    customMouseHandling;
     bool    haveCPPActions;
     QString contextMenuSection;
     QList<QStringList> settings;
