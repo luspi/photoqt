@@ -249,7 +249,7 @@ bool PQCExtensionsHandler::loadExtension(PQCExtensionInfo *extinfo, QString id, 
     try {
         extinfo->longName = QString::fromStdString(config["about"]["longName"].as<std::string>());
     } catch(YAML::Exception &e) {
-        qWarning() << "Extension:" << id << "- Optional value for 'longName' not found, adopting value of 'name':" << e.what();
+        qDebug() << "Extension:" << id << "- Optional value for 'longName' not found, adopting value of 'name':" << e.what();
     }
     if(extinfo->longName == "") extinfo->longName = extinfo->name;
 
