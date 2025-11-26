@@ -41,7 +41,7 @@ import parts.updatefromcommandline as updatefromcommandline
 
 # which settings to duplicate for the C++ settings interface
 duplicateSettings = ["generalExtensionsEnabled",
-                     "generalExtensionsEnforeVerification",
+                     "generalExtensionsAllowUntrusted",
                      "generalInterfaceVariant",
                      "",
                      "imageviewFitInWindow",

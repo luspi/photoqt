@@ -65,8 +65,8 @@ public:
     bool getFiletypesRAWUseEmbeddedIfAvailable() { return m_filetypesRAWUseEmbeddedIfAvailable; }
     bool getFiletypesVideoPreferLibmpv() { return m_filetypesVideoPreferLibmpv; }
     QString getFiletypesVideoThumbnailer() { return m_filetypesVideoThumbnailer; }
+    QStringList getGeneralExtensionsAllowUntrusted() { return m_generalExtensionsAllowUntrusted; }
     QStringList getGeneralExtensionsEnabled() { return m_generalExtensionsEnabled; }
-    bool getGeneralExtensionsEnforeVerification() { return m_generalExtensionsEnforeVerification; }
     QString getGeneralInterfaceVariant() { return m_generalInterfaceVariant; }
     bool getImageviewAdvancedSortAscending() { return m_imageviewAdvancedSortAscending; }
     QString getImageviewAdvancedSortCriteria() { return m_imageviewAdvancedSortCriteria; }
@@ -200,6 +200,17 @@ public:
                         m_filetypesVideoThumbnailer = val;
                         Q_EMIT filetypesVideoThumbnailerChanged();
                     }
+                } else if(table == "general" && name == "ExtensionsAllowUntrusted") {
+                    const QString val = value.toString();
+                    QStringList valToSet = QStringList();
+                    if(val.contains(":://::"))
+                        valToSet = val.split(":://::");
+                    else if(val != "")
+                        valToSet = QStringList() << val;
+                    if(m_generalExtensionsAllowUntrusted != valToSet) {
+                        m_generalExtensionsAllowUntrusted = valToSet;
+                        Q_EMIT generalExtensionsAllowUntrustedChanged();
+                    }
                 } else if(table == "general" && name == "ExtensionsEnabled") {
                     const QString val = value.toString();
                     QStringList valToSet = QStringList();
@@ -210,12 +221,6 @@ public:
                     if(m_generalExtensionsEnabled != valToSet) {
                         m_generalExtensionsEnabled = valToSet;
                         Q_EMIT generalExtensionsEnabledChanged();
-                    }
-                } else if(table == "general" && name == "ExtensionsEnforeVerification") {
-                    const bool val = value.toInt();
-                    if(m_generalExtensionsEnforeVerification != val) {
-                        m_generalExtensionsEnforeVerification = value.toInt();
-                        Q_EMIT generalExtensionsEnforeVerificationChanged();
                     }
                 } else if(table == "general" && name == "InterfaceVariant") {
                     const QString val = value.toString();
@@ -423,8 +428,8 @@ private:
         m_filetypesRAWUseEmbeddedIfAvailable = true;
         m_filetypesVideoPreferLibmpv = true;
         m_filetypesVideoThumbnailer = "ffmpegthumbnailer";
+        m_generalExtensionsAllowUntrusted = QStringList();
         m_generalExtensionsEnabled = QStringList() << "CropImage" << "ExportImage" << "FloatingNavigation" << "Histogram" << "ImgurCom" << "MapCurrent" << "QuickActions" << "ScaleImage" << "Wallpaper";
-        m_generalExtensionsEnforeVerification = true;
         m_generalInterfaceVariant = "modern";
         m_imageviewAdvancedSortAscending = true;
         m_imageviewAdvancedSortCriteria = "resolution";
@@ -474,8 +479,8 @@ private:
     bool m_filetypesRAWUseEmbeddedIfAvailable;
     bool m_filetypesVideoPreferLibmpv;
     QString m_filetypesVideoThumbnailer;
+    QStringList m_generalExtensionsAllowUntrusted;
     QStringList m_generalExtensionsEnabled;
-    bool m_generalExtensionsEnforeVerification;
     QString m_generalInterfaceVariant;
     bool m_imageviewAdvancedSortAscending;
     QString m_imageviewAdvancedSortCriteria;
@@ -509,7 +514,7 @@ private:
 Q_SIGNALS:
     void extensionsChanged();
     void generalExtensionsEnabledChanged();
-    void generalExtensionsEnforeVerificationChanged();
+    void generalExtensionsAllowUntrustedChanged();
     void generalInterfaceVariantChanged();
     void imageviewFitInWindowChanged();
     void imageviewSortImagesAscendingChanged();
