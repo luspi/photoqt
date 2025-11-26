@@ -1319,7 +1319,7 @@ bool PQCExtensionsHandler::verifyExtension(QString baseDir, QString id) {
             return false;
         }
 
-        hashMap.insert(parts.value(0), parts.at(1));
+        hashMap.insert(parts.value(0), parts.at(1).trimmed());
 
     }
 
