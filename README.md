@@ -9,6 +9,7 @@ Visit its official website at https://photoqt.org
 PhotoQt is an image viewer that provides a simple and uncluttered interface. Yet, hidden beneath the surface awaits a large array of features. Here are some of its main features (not an exhaustive list). Suggestions for new features are always welcome!
 
 - Support of up to more than **140 image formats**. A list of all possibly supported image formats [can be found on the website](https://photoqt.org/formats).
+- Support for various **extensions** to extend PhotoQt's capabilities
 - **Touchscreen** support, including pinch-to-zoom and various **touch gestures**
 - Support for **photo spheres** and **360 degree panoramas** using equirectangular projection
 - Support for **motion photos**, **micro videos**, and **Apple live photos**

@@ -13,6 +13,8 @@ QtGraphicalEffects, QtMultimedia, QtQuick, QtQuick.Controls, QtQuick.Controls.St
 
 Dependencies that are needed by default, but can be disabled via CMake:
 
+- [yaml-cpp](https://github.com/jbeder/yaml-cpp)
+- [QCA (with rsa/openssl support)](https://invent.kde.org/libraries/qca)
 - [LibArchive](https://libarchive.org)
 - [Exiv2](https://exiv2.org)
 - [ImageMagick](https://imagemagick.org) *or* [GraphicsMagick](http://www.graphicsmagick.org/)
@@ -108,16 +110,18 @@ The following are required dependencies:
 
 The following dependencies are recommended but can be disabled through CMake if not wanted:
 
-1. [LibArchive](https://libarchive.org)
-2. [Exiv2](https://exiv2.org)
-3. [ImageMagick](https://imagemagick.org)
-4. [LibRaw](https://www.libraw.org)
-5. [pugixml](https://pugixml.org)
-6. [Poppler](https://poppler.freedesktop.org) (can be replaced by QtPDF)
-7. [FreeImage](https://freeimage.sourceforge.io)
-8. [DevIL](http://openil.sourceforge.net)
-9. [ZXing-C++](https://github.com/zxing-cpp/zxing-cpp/)
-10. [LittleCMS](https://littlecms.com/)
+1. [yaml-cpp](https://github.com/jbeder/yaml-cpp)
+2. [QCA (with rsa/openssl support)](https://invent.kde.org/libraries/qca)
+3. [LibArchive](https://libarchive.org)
+4. [Exiv2](https://exiv2.org)
+5. [ImageMagick](https://imagemagick.org)
+6. [LibRaw](https://www.libraw.org)
+7. [pugixml](https://pugixml.org)
+8. [Poppler](https://poppler.freedesktop.org) (can be replaced by QtPDF)
+9. [FreeImage](https://freeimage.sourceforge.io)
+10. [DevIL](http://openil.sourceforge.net)
+11. [ZXing-C++](https://github.com/zxing-cpp/zxing-cpp/)
+12. [LittleCMS](https://littlecms.com/)
 
 One easy way to get many of the dependencies is by taking advantage of [vcpkg](https://vcpkg.io/). A sample `vcpkg.conf` can be found in the `windows/` subfolder.
 
