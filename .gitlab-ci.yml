@@ -37,20 +37,13 @@ appimage:
     - git checkout $(git describe --tags --abbrev=0)
     - ./configure --prefix=/usr --with-bzlib --with-fontconfig --with-freetype=yes --with-gslib --with-gvc --with-jpeg --with-png --with-tiff --with-xml --with-gs-font-dir --enable-hdri --disable-docs
     - make -j$(nproc) install
-    - cd ../    # BUILD EXTENSIONS
-    - git clone https://gitlab.com/lspies/photoqt-extensions
-    - cd photoqt-extensions/scripts
-    - bash obtain_latest_translations.sh "/usr/lib/qt6/bin/lrelease"
-    - mkdir -p ../build && cd ../build
-    - cmake .. -DCMAKE_INSTALL_PREFIX=/photoqt/appdir/usr/lib/PhotoQt/extensions -DWITH_IMAGEMAGICK=ON
-    - make -j$(nproc) install
-    - cd ../../photoqt
+    - cd ../photoqt # build and install PhotoQt
     - export QT_SELECT=qt6
     - rm -rf lang/
     - git clone -b l10n_master https://gitlab.com/lspies/photoqt-lang
     - mv photoqt-lang/localized lang
     - cd build/
-    - cmake .. -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=/usr -DWITH_EXIV2=ON -DWITH_GRAPHICSMAGICK=OFF -DWITH_IMAGEMAGICK=ON -DWITH_CHROMECAST=ON -DWITH_VIDEO_QT=ON -DWITH_POPPLER=OFF -DWITH_QTPDF=ON -DWITH_EXIV2_ENABLE_BMFF=ON -DWITH_RESVG=OFF -DWITH_MOTIONPHOTO=ON -DWITH_ZXING=ON -DWITH_LCMS2=ON -DWITH_LOCATION=ON -DWITH_LIBVIPS=OFF -DWITH_WAYLANDSPECIFIC=OFF -DWITH_INCLUDED_EXTENSIONS=OFF -DWITH_APPIMAGEBUILD=ON
+    - cmake .. -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=/usr -DWITH_EXIV2=ON -DWITH_GRAPHICSMAGICK=OFF -DWITH_IMAGEMAGICK=ON -DWITH_CHROMECAST=ON -DWITH_VIDEO_QT=ON -DWITH_POPPLER=OFF -DWITH_QTPDF=ON -DWITH_EXIV2_ENABLE_BMFF=ON -DWITH_RESVG=OFF -DWITH_MOTIONPHOTO=ON -DWITH_ZXING=ON -DWITH_LCMS2=ON -DWITH_LOCATION=ON -DWITH_LIBVIPS=OFF -DWITH_WAYLANDSPECIFIC=OFF -DWITH_INCLUDED_EXTENSIONS=ON -DWITH_APPIMAGEBUILD=ON
     - make DESTDIR=../appdir -j$(nproc) install
     - cd ..
     - wget -c https://github.com/linuxdeploy/linuxdeploy/releases/download/continuous/linuxdeploy-x86_64.AppImage
@@ -87,24 +80,17 @@ releaseappimage:
     - wget -qO - http://archive.neon.kde.org/public.key | apt-key add -
     - apt-get update -qq && apt-get -y upgrade
     - apt-get -y install qt6-base-dev qt6-positioning-dev qt6-image-formats-plugins qt6-image-formats-plugin-pdf libqt6svg6-dev libqt6chartsqml6 qml6-module-qt-labs-platform qml6-module-qtcharts qml6-module-qtcore qml6-module-qtmultimedia qml6-module-qtpositioning qml6-module-qtqml qml6-module-qtquick-controls qml6-module-qtquick-layouts qml6-module-qtquick-window qt6-multimedia-dev qml6-module-qtqml-workerscript qml6-module-qtquick-templates qml6-module-qtquick-dialogs qt6-tools-dev qt6-l10n-tools qt6-tools-dev-tools qt6-pdf-dev qml6-module-qtlocation
-    - apt-get -y install libarchive-dev libraw-dev libfreeimage-dev libfreeimageplus-dev libdevil-dev libpugixml-dev gstreamer1.0-tools libexiv2-dev libmpv-dev python-is-python3 python3-pychromecast python3-requests ffmpegthumbnailer gstreamer1.0-libav libopenh264-6 libzxingcore-dev libdjvulibre-dev libheif-dev libjxl-dev liblqr-1-0-dev libopenexr-dev libopenjp2-7-dev libraqm-dev libwebp-dev libxml2-dev libzip-dev libbz2-dev libgraphviz-dev libyaml-cpp-dev
+    - apt-get -y install libarchive-dev libraw-dev libfreeimage-dev libfreeimageplus-dev libdevil-dev libpugixml-dev gstreamer1.0-tools libexiv2-dev libmpv-dev python-is-python3 python3-pychromecast python3-requests ffmpegthumbnailer gstreamer1.0-libav libopenh264-6 libzxingcore-dev libdjvulibre-dev libheif-dev libjxl-dev liblqr-1-0-dev libopenexr-dev libopenjp2-7-dev libraqm-dev libwebp-dev libxml2-dev libzip-dev libbz2-dev libgraphviz-dev libyaml-cpp-dev libqca-qt6-2-dev
     - cd ..
     - git clone https://github.com/ImageMagick/ImageMagick  # Install up-to-date ImageMagick
     - cd ImageMagick
     - git checkout $(git describe --tags --abbrev=0)
     - ./configure --prefix=/usr --with-bzlib --with-fontconfig --with-freetype=yes --with-gslib --with-gvc --with-jpeg --with-png --with-tiff --with-xml --with-gs-font-dir --enable-hdri --disable-docs
     - make -j$(nproc) install
-    - cd ../    # BUILD EXTENSIONS
-    - git clone https://gitlab.com/lspies/photoqt-extensions
-    - cd photoqt-extensions/scripts
-    - bash obtain_latest_translations.sh "/usr/lib/qt6/bin/lrelease"
-    - mkdir -p ../build && cd ../build
-    - cmake .. -DCMAKE_INSTALL_PREFIX=/photoqt/appdir/usr/lib/PhotoQt/extensions -DWITH_IMAGEMAGICK=ON
-    - make -j$(nproc) install
-    - cd ../../photoqt    # BUILD PHOTOQT
+    - cd ../photoqt # build and install PhotoQt
     - export QT_SELECT=qt6
     - mkdir -p build && cd build/
-    - cmake .. -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=/usr -DEXIV2=ON -DGRAPHICSMAGICK=OFF -DIMAGEMAGICK=ON -DCHROMECAST=ON -DVIDEO_QT=ON -DPOPPLER=OFF -DQTPDF=ON -DEXIV2_ENABLE_BMFF=ON -DRESVG=OFF -DMOTIONPHOTO=ON -DZXING=ON -DLCMS2=ON -DLOCATION=ON -DLIBVIPS=OFF -DWITH_INCLUDED_EXTENSIONS=OFF -DWITH_WAYLANDSPECIFIC=OFF -DWITH_APPIMAGEBUILD=ON
+    - cmake .. -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=/usr -DWITH_EXIV2=ON -DWITH_GRAPHICSMAGICK=OFF -DWITH_IMAGEMAGICK=ON -DWITH_CHROMECAST=ON -DWITH_VIDEO_QT=ON -DWITH_POPPLER=OFF -DWITH_QTPDF=ON -DWITH_EXIV2_ENABLE_BMFF=ON -DWITH_RESVG=OFF -DWITH_MOTIONPHOTO=ON -DWITH_ZXING=ON -DWITH_LCMS2=ON -DWITH_LOCATION=ON -DWITH_LIBVIPS=OFF -DWITH_WAYLANDSPECIFIC=OFF -DWITH_INCLUDED_EXTENSIONS=ON -DWITH_APPIMAGEBUILD=ON
     - make DESTDIR=../appdir -j$(nproc) install
     - cd ..
     - wget -c https://github.com/linuxdeploy/linuxdeploy/releases/download/continuous/linuxdeploy-x86_64.AppImage
