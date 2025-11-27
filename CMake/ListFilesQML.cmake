@@ -148,6 +148,28 @@ SET(photoqt_QML qml/PQMainWindow.qml
                 qml/image/components/PQFaceTracker.qml
                 qml/image/components/PQFaceTagger.qml
 
+                qml/loaders/PQLoaderFileDialog.qml
+                qml/loaders/PQLoaderAbout.qml
+                qml/loaders/PQLoaderCopy.qml
+                qml/loaders/PQLoaderDelete.qml
+                qml/loaders/PQLoaderMove.qml
+                qml/loaders/PQLoaderRename.qml
+                qml/loaders/PQLoaderSettingsManager.qml
+                qml/loaders/PQLoaderMapExplorer.qml
+                qml/loaders/PQLoaderFilter.qml
+                qml/loaders/PQLoaderSlideshowSetup.qml
+                qml/loaders/PQLoaderSlideshowControls.qml
+                qml/loaders/PQLoaderSlideshowHandler.qml
+                qml/loaders/PQLoaderAdvancedSort.qml
+                qml/loaders/PQLoaderNotification.qml
+                qml/loaders/PQLoaderLogging.qml
+                qml/loaders/PQLoaderChromecast.qml
+                qml/loaders/PQLoaderChromecastManager.qml
+
+                qml/loaders/modern/PQLoaderWindowButtons.qml
+                qml/loaders/modern/PQLoaderWindowButtonsOnTop.qml
+                qml/loaders/modern/PQLoaderStatusInfo.qml
+
                 qml/settingsmanager/PQSettingsManager.qml
                 qml/settingsmanager/PQSettingsTabs.qml
                 qml/settingsmanager/PQSettingsConfirmUnsaved.qml
