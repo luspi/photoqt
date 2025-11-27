@@ -52,7 +52,7 @@ PQSetting {
             //: A settings title
             title: qsTranslate("settingsmanager", "Enabled extensions")
 
-            helptext: qsTranslate("settingsmanager", "PhotoQt's capabilities can be increased with various extensions. Here you can find a list of extensions currently known to PhotoQt and you can choose which one should be enabled. Some extensions come with additional settings accessible through the button on the far right.")
+            helptext: qsTranslate("settingsmanager", "PhotoQt's capabilities can be increased with various extensions. Here you can find a list of extensions currently known to PhotoQt and you can choose which one should be enabled. Some extensions come with additional settings that can be accessed by clicking on their entry. The trust status of an unverified extension that was trusted in the past can also be revoked here.")
 
             showLineAbove: false
 
@@ -226,12 +226,15 @@ PQSetting {
                             visible: PQCSettings.generalExtensionsAllowUntrusted.indexOf(extension_setting.extensionId)>-1 ||
                                      extensionTrustRevoked.indexOf(extension_setting.extensionId) > -1
                             height: 40
-                            text: "Revoke trust"
+                            //: Trust here refers to trusting an unverified extension to run.
+                            text: qsTranslate("settingsmanager", "Revoke trust")
                             smallerVersion: true
                             font.weight: PQCLook.fontWeightNormal
                             onClicked: {
                                 set_maex.extensionTrustRevoked.push(extension_setting.extensionId)
                                 PQCSettings.generalExtensionsAllowUntrusted = PQCSettings.generalExtensionsAllowUntrusted.filter(item => item !== extension_setting.extensionId)
+                                PQCExtensionsHandler.disableExtension(extension_setting.extensionId)
+                                check.checked = false
                             }
                         }
 
@@ -370,6 +373,8 @@ PQSetting {
                                 if(PQCScriptsConfig.askForConfirmation(qsTranslate("settingsmanager", "Trust extension?"), qsTranslate("settingsmanager", "Name:") + " " + extensionfailed_setting.extName, qsTranslate("settingsmanager", "Are you sure you want to enable this extension? This will take effect the next time you start PhotoQt."))) {
                                     if(PQCSettings.generalExtensionsAllowUntrusted.indexOf(extensionfailed_setting.extensionId) === -1)
                                         PQCSettings.generalExtensionsAllowUntrusted.push(extensionfailed_setting.extensionId)
+                                    if(PQCSettings.generalExtensionsEnabled.indexOf(extensionfailed_setting.extensionId) > -1)
+                                        PQCSettings.generalExtensionsEnabled = PQCSettings.generalExtensionsEnabled.filter((item, index) => item !== extensionfailed_setting.extensionId)
                                 }
                             }
                         }
@@ -468,8 +473,8 @@ PQSetting {
 
     function applyChanges() {
 
-        var enabledUnique = extensionsEnabled.filter((item, index) => extensionsEnabled.indexOf(item) === index).sort()
-        var disabledUnique = extensionsDisabled.filter((item, index) => extensionsDisabled.indexOf(item) === index).sort()
+        var enabledUnique = extensionsEnabled.filter((item, index) => extensionsEnabled.indexOf(item) === index && extensionTrustRevoked.indexOf(item) === -1).sort()
+        var disabledUnique = extensionsDisabled.filter((item, index) => extensionsDisabled.indexOf(item) === index || extensionTrustRevoked.indexOf(item) > -1).sort()
 
         PQCExtensionsHandler.setDisabledExtensions(disabledUnique)
         PQCExtensionsHandler.setEnabledExtensions(enabledUnique)

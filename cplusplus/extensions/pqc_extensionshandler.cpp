@@ -188,7 +188,7 @@ void PQCExtensionsHandler::setup() {
                             qWarning() << id << "- unable to install translator:" << PQCScriptsLocalization::get().getActiveTranslationCode();
                     }
                 } else {
-                    if(verificationPassed)
+                    if(allowUntrusted || verificationPassed)
                         m_extensionsDisabled.append(id);
                     else
                         m_extensionsFailed.append(id);
