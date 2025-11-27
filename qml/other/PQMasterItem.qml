@@ -54,12 +54,7 @@ Loader {
 
         property bool readyToContinueLoading: false
 
-        // The tray icon loads right away WITHOUT any delay.
-        Loader {
-            id: loader_trayicon
-            asynchronous: true
-            sourceComponent: PQTrayIcon {}
-        }
+        PQLoaderTrayIcon { id: loader_trayicon }
 
         /******************************************/
 
@@ -67,24 +62,7 @@ Loader {
         Repeater {
             id: loader_extensions
             model: PQCExtensionsHandler.numExtensionsEnabled
-            Loader {
-
-                id: ldr
-
-                required property int modelData
-
-                active: false
-                asynchronous: false
-
-                sourceComponent:
-                PQTemplateExtensionContainer {
-
-                    extensionId: PQCExtensionsHandler.getExtensions()[ldr.modelData]
-
-                }
-
-            }
-
+            PQLoaderExtension {}
         }
 
         // we check for this with a little delay to allow for other things to get ready first
@@ -105,62 +83,21 @@ Loader {
 
         /******************************************/
 
-        // the thumbnails loader can be asynchronous as it is always integrated and never popped out
-        Loader {
-            id: loader_thumbnails
-            asynchronous: true
-            active: masteritem.readyToContinueLoading
-            sourceComponent: PQThumbnails { parent: fullscreenitem.parent }
-        }
+        PQLoaderThumbnails { id: loader_thumbnails; active: masteritem.readyToContinueLoading }
 
         /*********************************************************************/
 
         /**************************************/
         // MODERN INTERFACE ONLY
-            Loader {
-                id: loader_mainmenu
-                active: masteritemloader.isModern && masteritem.readyToContinueLoading
-                asynchronous: true
-                sourceComponent: ((PQCSettings.interfacePopoutMainMenu|| PQCWindowGeometry.mainmenuForcePopout) ? comp_mainmenu_popout : comp_mainmenu)
-            }
-            Component { id: comp_mainmenu; PQMainMenuModern {} }
-            Component { id: comp_mainmenu_popout; PQMainMenuModernPopout {} }
-
-            Loader {
-                id: loader_metadata
-                active: masteritemloader.isModern && masteritem.readyToContinueLoading
-                asynchronous: true
-                sourceComponent: ((PQCSettings.interfacePopoutMetadata || PQCWindowGeometry.metadataForcePopout) ? comp_metadata_popout : comp_metadata)
-            }
-            Component { id: comp_metadata; PQMetaDataModern {} }
-            Component { id: comp_metadata_popout; PQMetaDataModernPopout {} }
-
-            Loader {
-                id: mastertouchareas
-                active: masteritemloader.isModern && masteritem.readyToContinueLoading
-                asynchronous: true
-                sourceComponent: PQGestureTouchAreasModern {}
-            }
-
-            Loader {
-                id: loader_windowhandles
-                asynchronous: true
-                active: masteritemloader.isModern && masteritem.readyToContinueLoading && PQCSettings.interfaceWindowMode && !PQCSettings.interfaceWindowDecoration
-                sourceComponent: PQWindowHandlesModern {}
-            }
+            PQLoaderMainMenu         { id: loader_mainmenu; active: masteritemloader.isModern && masteritem.readyToContinueLoading }
+            PQLoaderMetaData         { id: loader_metadata; active: masteritemloader.isModern && masteritem.readyToContinueLoading }
+            PQLoaderMasterTouchAreas { id: mastertouchareas; active: masteritemloader.isModern && masteritem.readyToContinueLoading }
+            PQLoaderWindowHandles    { id: loader_windowhandles; active: masteritemloader.isModern && masteritem.readyToContinueLoading &&
+                                                                         PQCSettings.interfaceWindowMode && !PQCSettings.interfaceWindowDecoration }
         /**************************************/
 
-        Loader {
-            id: loader_contextmenu
-            active: masteritem.readyToContinueLoading
-            asynchronous: true
-            sourceComponent: PQContextMenu {}
-        }
-
-        Loader {
-            active: masteritem.readyToContinueLoading
-            sourceComponent: PQToolTipDisplay {}
-        }
+        PQLoaderContextMenu { id: loader_contextmenu; active: masteritem.readyToContinueLoading }
+        PQLoaderToolTipDisplay { active: masteritem.readyToContinueLoading }
 
         /*****************************************/
 
@@ -235,7 +172,7 @@ Loader {
             triggeredOnStart: true
             onTriggered: {
                 if(theloader.status !== Loader.Ready) {
-                    showWhenReady.start()
+                    showExtensionWhenReady.start()
                     return
                 }
                 PQCNotify.loaderPassOn("show", args)
@@ -251,7 +188,7 @@ Loader {
             triggeredOnStart: true
             onTriggered: {
                 if(theloader.status !== Loader.Ready) {
-                    showWhenReady2.start()
+                    showExtensionWhenReady2.start()
                     return
                 }
                 PQCNotify.loaderPassOn("show", args)
@@ -285,8 +222,6 @@ Loader {
 
             if(PQCConstants.startupHaveSettingUpdate.length === 2)
                 PQCSettings.updateFromCommandLine();
-
-            // PQCSettings.generalInterfaceVariant = "modern"
 
         }
 

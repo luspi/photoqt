@@ -171,76 +171,25 @@ ApplicationWindow {
     }
 
     /**************************************/
-    // MODERN INTERFACE ONLY
-        Loader {
-            anchors.fill: parent
-            active: toplevel.isModern
-            asynchronous: (PQCConstants.startupFilePath!=="")
-            sourceComponent: PQMainWindowBackgroundModern {}
-        }
-        Loader {
-            anchors.fill: parent
-            asynchronous: (PQCConstants.startupFilePath!=="")
-            active: toplevel.isModern
-            sourceComponent: PQBackgroundMessageModern {
-                x: (PQCSettings.metadataSideBar&&PQCSettings.metadataSideBarLocation==="left" ? PQCSettings.metadataSideBarWidth : 0)
-                width: PQCConstants.availableWidth
-                height: PQCConstants.availableHeight
-            }
-        }
-    /**************************************/
-    /**************************************/
-    // INTEGRATED INTERFACE ONLY
-        Loader {
-            anchors.fill: parent
-            asynchronous: (PQCConstants.startupFilePath!=="")
-            active: toplevel.isIntegrated
-            sourceComponent: PQBackgroundMessageIntegrated {
-                x: (PQCSettings.metadataSideBar&&PQCSettings.metadataSideBarLocation==="left" ? PQCSettings.metadataSideBarWidth : 0)
-                width: PQCConstants.availableWidth
-                height: PQCConstants.availableHeight
-            }
-        }
+        // MODERN INTERFACE ONLY
+        PQLoaderMainWindowBackgroundModern {}
     /**************************************/
 
-    // very cheap to set up, many properties needed everywhere -> no loader
-    Loader {
-        id: imageloader
-        asynchronous: true
-        active: false
-        sourceComponent: PQImage {
-            toplevelItem: fullscreenitem
-        }
-    }
+    PQLoaderBackgroundMessage {}
+
+    /**************************************/
+
+    PQLoaderImage { id: imageloader; toplevelItem: fullscreenitem }
 
     /**************************************/
     // INTEGRATED INTERFACE ONLY
-        Loader {
-            z: 1
-            active: toplevel.isIntegrated &&
-                    PQCSettings.metadataSideBar&&PQCSettings.metadataSideBarLocation==="left"
-            sourceComponent: PQSideBarIntegrated {
-                z: 1
-            }
-        }
-        Loader {
-            x: toplevel.width-width
-            z: 1
-            active: toplevel.isIntegrated &&
-                    PQCSettings.metadataSideBar&&PQCSettings.metadataSideBarLocation==="right"
-            sourceComponent: PQSideBarIntegrated {
-                z: 1
-            }
-        }
+        PQLoaderSideBarIntegrated { whichside: "left" }
+        PQLoaderSideBarIntegrated { whichside: "right"; x: toplevel.width-width }
     /**************************************/
 
     /****************************************************/
 
-    Loader {
-        id: shortcuts
-        asynchronous: true
-        sourceComponent: PQShortcuts {}
-    }
+    PQLoaderShortcuts { id: shortcuts }
 
     // This is a Loader that loads the rest of the application in the background after set up
     PQMasterItem {
@@ -248,15 +197,10 @@ ApplicationWindow {
         z: 2
     }
 
-    Loader {
+    PQLoaderLoader {
         id: masterloader
-        z: 3
-        anchors.fill: parent
-        asynchronous: true
-        sourceComponent: PQLoader {
-            onShowExtension: (ele) => {
-                masteritemattop.showExtension(ele)
-            }
+        function onShowExtension(ele : string) {
+            masteritemattop.showExtension(ele)
         }
     }
 
