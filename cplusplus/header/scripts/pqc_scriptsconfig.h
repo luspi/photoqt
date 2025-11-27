@@ -82,6 +82,10 @@ public:
     void inform(QString title, QString txt);
     bool askForConfirmation(QString title, QString text, QString informativeText);
 
+    // interface handling at runtime
+    bool setInterfaceForNextStartup(QString variant);
+    QString getInterfaceForNextStartup();
+
 private:
     PQCScriptsConfig();
     ~PQCScriptsConfig();

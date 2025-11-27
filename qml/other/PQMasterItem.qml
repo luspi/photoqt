@@ -38,8 +38,6 @@ Loader {
     // Otherwise the UI will seem to not work when, e.g., immediately clicking to open a file.
     Component.onCompleted: {
         asynchronous = (PQCConstants.startupFilePath === "" || PQCConstants.startupFileIsFolder)
-        isModern = isModern
-        isIntegrated = isIntegrated
     }
 
     signal showExtension(var ele)
@@ -87,14 +85,12 @@ Loader {
 
         /*********************************************************************/
 
-        /**************************************/
-        // MODERN INTERFACE ONLY
+            // MODERN INTERFACE ONLY
             PQLoaderMainMenu         { id: loader_mainmenu; active: masteritemloader.isModern && masteritem.readyToContinueLoading }
             PQLoaderMetaData         { id: loader_metadata; active: masteritemloader.isModern && masteritem.readyToContinueLoading }
             PQLoaderMasterTouchAreas { id: mastertouchareas; active: masteritemloader.isModern && masteritem.readyToContinueLoading }
             PQLoaderWindowHandles    { id: loader_windowhandles; active: masteritemloader.isModern && masteritem.readyToContinueLoading &&
                                                                          PQCSettings.interfaceWindowMode && !PQCSettings.interfaceWindowDecoration }
-        /**************************************/
 
         PQLoaderContextMenu { id: loader_contextmenu; active: masteritem.readyToContinueLoading }
         PQLoaderToolTipDisplay { active: masteritem.readyToContinueLoading }

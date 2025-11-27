@@ -76,7 +76,7 @@ ApplicationWindow {
     }
 
     /**************************************/
-    // INTEGRATED INTERFACE ONLY
+        // INTEGRATED INTERFACE ONLY
         Connections {
             target: PQCSettings
             enabled: toplevel.isIntegrated
@@ -134,7 +134,7 @@ ApplicationWindow {
     }
 
     /**************************************/
-    // INTEGRATED INTERFACE ONLY
+        // INTEGRATED INTERFACE ONLY
         Loader {
             anchors.fill: parent
             active: toplevel.isIntegrated
@@ -171,23 +171,16 @@ ApplicationWindow {
     }
 
     /**************************************/
+
         // MODERN INTERFACE ONLY
         PQLoaderMainWindowBackgroundModern {}
-    /**************************************/
-
     PQLoaderBackgroundMessage {}
-
-    /**************************************/
 
     PQLoaderImage { id: imageloader; toplevelItem: fullscreenitem }
 
-    /**************************************/
-    // INTEGRATED INTERFACE ONLY
+        // INTEGRATED INTERFACE ONLY
         PQLoaderSideBarIntegrated { whichside: "left" }
         PQLoaderSideBarIntegrated { whichside: "right"; x: toplevel.width-width }
-    /**************************************/
-
-    /****************************************************/
 
     PQLoaderShortcuts { id: shortcuts }
 
@@ -267,9 +260,6 @@ ApplicationWindow {
     }
 
     Component.onCompleted: {
-
-        isModern = isModern
-        isIntegrated = isIntegrated
 
         PQCScriptsLocalization.updateTranslation(PQCSettings.interfaceLanguage)
 

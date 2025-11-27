@@ -617,3 +617,29 @@ bool PQCScriptsConfig::askForConfirmation(QString title, QString text, QString i
     msg.setDefaultButton(QMessageBox::Yes);
     return (msg.exec() == QMessageBox::Yes);
 }
+
+bool PQCScriptsConfig::setInterfaceForNextStartup(QString variant) {
+    QFile file(PQCConfigFiles::get().CACHE_DIR() + "/nextstartupvariant");
+    if(!file.open(QIODevice::WriteOnly|QIODevice::Truncate)) {
+        qWarning() << "Unable to toggle interface variant";
+        return false;
+    }
+    QTextStream out(&file);
+    out << variant;
+    file.close();
+    return true;
+}
+
+QString PQCScriptsConfig::getInterfaceForNextStartup() {
+    QFile file(PQCConfigFiles::get().CACHE_DIR() + "/nextstartupvariant");
+    if(!file.exists()) return "";
+    if(!file.open(QIODevice::ReadOnly)) {
+        qWarning() << "Unable to read toggled interface variant";
+        return "";
+    }
+    QTextStream in(&file);
+    QString ret = in.readAll().trimmed();
+    if(ret == "modern" || ret == "integrated")
+        return ret;
+    return "";
+}

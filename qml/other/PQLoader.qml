@@ -35,21 +35,12 @@ Item {
     property bool isModern: PQCSettings.generalInterfaceVariant==="modern"
     property bool isIntegrated: !isModern
 
-    Component.onCompleted: {
-        isModern = isModern
-        isIntegrated = isIntegrated
-    }
-
     /*********************************************************************/
 
-    /**************************************/
-    // MODERN INTERFACE ONLY
-
+        // MODERN INTERFACE ONLY
         PQLoaderWindowButtons { id: windowbuttons }
         PQLoaderWindowButtonsOnTop { id: windowbuttons_ontop }
         PQLoaderStatusInfo { id: statusinfo }
-
-    /**************************************/
 
     /*********************************************************************/
 
