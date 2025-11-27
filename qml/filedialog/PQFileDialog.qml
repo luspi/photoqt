@@ -301,6 +301,7 @@ PQTemplate {
             filedialog_top.forceActiveFocus()
             PQCNotify.filedialogShowAddressEdit(false)
             filedialog_top.hide()
+            PQCConstants.idOfVisibleItem = ""
 
             return
 
@@ -332,6 +333,7 @@ PQTemplate {
             filedialog_top.forceActiveFocus()
             PQCNotify.filedialogShowAddressEdit(false)
             filedialog_top.hide()
+            PQCConstants.idOfVisibleItem = ""
 
         }
 

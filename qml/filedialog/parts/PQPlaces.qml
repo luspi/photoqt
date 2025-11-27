@@ -520,14 +520,9 @@ Item {
         }
     }
 
-    // we can load them asynchronously to speed up showing the actual file dialog
-    Timer {
-        interval: 10
-        running: true
-        onTriggered: {
-            places_top.loadPlaces()
-            places_top.loadDevices()
-        }
+    Component.onCompleted: {
+        places_top.loadPlaces()
+        places_top.loadDevices()
     }
 
     function loadDevices() {
