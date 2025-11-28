@@ -37,6 +37,9 @@ Dependencies that are disabled by default, but can be enabled via CMake:
 Please note that you probably want to have as many of these enabled as possible as they greatly enhance the experience of PhotoQt.
 
 #### NOTE
+If any enabled dependency is not found, then it will be disabled automatically. At the end of the CMake run an overview is provided with all successfully enabled and all disabled features.
+
+#### NOTE
 
 On some systems you also need the *-dev package for compiling (e.g. exiv2-dev - names can vary slightly depending on your distribution). These packages usually can be uninstalled again after compilation is done.
 
@@ -122,6 +125,7 @@ The following dependencies are recommended but can be disabled through CMake if 
 10. [DevIL](http://openil.sourceforge.net)
 11. [ZXing-C++](https://github.com/zxing-cpp/zxing-cpp/)
 12. [LittleCMS](https://littlecms.com/)
+13. [libsai](https://github.com/Wunkolo/libsai)
 
 One easy way to get many of the dependencies is by taking advantage of [vcpkg](https://vcpkg.io/). A sample `vcpkg.conf` can be found in the `windows/` subfolder.
 
