@@ -14,11 +14,18 @@ set(test_SRC "${testname}.h" "${testname}.cpp"
 qt_add_resources(RESOURCE_FILES ../resources/testing.qrc ../../misc/misc.qrc ../../img/img.qrc ../../img/filetypes.qrc ../../python/python.qrc)
 qt_add_executable(${testname} ${test_SRC} ${RESOURCE_FILES})
 
+target_compile_definitions(${testname} PRIVATE PQMTESTING)
+
 add_test(NAME ${testname} COMMAND ${testname})
 target_compile_definitions(${testname} PRIVATE PQMVERSION="${APPVERSION}")
 target_link_libraries(${testname} PRIVATE Qt6::Quick Qt6::Widgets Qt6::Sql Qt6::Core Qt6::Svg Qt6::Concurrent Qt6::Multimedia Qt6::PrintSupport Qt6::DBus Qt6::Test)
 target_include_directories(${testname} PRIVATE "../../cplusplus/header")
 target_include_directories(${testname} PRIVATE "../../cplusplus/extensions")
+
+if(WITH_QTPDF)
+    find_package(Qt6 COMPONENTS Pdf)
+    target_link_libraries(${testname} PRIVATE Qt6::Pdf)
+endif()
 
 target_compile_definitions(${testname} PRIVATE QT_NO_KEYWORDS)
 target_compile_definitions(${testname} PRIVATE QT_MESSAGELOGCONTEXT)

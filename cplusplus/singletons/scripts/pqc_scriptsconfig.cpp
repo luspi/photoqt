@@ -31,7 +31,9 @@
 #include <pqc_configfiles.h>
 #include <scripts/pqc_scriptsconfig.h>
 #include <scripts/pqc_scriptslocalization.h>
+#ifndef PQMTESTING
 #include <pqc_startuphandler.h>
+#endif
 #include <pqc_notify_cpp.h>
 
 #ifdef WIN32
@@ -603,8 +605,10 @@ bool PQCScriptsConfig::isICUSupportEnabled() {
 
 void PQCScriptsConfig::callStartupSetupFresh() {
 
+#ifndef PQMTESTING
     PQCStartupHandler startup(false, false);
     startup.setupFresh();
+#endif
 
 }
 

@@ -20,7 +20,7 @@
  **                                                                      **
  **************************************************************************/
 
-#include <scripts/qml/pqc_scriptsconfig.h>
+#include <scripts/pqc_scriptsconfig.h>
 #include <pqc_configfiles.h>
 #include <pqc_settings.h>
 #include "./pqt_scriptsconfig.h"
@@ -104,10 +104,8 @@ void PQTScriptsConfig::cleanup() {
 
 void PQTScriptsConfig::testExportImport() {
 
-    PQCScriptsConfig cfg;
-
-    QVERIFY(cfg.exportConfigTo(QDir::tempPath()+"/photoqt_test/export.pqt"));
-    QVERIFY(cfg.importConfigFrom(QDir::tempPath()+"/photoqt_test/export.pqt"));
+    QVERIFY(PQCScriptsConfig::get().exportConfigTo(QDir::tempPath()+"/photoqt_test/export.pqt"));
+    QVERIFY(PQCScriptsConfig::get().importConfigFrom(QDir::tempPath()+"/photoqt_test/export.pqt"));
 
     QStringList checker;
     checker << ":/usersettings.db" << PQCConfigFiles::get().USERSETTINGS_DB();
