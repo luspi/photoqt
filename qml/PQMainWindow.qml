@@ -207,7 +207,7 @@ ApplicationWindow {
     /****************************************************/
 
     Loader {
-        active: PQCScriptsConfig.isBetaVersion()
+        active: PQCScriptsConfig.isBetaVersion() && toplevel.isModern
         sourceComponent:
         PQText {
             x: fullscreenitem.width-width-5
