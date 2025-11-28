@@ -1,7 +1,7 @@
 -------------------------------------
          Installing PhotoQt
 -------------------------------------
- 
+
  The instructions below serve as a guide to compile and install PhotoQt from source.
  PhotoQt is available in the repositories of an increasing number of Linux distributions.
  In addition, various means of installing PhotoQt (Windows installer, Flatpak, etc.) are
@@ -18,7 +18,9 @@
   QtQuick.Controls.Styles, QtQuick.Layouts, QtQuick.Window,
   QtLocation, QtPositioning, QtCharts
 
-> Dependencies that are needed by default, but can be disabled via CMake:
+> Dependencies that are searched for by default, but can be disabled via CMake:
+- yaml-cpp
+- QCA (with rsa/openssl support)
 - LibArchive
 - Exiv2
 - ImageMagick or GraphicsMagick
@@ -38,6 +40,11 @@
 
 > Please note that you probably want to have as many of these enabled as possible as
   they greatly enhance the experience of PhotoQt.
+
+> NOTE
+  If any enabled dependency is not found, then it will be disabled automatically.
+  At the end of the CMake run an overview is provided with all successfully enabled
+  and all disabled features.
 
 > NOTE
   On some systems you also need the *-dev package for compiling (e.g.
@@ -134,23 +141,26 @@
  The following dependencies are recommended but can be disabled through CMake if not
  wanted:
 
- 1) LibArchive: https://libarchive.org/
- 2) Exiv2: https://exiv2.org/
- 3) ImageMagick: https://imagemagick.org/
- 4) LibRaw: https://www.libraw.org/
- 5) pugixml: https://pugixml.org/
- 6) Poppler: https://poppler.freedesktop.org/
- 7) FreeImage: https://freeimage.sourceforge.io/
- 8) DevIL: http://openil.sourceforge.net/
- 9) ZXing-C++: https://github.com/zxing-cpp/zxing-cpp/
-10) LittleCMS: https://littlecms.com/
+ 1) yaml-cpp: https://github.com/jbeder/yaml-cpp
+ 2) QCA: https://invent.kde.org/libraries/qca
+ 3) LibArchive: https://libarchive.org/
+ 4) Exiv2: https://exiv2.org/
+ 5) ImageMagick: https://imagemagick.org/
+ 6) LibRaw: https://www.libraw.org/
+ 7) pugixml: https://pugixml.org/
+ 8) Poppler: https://poppler.freedesktop.org/
+ 9) FreeImage: https://freeimage.sourceforge.io/
+10) DevIL: http://openil.sourceforge.net/
+11) ZXing-C++: https://github.com/zxing-cpp/zxing-cpp/
+12) LittleCMS: https://littlecms.com/
+13) libsai: https://github.com/Wunkolo/libsai
 
- One easy way to get many of the dependencies is by taking advantage of vcpkg 
+ One easy way to get many of the dependencies is by taking advantage of vcpkg
  (https://vcpkg.io/). A sample vcpkg.conf can be found in the windows/ subfolder.
 
  Whatever way you obtain the dependencies, make sure that any installed dependency can
- be found by CMake. It might have to be explicitly pointed to the library/include paths of 
- some of the dependencies by specifying target_include_directories() and 
+ be found by CMake. It might have to be explicitly pointed to the library/include paths of
+ some of the dependencies by specifying target_include_directories() and
  target_link_libraries().
 
  Once all the required and desired dependencies are installed, then the source code of

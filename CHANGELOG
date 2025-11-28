@@ -1,6 +1,18 @@
 Changelog PhotoQt - Copyright (C) 2011-2025, Lukas Spies (Lukas@photoqt.org), License: GPLv2 (or later)
 ----------------------------------------------------------------------------------------------------------
 
+Release 5.0-beta1 - 2025-11-28
+----------------------------
+
+- reworked code
+- two interface variants (modern and integrated)
+- support for extensions
+- numerous visual updates
+- new settings manager
+- many updates, improvements, and new features
+- many bugs fixed
+
+
 Release 4.9.2 - 2025-06-26
 ----------------------------
 

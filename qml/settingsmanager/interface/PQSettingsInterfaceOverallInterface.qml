@@ -363,11 +363,16 @@ PQSetting {
         }
 
         PQCConstants.settingsManagerSettingChanged = (origIndex !== langcombo.currentIndex ||
-                                                      currentInterfaceVariant!==PQCSettings.generalInterfaceVariant ||
+                                                      currentInterfaceVariant!==getCurrentInterfaceVariant() ||
                                                       fd_native.hasChanged() || fd_custom.hasChanged() ||
                                                       sidebarcheck.hasChanged() || sidebarleft.hasChanged() || sidebarright.hasChanged() ||
                                                       animcheck.hasChanged())
 
+    }
+
+    function getCurrentInterfaceVariant() {
+        var tmp = PQCScriptsConfig.getInterfaceForNextStartup()
+        return (tmp === "" ? PQCSettings.generalInterfaceVariant : tmp)
     }
 
     function load() {
@@ -395,7 +400,7 @@ PQSetting {
         origIndex = setindex
         langcombo.currentIndex = setindex
 
-        currentInterfaceVariant = PQCSettings.generalInterfaceVariant
+        currentInterfaceVariant = getCurrentInterfaceVariant()
 
         fd_native.loadAndSetDefault(PQCSettings.filedialogUseNativeFileDialog)
         fd_custom.loadAndSetDefault(!PQCSettings.filedialogUseNativeFileDialog)
@@ -421,7 +426,8 @@ PQSetting {
 
         PQCScriptsLocalization.updateTranslation(PQCSettings.interfaceLanguage)
 
-        PQCSettings.generalInterfaceVariant = currentInterfaceVariant
+        if(getCurrentInterfaceVariant() !== currentInterfaceVariant)
+            PQCScriptsConfig.setInterfaceForNextStartup(currentInterfaceVariant)
 
         PQCSettings.filedialogUseNativeFileDialog = fd_native.checked
         fd_native.saveDefault()

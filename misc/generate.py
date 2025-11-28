@@ -272,7 +272,7 @@ if which == 'all' or which == 'filetypes':
                 pool_obj = multiprocessing.Pool()
                 pool_obj.map(convert,[256,128,64,48,32,16])
 
-                exe = "go-png2ico "
+                exe = "./go-png2ico "
                 for sze in [256,128,64,48,32,16]:
                     exe += f"output/tmp/{e}{sze}.png "
                 exe += f"output/ico/{e}.ico"

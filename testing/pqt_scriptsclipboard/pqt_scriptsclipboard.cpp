@@ -20,7 +20,7 @@
  **                                                                      **
  **************************************************************************/
 
-#include <scripts/qml/pqc_scriptsclipboard.h>
+#include <scripts/pqc_scriptsclipboard.h>
 #include <pqc_configfiles.h>
 #include <pqc_settings.h>
 #include "./pqt_scriptsclipboard.h"
@@ -107,13 +107,11 @@ void PQTScriptsClipboard::testClipboard() {
     // first copy test file to temp directory
     QFile::copy(":/testing/blue.png", QDir::tempPath()+"/photoqt_test/blue.png");
 
-    PQCScriptsClipboard scr;
-
     // then copy the file to the clipboard
-    scr.copyFilesToClipboard(QStringList() << (QDir::tempPath()+"/photoqt_test/blue.png"));
+    PQCScriptsClipboard::get().copyFilesToClipboard(QStringList() << (QDir::tempPath()+"/photoqt_test/blue.png"));
 
     // then check that everything worked
-    QCOMPARE(scr.areFilesInClipboard(), true);
-    QCOMPARE(scr.getListOfFilesInClipboard(), QStringList() << (QDir::tempPath()+"/photoqt_test/blue.png"));
+    QCOMPARE(PQCScriptsClipboard::get().areFilesInClipboard(), true);
+    QCOMPARE(PQCScriptsClipboard::get().getListOfFilesInClipboard(), QStringList() << (QDir::tempPath()+"/photoqt_test/blue.png"));
 
 }

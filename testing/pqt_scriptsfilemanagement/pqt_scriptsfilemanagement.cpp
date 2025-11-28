@@ -20,7 +20,7 @@
  **                                                                      **
  **************************************************************************/
 
-#include <scripts/qml/pqc_scriptsfilemanagement.h>
+#include <scripts/pqc_scriptsfilemanagement.h>
 #include <pqc_configfiles.h>
 #include <pqc_settings.h>
 #include <pqc_settingscpp.h>
@@ -109,20 +109,18 @@ void PQTScriptsFileManagement::testCopyFileToHere() {
     dir.mkdir(QDir::tempPath() + "/photoqt_test/newdir");
     QFile::copy(":/testing/blue.png", QDir::tempPath()+"/photoqt_test/blue.png");
 
-    PQCScriptsFileManagement scr;
-
     // normal copy
-    QVERIFY(scr.copyFileToHere(QDir::tempPath()+"/photoqt_test/blue.png", QDir::tempPath()+"/photoqt_test/newdir"));
+    QVERIFY(PQCScriptsFileManagement::get().copyFileToHere(QDir::tempPath()+"/photoqt_test/blue.png", QDir::tempPath()+"/photoqt_test/newdir"));
     QVERIFY(QFile::exists(QDir::tempPath()+"/photoqt_test/newdir/blue.png"));
 
     // copy existing
-    QVERIFY(!scr.copyFileToHere(QDir::tempPath()+"/photoqt_test/blue.png", QDir::tempPath()+"/photoqt_test/"));
+    QVERIFY(!PQCScriptsFileManagement::get().copyFileToHere(QDir::tempPath()+"/photoqt_test/blue.png", QDir::tempPath()+"/photoqt_test/"));
 
     // copy non-existing source
-    QVERIFY(!scr.copyFileToHere(QDir::tempPath()+"/photoqt_test/blue__.png", QDir::tempPath()+"/photoqt_test/"));
+    QVERIFY(!PQCScriptsFileManagement::get().copyFileToHere(QDir::tempPath()+"/photoqt_test/blue__.png", QDir::tempPath()+"/photoqt_test/"));
 
     // copy non-existing destination
-    QVERIFY(!scr.copyFileToHere(QDir::tempPath()+"/photoqt_test/blue.png", QDir::tempPath()+"/photoqt_test/fdfdfdf"));
+    QVERIFY(!PQCScriptsFileManagement::get().copyFileToHere(QDir::tempPath()+"/photoqt_test/blue.png", QDir::tempPath()+"/photoqt_test/fdfdfdf"));
 
 }
 
@@ -130,13 +128,11 @@ void PQTScriptsFileManagement::testDeletePermanentFile() {
 
     QFile::copy(":/testing/blue.png", QDir::tempPath()+"/photoqt_test/blue.png");
 
-    PQCScriptsFileManagement scr;
-
     // normal delete
-    QVERIFY(scr.deletePermanent(QDir::tempPath()+"/photoqt_test/blue.png"));
+    QVERIFY(PQCScriptsFileManagement::get().deletePermanent(QDir::tempPath()+"/photoqt_test/blue.png"));
 
     // delete non-existing
-    QVERIFY(!scr.deletePermanent(QDir::tempPath()+"/photoqt_test/blue__.png"));
+    QVERIFY(!PQCScriptsFileManagement::get().deletePermanent(QDir::tempPath()+"/photoqt_test/blue__.png"));
 
     QVERIFY(!QFile::exists(QDir::tempPath()+"/photoqt_test/blue.png"));
 
@@ -146,13 +142,11 @@ void PQTScriptsFileManagement::testMoveFileToTrash() {
 
     QFile::copy(":/testing/blue.png", QDir::tempPath()+"/photoqt_test/blue.png");
 
-    PQCScriptsFileManagement scr;
-
     // normal delete
-    QVERIFY(scr.moveFileToTrash(QDir::tempPath()+"/photoqt_test/blue.png"));
+    QVERIFY(PQCScriptsFileManagement::get().moveFileToTrash(QDir::tempPath()+"/photoqt_test/blue.png"));
 
     // delete non-existing
-    QVERIFY(!scr.moveFileToTrash(QDir::tempPath()+"/photoqt_test/blue__.png"));
+    QVERIFY(!PQCScriptsFileManagement::get().moveFileToTrash(QDir::tempPath()+"/photoqt_test/blue__.png"));
 
     QVERIFY(!QFile::exists(QDir::tempPath()+"/photoqt_test/blue.png"));
 

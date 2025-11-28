@@ -35,8 +35,6 @@ ToolBar {
     SystemPalette { id: pqtPaletteDisabled; colorGroup: SystemPalette.Disabled }
 
     property bool isIntegrated: PQCSettings.generalInterfaceVariant==="integrated"
-    Component.onCompleted:
-        isIntegrated = isIntegrated
 
     PQMenu {
         id: statusinfoMouse

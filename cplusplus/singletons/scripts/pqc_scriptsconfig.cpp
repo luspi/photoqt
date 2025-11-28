@@ -31,7 +31,9 @@
 #include <pqc_configfiles.h>
 #include <scripts/pqc_scriptsconfig.h>
 #include <scripts/pqc_scriptslocalization.h>
+#ifndef PQMTESTING
 #include <pqc_startuphandler.h>
+#endif
 #include <pqc_notify_cpp.h>
 
 #ifdef WIN32
@@ -603,8 +605,10 @@ bool PQCScriptsConfig::isICUSupportEnabled() {
 
 void PQCScriptsConfig::callStartupSetupFresh() {
 
+#ifndef PQMTESTING
     PQCStartupHandler startup(false, false);
     startup.setupFresh();
+#endif
 
 }
 
@@ -616,4 +620,30 @@ bool PQCScriptsConfig::askForConfirmation(QString title, QString text, QString i
     msg.setStandardButtons(QMessageBox::Yes | QMessageBox::Cancel);
     msg.setDefaultButton(QMessageBox::Yes);
     return (msg.exec() == QMessageBox::Yes);
+}
+
+bool PQCScriptsConfig::setInterfaceForNextStartup(QString variant) {
+    QFile file(PQCConfigFiles::get().CACHE_DIR() + "/nextstartupvariant");
+    if(!file.open(QIODevice::WriteOnly|QIODevice::Truncate)) {
+        qWarning() << "Unable to toggle interface variant";
+        return false;
+    }
+    QTextStream out(&file);
+    out << variant;
+    file.close();
+    return true;
+}
+
+QString PQCScriptsConfig::getInterfaceForNextStartup() {
+    QFile file(PQCConfigFiles::get().CACHE_DIR() + "/nextstartupvariant");
+    if(!file.exists()) return "";
+    if(!file.open(QIODevice::ReadOnly)) {
+        qWarning() << "Unable to read toggled interface variant";
+        return "";
+    }
+    QTextStream in(&file);
+    QString ret = in.readAll().trimmed();
+    if(ret == "modern" || ret == "integrated")
+        return ret;
+    return "";
 }

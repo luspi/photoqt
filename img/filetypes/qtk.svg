@@ -2,7 +2,7 @@
 <!-- Created with Inkscape (http://www.inkscape.org/) -->
 <svg width="4e3" height="4e3" version="1.1" viewBox="0 0 1058.3 1058.3" xmlns="http://www.w3.org/2000/svg">
  <g transform="matrix(1.1128 0 0 1.1128 -59.706 -59.706)">
-  <rect x="53.654" y="53.654" width="951.03" height="951.03" rx="0" ry="0" fill="#965686" stroke="#965686" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="0" stroke-width="107.31" style="paint-order:stroke fill markers"/>
+  <rect x="53.654" y="53.654" width="951.03" height="951.03" rx="0" ry="0" fill="#081b83" stroke="#081b83" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="0" stroke-width="107.31" style="paint-order:stroke fill markers"/>
   <text x="378.4613" y="827.80219" fill="#000000" font-family="sans-serif" font-size="167.57px" stroke-width=".26458" style="line-height:1.25" xml:space="preserve"><tspan x="378.4613" y="827.80219" fill="#ffffff" font-family="'DejaVu Sans Mono'" font-size="167.57px" font-weight="bold" stroke-width=".26458">QTK</tspan></text>
   <g transform="matrix(.96012 0 0 .96012 185.08 -320.77)" fill="#fff" stroke-width="21.341">
    <ellipse cx="498.8" cy="628.35" rx="42.509" ry="42.857"/>

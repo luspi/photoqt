@@ -32,6 +32,7 @@ PQSetting {
     property list<string> allExtensions
     property list<string> extensionsEnabled
     property list<string> extensionsDisabled
+    property list<string> extensionsFailed
 
     property int currentExpandedSetting: -1
 
@@ -42,6 +43,8 @@ PQSetting {
 
     signal loadCheckedStatus()
 
+    property list<string> extensionTrustRevoked: []
+
     content: [
 
         PQSettingSubtitle {
@@ -49,7 +52,7 @@ PQSetting {
             //: A settings title
             title: qsTranslate("settingsmanager", "Enabled extensions")
 
-            helptext: qsTranslate("settingsmanager", "PhotoQt's capabilities can be increased with various extensions. Here you can find a list of extensions currently known to PhotoQt and you can choose which one should be enabled. Some extensions come with additional settings accessible through the button on the far right.")
+            helptext: qsTranslate("settingsmanager", "PhotoQt's capabilities can be increased with various extensions. Here you can find a list of extensions currently known to PhotoQt and you can choose which one should be enabled. Some extensions come with additional settings that can be accessed by clicking on their entry. The trust status of an unverified extension that was trusted in the past can also be revoked here.")
 
             showLineAbove: false
 
@@ -135,6 +138,8 @@ PQSetting {
                         width: parent.width
                         height: 40
 
+                        enabled: extension_setting.isVerified || PQCSettings.generalExtensionsAllowUntrusted.indexOf(extension_setting.extensionId) > -1
+
                         PQMouseArea {
                             id: entrymouse
                             width: parent.width
@@ -208,10 +213,29 @@ PQSetting {
                             id: desc
                             x: verified.x+verified.width+10
                             y: (parent.height-height)/2
-                            width: extension_setting.width-verified.width-setupButton.width-check.width-30
+                            width: extension_setting.width-verified.width-setupButton.width-(revokeTrust.visible ? revokeTrust.width : 0)-check.width-40
                             opacity: 0.8
                             text: extension_setting.extDesc
                             elide: Text.ElideRight
+                        }
+
+                        PQButton {
+                            id: revokeTrust
+                            x: desc.x+desc.width
+                            enabled: extensionTrustRevoked.indexOf(extension_setting.extensionId) === -1
+                            visible: PQCSettings.generalExtensionsAllowUntrusted.indexOf(extension_setting.extensionId)>-1 ||
+                                     extensionTrustRevoked.indexOf(extension_setting.extensionId) > -1
+                            height: 40
+                            //: Trust here refers to trusting an unverified extension to run.
+                            text: qsTranslate("settingsmanager", "Revoke trust")
+                            smallerVersion: true
+                            font.weight: PQCLook.fontWeightNormal
+                            onClicked: {
+                                set_maex.extensionTrustRevoked.push(extension_setting.extensionId)
+                                PQCSettings.generalExtensionsAllowUntrusted = PQCSettings.generalExtensionsAllowUntrusted.filter(item => item !== extension_setting.extensionId)
+                                PQCExtensionsHandler.disableExtension(extension_setting.extensionId)
+                                check.checked = false
+                            }
                         }
 
                         Image {
@@ -252,34 +276,115 @@ PQSetting {
         PQSettingSubtitle {
 
             //: A settings title
-            title: qsTranslate("settingsmanager", "Verification")
+            title: qsTranslate("settingsmanager", "Unavailable extensions")
 
-            helptext: qsTranslate("settingsmanager", "Loading and executing arbitrary code always has to be treated with some caution. PhotoQt by default verifies any extension to make sure it is an official extension that has not been modified. If you want to use a custom or unofficial extension, you can disable this check here.")
+            helptext: qsTranslate("settingsmanager", "These extensions were found in the relevant locations but they failed their verification check. If you know the source of an extension you can manually force-enable any one of them. Note that you need to restart PhotoQt for an untrusted but allowed extension to be loaded.")
 
         },
 
-        PQText {
-            x: -set_maex.indentWidth
-            text: qsTranslate("settingsmanager", "Please be cautious about using code from unknown sources and make sure you can trust the origin of your extension.")
-            font.weight: PQCLook.fontWeightBold
+        Column {
+
+            id: col_failed
+
             width: parent.width
-            wrapMode: Text.WrapAtWordBoundaryOrAnywhere
-        },
 
-        PQCheckBox {
-            id: verifyCheck
-            text: qsTranslate("settingsmanager", "Enforce extension verification")
-            enabled: !PQCScriptsConfig.isDebugBuild()
-            onCheckedChanged: set_maex.checkForChanges()
-        },
+            spacing: 10
 
-        PQText {
-            x: -set_maex.indentWidth
-            visible: PQCScriptsConfig.isDebugBuild()
-            // this string does not need to be translated, normal users will never see it
-            text: "Note: Debug builds never enforce verification of extensions."
-            width: parent.width
-            wrapMode: Text.WrapAtWordBoundaryOrAnywhere
+            Repeater {
+                model: set_maex.extensionsFailed.length
+
+                Rectangle {
+
+                    id: extensionfailed_setting
+
+                    required property int index
+                    property string extensionId: set_maex.extensionsFailed[index]
+
+                    property string extVersion: PQCExtensionsHandler.getExtensionVersion(extensionId)
+                    property string extName: PQCExtensionsHandler.getExtensionName(extensionId)
+                    property string extDesc: PQCExtensionsHandler.getExtensionDescription(extensionId)
+                    property string extAuthor: PQCExtensionsHandler.getExtensionAuthor(extensionId)
+                    property string extContact: PQCExtensionsHandler.getExtensionContact(extensionId)
+                    property string extWebsite: PQCExtensionsHandler.getExtensionWebsite(extensionId)
+                    property string extBaseDir: PQCExtensionsHandler.getExtensionLocation(extensionId)
+
+                    property string tooltipText: "<h2>" + extensionfailed_setting.extName + "</h2>
+                                                 <b>" + qsTranslate("settingsmanager", "Version") + ":</b> " + extVersion + "<br>
+                                                 <b>" + qsTranslate("settingsmanager", "Author") + ":</b> " + extAuthor + "<br>
+                                                 <b>" + qsTranslate("settingsmanager", "Contact") + ":</b> " + extContact + "<br>
+                                                 <b>" + qsTranslate("settingsmanager", "Website:") + "</b> " + extWebsite + "<br><br>
+                                                 <b>" + qsTranslate("settingsmanager", "Loaded from") + ":</b><br>" + extBaseDir
+
+                    width: col_failed.width
+                    height: 40
+                    color: pqtPalette.alternateBase
+                    clip: true
+
+                    Item {
+
+                        width: parent.width
+                        height: 40
+
+                        PQText {
+                            id: nametxt
+                            x: 5
+                            y: (parent.height-height)/2
+                            text: extensionfailed_setting.extName
+                        }
+
+                        PQMouseArea {
+                            width: nametxt.width+10
+                            height: parent.height
+                            hoverEnabled: true
+                            cursorShape: Qt.PointingHandCursor
+                            text: extensionfailed_setting.tooltipText
+                        }
+
+                        Image {
+                            id: verified_failed
+                            visible: !extensionfailed_setting.isDebugBuild
+                            x: nametxt.x+nametxt.width+5
+                            y: (parent.height-height)/2
+                            width: visible ? nametxt.height*0.75 : 0
+                            height: visible ? nametxt.height*0.75 : 0
+                            source: "image://svg/:/other/verified_no.svg"
+                            sourceSize: Qt.size(width, height)
+                        }
+
+                        PQText {
+                            id: desc_failed
+                            x: verified_failed.x+verified_failed.width+10
+                            y: (parent.height-height)/2
+                            width: extensionfailed_setting.width-verified_failed.width-trustButton.width-nametxt.width-30
+                            opacity: 0.8
+                            text: extensionfailed_setting.extDesc
+                            elide: Text.ElideRight
+                        }
+
+                        PQButton {
+                            id: trustButton
+                            x: (parent.width-width)
+                            height: 40
+                            smallerVersion: true
+                            font.weight: PQCLook.fontWeightNormal
+                            enabled: PQCSettings.generalExtensionsAllowUntrusted.indexOf(extensionfailed_setting.extensionId)===-1
+                            text: "Trust this extension"
+                            onClicked: {
+                                if(PQCScriptsConfig.askForConfirmation(qsTranslate("settingsmanager", "Trust extension?"), qsTranslate("settingsmanager", "Name:") + " " + extensionfailed_setting.extName, qsTranslate("settingsmanager", "Are you sure you want to enable this extension? This will take effect the next time you start PhotoQt."))) {
+                                    if(PQCSettings.generalExtensionsAllowUntrusted.indexOf(extensionfailed_setting.extensionId) === -1)
+                                        PQCSettings.generalExtensionsAllowUntrusted.push(extensionfailed_setting.extensionId)
+                                    if(PQCSettings.generalExtensionsEnabled.indexOf(extensionfailed_setting.extensionId) > -1)
+                                        PQCSettings.generalExtensionsEnabled = PQCSettings.generalExtensionsEnabled.filter((item, index) => item !== extensionfailed_setting.extensionId)
+                                }
+                            }
+                        }
+
+                    }
+
+                }
+
+            }
+
         },
 
         /***************************************/
@@ -343,8 +448,7 @@ PQSetting {
         var refD = PQCExtensionsHandler.getDisabledExtensions().sort()
 
         PQCConstants.settingsManagerSettingChanged = (!PQF.areTwoListsEqual(extensionsEnabled, refE) ||
-                                                      !PQF.areTwoListsEqual(extensionsDisabled, refD) ||
-                                                      verifyCheck.hasChanged())
+                                                      !PQF.areTwoListsEqual(extensionsDisabled, refD))
 
     }
 
@@ -358,13 +462,9 @@ PQSetting {
         allExtensions = PQCExtensionsHandler.getExtensionsEnabledAndDisabld()
         extensionsEnabled = PQCExtensionsHandler.getExtensions()
         extensionsDisabled = PQCExtensionsHandler.getDisabledExtensions()
+        extensionsFailed = PQCExtensionsHandler.getFailedExtensions()
 
         set_maex.loadCheckedStatus()
-
-        if(PQCScriptsConfig.isDebugBuild())
-            verifyCheck.checked = false
-        else
-            verifyCheck.loadAndSetDefault(PQCSettings.generalExtensionsEnforeVerification)
 
         PQCConstants.settingsManagerSettingChanged = false
         settingsLoaded = true
@@ -373,15 +473,12 @@ PQSetting {
 
     function applyChanges() {
 
-        var enabledUnique = extensionsEnabled.filter((item, index) => extensionsEnabled.indexOf(item) === index).sort()
-        var disabledUnique = extensionsDisabled.filter((item, index) => extensionsDisabled.indexOf(item) === index).sort()
+        var enabledUnique = extensionsEnabled.filter((item, index) => extensionsEnabled.indexOf(item) === index && extensionTrustRevoked.indexOf(item) === -1).sort()
+        var disabledUnique = extensionsDisabled.filter((item, index) => extensionsDisabled.indexOf(item) === index || extensionTrustRevoked.indexOf(item) > -1).sort()
 
         PQCExtensionsHandler.setDisabledExtensions(disabledUnique)
         PQCExtensionsHandler.setEnabledExtensions(enabledUnique)
         PQCSettings.generalExtensionsEnabled = enabledUnique
-
-        if(!PQCScriptsConfig.isDebugBuild())
-            PQCSettings.generalExtensionsEnforeVerification = verifyCheck.checked
 
         PQCConstants.settingsManagerSettingChanged = false
 

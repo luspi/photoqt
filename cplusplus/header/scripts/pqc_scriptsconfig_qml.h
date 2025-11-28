@@ -152,4 +152,12 @@ public:
         return PQCScriptsConfig::get().askForConfirmation(title, text, informativeText);
     }
 
+    // interface handling at runtime
+    Q_INVOKABLE bool setInterfaceForNextStartup(QString variant) {
+        return PQCScriptsConfig::get().setInterfaceForNextStartup(variant);
+    }
+    Q_INVOKABLE QString getInterfaceForNextStartup() {
+        return PQCScriptsConfig::get().getInterfaceForNextStartup();
+    }
+
 };

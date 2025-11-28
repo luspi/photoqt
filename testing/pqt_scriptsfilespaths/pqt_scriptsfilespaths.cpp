@@ -20,9 +20,8 @@
  **                                                                      **
  **************************************************************************/
 
-#include <scripts/cpp/pqc_scriptsfilespaths.h>
+#include <scripts/pqc_scriptsfilespaths.h>
 #include <pqc_configfiles.h>
-#include <pqc_settings.h>
 #include "./pqt_scriptsfilespaths.h"
 
 int main(int argc, char **argv) {
@@ -49,9 +48,6 @@ int main(int argc, char **argv) {
 }
 
 void PQTScriptsFilesPaths::init() {
-
-    // we just need to instantiate this to populate current settings to PQCSettingsCPP
-    PQCSettings set;
 
     QDir dir;
     dir.mkpath(PQCConfigFiles::get().CONFIG_DIR());

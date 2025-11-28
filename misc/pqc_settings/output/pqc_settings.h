@@ -463,17 +463,17 @@ public:
     Q_INVOKABLE const bool getDefaultForGeneralDisableAllAnimations();
     Q_INVOKABLE void setDefaultForGeneralDisableAllAnimations();
 
+    Q_PROPERTY(QStringList generalExtensionsAllowUntrusted READ getGeneralExtensionsAllowUntrusted WRITE setGeneralExtensionsAllowUntrusted NOTIFY generalExtensionsAllowUntrustedChanged)
+    QStringList getGeneralExtensionsAllowUntrusted();
+    void setGeneralExtensionsAllowUntrusted(QStringList val);
+    Q_INVOKABLE const QStringList getDefaultForGeneralExtensionsAllowUntrusted();
+    Q_INVOKABLE void setDefaultForGeneralExtensionsAllowUntrusted();
+
     Q_PROPERTY(QStringList generalExtensionsEnabled READ getGeneralExtensionsEnabled WRITE setGeneralExtensionsEnabled NOTIFY generalExtensionsEnabledChanged)
     QStringList getGeneralExtensionsEnabled();
     void setGeneralExtensionsEnabled(QStringList val);
     Q_INVOKABLE const QStringList getDefaultForGeneralExtensionsEnabled();
     Q_INVOKABLE void setDefaultForGeneralExtensionsEnabled();
-
-    Q_PROPERTY(bool generalExtensionsEnforeVerification READ getGeneralExtensionsEnforeVerification WRITE setGeneralExtensionsEnforeVerification NOTIFY generalExtensionsEnforeVerificationChanged)
-    bool getGeneralExtensionsEnforeVerification();
-    void setGeneralExtensionsEnforeVerification(bool val);
-    Q_INVOKABLE const bool getDefaultForGeneralExtensionsEnforeVerification();
-    Q_INVOKABLE void setDefaultForGeneralExtensionsEnforeVerification();
 
     Q_PROPERTY(QStringList generalExtensionsFloatingSetup READ getGeneralExtensionsFloatingSetup WRITE setGeneralExtensionsFloatingSetup NOTIFY generalExtensionsFloatingSetupChanged)
     QStringList getGeneralExtensionsFloatingSetup();
@@ -1887,8 +1887,8 @@ private:
     bool m_generalAutoSaveSettings;
     bool m_generalCompactSettings;
     bool m_generalDisableAllAnimations;
+    QStringList m_generalExtensionsAllowUntrusted;
     QStringList m_generalExtensionsEnabled;
-    bool m_generalExtensionsEnforeVerification;
     QStringList m_generalExtensionsFloatingSetup;
     QString m_generalInterfaceVariant;
     QString m_generalVersion;
@@ -2201,8 +2201,8 @@ Q_SIGNALS:
     void generalAutoSaveSettingsChanged();
     void generalCompactSettingsChanged();
     void generalDisableAllAnimationsChanged();
+    void generalExtensionsAllowUntrustedChanged();
     void generalExtensionsEnabledChanged();
-    void generalExtensionsEnforeVerificationChanged();
     void generalExtensionsFloatingSetupChanged();
     void generalInterfaceVariantChanged();
     void generalVersionChanged();

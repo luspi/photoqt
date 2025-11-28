@@ -61,14 +61,17 @@
 PQCExtensionsHandler::PQCExtensionsHandler() {
     m_numExtensionsEnabled = 0;
     m_numExtensionsAll = 0;
+    m_numExtensionsFailed = 0;
     resetNumExtensionsAll = new QTimer;
     resetNumExtensionsAll->setInterval(250);
     resetNumExtensionsAll->setSingleShot(false);
     connect(resetNumExtensionsAll, &QTimer::timeout, this, [=]() {
         m_numExtensionsEnabled = m_extensions.length();
         m_numExtensionsAll = m_extensions.length()+m_extensionsDisabled.length();
+        m_numExtensionsFailed = m_extensionsFailed.length();
         Q_EMIT numExtensionsEnabledChanged();
         Q_EMIT numExtensionsAllChanged();
+        Q_EMIT numExtensionsFailedChanged();
     });
 
     connect(&PQCSettingsCPP::get(), &PQCSettingsCPP::interfaceLanguageChanged, this, &PQCExtensionsHandler::updateTranslationLanguage);
@@ -122,20 +125,22 @@ void PQCExtensionsHandler::setup() {
 
                 }
 
-#ifdef NDEBUG
-                if(PQCSettingsCPP::get().getGeneralExtensionsEnforeVerification() && !verifyExtension(baseDir, id)) {
+                bool verificationPassed = verifyExtension(baseDir, id);
+                bool allowUntrusted = false;
+                if(!verificationPassed) {
 
-                    qWarning() << "Extension with id" << id << "did not pass verification but verification is enforced.";
-                    qWarning() << "*********************************************************";
-                    continue;
+                    qWarning() << "Extension with id" << id << "did not pass verification check!";
+
+#ifdef NDEBUG
+                    if(!PQCSettingsCPP::get().getGeneralExtensionsAllowUntrusted().contains(id))
+                        qWarning() << "Extension with id" << id << "will not be loaded";
+                    else
+#endif
+                        allowUntrusted = true;
 
                 }
 
-#else
-                qDebug() << "Debug build => extension verification is disabled";
-#endif
-
-                bool extEnabled = true;
+                bool extEnabled = verificationPassed||allowUntrusted;
 
                 if(m_allextensions.contains(id)) {
                     qDebug() << "Extension with id" << id << "exists already.";
@@ -182,8 +187,12 @@ void PQCExtensionsHandler::setup() {
                         else
                             qWarning() << id << "- unable to install translator:" << PQCScriptsLocalization::get().getActiveTranslationCode();
                     }
-                } else
-                    m_extensionsDisabled.append(id);
+                } else {
+                    if(allowUntrusted || verificationPassed)
+                        m_extensionsDisabled.append(id);
+                    else
+                        m_extensionsFailed.append(id);
+                }
                 m_allextensions.insert(id, extinfo);
 
             }
@@ -192,8 +201,10 @@ void PQCExtensionsHandler::setup() {
 
         m_numExtensionsEnabled = m_extensions.length();
         m_numExtensionsAll = m_extensions.length()+m_extensionsDisabled.length();
+        m_numExtensionsFailed = m_extensionsFailed.length();
         Q_EMIT numExtensionsEnabledChanged();
         Q_EMIT numExtensionsAllChanged();
+        Q_EMIT numExtensionsFailedChanged();
 
         if(m_extensions.length())
             qDebug() << "The following extensions have been enabled:" << m_extensions.join(", ");
@@ -536,6 +547,10 @@ QStringList PQCExtensionsHandler::getExtensions() {
 
 QStringList PQCExtensionsHandler::getDisabledExtensions() {
     return m_extensionsDisabled;
+}
+
+QStringList PQCExtensionsHandler::getFailedExtensions() {
+    return m_extensionsFailed;
 }
 
 QStringList PQCExtensionsHandler::getExtensionsEnabledAndDisabld() {
@@ -1300,7 +1315,7 @@ bool PQCExtensionsHandler::verifyExtension(QString baseDir, QString id) {
     QByteArray manifestsig = fmanifestsig.readAll();
 
     if(!pubkey.verifyMessage(manifest, manifestsig, QCA::EMSA3_SHA256)) {
-        qWarning() << id << "- Signature of manifest is wrong";
+        qWarning() << id << "- Signature of verification.txt is wrong";
         return false;
     }
 

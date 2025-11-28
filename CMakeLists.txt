@@ -9,7 +9,7 @@ project(photoqt LANGUAGES C CXX)
 ####  GLOBAL VERSION STRING FOR ALL FILES (INCLUDING CPP/QML) ####
 ##################################################################
 
-SET(APPVERSION "dev")
+SET(APPVERSION "5.0-beta1")
 
 ###################################
 ####  ENSURE BUILD TYPE IS SET ####
@@ -665,7 +665,11 @@ if(WITH_EXTENSIONS_SUPPORT)
         list(APPEND STATUS_DISABLED "Build included extensions")
     endif()
     target_compile_definitions(photoqt PRIVATE PQMEXTENSIONS)
-    target_link_libraries(photoqt PRIVATE yaml-cpp)
+    if(TARGET yaml-cpp::yaml-cpp)
+        target_link_libraries(photoqt PRIVATE yaml-cpp::yaml-cpp)
+    else()
+        target_link_libraries(photoqt PRIVATE yaml-cpp)
+    endif()
     target_link_libraries(photoqt PRIVATE ${Qca_LIBRARY})
     target_include_directories(photoqt PRIVATE "${Qca_INCLUDE_DIR}")
 else()

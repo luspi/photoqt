@@ -71,6 +71,7 @@ public:
 
     Q_PROPERTY(int numExtensionsEnabled MEMBER m_numExtensionsEnabled NOTIFY numExtensionsEnabledChanged)
     Q_PROPERTY(int numExtensionsAll MEMBER m_numExtensionsAll NOTIFY numExtensionsAllChanged)
+    Q_PROPERTY(int numExtensionsFailed MEMBER m_numExtensionsFailed NOTIFY numExtensionsFailedChanged)
 
     // proeprties regarding which context menu to add an extension to
     Q_PROPERTY(QStringList contextMenuUse MEMBER m_contextMenuUse NOTIFY contextMenuUseChanged)
@@ -115,6 +116,9 @@ public:
     // get a list of all disabled extensions
     Q_INVOKABLE QStringList getDisabledExtensions();
 
+    // get a list of all extensions that failed the verification and are not excluded
+    Q_INVOKABLE QStringList getFailedExtensions();
+
     // get a list of all extensions ids, enabled AND disabled
     Q_INVOKABLE QStringList getExtensionsEnabledAndDisabld();
 
@@ -157,6 +161,7 @@ private:
     // these are processed ones and then cached as they are needed often
     QStringList m_extensions;
     QStringList m_extensionsDisabled;
+    QStringList m_extensionsFailed;
 
     QMap<QString, PQCExtensionActions*> m_actions;
 
@@ -165,6 +170,7 @@ private:
 
     int m_numExtensionsEnabled;
     int m_numExtensionsAll;
+    int m_numExtensionsFailed;
     QTimer *resetNumExtensionsAll;
 
     void loadSettingsInBGToLookForShortcuts();
@@ -187,6 +193,7 @@ private Q_SLOTS:
 Q_SIGNALS:
     void numExtensionsEnabledChanged();
     void numExtensionsAllChanged();
+    void numExtensionsFailedChanged();
 
     void mainmenuChanged();
     void contextMenuUseChanged();

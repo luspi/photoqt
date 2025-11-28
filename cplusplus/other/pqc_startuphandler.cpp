@@ -274,6 +274,32 @@ void PQCStartupHandler::performChecksAndUpdates() {
     /********************************************************************/
     /********************************************************************/
 
+    // Finally we check whether last time a new interface variant was requested -> set it if so
+    QFile file(PQCConfigFiles::get().CACHE_DIR() + "/nextstartupvariant");
+    if(file.exists()) {
+        if(!file.open(QIODevice::ReadOnly)) {
+            qWarning() << "Unable to read file to set new interface variant";
+        } else {
+
+            QTextStream in(&file);
+            QString variant = in.readAll().trimmed();
+
+            QSqlQuery query(QSqlDatabase::database("settings"));
+            query.prepare("INSERT OR REPLACE INTO `general` (`name`, `value`, `datatype`) VALUES ('InterfaceVariant', :val, 'string')");
+            query.bindValue(":val", variant);
+
+            if(!query.exec())
+                qWarning() << "Unable to store interface selection:" << query.lastError().text();
+
+            query.clear();
+        }
+        file.close();
+        if(!file.remove()) {
+            qWarning() << "Unable to remove file at:" << file.fileName();
+            qWarning() << "Interface variant will be re-set again next time";
+        }
+    }
+
 }
 
 QString PQCStartupHandler::getInterfaceVariant() {

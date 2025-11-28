@@ -76,7 +76,7 @@ ApplicationWindow {
     }
 
     /**************************************/
-    // INTEGRATED INTERFACE ONLY
+        // INTEGRATED INTERFACE ONLY
         Connections {
             target: PQCSettings
             enabled: toplevel.isIntegrated
@@ -134,7 +134,7 @@ ApplicationWindow {
     }
 
     /**************************************/
-    // INTEGRATED INTERFACE ONLY
+        // INTEGRATED INTERFACE ONLY
         Loader {
             anchors.fill: parent
             active: toplevel.isIntegrated
@@ -171,76 +171,18 @@ ApplicationWindow {
     }
 
     /**************************************/
-    // MODERN INTERFACE ONLY
-        Loader {
-            anchors.fill: parent
-            active: toplevel.isModern
-            asynchronous: (PQCConstants.startupFilePath!=="")
-            sourceComponent: PQMainWindowBackgroundModern {}
-        }
-        Loader {
-            anchors.fill: parent
-            asynchronous: (PQCConstants.startupFilePath!=="")
-            active: toplevel.isModern
-            sourceComponent: PQBackgroundMessageModern {
-                x: (PQCSettings.metadataSideBar&&PQCSettings.metadataSideBarLocation==="left" ? PQCSettings.metadataSideBarWidth : 0)
-                width: PQCConstants.availableWidth
-                height: PQCConstants.availableHeight
-            }
-        }
-    /**************************************/
-    /**************************************/
-    // INTEGRATED INTERFACE ONLY
-        Loader {
-            anchors.fill: parent
-            asynchronous: (PQCConstants.startupFilePath!=="")
-            active: toplevel.isIntegrated
-            sourceComponent: PQBackgroundMessageIntegrated {
-                x: (PQCSettings.metadataSideBar&&PQCSettings.metadataSideBarLocation==="left" ? PQCSettings.metadataSideBarWidth : 0)
-                width: PQCConstants.availableWidth
-                height: PQCConstants.availableHeight
-            }
-        }
-    /**************************************/
 
-    // very cheap to set up, many properties needed everywhere -> no loader
-    Loader {
-        id: imageloader
-        asynchronous: true
-        active: false
-        sourceComponent: PQImage {
-            toplevelItem: fullscreenitem
-        }
-    }
+        // MODERN INTERFACE ONLY
+        PQLoaderMainWindowBackgroundModern {}
+    PQLoaderBackgroundMessage {}
 
-    /**************************************/
-    // INTEGRATED INTERFACE ONLY
-        Loader {
-            z: 1
-            active: toplevel.isIntegrated &&
-                    PQCSettings.metadataSideBar&&PQCSettings.metadataSideBarLocation==="left"
-            sourceComponent: PQSideBarIntegrated {
-                z: 1
-            }
-        }
-        Loader {
-            x: toplevel.width-width
-            z: 1
-            active: toplevel.isIntegrated &&
-                    PQCSettings.metadataSideBar&&PQCSettings.metadataSideBarLocation==="right"
-            sourceComponent: PQSideBarIntegrated {
-                z: 1
-            }
-        }
-    /**************************************/
+    PQLoaderImage { id: imageloader; toplevelItem: fullscreenitem }
 
-    /****************************************************/
+        // INTEGRATED INTERFACE ONLY
+        PQLoaderSideBarIntegrated { whichside: "left" }
+        PQLoaderSideBarIntegrated { whichside: "right"; x: toplevel.width-width }
 
-    Loader {
-        id: shortcuts
-        asynchronous: true
-        sourceComponent: PQShortcuts {}
-    }
+    PQLoaderShortcuts { id: shortcuts }
 
     // This is a Loader that loads the rest of the application in the background after set up
     PQMasterItem {
@@ -248,22 +190,24 @@ ApplicationWindow {
         z: 2
     }
 
-    Loader {
+    PQLoaderLoader {
         id: masterloader
-        z: 3
-        anchors.fill: parent
-        asynchronous: true
-        sourceComponent: PQLoader {
-            onShowExtension: (ele) => {
-                masteritemattop.showExtension(ele)
-            }
+        function onShowExtension(ele : string) {
+            masteritemattop.showExtension(ele)
         }
     }
 
     /****************************************************/
+    /****************************************************/
+
+    // this needs to be out here to be loaded faster if needed
+    PQLoaderFileDialog {}
+
+    /****************************************************/
+    /****************************************************/
 
     Loader {
-        active: PQCScriptsConfig.isBetaVersion()
+        active: PQCScriptsConfig.isBetaVersion() && toplevel.isModern
         sourceComponent:
         PQText {
             x: fullscreenitem.width-width-5
@@ -316,9 +260,6 @@ ApplicationWindow {
     }
 
     Component.onCompleted: {
-
-        isModern = isModern
-        isIntegrated = isIntegrated
 
         PQCScriptsLocalization.updateTranslation(PQCSettings.interfaceLanguage)
 

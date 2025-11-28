@@ -83,9 +83,5 @@ Row {
         }
     }
 
-    Component.onCompleted: {
-        isModern = isModern
-    }
-
 }
 

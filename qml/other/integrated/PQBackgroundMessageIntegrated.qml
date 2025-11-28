@@ -137,7 +137,6 @@ Item {
         id: imagemouse
 
         anchors.fill: parent
-        anchors.topMargin: PQCSettings.interfaceWindowMode && !PQCSettings.interfaceWindowDecoration ? 30 : 0
         hoverEnabled: true
         cursorShape: Qt.PointingHandCursor
         acceptedButtons: Qt.AllButtons

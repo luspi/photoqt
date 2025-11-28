@@ -374,8 +374,6 @@ PQTemplate {
             return false
         }
         opacity = 1
-        if(popoutWindowUsed)
-            filter_popout.visible = true
 
         // we explicitely load the data below to pre-load it even when switching between popout and not
 
