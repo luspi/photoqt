@@ -148,7 +148,7 @@ PQSetting {
                             property bool hovered: false
 
                             PQHighlightMarker {
-                                visible: deleg.hovered||check.checked
+                                visible: deleg.hovered
                             }
 
                             PQToolTip {

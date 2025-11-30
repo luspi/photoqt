@@ -155,7 +155,7 @@ PQSetting {
                             Behavior on opacity { enabled: !PQCSettings.generalDisableAllAnimations; NumberAnimation { duration: 150 } }
 
                             PQHighlightMarker {
-                                visible: tilemouse.containsMouse||check.checked
+                                visible: tilemouse.containsMouse
                             }
 
                             property bool delegSetup: false

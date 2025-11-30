@@ -193,7 +193,7 @@ PQSetting {
                                     Behavior on opacity { enabled: !PQCSettings.generalDisableAllAnimations; NumberAnimation { duration: 150 } }
 
                                     PQHighlightMarker {
-                                        visible: (enabled&&(tilemouse.containsMouse||check.checked))
+                                        visible: (enabled&&tilemouse.containsMouse)
                                     }
 
                                     property bool delegSetup: false
