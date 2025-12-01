@@ -33,8 +33,6 @@ Button {
 
     opacity: enabled ? 1 : 0.5
 
-    SystemPalette { id: pqtPalette }
-
     property bool enableContextMenu: true
     property alias contextmenu: menu
 
@@ -53,7 +51,7 @@ Button {
         text: "  " + control.text + "  "
         font: control.font
         opacity: enabled ? 1.0 : 0.3
-        color: pqtPalette.text
+        color: control.palette.text
         horizontalAlignment: Text.AlignHCenter
         verticalAlignment: Text.AlignVCenter
         elide: Text.ElideRight
@@ -63,7 +61,7 @@ Button {
         implicitWidth: 100
         implicitHeight: 40
         opacity: enabled ? 1 : 0.3
-        color: control.down ? pqtPalette.highlight : pqtPalette.button
+        color: control.down ? control.palette.highlight : control.palette.button
         border.color: PQCLook.baseBorder
         border.width: 1
         radius: 2

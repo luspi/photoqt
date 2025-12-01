@@ -28,9 +28,6 @@ Menu {
 
     id: control
 
-    SystemPalette { id: pqtPalette }
-    SystemPalette { id: pqtPaletteDisabled; colorGroup: SystemPalette.Disabled }
-
     // setting the inset and padding properties are necessary in particular on Windows
     // See: https://bugreports.qt.io/browse/QTBUG-131499
 
@@ -52,7 +49,7 @@ Menu {
     background: Rectangle {
         implicitWidth: 250
         implicitHeight: 40
-        color: pqtPalette.base
+        color: control.palette.base
         radius: 2
         Rectangle {
             anchors.fill: parent

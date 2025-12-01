@@ -35,12 +35,12 @@ CheckBox {
     width: (enforceMaxWidth===0 ? implicitWidth : Math.min(enforceMaxWidth, implicitWidth))
 
     SystemPalette { id: pqtPalette }
-    SystemPalette { id: pqtPaletteDisabled; colorGroup: SystemPalette.Disabled }
+    palette: pqtPalette
 
     contentItem: Text {
         text: control.text
         font: control.font
-        color: enabled ? pqtPalette.text : pqtPaletteDisabled.text
+        color: control.palette.text
         verticalAlignment: Text.AlignVCenter
         leftPadding: control.indicator.width + control.spacing
     }

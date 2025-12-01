@@ -26,9 +26,9 @@ import PhotoQt
 
 Text {
 
-    SystemPalette { id: pqtPalette }
-    SystemPalette { id: pqtPaletteDisabled; colorGroup: SystemPalette.Disabled }
-    color: enabled ? pqtPalette.text : pqtPaletteDisabled.text
+    id: control
+
+    color: control.palette.text
     Behavior on color { enabled: !PQCSettings.generalDisableAllAnimations; ColorAnimation { duration: 200 } }
     font.pointSize: PQCLook.fontSizeXL
     font.weight: PQCLook.fontWeightNormal

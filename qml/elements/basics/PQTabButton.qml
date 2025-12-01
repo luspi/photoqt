@@ -39,14 +39,12 @@ TabButton {
 
     font.pointSize: settingsManagerMainTab ? PQCLook.fontSize : PQCLook.fontSize-2
 
-    SystemPalette { id: pqtPalette }
-
     contentItem: Text {
         leftPadding: 20
         text: control.text
         font: control.font
         opacity: enabled ? 1.0 : 0.3
-        color: pqtPalette.text
+        color: control.palette.text
         horizontalAlignment: Text.AlignLeft
         verticalAlignment: Text.AlignVCenter
         wrapMode: Text.WrapAtWordBoundaryOrAnywhere
@@ -54,13 +52,13 @@ TabButton {
 
     background: Rectangle {
         opacity: enabled ? 1 : 0.3
-        color: pqtPalette.base
+        color: control.palette.base
 
         Rectangle {
             y: 0
             width: parent.width
             height: 1
-            color: pqtPalette.text
+            color: control.palette.text
             visible: control.lineAbove
             opacity: 0.2
         }
@@ -74,7 +72,7 @@ TabButton {
             y: (parent.height-height)
             width: parent.width
             height: 1
-            color: pqtPalette.text
+            color: control.palette.text
             visible: control.lineBelow
             opacity: 0.2
         }

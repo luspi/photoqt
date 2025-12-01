@@ -26,9 +26,9 @@ import PhotoQt
 
 Text {
 
-    SystemPalette { id: pqtPalette }
-    SystemPalette { id: pqtPaletteDisabled; colorGroup: SystemPalette.Disabled }
-    color: enabled ? pqtPalette.text : pqtPaletteDisabled.text
+    id: control
+
+    color: control.palette.text
     font.pointSize: PQCLook.fontSize
     font.weight: PQCLook.fontWeightNormal
     property bool animateColorChanged: true

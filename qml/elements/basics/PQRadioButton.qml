@@ -28,9 +28,6 @@ RadioButton {
 
     id: control
 
-    SystemPalette { id: pqtPalette }
-    SystemPalette { id: pqtPaletteDisabled; colorGroup: SystemPalette.Disabled }
-
     property int elide: enforceMaxWidth==0 ? Text.ElideNone : Text.ElideRight
 
     font.pointSize: PQCLook.fontSize
@@ -41,7 +38,7 @@ RadioButton {
     contentItem: Text {
         text: control.text
         font: control.font
-        color: enabled ? pqtPalette.text : pqtPaletteDisabled.text
+        color: control.palette.text
         verticalAlignment: Text.AlignVCenter
         leftPadding: control.indicator.width + control.spacing
     }

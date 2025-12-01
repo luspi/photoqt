@@ -28,9 +28,6 @@ Button {
 
     id: but_top
 
-    SystemPalette { id: pqtPalette }
-    SystemPalette { id: pqtPaletteDisabled; colorGroup: SystemPalette.Disabled }
-
     property string tooltip: ""
 
     signal rightClicked()
@@ -47,7 +44,7 @@ Button {
     contentItem: Text {
         text: but_top.text
         font: but_top.font
-        color: enabled ? pqtPalette.text : pqtPaletteDisabled.text
+        color: but_top.palette.text
         horizontalAlignment: but_top.horizontalAlignment
         verticalAlignment: Text.AlignVCenter
         elide: Text.ElideRight
@@ -57,7 +54,7 @@ Button {
         implicitWidth: 100
         implicitHeight: 40
         opacity: enabled ? 1 : 0.3
-        color: but_top.down||but_top.forceHovered ? pqtPalette.highlight : pqtPalette.button
+        color: but_top.down||but_top.forceHovered ? but_top.palette.highlight : but_top.palette.button
         border.color: PQCLook.baseBorder
         border.width: 1
         radius: 2

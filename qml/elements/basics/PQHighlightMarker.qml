@@ -24,20 +24,20 @@ import QtQuick
 
 Rectangle {
 
-    SystemPalette { id: pqtPalette }
+    id: control
 
     anchors.fill: parent
     anchors.margins: 3
     color: "transparent"
     border.width: 1
-    border.color: pqtPalette.highlight
+    border.color: control.palette.highlight
     radius: 5
 
     Rectangle {
         id: highlightMarker
         anchors.fill: parent
         opacity: 0.5
-        color: pqtPalette.highlight
+        color: control.palette.highlight
         radius: 5
     }
 }

@@ -37,9 +37,6 @@ MenuItem {
         }
     }
 
-    SystemPalette { id: pqtPalette }
-    SystemPalette { id: pqtPaletteDisabled; colorGroup: SystemPalette.Disabled }
-
     property string iconSource: ""
     property bool checkableLikeRadioButton: false
     property bool moveToRightABit: false
@@ -62,7 +59,7 @@ MenuItem {
             height: control.h
             text: control.text
             font: control.font
-            color: control.enabled ? pqtPalette.text : pqtPaletteDisabled.text
+            color: control.palette.text
             opacity: control.enabled ? 1 : 0.6
             Behavior on opacity { enabled: !PQCSettings.generalDisableAllAnimations; NumberAnimation { duration: 200 } }
             horizontalAlignment: Text.AlignLeft
@@ -103,14 +100,14 @@ MenuItem {
             height: control.h/2
             anchors.centerIn: parent
             border.color: PQCLook.baseBorder
-            color: pqtPalette.alternateBase
+            color: control.palette.alternateBase
             radius: control.checkableLikeRadioButton ? 10 : 2
             Rectangle {
                 width: control.h/4
                 height: control.h/4
                 anchors.centerIn: parent
                 visible: control.checked
-                color: control.enabled ? pqtPalette.text : PQCLook.baseBorder
+                color: control.enabled ? control.palette.text : PQCLook.baseBorder
                 radius: control.checkableLikeRadioButton ? 5 : 2
             }
         }

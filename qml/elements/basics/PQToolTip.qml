@@ -30,8 +30,6 @@ ToolTip {
     text: ""
     delay: 500
 
-    SystemPalette { id: pqtPalette }
-
     font.pointSize: PQCLook.fontSize
     font.weight: PQCLook.fontWeightNormal
 

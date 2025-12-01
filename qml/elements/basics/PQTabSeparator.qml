@@ -32,8 +32,6 @@ TabButton {
     implicitHeight: 2
     implicitWidth: parent.width
 
-    SystemPalette { id: pqtPalette }
-
     contentItem: Item {}
 
     background: Item {}

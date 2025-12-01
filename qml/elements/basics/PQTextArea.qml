@@ -53,13 +53,11 @@ ScrollView {
             width: control.availableWidth
         }
 
-    SystemPalette { id: pqtPalette }
-
     TextArea {
 
         id: textarea
 
-        color: pqtPalette.text
+        color: control.palette.text
 
         font.pointSize: PQCLook.fontSize
         font.weight: PQCLook.fontWeightNormal

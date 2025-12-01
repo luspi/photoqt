@@ -34,9 +34,6 @@ PQComboBox {
     font.pointSize: PQCLook.fontSize
     font.weight: PQCLook.fontWeightNormal
 
-    SystemPalette { id: pqtPalette }
-    SystemPalette { id: pqtPaletteDisabled; colorGroup: SystemPalette.Disabled }
-
     implicitWidth: extrawide ? 300 : (extrasmall ? 100 : 200)
 
     property bool extrawide: false
@@ -62,7 +59,7 @@ PQComboBox {
             anchors.margins: 4
             opacity: enabled ? 1 : 0.3
             visible: deleg.highlighted
-            color: pqtPalette.highlight
+            color: control.palette.highlight
             radius: 5
         }
         Row {
@@ -84,7 +81,7 @@ PQComboBox {
                 y: (chk.height-height)/2
                 text: deleg.txt
                 font.pointSize: (PQCLook.fontSize+PQCLook.fontSizeS)/2
-                color: deleg.highlighted ? pqtPalette.highlightedText : pqtPalette.text
+                color: deleg.highlighted ? control.palette.highlightedText : control.palette.text
             }
         }
         MouseArea {
@@ -108,9 +105,9 @@ PQComboBox {
 
         text: control.mainEntryText==="" ? control.displayText : control.mainEntryText
         font: control.font
-        color: enabled ? pqtPalette.text : pqtPaletteDisabled.text
+        color: control.palette.text
         style: control.highlighted ? Text.Sunken : Text.Normal
-        styleColor: pqtPaletteDisabled.text
+        styleColor: control.palette.disabled.text
         verticalAlignment: Text.AlignVCenter
         elide: control.elide
     }
