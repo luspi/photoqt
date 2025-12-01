@@ -797,8 +797,6 @@ Rectangle {
                 sourceComponent:
                 Column {
 
-                    id: photoqt_col
-
                     spacing: 5
 
                     Repeater {

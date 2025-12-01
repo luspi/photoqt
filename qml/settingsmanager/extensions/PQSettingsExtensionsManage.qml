@@ -106,7 +106,7 @@ PQSetting {
                     property string extBaseDir: PQCExtensionsHandler.getExtensionLocation(extensionId)
 
                     property bool isVerified: PQCScriptsConfig.isDebugBuild() ?
-                                                  false :
+                                                  true :
                                                   PQCExtensionsHandler.verifyExtension(extBaseDir, "")
                     property bool isDebugBuild: PQCScriptsConfig.isDebugBuild()
 
@@ -148,7 +148,10 @@ PQSetting {
                             cursorShape: extension_setting.hasSettings ? Qt.PointingHandCursor : Qt.ArrowCursor
                             text: (extension_setting.hasSettings ? "<i>" + qsTranslate("settingsmanager", "Click here to show extension specific settings.") + "</i>" : "") + extension_setting.tooltipText
                             onClicked: {
-                                if(!extension_setting.hasSettings) return
+                                if(!extension_setting.hasSettings || !check.checked) {
+                                    check.checked = !check.checked
+                                    return
+                                }
                                 if(set_maex.currentExpandedSetting !== extension_setting.index)
                                     set_maex.currentExpandedSetting = extension_setting.index
                                 else
@@ -172,6 +175,8 @@ PQSetting {
                                 } else {
                                     set_maex.extensionsDisabled.push(extension_setting.extensionId)
                                     set_maex.extensionsEnabled = set_maex.extensionsEnabled.filter(item => item!==extension_setting.extensionId)
+                                    if(set_maex.currentExpandedSetting === extension_setting.index)
+                                        set_maex.currentExpandedSetting = -1
                                 }
                                 set_maex.extensionsEnabled.sort()
                                 set_maex.extensionsDisabled.sort()
@@ -262,7 +267,7 @@ PQSetting {
                         anchors.fill: parent
                         anchors.topMargin: 40
                         active: extension_setting.height>41
-                        source: "file:/"+PQCExtensionsHandler.getExtensionLocation(extension_setting.extensionId) + "/qml/"+extension_setting.extensionId+"Settings.qml"
+                        source: "file:/"+PQCExtensionsHandler.getExtensionLocation(extension_setting.extensionId) + "/qml/"+PQCExtensionsHandler.getExtensionNameId(extension_setting.extensionId)+"Settings.qml"
                     }
 
                 }

@@ -37,6 +37,7 @@ Loader {
     PQTemplateExtensionContainer {
 
         extensionId: PQCExtensionsHandler.getExtensions()[ldr.modelData]
+        nameId: PQCExtensionsHandler.getExtensionNameId(extensionId)
 
     }
 

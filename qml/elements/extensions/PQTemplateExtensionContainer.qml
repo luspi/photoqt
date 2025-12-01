@@ -30,6 +30,7 @@ Item {
     id: extension_container
 
     property string extensionId: ""
+    property string nameId: ""
 
     ExtensionSettings {
         id: extsettings
@@ -96,6 +97,7 @@ Item {
         sourceComponent:
             PQTemplateExtensionFloating {
                 extensionId: extension_container.extensionId
+                nameId: extension_container.nameId
                 settings: extsettings
             }
 
@@ -109,6 +111,7 @@ Item {
         sourceComponent:
             PQTemplateExtensionModal {
                 extensionId: extension_container.extensionId
+                nameId: extension_container.nameId
                 settings: extsettings
             }
 
@@ -122,6 +125,7 @@ Item {
         sourceComponent:
             PQTemplateExtensionFloatingPopout {
                 extensionId: extension_container.extensionId
+                nameId: extension_container.nameId
                 settings: extsettings
             }
 
@@ -135,6 +139,7 @@ Item {
         sourceComponent:
             PQTemplateExtensionModalPopout {
                 extensionId: extension_container.extensionId
+                nameId: extension_container.nameId
                 settings: extsettings
             }
 

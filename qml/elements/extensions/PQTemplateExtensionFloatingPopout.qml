@@ -35,6 +35,7 @@ Window {
 
     // set in extension container
     property string extensionId
+    property string nameId
     property ExtensionSettings settings
 
     ///////////////////
@@ -116,7 +117,7 @@ Window {
 
     Loader {
         id: popout_loader
-        source: "file:/" + PQCExtensionsHandler.getExtensionLocation(element_top.extensionId) + "/qml/" + element_top.extensionId + ".qml"
+        source: "file:/" + PQCExtensionsHandler.getExtensionLocation(element_top.extensionId) + "/qml/" + element_top.nameId + ".qml"
         onStatusChanged:
             if(status == Loader.Ready) {
                 if(!element_top._fixSizeToContent) {

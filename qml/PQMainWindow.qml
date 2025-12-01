@@ -192,7 +192,7 @@ ApplicationWindow {
 
     PQLoaderLoader {
         id: masterloader
-        function onShowExtension(ele : string) {
+        onShowExtension: (ele) => {
             masteritemattop.showExtension(ele)
         }
     }

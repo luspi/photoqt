@@ -37,6 +37,7 @@ Flickable {
     ScrollBar.vertical: PQVerticalScrollBar {}
 
     property string extensionId: extension_setting.extensionId
+    property string nameId: extension_setting.nameId
     property string baseDir: PQCExtensionsHandler.getExtensionLocation(extensionId)
 
 }

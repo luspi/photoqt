@@ -122,6 +122,8 @@ Item {
             if(PQCConstants.idOfVisibleItem !== "")
                 return
 
+            console.warn(PQCExtensionsHandler.getExtensions())
+
             var ind = PQCExtensionsHandler.getExtensions().indexOf(ele)
             if(ind > -1) {
                 // we emit a signal that is picked up in PQMasterItem where the actual extensions are located

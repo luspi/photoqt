@@ -152,10 +152,7 @@ PQSetting {
                                 deleg.checkDuplicate(text)
                             onClicked: {
                                 set_exsh.extensionIdIndexForDetectingNewShortcut = deleg.index
-                                if(deleg.extShortcut === "")
-                                    PQCNotify.settingsmanagerSendCommand("newShortcut", [deleg.index])
-                                else
-                                    PQCNotify.settingsmanagerSendCommand("changeShortcut", [deleg.extShortcut, deleg.index, deleg.index])
+                                PQCNotify.settingsmanagerSendCommand("changeShortcut", [deleg.extShortcut, deleg.index, deleg.index])
                             }
                         }
 
@@ -242,10 +239,14 @@ PQSetting {
                         function onSettingsmanagerSendCommand(what : string, args : list<var>) {
                             if(what === "newShortcut" && set_exsh.extensionIdIndexForDetectingNewShortcut == deleg.index) {
 
+                                console.log("args: what =", what)
+                                console.log("args: args =", args)
+
                                 var c = args[2]
 
                                 if(!deleg.checkDuplicate(c)) {
-                                    set_exsh.ext2Sh[extensionId] = args[2]
+                                    console.warn(">>> UPDATING:", deleg.extensionId, "->", args[2])
+                                    set_exsh.ext2Sh[deleg.extensionId] = args[2]
                                     set_exsh.ext2ShChanged()
                                     set_exsh.checkForChanges()
                                 }
@@ -258,6 +259,7 @@ PQSetting {
                     }
 
                     Component.onCompleted: {
+                        console.warn(">>>", extName, "::", extensionId, "/", extShortcut)
                         deleg.checkDuplicate(deleg.extShortcut)
                     }
 
@@ -268,14 +270,6 @@ PQSetting {
         }
 
     ]
-
-    Timer {
-        interval: 1000
-        repeat: true
-        running: true
-        onTriggered:
-            console.warn(">>>", set_exsh.ext2Sh)
-    }
 
     function handleEscape() {}
 
@@ -311,8 +305,10 @@ PQSetting {
 
         // prepare global shortcut map
         var allext = PQCExtensionsHandler.getExtensionsEnabledAndDisabld()
-        for(var i in allext)
-            ext2Sh[allext[i]] = PQCExtensionsHandler.getShortcutForExtension(allext[i])
+        for(var i in allext) {
+            console.log(">>>", allext[i], )
+            ext2Sh[allext[i]] = String(PQCExtensionsHandler.getShortcutForExtension(allext[i]))
+        }
         ext2ShChanged()
 
         // set without property bindings (i.e., here and not above where they are declared)

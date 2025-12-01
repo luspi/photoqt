@@ -31,6 +31,10 @@ public:
 
     PQCExtensionInfo() {
 
+        // filled in automatically
+        internalId = "";
+        nameId = "";
+
         // about
         version = 0;
         name = "";
@@ -69,6 +73,10 @@ public:
         location = "";
 
     }
+
+    // filled in automatically
+    QString internalId;
+    QString nameId;
 
     // about
     int version;

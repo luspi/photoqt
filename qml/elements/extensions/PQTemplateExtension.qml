@@ -56,6 +56,7 @@ Flickable {
     ///////////////////
 
     property string extensionId: extension_container.extensionId
+    property string nameId: extension_container.nameId
 
     ///////////////////
     property bool _fixSizeToContent: ((settings["ExtPopout"] && PQCExtensionsHandler.getExtensionPopoutFixSizeToContent(extensionId)) || (!settings["ExtPopout"] && PQCExtensionsHandler.getExtensionIntegratedFixSizeToContent(extensionId)))

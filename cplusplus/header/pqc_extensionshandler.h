@@ -90,6 +90,8 @@ public:
     Q_INVOKABLE QString getExtensionWebsite(QString id);
     Q_INVOKABLE int     getExtensionTargetAPIVersion(QString id);
 
+    Q_INVOKABLE QString getExtensionNameId(QString id);
+
     Q_INVOKABLE bool    getExtensionIntegratedAllow(QString id);
     Q_INVOKABLE QSize   getExtensionIntegratedMinimumRequiredWindowSize(QString id);
     Q_INVOKABLE int     getExtensionIntegratedDefaultPosition(QString id);
@@ -149,9 +151,11 @@ public:
     Q_INVOKABLE void enableExtension(const QString &id);
     Q_INVOKABLE void disableExtension(const QString &id);
     Q_INVOKABLE int installExtension(QString filepath);
-    Q_INVOKABLE bool verifyExtension(QString baseDir, QString id);
+    Q_INVOKABLE bool verifyExtension(QString extensionDir, QString nameId);
 
-    bool loadExtension(PQCExtensionInfo *extinfo, QString id, QString baseDir, QString definition);
+    bool loadExtension(PQCExtensionInfo *extinfo, QString nameId, QString hashId, QString extensionDir, QString manifestTxt, bool isEnabled);
+    void setExtensionMainMenu(QString hashId, bool add);
+    void setExtensionContextMenu(QString hashId, QString section, bool add);
 
 private:
     PQCExtensionsHandler();
@@ -186,6 +190,8 @@ private:
     QStringList m_contextMenuManipulate;
     QStringList m_contextMenuAbout;
     QStringList m_contextMenuOther;
+
+    QString m_systemExtensionDir;
 
 private Q_SLOTS:
     void updateTranslationLanguage();
