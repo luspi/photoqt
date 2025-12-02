@@ -78,9 +78,6 @@ PQCLook::PQCLook() : QObject() {
 
             Q_EMIT iconShadeChanged();
             Q_EMIT baseBorderChanged();
-            Q_EMIT tooltipTextChanged();
-            Q_EMIT tooltipBaseChanged();
-            Q_EMIT tooltipBorderChanged();
 
         });
 
@@ -113,9 +110,6 @@ void PQCLook::testColor(QString color) {
 
         Q_EMIT iconShadeChanged();
         Q_EMIT baseBorderChanged();
-        Q_EMIT tooltipTextChanged();
-        Q_EMIT tooltipBaseChanged();
-        Q_EMIT tooltipBorderChanged();
 
     }
 
@@ -198,12 +192,6 @@ void PQCLook::calculateColors(QString name) {
 
     m_highlightedText = curPalette.highlightedText().color().name(QColor::HexArgb);
     m_highlight = curPalette.highlight().color().name(QColor::HexArgb);
-
-    m_tooltipBase = curPalette.toolTipBase().color().name(QColor::HexArgb);
-    QColor col = curPalette.toolTipText().color();
-    m_tooltipText = col.name(QColor::HexArgb);
-    col.setAlpha(175);
-    m_tooltipBorder = col.name(QColor::HexArgb);
 
     m_brightText = curPalette.brightText().color().name(QColor::HexArgb);
 

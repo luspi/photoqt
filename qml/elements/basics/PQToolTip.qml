@@ -33,20 +33,4 @@ ToolTip {
     font.pointSize: PQCLook.fontSize
     font.weight: PQCLook.fontWeightNormal
 
-    contentItem: PQText {
-        id: contentText
-        text: control.text
-        font: control.font
-        textFormat: Text.RichText
-        color: PQCLook.tooltipText
-        wrapMode: Text.WrapAtWordBoundaryOrAnywhere
-    }
-
-    background: Rectangle {
-        color: PQCLook.tooltipBase
-        border.color: PQCLook.tooltipBorder
-        border.width: 1
-        radius: 3
-    }
-
 }

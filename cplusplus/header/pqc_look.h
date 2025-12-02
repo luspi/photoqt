@@ -58,9 +58,6 @@ public:
     Q_PROPERTY(QString baseBorder MEMBER m_baseBorder NOTIFY baseBorderChanged)
     Q_PROPERTY(QString highlightedText MEMBER m_highlightedText NOTIFY highlightedTextChanged)
     Q_PROPERTY(QString highlight MEMBER m_highlight NOTIFY highlightChanged)
-    Q_PROPERTY(QString tooltipText MEMBER m_tooltipText NOTIFY tooltipTextChanged)
-    Q_PROPERTY(QString tooltipBase MEMBER m_tooltipBase NOTIFY tooltipBaseChanged)
-    Q_PROPERTY(QString tooltipBorder MEMBER m_tooltipBorder NOTIFY tooltipBorderChanged)
     Q_PROPERTY(QString brightText MEMBER m_brightText NOTIFY brightTextChanged)
 
     /******************************************************/
@@ -93,9 +90,6 @@ private:
     QString m_highlightedText;
     QString m_highlight;
     QString m_baseBorder;
-    QString m_tooltipText;
-    QString m_tooltipBase;
-    QString m_tooltipBorder;
     QString m_brightText;
 
     QPalette m_pal;
@@ -128,9 +122,6 @@ Q_SIGNALS:
     void highlightedTextChanged();
     void highlightChanged();
     void baseBorderChanged();
-    void tooltipTextChanged();
-    void tooltipBaseChanged();
-    void tooltipBorderChanged();
     void brightTextChanged();
 
 };
