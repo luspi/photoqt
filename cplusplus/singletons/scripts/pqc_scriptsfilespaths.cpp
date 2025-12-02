@@ -166,11 +166,23 @@ QString PQCScriptsFilesPaths::pathFromNativeSeparators(QString path) {
 
 QString PQCScriptsFilesPaths::getSuffix(QString path) {
 
-    return QFileInfo(path).completeSuffix();
+    return QFileInfo(path).suffix();
 
 }
 
 QString PQCScriptsFilesPaths::getSuffixLowerCase(QString path) {
+
+    return QFileInfo(path).suffix().toLower();
+
+}
+
+QString PQCScriptsFilesPaths::getCompleteSuffix(QString path) {
+
+    return QFileInfo(path).completeSuffix();
+
+}
+
+QString PQCScriptsFilesPaths::getCompleteSuffixLowerCase(QString path) {
 
     return QFileInfo(path).completeSuffix().toLower();
 
@@ -245,6 +257,10 @@ QString PQCScriptsFilesPaths::getFileSizeHumanReadable(QString path) {
 
 QString PQCScriptsFilesPaths::toPercentEncoding(QString str) {
     return QUrl::toPercentEncoding(str);
+}
+
+QString PQCScriptsFilesPaths::fromPercentEncoding(QString str) {
+    return QUrl::fromPercentEncoding(str.toUtf8());
 }
 
 QString PQCScriptsFilesPaths::goUpOneLevel(QString path) {

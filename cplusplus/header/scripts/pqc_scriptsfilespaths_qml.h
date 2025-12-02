@@ -44,9 +44,12 @@ public:
     Q_INVOKABLE QString        pathWithNativeSeparators(QString path)         { return PQCScriptsFilesPaths::get().pathWithNativeSeparators(path); }
     Q_INVOKABLE QString        pathFromNativeSeparators(QString path)         { return PQCScriptsFilesPaths::get().pathFromNativeSeparators(path); }
     Q_INVOKABLE QString        toPercentEncoding(QString str)                 { return PQCScriptsFilesPaths::get().toPercentEncoding(str); }
+    Q_INVOKABLE QString        fromPercentEncoding(QString str)               { return PQCScriptsFilesPaths::get().fromPercentEncoding(str); }
     Q_INVOKABLE QString        handleAnimatedImagePathAndEncode(QString path) { return PQCScriptsFilesPaths::get().handleAnimatedImagePathAndEncode(path); }
     Q_INVOKABLE QString        getSuffix(QString path)                        { return PQCScriptsFilesPaths::get().getSuffix(path); }
     Q_INVOKABLE QString        getSuffixLowerCase(QString path)               { return PQCScriptsFilesPaths::get().getSuffixLowerCase(path); }
+    Q_INVOKABLE QString        getCompleteSuffix(QString path)                { return PQCScriptsFilesPaths::get().getCompleteSuffix(path); }
+    Q_INVOKABLE QString        getCompleteSuffixLowerCase(QString path)       { return PQCScriptsFilesPaths::get().getCompleteSuffixLowerCase(path); }
     Q_INVOKABLE QString        getBasename(QString fullpath)                  { return PQCScriptsFilesPaths::get().getBasename(fullpath); }
     Q_INVOKABLE QString        getFilename(QString fullpath)                  { return PQCScriptsFilesPaths::get().getFilename(fullpath); }
     Q_INVOKABLE QString        getDir(QString fullpath)                       { return PQCScriptsFilesPaths::get().getDir(fullpath); }

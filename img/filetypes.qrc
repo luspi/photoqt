@@ -572,5 +572,45 @@
         <file>filetypes/network_folder_listicon_verysmall.svg</file>
         <file>filetypes/network_folder_listicon.svg</file>
         <file>filetypes/network_folder.svg</file>
+        <file>filetypes/network_sai.svg</file>
+        <file>filetypes/network_tar.bz2.svg</file>
+        <file>filetypes/network_tar.gz.svg</file>
+        <file>filetypes/network_tar.lz.svg</file>
+        <file>filetypes/network_tar.lzma.svg</file>
+        <file>filetypes/network_tar.lzo.svg</file>
+        <file>filetypes/network_tar.xz.svg</file>
+        <file>filetypes/network_tar.Z.svg</file>
+        <file>filetypes/network_tar.zst.svg</file>
+        <file>filetypes/network_taZ.svg</file>
+        <file>filetypes/network_taz.svg</file>
+        <file>filetypes/network_tb2.svg</file>
+        <file>filetypes/network_tbz.svg</file>
+        <file>filetypes/network_tbz2.svg</file>
+        <file>filetypes/network_tgz.svg</file>
+        <file>filetypes/network_tlz.svg</file>
+        <file>filetypes/network_txz.svg</file>
+        <file>filetypes/network_tZ.svg</file>
+        <file>filetypes/network_tz2.svg</file>
+        <file>filetypes/network_tzst.svg</file>
+        <file>filetypes/sai.svg</file>
+        <file>filetypes/tar.bz2.svg</file>
+        <file>filetypes/tar.gz.svg</file>
+        <file>filetypes/tar.lz.svg</file>
+        <file>filetypes/tar.lzma.svg</file>
+        <file>filetypes/tar.lzo.svg</file>
+        <file>filetypes/tar.xz.svg</file>
+        <file>filetypes/tar.Z.svg</file>
+        <file>filetypes/tar.zst.svg</file>
+        <file>filetypes/taZ.svg</file>
+        <file>filetypes/taz.svg</file>
+        <file>filetypes/tb2.svg</file>
+        <file>filetypes/tbz.svg</file>
+        <file>filetypes/tbz2.svg</file>
+        <file>filetypes/tgz.svg</file>
+        <file>filetypes/tlz.svg</file>
+        <file>filetypes/txz.svg</file>
+        <file>filetypes/tZ.svg</file>
+        <file>filetypes/tz2.svg</file>
+        <file>filetypes/tzst.svg</file>
     </qresource>
 </RCC>

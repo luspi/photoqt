@@ -57,6 +57,7 @@ public:
     Q_INVOKABLE bool    supportsTransparency(QString path)             { return PQCScriptsImages::get().supportsTransparency(path); }
     Q_INVOKABLE double  getPixelDensity()                              { return PQCScriptsImages::get().getPixelDensity(); }
     Q_INVOKABLE QString getNameFromMimetype(QString mimetype, QString filename) { return PQCScriptsImages::get().getNameFromMimetype(mimetype, filename); }
+    Q_INVOKABLE QString getMimetypeForFile(QString path)               { return PQCScriptsImages::get().getMimetypeForFile(path); }
 
     // do with image
     Q_INVOKABLE QString      loadImageAndConvertToBase64(QString filename)      { return PQCScriptsImages::get().loadImageAndConvertToBase64(filename); }

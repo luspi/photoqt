@@ -120,6 +120,65 @@ Item {
 
     }
 
+    // this accepts files dragged into the window
+    DropArea {
+
+        anchors.fill: parent
+        enabled: PQCConstants.idOfVisibleItem===""
+
+        onDropped: (event) => {
+
+            var found = false;
+
+            if(event.hasUrls) {
+
+                for(var i in event.urls) {
+
+                    var suffix = PQCScriptsFilesPaths.getSuffixLowerCase(event.urls[i])
+                    if(PQCImageFormats.getEnabledFormats().indexOf(suffix) !== -1) {
+                        PQCFileFolderModel.extraFoldersToLoad = []
+                        PQCFileFolderModel.fileInFolderMainView = PQCScriptsFilesPaths.cleanPath(PQCScriptsFilesPaths.fromPercentEncoding(event.urls[i]))
+                        PQCFileFolderModel.folderFileDialog = PQCScriptsFilesPaths.getDir(PQCFileFolderModel.fileInFolderMainView)
+                        found = true
+                        break;
+                    }
+
+                }
+
+            }
+
+            event.accepted = found
+
+        }
+
+        onEntered: (event) => {
+
+            // do we accept the event?
+            var found = false;
+
+            // if there are urls:
+            if(event.hasUrls) {
+
+                // we look for the first url that is supported and load that one
+                for(var i in event.urls) {
+
+                    // suffix and mimetype
+                    var suffix = PQCScriptsFilesPaths.getSuffixLowerCase(event.urls[i])
+                    var mimetype = PQCScriptsImages.getMimetypeForFile(event.urls[i])
+                    if(PQCImageFormats.getEnabledFormats().indexOf(suffix) > -1 ||
+                       PQCImageFormats.getEnabledMimeTypes().indexOf(mimetype) > -1) {
+                        found = true
+                    }
+
+                }
+
+            }
+
+            event.accepted = found
+
+        }
+    }
+
     /*********************************************************/
     // different controls for various image items
 

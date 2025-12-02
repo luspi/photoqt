@@ -1389,3 +1389,8 @@ QString PQCScriptsImages::getNameFromMimetype(QString mimetype, QString filename
     return val;
 
 }
+
+QString PQCScriptsImages::getMimetypeForFile(QString path) {
+    QMimeDatabase db;
+    return db.mimeTypeForFile(path).name();
+}

@@ -51,9 +51,12 @@ public:
     QString pathWithNativeSeparators(QString path);
     QString pathFromNativeSeparators(QString path);
     QString toPercentEncoding(QString str);
+    QString fromPercentEncoding(QString str);
     QString handleAnimatedImagePathAndEncode(QString path);
     QString getSuffix(QString path);
     QString getSuffixLowerCase(QString path);
+    QString getCompleteSuffix(QString path);
+    QString getCompleteSuffixLowerCase(QString path);
     QString getBasename(QString fullpath);
     QString getFilename(QString fullpath);
     QString getDir(QString fullpath);
