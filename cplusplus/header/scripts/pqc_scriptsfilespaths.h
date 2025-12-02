@@ -61,6 +61,7 @@ public:
     QString getFilename(QString fullpath);
     QString getDir(QString fullpath);
     bool    isUrl(QString path);
+    bool    areDirsTheSame(QString folder1, QString folder2);
 
     // folder methods
     bool        isFolder(QString path);

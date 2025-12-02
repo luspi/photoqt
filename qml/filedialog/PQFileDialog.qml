@@ -259,14 +259,23 @@ PQTemplate {
 
         if(!nothingHere) {
 
+            // we default to showing the home folder
+            var folder = PQCScriptsFilesPaths.getHomeDir()
+
+            // if we remember the last location, load it
             if(PQCSettings.filedialogKeepLastLocation)
-                PQCFileFolderModel.folderFileDialog = PQCScriptsFileDialog.getLastLocation()
-            else
-                PQCFileFolderModel.folderFileDialog = PQCScriptsFilesPaths.getHomeDir()
+                folder = PQCScriptsFileDialog.getLastLocation()
+
+            // if an image was loaded with PhotoQt, we make sure the file dialog opens at the right location
+            if(PQCFileFolderModel.currentFile !== "" && !PQCScriptsFilesPaths.areDirsTheSame(folder, PQCScriptsFilesPaths.getDir(PQCFileFolderModel.currentFile)))
+                folder = PQCScriptsFilesPaths.getDir(PQCFileFolderModel.currentFile)
+
+            // load folder
+            PQCFileFolderModel.folderFileDialog = folder
 
             // this needs to come here as we do not want a property binding
             // otherwise the history feature wont work
-            PQCConstants.filedialogHistory.push(PQCFileFolderModel.folderFileDialog)
+            PQCConstants.filedialogHistory.push(folder)
 
         }
 

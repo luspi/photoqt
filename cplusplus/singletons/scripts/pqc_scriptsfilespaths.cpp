@@ -951,3 +951,9 @@ void PQCScriptsFilesPaths::_sortList(QStringList &lst, const bool ascending) {
     else
         std::sort(lst.begin(), lst.end(), [&collator](const QString &file1, const QString &file2) { return collator.compare(file2, file1) < 0; });
 }
+
+bool PQCScriptsFilesPaths::areDirsTheSame(QString folder1, QString folder2) {
+    qDebug() << "args: folder1 =" << folder1;
+    qDebug() << "args: folder2 =" << folder2;
+    return (QDir(folder1)==QDir(folder2));
+}
