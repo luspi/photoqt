@@ -71,7 +71,11 @@ QImage PQCProviderTheme::requestImage(const QString &icon, QSize *origSize, cons
         origSize->setHeight(requestedSize.width());
     }
 
-    const QString suf = const_cast<QString&>(icon).toLower();
+    // some entries in the places xml file might use inode-directory for a folder icon
+    // this should be the same icon but can with some themes result in the wrong icon
+    // being returned for inode-directory. Thus we fix it in that case to 'folder' to
+    // work around this issue.
+    const QString suf = (icon == "inode-directory" ? "folder" : const_cast<QString&>(icon).toLower());
 
     QImage ret;
 
