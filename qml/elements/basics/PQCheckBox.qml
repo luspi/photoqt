@@ -34,9 +34,6 @@ CheckBox {
 
     width: (enforceMaxWidth===0 ? implicitWidth : Math.min(enforceMaxWidth, implicitWidth))
 
-    SystemPalette { id: pqtPalette }
-    palette: pqtPalette
-
     contentItem: Text {
         text: control.text
         font: control.font
