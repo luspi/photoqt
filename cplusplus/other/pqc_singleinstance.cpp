@@ -287,7 +287,10 @@ PQCSingleInstance::PQCSingleInstance(int &argc, char *argv[]) : QApplication(arg
         m_receivedSetting[0] = receivedSetting[0];
         m_receivedSetting[1] = receivedSetting[1];
         m_receivedShortcut = receivedShortcut;
+
         handleMessage(msg);
+        m_startupMessageForProcessing = msg;
+        connect(&PQCNotifyCPP::get(), &PQCNotifyCPP::reprocessStartupMessage, this, [=]() { handleMessage(m_startupMessageForProcessing, false); });
 
     }
 
@@ -325,9 +328,14 @@ void PQCSingleInstance::newConnection() {
     delete socket;
 }
 
-void PQCSingleInstance::handleMessage(const QList<Actions> msg) {
+void PQCSingleInstance::handleMessage(const QList<Actions> msg, bool includeFileProcessing) {
 
     qDebug() << "args: msg";
+
+    // NOTE
+    // file processing is handled directly during startup for faster displaying of files
+    // all others might need to be re-processed once the ui is ready
+    // that's why this call is also triggered from qml at the end of startup
 
     QStringList allfiles;
     QStringList allfolders;
@@ -340,14 +348,19 @@ void PQCSingleInstance::handleMessage(const QList<Actions> msg) {
 
         case Actions::File:
 
-            // sort by files and folders
-            // that way we can make sure to always load the first specified file as initial image
-            if(!info.exists())
-                continue;
-            if(info.isFile())
-                allfiles.append(m_receivedFile);
-            else if(info.isDir())
-                allfolders.append(m_receivedFile);
+            if(includeFileProcessing) {
+
+                // sort by files and folders
+                // that way we can make sure to always load the first specified file as initial image
+                if(!info.exists())
+                    continue;
+                if(info.isFile())
+                    allfiles.append(m_receivedFile);
+                else if(info.isDir())
+                    allfolders.append(m_receivedFile);
+
+            }
+
             break;
 
         case Actions::Open:
@@ -397,12 +410,12 @@ void PQCSingleInstance::handleMessage(const QList<Actions> msg) {
 
         case Actions::Debug:
 
-            PQCNotifyCPP::get().debugChanged(true);
+            PQCNotifyCPP::get().setDebug(true);
             break;
 
         case Actions::NoDebug:
 
-            PQCNotifyCPP::get().debugChanged(false);
+            PQCNotifyCPP::get().setDebug(false);
             break;
 
         case Actions::Setting:
@@ -417,14 +430,16 @@ void PQCSingleInstance::handleMessage(const QList<Actions> msg) {
 
     }
 
-    // if we have files and/or folders that were passed on
-    if(allfiles.length() > 0 || allfolders.length() > 0) {
-        allfiles.append(allfolders);
-        if(allfiles.length() > 1)
-            Q_EMIT PQCFileFolderModelCPP::get().setExtraFoldersToLoad(allfiles.mid(1));
-        else
-            Q_EMIT PQCFileFolderModelCPP::get().setExtraFoldersToLoad({});
-        PQCNotifyCPP::get().setFilePath(allfiles[0]);
+    if(includeFileProcessing) {
+        // if we have files and/or folders that were passed on
+        if(allfiles.length() > 0 || allfolders.length() > 0) {
+            allfiles.append(allfolders);
+            if(allfiles.length() > 1)
+                Q_EMIT PQCFileFolderModelCPP::get().setExtraFoldersToLoad(allfiles.mid(1));
+            else
+                Q_EMIT PQCFileFolderModelCPP::get().setExtraFoldersToLoad({});
+            PQCNotifyCPP::get().setFilePath(allfiles[0]);
+        }
     }
 
 }

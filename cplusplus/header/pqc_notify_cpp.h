@@ -90,6 +90,7 @@ Q_SIGNALS:
 
     // reset current session to free up as much memory as possible
     void resetSessionData();
+    void reprocessStartupMessage();
 
     /*************************************************************/
     // these cached startup property signals are picked up in PQCConstants

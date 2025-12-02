@@ -71,6 +71,7 @@ public:
         connect(&PQCNotifyCPP::get(), &PQCNotifyCPP::showSettingsForExtension, this, &PQCNotify::showSettingsForExtension);
 
         connect(this, &PQCNotify::resetSessionData, &PQCNotifyCPP::get(), &PQCNotifyCPP::resetSessionData);
+        connect(this, &PQCNotify::reprocessStartupMessage, &PQCNotifyCPP::get(), &PQCNotifyCPP::reprocessStartupMessage);
 
     }
 
@@ -81,6 +82,7 @@ Q_SIGNALS:
     // These signals are THE ONLY ONES that are passed from QML to C++
     // Calling these triggers the respective call in PQCNotifyCPP.
     void resetSessionData();
+    void reprocessStartupMessage();
 
     /**********************************************************/
     // These signals are received from C++ via PQCNotify

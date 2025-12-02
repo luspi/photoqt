@@ -1801,14 +1801,13 @@ public:
 
     Q_INVOKABLE void closeDatabase();
     Q_INVOKABLE void reopenDatabase();
+    Q_INVOKABLE QStringList updateFromCommandLine();
 
     QString verifyNameAndGetType(QString name);
 
     bool validateSettingsDatabase(bool skipDBHandling = false);
     bool validateSettingsValues(bool skipDBHandling = false);
     void setupFresh();
-
-    void updateFromCommandLine();
 
 public Q_SLOTS:
     Q_INVOKABLE void resetToDefault();

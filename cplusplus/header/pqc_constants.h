@@ -190,7 +190,7 @@ public:
             m_startupFileIsFolder = false;
         m_startupStartInTray = PQCNotifyCPP::get().getStartInTray();
         m_startupHaveScreenshots = PQCNotifyCPP::get().getHaveScreenshots();
-        m_startupHaveSettingUpdate = (PQCNotifyCPP::get().getSettingUpdate().length() > 0);
+        m_startupHaveSettingUpdate = PQCNotifyCPP::get().getSettingUpdate();
 
         connect(&PQCNotifyCPP::get(), &PQCNotifyCPP::filePathChanged, this, [=](QString val) {
             m_startupFilePath = val;
@@ -206,7 +206,7 @@ public:
         connect(&PQCNotifyCPP::get(), &PQCNotifyCPP::addDebugLogMessages, this, &PQCConstants::addDebugLogMessages);
         connect(&PQCNotifyCPP::get(), &PQCNotifyCPP::startInTrayChanged, this, [=](bool val) { m_startupStartInTray = val; Q_EMIT startupStartInTrayChanged(); });
         connect(&PQCNotifyCPP::get(), &PQCNotifyCPP::haveScreenshotsChanged, this, [=](bool val) { m_startupHaveScreenshots = val; Q_EMIT startupHaveScreenshotsChanged(); });
-        connect(&PQCNotifyCPP::get(), &PQCNotifyCPP::settingUpdateChanged, this, [=](QStringList val) { m_startupHaveSettingUpdate = (val.length()>0); Q_EMIT startupHaveSettingUpdateChanged(); });
+        connect(&PQCNotifyCPP::get(), &PQCNotifyCPP::settingUpdateChanged, this, [=](QStringList val) { m_startupHaveSettingUpdate = val; Q_EMIT startupHaveSettingUpdateChanged(); });
 
         // update currently visible area (used, e.g., by extensions)
         connect(this, &PQCConstants::currentVisibleAreaXChanged, this, [=]() {
@@ -297,7 +297,7 @@ public:
     Q_PROPERTY(bool startupFileIsFolder MEMBER m_startupFileIsFolder NOTIFY startupFileIsFolderChanged)
     Q_PROPERTY(bool startupStartInTray MEMBER m_startupStartInTray NOTIFY startupStartInTrayChanged)
     Q_PROPERTY(bool startupHaveScreenshots MEMBER m_startupHaveScreenshots NOTIFY startupHaveScreenshotsChanged)
-    Q_PROPERTY(bool startupHaveSettingUpdate MEMBER m_startupHaveSettingUpdate NOTIFY startupHaveSettingUpdateChanged)
+    Q_PROPERTY(QStringList startupHaveSettingUpdate MEMBER m_startupHaveSettingUpdate NOTIFY startupHaveSettingUpdateChanged)
 
 
     /******************************************************/
@@ -446,7 +446,7 @@ private:
     bool m_startupFileIsFolder;
     bool m_startupStartInTray;
     bool m_startupHaveScreenshots;
-    bool m_startupHaveSettingUpdate;
+    QStringList m_startupHaveSettingUpdate;
 
     int m_availableWidth;
     int m_availableHeight;

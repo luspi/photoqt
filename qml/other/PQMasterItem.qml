@@ -216,8 +216,13 @@ Loader {
 
             waitForExtLoaderToBeReady.start()
 
-            if(PQCConstants.startupHaveSettingUpdate.length === 2)
-                PQCSettings.updateFromCommandLine();
+            if(PQCConstants.startupHaveSettingUpdate.length === 2) {
+                var ret = PQCSettings.updateFromCommandLine();
+                for(var i in ret) {
+                    if(ret[i] === "interfaceLanguage")
+                        PQCScriptsLocalization.updateTranslation(PQCSettings.interfaceLanguage)
+                }
+            }
 
         }
 

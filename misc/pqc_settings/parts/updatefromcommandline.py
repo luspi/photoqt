@@ -44,17 +44,22 @@ def get(duplicateSettings, duplicateSettingsSignal):
             'thumbnails']
 
     cont = """
-void PQCSettings::updateFromCommandLine() {
+QStringList PQCSettings::updateFromCommandLine() {
 
     const QStringList update = PQCNotifyCPP::get().getSettingUpdate();
     qDebug() << "update =" << update;
 
-    if(update.length() != 2)
-        return;
+    if(update.length()%2 != 0)
+        return {};
+
+    // these might need some action in qml afterwards
+    QStringList ret;
 
     const QString key = update[0];
     const QString val = update[1];
 """
+
+    returnForActions = ["interfaceLanguage"]
 
     for tab in dbtables:
 
@@ -82,23 +87,31 @@ void PQCSettings::updateFromCommandLine() {
             elif datatype == "point":
                 prefixcont += f"""QStringList parts = val.split(\",\");
         if(parts.length() != 2)
-            return;
+            return ret;
         """
                 valconversion = "QPoint(parts[0].toInt(), parts[1].toInt())"
             elif datatype == "size":
                 prefixcont += f"""QStringList parts = val.split(\",\");
         if(parts.length() != 2)
-            return;
+            return ret;
         """
                 valconversion = "QSize(parts[0].toInt(), parts[1].toInt())"
 
             cont += f"""
     if(key == \"{tab}{name}\") {{
         {prefixcont}m_{tab}{name} = {valconversion};
-        Q_EMIT {tab}{name}Changed();
+        Q_EMIT {tab}{name}Changed();"""
+
+            if f"{tab}{name}" in returnForActions:
+                cont += f"""
+        ret.append(\"{tab}{name}\");"""
+
+            cont += f"""
     }}"""
 
     cont += """
+
+    return ret;
 
 }
 """

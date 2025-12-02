@@ -308,6 +308,8 @@ ApplicationWindow {
         // this comes after the above to make sure we load a potentially passed-on image
         imageloader.active = true
 
+        PQCNotify.reprocessStartupMessage();
+
         if(PQCScriptsConfig.amIOnWindows() && !PQCConstants.startupStartInTray)
             showOpacity.restart()
 

@@ -100,8 +100,9 @@ private:
     bool m_forceSkipWizard;
 
     // This one is used in main process, handling the message sent by sub-instances
-    void handleMessage(const QList<Actions> msg);
+    void handleMessage(const QList<Actions> msg, bool includeFileProcessing = true);
 
+    QList<Actions> m_startupMessageForProcessing;
 };
 
 #endif // PQSINGLEINSTANCE_H

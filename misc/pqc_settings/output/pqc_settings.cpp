@@ -8244,13 +8244,16 @@ void PQCSettings::resetToDefault() {
 
 }
 
-void PQCSettings::updateFromCommandLine() {
+QStringList PQCSettings::updateFromCommandLine() {
 
     const QStringList update = PQCNotifyCPP::get().getSettingUpdate();
     qDebug() << "update =" << update;
 
-    if(update.length() != 2)
-        return;
+    if(update.length()%2 != 0)
+        return {};
+
+    // these might need some action in qml afterwards
+    QStringList ret;
 
     const QString key = update[0];
     const QString val = update[1];
@@ -8854,6 +8857,7 @@ void PQCSettings::updateFromCommandLine() {
     if(key == "interfaceLanguage") {
         m_interfaceLanguage = val;
         Q_EMIT interfaceLanguageChanged();
+        ret.append("interfaceLanguage");
     }
     if(key == "interfaceMinimapPopout") {
         m_interfaceMinimapPopout = (val.toInt()==1);
@@ -9070,14 +9074,14 @@ void PQCSettings::updateFromCommandLine() {
     if(key == "mainmenuElementPosition") {
         QStringList parts = val.split(",");
         if(parts.length() != 2)
-            return;
+            return ret;
         m_mainmenuElementPosition = QPoint(parts[0].toInt(), parts[1].toInt());
         Q_EMIT mainmenuElementPositionChanged();
     }
     if(key == "mainmenuElementSize") {
         QStringList parts = val.split(",");
         if(parts.length() != 2)
-            return;
+            return ret;
         m_mainmenuElementSize = QSize(parts[0].toInt(), parts[1].toInt());
         Q_EMIT mainmenuElementSizeChanged();
     }
@@ -9092,14 +9096,14 @@ void PQCSettings::updateFromCommandLine() {
     if(key == "mapviewCurrentPosition") {
         QStringList parts = val.split(",");
         if(parts.length() != 2)
-            return;
+            return ret;
         m_mapviewCurrentPosition = QPoint(parts[0].toInt(), parts[1].toInt());
         Q_EMIT mapviewCurrentPositionChanged();
     }
     if(key == "mapviewCurrentSize") {
         QStringList parts = val.split(",");
         if(parts.length() != 2)
-            return;
+            return ret;
         m_mapviewCurrentSize = QSize(parts[0].toInt(), parts[1].toInt());
         Q_EMIT mapviewCurrentSizeChanged();
     }
@@ -9138,14 +9142,14 @@ void PQCSettings::updateFromCommandLine() {
     if(key == "metadataElementPosition") {
         QStringList parts = val.split(",");
         if(parts.length() != 2)
-            return;
+            return ret;
         m_metadataElementPosition = QPoint(parts[0].toInt(), parts[1].toInt());
         Q_EMIT metadataElementPositionChanged();
     }
     if(key == "metadataElementSize") {
         QStringList parts = val.split(",");
         if(parts.length() != 2)
-            return;
+            return ret;
         m_metadataElementSize = QSize(parts[0].toInt(), parts[1].toInt());
         Q_EMIT metadataElementSizeChanged();
     }
@@ -9413,5 +9417,7 @@ void PQCSettings::updateFromCommandLine() {
         m_thumbnailsVisibility = val.toInt();
         Q_EMIT thumbnailsVisibilityChanged();
     }
+
+    return ret;
 
 }
