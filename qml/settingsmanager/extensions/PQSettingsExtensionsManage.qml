@@ -50,7 +50,7 @@ PQSetting {
         PQSettingSubtitle {
 
             //: A settings title
-            title: qsTranslate("settingsmanager", "Enabled extensions")
+            title: qsTranslate("settingsmanager", "Available extensions")
 
             helptext: qsTranslate("settingsmanager", "PhotoQt's capabilities can be increased with various extensions. Here you can find a list of extensions currently known to PhotoQt and you can choose which one should be enabled. Some extensions come with additional settings that can be accessed by clicking on their entry. The trust status of an unverified extension that was trusted in the past can also be revoked here.")
 
@@ -280,6 +280,8 @@ PQSetting {
 
         PQSettingSubtitle {
 
+            visible: set_maex.extensionsFailed.length>0
+
             //: A settings title
             title: qsTranslate("settingsmanager", "Unavailable extensions")
 
@@ -292,6 +294,8 @@ PQSetting {
             id: col_failed
 
             width: parent.width
+
+            visible: set_maex.extensionsFailed.length>0
 
             spacing: 10
 
