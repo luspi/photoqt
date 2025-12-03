@@ -339,6 +339,13 @@ ApplicationWindow {
         function onStartupFilePathChanged() : void {
             console.log("")
             PQCFileFolderModel.fileInFolderMainView = PQCConstants.startupFilePath
+            PQCNotify.loaderPassOn("forceCloseEverything", [])
+            if(PQCFileFolderModel.folderFileDialog !== "") {
+                if(PQCScriptsFilesPaths.isFolder(PQCConstants.startupFilePath))
+                    PQCFileFolderModel.folderFileDialog = PQCConstants.startupFilePath
+                else
+                    PQCFileFolderModel.folderFileDialog = PQCScriptsFilesPaths.getDir(PQCConstants.startupFilePath)
+            }
             if(!toplevel.visible)
                 toplevel.visible = true
             if(toplevel.visibility === Window.Minimized)

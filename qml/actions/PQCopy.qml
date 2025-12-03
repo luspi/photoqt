@@ -52,7 +52,12 @@ Item {
             console.log("args: what =", what)
             console.log("args: args =", args)
 
-            if(what === "show" && args[0] === "FileCopy") {
+            if(what === "forceCloseEverything") {
+
+                PQCConstants.idOfVisibleItem = ""
+                PQCNotify.resetActiveFocus()
+
+            } else if(what === "show" && args[0] === "FileCopy") {
 
                 if(PQCFileFolderModel.currentFile !== "")
                     copy_top.copyFile()

@@ -298,7 +298,11 @@ Window {
             console.log("args: what =", what)
             console.log("args: args =", args)
 
-            if(what === "show" && args[0] === element_top.elementId) {
+            if(what === "forceCloseEverything" && element_top.opacity > 0) {
+
+                element_top._hideNoCheck()
+
+            } else if(what === "show" && args[0] === element_top.elementId) {
                 if(element_top.visible) {
                     element_top._hide()
                 } else {

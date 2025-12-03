@@ -117,7 +117,11 @@ ApplicationWindow {
             console.log("args: what =", what)
             console.log("args: args =", args)
 
-            if(what === "show" && args[0] === "FileRename") {
+            if(what === "forceCloseEverything") {
+
+                rename_top.close()
+
+            } else if(what === "show" && args[0] === "FileRename") {
 
                 if(PQCFileFolderModel.currentFile !== "")
                     rename_top.show()

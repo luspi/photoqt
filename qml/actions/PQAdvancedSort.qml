@@ -753,27 +753,36 @@ PQTemplate {
 
             if(advancedsort_top.visible) {
 
-                if(working.visible) {
+                if(what === "forceCloseEverything") {
 
-                    if(param[0] === Qt.Key_Escape || param[0] === Qt.Key_Enter || param[0] === Qt.Key_Return) {
+                    if(working.visible)
                         workingcancel.clicked()
-                    }
 
                 } else {
 
-                    if(what === "keyEvent") {
+                    if(working.visible) {
 
-                        if(param[0] === Qt.Key_Escape)
-                            advancedsort_top.hide()
+                        if(param[0] === Qt.Key_Escape || param[0] === Qt.Key_Enter || param[0] === Qt.Key_Return) {
+                            workingcancel.clicked()
+                        }
 
-                        else if(param[0] === Qt.Key_Enter || param[0] === Qt.Key_Return)
-                            advancedsort_top.doSorting()
+                    } else {
 
-                        else if(param[0] === Qt.Key_Up || param[0] === Qt.Key_Left)
-                            bar.currentIndex = (bar.currentIndex+bar.model.length-1)%bar.model.length
+                        if(what === "keyEvent") {
 
-                        else if(param[0] === Qt.Key_Down || param[0] === Qt.Key_Right)
-                            bar.currentIndex = (bar.currentIndex+1)%bar.model.length
+                            if(param[0] === Qt.Key_Escape)
+                                advancedsort_top.hide()
+
+                            else if(param[0] === Qt.Key_Enter || param[0] === Qt.Key_Return)
+                                advancedsort_top.doSorting()
+
+                            else if(param[0] === Qt.Key_Up || param[0] === Qt.Key_Left)
+                                bar.currentIndex = (bar.currentIndex+bar.model.length-1)%bar.model.length
+
+                            else if(param[0] === Qt.Key_Down || param[0] === Qt.Key_Right)
+                                bar.currentIndex = (bar.currentIndex+1)%bar.model.length
+
+                        }
 
                     }
 

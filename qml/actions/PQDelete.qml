@@ -82,7 +82,12 @@ Item {
             console.log("args: what =", what)
             console.log("args: args =", args)
 
-            if(what === "show" && args[0] === "FileDelete") {
+            if(what === "forceCloseEverything") {
+
+                PQCConstants.idOfVisibleItem = ""
+                PQCNotify.resetActiveFocus()
+
+            } else if(what === "show" && args[0] === "FileDelete") {
 
                 if(PQCFileFolderModel.currentFile !== "")
                     delete_top.show()

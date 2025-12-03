@@ -281,7 +281,12 @@ PQTemplate {
 
             if(about_top.visible) {
 
-                if(what === "keyEvent") {
+                if(what === "forceCloseEverything") {
+
+                    if(about_top.configShown)
+                        about_top.hideConfig()
+
+                } if(what === "keyEvent") {
                     if(param[0] === Qt.Key_Escape) {
                         if(about_top.configShown)
                             about_top.hideConfig()

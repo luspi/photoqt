@@ -228,7 +228,9 @@ Rectangle {
             console.log("args: what =", what)
             console.log("args: args =", args)
 
-            if(what === "show" && args[0] === element_top.extensionId) {
+            if(what === "forceCloseEverything" && element_top.opacity > 0) {
+                element_top.hideNoCheck()
+            } else if(what === "show" && args[0] === element_top.extensionId) {
                 if(element_top.visible) {
                     element_top.hide()
                 } else {
@@ -270,10 +272,16 @@ Rectangle {
     }
 
     function hide() {
-
         var ret = fullscreen_loader.item.hiding()
         if(ret !== undefined && !ret)
             return
+        PQCNotify.loaderRegisterClose(element_top.extensionId)
+        opacity = 0
+        settings["ExtShow"] = false
+    }
+
+    function hideNoCheck() {
+        fullscreen_loader.item.hiding()
         PQCNotify.loaderRegisterClose(element_top.extensionId)
         opacity = 0
         settings["ExtShow"] = false

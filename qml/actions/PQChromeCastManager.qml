@@ -223,7 +223,11 @@ PQTemplate {
 
             if(chromecastmanager_top.opacity > 0) {
 
-                if(what === "keyEvent") {
+                if(what === "forceCloseEverything") {
+
+                    busy.hide()
+
+                } else if(what === "keyEvent") {
 
                     if(param[0] === Qt.Key_Escape)
                         chromecastmanager_top.hide()

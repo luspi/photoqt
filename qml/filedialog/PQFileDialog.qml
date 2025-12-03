@@ -183,9 +183,13 @@ PQTemplate {
 
         function onLoaderPassOn(what : string, param : list<var>) {
 
-            if(PQCConstants.idOfVisibleItem === "FileDialog") {
+            if(filedialog_top.opacity > 0) {
 
-                if(what === "keyEvent") {
+                if(what === "forceCloseEverything") {
+
+                    filedialog_top.handleHiding(true)
+
+                } else if(what === "keyEvent") {
 
                     if(PQCSettings.interfacePopoutFileDialogNonModal)
                         return

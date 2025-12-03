@@ -312,7 +312,17 @@ PQTemplate {
 
             if(settingsmanager_top.opacity > 0) {
 
-                if(what === "keyEvent") {
+                if(what === "forceCloseEverything") {
+
+                    if(confirmUnsaved.visible)
+                        confirmUnsaved.cancelDialog()
+
+                    if(PQCConstants.settingsManagerSettingChanged)
+                        PQCConstants.settingsManagerSettingChanged = false
+
+                    settingsmanager_top.hide()
+
+                } else if(what === "keyEvent") {
 
                     if(detectNew.visible)
                         return
