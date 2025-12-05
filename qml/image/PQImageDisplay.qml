@@ -1331,7 +1331,7 @@ Loader {
                             image_loader_sph.active = false
                             image_loader_img.active = false
 
-                            if(PQCScriptsImages.isPDFDocument(imageloaderitem.imageSource)) {
+                            if(PQCScriptsImages.isPDFDocument(imageloaderitem.imageSource) && !PQCFileFolderModel.activeViewerMode) {
                                 image_loader_pdf.active = true
                             } else if(PQCScriptsImages.isArchive(imageloaderitem.imageSource) && !PQCFileFolderModel.activeViewerMode) {
                                 image_loader_arc.active = true
