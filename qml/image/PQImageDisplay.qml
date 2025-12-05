@@ -871,8 +871,10 @@ Loader {
 
                                 // we do not want to have a property binding for this
                                 // otherwise we get error messages when the source changes to a different type
-                                Component.onCompleted:
+                                Component.onCompleted: {
                                     imageSource = imageloaderitem.imageSource
+                                    imageSourceChanged()
+                                }
 
                             }
                     }
@@ -928,10 +930,13 @@ Loader {
 
                                 // we do not want to have a property binding for this
                                 // otherwise we get error messages when the source changes to a different type
-                                Component.onCompleted:
+                                Component.onCompleted: {
                                     imageSource = imageloaderitem.imageSource
+                                    imageSourceChanged()
+                                }
 
                             }
+
                     }
 
                     Loader {
@@ -1085,7 +1090,6 @@ Loader {
                                 // we do not want to have a property binding for this
                                 // otherwise we get error messages when the source changes to a different type
                                 Component.onCompleted: {
-                                console.warn(">>> VIDEO QT:", imageloaderitem.imageSource)
                                     imageSource = imageloaderitem.imageSource
                                     loader_top.videoHasAudio = Qt.binding(function() { return videoqt_item.videoHasAudio })
                                     loader_top.videoHasAudioChanged()
@@ -1327,11 +1331,11 @@ Loader {
                             image_loader_sph.active = false
                             image_loader_img.active = false
 
-                            if(PQCScriptsImages.isPDFDocument(imageloaderitem.imageSource))
+                            if(PQCScriptsImages.isPDFDocument(imageloaderitem.imageSource)) {
                                 image_loader_pdf.active = true
-                            else if(PQCScriptsImages.isArchive(imageloaderitem.imageSource))
+                            } else if(PQCScriptsImages.isArchive(imageloaderitem.imageSource) && !PQCFileFolderModel.activeViewerMode) {
                                 image_loader_arc.active = true
-                            else if(PQCScriptsImages.isMpvVideo(imageloaderitem.imageSource)) {
+                            } else if(PQCScriptsImages.isMpvVideo(imageloaderitem.imageSource)) {
                                 image_loader_mpv.active = true
                                 loader_top.listenToClicksOnImage = true
                                 loader_top.videoLoaded = true
@@ -2402,8 +2406,6 @@ Loader {
         }
 
         function showImage() {
-
-            console.warn(">>> showImage()", imageloaderitem.imageLoadedAndReady, imageloaderitem.imageFullyShown)
 
             if(imageloaderitem.imageLoadedAndReady) {
 

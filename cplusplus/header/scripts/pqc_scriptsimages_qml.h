@@ -67,6 +67,7 @@ public:
 
     // archive/document methods
     Q_INVOKABLE void listArchiveContent(QString path, bool insideFilenameOnly = false) { PQCScriptsImages::get().listArchiveContent(path, insideFilenameOnly); }
+    Q_INVOKABLE QStringList listArchiveContentWithoutThread(QString path, bool insideFilenameOnly = false) { return PQCScriptsImages::get().listArchiveContentWithoutThread(path, "", insideFilenameOnly); }
     Q_INVOKABLE int         getNumberDocumentPages(QString path)            { return PQCScriptsImages::get().getNumberDocumentPages(path); }
     Q_INVOKABLE int         getDocumentPageCount(QString path)              { return PQCScriptsImages::get().getDocumentPageCount(path); }
     Q_INVOKABLE QString     extractArchiveFileToTempLocation(QString path)  { return PQCScriptsImages::get().extractArchiveFileToTempLocation(path); }

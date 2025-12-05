@@ -121,6 +121,13 @@ Image {
 
     onCurrentFileChanged: {
         if(isMainImage) {
+            if(currentFile === -1) {
+                currentFile = 0
+                return
+            }
+            if(currentFile > fileCount-1)
+                fileList = PQCScriptsImages.listArchiveContentWithoutThread(image.imageSource, true)
+
             PQCConstants.currentFileInsideNum = currentFile
             PQCConstants.currentFileInsideName = fileList[currentFile]
         }
@@ -132,14 +139,12 @@ Image {
     }
 
     function setSource() {
-        var src = image.imageSource
-        if(src === "") {
+
+        if(image.imageSource === "") {
             image.source = ""
             return
         }
 
-        if(src.includes("::ARC::"))
-            src = src.split("::ARC::")[1]
         image.asynchronous = false
 
         if(fileCount == 0)
@@ -151,16 +156,12 @@ Image {
 
     function finishSettingSource() {
 
-        var src = image.imageSource
-        if(src.includes("::ARC::"))
-            src = src.split("::ARC::")[1]
-
         currentFile = Math.max(0, currentFile)
 
         if(currentFile < fileCount)
-            image.source = "image://full/%1::ARC::%2".arg(fileList[currentFile]).arg(PQCScriptsFilesPaths.toPercentEncoding(src))
+            image.source = "image://full/%1::ARC::%2".arg(fileList[currentFile]).arg(PQCScriptsFilesPaths.toPercentEncoding(image.imageSource))
         else
-            image.source = "image://full/" + PQCScriptsFilesPaths.toPercentEncoding(src)
+            image.source = "image://full/" + PQCScriptsFilesPaths.toPercentEncoding(image.imageSource)
         image.asynchronous = true
 
     }
@@ -190,14 +191,14 @@ Image {
         function onCurrentArchiveJump(leftright : int) {
             if(image.isMainImage) {
                 image.currentFile = (image.currentFile+leftright+image.fileCount)%image.fileCount
-                image.setSource()
+                image.source = "image://full/%1::ARC::%2".arg(image.fileList[image.currentFile]).arg(PQCScriptsFilesPaths.toPercentEncoding(image.imageSource))
             }
         }
 
         function onCurrentArchiveJumpTo(index : int) {
             if(image.isMainImage) {
                 image.currentFile = index
-                image.setSource()
+                image.source = "image://full/%1::ARC::%2".arg(image.fileList[image.currentFile]).arg(PQCScriptsFilesPaths.toPercentEncoding(image.imageSource))
             }
         }
 
