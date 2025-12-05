@@ -1544,7 +1544,7 @@ bool PQCExtensionsHandler::verifyExtension(QString extensionDir, QString nameId)
 
 #endif
 
-    qDebug() << identifyName << "- extensions are not supported";
+    qDebug() << "Extensions are not supported";
     return false;
 
 }
