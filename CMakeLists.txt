@@ -89,8 +89,8 @@ endif()
 
 if(WITH_INCLUDED_EXTENSIONS)
     if(NOT WITH_EXTENSIONS_SUPPORT)
-        set(WITH_EXTENSIONS_SUPPORT ON)
-        message("** Building included extensions requires extensions support to be enabled.")
+        set(WITH_INCLUDED_EXTENSIONS OFF)
+        message("** Building included extensions requires general extensions support to be enabled.")
     endif()
 endif()
 
