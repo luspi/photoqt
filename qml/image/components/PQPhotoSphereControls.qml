@@ -83,9 +83,8 @@ Loader {
                         sourceSize: Qt.size(width, height)
                     }
 
-                    Label {
+                    PQText {
                         y: (parent.height-height)/2
-                        font.pointSize: PQCLook.fontSize
                         text: "←/→"
                     }
 

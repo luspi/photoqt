@@ -164,10 +164,9 @@ Loader {
                 }
             }
 
-            Label {
+            PQText {
                 id: curtime
                 y: (parent.height-height)/2
-                font.pointSize: PQCLook.fontSize
                 text: PQCScriptsImages.convertSecondsToPosition(PQCConstants.currentlyShowingVideoPosition)
             }
 
@@ -203,10 +202,9 @@ Loader {
 
             }
 
-            Label {
+            PQText {
                 id: totaltime
                 y: (parent.height-height)/2
-                font.pointSize: PQCLook.fontSize
                 text: PQCScriptsImages.convertSecondsToPosition(PQCConstants.currentlyShowingVideoDuration)
             }
 
@@ -305,9 +303,8 @@ Loader {
                         sourceSize: Qt.size(width, height)
                     }
 
-                    Label {
+                    PQText {
                         id: lrtxt
-                        font.pointSize: PQCLook.fontSize
                         text: "←/→"
                     }
 

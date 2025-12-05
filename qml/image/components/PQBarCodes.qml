@@ -134,11 +134,10 @@ Item {
                             radius: 5
                             opacity: bardeleg.hovered||copycont.hovered||linkcont.hovered||(bartop.barcodes.length<4) ? 1 : 0.4
                             Behavior on opacity { enabled: !PQCSettings.generalDisableAllAnimations; NumberAnimation { duration: 200 } }
-                            Label {
+                            PQText {
                                 id: valtxt
                                 x: 5
                                 y: 5
-                                font.pointSize: PQCLook.fontSize
                                 font.weight: PQCLook.fontWeightBold
                                 text: bardeleg.val
                             }

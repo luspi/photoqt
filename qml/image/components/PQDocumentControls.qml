@@ -281,9 +281,8 @@ Loader {
                 height: 1
             }
 
-            Label {
+            PQText {
                 y: (parent.height-height)/2
-                font.pointSize: PQCLook.fontSize
                 text: "|"
             }
 
@@ -292,9 +291,8 @@ Loader {
                 height: 1
             }
 
-            Label {
+            PQText {
                 y: (parent.height-height)/2
-                font.pointSize: PQCLook.fontSize
                 text: qsTranslate("image", "Page %1/%2").arg(PQCConstants.currentFileInsideNum+1).arg(PQCConstants.currentFileInsideTotal)
             }
 
@@ -303,9 +301,8 @@ Loader {
                 height: 1
             }
 
-            Label {
+            PQText {
                 y: (parent.height-height)/2
-                font.pointSize: PQCLook.fontSize
                 text: "|"
             }
 
@@ -371,9 +368,8 @@ Loader {
                         sourceSize: Qt.size(width, height)
                     }
 
-                    Label {
+                    PQText {
                         text: "←/→"
-                        font.pointSize: PQCLook.fontSize
                     }
 
                 }

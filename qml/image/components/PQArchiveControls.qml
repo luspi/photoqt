@@ -309,11 +309,10 @@ Loader {
                 height: 1
             }
 
-            Label {
+            PQText {
                 visible: controlitem.isComicBook
                 y: (parent.height-height)/2
                 text: "|"
-                font.pointSize: PQCLook.fontSize
             }
 
             Item {
@@ -322,11 +321,10 @@ Loader {
                 height: 1
             }
 
-            Label {
+            PQText {
                 visible: controlitem.isComicBook
                 y: (parent.height-height)/2
                 text: qsTranslate("image", "Page %1/%2").arg(PQCConstants.currentFileInsideNum+1).arg(PQCConstants.currentFileInsideTotal)
-                font.pointSize: PQCLook.fontSize
             }
 
             Item {
@@ -335,11 +333,10 @@ Loader {
                 height: 1
             }
 
-            Label {
+            PQText {
                 visible: controlitem.isComicBook
                 y: (parent.height-height)/2
                 text: "|"
-                font.pointSize: PQCLook.fontSize
             }
 
             Item {
@@ -409,9 +406,8 @@ Loader {
                         sourceSize: Qt.size(width, height)
                     }
 
-                    Label {
+                    PQText {
                         text: "←/→"
-                        font.pointSize: PQCLook.fontSize
                     }
 
                 }

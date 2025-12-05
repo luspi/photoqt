@@ -121,7 +121,7 @@ Loader {
                     }
 
                     // This holds the person's name
-                    Label {
+                    PQText {
                         id: faceLabel
                         x: 7
                         y: 5

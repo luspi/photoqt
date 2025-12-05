@@ -88,11 +88,10 @@ Loader {
                     Behavior on opacity { enabled: !PQCSettings.generalDisableAllAnimations; NumberAnimation { duration: 200 } }
                 }
 
-                Label {
+                PQTextXL {
                     id: del
                     anchors.centerIn: bg
                     text: "x"
-                    font.pointSize: PQCLook.fontSizeXL
                     renderType: Text.CurveRendering
                     renderTypeQuality: Text.VeryHighRenderTypeQuality
                     opacity: facedeleg.hovered ? 1 : 0
@@ -116,7 +115,7 @@ Loader {
                     }
 
                     // This holds the person's name
-                    Label {
+                    PQText {
                         id: faceLabel
                         x: 7
                         y: 5
