@@ -581,7 +581,6 @@
         <file>filetypes/network_tar.xz.svg</file>
         <file>filetypes/network_tar.Z.svg</file>
         <file>filetypes/network_tar.zst.svg</file>
-        <file>filetypes/network_taZ.svg</file>
         <file>filetypes/network_taz.svg</file>
         <file>filetypes/network_tb2.svg</file>
         <file>filetypes/network_tbz.svg</file>
@@ -601,7 +600,6 @@
         <file>filetypes/tar.xz.svg</file>
         <file>filetypes/tar.Z.svg</file>
         <file>filetypes/tar.zst.svg</file>
-        <file>filetypes/taZ.svg</file>
         <file>filetypes/taz.svg</file>
         <file>filetypes/tb2.svg</file>
         <file>filetypes/tbz.svg</file>
