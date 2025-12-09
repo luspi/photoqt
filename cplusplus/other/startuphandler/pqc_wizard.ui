@@ -199,7 +199,7 @@
              </sizepolicy>
             </property>
             <property name="text">
-             <string>https://photoqt.org</string>
+             <string notr="true">https://photoqt.org</string>
             </property>
             <property name="flat">
              <bool>true</bool>
@@ -215,7 +215,7 @@
              </sizepolicy>
             </property>
             <property name="text">
-             <string>GPLv2+</string>
+             <string notr="true">GPLv2+</string>
             </property>
             <property name="flat">
              <bool>true</bool>
@@ -231,7 +231,7 @@
              </sizepolicy>
             </property>
             <property name="text">
-             <string>Lukas@PhotoQt.org</string>
+             <string notr="true">Lukas@PhotoQt.org</string>
             </property>
             <property name="flat">
              <bool>true</bool>
