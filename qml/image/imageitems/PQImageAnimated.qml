@@ -65,7 +65,8 @@ AnimatedImage {
     smooth: !PQCSettings.imageviewInterpolationDisableForSmallImages ||
             (sourceSize.width > PQCConstants.availableWidth && sourceSize.height > PQCConstants.availableHeight) ||
             currentScale > 1.01 || currentScale < 0.95*defaultScale
-    mipmap: initialLoad || smooth
+    mipmap: initialLoad || !PQCSettings.imageviewInterpolationDisableForSmallImages ||
+            (sourceSize.width > PQCConstants.availableWidth && sourceSize.height > PQCConstants.availableHeight)
 
     onStatusChanged: {
         if(status == Image.Ready) {
