@@ -263,7 +263,7 @@ ApplicationWindow {
 
         PQCScriptsLocalization.updateTranslation(PQCSettings.interfaceLanguage)
 
-        if(PQCScriptsConfig.amIOnWindows() && !PQCConstants.startupStartInTray)
+        if(PQCScriptsConfig.amIOnWindows() && !PQCConstants.startupStartInTray && PQCSettings.generalInterfaceVariant==="modern")
             toplevel.opacity = 0
 
         // show window according to settings
@@ -310,7 +310,7 @@ ApplicationWindow {
 
         PQCNotify.reprocessStartupMessage();
 
-        if(PQCScriptsConfig.amIOnWindows() && !PQCConstants.startupStartInTray)
+        if(PQCScriptsConfig.amIOnWindows() && !PQCConstants.startupStartInTray && PQCSettings.generalInterfaceVariant==="modern")
             showOpacity.restart()
 
         if(PQCConstants.startupFilePath === "")
