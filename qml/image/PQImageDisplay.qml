@@ -858,17 +858,6 @@ Loader {
                                     }
                                 }
 
-                                Connections {
-                                    target: loader_top
-                                    function onWidthChanged() {
-                                        document_item.restartResetScreenSize()
-                                    }
-                                    function onHeightChanged() {
-                                        document_item.restartResetScreenSize()
-                                    }
-
-                                }
-
                                 // we do not want to have a property binding for this
                                 // otherwise we get error messages when the source changes to a different type
                                 Component.onCompleted: {
@@ -1278,17 +1267,6 @@ Loader {
                                 onSourceSizeChanged: {
                                     if(!ignoreSignals)
                                         loader_top.imageResolution = sourceSize
-                                }
-
-                                Connections {
-                                    target: loader_top
-                                    function onWidthChanged() {
-                                        image_normal.restartResetScreenSize()
-                                    }
-                                    function onHeightChanged() {
-                                        image_normal.restartResetScreenSize()
-                                    }
-
                                 }
 
                                 Connections {

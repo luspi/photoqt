@@ -146,7 +146,7 @@ PQSetting {
             //: A settings title
             title: qsTranslate("settingsmanager", "Interpolation")
 
-            helptext: qsTranslate("settingsmanager",  "PhotoQt makes use of interpolation algorithms to show smooth lines and avoid potential artefacts to be shown. However, for small images this can lead to blurry images when no interpolation is necessary. Thus, for small images under the specified threshold PhotoQt can skip the use of interpolation algorithms. Note that both the width and height of an image need to be smaller than the threshold for it to be applied.")
+            helptext: qsTranslate("settingsmanager",  "PhotoQt makes use of interpolation algorithms to show smooth lines and avoid potential artefacts to be shown. However, for small images this can lead to blurry images when no interpolation is necessary. Thus, for images smaller than the window size, PhotoQt can skip the use of interpolation algorithms.")
 
         },
 
@@ -157,23 +157,10 @@ PQSetting {
             onCheckedChanged: set_look.checkForChanges()
         },
 
-        PQAdvancedSlider {
-            id: interp_spin
-            width: set_look.contentWidth
-            minval: 0
-            maxval: 1000
-            title: qsTranslate("settingsmanager", "threshold:")
-            suffix: " px"
-            enabled: interp_check.checked
-            onValueChanged:
-                set_look.checkForChanges()
-        },
-
         PQSettingsResetButton {
             onResetToDefaults: {
 
                 interp_check.checked = PQCSettings.getDefaultForImageviewInterpolationDisableForSmallImages()
-                interp_spin.setValue(PQCSettings.getDefaultForImageviewInterpolationThreshold())
 
                 set_look.checkForChanges()
 
@@ -184,7 +171,6 @@ PQSetting {
 
     function handleEscape() {
         marginslider.acceptValue()
-        interp_spin.acceptValue()
     }
 
     function checkForChanges() {
@@ -198,7 +184,7 @@ PQSetting {
 
         PQCConstants.settingsManagerSettingChanged = (marginslider.hasChanged() || large_fit.hasChanged() || large_full.hasChanged() ||
                                                       small_fit.hasChanged() || small_asis.hasChanged() || scale_check.hasChanged() ||
-                                                      interp_check.hasChanged() || interp_spin.hasChanged())
+                                                      interp_check.hasChanged())
 
     }
 
@@ -215,7 +201,6 @@ PQSetting {
         scale_check.loadAndSetDefault(PQCSettings.imageviewRespectDevicePixelRatio)
 
         interp_check.loadAndSetDefault(PQCSettings.imageviewInterpolationDisableForSmallImages)
-        interp_spin.loadAndSetDefault(PQCSettings.imageviewInterpolationThreshold)
 
         PQCConstants.settingsManagerSettingChanged = false
         settingsLoaded = true
@@ -237,7 +222,6 @@ PQSetting {
         scale_check.saveDefault()
 
         PQCSettings.imageviewInterpolationDisableForSmallImages = interp_check.checked
-        PQCSettings.imageviewInterpolationThreshold = interp_spin.value
         interp_check.saveDefault()
 
         PQCConstants.settingsManagerSettingChanged = false

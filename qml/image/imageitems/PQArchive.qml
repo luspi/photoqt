@@ -51,10 +51,25 @@ Image {
     property list<string> fileList: []
     property int fileCount: fileList.length
 
-    property bool noInterpThreshold: sourceSize.width < PQCSettings.imageviewInterpolationThreshold && sourceSize.height < PQCSettings.imageviewInterpolationThreshold
+    // IMPORTANT NOTE REGARDING MIPMAP !!!
+    //
+    // Whenever the mipmap property changes, then the image is fully reloaded.
+    // Making the mipmap property solely depend on the sourceSize makes it switch from false to true most of the time as the
+    // sourceSize is reported as QSize(-1,-1) initially. This results, e.g., in the image to flicker when PhotoQt is started with one being passed on.
+    // Making the mipmap property by default evaluate to true and ONLY if the image actually is below the threshold in size and the respective setting
+    // is switched on, then it is set to false causing the reloading of a very small images (very fast).
+    //
+    // Another note about using a seperate property to store the sourceSize evaluation for both smooth and mipmap:
+    // Such a property is NOT guaranteed to be evaluated before mipmap and might result in it still returning the value of QSize(-1,-1) for
+    // the sourceSize even though initialLoad already caused a retrigger of mipmap.
+    //
+    // This property, initialLoad, ensures the 'true by default' value of mipmap and is set to false once we know the actual sourceSize.
+    property bool initialLoad: true
 
-    smooth: !PQCSettings.imageviewInterpolationDisableForSmallImages || !noInterpThreshold
-    mipmap: !PQCSettings.imageviewInterpolationDisableForSmallImages || !noInterpThreshold
+    smooth: !PQCSettings.imageviewInterpolationDisableForSmallImages ||
+            (sourceSize.width > PQCConstants.availableWidth && sourceSize.height > PQCConstants.availableHeight) ||
+            currentScale > 1.01 || currentScale < 0.95*defaultScale
+    mipmap: initialLoad || smooth
 
     onVisibleChanged: {
         if(!image.visible)
@@ -80,6 +95,10 @@ Image {
     function setMirrorHV(mH : bool, mV : bool) {
         image.myMirrorH = mH
         image.myMirrorV = mV
+    }
+
+    onSourceSizeChanged: {
+        image.initialLoad = false
     }
 
     Connections {

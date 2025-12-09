@@ -68,8 +68,10 @@ Image {
     // This property, initialLoad, ensures the 'true by default' value of mipmap and is set to false once we know the actual sourceSize.
     property bool initialLoad: true
 
-    smooth: !PQCSettings.imageviewInterpolationDisableForSmallImages || (sourceSize.width > PQCSettings.imageviewInterpolationThreshold && sourceSize.height > PQCSettings.imageviewInterpolationThreshold)
-    mipmap: initialLoad || !PQCSettings.imageviewInterpolationDisableForSmallImages || (sourceSize.width > PQCSettings.imageviewInterpolationThreshold && sourceSize.height > PQCSettings.imageviewInterpolationThreshold)
+    smooth: !PQCSettings.imageviewInterpolationDisableForSmallImages ||
+            (sourceSize.width > PQCConstants.availableWidth && sourceSize.height > PQCConstants.availableHeight) ||
+            currentScale > 1.01 || currentScale < 0.95*defaultScale
+    mipmap: initialLoad || smooth
 
     property bool ignoreSignals: false
 
@@ -160,25 +162,8 @@ Image {
         interval: (PQCSettings.imageviewAnimationDuration+1)*100
         onTriggered: {
             if(image.isMainImage) {
-                image.screenW = image.loaderTop.width
-                image.screenH = image.loaderTop.height
                 ldl.active = true
             }
-        }
-    }
-
-    function restartResetScreenSize() {
-        resetScreenSize.restart()
-    }
-    property int screenW
-    property int screenH
-    Timer {
-        id: resetScreenSize
-        interval: 500
-        repeat: false
-        onTriggered: {
-            image.screenW = image.loaderTop.width
-            image.screenH = image.loaderTop.height
         }
     }
 
@@ -191,12 +176,13 @@ Image {
         Image {
             width: image.width
             height: image.height
-            source: visible ? image.source : ""
+            source: image.source
             smooth: image.currentScale < 0.95*image.defaultScale
             mipmap: smooth
             cache: false
-            visible: image.defaultScale >= (1/0.95)*image.currentScale
-            sourceSize: Qt.size(image.screenW, image.screenH)
+            visible: image.defaultScale >= image.currentScale
+            asynchronous: true
+            sourceSize: Qt.size(PQCConstants.availableWidth, PQCConstants.availableHeight)
         }
     }
 
@@ -227,6 +213,14 @@ Image {
             if(!image.isMainImage && !image.ignoreSignals) {
                 videoloader.active = false
             }
+        }
+        function onAvailableWidthChanged() {
+            if(image.defaultScale < 0.95)
+                loadScaledDown.restart()
+        }
+        function onAvailableHeightChanged() {
+            if(image.defaultScale < 0.95)
+                loadScaledDown.restart()
         }
     }
 
