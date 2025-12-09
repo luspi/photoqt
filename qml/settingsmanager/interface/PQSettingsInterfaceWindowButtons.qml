@@ -418,7 +418,7 @@ PQSetting {
             opacity: enabled ? 1 : 0.8
             Behavior on opacity { enabled: !PQCSettings.generalDisableAllAnimations; NumberAnimation { duration: 150 } }
 
-            PQSliderSpinBox {
+            PQAdvancedSlider {
                 id: butsize
                 width: set_windowbuttons.contentWidth
                 minval: 5
@@ -498,7 +498,7 @@ PQSetting {
                 onCheckedChanged: set_windowbuttons.checkForChanges()
             }
 
-            PQSliderSpinBox {
+            PQAdvancedSlider {
                 id: autohide_timeout
                 width: set_windowbuttons.contentWidth
                 minval: 0
@@ -506,7 +506,6 @@ PQSetting {
                 title: qsTranslate("settingsmanager", "hide again after timeout:")
                 suffix: " s"
                 enabled: !autohide_always.checked
-                animateHeight: true
                 onValueChanged:
                     set_windowbuttons.checkForChanges()
             }

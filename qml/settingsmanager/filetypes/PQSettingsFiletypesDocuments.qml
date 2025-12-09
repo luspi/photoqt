@@ -40,7 +40,7 @@ PQSetting {
 
         },
 
-        PQSliderSpinBox {
+        PQAdvancedSlider {
             id: pdf_quality
             width: set_docu.contentWidth
             minval: 50

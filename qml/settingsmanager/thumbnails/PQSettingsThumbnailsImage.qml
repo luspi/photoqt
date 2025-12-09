@@ -43,7 +43,7 @@ PQSetting {
 
         },
 
-        PQSliderSpinBox {
+        PQAdvancedSlider {
             id: thumb_size
             width: set_thumb.contentWidth
             minval: 32

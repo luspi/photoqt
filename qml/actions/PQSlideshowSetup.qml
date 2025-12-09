@@ -96,7 +96,7 @@ PQTemplate {
                     }
                 }
 
-                PQSliderSpinBox {
+                PQAdvancedSlider {
                     id: interval_slider
                     y: (interval_txt.height-height)/2
                     minval: 1

@@ -312,7 +312,7 @@ PQSetting {
             height: 10
         },
 
-        PQSliderSpinBox {
+        PQAdvancedSlider {
             id: notif_dist
             width: set_noti.width
             minval: 0

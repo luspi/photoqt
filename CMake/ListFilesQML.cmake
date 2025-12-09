@@ -4,6 +4,8 @@
 
 SET(photoqt_QML qml/PQMainWindow.qml
 
+                qml/elements/basics/PQAdvancedSlider.qml
+                qml/elements/basics/PQAdvancedSpinBox.qml
                 qml/elements/basics/PQButton.qml
                 qml/elements/basics/PQButtonElement.qml
                 qml/elements/basics/PQButtonIcon.qml
@@ -19,7 +21,6 @@ SET(photoqt_QML qml/PQMainWindow.qml
                 qml/elements/basics/PQMouseArea.qml
                 qml/elements/basics/PQRadioButton.qml
                 qml/elements/basics/PQSlider.qml
-                qml/elements/basics/PQSliderSpinBox.qml
                 qml/elements/basics/PQSpinBox.qml
                 qml/elements/basics/PQTabBar.qml
                 qml/elements/basics/PQTabButton.qml

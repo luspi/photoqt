@@ -227,7 +227,7 @@ PQSetting {
 
         },
 
-        PQSliderSpinBox {
+        PQAdvancedSlider {
             id: threads
             width: set_mana.contentWidth
             minval: 1

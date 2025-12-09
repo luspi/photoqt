@@ -26,7 +26,7 @@ import PhotoQt
 
 Button {
 
-    id: but_top
+    id: control
 
     property string tooltip: ""
 
@@ -42,21 +42,25 @@ Button {
     property string genericStringClose: qsTranslate("buttongeneric", "Close")
 
     contentItem: Text {
-        text: but_top.text
-        font: but_top.font
-        color: but_top.palette.text
-        horizontalAlignment: but_top.horizontalAlignment
+        text: control.text
+        font: control.font
+        color: control.palette.text
+        horizontalAlignment: control.horizontalAlignment
         verticalAlignment: Text.AlignVCenter
-        elide: Text.ElideRight
+        elide: control.sizeToText ? Text.ElideNone : Text.ElideRight
+        onWidthChanged: {
+            if(control.sizeToText)
+                control.width = implicitWidth+control.leftPadding+control.rightPadding+10
+        }
     }
 
     background: Rectangle {
         implicitWidth: 100
         implicitHeight: 40
         opacity: enabled ? 1 : 0.3
-        color: but_top.down||but_top.forceHovered ? but_top.palette.highlight : but_top.palette.button
+        color: control.down||control.forceHovered ? control.palette.highlight : control.palette.button
         border.color: PQCLook.baseBorder
-        border.width: 1
+        border.width: control.flat ? 0 : 1
         radius: 2
     }
 
@@ -72,6 +76,8 @@ Button {
     rightPadding: leftPadding
 
     property bool smallerVersion: false
+
+    property bool sizeToText: false
 
     font.pointSize: smallerVersion ? PQCLook.fontSize : PQCLook.fontSizeL
     font.weight: smallerVersion ? PQCLook.fontWeightNormal : PQCLook.fontWeightBold
@@ -90,7 +96,7 @@ Button {
             if(enableContextMenu)
                 menu.popup()
             else
-                but_top.rightClicked()
+                control.rightClicked()
         }
     }
 
@@ -98,8 +104,8 @@ Button {
         id: ttip
         delay: 500
         timeout: 5000
-        visible: but_top.hovered && text !== ""
-        text: but_top.tooltip
+        visible: control.hovered && text !== ""
+        text: control.tooltip
     }
 
     PQMenu {
@@ -107,12 +113,12 @@ Button {
         PQMenuItem {
             enabled: false
             font.italic: true
-            text: but_top.text
+            text: control.text
         }
         PQMenuItem {
             text: qsTranslate("buttongeneric", "Activate button")
             onTriggered: {
-                but_top.clicked()
+                control.clicked()
             }
         }
     }

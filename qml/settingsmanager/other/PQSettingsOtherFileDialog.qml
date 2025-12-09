@@ -423,7 +423,7 @@ PQSetting {
 
         },
 
-        PQSliderSpinBox {
+        PQAdvancedSlider {
             id: padding
             width: set_fd.contentWidth
             minval: 0
@@ -605,7 +605,7 @@ PQSetting {
                         height: 1
                     }
 
-                    PQSliderSpinBox {
+                    PQAdvancedSlider {
                         id: preview_colintspin
                         width: set_fd.contentWidth - 30
                         title: qsTranslate("settingsmanager", "color intensity:")

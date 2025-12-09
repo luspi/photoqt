@@ -75,7 +75,7 @@ PQSetting {
             helptext: qsTranslate("settingsmanager", "A double click is defined as two clicks in quick succession. This means that PhotoQt will have to wait a certain amount of time to see if there is a second click before acting on a single click. Thus, the threshold (specified in milliseconds) for detecting double clicks should be as small as possible while still allowing for reliable detection of double clicks. Setting this value to zero disables double clicks and treats them as two distinct single clicks.")
         },
 
-        PQSliderSpinBox {
+        PQAdvancedSlider {
             id: dblclk
             width: set_exmo.contentWidth
             minval: 0
@@ -113,7 +113,7 @@ PQSetting {
             onCheckedChanged: set_exmo.checkForChanges()
         },
 
-        PQSliderSpinBox {
+        PQAdvancedSlider {
             id: scrollspeed_value
             width: set_exmo.contentWidth
             minval: 1
@@ -121,7 +121,6 @@ PQSetting {
             title: "Scaling factor"
             suffix: ""
             enabled: scrollspeed.checked
-            animateWidth: false
             onValueChanged:
                 set_exmo.checkForChanges()
 
@@ -141,14 +140,13 @@ PQSetting {
             }
         },
 
-        PQSliderSpinBox {
+        PQAdvancedSlider {
             id: repeatdelay_value
             width: set_exmo.contentWidth
             minval: 0
             maxval: 250
             title: "Repeat delay"
             suffix: "ms"
-            animateWidth: false
             onValueChanged:
                 set_exmo.checkForChanges()
 
@@ -184,7 +182,7 @@ PQSetting {
             checked: PQCSettings.imageviewHideCursorTimeout===0
         },
 
-        PQSliderSpinBox {
+        PQAdvancedSlider {
             id: hidetimeout
             width: set_exmo.contentWidth
             minval: 1
@@ -192,7 +190,6 @@ PQSetting {
             title: ""
             suffix: " s"
             enabled: hidetimeout_check.checked
-            animateWidth: false
             onValueChanged:
                 set_exmo.checkForChanges()
         },

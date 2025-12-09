@@ -62,7 +62,7 @@ Item {
                 text: qsTranslate("settingsmanager", "Maximum number of levels up:")
             }
 
-            PQSliderSpinBox {
+            PQAdvancedSlider {
                 id: maxLevelUp
                 minval: 0
                 maxval: 20
@@ -79,7 +79,7 @@ Item {
                 text: qsTranslate("settingsmanager", "Maximum number of levels down:")
             }
 
-            PQSliderSpinBox {
+            PQAdvancedSlider {
                 id: maxLevelDown
                 minval: 0
                 maxval: 20
@@ -96,7 +96,7 @@ Item {
                 text: qsTranslate("settingsmanager", "Maximum number of iterations in total:")
             }
 
-            PQSliderSpinBox {
+            PQAdvancedSlider {
                 id: maxIterations
                 minval: 10
                 maxval: 200

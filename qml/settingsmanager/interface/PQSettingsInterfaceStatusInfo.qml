@@ -280,7 +280,7 @@ PQSetting {
                 }
             }
 
-            PQSliderSpinBox {
+            PQAdvancedSlider {
                 id: fontsize
                 width: set_stin.contentWidth
                 visible: set_stin.modernInterface
@@ -289,7 +289,6 @@ PQSetting {
                 title: qsTranslate("settingsmanager", "Font size:")
                 suffix: " pt"
                 enabled: status_show.checked
-                animateHeight: true
                 onValueChanged:
                     set_stin.checkForChanges()
             }
@@ -351,7 +350,7 @@ PQSetting {
                 onCheckedChanged: set_stin.checkForChanges()
             }
 
-            PQSliderSpinBox {
+            PQAdvancedSlider {
                 id: autohide_timeout
                 width: set_stin.contentWidth
                 minval: 0
@@ -359,7 +358,6 @@ PQSetting {
                 title: qsTranslate("settingsmanager", "hide again after timeout:")
                 suffix: " s"
                 enabled: !autohide_always.checked
-                animateHeight: true
                 onValueChanged:
                     set_stin.checkForChanges()
             }

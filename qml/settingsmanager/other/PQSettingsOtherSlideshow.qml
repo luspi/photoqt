@@ -169,7 +169,7 @@ PQSetting {
 
         },
 
-        PQSliderSpinBox {
+        PQAdvancedSlider {
             id: interval
             width: set_slsh.contentWidth
             minval: 1

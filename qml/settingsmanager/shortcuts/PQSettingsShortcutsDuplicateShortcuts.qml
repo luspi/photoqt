@@ -158,7 +158,7 @@ PQSetting {
                             verticalAlignment: Text.AlignVCenter
                         }
 
-                        PQSliderSpinBox {
+                        PQAdvancedSlider {
                             id: timeout_spin
                             enabled: cycle_check.checked
                             minval: 0

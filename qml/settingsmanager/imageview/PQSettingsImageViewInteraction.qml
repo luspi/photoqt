@@ -44,7 +44,7 @@ PQSetting {
 
             spacing: 5
 
-            PQSliderSpinBox {
+            PQAdvancedSlider {
                 id: zoomspeed
                 width: set_inte.contentWidth
                 minval: 1
@@ -84,13 +84,12 @@ PQSetting {
                     onCheckedChanged: set_inte.checkForChanges()
                 }
 
-                PQSliderSpinBox {
+                PQAdvancedSlider {
                     id: minzoom_slider
                     width: set_inte.contentWidth - minzoom_check.width - 10
                     minval: 1
                     maxval: 100
                     enabled: minzoom_check.checked
-                    animateWidth: true
                     title: ""
                     suffix: " %"
                     onValueChanged:
@@ -109,13 +108,12 @@ PQSetting {
                     onCheckedChanged: set_inte.checkForChanges()
                 }
 
-                PQSliderSpinBox {
+                PQAdvancedSlider {
                     id: maxzoom_slider
                     width: set_inte.contentWidth - maxzoom_check.width - 10
                     minval: 100
                     maxval: 10000
                     enabled: maxzoom_check.checked
-                    animateWidth: true
                     title: ""
                     suffix: " %"
                     onValueChanged:
@@ -276,7 +274,7 @@ PQSetting {
 
                 spacing: 5
 
-                PQSliderSpinBox {
+                PQAdvancedSlider {
                     id: anispeed
                     width: set_inte.contentWidth
                     minval: 1

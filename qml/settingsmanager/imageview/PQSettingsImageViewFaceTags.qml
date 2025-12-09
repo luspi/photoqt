@@ -109,7 +109,7 @@ PQSetting {
             helptext: qsTranslate("settingsmanager", "It is possible to adjust the border shown around tagged faces and the font size used for the displayed name. For the border, not only the width but also the color can be specified.")
         },
 
-        PQSliderSpinBox {
+        PQAdvancedSlider {
             id: fontsize
             width: set_fata.contentWidth
             minval: 5
@@ -137,7 +137,7 @@ PQSetting {
 
                 enabled: border_show.checked
 
-                PQSliderSpinBox {
+                PQAdvancedSlider {
                     id: border_slider
                     width: set_fata.contentWidth - parent.x
                     minval: 1

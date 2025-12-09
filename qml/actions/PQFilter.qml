@@ -174,12 +174,11 @@ PQTemplate {
                             }
                         }
 
-                        PQSliderSpinBox {
+                        PQAdvancedSpinBox {
                             id: reswidth
                             enabled: rescheck.checked
                             minval: 0
                             maxval: 99999999
-                            showSlider: false
                             onEditModeChanged: {
                                 if(editMode) {
                                     filter_top.countOpenSpin += 1
@@ -201,12 +200,11 @@ PQTemplate {
                             font.weight: PQCLook.fontWeightBold
                             text: "x"
                         }
-                        PQSliderSpinBox {
+                        PQAdvancedSpinBox {
                             id: resheight
                             enabled: rescheck.checked
                             minval: 0
                             maxval: 99999999
-                            showSlider: false
                             onEditModeChanged: {
                                 if(editMode) {
                                     filter_top.countOpenSpin += 1
@@ -261,12 +259,11 @@ PQTemplate {
                             }
                         }
 
-                        PQSliderSpinBox {
+                        PQAdvancedSpinBox {
                             id: filesize
                             enabled: filesizecheck.checked
                             minval: 0
                             maxval: 99999999
-                            showSlider: false
                             onEditModeChanged: {
                                 if(editMode) {
                                     filter_top.countOpenSpin += 1

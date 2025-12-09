@@ -40,7 +40,7 @@ PQSetting {
 
         },
 
-        PQSliderSpinBox {
+        PQAdvancedSlider {
             id: cache_slider
             width: set_capr.contentWidth
             minval: 256
@@ -75,7 +75,7 @@ PQSetting {
 
             spacing: 5
 
-            PQSliderSpinBox {
+            PQAdvancedSlider {
                 id: preload
                 width: set_capr.contentWidth
                 minval: 0

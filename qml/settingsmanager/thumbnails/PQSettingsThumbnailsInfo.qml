@@ -60,7 +60,7 @@ PQSetting {
                 height: 1
             }
 
-            PQSliderSpinBox {
+            PQAdvancedSlider {
                 id: label_fontsize
                 width: set_info.contentWidth - 32
                 enabled: label_enable.checked

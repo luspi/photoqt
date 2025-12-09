@@ -40,7 +40,7 @@ PQSetting {
 
         },
 
-        PQSliderSpinBox {
+        PQAdvancedSlider {
             id: marginslider
             width: set_look.contentWidth
             minval: 0
@@ -157,7 +157,7 @@ PQSetting {
             onCheckedChanged: set_look.checkForChanges()
         },
 
-        PQSliderSpinBox {
+        PQAdvancedSlider {
             id: interp_spin
             width: set_look.contentWidth
             minval: 0

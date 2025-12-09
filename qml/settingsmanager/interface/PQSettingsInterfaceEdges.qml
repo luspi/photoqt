@@ -246,7 +246,7 @@ PQSetting {
 
         },
 
-        PQSliderSpinBox {
+        PQAdvancedSlider {
             id: sensitivity
             width: set_edge.contentWidth
             minval: 5

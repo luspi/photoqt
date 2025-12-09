@@ -43,7 +43,7 @@ PQSetting {
 
         },
 
-        PQSliderSpinBox {
+        PQAdvancedSlider {
             id: spacing_slider
             width: set_bar.contentWidth
             minval: 0
@@ -125,7 +125,7 @@ PQSetting {
                     }
                 }
 
-                PQSliderSpinBox {
+                PQAdvancedSlider {
                     id: highlight_liftup_slider
                     width: set_bar.contentWidth - highlight_liftup_check.width
                     minval: 0
@@ -133,7 +133,6 @@ PQSetting {
                     title: ""
                     suffix: " px"
                     enabled: highlight_liftup_check.checked
-                    animateWidth: true
                     onValueChanged:
                         set_bar.checkForChanges()
                 }
