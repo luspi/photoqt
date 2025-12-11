@@ -296,7 +296,7 @@ Rectangle {
             PQButtonElement {
                 id: firstbutton
                 text: "Continue"
-                font.weight: PQCLook.fontWeightBold
+                fontWeight: PQCLook.fontWeightBold
                 y: 1
                 height: parent.height-1
                 onClicked:

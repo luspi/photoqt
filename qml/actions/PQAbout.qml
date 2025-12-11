@@ -89,7 +89,7 @@ PQTemplate {
                     id: configbutton
                     flat: true
                     x: (about_top.width-width)/2
-                    font.weight: PQCLook.fontWeightBold
+                    fontWeight: PQCLook.fontWeightBold
                     text: "PhotoQt v" + PQCScriptsConfig.getVersion()
                     //: The 'configuration' talked about here refers to the configuration at compile time, i.e., which image libraries were enabled and which versions
                     onClicked: {

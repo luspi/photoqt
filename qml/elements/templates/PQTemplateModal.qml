@@ -161,7 +161,7 @@ Rectangle {
             PQButtonElement {
                 id: firstbutton
                 text: genericStringClose
-                font.weight: PQCLook.fontWeightBold
+                fontWeight: PQCLook.fontWeightBold
                 y: (parent.height-height)/2
                 onClicked:
                     element_top.button1Clicked()

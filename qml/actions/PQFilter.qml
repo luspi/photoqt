@@ -41,7 +41,7 @@ PQTemplate {
         button3.visible = true
         //: Written on a clickable button - please keep short
         button3.text = qsTranslate("filter", "Remove filter")
-        button3.font.weight = PQCLook.fontWeightNormal
+        button3.fontWeight = PQCLook.fontWeightNormal
     }
 
     Connections {
@@ -161,8 +161,8 @@ PQTemplate {
                             enabled: rescheck.checked
                             property bool greater: true
                             text: greater ? ">" : "<"
-                            font.weight: PQCLook.fontWeightBold
-                            font.pointSize: PQCLook.fontSizeL
+                            fontWeight: PQCLook.fontWeightBold
+                            fontPointSize: PQCLook.fontSizeL
                             tooltip: greater ?
                                          //: used as tooltip in the sense of 'image resolution GREATER THAN 123x123'
                                          qsTranslate("filter", "greater than") :
@@ -246,8 +246,8 @@ PQTemplate {
                             enabled: filesizecheck.checked
                             property bool greater: true
                             text: greater ? ">" : "<"
-                            font.weight: PQCLook.fontWeightBold
-                            font.pointSize: PQCLook.fontSizeL
+                            fontWeight: PQCLook.fontWeightBold
+                            fontPointSize: PQCLook.fontSizeL
                             tooltip: greater ?
                                          //: used as tooltip in the sense of 'file size GREATER THAN 123 KB/MB'
                                          qsTranslate("filter", "greater than") :

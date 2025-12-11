@@ -300,8 +300,8 @@ Rectangle {
         id: managebutton
         y: 5
         x: parent.width-width-5
-        implicitWidth: 25
-        implicitHeight: 25
+        width: 25
+        height: 25
         source: "image://svg/:/" + PQCLook.iconShade + "/menu.svg"
         onClicked: {
             managemenu.popup(managebutton, 0, height)

@@ -24,85 +24,16 @@ import QtQuick
 import QtQuick.Controls
 import PhotoQt
 
-Button {
+PQButton {
 
-    id: control
+    height: 40
 
-    font.pointSize: PQCLook.fontSize
-    font.weight: PQCLook.fontWeightBold
-
+    flat: true
     opacity: enabled ? 1 : 0.5
+    enableRadiusModern: false
 
-    property bool enableContextMenu: true
-    property alias contextmenu: menu
-
-    property string tooltip: text
-
-    //: This is a generic string written on clickable buttons - please keep short!
-    property string genericStringOk: qsTranslate("buttongeneric", "Ok")
-    //: This is a generic string written on clickable buttons - please keep short!
-    property string genericStringCancel: qsTranslate("buttongeneric", "Cancel")
-    //: This is a generic string written on clickable buttons - please keep short!
-    property string genericStringSave: qsTranslate("buttongeneric", "Save")
-    //: This is a generic string written on clickable buttons - please keep short!
-    property string genericStringClose: qsTranslate("buttongeneric", "Close")
-
-    contentItem: Text {
-        text: "  " + control.text + "  "
-        font: control.font
-        opacity: enabled ? 1.0 : 0.3
-        color: control.palette.text
-        horizontalAlignment: Text.AlignHCenter
-        verticalAlignment: Text.AlignVCenter
-        elide: Text.ElideRight
-    }
-
-    background: Rectangle {
-        implicitWidth: 100
-        implicitHeight: 40
-        opacity: enabled ? 1 : 0.3
-        color: control.down ? control.palette.highlight : control.palette.button
-        border.color: PQCLook.baseBorder
-        border.width: 1
-        radius: 2
-    }
-
-    PQToolTip {
-        id: ttip
-        delay: 500
-        timeout: 5000
-        visible: control.hovered && text !== ""
-        text: control.tooltip
-    }
-
-    PQMouseArea {
-        id: mouseArea
-        anchors.fill: parent
-        hoverEnabled: true
-        cursorShape: Qt.PointingHandCursor
-        text: control.text
-        enabled: control.enableContextMenu
-        acceptedButtons: Qt.RightButton
-        onPressed: (mouse) => {
-            if(control.enableContextMenu && mouse.button === Qt.RightButton)
-                menu.popup()
-            mouse.accepted = false
-        }
-    }
-
-    PQMenu {
-        id: menu
-        PQMenuItem {
-            enabled: false
-            font.italic: true
-            text: control.text
-        }
-        PQMenuItem {
-            text: qsTranslate("buttongeneric", "Activate button")
-            onTriggered: {
-                control.clicked()
-            }
-        }
-    }
+    fontPointSize: PQCLook.fontSize
+    fontWeight: PQCLook.fontWeightBold
 
 }
+

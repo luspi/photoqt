@@ -187,7 +187,7 @@ Window {
             PQButtonElement {
                 id: firstbutton
                 text: popout_loader.status===Loader.Ready ? popout_loader.item.modalButton1Text : genericStringClose
-                font.weight: PQCLook.fontWeightBold
+                fontWeight: PQCLook.fontWeightBold
                 y: 8
                 height: parent.height-14
                 onClicked: {

@@ -244,7 +244,7 @@ Item {
             PQButton {
                 id: savebut
                 text: (savetimer.running ? (genericStringSave+" (" + savetimer.countdown + ")") : genericStringSave)
-                font.weight: (savetimer.running ? PQCLook.fontWeightBold : PQCLook.fontWeightNormal)
+                fontWeight: (savetimer.running ? PQCLook.fontWeightBold : PQCLook.fontWeightNormal)
                 onClicked: {
 
                     var combo = ""
@@ -274,7 +274,7 @@ Item {
             PQButton {
                 id: cancelbut
                 text: (canceltimer.running ? genericStringCancel+" (" + canceltimer.countdown + ")" : genericStringCancel)
-                font.weight: (canceltimer.running ? PQCLook.fontWeightBold : PQCLook.fontWeightNormal)
+                fontWeight: (canceltimer.running ? PQCLook.fontWeightBold : PQCLook.fontWeightNormal)
                 onClicked: {
                     detect_top.hide()
                 }

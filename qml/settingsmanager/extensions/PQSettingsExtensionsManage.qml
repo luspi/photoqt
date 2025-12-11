@@ -234,7 +234,7 @@ PQSetting {
                             //: Trust here refers to trusting an unverified extension to run.
                             text: qsTranslate("settingsmanager", "Revoke trust")
                             smallerVersion: true
-                            font.weight: PQCLook.fontWeightNormal
+                            fontWeight: PQCLook.fontWeightNormal
                             onClicked: {
                                 set_maex.extensionTrustRevoked.push(extension_setting.extensionId)
                                 PQCSettings.generalExtensionsAllowUntrusted = PQCSettings.generalExtensionsAllowUntrusted.filter(item => item !== extension_setting.extensionId)
@@ -375,7 +375,7 @@ PQSetting {
                             x: (parent.width-width)
                             height: 40
                             smallerVersion: true
-                            font.weight: PQCLook.fontWeightNormal
+                            fontWeight: PQCLook.fontWeightNormal
                             enabled: PQCSettings.generalExtensionsAllowUntrusted.indexOf(extensionfailed_setting.extensionId)===-1
                             text: "Trust this extension"
                             onClicked: {

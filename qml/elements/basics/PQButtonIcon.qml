@@ -24,76 +24,214 @@ import QtQuick
 import QtQuick.Controls
 import PhotoQt
 
-Button {
+Loader {
 
-    id: control
+    id: loader
 
-    implicitHeight: 40
-    implicitWidth: 40
-
-    opacity: enabled ? 1 : 0.5
-
+    property string tooltip: ""
     property string source: ""
-    property alias tooltip: ttip.text
-    property real iconScale: 1
-    property alias tooltipWidth: ttip.width
-    property alias tooltipDelay: ttip.delay
-    property alias cursorShape: mousearea.cursorShape
+    property real iconScale: isModern ? 0.75 : 1
+    property int tooltipWidth: 0
+    property int tooltipDelay: 0
+    property int cursorShape: Qt.ArrowCursor
 
-    property bool enableContextMenu: false
+    property bool down: false
+    property bool hovered: false
+
+    property bool enableContextMenu: true
 
     property Item dragTarget
 
-    flat: true
+    property bool checkable: false
+    property bool checked: false
 
+    signal clicked()
     signal rightClicked()
 
-    Image {
-        anchors.fill: parent
-        anchors.margins: 5
-        smooth: true
-        mipmap: true
-        sourceSize: Qt.size(width, height)
-        source: control.source
-        scale: control.iconScale
-    }
+    property bool isModern: PQCSettings.generalInterfaceVariant==="modern"
 
-    MouseArea {
-        id: mousearea
-        anchors.fill: parent
-        acceptedButtons: Qt.RightButton
-        drag.target: dragTarget
-        onClicked: (mouse) => {
-            if(enableContextMenu)
-                menu.popup()
-            else
-                control.rightClicked()
-            mouse.accepted = true
-        }
-    }
+    sourceComponent: isModern ? modern_button : integrated_button
 
-    PQToolTip {
+    Component {
 
-        id: ttip
+        id: modern_button
 
-        x: (parent != null ? (parent.width-width)/2 : 0)
-        y: -height-5
+        Rectangle {
 
-    }
+            id: control
 
-    PQMenu {
-        id: menu
-        PQMenuItem {
-            enabled: false
-            font.italic: true
-            text: control.text
-        }
-        PQMenuItem {
-            text: qsTranslate("buttongeneric", "Activate button")
-            onTriggered: {
-                control.clicked()
+            implicitHeight: 40
+            implicitWidth: 40
+
+            opacity: enabled ? 1 : 0.5
+            radius: 5
+
+            color: ((loader.down||loader.checked)&&enabled ? palette.highlight : (loader.hovered&&enabled ? palette.alternateBase : palette.button))
+            Behavior on color { enabled: !PQCSettings.generalDisableAllAnimations; ColorAnimation { duration: 150 } }
+
+            Image {
+
+                id: icon
+
+                source: loader.source
+                smooth: false
+
+                sourceSize: Qt.size(control.height*loader.iconScale,control.height*loader.iconScale)
+
+                x: (parent.width-width)/2
+                y: (parent.height-height)/2
+
             }
+
+            PQMouseArea {
+                id: mousearea
+                anchors.fill: parent
+                hoverEnabled: true
+                cursorShape: Qt.PointingHandCursor
+                drag.target: loader.dragTarget
+                text: loader.tooltip
+                acceptedButtons: Qt.LeftButton|Qt.RightButton
+                onEntered:
+                    loader.hovered = true
+                onExited:
+                    loader.hovered = false
+                onPressed: (mouse) => {
+                    if(mouse.button === Qt.RightButton)
+                        return
+                    if(loader.checkable)
+                        loader.checked = !loader.checked
+                    else
+                        loader.down = true
+                }
+                onReleased: {
+                    if(!loader.checkable)
+                        loader.down = false
+                }
+                onClicked: (mouse) => {
+                               console.warn(">>> CLICK:", mouse.button)
+                    if(loader.enableContextMenu && mouse.button === Qt.RightButton) {
+                                   console.warn(" >> MENU")
+                        menu.popup()
+                    } else if(mouse.button === Qt.RightButton) {
+                        loader.rightClicked()
+                               console.warn(" >> RC")
+                    } else {
+                        loader.clicked()
+                                   console.warn(" >> CC")
+                    }
+                }
+            }
+
+            PQMenu {
+                id: menu
+                PQMenuItem {
+                    visible: text!==""
+                    enabled: false
+                    text: loader.tooltip
+                }
+                PQMenuItem {
+                    text: qsTranslate("buttongeneric", "Activate button")
+                    onTriggered: {
+                        loader.clicked()
+                        if(loader.checkable)
+                            loader.checked = !loader.checked
+                    }
+                }
+            }
+
         }
+
+    }
+
+    Component {
+
+        id: integrated_button
+
+        Button {
+
+            id: control
+
+            implicitHeight: 40
+            implicitWidth: 40
+
+            onDownChanged:
+                loader.down = down
+            onHoveredChanged:
+                loader.hovered = hovered
+
+            onClicked:
+                loader.clicked()
+
+            checked: loader.checked
+            checkable: loader.checkable
+            onCheckedChanged: {
+                if(loader.checked !== checked)
+                    loader.checked = checked
+                checked = Qt.binding(function() { return loader.checked })
+            }
+
+            opacity: enabled ? 1 : 0.5
+
+            flat: true
+
+            Image {
+                anchors.fill: parent
+                anchors.margins: 5
+                smooth: true
+                mipmap: true
+                sourceSize: Qt.size(width, height)
+                source: loader.source
+                scale: loader.iconScale
+            }
+
+            MouseArea {
+                id: mousearea
+                anchors.fill: parent
+                acceptedButtons: Qt.RightButton
+                drag.target: loader.dragTarget
+                cursorShape: loader.cursorShape
+                onClicked: (mouse) => {
+                    if(loader.enableContextMenu)
+                        menu.popup()
+                    else
+                        loader.rightClicked()
+                }
+            }
+
+            PQToolTip {
+
+                id: ttip
+
+                x: (parent != null ? (parent.width-width)/2 : 0)
+                y: -height-5
+
+                text: loader.tooltip
+
+                Component.onCompleted: {
+                    loader.tooltipDelay = delay
+                    loader.tooltipWidth = width
+                }
+
+            }
+
+            PQMenu {
+                id: menu
+                PQMenuItem {
+                    enabled: false
+                    text: loader.tooltip
+                }
+                PQMenuItem {
+                    text: qsTranslate("buttongeneric", "Activate button")
+                    onTriggered: {
+                        loader.clicked()
+                        if(loader.checkable)
+                            loader.checked = !loader.checked
+                    }
+                }
+            }
+
+        }
+
     }
 
 }

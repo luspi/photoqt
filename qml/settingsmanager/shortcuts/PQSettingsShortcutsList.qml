@@ -483,8 +483,8 @@ PQSetting {
                                 sourceComponent:
                                 PQButtonIcon {
                                     y: (entrycomp.height-height)/2
-                                    implicitWidth: 25
-                                    implicitHeight: 25
+                                    width: 25
+                                    height: 25
                                     source: "image://svg/:/" + PQCLook.iconShade + "/settings.svg"
                                     onClicked: {
                                         extrasettings.show(deleg.extra)
@@ -510,8 +510,8 @@ PQSetting {
                             PQButtonIcon {
                                 id: addbutton
                                 y: (entrycomp.height-height)/2
-                                implicitWidth: 20
-                                implicitHeight: 20
+                                width: 20
+                                height: 20
                                 iconScale: 0.75
                                 source: "image://svg/:/" + PQCLook.iconShade + "/zoomin.svg"
                                 onClicked: {
@@ -813,8 +813,8 @@ PQSetting {
         PQButtonIcon {
             x: parent.width-width
             y: 5
-            implicitWidth: 30
-            implicitHeight: 30
+            width: 30
+            height: 30
             source: "image://svg/:/" + PQCLook.iconShade + "/close.svg"
             onClicked: {
                 extrasettings.hide()

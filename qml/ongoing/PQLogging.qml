@@ -117,7 +117,7 @@ ApplicationWindow {
             x: (parent.width-width)/2
             y: 1
             text: genericStringClose
-            font.weight: PQCLook.fontWeightBold
+            fontWeight: PQCLook.fontWeightBold
             onClicked:
                 logging_top.close()
         }
@@ -128,7 +128,7 @@ ApplicationWindow {
             y: 1
             width: height
             text: "..."
-            font.weight: PQCLook.fontWeightBold
+            fontWeight: PQCLook.fontWeightBold
             onClicked:
                 actionsmenu.popup(actions, 0, 0)
         }

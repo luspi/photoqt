@@ -229,7 +229,7 @@ PQSetting {
                 //: The entry here is a custom entry in the context menu
                 text: qsTranslate("settingsmanager", "Add new entry")
                 forceWidth: Math.min(parent.width, 500)
-                font.weight: PQCLook.fontWeightNormal
+                fontWeight: PQCLook.fontWeightNormal
                 onClicked: set_come.addNewEntry()
             }
 
@@ -239,7 +239,7 @@ PQSetting {
                 visible: !PQCScriptsConfig.amIOnWindows()
                 //: The system applications here refers to any image related applications that can be found automatically on your system
                 text: qsTranslate("settingsmanager", "Add system applications")
-                font.weight: PQCLook.fontWeightNormal
+                fontWeight: PQCLook.fontWeightNormal
                 onClicked: {
                     var newentries = PQCScriptsContextMenu.detectSystemEntries()
                     for(var i = 0; i < newentries.length; ++i) {

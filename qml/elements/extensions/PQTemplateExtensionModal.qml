@@ -129,7 +129,7 @@ Rectangle {
             PQButtonElement {
                 id: firstbutton
                 text: fullscreen_loader.status===Loader.Ready ? fullscreen_loader.item.modalButton1Text : genericStringClose
-                font.weight: PQCLook.fontWeightBold
+                fontWeight: PQCLook.fontWeightBold
                 y: 1
                 height: parent.height-1
                 onClicked: {
