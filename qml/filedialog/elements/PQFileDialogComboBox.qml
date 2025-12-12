@@ -45,9 +45,6 @@ ComboBox {
 
     property bool transparentBackground: false
 
-    SystemPalette { id: pqtPalette }
-    SystemPalette { id: pqtPaletteDisabled; colorGroup: SystemPalette.Disabled }
-
     delegate: ItemDelegate {
         id: deleg
         width: control.width
@@ -57,12 +54,12 @@ ComboBox {
         contentItem: Text {
             id: contitem
             text: control.prefix+(control.firstItemEmphasized&&deleg.index===0 ? deleg.model[control.textRole] : deleg.model[control.textRole])
-            color: enabled ? pqtPalette.text : pqtPaletteDisabled.text
+            color: enabled ? palette.text : paletteDisabled.text
             font: control.font
             elide: control.elide
             verticalAlignment: Text.AlignVCenter
             style: deleg.highlighted ? Text.Sunken : Text.Normal
-            styleColor: pqtPaletteDisabled.text
+            styleColor: palette.disabled.text
             PQToolTip {
                 visible: deleg.hovered
                 text: contitem.text
@@ -73,13 +70,13 @@ ComboBox {
             implicitWidth: 200
             implicitHeight: 40
             opacity: enabled ? 1 : 0.3
-            color: deleg.highlighted ? PQCLook.baseBorder : pqtPalette.base
+            color: deleg.highlighted ? PQCLook.baseBorder : palette.base
 
             Rectangle {
                 width: parent.width
                 height: 1
                 y: parent.height-1
-                color: pqtPalette.text
+                color: palette.text
                 visible: control.lineBelowItem.indexOf(deleg.index)!==-1
             }
         }
@@ -106,7 +103,7 @@ ComboBox {
             context.lineTo(width, 0);
             context.lineTo(width / 2, height);
             context.closePath();
-            context.fillStyle = pqtPalette.text
+            context.fillStyle = palette.text
             context.fill();
         }
     }
@@ -117,8 +114,8 @@ ComboBox {
 
         text: control.prefix+control.displayText
         font: control.font
-        color: enabled ? pqtPalette.text : pqtPaletteDisabled.text
-        styleColor: pqtPaletteDisabled.text
+        color: enabled ? palette.text : paletteDisabled.text
+        styleColor: paletteDisabled.text
         verticalAlignment: Text.AlignVCenter
         elide: control.elide
     }
@@ -126,7 +123,7 @@ ComboBox {
     background: Rectangle {
         implicitWidth: 120
         implicitHeight: 40
-        color: control.transparentBackground ? "transparent" : ((control.pressed||popup.visible) ? PQCLook.baseBorder : pqtPalette.base)
+        color: control.transparentBackground ? "transparent" : ((control.pressed||popup.visible) ? PQCLook.baseBorder : palette.base)
         border.color: PQCLook.baseBorder
         border.width: control.transparentBackground ? 0 : (control.visualFocus ? 2 : 1)
         radius: 2
@@ -151,7 +148,7 @@ ComboBox {
         }
 
         background: Rectangle {
-            color: pqtPalette.base
+            color: palette.base
             border.color: PQCLook.baseBorder
             border.width: 1
             radius: 2

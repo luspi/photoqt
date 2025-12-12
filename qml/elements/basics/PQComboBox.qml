@@ -59,12 +59,12 @@ ComboBox {
         contentItem: Text {
             id: contitem
             text: control.prefix+deleg.model[control.textRole]
-            color: delegate.highlighted ? control.palette.highlightedText : control.palette.text
+            color: delegate.highlighted ? palette.highlightedText : palette.text
             font: control.font
             elide: control.elide
             verticalAlignment: Text.AlignVCenter
             style: deleg.highlighted ? Text.Sunken : Text.Normal
-            styleColor: control.palette.disabled.text
+            styleColor: palette.disabled.text
             PQToolTip {
                 visible: deleg.highlighted
                 text: contitem.text
@@ -75,7 +75,7 @@ ComboBox {
             implicitWidth: 200
             implicitHeight: 40
             opacity: enabled ? 1 : 0.3
-            color: control.palette.alternateBase
+            color: palette.alternateBase
             PQHighlightMarker {
                 visible: deleg.highlighted
             }
@@ -103,7 +103,7 @@ ComboBox {
             context.lineTo(width, 0);
             context.lineTo(width / 2, height);
             context.closePath();
-            context.fillStyle = control.palette.text
+            context.fillStyle = palette.text
             context.fill();
         }
     }
@@ -114,9 +114,9 @@ ComboBox {
 
         text: control.selectedPrefix + control.textAt(control.currentIndex)
         font: control.font
-        color: control.palette.text
+        color: palette.text
         style: control.highlighted ? Text.Sunken : Text.Normal
-        styleColor: control.palette.disabled.text
+        styleColor: palette.disabled.text
         verticalAlignment: Text.AlignVCenter
         elide: control.elide
     }
@@ -124,7 +124,7 @@ ComboBox {
     background: Rectangle {
         implicitWidth: 120
         implicitHeight: 40
-        color: control.transparentBackground ? "transparent" : ((control.pressed||popup.visible) ? PQCLook.baseBorder : control.palette.alternateBase)
+        color: control.transparentBackground ? "transparent" : ((control.pressed||popup.visible) ? PQCLook.baseBorder : palette.alternateBase)
         border.color: PQCLook.baseBorder
         border.width: control.transparentBackground ? 0 : (control.visualFocus ? 2 : 1)
         radius: 5
@@ -147,7 +147,7 @@ ComboBox {
         }
 
         background: Rectangle {
-            color: control.palette.alternateBase
+            color: palette.alternateBase
             border.color: PQCLook.baseBorder
             border.width: 1
             radius: 2

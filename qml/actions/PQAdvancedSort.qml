@@ -55,8 +55,6 @@ PQTemplate {
         }
     }
 
-    SystemPalette { id: pqtPalette }
-
     signal loadData()
     signal saveData()
 
@@ -603,7 +601,7 @@ PQTemplate {
 
                                     width: 400
                                     height: 40
-                                    color: pqtPalette.alternateBase
+                                    color: palette.alternateBase
 
                                     PQText {
                                         x: 10

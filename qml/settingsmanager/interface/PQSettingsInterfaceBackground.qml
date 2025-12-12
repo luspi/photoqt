@@ -29,8 +29,6 @@ PQSetting {
 
     id: set_bg
 
-    SystemPalette { id: pqtPalette }
-
     ButtonGroup {
         id: bggrp
     }
@@ -142,7 +140,7 @@ PQSetting {
 
                     width: custombg_optcol.height*1.2
                     height: custombg_optcol.height
-                    color: pqtPalette.alternateBase
+                    color: palette.alternateBase
                     border.color: PQCLook.baseBorder
                     border.width: 1
 
@@ -308,7 +306,7 @@ PQSetting {
                 Behavior on opacity { enabled: !PQCSettings.generalDisableAllAnimations; NumberAnimation { duration: 150 } }
                 clip: true
                 property string setColor: ""
-                color: setColor==="" ? pqtPalette.base : setColor
+                color: setColor==="" ? palette.base : setColor
                 onColorChanged: set_bg.checkForChanges()
                 border.width: 1
                 border.color: PQCLook.baseBorder

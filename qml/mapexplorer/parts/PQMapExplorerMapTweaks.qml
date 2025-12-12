@@ -27,12 +27,10 @@ Rectangle {
 
     id: explorertweaks
 
-    color: pqtPalette.base
+    color: palette.base
 
     property real minZoomLevel: 0
     property real maxZoomLevel: 1
-
-    SystemPalette { id: pqtPalette }
 
     Row {
 

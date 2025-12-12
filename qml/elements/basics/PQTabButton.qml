@@ -44,7 +44,7 @@ TabButton {
         text: control.text
         font: control.font
         opacity: enabled ? 1.0 : 0.3
-        color: control.palette.text
+        color: palette.text
         horizontalAlignment: Text.AlignLeft
         verticalAlignment: Text.AlignVCenter
         wrapMode: Text.WrapAtWordBoundaryOrAnywhere
@@ -52,13 +52,13 @@ TabButton {
 
     background: Rectangle {
         opacity: enabled ? 1 : 0.3
-        color: control.palette.base
+        color: palette.base
 
         Rectangle {
             y: 0
             width: parent.width
             height: 1
-            color: control.palette.text
+            color: palette.text
             visible: control.lineAbove
             opacity: 0.2
         }
@@ -72,7 +72,7 @@ TabButton {
             y: (parent.height-height)
             width: parent.width
             height: 1
-            color: control.palette.text
+            color: palette.text
             visible: control.lineBelow
             opacity: 0.2
         }

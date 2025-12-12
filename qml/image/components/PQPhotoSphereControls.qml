@@ -32,8 +32,6 @@ Loader {
 
     asynchronous: true
 
-    SystemPalette { id: pqtPalette }
-
     sourceComponent:
     Item {
 
@@ -48,7 +46,7 @@ Loader {
 
         Rectangle {
             anchors.fill: parent
-            color: pqtPalette.base
+            color: palette.base
             opacity: 0.8
             border.width: 1
             border.color: PQCLook.baseBorder

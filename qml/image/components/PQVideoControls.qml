@@ -28,8 +28,6 @@ Loader {
 
     id: ldr_top
 
-    SystemPalette { id: pqtPalette }
-
     active: PQCConstants.currentlyShowingVideo
 
     asynchronous: true
@@ -106,7 +104,7 @@ Loader {
 
         Rectangle {
             anchors.fill: parent
-            color: pqtPalette.base
+            color: palette.base
             opacity: 0.9
             border.width: 1
             border.color: PQCLook.baseBorder
@@ -273,7 +271,7 @@ Loader {
                 y: (parent.height-height)/2
                 width: 1
                 height: controlitem.height*0.75
-                color: pqtPalette.text
+                color: palette.text
             }
 
             Item {
@@ -336,7 +334,7 @@ Loader {
             width: volumeicon.width + 20
             radius: 5
             height: 150
-            color: pqtPalette.base
+            color: palette.base
 
             opacity: 0
             visible: opacity>0

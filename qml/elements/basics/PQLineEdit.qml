@@ -29,7 +29,7 @@ Rectangle {
 
     width: 300
     height: 40
-    color: warning ? "red" : (enabled ? control.palette.alternateBase : control.palette.base)
+    color: warning ? "red" : (enabled ? palette.alternateBase : palette.base)
     Behavior on color { enabled: !PQCSettings.generalDisableAllAnimations; ColorAnimation { duration: 200 } }
     border.width: 1
     border.color: PQCLook.baseBorder
@@ -59,7 +59,7 @@ Rectangle {
     Text {
         id: placeholder
         anchors.fill: parent
-        color: control.palette.text
+        color: palette.text
         opacity: edit_top.highlightBG ? 0.3 : 0.6
         elide: Text.ElideRight
         font.weight: edit_top.fontBold ? PQCLook.fontWeightBold : PQCLook.fontWeightNormal
@@ -81,9 +81,9 @@ Rectangle {
         leftPadding: 5
         rightPadding: 5
 
-        color: control.palette.text
-        selectedTextColor: control.palette.highlightedText
-        selectionColor: control.palette.highlight
+        color: palette.text
+        selectedTextColor: palette.highlightedText
+        selectionColor: palette.highlight
 
         font.pointSize: PQCLook.fontSize
         font.weight: edit_top.fontBold ? PQCLook.fontWeightBold : PQCLook.fontWeightNormal

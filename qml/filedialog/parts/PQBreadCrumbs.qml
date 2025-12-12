@@ -32,8 +32,6 @@ Item {
     width: parent.width
     height: 50
 
-    SystemPalette { id: pqtPalette }
-
     property bool otherContextMenuOpen: false
     signal closeMenus()
 
@@ -340,7 +338,7 @@ Item {
                                 width: folder.text==="" ? 0 : (folder.width+foldertypeicon.width+20)
                                 Rectangle {
                                     anchors.fill: parent
-                                    color: mousearea2.containsPress ? PQCLook.baseBorder : (mousearea2.containsMouse ? pqtPalette.alternateBase : pqtPalette.base)
+                                    color: mousearea2.containsPress ? PQCLook.baseBorder : (mousearea2.containsMouse ? palette.alternateBase : palette.base)
                                 }
                                 Image {
                                     id: foldertypeicon
@@ -357,7 +355,7 @@ Item {
                                     font.weight: PQCLook.fontWeightBold
                                     font.pointSize: PQCLook.fontSize
                                     text: deleg.modelData>0 ? crumbs.parts[deleg.modelData] : ""
-                                    color: pqtPalette.text
+                                    color: palette.text
                                     Behavior on color { enabled: !PQCSettings.generalDisableAllAnimations; ColorAnimation { duration: 200 } }
                                 }
                                 PQMouseArea {
@@ -416,7 +414,7 @@ Item {
                                     }
                                 }
 
-                                color: (down||mousearea.containsPress ? PQCLook.baseBorder : (mousearea.containsMouse ? pqtPalette.alternateBase : pqtPalette.base))
+                                color: (down||mousearea.containsPress ? PQCLook.baseBorder : (mousearea.containsMouse ? palette.alternateBase : palette.base))
 
                                 Image {
                                     property real fact: 3

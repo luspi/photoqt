@@ -55,8 +55,6 @@ PQTemplate {
         }
     }
 
-    SystemPalette { id: pqtPalette }
-
     property int leftcolwidth: 100
 
     property list<string> musicfiles: []
@@ -498,7 +496,7 @@ PQTemplate {
 
                                         width: music_view.width-(music_scroll.visible ? music_scroll.width : 0)
                                         height: 40
-                                        color: pqtPalette.alternateBase
+                                        color: palette.alternateBase
 
                                         Column {
                                             x: 5

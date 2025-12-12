@@ -36,8 +36,6 @@ ListView {
 
     ScrollBar.vertical: PQFileDialogScrollBar { id: view_scroll }
 
-    SystemPalette { id: pqtPalette }
-
     onContentYChanged: {
         // this check makes sure that value is not reset when a directory is reloaded due to a change
         if(contentY > 0)
@@ -104,13 +102,13 @@ ListView {
         // without the parseInt() the value is taken for some reason as string resulting in a height of "15" + "xx" = "15xx"
         height: 15 + parseInt(PQCSettings.filedialogZoom)
 
-        color: pqtPalette.base
+        color: palette.base
         border.width: 1
-        border.color: pqtPalette.alternateBase
+        border.color: palette.alternateBase
 
         Rectangle {
             anchors.fill: parent
-            color: modelData%2 ? pqtPalette.base : pqtPalette.alternateBase
+            color: modelData%2 ? palette.base : palette.alternateBase
             opacity: 0.5
         }
 
@@ -184,7 +182,7 @@ ListView {
             verticalAlignment: Text.AlignVCenter
             elide: Text.ElideMiddle
             text: deleg.currentFile
-            color: pqtPalette.text
+            color: palette.text
         }
 
         // the file size/number of images
@@ -197,7 +195,7 @@ ListView {
             font.pointSize: PQCLook.fontSize
             verticalAlignment: Text.AlignVCenter
             text: ""
-            color: pqtPalette.text
+            color: palette.text
         }
 
         /************************************************************/

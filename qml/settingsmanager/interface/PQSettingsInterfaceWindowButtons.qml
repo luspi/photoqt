@@ -29,8 +29,6 @@ PQSetting {
 
     id: set_windowbuttons
 
-    SystemPalette { id: pqtPalette }
-
     property list<string> curEntries: []
     property list<string> defaultEntries: []
 
@@ -64,7 +62,7 @@ PQSetting {
             opacity: enabled ? 1 : 0.8
             Behavior on opacity { enabled: !PQCSettings.generalDisableAllAnimations; NumberAnimation { duration: 150 } }
 
-            color: pqtPalette.alternateBase
+            color: palette.alternateBase
             ListView {
 
                 id: avail
@@ -160,7 +158,7 @@ PQSetting {
                         height: deleg.height
                         anchors.verticalCenter: parent.verticalCenter
                         anchors.horizontalCenter: parent.horizontalCenter
-                        color: pqtPalette.base
+                        color: palette.base
                         radius: 5
                         Image {
                             id: txt

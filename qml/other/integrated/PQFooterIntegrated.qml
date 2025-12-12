@@ -32,8 +32,6 @@ ToolBar {
     onHeightChanged:
         PQCConstants.footerHeight = height
 
-    SystemPalette { id: pqtPaletteDisabled; colorGroup: SystemPalette.Disabled }
-
     property bool isIntegrated: PQCSettings.generalInterfaceVariant==="integrated"
 
     PQMenu {
@@ -257,13 +255,13 @@ ToolBar {
                 if(val !== undefined)
                     str.push(val)
                 else
-                    str.push("<font color='"+pqtPaletteDisabled.text+"'>---</font>")
+                    str.push("<font color='"+palette.disabled.text+"'>---</font>")
 
             }
 
         }
 
-        statusinfo.text = str.join("&nbsp;&nbsp;<font color='"+pqtPaletteDisabled.text+"'><b>|</b></font>&nbsp;&nbsp;")
+        statusinfo.text = str.join("&nbsp;&nbsp;<font color='"+palette.disabled.text+"'><b>|</b></font>&nbsp;&nbsp;")
 
     }
 

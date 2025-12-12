@@ -34,10 +34,7 @@ ApplicationWindow {
                (PQCSettings.interfaceKeepWindowOnTop ? (Qt.Window|Qt.WindowStaysOnTopHint|Qt.WindowTitleHint|Qt.WindowMinMaxButtonsHint|Qt.WindowCloseButtonHint) : Qt.Window) :
                (PQCSettings.interfaceKeepWindowOnTop ? (Qt.FramelessWindowHint|Qt.WindowStaysOnTopHint|Qt.Window|Qt.WindowMinMaxButtonsHint|Qt.WindowCloseButtonHint) : (Qt.FramelessWindowHint|Qt.Window|Qt.WindowMinMaxButtonsHint))
 
-    SystemPalette { id: pqtPalette }
-    SystemPalette { id: pqtPaletteDisabled; colorGroup: SystemPalette.Disabled }
-
-    color: isModern ? "transparent" : pqtPalette.base
+    color: isModern ? "transparent" : palette.base
 
     property string titleOverride: ""
     title: titleOverride!="" ?
@@ -142,7 +139,7 @@ ApplicationWindow {
             Rectangle {
                 width: parent.width
                 height: 1
-                color: pqtPaletteDisabled.text
+                color: palette.disabled.text
                 opacity: 0.5
             }
             // divider between footer and content
@@ -150,7 +147,7 @@ ApplicationWindow {
                 y: (parent.height-height)
                 width: parent.width
                 height: 1
-                color: pqtPaletteDisabled.text
+                color: palette.disabled.text
                 opacity: 0.5
             }
         }

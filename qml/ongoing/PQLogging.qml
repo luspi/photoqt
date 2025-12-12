@@ -36,8 +36,6 @@ ApplicationWindow {
 
     title: "Log/Debug" + " | PhotoQt"
 
-    SystemPalette { id: pqtPalette }
-
     /////////
 
     // on windows there is a white flash when the window is created
@@ -61,7 +59,7 @@ ApplicationWindow {
     Rectangle {
         width: parent.width
         height: parent.height
-        color: pqtPalette.base
+        color: palette.base
         opacity: 0.8
     }
 
@@ -92,7 +90,7 @@ ApplicationWindow {
 
         width: parent.width
         height: close.height
-        color: pqtPalette.base
+        color: palette.base
 
         Rectangle {
             x: 0

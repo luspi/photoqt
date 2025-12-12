@@ -31,8 +31,6 @@ Flickable {
     width: 300
     height: parent.height
 
-    SystemPalette { id: pqtPalette }
-
     property int currentIndex: 0
     property list<string> currentComponents: ["", "", "", "", "", "", ""]
     property list<int> currentIndices: [0, 0, 0, 0, 0, 0, 0]
@@ -127,7 +125,7 @@ Flickable {
                             y: parent.height-height
                             width: parent.width
                             height: 1
-                            color: pqtPalette.text
+                            color: palette.text
                             visible: subtabbar_interface.entries[index].length === 3 && subtabbar_interface.entries[index][2] === "---"
                             opacity: 0.1
                         }
@@ -202,7 +200,7 @@ Flickable {
                             y: parent.height-height
                             width: parent.width
                             height: 1
-                            color: pqtPalette.text
+                            color: palette.text
                             visible: subtabbar_imageview.entries[index].length === 3 && subtabbar_imageview.entries[index][2] === "---"
                             opacity: 0.1
                         }
@@ -274,7 +272,7 @@ Flickable {
                             y: parent.height-height
                             width: parent.width
                             height: 1
-                            color: pqtPalette.text
+                            color: palette.text
                             visible: subtabbar_thumbnails.entries[index].length === 3 && subtabbar_thumbnails.entries[index][2] === "---"
                             opacity: 0.1
                         }
@@ -350,7 +348,7 @@ Flickable {
                             y: parent.height-height
                             width: parent.width
                             height: 1
-                            color: pqtPalette.text
+                            color: palette.text
                             visible: subtabbar_filetypes.entries[index].length === 3 && subtabbar_filetypes.entries[index][2] === "---"
                             opacity: 0.1
                         }
@@ -423,7 +421,7 @@ Flickable {
                             y: parent.height-height
                             width: parent.width
                             height: 1
-                            color: pqtPalette.text
+                            color: palette.text
                             visible: subtabbar_mousekeys.entries[index].length === 3 && subtabbar_mousekeys.entries[index][2] === "---"
                             opacity: 0.1
                         }
@@ -494,7 +492,7 @@ Flickable {
                             y: parent.height-height
                             width: parent.width
                             height: 1
-                            color: pqtPalette.text
+                            color: palette.text
                             visible: subtabbar_manage.entries[index].length === 3 && subtabbar_manage.entries[index][2] === "---"
                             opacity: 0.1
                         }
@@ -564,7 +562,7 @@ Flickable {
                             y: parent.height-height
                             width: parent.width
                             height: 1
-                            color: pqtPalette.text
+                            color: palette.text
                             visible: subtabbar_extensions.entries[index].length === 3 && subtabbar_extensions.entries[index][2] === "---"
                             opacity: 0.1
                         }
@@ -634,7 +632,7 @@ Flickable {
                             y: parent.height-height
                             width: parent.width
                             height: 1
-                            color: pqtPalette.text
+                            color: palette.text
                             visible: subtabbar_other.entries[index].length === 3 && subtabbar_other.entries[index][2] === "---"
                             opacity: 0.1
                         }

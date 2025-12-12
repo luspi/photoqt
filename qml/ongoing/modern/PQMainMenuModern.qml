@@ -40,8 +40,6 @@ Rectangle {
             resetAnimateResize.restart()
     }
 
-    SystemPalette { id: pqtPalette }
-
     Timer {
         id: resetAnimateResize
         interval: 250
@@ -66,7 +64,7 @@ Rectangle {
             PQCSettings.mainmenuElementPosition = Qt.point(Math.round(mainmenu_top.x),Math.round(mainmenu_top.y))
     }
 
-    color: pqtPalette.base
+    color: palette.base
 
     radius: PQCScriptsConfig.isQtAtLeast6_5() ? 0 : 5
 
@@ -271,7 +269,7 @@ Rectangle {
                 height: nav_txt.height+10
                 Rectangle {
                     anchors.fill: parent
-                    color: pqtPalette.alternateBase
+                    color: palette.alternateBase
                     opacity: 0.8
                     radius: 5
                 }
@@ -378,7 +376,7 @@ Rectangle {
                 height: view_txt.height+10
                 Rectangle {
                     anchors.fill: parent
-                    color: pqtPalette.alternateBase
+                    color: palette.alternateBase
                     opacity: 0.8
                     radius: 5
                 }
@@ -610,7 +608,7 @@ Rectangle {
                 height: folder_txt.height+10
                 Rectangle {
                     anchors.fill: parent
-                    color: pqtPalette.alternateBase
+                    color: palette.alternateBase
                     opacity: 0.8
                     radius: 5
                 }
@@ -771,7 +769,7 @@ Rectangle {
                     height: ext_txt.height+10
                     Rectangle {
                         anchors.fill: parent
-                        color: pqtPalette.alternateBase
+                        color: palette.alternateBase
                         opacity: 0.8
                         radius: 5
                     }
@@ -841,7 +839,7 @@ Rectangle {
                 height: photoqt_txt.height+10
                 Rectangle {
                     anchors.fill: parent
-                    color: pqtPalette.alternateBase
+                    color: palette.alternateBase
                     opacity: 0.8
                     radius: 5
                 }
@@ -918,7 +916,7 @@ Rectangle {
                 height: custom_txt.height+10
                 Rectangle {
                     anchors.fill: parent
-                    color: pqtPalette.alternateBase
+                    color: palette.alternateBase
                     opacity: 0.8
                     radius: 5
                 }

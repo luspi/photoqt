@@ -40,9 +40,7 @@ Window {
     minimumWidth: 400
     minimumHeight: 600
 
-    SystemPalette { id: pqtPalette }
-
-    color: pqtPalette.base
+    color: palette.base
 
     onClosing: {
         PQCNotify.slideshowHideHandler()

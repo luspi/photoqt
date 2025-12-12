@@ -27,8 +27,6 @@ PQSetting {
 
     id: set_fowe
 
-    SystemPalette { id: pqtPalette }
-
     property list<string> values: [
                 //: This refers to a type of font weight (thin is the lightest weight)
                 qsTranslate("settingsmanager", "thin"),

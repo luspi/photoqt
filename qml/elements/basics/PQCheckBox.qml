@@ -37,7 +37,7 @@ CheckBox {
     contentItem: Text {
         text: control.text
         font: control.font
-        color: control.palette.text
+        color: palette.text
         verticalAlignment: Text.AlignVCenter
         leftPadding: control.indicator.width + control.spacing
     }

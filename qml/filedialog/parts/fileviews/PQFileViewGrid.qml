@@ -42,8 +42,6 @@ GridView {
 
     ScrollBar.vertical: PQFileDialogScrollBar { id: view_scroll }
 
-    SystemPalette { id: pqtPalette }
-
     onContentYChanged: {
         // this check makes sure that value is not reset when a directory is reloaded due to a change
         if(contentY > 0)
@@ -113,7 +111,7 @@ GridView {
         width: gridview.cellWidth
         height: gridview.cellHeight
 
-        color: pqtPalette.base
+        color: palette.base
         border.width: 1
         border.color: PQCLook.baseBorder
 
@@ -182,10 +180,10 @@ GridView {
                 y: deleg.height-height
                 Rectangle {
                     anchors.fill: parent
-                    color: pqtPalette.base
+                    color: palette.base
                     Behavior on color { enabled: !PQCSettings.generalDisableAllAnimations; ColorAnimation { duration: 200 } }
                     border.width: 1
-                    border.color: pqtPalette.button
+                    border.color: palette.button
                 }
 
                 Label {
@@ -198,7 +196,7 @@ GridView {
                     elide: Text.ElideMiddle
                     text: deleg.currentFile
                     font.pointSize: PQCLook.fontSize
-                    color: pqtPalette.text
+                    color: palette.text
                     Behavior on color { enabled: !PQCSettings.generalDisableAllAnimations; ColorAnimation { duration: 200 } }
                 }
 
@@ -242,7 +240,7 @@ GridView {
             width: numberOfFilesInsideFolder.width + 20
             height: 30
             radius: 5
-            color: pqtPalette.text
+            color: palette.text
             opacity: 0.8
             visible: numberOfFilesInsideFolder.text !== "" && numberOfFilesInsideFolder.text !== "0"
 
@@ -252,7 +250,7 @@ GridView {
                 y: (parent.height-height)/2-2
                 font.weight: PQCLook.fontWeightBold
                 font.pointSize: PQCLook.fontSize
-                color: pqtPalette.base
+                color: palette.base
                 elide: Text.ElideMiddle
                 text: deleg.numberFilesInsideFolder
             }
@@ -266,7 +264,7 @@ GridView {
             width: numberThumbInsideFolder.width + 10
             height: 20
             radius: 3
-            color: pqtPalette.text
+            color: palette.text
             opacity: 0.6
             visible: folderthumb.curnum>0 && folderthumb.visible
 
@@ -276,7 +274,7 @@ GridView {
                 y: (parent.height-height)/2-2
                 font.weight: PQCLook.fontWeightBold
                 font.pointSize: PQCLook.fontSizeS
-                color: pqtPalette.base
+                color: palette.base
                 elide: Text.ElideMiddle
                 text: "#"+folderthumb.curnum
             }

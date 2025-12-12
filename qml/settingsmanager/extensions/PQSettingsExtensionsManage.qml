@@ -39,8 +39,6 @@ PQSetting {
     onExtensionsDisabledChanged: checkForChanges()
     onExtensionsEnabledChanged: checkForChanges()
 
-    SystemPalette { id: pqtPalette }
-
     signal loadCheckedStatus()
 
     property list<string> extensionTrustRevoked: []
@@ -121,7 +119,7 @@ PQSetting {
 
                     width: col.width
                     height: (set_maex.currentExpandedSetting==index ? 300 : 40)
-                    color: pqtPalette.alternateBase
+                    color: palette.alternateBase
                     clip: true
 
                     Behavior on height { enabled: !PQCSettings.generalDisableAllAnimations; NumberAnimation { duration: 200 } }
@@ -326,7 +324,7 @@ PQSetting {
 
                     width: col_failed.width
                     height: 40
-                    color: pqtPalette.alternateBase
+                    color: palette.alternateBase
                     clip: true
 
                     Item {

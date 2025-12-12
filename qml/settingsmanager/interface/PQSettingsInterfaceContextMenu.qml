@@ -29,9 +29,6 @@ PQSetting {
 
     id: set_come
 
-    SystemPalette { id: pqtPalette }
-    SystemPalette { id: pqtPaletteDisable; colorGroup: SystemPalette.Disabled }
-
     property var defaultentries: ({})
     property list<var> entries: []
 
@@ -56,7 +53,7 @@ PQSetting {
                 visible: set_come.entries.length===0
                 height: 50
                 verticalAlignment: Text.AlignVCenter
-                color: pqtPaletteDisable.text
+                color: palette.disable.text
                 font.weight: PQCLook.fontWeightBold
                 //: The custom entries here are the custom entries in the context menu
                 text: qsTranslate("settingsmanager", "No custom entries exists yet")

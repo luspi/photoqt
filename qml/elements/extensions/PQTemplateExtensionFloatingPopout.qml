@@ -47,8 +47,6 @@ Window {
 
     ///////////////////
 
-    SystemPalette { id: pqtPalette }
-
     width: 100
     height: 100
 
@@ -100,7 +98,7 @@ Window {
     Rectangle {
         width: parent.width
         height: parent.height
-        color: pqtPalette.base
+        color: palette.base
         opacity: 0.8
     }
 
@@ -193,7 +191,7 @@ Window {
             anchors.margins: -2
             radius: 2
             z: -1
-            color: pqtPalette.base
+            color: palette.base
             opacity: parent.opacity*0.8
         }
     }
@@ -238,7 +236,7 @@ Window {
                 anchors.fill: closeimage
                 radius: width/2
                 z: -1
-                color: pqtPalette.base
+                color: palette.base
                 opacity: closeimage.opacity*0.8
             }
 

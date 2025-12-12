@@ -35,5 +35,23 @@ PQButton {
     fontPointSize: PQCLook.fontSize
     fontWeight: PQCLook.fontWeightBold
 
+    Rectangle {
+        x: 0
+        y: 0
+        width: 1
+        height: parent.height
+        color: PQCLook.baseBorder
+        z: parent.z+1
+    }
+
+    Rectangle {
+        x: parent.width-width
+        y: 0
+        width: 1
+        height: parent.height
+        color: PQCLook.baseBorder
+        z: parent.z+1
+    }
+
 }
 

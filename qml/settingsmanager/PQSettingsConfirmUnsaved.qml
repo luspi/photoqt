@@ -30,12 +30,10 @@ Item {
     parent: settingsmanager_top
     anchors.fill: parent
 
-    SystemPalette { id: pqtPalette }
-
     Rectangle {
         anchors.fill: parent
         opacity: 0.8
-        color: pqtPalette.alternateBase
+        color: palette.alternateBase
     }
 
     opacity: 0

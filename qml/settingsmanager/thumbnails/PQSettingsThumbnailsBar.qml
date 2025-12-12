@@ -28,8 +28,6 @@ PQSetting {
 
     id: set_bar
 
-    SystemPalette { id: pqtPalette }
-
     content: [
 
         PQSettingSubtitle {

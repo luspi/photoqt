@@ -45,9 +45,7 @@ PQTemplate {
 
     property bool splitDividerHovered: false
 
-    SystemPalette { id: pqtPalette }
-
-    color: pqtPalette.base
+    color: palette.base
 
     PQBreadCrumbs {
         id: fd_breadcrumbs
@@ -75,7 +73,7 @@ PQTemplate {
         handle: Rectangle {
             implicitWidth: 8
             implicitHeight: 8
-            color: pqtPalette.text
+            color: palette.text
             opacity: SplitHandle.hovered ? 0.5 : 0.2
             Behavior on opacity { enabled: !PQCSettings.generalDisableAllAnimations; NumberAnimation { duration: 200 } }
             onOpacityChanged:

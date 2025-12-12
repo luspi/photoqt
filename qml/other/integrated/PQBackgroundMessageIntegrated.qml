@@ -33,8 +33,6 @@ Item {
     opacity: 0
     visible: PQCFileFolderModel.countMainView===0 && opacity>0
 
-    SystemPalette { id: pqtPalette }
-
     Component.onCompleted: {
         if(PQCConstants.startupFilePath === "")
             bgmessage_top.opacity = 1
@@ -80,7 +78,7 @@ Item {
                     opacity: 1 - (width-20)/40
                     border {
                         width: 5
-                        color: pqtPalette.text
+                        color: palette.text
                     }
 
                     NumberAnimation {

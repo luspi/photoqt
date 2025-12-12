@@ -40,9 +40,6 @@ Rectangle {
     visible: opacity>0
     Behavior on opacity { enabled: !PQCSettings.generalDisableAllAnimations; NumberAnimation { duration: 200 } }
 
-    SystemPalette { id: pqtPalette }
-    SystemPalette { id: pqtPaletteDisabled; colorGroup: SystemPalette.Disabled }
-
     radius: 0
 
     // which edge the bar should be shown at
@@ -72,7 +69,7 @@ Rectangle {
     property int extraSpacing: Math.max(20,2*effectiveThumbnailLiftup)
     property bool windowSizeOkay: true
 
-    color: pqtPalette.base
+    color: palette.base
 
     PQShadowEffect { masterItem: thumbnails_top }
 
@@ -169,7 +166,7 @@ Rectangle {
         text: qsTranslate("thumbnails", "No file loaded")
         font.bold: PQCLook.fontWeightBold
         font.pointSize: PQCLook.fontSizeXL
-        color: pqtPaletteDisabled.text
+        color: palette.disabled.text
         visible: PQCFileFolderModel.countMainView===0
     }
 
@@ -465,7 +462,7 @@ Rectangle {
             property string filename: PQCScriptsFilesPaths.getFilename(filepath)
 
             // set the background color
-            color: (active&&view.hlInvertBg) ? pqtPalette.alternateBase : "transparent"
+            color: (active&&view.hlInvertBg) ? palette.alternateBase : "transparent"
             Behavior on color { enabled: !PQCSettings.generalDisableAllAnimations; ColorAnimation { duration: 200 } }
 
             state: thumbnails_top.state
@@ -629,7 +626,7 @@ Rectangle {
                 Item {
                     Rectangle {
                         anchors.fill: parent
-                        color: view.hlInvertLabel&&deleg.active ? pqtPalette.text : pqtPalette.base
+                        color: view.hlInvertLabel&&deleg.active ? palette.text : palette.base
                         Behavior on color { enabled: !PQCSettings.generalDisableAllAnimations; ColorAnimation { duration: 200 } }
                         opacity: (PQCSettings.thumbnailsInactiveTransparent&&!deleg.active) ? 0.5 : 0.8
                         Behavior on opacity { enabled: !PQCSettings.generalDisableAllAnimations; NumberAnimation { duration: 200 } }
@@ -648,7 +645,7 @@ Rectangle {
                         font.weight: PQCLook.fontWeightBold
                         elide: Text.ElideMiddle
                         text: deleg.filename
-                        color: view.hlInvertLabel&&deleg.active ? pqtPalette.base : pqtPalette.text
+                        color: view.hlInvertLabel&&deleg.active ? palette.base : palette.text
                         Behavior on color { enabled: !PQCSettings.generalDisableAllAnimations; ColorAnimation { duration: 200 } }
                         opacity: (PQCSettings.thumbnailsInactiveTransparent&&!deleg.active) ? 0.5 : 0.8
                         Behavior on opacity { enabled: !PQCSettings.generalDisableAllAnimations; NumberAnimation { duration: 200 } }
@@ -665,7 +662,7 @@ Rectangle {
                 visible: opacity>0
 
                 Behavior on opacity { enabled: !PQCSettings.generalDisableAllAnimations; NumberAnimation { duration: 200 } }
-                color: pqtPalette.text
+                color: palette.text
 
                 // the state follows the global thumbnails state
                 state: view.state

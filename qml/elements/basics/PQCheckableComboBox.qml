@@ -59,7 +59,7 @@ PQComboBox {
             anchors.margins: 4
             opacity: enabled ? 1 : 0.3
             visible: deleg.highlighted
-            color: control.palette.highlight
+            color: palette.highlight
             radius: 5
         }
         Row {
@@ -81,7 +81,7 @@ PQComboBox {
                 y: (chk.height-height)/2
                 text: deleg.txt
                 font.pointSize: (PQCLook.fontSize+PQCLook.fontSizeS)/2
-                color: deleg.highlighted ? control.palette.highlightedText : control.palette.text
+                color: deleg.highlighted ? palette.highlightedText : palette.text
             }
         }
         MouseArea {
@@ -105,9 +105,9 @@ PQComboBox {
 
         text: control.mainEntryText==="" ? control.displayText : control.mainEntryText
         font: control.font
-        color: control.palette.text
+        color: palette.text
         style: control.highlighted ? Text.Sunken : Text.Normal
-        styleColor: control.palette.disabled.text
+        styleColor: palette.disabled.text
         verticalAlignment: Text.AlignVCenter
         elide: control.elide
     }

@@ -35,8 +35,6 @@ PQSetting {
 
     property var ext2Sh: ({})
 
-    SystemPalette { id: pqtPalette }
-
     property int extensionIdIndexForDetectingNewShortcut: -1
 
     content: [
@@ -114,7 +112,7 @@ PQSetting {
 
                     width: col.width
                     height: 40
-                    color: pqtPalette.alternateBase
+                    color: palette.alternateBase
                     clip: true
 
                     Row {

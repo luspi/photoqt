@@ -32,9 +32,6 @@ PQSetting {
     disabledAutoIndentation: true
     addBlankSpaceBottom: false
 
-    SystemPalette { id: pqtPalette }
-    SystemPalette { id: pqtPaletteDisabled; colorGroup: SystemPalette.Disabled }
-
     property var currentData: ({})
     property var defaultData: ({})
 
@@ -76,7 +73,7 @@ PQSetting {
                 y: parent.height*0.15
                 visible: dupmodel.count===0
                 text: qsTranslate("settingsmanager", "no duplicate shortcuts found")
-                color: pqtPaletteDisabled.text
+                color: palette.disabled.text
                 font.weight: PQCLook.fontWeightBold
             }
 
@@ -106,7 +103,7 @@ PQSetting {
                 radius: 5
 
                 clip: true
-                color: pqtPalette.base
+                color: palette.base
 
                 Column {
 
@@ -118,7 +115,7 @@ PQSetting {
                         height: shtxt.height+10
                         Rectangle {
                             anchors.fill: parent
-                            color: pqtPalette.text
+                            color: palette.text
                             opacity: 0.6
                             radius: 5
                         }
@@ -126,7 +123,7 @@ PQSetting {
                             id: shtxt
                             x: 10
                             y: 5
-                            color: pqtPalette.base
+                            color: palette.base
                             text: deleg.combo
                             font.weight: PQCLook.fontWeightBold
                         }
@@ -226,7 +223,7 @@ PQSetting {
                                 width: entrydeleg.width
                                 height: entrydeleg.height
 
-                                color: pqtPalette.alternateBase
+                                color: palette.alternateBase
 
                                 Row {
                                     spacing: 5

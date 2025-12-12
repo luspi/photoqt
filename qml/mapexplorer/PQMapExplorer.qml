@@ -30,8 +30,6 @@ PQTemplate {
 
     elementId: "MapExplorer"
 
-    SystemPalette { id: pqtPalette }
-
     property list<var> folderLoaded: []
 
     property real mapZoomLevel: 10
@@ -50,7 +48,7 @@ PQTemplate {
                 id: hndl
                 implicitWidth: 8
                 implicitHeight: 8
-                color: SplitHandle.hovered ? pqtPalette.alternateBase : pqtPalette.button
+                color: SplitHandle.hovered ? palette.alternateBase : palette.button
                 Behavior on color { enabled: !PQCSettings.generalDisableAllAnimations; ColorAnimation { duration: 200 } }
 
                 Image {

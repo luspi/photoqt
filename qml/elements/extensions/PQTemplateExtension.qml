@@ -61,7 +61,6 @@ Flickable {
     ///////////////////
     property bool _fixSizeToContent: ((settings["ExtPopout"] && PQCExtensionsHandler.getExtensionPopoutFixSizeToContent(extensionId)) || (!settings["ExtPopout"] && PQCExtensionsHandler.getExtensionIntegratedFixSizeToContent(extensionId)))
 
-    SystemPalette { id: pqtPalette }
     ScrollBar.vertical: PQVerticalScrollBar {}
 
     width: _fixSizeToContent ? contentHeight : parent.parent.width
@@ -74,7 +73,7 @@ Flickable {
         parent: extension_top.parent
         z: -1
         anchors.fill: parent
-        color: pqtPalette.base
+        color: palette.base
         radius: 5
         MouseArea {
             anchors.fill: parent

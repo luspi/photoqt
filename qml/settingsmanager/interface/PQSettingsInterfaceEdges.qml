@@ -27,8 +27,6 @@ PQSetting {
 
     id: set_edge
 
-    SystemPalette { id: pqtPalette }
-
     property var current: {
         "top": "",
         "left": "",
@@ -91,7 +89,7 @@ PQSetting {
                     PQText {
                         anchors.centerIn: parent
                         font.weight: set_edge.current["top"]==="" ? PQCLook.fontWeightNormal : PQCLook.fontWeightBold
-                        color: pqtPalette.text
+                        color: palette.text
                         text: set_edge.labels[set_edge.current["top"]]
                     }
 
@@ -129,7 +127,7 @@ PQSetting {
                         anchors.centerIn: parent
                         rotation: -90
                         font.weight: set_edge.current["left"]==="" ? PQCLook.fontWeightNormal : PQCLook.fontWeightBold
-                        color: pqtPalette.text
+                        color: palette.text
                         text: set_edge.labels[set_edge.current["left"]]
                     }
                     PQMouseArea {
@@ -162,7 +160,7 @@ PQSetting {
                         anchors.centerIn: parent
                         rotation: 90
                         font.weight: set_edge.current["right"]==="" ? PQCLook.fontWeightNormal : PQCLook.fontWeightBold
-                        color: pqtPalette.text
+                        color: palette.text
                         text: set_edge.labels[set_edge.current["right"]]
                     }
                     PQMouseArea {
@@ -198,7 +196,7 @@ PQSetting {
                     PQText {
                         anchors.centerIn: parent
                         font.weight: set_edge.current["bottom"]==="" ? PQCLook.fontWeightNormal : PQCLook.fontWeightBold
-                        color: pqtPalette.text
+                        color: palette.text
                         text: set_edge.labels[set_edge.current["bottom"]]
                     }
                     PQMouseArea {

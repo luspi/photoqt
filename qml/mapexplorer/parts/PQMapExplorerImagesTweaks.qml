@@ -27,9 +27,7 @@ Rectangle {
 
     id: explorertweaks
 
-    color: pqtPalette.base
-
-    SystemPalette { id: pqtPalette }
+    color: palette.base
 
     Row {
 

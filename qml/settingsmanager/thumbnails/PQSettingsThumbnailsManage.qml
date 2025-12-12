@@ -28,8 +28,6 @@ PQSetting {
 
     id: set_mana
 
-    SystemPalette { id: pqtPalette }
-
     content: [
 
         PQSettingSubtitle {

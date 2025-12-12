@@ -31,8 +31,6 @@ Loader {
     active: PQCConstants.currentImageIsAnimated && PQCSettings.filetypesAnimatedControls
     asynchronous: true
 
-    SystemPalette { id: pqtPalette }
-
     sourceComponent:
     Item {
 
@@ -48,7 +46,7 @@ Loader {
         Rectangle {
             anchors.fill: parent
             anchors.margins: -5
-            color: pqtPalette.base
+            color: palette.base
             opacity: 0.8
             radius: 5
             border.width: 1

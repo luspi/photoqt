@@ -29,12 +29,10 @@ Item {
 
     anchors.fill: parent
 
-    SystemPalette { id: pqtPalette }
-
     Rectangle {
         anchors.fill: parent
         opacity: 0.95
-        color: pqtPalette.alternateBase
+        color: palette.alternateBase
     }
 
     opacity: 0
@@ -70,7 +68,7 @@ Item {
             id: resetmessage
             width: parent.width
             height: resetmessagetxt.height+20
-            color: pqtPalette.alternateBase
+            color: palette.alternateBase
             opacity: 0
             // this needs to be done this way to avoid a binding loop warning
             onOpacityChanged: {
@@ -84,7 +82,7 @@ Item {
                 y: 10
                 width: parent.width
                 horizontalAlignment: Text.AlignHCenter
-                color: pqtPalette.text
+                color: palette.text
                 text: qsTranslate("settingsmanager", "This key combination is reserved.") + "<br>\n" +
                       qsTranslate("settingsmanager", "You can use it to reset PhotoQt to its default state.")
             }
@@ -100,7 +98,7 @@ Item {
             id: leftbutmessage
             width: parent.width
             height: leftbutmessagetxt.height+20
-            color: pqtPalette.alternateBase
+            color: palette.alternateBase
             opacity: 0
             // this needs to be done this way to avoid a binding loop warning
             onOpacityChanged: {
@@ -114,7 +112,7 @@ Item {
                 y: 10
                 width: parent.width
                 horizontalAlignment: Text.AlignHCenter
-                color: pqtPalette.text
+                color: palette.text
                 text: qsTranslate("settingsmanager", "The left button is used for moving the main image around.") + "<br>\n" +
                       qsTranslate("settingsmanager", "It can be used as part of a shortcut only when combined with modifier buttons (Alt, Ctrl, etc.).")
             }

@@ -35,8 +35,6 @@ Rectangle {
     property list<string> files: []
     property list<int> checkedFiles: []
 
-    SystemPalette { id: pqtPalette }
-
     property string title: "Existing files"
 
     opacity: 0
@@ -51,7 +49,7 @@ Rectangle {
             PQCNotify.windowTitleOverride("")
     }
 
-    color: pqtPalette.base
+    color: palette.base
 
     MouseArea {
         anchors.fill: parent
@@ -72,7 +70,7 @@ Rectangle {
 
         width: parent.width
         height: parent.height>500 ? 75 : Math.max(75-(500-parent.height), 50)
-        color: pqtPalette.base
+        color: palette.base
 
         PQTextXL {
             anchors.centerIn: parent
@@ -133,7 +131,7 @@ Rectangle {
                 width: 400
                 height: 300
 
-                color: pqtPalette.alternateBase
+                color: palette.alternateBase
                 border.color: PQCLook.baseBorder
                 border.width: 1
 
@@ -170,7 +168,7 @@ Rectangle {
 
                         width: view.width
                         height: 40
-                        color: check.checked ? PQCLook.baseBorder : (view.currentIndex===modelData ? pqtPalette.alternateBase : pqtPalette.button)
+                        color: check.checked ? PQCLook.baseBorder : (view.currentIndex===modelData ? palette.alternateBase : palette.button)
                         Behavior on color { enabled: !PQCSettings.generalDisableAllAnimations; ColorAnimation { duration: 200 } }
                         border.color: PQCLook.baseBorder
                         border.width: 1
@@ -275,7 +273,7 @@ Rectangle {
 
         width: parent.width
         height: 50
-        color: pqtPalette.base
+        color: palette.base
 
         Rectangle {
             x: 0

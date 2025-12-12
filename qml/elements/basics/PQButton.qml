@@ -109,7 +109,7 @@ Loader {
                 Behavior on opacity { enabled: !PQCSettings.generalDisableAllAnimations; NumberAnimation { duration: 200 } }
                 horizontalAlignment: Text.AlignHCenter
                 verticalAlignment: Text.AlignVCenter
-                color: modern_rect.palette.text
+                color: palette.text
             }
 
             PQMouseArea {
@@ -169,13 +169,13 @@ Loader {
             font.weight: loader.fontWeight
 
             function onClicked() {
-                loader.clicked(0)
+                loader.clicked()
             }
 
             contentItem: Text {
                 text: control.text
                 font: control.font
-                color: control.palette.text
+                color: palette.text
                 horizontalAlignment: loader.horizontalAlignment
                 verticalAlignment: Text.AlignVCenter
                 elide: loader.sizeToText ? Text.ElideNone : Text.ElideRight
@@ -189,7 +189,8 @@ Loader {
                 implicitWidth: 100
                 implicitHeight: 40
                 opacity: enabled ? 1 : 0.3
-                color: control.down||loader.forceHovered ? control.palette.highlight : control.palette.button
+                color: PQCScriptsConfig.amIOnWindows() ? palette.button :
+                                                         (control.down||loader.forceHovered ? palette.highlight : palette.button)
                 border.color: PQCLook.baseBorder
                 border.width: control.flat ? 0 : 1
                 radius: 2

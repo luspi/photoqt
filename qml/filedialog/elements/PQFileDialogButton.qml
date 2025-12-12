@@ -33,12 +33,10 @@ Rectangle {
     Behavior on opacity { enabled: !PQCSettings.generalDisableAllAnimations; NumberAnimation { duration: 200 } }
     radius: 5
 
-    SystemPalette { id: pqtPalette }
-
     border.color: PQCLook.baseBorder
     border.width: 1
 
-    color: (down ? PQCLook.baseBorder : ((hovered||forceHovered)&&enabled ? pqtPalette.alternateBase : pqtPalette.button))
+    color: (down ? PQCLook.baseBorder : ((hovered||forceHovered)&&enabled ? palette.alternateBase : palette.button))
 
     property string text: ""
     property alias font: txt.font
@@ -87,7 +85,7 @@ Rectangle {
         Behavior on opacity { enabled: !PQCSettings.generalDisableAllAnimations; NumberAnimation { duration: 200 } }
         horizontalAlignment: Text.AlignHCenter
         verticalAlignment: Text.AlignVCenter
-        color: pqtPalette.text
+        color: palette.text
     }
 
     PQMouseArea {

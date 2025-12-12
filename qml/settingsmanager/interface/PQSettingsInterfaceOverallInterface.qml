@@ -28,8 +28,6 @@ PQSetting {
 
     id: set_lang
 
-    SystemPalette { id: pqtPalette }
-
     property int origIndex
 
     property var languages: {
@@ -163,14 +161,14 @@ PQSetting {
             width: Math.min(set_lang.contentWidth, 400)
             height: Math.max(modern_txt.height, integ_txt.height)+20
             border.width: 1
-            border.color: modern_mouse.containsMouse ? pqtPalette.highlight : PQCLook.baseBorder
+            border.color: modern_mouse.containsMouse ? palette.highlight : PQCLook.baseBorder
             radius: 2
             color: "transparent"
             enabled: set_lang.currentInterfaceVariant==="integrated"
             Rectangle {
                 anchors.fill: parent
                 opacity: 0.5
-                color: modern_mouse.containsPress ? pqtPalette.highlight : pqtPalette.button
+                color: modern_mouse.containsPress ? palette.highlight : palette.button
                 radius: 2
             }
             PQText {
@@ -198,9 +196,9 @@ PQSetting {
                 height: 25
                 opacity: 0.4
                 visible: set_lang.currentInterfaceVariant==="modern"
-                color: pqtPalette.base
+                color: palette.base
                 border.width: 2
-                border.color: pqtPalette.text
+                border.color: palette.text
                 Image {
                     anchors.fill: parent
                     anchors.margins: 5
@@ -214,14 +212,14 @@ PQSetting {
             width: Math.min(set_lang.contentWidth, 400)
             height: Math.max(modern_txt.height, integ_txt.height)+20
             border.width: 1
-            border.color: integ_mouse.containsMouse ? pqtPalette.highlight : PQCLook.baseBorder
+            border.color: integ_mouse.containsMouse ? palette.highlight : PQCLook.baseBorder
             radius: 2
             color: "transparent"
             enabled: set_lang.currentInterfaceVariant==="modern"
             Rectangle {
                 anchors.fill: parent
                 opacity: 0.5
-                color: integ_mouse.containsPress ? pqtPalette.highlight : pqtPalette.button
+                color: integ_mouse.containsPress ? palette.highlight : palette.button
                 radius: 2
             }
             PQText {
@@ -249,9 +247,9 @@ PQSetting {
                 height: 25
                 opacity: 0.4
                 visible: set_lang.currentInterfaceVariant==="integrated"
-                color: pqtPalette.base
+                color: palette.base
                 border.width: 2
-                border.color: pqtPalette.text
+                border.color: palette.text
                 Image {
                     anchors.fill: parent
                     anchors.margins: 5

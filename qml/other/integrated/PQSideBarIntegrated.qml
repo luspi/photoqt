@@ -35,16 +35,13 @@ Rectangle {
         PQCSettings.metadataSideBarWidth = width
     }
 
-    SystemPalette { id: pqtPalette }
-    SystemPalette { id: pqtPaletteDisabled; colorGroup: SystemPalette.Disabled }
-
-    color: pqtPalette.window
+    color: palette.window
 
     Rectangle {
         x: (PQCSettings.metadataSideBarLocation==="left" ? metadata_top.width : 0)
         width: 1
         height: parent.height
-        color: pqtPaletteDisabled.text
+        color: palette.disabled.text
     }
 
     MouseArea {
@@ -117,7 +114,7 @@ Rectangle {
             Rectangle {
                 width: parent.width
                 height: 1
-                color: pqtPalette.text
+                color: palette.text
                 visible: PQCFileFolderModel.currentFile!==""
             }
 

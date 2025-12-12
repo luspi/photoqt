@@ -39,8 +39,6 @@ Item {
     property int distanceFromEdge: 5
     property bool nearTopEdge: false
 
-    SystemPalette { id: pqtPalette }
-
     // this is set to false in a timer at the end to blend in the status info once properly positioned
     property bool hideAtStartup: true
     opacity: hideAtStartup ? 0 : 1
@@ -52,7 +50,7 @@ Item {
     // this is needed in quite a few places
     // having it here once simplifies the code below quite a bit
     property string iconSourcePrefix: "image:/" + (PQCSettings.interfaceWindowButtonsFollowAccentColor ?
-                                                       ("/svgcolor/" + pqtPalette.base + ":://::") :
+                                                       ("/svgcolor/" + palette.base + ":://::") :
                                                        "/svg/")
 
     onXChanged: {

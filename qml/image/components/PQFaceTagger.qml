@@ -29,8 +29,6 @@ Loader {
 
     id: ldr_top
 
-    SystemPalette { id: pqtPalette }
-
     property string imageSource
     property bool isMainImage
 
@@ -80,7 +78,7 @@ Loader {
                 Rectangle {
                     id: bg
                     anchors.fill: parent
-                    color: pqtPalette.base
+                    color: palette.base
                     radius: Math.min(width/2, 2)
                     border.width: 5
                     border.color: PQCLook.baseBorder
@@ -109,7 +107,7 @@ Loader {
 
                     Rectangle {
                         anchors.fill: parent
-                        color: pqtPalette.base
+                        color: palette.base
                         radius: 10
                         opacity: 0.8
                     }
@@ -160,7 +158,7 @@ Loader {
 
         Rectangle {
             id: newmarker
-            color: pqtPalette.base
+            color: palette.base
             radius: Math.min(width/2, 2)
             border.width: 5
             border.color: PQCLook.baseBorder
@@ -216,7 +214,7 @@ Loader {
             Rectangle {
                 anchors.fill: parent
                 anchors.margins: -20
-                color: pqtPalette.base
+                color: palette.base
                 opacity: 0.9
                 radius: 5
             }
@@ -231,7 +229,7 @@ Loader {
                     x: (parent.width-width)/2
                     font.weight: PQCLook.fontWeightBold
                     font.pointSize: PQCLook.fontSizeXL
-                    color: pqtPalette.text
+                    color: palette.text
                     text: qsTranslate("facetagging", "Who is this?")
                 }
 
@@ -245,14 +243,14 @@ Loader {
                     Rectangle {
                         anchors.fill: parent
                         anchors.margins: -5
-                        color: pqtPalette.base
+                        color: palette.base
                     }
 
                     TextInput {
                         id: whoisthis_name
-                        color: pqtPalette.text
-                        selectedTextColor: pqtPalette.highlightedText
-                        selectionColor: pqtPalette.highlight
+                        color: palette.text
+                        selectedTextColor: palette.highlightedText
+                        selectionColor: palette.highlight
                         width: 200
                         onVisibleChanged: {
                             if(visible)

@@ -36,8 +36,6 @@ PQTemplate {
 
     property list<string> flickableNotInteractiveFor: []
 
-    SystemPalette { id: pqtPalette }
-
     Connections {
         target: button1
         function onClicked() {
@@ -265,7 +263,7 @@ PQTemplate {
             Rectangle {
                 width: 1
                 height: parent.height
-                color: pqtPalette.text
+                color: palette.text
                 opacity: 0.2
             }
 

@@ -34,9 +34,6 @@ PQSetting {
 
     property string defaultSettings: ""
 
-    SystemPalette { id: pqtPalette }
-    SystemPalette { id: pqtPaletteDisabled; colorGroup: SystemPalette.Disabled }
-
     property list<var> allcategories: [
         [qsTranslate("settingsmanager", "Viewing Images"), "Viewing Images"],
         [qsTranslate("settingsmanager", "Current File"), "Current File"],
@@ -344,7 +341,7 @@ PQSetting {
                 visible: masterview.contentHeight < 1
                 x: (parent.height-height)/2
                 y: 100
-                color: pqtPaletteDisabled.text
+                color: palette.disabled.text
                 text: qsTranslate("settingsmanager", "no shortcut found")
                 font.weight: PQCLook.fontWeightBold
                 opacity: 0.5
@@ -395,7 +392,7 @@ PQSetting {
 
                         Rectangle {
                             anchors.fill: parent
-                            color: pqtPalette.text
+                            color: palette.text
                             opacity: 0.6
                             radius: 5
                         }
@@ -405,7 +402,7 @@ PQSetting {
                             y: (parent.height-height)/2
                             text: deleg.desc
                             font.weight: PQCLook.fontWeightBold
-                            color: pqtPalette.base
+                            color: palette.base
                         }
 
                         Connections {
@@ -436,7 +433,7 @@ PQSetting {
                         radius: 5
 
                         clip: true
-                        color: pqtPalette.base
+                        color: palette.base
 
                         // we react to changes in the filter text and check whether this one passes
                         Connections {
@@ -602,7 +599,7 @@ PQSetting {
                                     border.color: PQCLook.baseBorder
                                     radius: 5
 
-                                    color: pqtPalette.alternateBase
+                                    color: palette.alternateBase
 
                                     Rectangle {
                                         id: greenbg
@@ -721,7 +718,7 @@ PQSetting {
                                 PQText {
                                     visible: comboview.combos.length===0
                                     y: (parent.height-height)/2
-                                    color: pqtPaletteDisabled.text
+                                    color: palette.disabled.text
                                     text: qsTranslate("settingsmanager", "no key combination set")
                                     font.weight: PQCLook.fontWeightBold
                                     opacity: 0.5
@@ -777,14 +774,14 @@ PQSetting {
 
         Rectangle {
             anchors.fill: parent
-            color: pqtPalette.base
+            color: palette.base
             opacity: 0.9
         }
 
         Rectangle {
             width: parent.width
             height: 1
-            color: pqtPalette.text
+            color: palette.text
         }
 
         MouseArea {

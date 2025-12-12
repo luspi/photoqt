@@ -33,8 +33,6 @@ PQSetting {
 
     property string defaultSettings: ""
 
-    SystemPalette { id: pqtPalette }
-
     content: [
 
         Column {
@@ -214,7 +212,7 @@ PQSetting {
                     height: filterPass ? 50 : 0
                     Behavior on height { enabled: !PQCSettings.generalDisableAllAnimations; NumberAnimation { duration: 50 } }
 
-                    color: entry_rect.modelData%2==0 ? pqtPalette.alternateBase : pqtPalette.base
+                    color: entry_rect.modelData%2==0 ? palette.alternateBase : palette.base
                     visible: height > 0
 
                     PQCheckBox {

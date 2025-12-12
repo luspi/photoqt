@@ -36,8 +36,6 @@ Item {
 
     state: PQCSettings.interfaceNotificationLocation
 
-    SystemPalette { id: pqtPalette }
-
     states: [
 
         State {
@@ -114,7 +112,7 @@ Item {
 
     Rectangle {
         anchors.fill: parent
-        color: pqtPalette.base
+        color: palette.base
         border.width: 2
         border.color: PQCLook.baseBorder
         radius: 15

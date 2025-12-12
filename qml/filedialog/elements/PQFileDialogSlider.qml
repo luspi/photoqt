@@ -53,8 +53,6 @@ Slider {
 
     snapMode: Slider.SnapAlways
 
-    SystemPalette { id: pqtPalette }
-
     MouseArea {
         anchors.fill: parent
         hoverEnabled: true
@@ -80,7 +78,7 @@ Slider {
         Rectangle {
             width: control._horizontal ? (control.visualPosition * (parent.width-control.implicitHandleWidth)) : parent.width
             height: control._horizontal ? parent.height : (control.visualPosition * (parent.height-control.implicitHandleHeight))
-            color: pqtPalette.text
+            color: palette.text
             opacity: control.enabled ? 1 : 0.6
             radius: 2
         }
@@ -124,8 +122,8 @@ Slider {
         implicitWidth: control._horizontal ? control.implicitHeight : control.implicitWidth
         implicitHeight: control._horizontal ? control.implicitHeight : control.implicitWidth
         radius: control.implicitHeight/2
-        color: pqtPalette.text
-        border.color: pqtPalette.base
+        color: palette.text
+        border.color: palette.base
         MouseArea {
             anchors.fill: parent
             hoverEnabled: true

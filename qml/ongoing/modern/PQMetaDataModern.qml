@@ -39,8 +39,6 @@ Rectangle {
             resetAnimateResize.restart()
     }
 
-    SystemPalette { id: pqtPalette }
-
     Timer {
         id: resetAnimateResize
         interval: 250
@@ -78,7 +76,7 @@ Rectangle {
                             PQCConstants.availableHeight-2*gap-statusinfoOffset :
                             Math.min(PQCConstants.availableHeight, PQCSettings.metadataElementSize.height)
 
-    color: pqtPalette.base
+    color: palette.base
 
     radius: PQCScriptsConfig.isQtAtLeast6_5() ? 0 : 5
 
@@ -225,7 +223,7 @@ Rectangle {
         height: head_txt.height+10
         Rectangle {
             anchors.fill: parent
-            color: pqtPalette.alternateBase
+            color: palette.alternateBase
             opacity: 0.8
             radius: 5
         }

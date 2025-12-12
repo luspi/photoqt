@@ -29,8 +29,6 @@ PQSetting {
 
     id: set_accent
 
-    SystemPalette { id: pqtPalette }
-
     property list<string> hexes: PQCLook.getColorHexes()
     property list<string> colnames: PQCLook.getColorNames()
 
@@ -110,7 +108,7 @@ PQSetting {
                     color: colorhex
                     opacity: enabled ? 1 : 0.5
                     border.width: deleg.isSelected ? 2 : 1
-                    border.color: deleg.isSelected ? pqtPalette.text : PQCLook.baseBorder
+                    border.color: deleg.isSelected ? palette.text : PQCLook.baseBorder
                     PQMouseArea {
                         anchors.fill: parent
                         hoverEnabled: true
@@ -137,9 +135,9 @@ PQSetting {
                         height: 25
                         opacity: 0.8
                         visible: deleg.isSelected
-                        color: pqtPalette.base
+                        color: palette.base
                         border.width: 2
-                        border.color: pqtPalette.text
+                        border.color: palette.text
                         Image {
                             anchors.fill: parent
                             anchors.margins: 5
@@ -174,7 +172,7 @@ PQSetting {
             color: "transparent"
             opacity: enabled ? 1 : 0.5
             border.width: 2
-            border.color: pqtPalette.text
+            border.color: palette.text
             property string colorAsHex: PQCScriptsOther.convertRgbToHex([255*customrect.color.r, 255*customrect.color.g, 255*customrect.color.b])
             PQMouseArea {
                 anchors.fill: parent
@@ -236,7 +234,7 @@ PQSetting {
             opacity: bgcustomusecheck.checked ? 1 : 0
             Behavior on opacity { enabled: !PQCSettings.generalDisableAllAnimations; NumberAnimation { duration: 150 } }
             clip: true
-            color: PQCSettings.interfaceBackgroundCustomOverlayColor==="" ? pqtPalette.base : PQCSettings.interfaceBackgroundCustomOverlayColor
+            color: PQCSettings.interfaceBackgroundCustomOverlayColor==="" ? palette.base : PQCSettings.interfaceBackgroundCustomOverlayColor
             onColorChanged: set_accent.checkForChanges()
             border.width: 1
             border.color: PQCLook.baseBorder

@@ -45,8 +45,6 @@ Window {
 
     ///////////////////
 
-    SystemPalette { id: pqtPalette }
-
     width: 100
     height: 100
 
@@ -97,7 +95,7 @@ Window {
     Rectangle {
         width: parent.width
         height: parent.height
-        color: pqtPalette.base
+        color: palette.base
         opacity: 0.8
     }
 
@@ -118,7 +116,7 @@ Window {
 
         width: parent.width
         height: parent.height>500 ? 75 : Math.max(75-(500-parent.height), 50)
-        color: pqtPalette.base
+        color: palette.base
 
         PQTextXL {
             anchors.centerIn: parent
@@ -131,7 +129,7 @@ Window {
             y: parent.height-1
             width: parent.width
             height: 1
-            color: pqtPalette.alternateBase
+            color: palette.alternateBase
         }
 
     }
@@ -159,14 +157,14 @@ Window {
 
         width: parent.width
         height: 50
-        color: pqtPalette.base
+        color: palette.base
 
         Rectangle {
             x: 0
             y: 0
             width: parent.width
             height: 1
-            color: pqtPalette.alternateBase
+            color: palette.alternateBase
         }
 
         Item {
@@ -273,7 +271,7 @@ Window {
             anchors.margins: -2
             radius: 2
             z: -1
-            color: pqtPalette.base
+            color: palette.base
             opacity: parent.opacity*0.8
         }
     }

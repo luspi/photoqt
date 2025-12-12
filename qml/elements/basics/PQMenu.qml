@@ -49,7 +49,7 @@ Menu {
     background: Rectangle {
         implicitWidth: 250
         implicitHeight: 40
-        color: control.palette.base
+        color: palette.base
         radius: 2
         Rectangle {
             anchors.fill: parent

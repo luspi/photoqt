@@ -30,14 +30,14 @@ Rectangle {
     anchors.margins: 3
     color: "transparent"
     border.width: 1
-    border.color: control.palette.highlight
+    border.color: palette.highlight
     radius: 5
 
     Rectangle {
         id: highlightMarker
         anchors.fill: parent
         opacity: 0.5
-        color: control.palette.highlight
+        color: palette.highlight
         radius: 5
     }
 }

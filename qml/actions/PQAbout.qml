@@ -39,8 +39,6 @@ PQTemplate {
     signal showConfig()
     signal hideConfig()
 
-    SystemPalette { id: pqtPalette }
-
     Connections {
         target: about_top.button1
         function onClicked() {
@@ -231,7 +229,7 @@ PQTemplate {
                 y: configcloserow.y-5
                 width: parent.width
                 height: 1
-                color: pqtPalette.text
+                color: palette.text
             }
 
             Row {

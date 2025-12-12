@@ -36,8 +36,6 @@ Item {
     onWidthChanged:
         PQCConstants.filedialogFileviewWidth = width
 
-    SystemPalette { id: pqtPalette }
-
     // select/cut
     property int shiftClickIndexStart: -1
     property list<string> currentCuts: []
@@ -710,7 +708,7 @@ Item {
         visible: PQCFileFolderModel.countAllFileDialog===0
         text: qsTranslate("filedialog", "no supported files/folders found")
         font.pointSize: PQCLook.fontSizeL
-        color: pqtPalette.text
+        color: palette.text
     }
 
     Rectangle {
@@ -722,7 +720,7 @@ Item {
         width: floatingStringLabel.width+20
         height: floatingStringLabel.height+10
 
-        color: pqtPalette.base
+        color: palette.base
         radius: 5
 
         opacity: 0
@@ -759,7 +757,7 @@ Item {
             verticalAlignment: Text.AlignVCenter
             font.weight: PQCLook.fontWeightBold
             font.pointSize: PQCLook.fontSizeL
-            color: pqtPalette.text
+            color: palette.text
 
             text: ""
 

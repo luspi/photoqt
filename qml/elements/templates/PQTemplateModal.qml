@@ -56,8 +56,6 @@ Rectangle {
 
     /********************/
 
-    SystemPalette { id: pqtPalette }
-
     opacity: 0
     Behavior on opacity { enabled: !PQCSettings.generalDisableAllAnimations; NumberAnimation { duration: element_top.forceShow||dontAnimateFirstShow ? 0 : 200 } }
     visible: opacity>0
@@ -69,7 +67,7 @@ Rectangle {
 
     width: PQCConstants.availableWidth
     height: PQCConstants.availableHeight
-    color: pqtPalette.alternateBase
+    color: palette.alternateBase
 
     onWidthChanged: {
         if(!customSizeSet)
@@ -92,7 +90,7 @@ Rectangle {
 
         width: parent.width
         height: parent.height>500 ? 55 : Math.max(75-(500-parent.height), 30)
-        color: pqtPalette.base
+        color: palette.base
 
         visible: element_top.showTopBottom
 
@@ -107,7 +105,7 @@ Rectangle {
             y: parent.height-1
             width: parent.width
             height: 1
-            color: pqtPalette.alternateBase
+            color: palette.alternateBase
         }
 
     }
@@ -130,7 +128,7 @@ Rectangle {
 
         width: parent.width
         height: 50
-        color: pqtPalette.base
+        color: palette.base
 
         visible: element_top.showTopBottom
 
@@ -215,7 +213,7 @@ Rectangle {
             anchors.margins: -2
             radius: 2
             z: -1
-            color: pqtPalette.base
+            color: palette.base
             opacity: parent.opacity*0.8
         }
     }

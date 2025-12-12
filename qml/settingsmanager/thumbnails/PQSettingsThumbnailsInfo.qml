@@ -28,8 +28,6 @@ PQSetting {
 
     id: set_info
 
-    SystemPalette { id: pqtPalette }
-
     content: [
 
         PQSettingSubtitle {

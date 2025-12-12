@@ -92,9 +92,7 @@ Rectangle {
     function button2Action() {}
     function button3Action() {}
 
-    SystemPalette { id: pqtPalette }
-
-    color: pqtPalette.base
+    color: palette.base
     radius: 5
 
     Item {

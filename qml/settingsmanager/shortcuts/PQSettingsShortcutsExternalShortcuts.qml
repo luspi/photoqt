@@ -33,9 +33,6 @@ PQSetting {
     disabledAutoIndentation: true
     addBlankSpaceBottom: false
 
-    SystemPalette { id: pqtPalette }
-    SystemPalette { id: pqtPaletteDisabled; colorGroup: SystemPalette.Disabled }
-
     property int steadyCounter: 0
 
     property var defaultData: ({})
@@ -163,7 +160,7 @@ PQSetting {
                 y: parent.height*0.15
                 visible: extmodel.count===0
                 text: qsTranslate("settingsmanager", "no external shortcuts set")
-                color: pqtPaletteDisabled.text
+                color: palette.disabled.text
                 font.weight: PQCLook.fontWeightBold
             }
 
@@ -201,7 +198,7 @@ PQSetting {
                 radius: 5
 
                 clip: true
-                color: pqtPalette.base
+                color: palette.base
 
                 Column {
 
@@ -342,7 +339,7 @@ PQSetting {
                                 border.color: PQCLook.baseBorder
                                 radius: 5
 
-                                color: changemouse.containsMouse ? PQCLook.baseBorder : pqtPalette.alternateBase
+                                color: changemouse.containsMouse ? PQCLook.baseBorder : palette.alternateBase
 
                                 Rectangle {
                                     id: greenbg
@@ -456,7 +453,7 @@ PQSetting {
                             PQText {
                                 visible: deleg.combos.length===0
                                 y: (parent.height-height)/2
-                                color: pqtPaletteDisabled.text
+                                color: palette.disabled.text
                                 text: qsTranslate("settingsmanager", "no key combination set")
                                 font.weight: PQCLook.fontWeightBold
                                 opacity: 0.5

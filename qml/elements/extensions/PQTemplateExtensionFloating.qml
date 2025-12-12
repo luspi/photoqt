@@ -36,8 +36,6 @@ Item {
 
     /********************/
 
-    SystemPalette { id: pqtPalette }
-
     property bool _dragActive: mousearea.drag.active || mouseareaBG.drag.active
     property bool _finishedSetup: false
     property bool _containsMouse: mousearea.containsMouse || mouseareaBG.containsMouse
@@ -193,7 +191,7 @@ Item {
             anchors.margins: -2
             radius: 4
             z: -1
-            color: pqtPalette.base
+            color: palette.base
             opacity: parent.opacity*0.8
         }
     }
@@ -234,7 +232,7 @@ Item {
                 anchors.fill: closeimage
                 radius: width/2
                 z: -1
-                color: pqtPalette.base
+                color: palette.base
                 opacity: closeimage.opacity*0.8
             }
 

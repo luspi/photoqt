@@ -29,8 +29,6 @@ Image {
 
     id: image
 
-    SystemPalette { id: pqtPalette }
-
     /*******************************************/
     // these values are READONLY, they are set in PQImageDisplay as bindings
 

@@ -30,8 +30,6 @@ Item {
 
     anchors.fill: parent
 
-    SystemPalette { id: pqtPalette }
-
     property string action: ""
     property var payload: []
 
@@ -44,7 +42,7 @@ Item {
 
     Rectangle {
         anchors.fill: parent
-        color: pqtPalette.base
+        color: palette.base
         opacity: 0.8
     }
 
@@ -68,7 +66,7 @@ Item {
         width: col.width+100
         height: col.height+100
 
-        color: pqtPalette.base
+        color: palette.base
 
         border.width: 2
         border.color: PQCLook.baseBorder
@@ -91,7 +89,7 @@ Item {
                 horizontalAlignment: Text.AlignHCenter
                 font.weight: PQCLook.fontWeightBold
                 font.pointSize: PQCLook.fontSizeXXL
-                color: pqtPalette.text
+                color: palette.text
             }
 
             Label {
@@ -100,7 +98,7 @@ Item {
                 width: Math.min(conf_top.width-200, 600)
                 horizontalAlignment: Text.AlignHCenter
                 font.pointSize: PQCLook.fontSizeL
-                color: pqtPalette.text
+                color: palette.text
             }
 
             Row {
@@ -113,7 +111,7 @@ Item {
                     id: acceptButton
                     height: 50
                     width: okTxt.width+50
-                    color: okMouse.containsPress ? PQCLook.baseBorder : (okMouse.containsMouse ? pqtPalette.alternateBase : pqtPalette.button)
+                    color: okMouse.containsPress ? PQCLook.baseBorder : (okMouse.containsMouse ? palette.alternateBase : palette.button)
                     border.color: PQCLook.baseBorder
                     border.width: 1
                     Label {
@@ -138,7 +136,7 @@ Item {
                     id: rejectButton
                     height: 50
                     width: cancelTxt.width+50
-                    color: cancelMouse.containsPress ? PQCLook.baseBorder : (cancelMouse.containsMouse ? pqtPalette.alternateBase : pqtPalette.button)
+                    color: cancelMouse.containsPress ? PQCLook.baseBorder : (cancelMouse.containsMouse ? palette.alternateBase : palette.button)
                     border.color: PQCLook.baseBorder
                     border.width: 1
                     Label {

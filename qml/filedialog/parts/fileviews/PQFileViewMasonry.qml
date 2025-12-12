@@ -34,8 +34,6 @@ Flickable {
 
     contentHeight: mainrow.height
 
-    SystemPalette { id: pqtPalette }
-
     property int model: 0
     onModelChanged: {
         if(model == 0) {
@@ -196,7 +194,7 @@ Flickable {
             property int folderthumbCurNum: 0
 
             clip: true
-            color: pqtPalette.base
+            color: palette.base
             border.width: PQCSettings.filedialogElementPadding
             border.color: PQCLook.baseBorder
 
@@ -306,7 +304,7 @@ Flickable {
                             y: (parent.height-height)/2-2
                             font.weight: PQCLook.fontWeightBold
                             font.pointSize: PQCLook.fontSize
-                            color: pqtPalette.text
+                            color: palette.text
                             elide: Text.ElideMiddle
                             text: deleg.numberFilesInsideFolder
                         }
@@ -330,7 +328,7 @@ Flickable {
                             y: (parent.height-height)/2-2
                             font.weight: PQCLook.fontWeightBold
                             font.pointSize: PQCLook.fontSizeS
-                            color: pqtPalette.text
+                            color: palette.text
                             elide: Text.ElideMiddle
                             text: "#"+folderthumb.curnum
                         }
@@ -365,7 +363,7 @@ Flickable {
                                 (deleg.isSelected||deleg.isHovered ? Math.min(50, deleg.height) : 0)
                     Behavior on height { enabled: !PQCSettings.generalDisableAllAnimations; NumberAnimation { duration: 200 } }
                     y: deleg.height-height
-                    color: deleg.isSelected ? pqtPalette.text : (deleg.isHovered ? pqtPalette.alternateBase : pqtPalette.base )
+                    color: deleg.isSelected ? palette.text : (deleg.isHovered ? palette.alternateBase : palette.base )
                     Behavior on color { enabled: !PQCSettings.generalDisableAllAnimations; ColorAnimation { duration: 200 } }
                     opacity: 0.8
                     clip: true
@@ -380,7 +378,7 @@ Flickable {
                         elide: Text.ElideMiddle
                         text: deleg.currentFile
                         font.pointSize: PQCLook.fontSize
-                        color: pqtPalette.text
+                        color: palette.text
                         Behavior on color { enabled: !PQCSettings.generalDisableAllAnimations; ColorAnimation { duration: 200 } }
                     }
 

@@ -73,9 +73,6 @@ PQTemplate {
         }
     }
 
-    SystemPalette { id: pqtPalette }
-    SystemPalette { id: pqtPaletteDisabled; colorGroup: SystemPalette.Disabled }
-
     content: [
 
         Column {
@@ -91,7 +88,7 @@ PQTemplate {
                 width: Math.min(chromecastmanager_top.width, 600)
                 height: Math.min(chromecastmanager_top.availableHeight-statusrow.height-10, 400)
 
-                color: pqtPalette.base
+                color: palette.base
 
                 ListView {
 
@@ -116,7 +113,7 @@ PQTemplate {
 
                         Rectangle {
                             anchors.fill: parent
-                            color: view.currentIndex===modelData ? pqtPalette.text : (hovered ? pqtPalette.alternateBase : pqtPalette.base)
+                            color: view.currentIndex===modelData ? palette.text : (hovered ? palette.alternateBase : palette.base)
                             Behavior on color { enabled: !PQCSettings.generalDisableAllAnimations; ColorAnimation { duration: 200 } }
                         }
 
@@ -130,14 +127,14 @@ PQTemplate {
                                 y: (parent.height-height)/2
                                 text: PQCScriptsChromeCast.availableDevices[deleg.modelData][0]
                                 font.weight: PQCLook.fontWeightBold
-                                color: view.currentIndex===modelData ? pqtPalette.base : pqtPalette.text
+                                color: view.currentIndex===modelData ? palette.base : palette.text
                                 Behavior on color { enabled: !PQCSettings.generalDisableAllAnimations; ColorAnimation { duration: 200 } }
                             }
                             PQText {
                                 y: (parent.height-height)/2
                                 text: PQCScriptsChromeCast.availableDevices[deleg.modelData][1]
                                 font.italic: true
-                                color: view.currentIndex===modelData ? pqtPalette.base : pqtPalette.text
+                                color: view.currentIndex===modelData ? palette.base : palette.text
                                 Behavior on color { enabled: !PQCSettings.generalDisableAllAnimations; ColorAnimation { duration: 200 } }
                             }
                         }
@@ -159,7 +156,7 @@ PQTemplate {
                     anchors.centerIn: parent
                     visible: !busy.visible && PQCScriptsChromeCast.availableDevices.length === 0
                     font.weight: PQCLook.fontWeightBold
-                    color: pqtPaletteDisabled.text
+                    color: paletteDisabled.text
                     //: The devices here are chromecast devices
                     text: qsTranslate("streaming", "No devices found")
                 }

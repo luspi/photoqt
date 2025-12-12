@@ -29,8 +29,6 @@ PQSetting {
 
     id: set_stin
 
-    SystemPalette { id: pqtPalette }
-
     property list<string> curEntries: []
 
     content: [
@@ -123,7 +121,7 @@ PQSetting {
                             height: deleg.height
                             anchors.verticalCenter: parent.verticalCenter
                             anchors.horizontalCenter: parent.horizontalCenter
-                            color: pqtPalette.base
+                            color: palette.base
                             radius: 5
                             PQText {
                                 id: txt

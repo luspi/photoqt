@@ -27,8 +27,6 @@ PQSetting {
 
     id: set_noti
 
-    SystemPalette { id: pqtPalette }
-
     content: [
 
         PQSettingSubtitle {

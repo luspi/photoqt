@@ -29,7 +29,7 @@ Rectangle {
 
     id: visibleimages_top
 
-    color: pqtPalette.base
+    color: palette.base
 
     clip: true
 
@@ -59,8 +59,6 @@ Rectangle {
     }
 
     property alias imageContextMenu: contextmenu
-
-    SystemPalette { id: pqtPalette }
 
     signal mapHideHighlightMarker()
     signal clickOnImage(var lat, var lon)
@@ -180,7 +178,7 @@ Rectangle {
 
                     Rectangle {
                         anchors.fill: parent
-                        color: pqtPalette.base
+                        color: palette.base
                         opacity: 0.8
                     }
 

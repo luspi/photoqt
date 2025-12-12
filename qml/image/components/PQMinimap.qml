@@ -27,8 +27,6 @@ Rectangle {
 
     id: minimap_top
 
-    SystemPalette { id: pqtPalette }
-
     Item {
         id: containerItemForAnchors
         x: (parent.width-width)/2
@@ -44,7 +42,7 @@ Rectangle {
     height: img.height+(PQCScriptsConfig.isQtAtLeast6_5() ? 0 : 6)
     opacity: minimap_top.minimapNeeded ? ((minimap_top.minimapActive||minimap_top.containsMouse) ? 1 : 0.2) : 0
 
-    color: pqtPalette.base
+    color: palette.base
     border.width: PQCScriptsConfig.isQtAtLeast6_5() ? 1 : 0
     border.color: PQCLook.baseBorder
 
@@ -90,7 +88,7 @@ Rectangle {
     visible: opacity>0
 
     Text {
-        color: pqtPalette.text
+        color: palette.text
         anchors.centerIn: containerItemForAnchors
         visible: (img.source===""||img.status!=Image.Ready) && PQCSettings.interfaceMinimapPopout
         text: qsTranslate("image", "Minimap")

@@ -45,8 +45,6 @@ Item {
 
     signal barcodeClicked()
 
-    SystemPalette { id: pqtPalette }
-
     Connections {
         target: PQCConstants
         function onCurrentImageSourceChanged() {
@@ -128,7 +126,7 @@ Item {
                             x: (parent.width-width)/2
                             width: valtxt.width+10
                             height: valtxt.height+10
-                            color: pqtPalette.base
+                            color: palette.base
                             border.width: 1
                             border.color: PQCLook.baseBorder
                             radius: 5
@@ -156,7 +154,7 @@ Item {
                                 height: 32
                                 Rectangle {
                                     anchors.fill: parent
-                                    color: pqtPalette.base
+                                    color: palette.base
                                     border.width: 1
                                     border.color: PQCLook.baseBorder
                                     radius: 5
@@ -179,7 +177,7 @@ Item {
                                 height: 32
                                 Rectangle {
                                     anchors.fill: parent
-                                    color: pqtPalette.base
+                                    color: palette.base
                                     border.width: 1
                                     border.color: PQCLook.baseBorder
                                     radius: 5

@@ -32,8 +32,6 @@ Item {
     height: PQCConstants.availableHeight
     visible: PQCFileFolderModel.countMainView===0 && PQCConstants.startupFilePath===""
 
-    SystemPalette { id: pqtPalette }
-
     property var entries: {
                        //: Label shown at startup before a file is loaded
         "thumbnails" : qsTranslate("other", "Thumbnails"),
@@ -84,7 +82,7 @@ Item {
                     opacity: 1 - (width-20)/40
                     border {
                         width: 5
-                        color: pqtPalette.text
+                        color: palette.text
                     }
 
                     NumberAnimation {
@@ -201,7 +199,7 @@ Item {
             height: ltx.height+10
             Rectangle {
                 anchors.fill: parent
-                color: pqtPalette.base
+                color: palette.base
                 opacity: 0.8
                 border.width: 1
                 border.color: PQCLook.baseBorder
@@ -312,7 +310,7 @@ Item {
             height: rtx.height+10
             Rectangle {
                 anchors.fill: parent
-                color: pqtPalette.base
+                color: palette.base
                 opacity: 0.8
                 border.width: 1
                 border.color: PQCLook.baseBorder
@@ -424,7 +422,7 @@ Item {
             height: btx.height+10
             Rectangle {
                 anchors.fill: parent
-                color: pqtPalette.base
+                color: palette.base
                 opacity: 0.8
                 border.width: 1
                 border.color: PQCLook.baseBorder
@@ -535,7 +533,7 @@ Item {
             height: utx.height+10
             Rectangle {
                 anchors.fill: parent
-                color: pqtPalette.base
+                color: palette.base
                 opacity: 0.8
                 border.width: 1
                 border.color: PQCLook.baseBorder

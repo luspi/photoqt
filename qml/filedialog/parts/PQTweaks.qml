@@ -33,8 +33,6 @@ Item {
 
     property int zoomMoveUpHeight: leftcolrect.state==="moveup" ? leftcolrect.height : 0
 
-    SystemPalette { id: pqtPalette }
-
     Rectangle {
 
         id: leftcolrect
@@ -45,7 +43,7 @@ Item {
         width: leftcol.width+15
         height: parent.height
 
-        color: pqtPalette.base
+        color: palette.base
         border.color: PQCLook.baseBorder
         border.width: state==="moveup" ? 1 : 0
 
@@ -62,7 +60,7 @@ Item {
                 text: qsTranslate("filedialog", "Zoom:")
                 font.weight: PQCLook.fontWeightBold
                 font.pointSize: PQCLook.fontSize
-                color: pqtPalette.text
+                color: palette.text
                 PQMouseArea {
                     anchors.fill: parent
                     tooltip: qsTranslate("filedialog", "Adjust size of files and folders")
@@ -108,7 +106,7 @@ Item {
                 y: (parent.height-height)/2
                 text: zoomslider.value + "%"
                 font.pointSize: PQCLook.fontSize
-                color: pqtPalette.text
+                color: palette.text
             }
 
         }

@@ -50,9 +50,6 @@ Item {
 
     property int availableHeight: height - fd_tweaks.zoomMoveUpHeight
 
-    SystemPalette { id: pqtPalette }
-    SystemPalette { id: pqtPaletteDisabled; colorGroup: SystemPalette.Disabled }
-
     Timer {
         id: resetHoverIndex
         interval: 50
@@ -86,7 +83,7 @@ Item {
         anchors.fill: parent
         anchors.margins: 5
         wrapMode: Text.WrapAtWordBoundaryOrAnywhere
-        color: pqtPaletteDisabled.text
+        color: palette.disabled.text
         font.italic: true
         font.pointSize: PQCLook.fontSizeL
         text: qsTranslate("filedialog", "bookmarks and devices disabled")
@@ -185,7 +182,7 @@ Item {
         height: 1
 
         visible: view_favorites.visible && view_devices.visible
-        color: pqtPalette.alternateBase
+        color: palette.alternateBase
     }
 
     ListView {
@@ -296,7 +293,7 @@ Item {
                         elide: Text.ElideRight
                         font.weight: deleg.index===0 ? PQCLook.fontWeightBold : PQCLook.fontWeightNormal
                         font.pointSize: PQCLook.fontSize
-                        color: enabled ? pqtPalette.text : pqtPaletteDisabled.text
+                        color: enabled ? palette.text : palette.disabled.text
 
                         text: PQCScriptsFilesPaths.pathWithNativeSeparators(deleg.folder)
 
@@ -310,7 +307,7 @@ Item {
                         height: deleg.height
 
                         font.pointSize: PQCLook.fontSize
-                        color: pqtPalette.text
+                        color: palette.text
 
                         // vertically center text
                         verticalAlignment: Qt.AlignVCenter

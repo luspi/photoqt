@@ -29,8 +29,6 @@ Loader {
 
     id: ldr_top
 
-    SystemPalette { id: pqtPalette }
-
     property string imageSource
     property bool isMainImage
 
@@ -116,7 +114,7 @@ Loader {
                     Rectangle {
                         anchors.fill: parent
                         radius: 10
-                        color: pqtPalette.base
+                        color: palette.base
                         opacity: 0.8
                     }
 
