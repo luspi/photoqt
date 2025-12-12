@@ -35,6 +35,26 @@ RadioButton {
 
     width: (enforceMaxWidth===0 ? implicitWidth : Math.min(enforceMaxWidth, implicitWidth))
 
+    indicator: Rectangle {
+        implicitWidth: 16
+        implicitHeight: 16
+        x: control.leftPadding
+        y: (parent.height-height)/2
+        radius: 10
+        color: palette.base
+        border.color: palette.text
+
+        Rectangle {
+            width: 6
+            height: 6
+            x: 5
+            y: 5
+            radius: 5
+            color: palette.text
+            visible: control.checked
+        }
+    }
+
     contentItem: Text {
         text: control.text
         font: control.font
