@@ -73,13 +73,13 @@ MenuBar {
         color: palette.window
     }
 
-    Menu {
+    PQMenu {
 
         id: menu_file
 
         title: qsTranslate("other", "&File")
 
-        MenuItem {
+        PQMenuItem {
             icon.source: "image://svg/:/" + PQCLook.iconShade + "/browse.svg"
             text: qsTranslate("other", "&Open (browse images)")
             onTriggered: {
@@ -87,7 +87,7 @@ MenuBar {
             }
         }
 
-        MenuItem {
+        PQMenuItem {
             icon.source: "image://svg/:/" + PQCLook.iconShade + "/settings.svg"
             text: qsTranslate("other", "&Settings manager")
             enabled: PQCConstants.idOfVisibleItem===""
@@ -96,9 +96,9 @@ MenuBar {
             }
         }
 
-        MenuSeparator {}
+        PQMenuSeparator {}
 
-        MenuItem {
+        PQMenuItem {
             icon.source: "image://svg/:/" + PQCLook.iconShade + "/quit.svg"
             text: qsTranslate("other", "&Quit")
             onTriggered: {
@@ -108,14 +108,14 @@ MenuBar {
 
     }
 
-    Menu {
+    PQMenu {
 
         id: menu_navigation
 
         title: qsTranslate("other", "&Navigation")
         enabled: PQCConstants.idOfVisibleItem===""
 
-        MenuItem {
+        PQMenuItem {
             icon.source: "image://svg/:/" + PQCLook.iconShade + "/next.svg"
             text: qsTranslate("other", "&Next")
             enabled: PQCFileFolderModel.countMainView>0
@@ -126,7 +126,7 @@ MenuBar {
             }
         }
 
-        MenuItem {
+        PQMenuItem {
             icon.source: "image://svg/:/" + PQCLook.iconShade + "/previous.svg"
             text: qsTranslate("other", "&Previous")
             enabled: PQCFileFolderModel.countMainView>0
@@ -137,7 +137,7 @@ MenuBar {
             }
         }
 
-        MenuItem {
+        PQMenuItem {
             icon.source: "image://svg/:/" + PQCLook.iconShade + "/last.svg"
             text: qsTranslate("other", "&Last")
             enabled: PQCFileFolderModel.countMainView>0
@@ -146,7 +146,7 @@ MenuBar {
             }
         }
 
-        MenuItem {
+        PQMenuItem {
             icon.source: "image://svg/:/" + PQCLook.iconShade + "/first.svg"
             text: qsTranslate("other", "&First")
             enabled: PQCFileFolderModel.countMainView>0
@@ -155,9 +155,9 @@ MenuBar {
             }
         }
 
-        MenuSeparator {}
+        PQMenuSeparator {}
 
-        MenuItem {
+        PQMenuItem {
             icon.source: "image://svg/:/" + PQCLook.iconShade + "/browse.svg"
             text: qsTranslate("other", "&Open (browse images)")
             onTriggered: {
@@ -165,7 +165,7 @@ MenuBar {
             }
         }
 
-        MenuItem {
+        PQMenuItem {
             icon.source: "image://svg/:/" + PQCLook.iconShade + "/mapmarker.svg"
             text: qsTranslate("other", "&Map explorer")
             enabled: PQCFileFolderModel.countMainView>0
@@ -176,14 +176,14 @@ MenuBar {
 
     }
 
-    Menu {
+    PQMenu {
 
         id: menu_image
 
         title: qsTranslate("other", "&Image")
         enabled: PQCConstants.idOfVisibleItem===""
 
-        MenuItem {
+        PQMenuItem {
             icon.source: "image://svg/:/" + PQCLook.iconShade + "/rename.svg"
             text: qsTranslate("other", "&Rename")
             enabled: PQCFileFolderModel.countMainView>0
@@ -192,7 +192,7 @@ MenuBar {
             }
         }
 
-        MenuItem {
+        PQMenuItem {
             icon.source: "image://svg/:/" + PQCLook.iconShade + "/copy.svg"
             text: qsTranslate("other", "&Copy")
             enabled: PQCFileFolderModel.countMainView>0
@@ -201,7 +201,7 @@ MenuBar {
             }
         }
 
-        MenuItem {
+        PQMenuItem {
             icon.source: "image://svg/:/" + PQCLook.iconShade + "/move.svg"
             text: qsTranslate("other", "&Move")
             enabled: PQCFileFolderModel.countMainView>0
@@ -210,7 +210,7 @@ MenuBar {
             }
         }
 
-        MenuItem {
+        PQMenuItem {
             icon.source: "image://svg/:/" + PQCLook.iconShade + "/delete.svg"
             text: qsTranslate("other", "&Delete")
             enabled: PQCFileFolderModel.countMainView>0
@@ -219,12 +219,12 @@ MenuBar {
             }
         }
 
-        MenuSeparator {}
+        PQMenuSeparator {}
 
-        Menu {
+        PQMenu {
             title: qsTranslate("other", "&Zoom")
             enabled: PQCFileFolderModel.countMainView>0
-            MenuItem {
+            PQMenuItem {
                 id: zoomin
                 icon.source: "image://svg/:/" + PQCLook.iconShade + "/zoomin.svg"
                 text: qsTranslate("other", "&In")
@@ -235,7 +235,7 @@ MenuBar {
                         PQCScriptsShortcuts.executeInternalCommand("__zoomIn")
                 }
             }
-            MenuItem {
+            PQMenuItem {
                 icon.source: "image://svg/:/" + PQCLook.iconShade + "/zoomout.svg"
                 text: qsTranslate("other", "&Out")
                 enabled: PQCFileFolderModel.countMainView>0
@@ -245,7 +245,7 @@ MenuBar {
                         PQCScriptsShortcuts.executeInternalCommand("__zoomOut")
                 }
             }
-            MenuItem {
+            PQMenuItem {
                 icon.source: "image://svg/:/" + PQCLook.iconShade + "/actualsize.svg"
                 text: qsTranslate("other", "&100%")
                 enabled: PQCFileFolderModel.countMainView>0
@@ -255,7 +255,7 @@ MenuBar {
                         PQCScriptsShortcuts.executeInternalCommand("__zoomActual")
                 }
             }
-            MenuItem {
+            PQMenuItem {
                 icon.source: "image://svg/:/" + PQCLook.iconShade + "/reset.svg"
                 text: qsTranslate("other", "&Reset")
                 enabled: PQCFileFolderModel.countMainView>0
@@ -267,10 +267,10 @@ MenuBar {
             }
         }
 
-        Menu {
+        PQMenu {
             title: qsTranslate("other", "&Rotate")
             enabled: PQCFileFolderModel.countMainView>0
-            MenuItem {
+            PQMenuItem {
                 icon.source: "image://svg/:/" + PQCLook.iconShade + "/rotateright.svg"
                 text: qsTranslate("other", "90° &clockwise")
                 enabled: PQCFileFolderModel.countMainView>0
@@ -280,7 +280,7 @@ MenuBar {
                         PQCScriptsShortcuts.executeInternalCommand("__rotateR")
                 }
             }
-            MenuItem {
+            PQMenuItem {
                 icon.source: "image://svg/:/" + PQCLook.iconShade + "/rotateleft.svg"
                 text: qsTranslate("other", "90° &anticlockwise")
                 enabled: PQCFileFolderModel.countMainView>0
@@ -296,7 +296,7 @@ MenuBar {
             //         PQCScriptsShortcuts.executeInternalCommand("")
             //     }
             // }
-            MenuItem {
+            PQMenuItem {
                 icon.source: "image://svg/:/" + PQCLook.iconShade + "/reset.svg"
                 text: qsTranslate("other", "&Reset")
                 enabled: PQCFileFolderModel.countMainView>0
@@ -308,10 +308,10 @@ MenuBar {
             }
         }
 
-        Menu {
+        PQMenu {
             title: qsTranslate("other", "&Mirror")
             enabled: PQCFileFolderModel.countMainView>0
-            MenuItem {
+            PQMenuItem {
                 icon.source: "image://svg/:/" + PQCLook.iconShade + "/leftrightarrow.svg"
                 text: qsTranslate("other", "Horizontal")
                 enabled: PQCFileFolderModel.countMainView>0
@@ -321,7 +321,7 @@ MenuBar {
                         PQCScriptsShortcuts.executeInternalCommand("__flipH")
                 }
             }
-            MenuItem {
+            PQMenuItem {
                 icon.source: "image://svg/:/" + PQCLook.iconShade + "/updownarrow.svg"
                 text: qsTranslate("other", "Vertical")
                 enabled: PQCFileFolderModel.countMainView>0
@@ -331,7 +331,7 @@ MenuBar {
                         PQCScriptsShortcuts.executeInternalCommand("__flipV")
                 }
             }
-            MenuItem {
+            PQMenuItem {
                 icon.source: "image://svg/:/" + PQCLook.iconShade + "/reset.svg"
                 text: qsTranslate("other", "Reset")
                 enabled: PQCFileFolderModel.countMainView>0
@@ -343,9 +343,9 @@ MenuBar {
             }
         }
 
-        MenuSeparator {}
+        PQMenuSeparator {}
 
-        MenuItem {
+        PQMenuItem {
             icon.source: "image://svg/:/" + PQCLook.iconShade + "/faces.svg"
             text: qsTranslate("other", "&Tag faces")
             enabled: PQCFileFolderModel.countMainView>0
@@ -354,7 +354,7 @@ MenuBar {
             }
         }
 
-        MenuItem {
+        PQMenuItem {
             icon.source: "image://svg/:/" + PQCLook.iconShade + "/clipboard.svg"
             text: qsTranslate("other", "&Copy to clipboard")
             enabled: PQCFileFolderModel.countMainView>0
@@ -363,7 +363,7 @@ MenuBar {
             }
         }
 
-        MenuItem {
+        PQMenuItem {
             icon.source: "image://svg/:/" + PQCLook.iconShade + "/qrcode.svg"
             text: qsTranslate("other", "&Detect QR/barcodes")
             enabled: PQCFileFolderModel.countMainView>0
@@ -374,19 +374,19 @@ MenuBar {
 
     }
 
-    Menu {
+    PQMenu {
 
         id: menu_folder
 
         title: qsTranslate("other", "&Folder")
         enabled: PQCConstants.idOfVisibleItem===""
 
-        Menu {
+        PQMenu {
 
             title: "Slideshow"
             enabled: PQCFileFolderModel.countMainView>0
 
-            MenuItem {
+            PQMenuItem {
                 icon.source: "image://svg/:/" + PQCLook.iconShade + "/setup.svg"
                 text: qsTranslate("other", "&Setup")
                 enabled: PQCFileFolderModel.countMainView>0
@@ -395,7 +395,7 @@ MenuBar {
                 }
             }
 
-            MenuItem {
+            PQMenuItem {
                 icon.source: "image://svg/:/" + PQCLook.iconShade + "/slideshow.svg"
                 text: qsTranslate("other", "&Quickstart")
                 enabled: PQCFileFolderModel.countMainView>0
@@ -406,12 +406,12 @@ MenuBar {
 
         }
 
-        Menu {
+        PQMenu {
 
             title: "Advanced sort"
             enabled: PQCFileFolderModel.countMainView>0
 
-            MenuItem {
+            PQMenuItem {
                 icon.source: "image://svg/:/" + PQCLook.iconShade + "/setup.svg"
                 text: qsTranslate("other", "&Setup")
                 enabled: PQCFileFolderModel.countMainView>0
@@ -420,7 +420,7 @@ MenuBar {
                 }
             }
 
-            MenuItem {
+            PQMenuItem {
                 icon.source: "image://svg/:/" + PQCLook.iconShade + "/sort.svg"
                 text: qsTranslate("other", "&Quickstart")
                 enabled: PQCFileFolderModel.countMainView>0
@@ -430,7 +430,7 @@ MenuBar {
             }
         }
 
-        MenuItem {
+        PQMenuItem {
             icon.source: "image://svg/:/" + PQCLook.iconShade + "/filter.svg"
             text: qsTranslate("other", "&Filter images")
             enabled: PQCFileFolderModel.countMainView>0
@@ -439,7 +439,7 @@ MenuBar {
             }
         }
 
-        MenuItem {
+        PQMenuItem {
             icon.source: "image://svg/:/" + PQCLook.iconShade + "/streaming.svg"
             text: qsTranslate("other", "&Streaming (Chromecast)")
             enabled: PQCFileFolderModel.countMainView>0
@@ -448,7 +448,7 @@ MenuBar {
             }
         }
 
-        MenuItem {
+        PQMenuItem {
             icon.source: "image://svg/:/" + PQCLook.iconShade + "/browse.svg"
             text: qsTranslate("other", "&Open in default file manager")
             enabled: PQCFileFolderModel.countMainView>0
@@ -459,20 +459,20 @@ MenuBar {
 
     }
 
-    Menu {
+    PQMenu {
 
         id: menu_extensions
 
         title: qsTranslate("other", "&Extensions")
         enabled: PQCConstants.idOfVisibleItem===""
 
-        MenuItem {
+        PQMenuItem {
             text: qsTranslate("other", "Manage extensions")
             onClicked:
                 PQCNotify.openSettingsManagerAt(6, "maex")
         }
 
-        MenuSeparator { visible: PQCExtensionsHandler.numExtensionsAll>0 }
+        PQMenuSeparator { visible: PQCExtensionsHandler.numExtensionsAll>0 }
 
         Instantiator {
 
@@ -497,7 +497,7 @@ MenuBar {
 
                 title: (deleg.isEnabled ? "" : "<s>")+PQCExtensionsHandler.getExtensionName(extensionId)+(deleg.isEnabled ? "" : "</s>")
 
-                MenuItem {
+                PQMenuItem {
                     enabled: deleg.isEnabled
                     text: PQCExtensionsHandler.getExtensionModal(extensionId) ? qsTranslate("other", "Show extension") : qsTranslate("other", "Toggle extension")
                     onTriggered:
@@ -515,7 +515,7 @@ MenuBar {
                     }
                 }
 
-                MenuItem {
+                PQMenuItem {
                     text: deleg.isEnabled ? qsTranslate("other", "Disable extension") : qsTranslate("other", "Enable extension")
                     onTriggered: {
                         if(deleg.isEnabled) {
@@ -533,24 +533,24 @@ MenuBar {
 
             // add/remove item into/from the correct position in the global menu
             onObjectAdded: (index, object) => {
-                menu_extensions.addMenu(object)
+                PQMenu_extensions.addMenu(object)
             }
             onObjectRemoved: (index, object) => {
-                menu_extensions.removeMenu(object)
+                PQMenu_extensions.removeMenu(object)
             }
 
         }
 
     }
 
-    Menu {
+    PQMenu {
 
         id: menu_about
 
         title: qsTranslate("other", "&Help")
         enabled: PQCConstants.idOfVisibleItem===""
 
-        MenuItem {
+        PQMenuItem {
             icon.source: "image://svg/:/" + PQCLook.iconShade + "/help.svg"
             text: qsTranslate("other", "&Online help")
             onTriggered: {
@@ -558,7 +558,7 @@ MenuBar {
             }
         }
 
-        MenuItem {
+        PQMenuItem {
             icon.source: "image://svg/:/" + PQCLook.iconShade + "/about.svg"
             text: qsTranslate("other", "&About")
             onTriggered: {
