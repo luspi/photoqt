@@ -109,6 +109,7 @@ Item {
 
         function onKeyRelease(key: int, modifiers: int) {
             PQCConstants.shiftKeyPressed = false
+            PQCConstants.altKeyPressed = false
         }
 
         function onMouseWheel(mousePos: point, angleDelta : point, modifiers : int) {
