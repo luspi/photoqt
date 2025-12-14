@@ -66,6 +66,7 @@ public:
         m_lastExecutedShortcutCommand = "";
         m_ignoreFileFolderChangesTemporary = false;
         m_statusinfoIsVisible = true;
+        m_altKeyPressed = false;
         m_shiftKeyPressed = false;
 
         m_slideshowRunning = false;
@@ -310,6 +311,7 @@ public:
     Q_PROPERTY(bool touchGestureActive MEMBER m_touchGestureActive NOTIFY touchGestureActiveChanged)
     Q_PROPERTY(QString lastExecutedShortcutCommand MEMBER m_lastExecutedShortcutCommand NOTIFY lastExecutedShortcutCommandChanged)
     Q_PROPERTY(bool ignoreFileFolderChangesTemporary MEMBER m_ignoreFileFolderChangesTemporary NOTIFY ignoreFileFolderChangesTemporaryChanged)
+    Q_PROPERTY(bool altKeyPressed MEMBER m_altKeyPressed NOTIFY altKeyPressedChanged)
     Q_PROPERTY(bool shiftKeyPressed MEMBER m_shiftKeyPressed NOTIFY shiftKeyPressedChanged)
 
     /******************************************************/
@@ -466,6 +468,7 @@ private:
     bool m_touchGestureActive;
     bool m_ignoreFileFolderChangesTemporary;
     bool m_statusinfoIsVisible;
+    bool m_altKeyPressed;
     bool m_shiftKeyPressed;
 
     bool m_slideshowRunning;
@@ -636,6 +639,7 @@ Q_SIGNALS:
     void currentZValueChanged();
     void colorProfileCacheChanged();
     void extraControlsLocationChanged();
+    void altKeyPressedChanged();
     void shiftKeyPressedChanged();
     void filedialogCurrentSelectionChanged();
     void filedialogCurrentIndexChanged();

@@ -447,10 +447,23 @@ void PQCSingleInstance::handleMessage(const QList<Actions> msg, bool includeFile
 bool PQCSingleInstance::notify(QObject *obj, QEvent *e) {
 
     const QString cn = obj->metaObject()->className();
+
     if(cn == "QQuickRootItem") {
         if(e->type() == QEvent::KeyPress) {
             QKeyEvent *ev = reinterpret_cast<QKeyEvent*>(e);
             Q_EMIT PQCNotifyCPP::get().keyPress(ev->key(), ev->modifiers());
+        } else if(e->type() == QEvent::KeyRelease) {
+            QKeyEvent *ev = reinterpret_cast<QKeyEvent*>(e);
+            Q_EMIT PQCNotifyCPP::get().keyRelease(ev->key(), ev->modifiers());
+        }
+    } else if(cn == "QQuickPopupItem") {
+        // we process modifiers only for popups (like menus)
+        if(e->type() == QEvent::KeyPress) {
+            QKeyEvent *ev = reinterpret_cast<QKeyEvent*>(e);
+            if((ev->key() == Qt::Key_Shift && ev->modifiers() == Qt::ShiftModifier) ||
+               (ev->key() == Qt::Key_Alt && ev->modifiers() == Qt::AltModifier) ||
+               (ev->key() == Qt::Key_Control && ev->modifiers() == Qt::ControlModifier))
+                Q_EMIT PQCNotifyCPP::get().keyPress(ev->key(), ev->modifiers());
         } else if(e->type() == QEvent::KeyRelease) {
             QKeyEvent *ev = reinterpret_cast<QKeyEvent*>(e);
             Q_EMIT PQCNotifyCPP::get().keyRelease(ev->key(), ev->modifiers());

@@ -74,6 +74,11 @@ Item {
 
         function onKeyPress(key : int, modifiers : int) {
 
+            if(key === Qt.Key_Shift && modifiers === Qt.ShiftModifier)
+                PQCConstants.shiftKeyPressed = true
+            else if(key === Qt.Key_Alt && modifiers === Qt.AltModifier)
+                PQCConstants.altKeyPressed = true
+
             if(PQCConstants.modalWindowOpen || PQCConstants.idOfVisibleItem !== "" || PQCConstants.slideshowRunning) {
 
                 // make sure contextmenu is closed on key press
@@ -92,11 +97,9 @@ Item {
                     combo += "+"
 
                 // this seems to be the id when a modifier but no key is pressed... ignore key in that case
-                if(key !== 16777249)
+                var allmods = [Qt.Key_Alt, Qt.Key_AltGr, Qt.Key_Shift, Qt.Key_Control, Qt.Key_Meta]
+                if(allmods.indexOf(key) < 0)
                     combo += PQCScriptsShortcuts.analyzeKeyPress(key)
-
-                if(combo === "Shift+")
-                    PQCConstants.shiftKeyPressed = true
 
                 keyshortcuts_top.checkComboForShortcut(combo, Qt.point(-1,-1), Qt.point(0,0))
 
@@ -105,8 +108,7 @@ Item {
         }
 
         function onKeyRelease(key: int, modifiers: int) {
-            if(key < 16770000 || modifiers !== Qt.ShiftModifier)
-                PQCConstants.shiftKeyPressed = false
+            PQCConstants.shiftKeyPressed = false
         }
 
         function onMouseWheel(mousePos: point, angleDelta : point, modifiers : int) {
