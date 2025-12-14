@@ -27,8 +27,51 @@ import PQCExtensionsHandler
 
 MenuBar {
 
+    id: menu_top
+
     onHeightChanged:
         PQCConstants.menuBarHeight = height
+
+    // This replaces the ambersand (&) with an underline html tag
+    function parseMenuString(txt : string) : string {
+        var ret = txt
+        var i = ret.indexOf("&")
+        if(i > -1) {
+            ret = txt.replace("&", "")
+            ret = ret.slice(0, i) + "<u>" + ret[i] + "</u>" + ret.slice(i+1)
+        }
+        return ret
+    }
+
+    delegate: MenuBarItem {
+
+        id: menuBarItem
+
+        contentItem: Text {
+            property string plainTxt: menuBarItem.text.replace("&","")
+            property string modTxt: menu_top.parseMenuString(menuBarItem.text)
+            text: PQCConstants.altKeyPressed ? modTxt : plainTxt
+            font: menuBarItem.font
+            opacity: enabled ? 1.0 : 0.3
+            color: palette.text
+            horizontalAlignment: Text.AlignLeft
+            verticalAlignment: Text.AlignVCenter
+            elide: Text.ElideRight
+        }
+
+        background: Rectangle {
+            implicitWidth: 20
+            implicitHeight: 20
+            opacity: enabled ? 0.8 : 0.3
+            color: menuBarItem.highlighted ? palette.highlight : palette.window
+        }
+    }
+
+    background: Rectangle {
+        implicitWidth: 40
+        implicitHeight: 20
+        color: palette.window
+    }
 
     Menu {
 
