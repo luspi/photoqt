@@ -298,12 +298,11 @@ Flickable {
                         opacity: 0.8
                         visible: numberOfFilesInsideFolder.text !== "" && numberOfFilesInsideFolder.text !== "0"
 
-                        Label {
+                        PQText {
                             id: numberOfFilesInsideFolder
                             x: 10
                             y: (parent.height-height)/2-2
                             font.weight: PQCLook.fontWeightBold
-                            font.pointSize: PQCLook.fontSize
                             color: palette.text
                             elide: Text.ElideMiddle
                             text: deleg.numberFilesInsideFolder
@@ -322,12 +321,11 @@ Flickable {
                         opacity: 0.6
                         visible: folderthumb.curnum>0 && folderthumb.visible
 
-                        Label {
+                        PQTextS {
                             id: numberThumbInsideFolder
                             x: 5
                             y: (parent.height-height)/2-2
                             font.weight: PQCLook.fontWeightBold
-                            font.pointSize: PQCLook.fontSizeS
                             color: palette.text
                             elide: Text.ElideMiddle
                             text: "#"+folderthumb.curnum
@@ -368,7 +366,7 @@ Flickable {
                     opacity: 0.8
                     clip: true
 
-                    Label {
+                    PQText {
                         id: filename
                         anchors.fill: parent
                         anchors.margins: 5
@@ -377,7 +375,6 @@ Flickable {
                         maximumLineCount: 2
                         elide: Text.ElideMiddle
                         text: deleg.currentFile
-                        font.pointSize: PQCLook.fontSize
                         color: palette.text
                         Behavior on color { enabled: !PQCSettings.generalDisableAllAnimations; ColorAnimation { duration: 200 } }
                     }

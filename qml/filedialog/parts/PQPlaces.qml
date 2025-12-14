@@ -78,14 +78,13 @@ Item {
         }
     }
 
-    Label {
+    PQTextL {
         visible: !view_favorites.visible && !view_devices.visible
         anchors.fill: parent
         anchors.margins: 5
         wrapMode: Text.WrapAtWordBoundaryOrAnywhere
         color: palette.disabled.text
         font.italic: true
-        font.pointSize: PQCLook.fontSizeL
         text: qsTranslate("filedialog", "bookmarks and devices disabled")
         verticalAlignment: Text.AlignVCenter
         horizontalAlignment: Text.AlignHCenter
@@ -277,7 +276,7 @@ Item {
 
                     height: deleg.height
 
-                    Label {
+                    PQText {
 
                         id: entrytext
 
@@ -292,21 +291,19 @@ Item {
                         // some styling
                         elide: Text.ElideRight
                         font.weight: deleg.index===0 ? PQCLook.fontWeightBold : PQCLook.fontWeightNormal
-                        font.pointSize: PQCLook.fontSize
                         color: enabled ? palette.text : palette.disabled.text
 
                         text: PQCScriptsFilesPaths.pathWithNativeSeparators(deleg.folder)
 
                     }
 
-                    Label {
+                    PQText {
 
                         id: entrysize
 
                         visible: deleg.part==2 && deleg.index>0
                         height: deleg.height
 
-                        font.pointSize: PQCLook.fontSize
                         color: palette.text
 
                         // vertically center text

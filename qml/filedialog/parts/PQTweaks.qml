@@ -55,11 +55,10 @@ Item {
 
             spacing: 5
 
-            Label {
+            PQText {
                 y: (parent.height-height)/2
                 text: qsTranslate("filedialog", "Zoom:")
                 font.weight: PQCLook.fontWeightBold
-                font.pointSize: PQCLook.fontSize
                 color: palette.text
                 PQMouseArea {
                     anchors.fill: parent

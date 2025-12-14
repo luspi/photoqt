@@ -171,14 +171,13 @@ ListView {
         // FILE NAME AND SIZE
 
         // the filename
-        Label {
+        PQText {
             id: filename_label
             opacity: view_top.currentFileCut ? 0.3 : 1
             Behavior on opacity { enabled: !PQCSettings.generalDisableAllAnimations; NumberAnimation { duration: 200 } }
             x: fileicon.width+10
             width: deleg.width-fileicon.width-fileinfo.width-10
             height: deleg.height
-            font.pointSize: PQCLook.fontSize
             verticalAlignment: Text.AlignVCenter
             elide: Text.ElideMiddle
             text: deleg.currentFile
@@ -186,13 +185,12 @@ ListView {
         }
 
         // the file size/number of images
-        Label {
+        PQText {
             id: fileinfo
             opacity: view_top.currentFileCut ? 0.3 : 1
             Behavior on opacity { enabled: !PQCSettings.generalDisableAllAnimations; NumberAnimation { duration: 200 } }
             x: deleg.width-width-10
             height: deleg.height
-            font.pointSize: PQCLook.fontSize
             verticalAlignment: Text.AlignVCenter
             text: ""
             color: palette.text

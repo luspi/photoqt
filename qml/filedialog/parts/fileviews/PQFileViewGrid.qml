@@ -186,7 +186,7 @@ GridView {
                     border.color: palette.button
                 }
 
-                Label {
+                PQText {
                     id: filename
                     anchors.fill: parent
                     anchors.margins: 5
@@ -195,7 +195,6 @@ GridView {
                     maximumLineCount: 2
                     elide: Text.ElideMiddle
                     text: deleg.currentFile
-                    font.pointSize: PQCLook.fontSize
                     color: palette.text
                     Behavior on color { enabled: !PQCSettings.generalDisableAllAnimations; ColorAnimation { duration: 200 } }
                 }
@@ -244,12 +243,11 @@ GridView {
             opacity: 0.8
             visible: numberOfFilesInsideFolder.text !== "" && numberOfFilesInsideFolder.text !== "0"
 
-            Label {
+            PQText {
                 id: numberOfFilesInsideFolder
                 x: 10
                 y: (parent.height-height)/2-2
                 font.weight: PQCLook.fontWeightBold
-                font.pointSize: PQCLook.fontSize
                 color: palette.base
                 elide: Text.ElideMiddle
                 text: deleg.numberFilesInsideFolder
@@ -268,12 +266,11 @@ GridView {
             opacity: 0.6
             visible: folderthumb.curnum>0 && folderthumb.visible
 
-            Label {
+            PQTextS {
                 id: numberThumbInsideFolder
                 x: 5
                 y: (parent.height-height)/2-2
                 font.weight: PQCLook.fontWeightBold
-                font.pointSize: PQCLook.fontSizeS
                 color: palette.base
                 elide: Text.ElideMiddle
                 text: "#"+folderthumb.curnum

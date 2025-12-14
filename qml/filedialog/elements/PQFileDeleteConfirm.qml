@@ -82,22 +82,20 @@ Item {
 
             spacing: 20
 
-            Label {
+            PQTextXXL {
                 id: header
                 text: "Are you sure?"
                 width: Math.min(conf_top.width-200, 600)
                 horizontalAlignment: Text.AlignHCenter
                 font.weight: PQCLook.fontWeightBold
-                font.pointSize: PQCLook.fontSizeXXL
                 color: palette.text
             }
 
-            Label {
+            PQTextL {
                 id: description
                 text: "Are you sure you want to do this???"
                 width: Math.min(conf_top.width-200, 600)
                 horizontalAlignment: Text.AlignHCenter
-                font.pointSize: PQCLook.fontSizeL
                 color: palette.text
             }
 
@@ -114,7 +112,7 @@ Item {
                     color: okMouse.containsPress ? PQCLook.baseBorder : (okMouse.containsMouse ? palette.alternateBase : palette.button)
                     border.color: PQCLook.baseBorder
                     border.width: 1
-                    Label {
+                    PQText {
                         id: okTxt
                         x: 25
                         y: (parent.height-height)/2
@@ -139,7 +137,7 @@ Item {
                     color: cancelMouse.containsPress ? PQCLook.baseBorder : (cancelMouse.containsMouse ? palette.alternateBase : palette.button)
                     border.color: PQCLook.baseBorder
                     border.width: 1
-                    Label {
+                    PQText {
                         id: cancelTxt
                         x: 25
                         y: (parent.height-height)/2

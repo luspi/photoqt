@@ -158,14 +158,13 @@ Rectangle {
         }
     }
 
-    Label {
+    PQTextXL {
         anchors.fill: parent
         horizontalAlignment: Qt.AlignHCenter
         verticalAlignment: Qt.AlignVCenter
         wrapMode: Text.WrapAtWordBoundaryOrAnywhere
         text: qsTranslate("thumbnails", "No file loaded")
         font.bold: PQCLook.fontWeightBold
-        font.pointSize: PQCLook.fontSizeXL
         color: palette.disabled.text
         visible: PQCFileFolderModel.countMainView===0
     }
@@ -637,7 +636,7 @@ Rectangle {
                     width: deleg.width
                     height: Math.min(200, Math.max(30, deleg.height*0.3))
 
-                    Label {
+                    PQText {
                         anchors.fill: parent
                         verticalAlignment: Text.AlignVCenter
                         horizontalAlignment: Text.AlignHCenter

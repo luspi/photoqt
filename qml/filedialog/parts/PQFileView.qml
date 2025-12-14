@@ -698,7 +698,7 @@ Item {
         z: -1
     }
 
-    Label {
+    PQTextL {
         anchors.fill: parent
         anchors.margins: 20
         horizontalAlignment: Text.AlignHCenter
@@ -707,7 +707,6 @@ Item {
         enabled: false
         visible: PQCFileFolderModel.countAllFileDialog===0
         text: qsTranslate("filedialog", "no supported files/folders found")
-        font.pointSize: PQCLook.fontSizeL
         color: palette.text
     }
 
@@ -747,7 +746,7 @@ Item {
 
         }
 
-        Label {
+        PQTextL {
 
             id: floatingStringLabel
 
@@ -756,7 +755,6 @@ Item {
 
             verticalAlignment: Text.AlignVCenter
             font.weight: PQCLook.fontWeightBold
-            font.pointSize: PQCLook.fontSizeL
             color: palette.text
 
             text: ""
