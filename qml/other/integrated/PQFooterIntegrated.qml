@@ -34,6 +34,12 @@ ToolBar {
 
     property bool isIntegrated: PQCSettings.generalInterfaceVariant==="integrated"
 
+    contentItem: Rectangle {
+        implicitWidth: 40
+        implicitHeight: 30
+        color: palette.window
+    }
+
     PQMenu {
         id: statusinfoMouse
         PQMenuItem {
@@ -54,20 +60,20 @@ ToolBar {
         anchors.fill: parent
         spacing: 5
 
-        Label {
+        PQText {
             visible: PQCFileFolderModel.countMainView===0 && PQCConstants.idOfVisibleItem!=="FileDialog"
             text: qsTranslate("other", "Click anywhere to open a file")
         }
 
-        Label {
+        PQText {
             visible: PQCConstants.idOfVisibleItem==="FileDialog"
             text: qsTranslate("other", "Select a file")
         }
 
-        Label {
+        PQText {
             id: statusinfo
             visible: PQCFileFolderModel.countMainView>0 && PQCConstants.idOfVisibleItem!=="FileDialog"
-            elide: Label.ElideMiddle
+            elide: Text.ElideMiddle
             horizontalAlignment: Qt.AlignHCenter
             verticalAlignment: Qt.AlignVCenter
             PQMouseArea {
@@ -83,7 +89,7 @@ ToolBar {
             Layout.fillWidth: true
         }
 
-        Label {
+        PQText {
             visible: PQCScriptsConfig.isBetaVersion()
             font.weight: PQCLook.fontWeightBold
             text: "This is a beta release and is intended for testing only."
@@ -93,7 +99,7 @@ ToolBar {
             Layout.fillWidth: true
         }
 
-        Label {
+        PQText {
             visible: specialaction.visible
             text:"|"
         }
