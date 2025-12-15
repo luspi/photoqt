@@ -84,7 +84,8 @@ Column {
             id: desc_txt
             visible: text!==""
             text: settitle.helptext
-            width: parent.width
+            // the -20 is to take the (potential) scrollbar into account
+            width: Math.min(parent.width-20, PQCConstants.displayTextMaxLength)
             wrapMode: Text.WrapAtWordBoundaryOrAnywhere
         }
     }

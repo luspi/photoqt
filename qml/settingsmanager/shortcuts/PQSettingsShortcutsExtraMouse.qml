@@ -135,7 +135,7 @@ PQSetting {
             PQText {
                 id: desc_txt
                 text: "On certain hardware, moving the mouse wheel by a single click can trigger multiple distinct mouse wheel events. Here a repeat delay can be set, which makes sure that any shortcut using mouse wheels is only triggered once until the configured delay has passed. Setting this to a value of 0 disabled this check altogether."
-                width: parent.width
+                width: Math.min(parent.width-20, PQCConstants.displayTextMaxLength)
                 wrapMode: Text.WrapAtWordBoundaryOrAnywhere
             }
         },
