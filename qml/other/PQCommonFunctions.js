@@ -52,3 +52,14 @@ function areTwoDictofListsEqual(d1, d2) {
     return true
 
 }
+
+// This replaces the ambersand (&) with an underline html tag
+function parseMenuString(txt) {
+    var ret = txt
+    var i = ret.indexOf("&")
+    if(i > -1) {
+        ret = txt.replace("&", "")
+        ret = ret.slice(0, i) + "<u>" + ret[i] + "</u>" + ret.slice(i+1)
+    }
+    return ret
+}

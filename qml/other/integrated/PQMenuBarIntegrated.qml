@@ -24,6 +24,7 @@ import QtQuick
 import QtQuick.Controls
 import PhotoQt
 import PQCExtensionsHandler
+import "../PQCommonFunctions.js" as PQF
 
 MenuBar {
 
@@ -32,24 +33,13 @@ MenuBar {
     onHeightChanged:
         PQCConstants.menuBarHeight = height
 
-    // This replaces the ambersand (&) with an underline html tag
-    function parseMenuString(txt : string) : string {
-        var ret = txt
-        var i = ret.indexOf("&")
-        if(i > -1) {
-            ret = txt.replace("&", "")
-            ret = ret.slice(0, i) + "<u>" + ret[i] + "</u>" + ret.slice(i+1)
-        }
-        return ret
-    }
-
     delegate: MenuBarItem {
 
         id: menuBarItem
 
         contentItem: Text {
             property string plainTxt: menuBarItem.text.replace("&","")
-            property string modTxt: menu_top.parseMenuString(menuBarItem.text)
+            property string modTxt: PQF.parseMenuString(menuBarItem.text)
             text: PQCConstants.altKeyPressed ? modTxt : plainTxt
             font: menuBarItem.font
             opacity: enabled ? 1.0 : 0.3

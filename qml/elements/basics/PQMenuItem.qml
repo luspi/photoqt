@@ -23,6 +23,7 @@
 import QtQuick
 import QtQuick.Controls
 import PhotoQt
+import "../../other/PQCommonFunctions.js" as PQF
 
 MenuItem {
     id: control
@@ -57,7 +58,11 @@ MenuItem {
             id: controltxt
             leftPadding: control.checkable||control.iconSource!=""||control.moveToRightABit ? 30 : 5
             height: control.h
-            text: control.text
+
+            property string plainTxt: control.text.replace("&","")
+            property string modTxt: PQF.parseMenuString(control.text)
+            text: PQCConstants.altKeyPressed ? modTxt : plainTxt
+
             font: control.font
             color: palette.text
             opacity: control.enabled ? 1 : 0.6
