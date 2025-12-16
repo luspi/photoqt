@@ -64,7 +64,6 @@ PQSetting {
                 id: cache_dir_custom
                 y: 10
                 smallerVersion: true
-                enabled: cache_enable.checked && !cache_dir_default.checked
                 property string customdir: ""
                 text: customdir == "" ? "..." : customdir
                 tooltip: qsTranslate("settingsmanager", "Click to select custom base directory for thumbnail cache")
@@ -72,6 +71,7 @@ PQSetting {
                 onClicked: {
                     var path = PQCScriptsFilesPaths.selectFolderFromDialog("Select", (customdir == "" ? PQCScriptsFilesPaths.getHomeDir() : customdir))
                     if(path !== "") {
+                        cache_dir_default.checked = false
                         cache_dir_custom.customdir = path
                         set_mana.checkForChanges()
                     }

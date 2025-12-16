@@ -170,6 +170,7 @@ PQSetting {
 
         PQCheckBox {
             id: thumb_enable
+            visible: PQCSettings.generalInterfaceVariant==="integrated"
             text: qsTranslate("settingsmanager", "Enable thumbnail bar")
         },
 
@@ -195,6 +196,7 @@ PQSetting {
         },
 
         PQSettingsResetButton {
+            visible: PQCSettings.generalInterfaceVariant==="integrated"
             onResetToDefaults: {
 
                 var defbot = PQCSettings.getDefaultForInterfaceEdgeBottomAction()
