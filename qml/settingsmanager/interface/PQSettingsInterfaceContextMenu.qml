@@ -53,7 +53,7 @@ PQSetting {
                 visible: set_come.entries.length===0
                 height: 50
                 verticalAlignment: Text.AlignVCenter
-                color: palette.disable.text
+                color: palette.disabled.text
                 font.weight: PQCLook.fontWeightBold
                 //: The custom entries here are the custom entries in the context menu
                 text: qsTranslate("settingsmanager", "No custom entries exists yet")
