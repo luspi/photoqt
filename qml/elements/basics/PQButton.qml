@@ -91,7 +91,7 @@ Loader {
             radius: loader.enableRadiusModern ? 5 : 0
 
             border.color: PQCLook.baseBorder
-            border.width: 1
+            border.width: loader.flat ? 0 : 1
 
             color: (down ? palette.highlight : ((hovered||loader.forceHovered)&&enabled ? palette.alternateBase : palette.button))
             Behavior on color { enabled: !PQCSettings.generalDisableAllAnimations; ColorAnimation { duration: 150 } }
