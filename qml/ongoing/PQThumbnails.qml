@@ -147,9 +147,6 @@ Rectangle {
         anchors.fill: parent
         hoverEnabled: true
         acceptedButtons: Qt.AllButtons
-        onWheel: (wheel) => {
-            thumbnails_top.flickView(wheel.angleDelta.x, wheel.angleDelta.y)
-        }
         onClicked: (mouse) => {
             if(mouse.button === Qt.RightButton) {
                 PQCConstants.thumbnailsMenuReloadIndex = view.highlightIndex
@@ -612,11 +609,6 @@ Rectangle {
                         PQCFileFolderModel.currentIndex = deleg.modelData
                 }
 
-                onWheel: (wheel) => {
-                    if(PQCConstants.whichContextMenusOpen.length === 0)
-                        thumbnails_top.flickView(wheel.angleDelta.x, wheel.angleDelta.y)
-                }
-
             }
 
             Loader {
@@ -757,6 +749,37 @@ Rectangle {
 
         }
 
+    }
+
+
+    WheelHandler {
+        target: thumbnails_top
+        acceptedDevices: PointerDevice.Mouse|PointerDevice.TouchPad
+        orientation: Qt.Vertical|Qt.Horizontal
+        onWheel: (event) => {
+
+            if(thumbnails_top.state === "bottom" || thumbnails_top.state === "top") {
+
+                if(Math.abs(event.angleDelta.x) > 5) return
+
+                if(PQCSettings.thumbnailsCenterOnActive)
+                    view.contentX = Math.max(-view.width/2, Math.min(view.contentWidth-view.width/2-PQCSettings.thumbnailsSize/2, view.contentX-event.angleDelta.y))
+                else
+                    view.contentX = Math.max(0, Math.min(view.contentWidth-view.width, view.contentX-event.angleDelta.y))
+
+            } else if(thumbnails_top.state === "left" || thumbnails_top.state === "right") {
+
+                if(Math.abs(event.angleDelta.y) > 5) return
+
+                if(PQCSettings.thumbnailsCenterOnActive)
+                    view.contentY = Math.max(-view.height/2, Math.min(view.contentHeight-view.height/2-PQCSettings.thumbnailsSize/2, view.contentY-event.angleDelta.x))
+                else
+                    view.contentY = Math.max(0, Math.min(view.contentHeight-view.height, view.contentY-event.angleDelta.x))
+
+            }
+
+            event.accepted = true
+        }
     }
 
     ButtonGroup { id: grp1 }
@@ -1021,67 +1044,6 @@ Rectangle {
         onTriggered: {
             thumbnails_top.ignoreMouseMoveShortly = false
         }
-    }
-
-    Timer {
-        id: resetFlickCounter
-        interval: 1000
-        onTriggered:
-            view.flickCounter = 0
-    }
-
-    function flickView(angleDeltaX : int, angleDeltaY : int) {
-
-        // we scale the flick speed a bit by the size of the thumbnails
-        // this ensures that we move a little faster for large thumbnail sizes
-        var sizefactor = Math.max(1, PQCSettings.thumbnailsSize/100)
-
-        var val, fac
-
-        if(thumbnails_top.state === "bottom" || thumbnails_top.state === "top") {
-
-            // only scroll horizontally
-            val = angleDeltaY
-            if(Math.abs(angleDeltaX) > Math.abs(angleDeltaY))
-                val = angleDeltaX
-
-            // continuing scroll makes the scroll go faster
-            if((val < 0 && view.flickCounter > 0) || (val > 0 && view.flickCounter < 0))
-                view.flickCounter = 0
-            else if(val < 0)
-                view.flickCounter -=1
-            else if(val > 0)
-                view.flickCounter += 1
-
-            fac = 5 + Math.min(20, Math.abs(view.flickCounter))
-
-            // flick horizontally
-            view.flick(fac*val*sizefactor, 0)
-
-        } else {
-
-            // only scroll vertically
-            val = angleDeltaX
-            if(Math.abs(angleDeltaY) > Math.abs(angleDeltaX))
-                val = angleDeltaY
-
-            // continuing scroll makes the scroll go faster
-            if((val < 0 && view.flickCounter > 0) || (val > 0 && view.flickCounter < 0))
-                view.flickCounter = 0
-            else if(val < 0)
-                view.flickCounter -=1
-            else if(val > 0)
-                view.flickCounter += 1
-
-            fac = 5 + Math.min(20, Math.abs(view.flickCounter))
-
-            // flick vertically
-            view.flick(0, fac*val*sizefactor)
-
-        }
-
-        resetFlickCounter.restart()
-
     }
 
 }
