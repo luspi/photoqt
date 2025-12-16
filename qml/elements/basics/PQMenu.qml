@@ -43,7 +43,7 @@ Menu {
 
     delegate: PQMenuItem {
         // this cannot be a parameter in the Menu section as its value would be ignored
-        moveToRightABit: false
+        moveToRightABit: true
     }
 
     background: Rectangle {
@@ -51,14 +51,8 @@ Menu {
         implicitHeight: 40
         color: palette.base
         radius: 2
-        Rectangle {
-            anchors.fill: parent
-            color: "transparent"
-            border.color: PQCLook.brightText
-            border.width: 1
-            radius: 2
-            opacity: 0.2
-        }
+        border.width: 1
+        border.color: palette.disabled.text
     }
 
 }

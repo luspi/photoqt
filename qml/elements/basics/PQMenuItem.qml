@@ -85,9 +85,11 @@ MenuItem {
         }
 
     indicator: Item {
+
         implicitWidth: 30
         implicitHeight: control.h
         visible: control.checkable||control.iconSource!=""
+
         Image {
             visible: control.iconSource!=""
             x: 5
@@ -100,21 +102,42 @@ MenuItem {
             source: control.iconSource
             sourceSize: Qt.size(width, height)
         }
+
         Rectangle {
+
             visible: control.iconSource==""
-            width: control.h/2
-            height: control.h/2
+
             anchors.centerIn: parent
-            border.color: PQCLook.baseBorder
-            color: palette.alternateBase
-            radius: control.checkableLikeRadioButton ? 10 : 2
+            implicitWidth: control.h/2
+            implicitHeight: control.h/2
+
+            color: palette.base
+            border.width: 1
+            border.color: control.checked ? palette.highlight : palette.disabled.text
+            radius: 4
+
             Rectangle {
-                width: control.h/4
-                height: control.h/4
-                anchors.centerIn: parent
+                anchors.fill: parent
+                radius: parent.radius
                 visible: control.checked
-                color: control.enabled ? palette.text : PQCLook.baseBorder
-                radius: control.checkableLikeRadioButton ? 5 : 2
+                color: palette.highlight
+                opacity: 0.3
+            }
+
+            // Checkmark
+            Canvas {
+                anchors.fill: parent
+                visible: control.checked
+                onPaint: {
+                    var ctx = getContext("2d")
+                    ctx.strokeStyle = palette.text
+                    ctx.lineWidth = 2
+                    ctx.beginPath()
+                    ctx.moveTo(width * 0.2, height * 0.55)
+                    ctx.lineTo(width * 0.45, height * 0.75)
+                    ctx.lineTo(width * 0.8, height * 0.25)
+                    ctx.stroke()
+                }
             }
         }
     }

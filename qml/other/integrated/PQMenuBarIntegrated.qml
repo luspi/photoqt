@@ -458,6 +458,7 @@ MenuBar {
 
         PQMenuItem {
             text: qsTranslate("other", "Manage extensions")
+            iconSource: "image://svg/:/" + PQCLook.iconShade + "/settings.svg"
             onTriggered:
                 PQCNotify.openSettingsManagerAt(6, "maex")
         }
@@ -471,6 +472,7 @@ MenuBar {
             delegate: PQMenu {
 
                 id: deleg
+
                 required property int index
                 property string extensionId: PQCExtensionsHandler.getExtensionsEnabledAndDisabld()[index]
                 property bool isEnabled: true

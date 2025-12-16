@@ -273,6 +273,7 @@ Item {
             }
         }
         PQMenuItem {
+            moveToRightABit: true
             text: fileview_entry_menu.isCurrentFileSelected ? qsTranslate("filedialog", "Remove all file selection") : qsTranslate("filedialog", "Select all files")
             onTriggered: {
                 PQCNotify.filedialogSelectAll(!fileview_entry_menu.isCurrentFileSelected)
@@ -335,11 +336,13 @@ Item {
         PQMenuSeparator { }
 
         PQMenuItem {
+            moveToRightABit: true
             text: PQCSettings.filedialogShowHiddenFilesFolders ? qsTranslate("filedialog", "Hide hidden files") : qsTranslate("filedialog", "Show hidden files")
             onTriggered:
             PQCSettings.filedialogShowHiddenFilesFolders = !PQCSettings.filedialogShowHiddenFilesFolders
         }
         PQMenuItem {
+            moveToRightABit: true
             text: PQCSettings.filedialogDetailsTooltip ? qsTranslate("filedialog", "Hide tooltip with image details") : qsTranslate("filedialog", "Show tooltip with image details")
             onTriggered:
             PQCSettings.filedialogDetailsTooltip = !PQCSettings.filedialogDetailsTooltip
