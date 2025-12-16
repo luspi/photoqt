@@ -27,7 +27,6 @@
 #include <pqc_loadimage.h>
 #include <pqc_settings.h>
 
-#include <QMessageBox>
 #include <QDateTime>
 #include <QApplication>
 #include <QScreen>

@@ -312,8 +312,10 @@ QString PQCScriptsFileManagement::undoLastAction(QString action) {
 int PQCScriptsFileManagement::askForDeletion() {
 
     QMessageBox box;
+    box.setIcon(QMessageBox::Question);
     box.setModal(true);
     box.setWindowModality(Qt::ApplicationModal);
+    box.setWindowFlag(Qt::WindowStaysOnTopHint);
     box.setWindowTitle(tr("Delete?"));
     box.setText(tr("Are you sure you want to delete this file?"));
     box.setInformativeText(tr("You can either move the file to trash (default) or delete it permanently."));

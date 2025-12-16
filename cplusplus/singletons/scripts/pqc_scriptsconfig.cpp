@@ -562,9 +562,13 @@ bool PQCScriptsConfig::isDebugBuild() {
 
 void PQCScriptsConfig::inform(QString title, QString txt) {
 
-    QMessageBox::information(0,
-                             title,
-                             txt);
+    QMessageBox msg;
+    msg.setIcon(QMessageBox::Information);
+    msg.setWindowFlag(Qt::WindowStaysOnTopHint);
+    msg.setWindowTitle(title);
+    msg.setText(txt);
+    msg.setStandardButtons(QMessageBox::Ok);
+    msg.exec();
 
 }
 
@@ -614,6 +618,8 @@ void PQCScriptsConfig::callStartupSetupFresh() {
 
 bool PQCScriptsConfig::askForConfirmation(QString title, QString text, QString informativeText) {
     QMessageBox msg;
+    msg.setIcon(QMessageBox::Question);
+    msg.setWindowFlag(Qt::WindowStaysOnTopHint);
     msg.setWindowTitle(title);
     msg.setText(text);
     msg.setInformativeText(informativeText);

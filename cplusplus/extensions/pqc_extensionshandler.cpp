@@ -998,12 +998,23 @@ int PQCExtensionsHandler::installExtension(QString filepath) {
     QHash<QString,QVariant> meta = getExtensionZipMetadata(filepath);
 
     if(meta.contains("error")) {
-        QMessageBox::critical(0, "Invalid extension", QString("The extension does not appear to be valid and cannot be installed.\n\nError message:\n%1").arg(meta["error"].toString()));
+
+        QMessageBox msg;
+        msg.setIcon(QMessageBox::Critical);
+        msg.setWindowFlag(Qt::WindowStaysOnTopHint);
+        msg.setWindowTitle("Invalid extension");
+        msg.setText(QString("The extension does not appear to be valid and cannot be installed.\n\nError message:\n%1").arg(meta["error"].toString()));
+        msg.setStandardButtons(QMessageBox::Ok);
+        msg.exec();
+
         return 0;
+
     }
 
     QMessageBox msg;
+    msg.setIcon(QMessageBox::Question);
     msg.setWindowTitle("Install extension?");
+    msg.setWindowFlag(Qt::WindowStaysOnTopHint);
     msg.setText(QString("Do you want to install this extension?<br><br><b>Name:</b> %1 (version: %2)<br><b>Description:</b> %3<br><b>Author:</b> %4<br><b>Contact:</b> %5<br><b>Website:</b> %6").arg(meta["name"].toString()).arg(meta["version"].toInt()).arg(meta["description"].toString(), meta["author"].toString(), meta["contact"].toString(), meta["website"].toString()));
     msg.setTextFormat(Qt::RichText);
     msg.setStandardButtons(QMessageBox::Yes|QMessageBox::No);
