@@ -891,8 +891,9 @@ Rectangle {
                 // ButtonGroup.group: grp2
                 checked: PQCSettings.thumbnailsVisibility===0
                 onCheckedChanged: {
-                    if(checked)
+                    if(checked && PQCSettings.thumbnailsVisibility !== 0)
                         PQCSettings.thumbnailsVisibility = 0
+                    checked = Qt.binding(function() { return PQCSettings.thumbnailsVisibility===0 })
                 }
             }
 
@@ -903,8 +904,9 @@ Rectangle {
                 // ButtonGroup.group: grp2
                 checked: PQCSettings.thumbnailsVisibility===1
                 onCheckedChanged: {
-                    if(checked)
+                    if(checked && PQCSettings.thumbnailsVisibility !== 1)
                         PQCSettings.thumbnailsVisibility = 1
+                    checked = Qt.binding(function() { return PQCSettings.thumbnailsVisibility===1 })
                 }
             }
 
@@ -915,8 +917,9 @@ Rectangle {
                 // ButtonGroup.group: grp2
                 checked: PQCSettings.thumbnailsVisibility===2
                 onCheckedChanged: {
-                    if(checked)
+                    if(checked && PQCSettings.thumbnailsVisibility !== 2)
                         PQCSettings.thumbnailsVisibility = 2
+                    checked = Qt.binding(function() { return PQCSettings.thumbnailsVisibility===2 })
                 }
             }
 
