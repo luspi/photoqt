@@ -523,10 +523,10 @@ MenuBar {
 
             // add/remove item into/from the correct position in the global menu
             onObjectAdded: (index, object) => {
-                PQMenu_extensions.addMenu(object)
+                menu_extensions.addMenu(object)
             }
             onObjectRemoved: (index, object) => {
-                PQMenu_extensions.removeMenu(object)
+                menu_extensions.removeMenu(object)
             }
 
         }
