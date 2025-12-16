@@ -57,7 +57,8 @@ ScrollView {
 
         id: textarea
 
-        color: palette.text
+        color: background.palette.text
+        placeholderTextColor: background.palette.disabled.text
 
         font.pointSize: PQCLook.fontSize
         font.weight: PQCLook.fontWeightNormal
