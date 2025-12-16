@@ -42,7 +42,16 @@ RadioButton {
         y: (parent.height-height)/2
         radius: 10
         color: palette.base
-        border.color: palette.text
+        border.width: 1
+        border.color: control.checked ? palette.highlight : palette.disabled.text
+
+        Rectangle {
+            anchors.fill: parent
+            radius: parent.radius
+            visible: control.checked
+            color: palette.highlight
+            opacity: 0.3
+        }
 
         Rectangle {
             width: 6

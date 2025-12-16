@@ -34,6 +34,44 @@ CheckBox {
 
     width: (enforceMaxWidth===0 ? implicitWidth : Math.min(enforceMaxWidth, implicitWidth))
 
+    indicator: Rectangle {
+
+        x: control.leftPadding
+        y: (parent.height-height)/2
+
+        implicitWidth: 16
+        implicitHeight: 16
+
+        color: palette.base
+        border.width: 1
+        border.color: control.checked ? palette.highlight : palette.disabled.text
+        radius: 4
+
+        Rectangle {
+            anchors.fill: parent
+            radius: parent.radius
+            visible: control.checked
+            color: palette.highlight
+            opacity: 0.3
+        }
+
+        // Checkmark
+        Canvas {
+            anchors.fill: parent
+            visible: control.checked
+            onPaint: {
+                var ctx = getContext("2d")
+                ctx.strokeStyle = palette.text
+                ctx.lineWidth = 2
+                ctx.beginPath()
+                ctx.moveTo(width * 0.2, height * 0.55)
+                ctx.lineTo(width * 0.45, height * 0.75)
+                ctx.lineTo(width * 0.8, height * 0.25)
+                ctx.stroke()
+            }
+        }
+    }
+
     contentItem: Text {
         text: control.text
         font: control.font
