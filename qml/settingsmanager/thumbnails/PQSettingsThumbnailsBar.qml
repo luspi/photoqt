@@ -159,6 +159,60 @@ PQSetting {
 
         PQSettingSubtitle {
 
+            visible: PQCSettings.generalInterfaceVariant==="integrated"
+
+            //: Settings title
+            title: qsTranslate("settingsmanager", "Top or Bottom")
+
+            helptext: qsTranslate("settingsmanager", "With the integrated interface, the thumbnail bar can be shown along the top or bottom edge of the main area. Note that this setting is preserved when changing the interface variant.")
+
+        },
+
+        PQCheckBox {
+            id: thumb_enable
+            text: qsTranslate("settingsmanager", "Enable thumbnail bar")
+        },
+
+        Column {
+
+            x: 20
+            visible: PQCSettings.generalInterfaceVariant==="integrated"
+            enabled: thumb_enable.checked
+            spacing: 3
+
+            PQRadioButton {
+                id: thumb_top
+                //: as in: the top edge of the window (for thumbnails bar)
+                text: qsTranslate("settingsmanager", "top edge")
+            }
+
+            PQRadioButton {
+                id: thumb_bot
+                //: as in: the bottom edge of the window (for thumbnails bar)
+                text: qsTranslate("settingsmanager", "bottom edge")
+            }
+
+        },
+
+        PQSettingsResetButton {
+            onResetToDefaults: {
+
+                var defbot = PQCSettings.getDefaultForInterfaceEdgeBottomAction()
+                var deftop = PQCSettings.getDefaultForInterfaceEdgeTopAction()
+
+                thumb_enable.loadAndSetDefault(defbot==="thumbnails" || deftop==="thumbnails")
+                thumb_top.loadAndSetDefault(deftop==="thumbnails")
+                thumb_bot.loadAndSetDefault(deftop!=="thumbnails")
+
+                set_bar.checkForChanges()
+
+            }
+        },
+
+        /****************************************/
+
+        PQSettingSubtitle {
+
             //: Settings title
             title: qsTranslate("settingsmanager", "Center on active")
 
@@ -256,7 +310,8 @@ PQSetting {
         PQCConstants.settingsManagerSettingChanged = (spacing_slider.hasChanged() || highlight_invertbg.hasChanged() || highlight_invertlabel.hasChanged() ||
                                                       highlight_line.hasChanged() || highlight_magnify.hasChanged() || highlight_liftup_check.hasChanged() ||
                                                       highlight_liftup_slider.hasChanged() || thumb_center.hasChanged() || vis_needed.hasChanged() ||
-                                                      vis_always.hasChanged() || vis_zoomed.hasChanged())
+                                                      vis_always.hasChanged() || vis_zoomed.hasChanged() || thumb_enable.hasChanged() ||
+                                                      thumb_top.hasChanged() || thumb_bot.hasChanged())
 
     }
 
@@ -275,6 +330,12 @@ PQSetting {
 
         thumb_center.loadAndSetDefault(PQCSettings.thumbnailsCenterOnActive)
 
+        var defbot = PQCSettings.interfaceEdgeBottomAction
+        var deftop = PQCSettings.interfaceEdgeTopAction
+        thumb_enable.loadAndSetDefault(defbot==="thumbnails" || deftop==="thumbnails")
+        thumb_top.loadAndSetDefault(deftop==="thumbnails")
+        thumb_bot.loadAndSetDefault(deftop!=="thumbnails")
+
         vis_needed.loadAndSetDefault(PQCSettings.thumbnailsVisibility===0)
         vis_always.loadAndSetDefault(PQCSettings.thumbnailsVisibility===1)
         vis_zoomed.loadAndSetDefault(PQCSettings.thumbnailsVisibility===2)
@@ -288,7 +349,6 @@ PQSetting {
 
         PQCSettings.thumbnailsSpacing = spacing_slider.value
         spacing_slider.saveDefault()
-
 
         var opt = []
         if(highlight_liftup_check.checked)
@@ -305,6 +365,29 @@ PQSetting {
         // on to PQCSettings to not be empty on older versions of Qt.
         console.log("thumbnails highlights:", opt)
         PQCSettings.thumbnailsHighlightAnimation = opt
+
+        if(thumb_enable.checked) {
+            if(thumb_top.checked) {
+                PQCSettings.interfaceEdgeTopAction = "thumbnails"
+                if(PQCSettings.interfaceEdgeLeftAction === "thumbnails") PQCSettings.interfaceEdgeLeftAction = ""
+                if(PQCSettings.interfaceEdgeRightAction === "thumbnails") PQCSettings.interfaceEdgeRightAction = ""
+                if(PQCSettings.interfaceEdgeBottomAction === "thumbnails") PQCSettings.interfaceEdgeBottomAction = ""
+            }
+            if(thumb_bot.checked) {
+                PQCSettings.interfaceEdgeBottomAction = "thumbnails"
+                if(PQCSettings.interfaceEdgeLeftAction === "thumbnails") PQCSettings.interfaceEdgeLeftAction = ""
+                if(PQCSettings.interfaceEdgeRightAction === "thumbnails") PQCSettings.interfaceEdgeRightAction = ""
+                if(PQCSettings.interfaceEdgeTopAction === "thumbnails") PQCSettings.interfaceEdgeTopAction = ""
+            }
+        } else {
+            if(PQCSettings.interfaceEdgeLeftAction === "thumbnails") PQCSettings.interfaceEdgeLeftAction = ""
+            if(PQCSettings.interfaceEdgeRightAction === "thumbnails") PQCSettings.interfaceEdgeRightAction = ""
+            if(PQCSettings.interfaceEdgeTopAction === "thumbnails") PQCSettings.interfaceEdgeTopAction = ""
+            if(PQCSettings.interfaceEdgeBottomAction === "thumbnails") PQCSettings.interfaceEdgeBottomAction = ""
+        }
+        thumb_enable.saveDefault()
+        thumb_top.saveDefault()
+        thumb_bot.saveDefault()
 
         PQCSettings.thumbnailsHighlightAnimationLiftUp = highlight_liftup_slider.value
 

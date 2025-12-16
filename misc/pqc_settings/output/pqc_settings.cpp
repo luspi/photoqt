@@ -7394,6 +7394,23 @@ void PQCSettings::readDB() {
 
     }
 
+    if(m_generalInterfaceVariant == "integrated") {
+        if(m_interfaceEdgeLeftAction == "thumbnails") {
+            if(m_interfaceEdgeBottomAction == "")
+                m_interfaceEdgeBottomAction = "thumbnails";
+            else if(m_interfaceEdgeTopAction == "")
+                m_interfaceEdgeTopAction = "thumbnails";
+            m_interfaceEdgeLeftAction = "";
+        }
+        if(m_interfaceEdgeRightAction == "thumbnails") {
+            if(m_interfaceEdgeBottomAction == "")
+                m_interfaceEdgeBottomAction = "thumbnails";
+            else if(m_interfaceEdgeTopAction == "")
+                m_interfaceEdgeTopAction = "thumbnails";
+            m_interfaceEdgeRightAction = "";
+        }
+    }
+
 }
 
 bool PQCSettings::backupDatabase() {
