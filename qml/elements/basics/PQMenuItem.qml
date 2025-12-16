@@ -30,7 +30,7 @@ MenuItem {
     implicitWidth: 250
     implicitHeight: h
 
-    property int h: 30
+    property int h: visible ? 30 : 0
 
     onImplicitWidthChanged: {
         if(menu !== null && implicitWidth > menu.width+10) {
@@ -56,6 +56,7 @@ MenuItem {
     contentItem:
         Text {
             id: controltxt
+            y: (parent.height-height)/2
             leftPadding: control.checkable||control.iconSource!=""||control.moveToRightABit ? 30 : 5
             height: control.h
 
