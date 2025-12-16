@@ -458,7 +458,7 @@ MenuBar {
 
         PQMenuItem {
             text: qsTranslate("other", "Manage extensions")
-            onClicked:
+            onTriggered:
                 PQCNotify.openSettingsManagerAt(6, "maex")
         }
 
@@ -468,7 +468,7 @@ MenuBar {
 
             model: PQCExtensionsHandler.numExtensionsAll
 
-            delegate: Menu {
+            delegate: PQMenu {
 
                 id: deleg
                 required property int index
