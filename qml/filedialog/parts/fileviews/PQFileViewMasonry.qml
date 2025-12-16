@@ -294,7 +294,7 @@ Flickable {
                         width: numberOfFilesInsideFolder.width + 20
                         height: 30
                         radius: 5
-                        color: "#000000"
+                        color: palette.text
                         opacity: 0.8
                         visible: numberOfFilesInsideFolder.text !== "" && numberOfFilesInsideFolder.text !== "0"
 
@@ -303,7 +303,7 @@ Flickable {
                             x: 10
                             y: (parent.height-height)/2-2
                             font.weight: PQCLook.fontWeightBold
-                            color: palette.text
+                            color: palette.base
                             elide: Text.ElideMiddle
                             text: deleg.numberFilesInsideFolder
                         }
@@ -317,7 +317,7 @@ Flickable {
                         width: numberThumbInsideFolder.width + 10
                         height: 20
                         radius: 3
-                        color: "#000000"
+                        color: palette.text
                         opacity: 0.6
                         visible: folderthumb.curnum>0 && folderthumb.visible
 
@@ -326,7 +326,7 @@ Flickable {
                             x: 5
                             y: (parent.height-height)/2-2
                             font.weight: PQCLook.fontWeightBold
-                            color: palette.text
+                            color: palette.base
                             elide: Text.ElideMiddle
                             text: "#"+folderthumb.curnum
                         }
