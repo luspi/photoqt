@@ -168,7 +168,7 @@ Loader {
             font.pointSize: loader.fontPointSize
             font.weight: loader.fontWeight
 
-            function onClicked() {
+            onClicked: {
                 loader.clicked()
             }
 
