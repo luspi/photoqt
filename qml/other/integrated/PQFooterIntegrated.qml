@@ -112,6 +112,21 @@ ToolBar {
             visible: false
             text: "Special Action"
 
+            contentItem: Text {
+                text: specialaction.text
+                font: specialaction.font
+                color: palette.text
+                horizontalAlignment: Text.AlignHCenter
+                verticalAlignment: Text.AlignVCenter
+            }
+
+            background: Rectangle {
+                implicitWidth: 40
+                implicitHeight: 40
+                color: specialaction.down || specialaction.hovered ? palette.button : palette.window
+                opacity: specialaction.down ? 1 : 0.5
+            }
+
             onClicked: {
                 if(whatisit == "photosphere") {
                     if(PQCConstants.showingPhotoSphere)
