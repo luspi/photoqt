@@ -112,6 +112,11 @@
         <content_attribute id="money-gambling">none</content_attribute>
     </content_rating>
     <releases>
+        <release version="5.0-beta2" date="2025-12-17">
+            <description>
+                <p>Second beta release for upcoming v5.0 release.</p>
+            </description>
+        </release>
         <release version="5.0-beta1" date="2025-11-28">
             <description>
                 <p>First beta release for upcoming v5.0 release.</p>
