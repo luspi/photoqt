@@ -375,7 +375,7 @@ PQSetting {
                             smallerVersion: true
                             fontWeight: PQCLook.fontWeightNormal
                             enabled: PQCSettings.generalExtensionsAllowUntrusted.indexOf(extensionfailed_setting.extensionId)===-1
-                            text: "Trust this extension"
+                            text: qsTranslate("settingsmanager", "Trust this extension")
                             onClicked: {
                                 if(PQCScriptsConfig.askForConfirmation(qsTranslate("settingsmanager", "Trust extension?"), qsTranslate("settingsmanager", "Name:") + " " + extensionfailed_setting.extName, qsTranslate("settingsmanager", "Are you sure you want to enable this extension? This will take effect the next time you start PhotoQt."))) {
                                     if(PQCSettings.generalExtensionsAllowUntrusted.indexOf(extensionfailed_setting.extensionId) === -1)
