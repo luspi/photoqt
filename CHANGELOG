@@ -1,6 +1,34 @@
 Changelog PhotoQt - Copyright (C) 2011-2025, Lukas Spies (Lukas@photoqt.org), License: GPLv2 (or later)
 ----------------------------------------------------------------------------------------------------------
 
+Release 5.0-beta2 - 2025-12-17
+----------------------------
+
+- fix: highlight marker in select box in settings manager
+- improve: extensions are identified by id including their path
+- fix: respect all command line flags at startup
+- fix: use right palette's for proper styling in all circumstances
+- add: dropping files on PhotoQt loads the file/folder
+- fix: file dialog opens right folder when PhotoQt is opened with an image
+- fix: display archive/document contents
+- fix: entering viewer mode
+- fix: building with extensions support disabled
+- improve: better advanced slider/spinbox combination
+- improve: interpolation threshold uses window size instead of fixed threashold
+- improve: re-add two button versions for integrated and modern interface
+- fix: detecting modifier key press (Alt and Shift) when pressed alone
+- fix: certain text coloring sometimes did not follow theme/palette
+- improve: max width for text in settings manager
+- fix: add missing scroll manager to settings manager
+- fix: thumbnail scrolling with active thumbnail kept in center
+- fix: popup message dialogs would sometimes be shown behind window
+- fix: extensions: uploading image to imgur.com did not work on Windows
+- fix: radiobutton/checkbox text alignments
+- fix: add missing reset buttons, hide reset buttons of hidden sections
+- fix: style text area
+- fix: showing toolbutton in footer for archives/documents
+
+
 Release 5.0-beta1 - 2025-11-28
 ----------------------------
 
