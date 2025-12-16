@@ -298,7 +298,7 @@ ToolBar {
                                                                      qsTranslate("other", "Enter photo sphere")) })
             specialaction.visible = true
 
-        } else if((PQCConstants.currentImageIsArchive || PQCConstants.currentImageIsDocument) && PQCConstants.currentFileInsideTotal > 1) {
+        } else if(PQCFileFolderModel.activeViewerMode || ((PQCConstants.currentImageIsArchive || PQCConstants.currentImageIsDocument) && PQCConstants.currentFileInsideTotal > 1)) {
 
             specialaction.whatisit = "viewermode"
             specialaction.text = Qt.binding(function() { return (PQCFileFolderModel.activeViewerMode ?
