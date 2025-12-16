@@ -281,6 +281,10 @@ PQTemplate {
 
                 interactive: maintabbar.makeFlickableInteractive
 
+                PQScrollManager {
+                    flickable: flickable
+                }
+
                 Loader {
                     id: settings_loader
                     x: 10
