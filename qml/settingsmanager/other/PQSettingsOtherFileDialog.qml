@@ -200,6 +200,12 @@ PQSetting {
             onCheckedChanged: set_fd.checkForChanges()
         },
 
+        PQSettingsResetButton {
+            onResetToDefaults: {
+                tooltipcheck.checked = PQCSettings.getDefaultForFiledialogDetailsTooltip()
+            }
+        },
+
         /*************************************/
 
         PQSettingSubtitle {
@@ -688,7 +694,8 @@ PQSetting {
                                                       folderthumb_check.hasChanged() || folderthumb_timeout.hasChanged() || folderthumb_loop.hasChanged() ||
                                                       folderthumb_autoload.hasChanged() || folderthumb_scalecrop.hasChanged() ||
                                                       preview_check.hasChanged() || preview_blur.hasChanged() || preview_mute.hasChanged() ||
-                                                      preview_colintspin.hasChanged() || preview_resolution.hasChanged() || preview_scalecrop.hasChanged())
+                                                      preview_colintspin.hasChanged() || preview_resolution.hasChanged() || preview_scalecrop.hasChanged() ||
+                                                      tooltipcheck.hasChanged())
 
     }
 
@@ -706,6 +713,8 @@ PQSetting {
         layout_list.loadAndSetDefault(!layout_icon.checked&&!layout_masonry.checked)
 
         hiddencheck.loadAndSetDefault(PQCSettings.filedialogShowHiddenFilesFolders)
+
+        tooltipcheck.loadAndSetDefault(PQCSettings.filedialogDetailsTooltip)
 
         remembercheck.loadAndSetDefault(PQCSettings.filedialogKeepLastLocation)
 
@@ -764,6 +773,9 @@ PQSetting {
 
         PQCSettings.filedialogShowHiddenFilesFolders = hiddencheck.checked
         hiddencheck.saveDefault()
+
+        PQCSettings.filedialogDetailsTooltip = tooltipcheck.checked
+        tooltipcheck.saveDefault()
 
         PQCSettings.filedialogKeepLastLocation = remembercheck.checked
         remembercheck.saveDefault()

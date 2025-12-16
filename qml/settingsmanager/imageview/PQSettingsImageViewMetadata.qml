@@ -465,6 +465,7 @@ PQSetting {
         },
 
         PQSettingsResetButton {
+            visible: set_meta.modernInterface
             onResetToDefaults: {
 
                 screenegde.checked = PQCSettings.getDefaultForMetadataElementFloating()

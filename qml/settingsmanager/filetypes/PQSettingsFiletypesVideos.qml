@@ -56,6 +56,7 @@ PQSetting {
 
         Flow {
             width: set_vide.contentWidth
+            spacing: 5
             PQRadioButton {
                 id: vid_qtmult
                 text: qsTranslate("settingsmanager", "prefer Qt Multimedia")

@@ -284,6 +284,17 @@ PQSetting {
             onCheckedChanged: set_lang.checkForChanges()
         },
 
+        PQSettingsResetButton {
+            onResetToDefaults: {
+
+                fd_native.checked = PQCSettings.getDefaultForFiledialogUseNativeFileDialog()
+                fd_custom.checked = !fd_native.checked
+
+                set_lang.checkForChanges()
+
+            }
+        },
+
         /***********************************/
 
         /************************************************/
@@ -320,6 +331,7 @@ PQSetting {
         },
 
         PQSettingsResetButton {
+            visible: !set_lang.modernInterface
             onResetToDefaults: {
 
                 sidebarcheck.checked = PQCSettings.getDefaultForMetadataSideBar()
@@ -345,6 +357,16 @@ PQSetting {
             id: animcheck
             text: qsTranslate("settingsmanager", "Disable ALL animations")
             onCheckedChanged: set_lang.checkForChanges()
+        },
+
+        PQSettingsResetButton {
+            onResetToDefaults: {
+
+                animcheck.checked = PQCSettings.getDefaultForGeneralDisableAllAnimations()
+
+                set_lang.checkForChanges()
+
+            }
         }
 
     ]

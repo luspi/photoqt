@@ -383,6 +383,7 @@ PQSetting {
         },
 
         PQSettingsResetButton {
+            visible: set_stin.modernInterface
             onResetToDefaults: {
 
                 var val_hide = PQCSettings.getDefaultForInterfaceStatusInfoAutoHide()
@@ -403,6 +404,8 @@ PQSetting {
 
         PQSettingSubtitle {
 
+            visible: set_stin.modernInterface
+
             //: Settings title
             title: qsTranslate("settingsmanager", "Position")
 
@@ -411,12 +414,14 @@ PQSetting {
         },
 
         PQComboBox {
+            visible: set_stin.modernInterface
             id: infoalignment
             model: ["top left", "top center", "top right"]
             onCurrentIndexChanged: set_stin.checkForChanges()
         },
 
         PQSettingsResetButton {
+            visible: set_stin.modernInterface
             onResetToDefaults: {
 
                 var opts = ["left", "center", "right"]
@@ -449,6 +454,7 @@ PQSetting {
         },
 
         PQSettingsResetButton {
+            visible: set_stin.modernInterface
             onResetToDefaults: {
 
                 managewindow.checked = PQCSettings.getDefaultForInterfaceStatusInfoManageWindow()
