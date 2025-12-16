@@ -34,11 +34,14 @@ ScrollBar {
     orientation: Qt.Vertical
 
     contentItem: Rectangle {
-        implicitWidth: 8
+
+        implicitWidth: 6
         implicitHeight: 100
-        radius: width / 2
+
+        radius: width/2
         opacity: (control.pressed||control.active) ? 1 : 0.5
-        color: (control.pressed||control.active) ? palette.text : palette.disabled.text
+        color: (control.pressed||control.active) ? palette.highlight : palette.disabled.text
+
         // Hide the ScrollBar when it's not needed.
         visible: control.size < 1.0
 

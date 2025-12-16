@@ -22,7 +22,32 @@
 
 import QtQuick
 import QtQuick.Controls.Basic
+import PhotoQt
 
 ScrollBar {
+
+    id: control
+
+    size: 0.3
+    position: 0.2
+    active: false
     orientation: Qt.Horizontal
+
+    contentItem: Rectangle {
+
+        implicitWidth: 100
+        implicitHeight: 6
+
+        radius: height/2
+        opacity: (control.pressed||control.active) ? 1 : 0.5
+        color: (control.pressed||control.active) ? palette.highlight : palette.disabled.text
+
+        // Hide the ScrollBar when it's not needed.
+        visible: control.size < 1.0
+
+        // Animate the changes in color/opacity
+        Behavior on opacity { enabled: !PQCSettings.generalDisableAllAnimations; NumberAnimation { duration: 200 } }
+        Behavior on color { enabled: !PQCSettings.generalDisableAllAnimations; ColorAnimation { duration: 200} }
+    }
+
 }
