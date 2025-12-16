@@ -62,6 +62,14 @@ ScrollView {
         font.pointSize: PQCLook.fontSize
         font.weight: PQCLook.fontWeightNormal
 
+        background: Rectangle {
+            implicitWidth: 200
+            implicitHeight: 40
+            radius: 5
+            color: palette.alternateBase
+            border.color: palette.disabled.text
+        }
+
     }
 
 }
