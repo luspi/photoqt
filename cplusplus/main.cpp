@@ -117,19 +117,18 @@ int main(int argc, char **argv) {
 #endif
 
 #ifdef PQMPORTABLETWEAKS
-    if(argc > 1) {
-        // create directory and set hidden attribute
+    // create directory and set hidden attribute
 #ifdef Q_OS_WIN
-        QString folder = QString("%1/photoqt-data").arg(argv[1]);
-        QDir dir;
-        dir.mkdir(folder);
-        SetFileAttributesA(dir.toNativeSeparators(folder).toLocal8Bit(), FILE_ATTRIBUTE_HIDDEN);
+    QString portablefolder = QString("%1/photoqt-data").arg(argc > 1 ? argv[1] : QCoreApplication::applicationDirPath());
+    QDir dir;
+    dir.mkdir(portablefolder);
+    SetFileAttributesA(dir.toNativeSeparators(portablefolder).toLocal8Bit(), FILE_ATTRIBUTE_HIDDEN);
 #else
-        QString folder = QString("%1/.photoqt-data").arg(argv[1]);
-        QDir dir;
-        dir.mkdir(folder);
+    QString portablefolder = QString("%1/.photoqt-data").arg(argc > 1 ? argv[1] : QCoreApplication::applicationDirPath());
+    QDir dir;
+    dir.mkdir(portablefolder);
 #endif
-    }
+    qputenv("PHOTOQT_PORTABLE_DATA_LOCATION", portablefolder.toLocal8Bit());
 #endif
 
     // avoids warning for customizing native styles (observed in particular on Windows)
