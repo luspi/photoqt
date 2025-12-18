@@ -274,7 +274,7 @@ if(WITH_FLATPAKBUILD)
 endif()
 
 if(WITH_WAYLANDSPECIFIC)
-    find_package(Wayland Client)
+    find_package(Wayland COMPONENTS Client)
     if(NOT ${WAYLAND_CLIENT_FOUND})
         message("** Wayland not found. Disabling.")
         SET(WITH_WAYLANDSPECIFIC OFF)
