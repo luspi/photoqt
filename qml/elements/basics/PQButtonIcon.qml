@@ -108,16 +108,12 @@ Loader {
                         loader.down = false
                 }
                 onClicked: (mouse) => {
-                               console.warn(">>> CLICK:", mouse.button)
                     if(loader.enableContextMenu && mouse.button === Qt.RightButton) {
-                                   console.warn(" >> MENU")
                         menu.popup()
                     } else if(mouse.button === Qt.RightButton) {
                         loader.rightClicked()
-                               console.warn(" >> RC")
                     } else {
                         loader.clicked()
-                                   console.warn(" >> CC")
                     }
                 }
             }

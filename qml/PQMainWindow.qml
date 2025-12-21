@@ -60,7 +60,6 @@ ApplicationWindow {
     }
     onHeightChanged: {
         storeWindowGeometry.restart()
-        console.warn(">>> STORE:", height, footer.height, menuBar.height)
         PQCConstants.availableHeight = height-(isIntegrated ? (footer.height+menuBar.height) : 0)
         PQCConstants.mainWindowBeingResized = true
         resetResizing.restart()
