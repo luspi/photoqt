@@ -269,6 +269,7 @@ PQMenu {
             id: folderthumbshow
             //: file manager settings popdown: show folder thumbnails
             text: qsTranslate("filedialog", "show")
+            enabled: thumbnailsshow.checked
             checkable: true
             checked: PQCSettings.filedialogFolderContentThumbnails
             onCheckedChanged: {
@@ -279,7 +280,7 @@ PQMenu {
         PQMenuItem {
             //: file manager settings popdown: scale and crop the folder thumbnails
             text: qsTranslate("filedialog", "scale and crop")
-            enabled: folderthumbshow.checked
+            enabled: folderthumbshow.checked && thumbnailsshow.checked
             checkable: true
             checked: PQCSettings.filedialogFolderContentThumbnailsScaleCrop
             onCheckedChanged: {
@@ -290,7 +291,7 @@ PQMenu {
         PQMenuItem {
             //: file manager settings popdown: automatically load the folder thumbnails
             text: qsTranslate("filedialog", "autoload")
-            enabled: folderthumbshow.checked
+            enabled: folderthumbshow.checked && thumbnailsshow.checked
             checkable: true
             checked: PQCSettings.filedialogFolderContentThumbnailsAutoload
             onCheckedChanged: {
@@ -301,7 +302,7 @@ PQMenu {
         PQMenuItem {
             //: file manager settings popdown: loop through the folder thumbnails
             text: qsTranslate("filedialog", "loop")
-            enabled: folderthumbshow.checked
+            enabled: folderthumbshow.checked && thumbnailsshow.checked
             checkable: true
             checked: PQCSettings.filedialogFolderContentThumbnailsLoop
             onCheckedChanged: {
@@ -320,7 +321,7 @@ PQMenu {
         }
         PQMenuItem {
             id: foldthumb2
-            enabled: folderthumbshow.checked
+            enabled: folderthumbshow.checked && thumbnailsshow.checked
             text: "2 seconds"
             checkable: true
             checked: PQCSettings.filedialogFolderContentThumbnailsSpeed===1
@@ -337,7 +338,7 @@ PQMenu {
         }
         PQMenuItem {
             id: foldthumb1
-            enabled: folderthumbshow.checked
+            enabled: folderthumbshow.checked && thumbnailsshow.checked
             text: qsTranslate("filedialog", "1 second")
             checkable: true
             checked: PQCSettings.filedialogFolderContentThumbnailsSpeed===2
@@ -354,7 +355,7 @@ PQMenu {
         }
         PQMenuItem {
             id: foldthumb05
-            enabled: folderthumbshow.checked
+            enabled: folderthumbshow.checked && thumbnailsshow.checked
             text: qsTranslate("filedialog", "half a second")
             checkable: true
             checked: PQCSettings.filedialogFolderContentThumbnailsSpeed===3

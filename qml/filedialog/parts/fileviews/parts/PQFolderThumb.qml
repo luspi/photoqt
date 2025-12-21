@@ -78,6 +78,9 @@ Item {
         running: false||PQCSettings.filedialogFolderContentThumbnailsAutoload
         onTriggered: {
 
+            // if thumbnails are disabled, then do nothing here
+            if(!PQCSettings.filedialogThumbnails) return
+
             var fname = PQCFileFolderModel.entriesFileDialog[deleg.modelData]
             if(!deleg.isFolder)
                 return
@@ -94,7 +97,7 @@ Item {
     Connections {
         target: view_top
         function onCurrentIndexChanged() {
-            if(view_top.currentIndex===deleg.modelData && !PQCSettings.filedialogFolderContentThumbnailsAutoload)
+            if(view_top.currentIndex===deleg.modelData && !PQCSettings.filedialogFolderContentThumbnailsAutoload && PQCSettings.filedialogThumbnails)
                 folderthumb_next.restart()
         }
     }
