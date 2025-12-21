@@ -127,8 +127,12 @@ PQTemplate {
 
                 for(var i in event.urls) {
 
-                    var suffix = PQCScriptsFilesPaths.getSuffixLowerCase(event.urls[i])
-                    if(PQCImageFormats.getEnabledFormats().indexOf(suffix) !== -1) {
+                    var suffix1 = PQCScriptsFilesPaths.getSuffixLowerCase(event.urls[i])
+                    var suffix2 = PQCScriptsFilesPaths.getCompleteSuffixLowerCase(event.urls[i])
+                    var mimetype = PQCScriptsImages.getMimetypeForFile(event.urls[i])
+                    if(PQCImageFormats.getEnabledFormats().indexOf(suffix1) > -1 ||
+                       PQCImageFormats.getEnabledFormats().indexOf(suffix2) > -1 ||
+                       PQCImageFormats.getEnabledMimeTypes().indexOf(mimetype) > -1) {
                         loadNewPath(PQCScriptsFilesPaths.getDir(PQCScriptsFilesPaths.cleanPath(PQCScriptsFilesPaths.fromPercentEncoding(event.urls[i]))))
                         found = true
                         break;
@@ -154,9 +158,11 @@ PQTemplate {
                 for(var i in event.urls) {
 
                     // suffix and mimetype
-                    var suffix = PQCScriptsFilesPaths.getSuffixLowerCase(event.urls[i])
+                    var suffix1 = PQCScriptsFilesPaths.getSuffixLowerCase(event.urls[i])
+                    var suffix2 = PQCScriptsFilesPaths.getCompleteSuffixLowerCase(event.urls[i])
                     var mimetype = PQCScriptsImages.getMimetypeForFile(event.urls[i])
-                    if(PQCImageFormats.getEnabledFormats().indexOf(suffix) > -1 ||
+                    if(PQCImageFormats.getEnabledFormats().indexOf(suffix1) > -1 ||
+                       PQCImageFormats.getEnabledFormats().indexOf(suffix2) > -1 ||
                        PQCImageFormats.getEnabledMimeTypes().indexOf(mimetype) > -1) {
                         found = true
                     }

@@ -42,6 +42,9 @@ private Q_SLOTS:
     void getSuffix_data();
     void getSuffix();
 
+    void getCompleteSuffix_data();
+    void getCompleteSuffix();
+
     void getFoldersIn();
 
 };

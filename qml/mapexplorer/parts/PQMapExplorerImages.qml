@@ -142,7 +142,7 @@ Rectangle {
                     Behavior on opacity { enabled: !PQCSettings.generalDisableAllAnimations; NumberAnimation { duration: 200 } }
 
                     // if we do not cache this image, then we keep the generic icon here
-                    source: filethumb.status==Image.Ready ? "" : "image://icon/"+PQCScriptsFilesPaths.getSuffix(maindeleg.fname)
+                    source: filethumb.status==Image.Ready ? "" : "image://icon/"+PQCScriptsFilesPaths.getCompleteSuffix(maindeleg.fname)
 
                     Image {
 

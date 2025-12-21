@@ -308,10 +308,13 @@ Item {
         if(((combo === "Left" || combo === "Right") && PQCSettings.filetypesVideoLeftRightJumpVideo) ||
                 (combo === "Space" && PQCSettings.filetypesVideoSpacePause)) {
 
-            var suffix = PQCScriptsFilesPaths.getSuffix(PQCFileFolderModel.currentFile)
+            var suffix1 = PQCScriptsFilesPaths.getSuffix(PQCFileFolderModel.currentFile)
+            var suffix2 = PQCScriptsFilesPaths.getCompleteSuffix(PQCFileFolderModel.currentFile)
 
-            var isVideo = (PQCScriptsConfig.isMPVSupportEnabled() && PQCImageFormats.getEnabledFormatsLibmpv().indexOf(suffix)>-1) ||
-                                (PQCScriptsConfig.isVideoQtSupportEnabled() && PQCImageFormats.getEnabledFormatsVideo().indexOf(suffix)>-1)
+            var isVideo = (PQCScriptsConfig.isMPVSupportEnabled() &&
+                                (PQCImageFormats.getEnabledFormatsLibmpv().indexOf(suffix1)>-1 || PQCImageFormats.getEnabledFormatsLibmpv().indexOf(suffix2)>-1)) ||
+                          (PQCScriptsConfig.isVideoQtSupportEnabled() &&
+                                (PQCImageFormats.getEnabledFormatsVideo().indexOf(suffix1)>-1 || PQCImageFormats.getEnabledFormatsVideo().indexOf(suffix2)>-1))
 
             if(isVideo) {
 

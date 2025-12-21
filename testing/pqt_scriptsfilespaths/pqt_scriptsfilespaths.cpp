@@ -159,7 +159,7 @@ void PQTScriptsFilesPaths::getSuffix_data() {
     QTest::newRow("all lower") << "/home/test/image.jpg" << "jpg";
     QTest::newRow("mixed") << "/home/test/image.jPg" << "jPg";
     QTest::newRow("all upper") << "/home/test/image.JPG" << "JPG";
-    QTest::newRow("double suffix") << "/home/test/image.jpg.jpg" << "jpg.jpg";
+    QTest::newRow("double suffix") << "/home/test/image.jpg.jpg" << "jpg";
     QTest::newRow("empty") << "" << "";
 
 }
@@ -170,6 +170,30 @@ void PQTScriptsFilesPaths::getSuffix() {
     QFETCH(QString, result);
 
     QCOMPARE(PQCScriptsFilesPaths::get().getSuffix(string), result);
+
+}
+
+/********************************************************/
+
+void PQTScriptsFilesPaths::getCompleteSuffix_data() {
+
+    QTest::addColumn<QString>("string");
+    QTest::addColumn<QString>("result");
+
+    QTest::newRow("all lower") << "/home/test/image.jpg" << "jpg";
+    QTest::newRow("mixed") << "/home/test/image.jPg" << "jPg";
+    QTest::newRow("all upper") << "/home/test/image.JPG" << "JPG";
+    QTest::newRow("double suffix") << "/home/test/image.jpg.jpg" << "jpg.jpg";
+    QTest::newRow("empty") << "" << "";
+
+}
+
+void PQTScriptsFilesPaths::getCompleteSuffix() {
+
+    QFETCH(QString, string);
+    QFETCH(QString, result);
+
+    QCOMPARE(PQCScriptsFilesPaths::get().getCompleteSuffix(string), result);
 
 }
 

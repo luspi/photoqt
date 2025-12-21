@@ -72,7 +72,7 @@ Item {
                 if(PQCSettings.filedialogThumbnails)
                     preview.source = "image://thumb/" + PQCFileFolderModel.entriesFileDialog[view_top.currentIndex]
                 else
-                    preview.source = "image://icon/"+PQCScriptsFilesPaths.getSuffix(PQCFileFolderModel.entriesFileDialog[view_top.currentIndex]).toLowerCase()
+                    preview.source = "image://icon/"+PQCScriptsFilesPaths.getCompleteSuffix(PQCFileFolderModel.entriesFileDialog[view_top.currentIndex]).toLowerCase()
             }
         }
 

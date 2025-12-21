@@ -2372,12 +2372,19 @@ Loader {
 
             if(PQCFileFolderModel.justLeftViewerMode) return false
 
-            var suffix = PQCScriptsFilesPaths.getSuffix(PQCFileFolderModel.currentFile)
+            var suffix1 = PQCScriptsFilesPaths.getSuffix(PQCFileFolderModel.currentFile)
+            var suffix2 = PQCScriptsFilesPaths.getCompleteSuffix(PQCFileFolderModel.currentFile)
 
             var comicbookSuffix = ["cbt", "cbr", "cbz", "cb7"]
-            if((PQCSettings.filetypesComicBookAlwaysEnterAutomatically && comicbookSuffix.indexOf(suffix) > -1 && !PQCFileFolderModel.currentFile.includes("::ARC::")) ||
-               (PQCSettings.filetypesArchiveAlwaysEnterAutomatically && PQCImageFormats.getEnabledFormatsLibArchive().indexOf(suffix) > -1 && !PQCFileFolderModel.currentFile.includes("::ARC::")) ||
-               (PQCSettings.filetypesDocumentAlwaysEnterAutomatically && PQCImageFormats.getEnabledFormatsPoppler().indexOf(suffix) > -1 && !PQCFileFolderModel.currentFile.includes("::PDF::"))) {
+            if((PQCSettings.filetypesComicBookAlwaysEnterAutomatically &&
+                    comicbookSuffix.indexOf(suffix1) > -1 &&
+                    !PQCFileFolderModel.currentFile.includes("::ARC::")) ||
+               (PQCSettings.filetypesArchiveAlwaysEnterAutomatically &&
+                    (PQCImageFormats.getEnabledFormatsLibArchive().indexOf(suffix1) > -1 || PQCImageFormats.getEnabledFormatsLibArchive().indexOf(suffix2) > -1) &&
+                    !PQCFileFolderModel.currentFile.includes("::ARC::")) ||
+               (PQCSettings.filetypesDocumentAlwaysEnterAutomatically &&
+                    (PQCImageFormats.getEnabledFormatsPoppler().indexOf(suffix1) > -1 || PQCImageFormats.getEnabledFormatsPoppler().indexOf(suffix2) > -1) &&
+                    !PQCFileFolderModel.currentFile.includes("::PDF::"))) {
                 return true
             }
 
