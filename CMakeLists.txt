@@ -180,6 +180,7 @@ if(WITH_VIDEO_MPV)
 endif()
 
 if(WITH_LIBVIPS)
+    find_package(PkgConfig REQUIRED)
     pkg_search_module(GLIB glib-2.0 gobject-2.0)
     if(NOT ${GLIB_FOUND})
         message("** glib not found. Disabling libvips.")
@@ -482,8 +483,6 @@ set_target_properties(photoqt PROPERTIES
     MACOSX_BUNDLE TRUE
     WIN32_EXECUTABLE TRUE
 )
-
-# target_link_libraries(photoqt PRIVATE photoqt-modern photoqt-integrated photoqt-cplusplus)
 
 # link executable
 target_link_libraries(photoqt PRIVATE Qt6::Quick Qt6::Widgets Qt6::Sql Qt6::Core
