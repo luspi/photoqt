@@ -51,6 +51,9 @@ public:
 
     int askForDeletion();
 
+    // no-op to initialize singleton
+    void setup() {}
+
 private:
     PQCScriptsFileManagement();
     ~PQCScriptsFileManagement();

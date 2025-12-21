@@ -73,7 +73,12 @@ public:
     QStringList getEntriesMainView() { return m_entriesMainView; }
 
 private:
-    PQCFileFolderModelCPP(QObject *parent = 0) : QObject(parent) {}
+    PQCFileFolderModelCPP(QObject *parent = 0) : QObject(parent) {
+        m_currentIndex = -1;
+        m_currentFile = "";
+        m_countMainView = 0;
+        m_entriesMainView.clear();
+    }
 
     int         m_currentIndex;
     QString     m_currentFile;

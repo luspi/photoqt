@@ -58,7 +58,7 @@
 
 PQCScriptsFileManagement::PQCScriptsFileManagement() {
 
-    undoCurFolder = "";
+    undoCurFolder = PQCScriptsFilesPaths::get().getDir(PQCFileFolderModelCPP::get().getCurrentFile());
     undoTrash.clear();
 
     connect(&PQCFileFolderModelCPP::get(), &PQCFileFolderModelCPP::currentFileChanged, this, [=]() {
@@ -248,9 +248,12 @@ bool PQCScriptsFileManagement::moveFile(QString filename, QString targetFilename
 
 void PQCScriptsFileManagement::recordAction(QString action, QVariantList args) {
 
-    if(action == "trash")
+    qDebug() << "args: action =" << action;
+    qDebug() << "args: args =" << args;
+
+    if(action == "trash") {
         undoTrash.push_back(args);
-    else
+    } else
         qWarning() << "Unknown action:" << action;
 
 }
