@@ -878,6 +878,8 @@ Loader {
                                 id: archive_item
 
                                 imageSource: imageloaderitem.imageSource
+                                defaultScale: loader_top.defaultScale
+                                currentScale: image_wrapper.scale
                                 isMainImage: loader_top.isMainImage
                                 loaderTop: loader_top
 

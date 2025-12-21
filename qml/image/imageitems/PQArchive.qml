@@ -31,6 +31,8 @@ Image {
     // these values are WRITEONLY and are picked up in PQImageDisplay
 
     property string imageSource: ""
+    property real defaultScale
+    property real currentScale
     property bool imageMirrorH: false
     property bool imageMirrorV: false
     property Item loaderTop
