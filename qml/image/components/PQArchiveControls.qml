@@ -125,7 +125,7 @@ Loader {
             y: (parent.height-height)/2
             spacing: 5
 
-            ComboBox {
+            PQComboBox {
 
                 id: fileselect
 
@@ -134,7 +134,7 @@ Loader {
 
                 visible: !controlitem.isComicBook
 
-                currentIndex: PQCConstants.currentFileInsideNum
+                currentIndex: Math.max(0, PQCConstants.currentFileInsideNum)
 
                 onCurrentIndexChanged: {
                     if(currentIndex !== PQCConstants.currentFileInsideNum) {
@@ -155,6 +155,11 @@ Loader {
                     function onCurrentArchiveCloseCombo() {
                         fileselect.popup.close()
                     }
+                }
+
+                Component.onCompleted: {
+                    // without this the text shown on the combobox might be empty at first load
+                    fileselect.currentIndexChanged()
                 }
 
             }
