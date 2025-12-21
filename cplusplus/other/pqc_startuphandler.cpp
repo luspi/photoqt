@@ -157,15 +157,13 @@ void PQCStartupHandler::performChecksAndUpdates() {
             else {
                 if(query.next()) {
                     oldSettingsVersion = query.value(0).toString();
-#ifdef NDEBUG
                     if(oldSettingsVersion != QString(PQMVERSION)) {
-#endif
                         query.clear();
                         dbtmp.close();
                         settingsChecker = PQEUpdateCheck::Update;
-#ifdef NDEBUG
                     }
-#endif
+                } else {
+                    settingsChecker = PQEUpdateCheck::Update;
                 }
             }
             query.clear();
@@ -192,7 +190,7 @@ void PQCStartupHandler::performChecksAndUpdates() {
         validate.validateSettingsDatabase();
         validate.validateSettingsValues();
 
-        if(!m_forceSkipWizard && (oldSettingsVersion.startsWith("4") || oldSettingsVersion.startsWith("3") || m_forceShowWizard))
+        if(!m_forceSkipWizard || m_forceShowWizard)
             showStartupWizard(false);
 
     } else if(m_forceShowWizard)

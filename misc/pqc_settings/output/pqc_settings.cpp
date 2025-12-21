@@ -7394,6 +7394,7 @@ void PQCSettings::readDB() {
 
     }
 
+    // make sure in the integrated interface the thumbnails are either shown top or bottom and not the sides
     if(m_generalInterfaceVariant == "integrated") {
         if(m_interfaceEdgeLeftAction == "thumbnails") {
             if(m_interfaceEdgeBottomAction == "")
@@ -7410,6 +7411,24 @@ void PQCSettings::readDB() {
             m_interfaceEdgeRightAction = "";
         }
     }
+
+    // we make sure that the version is written to the user database
+    // this is important in order to always be able to detect updates
+    QSqlQuery query(db);
+    if(!dbIsTransaction) {
+        db.transaction();
+        dbIsTransaction = true;
+    }
+    query.prepare("INSERT INTO 'general' (`name`,`value`,`datatype`) VALUES ('Version', :val, 'string') ON CONFLICT (`name`) DO UPDATE SET `value`=:valupdate");
+    query.bindValue(":val", m_generalVersion);
+    query.bindValue(":valupdate", m_generalVersion);
+    if(!query.exec()) {
+        qWarning() << "SQL Error:" << query.lastError().text();
+        qWarning() << "Unable to write version to database";
+        qWarning() << "Executed query:" << query.lastQuery();
+    }
+    dbCommitTimer->start();
+
 
 }
 
