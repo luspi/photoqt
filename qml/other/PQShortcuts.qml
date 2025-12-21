@@ -78,6 +78,8 @@ Item {
                 PQCConstants.shiftKeyPressed = true
             else if(key === Qt.Key_Alt && modifiers === Qt.AltModifier)
                 PQCConstants.altKeyPressed = true
+            else if(key === Qt.Key_Control && modifiers === Qt.ControlModifier)
+                PQCConstants.ctrlKeyPressed = true
 
             if(PQCConstants.modalWindowOpen || PQCConstants.idOfVisibleItem !== "" || PQCConstants.slideshowRunning) {
 

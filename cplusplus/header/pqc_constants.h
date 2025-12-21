@@ -68,6 +68,7 @@ public:
         m_statusinfoIsVisible = true;
         m_altKeyPressed = false;
         m_shiftKeyPressed = false;
+        m_ctrlKeyPressed = false;
         m_displayTextMaxLength = 1000;
 
         m_slideshowRunning = false;
@@ -314,6 +315,7 @@ public:
     Q_PROPERTY(bool ignoreFileFolderChangesTemporary MEMBER m_ignoreFileFolderChangesTemporary NOTIFY ignoreFileFolderChangesTemporaryChanged)
     Q_PROPERTY(bool altKeyPressed MEMBER m_altKeyPressed NOTIFY altKeyPressedChanged)
     Q_PROPERTY(bool shiftKeyPressed MEMBER m_shiftKeyPressed NOTIFY shiftKeyPressedChanged)
+    Q_PROPERTY(bool ctrlKeyPressed MEMBER m_ctrlKeyPressed NOTIFY ctrlKeyPressedChanged)
     Q_PROPERTY(int displayTextMaxLength MEMBER m_displayTextMaxLength NOTIFY displayTextMaxLengthChanged)
 
     /******************************************************/
@@ -472,6 +474,7 @@ private:
     bool m_statusinfoIsVisible;
     bool m_altKeyPressed;
     bool m_shiftKeyPressed;
+    bool m_ctrlKeyPressed;
     int m_displayTextMaxLength;
 
     bool m_slideshowRunning;
@@ -644,6 +647,7 @@ Q_SIGNALS:
     void extraControlsLocationChanged();
     void altKeyPressedChanged();
     void shiftKeyPressedChanged();
+    void ctrlKeyPressedChanged();
     void displayTextMaxLengthChanged();
     void filedialogCurrentSelectionChanged();
     void filedialogCurrentIndexChanged();
