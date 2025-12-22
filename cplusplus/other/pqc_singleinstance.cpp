@@ -339,8 +339,6 @@ void PQCSingleInstance::handleMessage(const QList<Actions> msg, bool includeFile
     QStringList allfolders;
 
     QFileInfo info(m_receivedFile);
-    qWarning() << ">>> m_receivedFile ="<< m_receivedFile;
-    qWarning() << ">>> exists?" << info.exists();
 
     for(const Actions &m : std::as_const(msg)) {
 
