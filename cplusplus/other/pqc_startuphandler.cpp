@@ -172,6 +172,8 @@ void PQCStartupHandler::performChecksAndUpdates() {
 
     }
 
+    qWarning() << ">>>> settingsChecker =" << settingsChecker << PQEUpdateCheck::FreshInstall;
+
     if(settingsChecker == PQEUpdateCheck::FreshInstall) {
 
         setupFresh();

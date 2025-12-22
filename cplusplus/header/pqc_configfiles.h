@@ -26,6 +26,7 @@
 #include <QObject>
 #include <QStandardPaths>
 #include <QDir>
+#include <QCoreApplication>
 
 class PQCConfigFiles {
 

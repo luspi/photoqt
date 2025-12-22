@@ -23,6 +23,8 @@
 #include <QtDebug>
 #include <QFileInfo>
 #include <pqc_commandlineparser.h>
+#include<QDir>
+#include <iostream>
 
 PQCCommandLineParser::PQCCommandLineParser(QApplication &app, QObject *parent) : QObject(parent), QCommandLineParser() {
 
@@ -108,8 +110,15 @@ PQCCommandLineResult PQCCommandLineParser::getResult() {
 #if defined(Q_OS_WIN) && defined(PQMPORTABLETWEAKS)
         filenames.clear();
         for(auto &f : positionalArguments()) {
-            if(!f.endsWith(".exe"))
-                filenames.append(f);
+            std::cout << ">> f =" << f.toStdString() << std::endl;
+            if(!f.endsWith(".exe")) {
+                // we also need to check if it is a relative path, as we want to use the portable dir and NOT the (temporary) exe dir
+                QFileInfo info(f);
+                if(info.isRelative())
+                    filenames.append(qgetenv("PHOTOQT_PORTABLE_DATA_LOCATION") + "/../" + info.filePath());
+                else
+                    filenames.append(f);
+            }
         }
         if(filenames.length())
             ret = ret|PQCCommandLineFile;

@@ -61,11 +61,8 @@ PQCSingleInstance::PQCSingleInstance(int &argc, char *argv[]) : QApplication(arg
 
     if(result & PQCCommandLineFile) {
         for(const auto &f : std::as_const(parser.filenames)) {
-            QString ff = f;
-            if(!QFileInfo(ff).isAbsolute())
-                ff = QDir::currentPath() + "/" + ff;
             msg << Actions::File;
-            receivedFile = QFileInfo(ff).canonicalFilePath();
+            receivedFile = QFileInfo(f).canonicalFilePath();
         }
     }
 
@@ -331,6 +328,7 @@ void PQCSingleInstance::newConnection() {
 void PQCSingleInstance::handleMessage(const QList<Actions> msg, bool includeFileProcessing) {
 
     qDebug() << "args: msg";
+    qDebug() << "args: includeFileProcessing =" << includeFileProcessing;
 
     // NOTE
     // file processing is handled directly during startup for faster displaying of files
@@ -341,6 +339,8 @@ void PQCSingleInstance::handleMessage(const QList<Actions> msg, bool includeFile
     QStringList allfolders;
 
     QFileInfo info(m_receivedFile);
+    qWarning() << ">>> m_receivedFile ="<< m_receivedFile;
+    qWarning() << ">>> exists?" << info.exists();
 
     for(const Actions &m : std::as_const(msg)) {
 
@@ -350,14 +350,18 @@ void PQCSingleInstance::handleMessage(const QList<Actions> msg, bool includeFile
 
             if(includeFileProcessing) {
 
+
                 // sort by files and folders
                 // that way we can make sure to always load the first specified file as initial image
                 if(!info.exists())
                     continue;
-                if(info.isFile())
+                if(info.isFile()) {
+                    qDebug() << "received file:" << m_receivedFile;
                     allfiles.append(m_receivedFile);
-                else if(info.isDir())
+                } else if(info.isDir()) {
+                    qDebug() << "received folder:" << m_receivedFile;
                     allfolders.append(m_receivedFile);
+                }
 
             }
 
@@ -365,61 +369,73 @@ void PQCSingleInstance::handleMessage(const QList<Actions> msg, bool includeFile
 
         case Actions::Open:
 
+            qDebug() << "request action: open";
             Q_EMIT PQCNotifyCPP::get().cmdOpen();
             break;
 
         case Actions::Show:
 
+            qDebug() << "request action: show";
             Q_EMIT PQCNotifyCPP::get().cmdShow();
             break;
 
         case Actions::Hide:
 
+            qDebug() << "request action: hide";
             Q_EMIT PQCNotifyCPP::get().cmdHide();
             break;
 
         case Actions::Quit:
 
+            qDebug() << "request action: quit";
             Q_EMIT PQCNotifyCPP::get().cmdQuit();
             break;
 
         case Actions::Toggle:
 
+            qDebug() << "request action: toggle";
             Q_EMIT PQCNotifyCPP::get().cmdToggle();
             break;
 
         case Actions::StartInTray:
 
+            qDebug() << "request action: strat in tray";
             PQCNotifyCPP::get().setStartInTray(true);
             break;
 
         case Actions::Tray:
 
+            qDebug() << "request action: tray";
             Q_EMIT PQCNotifyCPP::get().cmdTray(true);
             break;
 
         case Actions::NoTray:
 
+            qDebug() << "request action: no tray";
             Q_EMIT PQCNotifyCPP::get().cmdTray(false);
             break;
 
         case Actions::Shortcut:
 
+            qDebug() << "request action: shortcut:" << m_receivedShortcut;
             Q_EMIT PQCNotifyCPP::get().cmdShortcutSequence(m_receivedShortcut);
             break;
 
         case Actions::Debug:
 
+            qDebug() << "request action: debug";
             PQCNotifyCPP::get().setDebug(true);
             break;
 
         case Actions::NoDebug:
 
+            qDebug() << "request action: no debug";
             PQCNotifyCPP::get().setDebug(false);
             break;
 
         case Actions::Setting:
 
+            qDebug() << "request action: settings update:" << m_receivedSetting;
             PQCNotifyCPP::get().setSettingUpdate({m_receivedSetting[0], m_receivedSetting[1]});
             break;
 
@@ -438,6 +454,7 @@ void PQCSingleInstance::handleMessage(const QList<Actions> msg, bool includeFile
                 Q_EMIT PQCFileFolderModelCPP::get().setExtraFoldersToLoad(allfiles.mid(1));
             else
                 Q_EMIT PQCFileFolderModelCPP::get().setExtraFoldersToLoad({});
+            qDebug() << "request action: set file:" << allfiles[0];
             PQCNotifyCPP::get().setFilePath(allfiles[0]);
         }
     }
