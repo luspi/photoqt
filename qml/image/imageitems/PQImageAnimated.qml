@@ -43,6 +43,10 @@ AnimatedImage {
 
     /*******************************************/
 
+    // this is to explicitely set the sourceSize when the image is ready
+    // see below for more details
+    signal ensureSourceSizeSet()
+
     source: (image.imageSource==="" ? "" : ("file:"+PQCScriptsFilesPaths.toPercentEncoding(image.imageSource)))
 
     asynchronous: true
@@ -70,6 +74,9 @@ AnimatedImage {
 
     onStatusChanged: {
         if(status == Image.Ready) {
+            // this signal is necessary, otherwise it *can* happen that the image source size is not reported correctly
+            // this then results in a 0x0 dimension reported, the fit-to-size does not work, and the image might not show up at all
+            ensureSourceSizeSet()
             hasAlpha = PQCScriptsImages.supportsTransparency(image.imageSource)
         } else if(status == Image.Error)
             source = "qrc:/other/errorimage.svg"

@@ -1124,6 +1124,10 @@ Loader {
                                     loader_top.imageResolution = sourceSize
                                 }
 
+                                onEnsureSourceSizeSet: {
+                                    loader_top.imageResolution = sourceSize
+                                }
+
                                 Connections {
                                     target: image_wrapper
                                     function onSetMirrorHVToImage(mirH : bool, mirV : bool) {
@@ -1169,6 +1173,10 @@ Loader {
                                 }
 
                                 onSourceSizeChanged: {
+                                    loader_top.imageResolution = sourceSize
+                                }
+
+                                onEnsureSourceSizeSet: {
                                     loader_top.imageResolution = sourceSize
                                 }
 
@@ -1267,6 +1275,11 @@ Loader {
                                 }
 
                                 onSourceSizeChanged: {
+                                    if(!ignoreSignals)
+                                        loader_top.imageResolution = sourceSize
+                                }
+
+                                onEnsureSourceSizeSet: {
                                     if(!ignoreSignals)
                                         loader_top.imageResolution = sourceSize
                                 }
