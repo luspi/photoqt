@@ -178,15 +178,14 @@ PQCSingleInstance::PQCSingleInstance(int &argc, char *argv[]) : QApplication(arg
 
         // This database connection happens before the general setup in PQCStartupManager
         QSqlDatabase dbtmp;
-        if(QSqlDatabase::contains("settingsRO"))
-            dbtmp = QSqlDatabase::database("settingsRO");
+        if(QSqlDatabase::contains("settings"))
+            dbtmp = QSqlDatabase::database("settings");
         else {
             if(QSqlDatabase::isDriverAvailable("QSQLITE3"))
-                dbtmp = QSqlDatabase::addDatabase("QSQLITE3", "settingsRO");
+                dbtmp = QSqlDatabase::addDatabase("QSQLITE3", "settings");
             else if(QSqlDatabase::isDriverAvailable("QSQLITE"))
-                dbtmp = QSqlDatabase::addDatabase("QSQLITE", "settingsRO");
+                dbtmp = QSqlDatabase::addDatabase("QSQLITE", "settings");
             dbtmp.setDatabaseName(PQCConfigFiles::get().USERSETTINGS_DB());
-            dbtmp.setConnectOptions("QSQLITE_OPEN_READONLY");
         }
 
         if(!dbtmp.open()) {

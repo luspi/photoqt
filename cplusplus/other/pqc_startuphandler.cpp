@@ -63,7 +63,6 @@ void PQCStartupHandler::setupDatabases() {
     // it is possible that a connection to the settings db already exists
 
     QSqlDatabase dbcontextmenu, dbimageformats, dblocation, dbshortcuts, dbsettings;
-    QSqlDatabase dbsettingsRO, dbShortcutsRO;
 
     if(QSqlDatabase::isDriverAvailable("QSQLITE3")) {
 
@@ -74,11 +73,6 @@ void PQCStartupHandler::setupDatabases() {
         dbimageformats = QSqlDatabase::addDatabase("QSQLITE3", "imageformats");
         dbcontextmenu = QSqlDatabase::addDatabase("QSQLITE3", "contextmenu");
 
-        if(!QSqlDatabase::contains("settingsRO"))
-            dbsettingsRO = QSqlDatabase::addDatabase("QSQLITE3", "settingsRO");
-        if(!QSqlDatabase::contains("shortcutsRO"))
-            dbShortcutsRO = QSqlDatabase::addDatabase("QSQLITE3", "shortcutsRO");
-
     } else if(QSqlDatabase::isDriverAvailable("QSQLITE")) {
 
         if(!QSqlDatabase::contains("settings"))
@@ -88,9 +82,6 @@ void PQCStartupHandler::setupDatabases() {
         dbimageformats = QSqlDatabase::addDatabase("QSQLITE", "imageformats");
         dbcontextmenu = QSqlDatabase::addDatabase("QSQLITE", "contextmenu");
 
-        if(!QSqlDatabase::contains("settingsRO"))
-            dbsettingsRO = QSqlDatabase::addDatabase("QSQLITE", "settingsRO");
-
     }
 
     dbsettings.setDatabaseName(PQCConfigFiles::get().USERSETTINGS_DB());
@@ -98,11 +89,6 @@ void PQCStartupHandler::setupDatabases() {
     dblocation.setDatabaseName(PQCConfigFiles::get().LOCATION_DB());
     dbimageformats.setDatabaseName(PQCConfigFiles::get().IMAGEFORMATS_DB());
     dbcontextmenu.setDatabaseName(PQCConfigFiles::get().CONTEXTMENU_DB());
-
-    dbsettingsRO.setDatabaseName(PQCConfigFiles::get().USERSETTINGS_DB());
-    dbShortcutsRO.setDatabaseName(PQCConfigFiles::get().SHORTCUTS_DB());
-    dbsettingsRO.setConnectOptions("QSQLITE_OPEN_READONLY");
-    dbShortcutsRO.setConnectOptions("QSQLITE_OPEN_READONLY");
 
 }
 
@@ -137,14 +123,13 @@ void PQCStartupHandler::performChecksAndUpdates() {
         // last time a dev version was run
         // we need to figure this out WITHOUT using the PQCSettings class
         QSqlDatabase dbtmp;
-        if(QSqlDatabase::contains("settingsRO"))
-            dbtmp = QSqlDatabase::database("settingsRO");
+        if(QSqlDatabase::contains("settings"))
+            dbtmp = QSqlDatabase::database("settings");
         else {
             if(QSqlDatabase::isDriverAvailable("QSQLITE3"))
-                dbtmp = QSqlDatabase::addDatabase("QSQLITE3", "settingsRO");
+                dbtmp = QSqlDatabase::addDatabase("QSQLITE3", "settings");
             else if(QSqlDatabase::isDriverAvailable("QSQLITE"))
-                dbtmp = QSqlDatabase::addDatabase("QSQLITE", "settingsRO");
-            dbtmp.setConnectOptions("QSQLITE_OPEN_READONLY");
+                dbtmp = QSqlDatabase::addDatabase("QSQLITE", "settings");
             dbtmp.setDatabaseName(PQCConfigFiles::get().USERSETTINGS_DB());
         }
         if(!dbtmp.open()) {
@@ -211,14 +196,13 @@ void PQCStartupHandler::performChecksAndUpdates() {
     } else {
 
         QSqlDatabase dbtmp;
-        if(QSqlDatabase::contains("shortcutsRO"))
-            dbtmp = QSqlDatabase::database("shortcutsRO");
+        if(QSqlDatabase::contains("shortcuts"))
+            dbtmp = QSqlDatabase::database("shortcuts");
         else {
             if(QSqlDatabase::isDriverAvailable("QSQLITE3"))
-                dbtmp = QSqlDatabase::addDatabase("QSQLITE3", "shortcutsRO");
+                dbtmp = QSqlDatabase::addDatabase("QSQLITE3", "shortcuts");
             else if(QSqlDatabase::isDriverAvailable("QSQLITE"))
-                dbtmp = QSqlDatabase::addDatabase("QSQLITE", "shortcutsRO");
-            dbtmp.setConnectOptions("QSQLITE_OPEN_READONLY");
+                dbtmp = QSqlDatabase::addDatabase("QSQLITE", "shortcuts");
             dbtmp.setDatabaseName(PQCConfigFiles::get().SHORTCUTS_DB());
         }
         if(!dbtmp.open()) {
@@ -302,7 +286,7 @@ void PQCStartupHandler::performChecksAndUpdates() {
 
 QString PQCStartupHandler::getInterfaceVariant() {
 
-    QSqlDatabase dbtmp = QSqlDatabase::database("settingsRO");
+    QSqlDatabase dbtmp = QSqlDatabase::database("settings");
     if(!dbtmp.open()) {
         qWarning() << "Unable to check what interface variant to use:" << dbtmp.lastError().text();
     } else {
