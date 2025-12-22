@@ -119,12 +119,20 @@ int main(int argc, char **argv) {
 #ifdef PQMPORTABLETWEAKS
     // create directory and set hidden attribute
 #ifdef Q_OS_WIN
-    QString portablefolder = QString("%1/photoqt-data").arg(argc > 1 ? argv[1] : QCoreApplication::applicationDirPath());
-    QDir dir;
-    dir.mkdir(portablefolder);
-    SetFileAttributesA(dir.toNativeSeparators(portablefolder).toLocal8Bit(), FILE_ATTRIBUTE_HIDDEN);
+    QString oldportablefolder = QString("%1/photoqt-data").arg(argc > 1 ? argv[1] : QCoreApplication::applicationDirPath());
+    QString portablefolder = QString("%1/PhotoQtData").arg(argc > 1 ? argv[1] : QCoreApplication::applicationDirPath());
+    QDir olddir(oldportablefolder);
+    QDir newdir(portablefolder);
+    if(olddir.exists() && !newdir.exists()) {
+        // move old dir to new dir and remove hidden flag
+        olddir.rename("photoqt-data", "PhotoQtData");
+        SetFileAttributesA(newdir.toNativeSeparators(portablefolder).toLocal8Bit(), FILE_ATTRIBUTE_NORMAL);
+    } else {
+        // make sure new dir exists
+        newdir.mkdir(portablefolder);
+    }
 #else
-    QString portablefolder = QString("%1/.photoqt-data").arg(argc > 1 ? argv[1] : QCoreApplication::applicationDirPath());
+    QString portablefolder = QString("%1/.PhotoQtData").arg(argc > 1 ? argv[1] : QCoreApplication::applicationDirPath());
     QDir dir;
     dir.mkdir(portablefolder);
 #endif
