@@ -112,15 +112,29 @@
         <content_attribute id="money-gambling">none</content_attribute>
     </content_rating>
     <releases>
+        <release version="5.0" date="2025-12-23">
+            <description>
+                <p>PhotoQt v5.0 is finally here! After months of hard work and two beta test versions the all-new release is now ready. It brings a plethora of changes, most notably support for extensions and a new user interface variant.</p>
+            </description>
+            <url>
+                https://photoqt.org/news/photoqt-5.0
+            </url>
+        </release>
         <release version="5.0-beta2" date="2025-12-17">
             <description>
-                <p>Second beta release for upcoming v5.0 release.</p>
+                <p>The second (and final) beta release of the upcoming v5.0 is ready for testing. Thank you to all those that tested the first beta and provided feedback. If you are able to help with testing, please do and report any issues you encounter.</p>
             </description>
+            <url>
+                https://photoqt.org/news/photoqt-5.0-beta2
+            </url>
         </release>
         <release version="5.0-beta1" date="2025-11-28">
             <description>
-                <p>First beta release for upcoming v5.0 release.</p>
+                <p>After many months of hard work, the first beta release of v5.0 is ready for testing. There are likely still some bugs and some things might need a bit more polishing. I'm looking for help with testing it, the more people do that and report back their feedback the better.</p>
             </description>
+            <url>
+                https://photoqt.org/news/photoqt-5.0-beta1
+            </url>
         </release>
         <release version="4.9.2" date="2025-06-26">
             <description>

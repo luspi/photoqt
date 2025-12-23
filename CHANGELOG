@@ -1,9 +1,22 @@
 Changelog PhotoQt - Copyright (C) 2011-2025, Lukas Spies (Lukas@photoqt.org), License: GPLv2 (or later)
 ----------------------------------------------------------------------------------------------------------
 
-Release 5.0-beta2 - 2025-12-17
+Release 5.0 - 2025-12-23
 ----------------------------
 
+- improve: also detect ctrl modifier only shortcut
+- improve: disabling thumbnails in file dialog also disabled folder thumbnails
+- fix: missing COMPONENTS keyword and find_package() call in CMakeLists
+- fix: scale detection for archives
+- fix: archives with documents uses properly styled combobox now
+- fix: recording trashing files to facilitate undoing
+- fix: opening files by passing relative path to portable Windows version
+- fix: reporting resolution of images
+- fix: fit-to-zoom with mixed folders
+
+
+Release 5.0-beta2 - 2025-12-17
+----------------------------
 - improve: dropping a file/folder on PhotoQt loads the respective path
 - improve: detect alt/shift modifiers pressed on their own
 - improve: extensions are identified by id that incorporates their path
@@ -34,13 +47,31 @@ Release 5.0-beta2 - 2025-12-17
 Release 5.0-beta1 - 2025-11-28
 ----------------------------
 
-- reworked code
-- two interface variants (modern and integrated)
-- support for extensions
-- numerous visual updates
-- new settings manager
-- many updates, improvements, and new features
-- many bugs fixed
+- Full reworking of code basis for better modularisation
+- Two interface variants: modern as before) and integrated (new)
+- More consistent interface styling
+- Support for extensions with various features converted to extensions
+- Touching up of all colors and better accent color handling
+- Reworked settings manager for better structure and easier discoverability of options
+- Initial support for SAI images using libsai
+- Improved shortcuts engine and manager
+- New shortcuts: sibling folders, *** TODO!!! ***
+- Setting to disable all animations globally
+- Optional support for native file dialog
+- Better thumbnail scroll handling
+- Additional smaller minimap variant
+- Startup wizard shown after update and fresh install
+- Faster interface construction with smart loaders for delaying expensive operations
+- Better and more robust handling of CMake options
+- FreeImage compile option now off by default
+- QtPDF compile option now on by default in favour of Poppler
+- Proper handling of XDG_ACTIVATION_TOKEN on Wayland
+- Navigating up a folder in the file dialog pre-selects previous folder
+- Add quit shortcut (Ctrl+Q) to file dialog
+- Moving from image view to folder view pre-selects currently viewed image
+- Deleting a file no longer results in blank screen under certain circumstances
+- Improved speed of loading folders with large number of archives
+- Workaround for high-resolution scrolling on Wayland when used for shortcut
 
 
 Release 4.9.2 - 2025-06-26

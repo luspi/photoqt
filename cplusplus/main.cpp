@@ -128,9 +128,10 @@ int main(int argc, char **argv) {
     QDir olddir(oldportablefolder);
     QDir newdir(portablefolder);
     if(olddir.exists() && !newdir.exists()) {
+        SetFileAttributesA(olddir.absolutePath().toLocal8Bit(), FILE_ATTRIBUTE_NORMAL);
         // move old dir to new dir and remove hidden flag
-        olddir.rename("photoqt-data", "PhotoQtData");
-        SetFileAttributesA(newdir.toNativeSeparators(portablefolder).toLocal8Bit(), FILE_ATTRIBUTE_NORMAL);
+        if(!olddir.rename(oldportablefolder, portablefolder))
+            qWarning() << "Error renaming photoqt-data to PhotoQtData";
     } else {
         // make sure new dir exists
         newdir.mkdir(portablefolder);

@@ -9,7 +9,7 @@ project(photoqt LANGUAGES C CXX)
 ####  GLOBAL VERSION STRING FOR ALL FILES (INCLUDING CPP/QML) ####
 ##################################################################
 
-SET(APPVERSION "5.0-beta2")
+SET(APPVERSION "5.0")
 
 ###################################
 ####  ENSURE BUILD TYPE IS SET ####

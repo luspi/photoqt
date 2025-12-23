@@ -36,10 +36,13 @@ Unicode True
 
 SilentInstall silent
 
+; we don't need any administrator privileges
+RequestExecutionLevel user
+
 ; this is supposed to be the fastest to uncompress
 SetCompressor ZLIB
 
-!define PHOTOQT_VERSION "4.8.1"
+!define PHOTOQT_VERSION "xxx"
 
 Icon "icon_portable.ico"
 OutFile "photoqt-portable-${PHOTOQT_VERSION}.exe"
@@ -56,7 +59,7 @@ Section
 	File /r /x *nsh /x *nsi /x *qmlc /x photoqt-setup.exe ".\"
 
 	; the directory of the executable is passed on as we store config/cache data there
-	ExecWait '"$pluginsdir\photoqt.exe" "$exedir" "$CMDLINE"'
+	ExecWait '"$pluginsdir\photoqt.exe" "$exedir" $CMDLINE'
 
 	SetOutPath $temp
 
