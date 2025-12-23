@@ -55,7 +55,7 @@ Release 5.0-beta1 - 2025-11-28
 - Reworked settings manager for better structure and easier discoverability of options
 - Initial support for SAI images using libsai
 - Improved shortcuts engine and manager
-- New shortcuts: sibling folders, *** TODO!!! ***
+- New shortcuts: sibling folders
 - Setting to disable all animations globally
 - Optional support for native file dialog
 - Better thumbnail scroll handling
