@@ -12,7 +12,7 @@ Bug reports, feature requests, code contributions - all types of ways of contrib
 4. Commit your work to your fork
 5. Open a merge request here on GitLab
 
-Please **do not** open a pull request on GitHub. Keep changes focused and include clear commit messages.
+Please **do not** open a pull request on GitHub, all development is manager on GitLab. Keep changes focused and include clear commit messages.
 
 ## Developer Certificate of Origin (DCO)
 
@@ -27,7 +27,7 @@ By contributing to this project, you certify that:
 
 All commits **must be signed off** by adding a `Signed-off-by` line to the commit message:
 
-```Signed-off-by: Your Name your.email@example.com```
+```Signed-off-by: Your Name <your.email@example.com>```
 
 You can do this automatically by using: `git commit -s`. Merge requests with unsigned commits will be asked to update their commits to include the sign-off commit message.
 
