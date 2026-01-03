@@ -105,12 +105,18 @@ PQCCommandLineResult PQCCommandLineParser::getResult() {
 
     PQCCommandLineResult ret = PQCCommandLineNothing;
 
-    if(positionalArguments().length() > 0) {
-// if we have portable tweaks enabled on Windows we need to ignore any executable that might be part of the command line
 #if defined(Q_OS_WIN) && defined(PQMPORTABLETWEAKS)
+    // the first entry is the config dir that needs to be ignored
+    if(positionalArguments().length() > 1) {
         filenames.clear();
+        // the first entry is the config dir and needs to be ignored
+        bool first = true;
         for(auto &f : positionalArguments()) {
-            std::cout << ">> f =" << f.toStdString() << std::endl;
+            if(first) {
+                first = false;
+                continue;
+            }
+            // if we have portable tweaks enabled on Windows we need to ignore any executable that might be part of the command line
             if(!f.endsWith(".exe")) {
                 // we also need to check if it is a relative path, as we want to use the portable dir and NOT the (temporary) exe dir
                 QFileInfo info(f);
@@ -122,11 +128,14 @@ PQCCommandLineResult PQCCommandLineParser::getResult() {
         }
         if(filenames.length())
             ret = ret|PQCCommandLineFile;
+
+    }
 #else
+    if(positionalArguments().length() > 0) {
         ret = ret|PQCCommandLineFile;
         filenames = positionalArguments();
-#endif
     }
+#endif
 
     if(isSet("o") || isSet("open"))
         ret = ret|PQCCommandLineOpen;

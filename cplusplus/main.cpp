@@ -160,15 +160,6 @@ int main(int argc, char **argv) {
     // custom message handler for qDebug/qLog/qInfo/etc.
     qInstallMessageHandler(pqcMessageHandler);
 
-#ifdef PQMPORTABLETWEAKS
-    if(argc > 1) {
-        for(int i = 2; i < argc; ++i) {
-            argv[i-1] = argv[i];
-        }
-        argc -= 1;
-    }
-#endif
-
     /******************************************/
 
 #ifdef PQMEXTENSIONS
