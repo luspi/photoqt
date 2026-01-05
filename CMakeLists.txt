@@ -2,14 +2,14 @@
 # CMakeLists for PhotoQt: http://photoqt.org #
 ##############################################
 
-cmake_minimum_required(VERSION 3.26)
+cmake_minimum_required(VERSION 3.16)
 project(photoqt LANGUAGES C CXX)
 
 ##################################################################
 ####  GLOBAL VERSION STRING FOR ALL FILES (INCLUDING CPP/QML) ####
 ##################################################################
 
-SET(APPVERSION "5.0")
+SET(APPVERSION "dev")
 
 ###################################
 ####  ENSURE BUILD TYPE IS SET ####
