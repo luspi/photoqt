@@ -44,8 +44,9 @@ PQSetting {
         PQAdvancedSlider {
             id: thumb_size
             width: set_thumb.contentWidth
+            sliderExtraWide: true
             minval: 32
-            maxval: 512
+            maxval: 4000
             title: ""
             suffix: " px"
             onValueChanged:

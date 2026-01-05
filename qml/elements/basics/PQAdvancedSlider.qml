@@ -47,6 +47,7 @@ Item {
 
     property bool showSlider: true
     property bool sliderExtraSmall: true
+    property bool sliderExtraWide: false
 
     property int titleWeight: PQCLook.fontWeightNormal
 
@@ -57,8 +58,6 @@ Item {
             editMode = false
         }
     }
-
-
 
     Flow {
 
@@ -103,6 +102,7 @@ Item {
                     id: slidervalue
                     y: (parent.height-height)/2
                     extraSmall: control.sliderExtraSmall
+                    extraWide: control.sliderExtraWide
                     from: control.minval
                     to: control.maxval
                     suffix: control.suffix
