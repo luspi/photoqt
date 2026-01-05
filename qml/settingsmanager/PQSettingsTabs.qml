@@ -82,6 +82,9 @@ Flickable {
                 Component.onCompleted: {
                     entries = entries
                     tab_top.currentComponents[0] = entries[0][0]
+/*1off_Qt64
+                    changeCategory(0, "ovin", 0)
+2off_Qt64*/
                 }
 
                 property list<var> entries: PQCSettings.generalInterfaceVariant==="modern" ? entries_modern : entries_integrated
