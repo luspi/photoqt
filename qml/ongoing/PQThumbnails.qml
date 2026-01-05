@@ -338,7 +338,7 @@ Rectangle {
         maximumFlickVelocity: 5000 * Math.max(1, PQCSettings.thumbnailsSize/250)
 
         // bottom scroll bar
-        ScrollBar {
+        PQHorizontalScrollBar {
             id: scrollbar_bottom
             orientation: Qt.Horizontal
             visible: thumbnails_top.state==="bottom"
@@ -346,7 +346,7 @@ Rectangle {
         }
 
         // top scroll bar
-        ScrollBar {
+        PQHorizontalScrollBar {
             id: scrollbar_top
             orientation: Qt.Horizontal
             parent: view.parent
@@ -394,7 +394,9 @@ Rectangle {
                 PropertyChanges {
                     view.x: (thumbnails_top.width-view.width)/2
                     view.y: Math.max(10,thumbnails_top.effectiveThumbnailLiftup)
-                    view.implicitWidth: view.numModel==0 ? 0 : (PQCSettings.thumbnailsSameHeightVaryWidth ? thumbnails_top.width : Math.min(thumbnails_top.width, view.contentWidth))
+                    view.implicitWidth: view.numModel==0 ? 0 : (PQCSettings.thumbnailsSameHeightVaryWidth||PQCSettings.thumbnailsCenterOnActive ?
+                                                                    thumbnails_top.width :
+                                                                    Math.min(thumbnails_top.width, view.contentWidth+view.numModel*PQCSettings.thumbnailsSpacing))
                     view.implicitHeight: thumbnails_top.height-view.y
                     view.orientation: Qt.Horizontal
                     view.smallerThanSize: view.contentHeight<thumbnails_top.height
@@ -407,7 +409,9 @@ Rectangle {
                     view.x: Math.max(10,thumbnails_top.effectiveThumbnailLiftup)
                     view.y: (thumbnails_top.height-view.height)/2
                     view.implicitWidth: thumbnails_top.width
-                    view.implicitHeight: view.numModel==0 ? 0 : (PQCSettings.thumbnailsSameHeightVaryWidth ? thumbnails_top.height : Math.min(thumbnails_top.height, view.contentHeight))
+                    view.implicitHeight: view.numModel==0 ? 0 : (PQCSettings.thumbnailsSameHeightVaryWidth||PQCSettings.thumbnailsCenterOnActive ?
+                                                                     thumbnails_top.height :
+                                                                     Math.min(thumbnails_top.height, view.contentHeight+view.numModel*PQCSettings.thumbnailsSpacing))
                     view.orientation: Qt.Vertical
                     view.smallerThanSize: view.contentHeight<thumbnails_top.height
                     view.previousIndexWithinView: (view.previousItem!==null && view.previousItem.y >= view.contentY && view.previousItem.y+view.previousItem.height <= view.contentY+view.height)
@@ -419,7 +423,9 @@ Rectangle {
                     view.x: Math.max(10,thumbnails_top.effectiveThumbnailLiftup)
                     view.y: (thumbnails_top.height-view.height)/2
                     view.implicitWidth: thumbnails_top.width
-                    view.implicitHeight: view.numModel==0 ? 0 : (PQCSettings.thumbnailsSameHeightVaryWidth ? thumbnails_top.height : Math.min(thumbnails_top.height, view.contentHeight))
+                    view.implicitHeight: view.numModel==0 ? 0 : (PQCSettings.thumbnailsSameHeightVaryWidth||PQCSettings.thumbnailsCenterOnActive ?
+                                                                     thumbnails_top.height :
+                                                                     Math.min(thumbnails_top.height, view.contentHeight+view.numModel*PQCSettings.thumbnailsSpacing))
                     view.orientation: Qt.Vertical
                     view.smallerThanSize: view.contentHeight<thumbnails_top.height
                     view.previousIndexWithinView: (view.previousItem!==null && view.previousItem.y >= view.contentY && view.previousItem.y+view.previousItem.height <= view.contentY+view.height)
@@ -430,7 +436,9 @@ Rectangle {
                 PropertyChanges {
                     view.x: (thumbnails_top.width-view.width)/2
                     view.y: Math.max(10,thumbnails_top.effectiveThumbnailLiftup)
-                    view.implicitWidth: view.numModel==0 ? 0 : (PQCSettings.thumbnailsSameHeightVaryWidth ? thumbnails_top.width : Math.min(thumbnails_top.width, view.contentWidth))
+                    view.implicitWidth: view.numModel==0 ? 0 : (PQCSettings.thumbnailsSameHeightVaryWidth||PQCSettings.thumbnailsCenterOnActive ?
+                                                                    thumbnails_top.width :
+                                                                    Math.min(thumbnails_top.width, view.contentWidth+view.numModel*PQCSettings.thumbnailsSpacing))
                     view.implicitHeight: thumbnails_top.height
                     view.orientation: Qt.Horizontal
                     view.smallerThanSize: view.contentWidth<thumbnails_top.width
