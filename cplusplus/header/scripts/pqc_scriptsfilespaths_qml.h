@@ -66,6 +66,7 @@ public:
     Q_INVOKABLE QDateTime getFileModified(QString path)              { return PQCScriptsFilesPaths::get().getFileModified(path); }
     Q_INVOKABLE QString   getFileType(QString path)                  { return PQCScriptsFilesPaths::get().getFileType(path); }
     Q_INVOKABLE QString   getFileSizeHumanReadable(QString path)     { return PQCScriptsFilesPaths::get().getFileSizeHumanReadable(path); }
+    Q_INVOKABLE double    convertBytesToGB(const qint64 bytes)       { return PQCScriptsFilesPaths::get().convertBytesToGB(bytes); }
     Q_INVOKABLE QString   createTooltipFilename(QString fname)       { return PQCScriptsFilesPaths::get().createTooltipFilename(fname); }
     Q_INVOKABLE void      openInDefaultFileManager(QString filename) {        PQCScriptsFilesPaths::get().openInDefaultFileManager(filename); }
 

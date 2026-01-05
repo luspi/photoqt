@@ -59,7 +59,12 @@ PQTemplate {
             filedialog_top.finishedSetup = true
     }
 
+/*1off_Qt64
+    Item {
+2off_Qt64*/
+/*1on_Qt65+*/
     SplitView {
+/*2on_Qt65+*/
 
         id: fd_splitview
 
@@ -69,6 +74,7 @@ PQTemplate {
         anchors.topMargin: fd_breadcrumbs.height
         anchors.bottomMargin: fd_tweaks.height
 
+/*1on_Qt65+*/
         // Show larger handle with triple dash
         handle: Rectangle {
             implicitWidth: 8
@@ -88,22 +94,44 @@ PQTemplate {
             }
 
         }
+/*2on_Qt65+*/
 
         PQPlaces {
             id: fd_places
+/*1off_Qt64
+            width: 200
+2off_Qt64*/
+/*1on_Qt65+*/
             SplitView.minimumWidth: (PQCSettings.filedialogPlaces || PQCSettings.filedialogDevices) ? 100 : 5
             SplitView.preferredWidth: PQCSettings.filedialogPlacesWidth
             onWidthChanged: {
                 if(filedialog_top.finishedSetup)
                     PQCSettings.filedialogPlacesWidth = Math.round(width)
             }
+/*2on_Qt65+*/
         }
+
+/*1off_Qt64
+        Rectangle {
+            color: palette.text
+            opacity: 0.2
+            width: 5
+            height: parent.height
+            x: 200
+        }
+2off_Qt64*/
 
         PQFileView {
             id: fd_fileview
-
+/*1off_Qt64
+            x: 205
+            width: parent.width-205
+2off_Qt64*/
+/*1on_Qt65+*/
             SplitView.minimumWidth: 200
             SplitView.fillWidth: true
+/*2on_Qt65+*/
+
         }
 
     }

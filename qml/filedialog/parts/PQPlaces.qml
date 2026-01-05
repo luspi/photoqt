@@ -39,8 +39,6 @@ Item {
     property list<var> entries_favorites: []
     property list<var> entries_devices: []
 
-    property list<var> entries: [[], entries_favorites, entries_devices]
-
     property int dragItemIndex: -1
     property string dragItemId: ""
     property bool dragReordering: false
@@ -104,8 +102,7 @@ Item {
         orientation: ListView.Vertical
         model: places_top.entries_favorites
 
-        property int part: 1
-        delegate: viewcomponent
+        delegate: viewcomponent_favs
 
         DropArea {
 
@@ -194,31 +191,37 @@ Item {
         clip: true
         orientation: ListView.Vertical
         model: places_top.entries_devices
-        property int part: 2
-        delegate: viewcomponent
+        delegate: viewcomponent_devices
     }
 
     Component {
 
-        id: viewcomponent
+        id: viewcomponent_favs
 
         Item {
 
             id: deleg
 
             required property int index
+/*1off_Qt64
+            property string folder: places_top.entries_favorites[index]['folder']
+            property string path: places_top.entries_favorites[index]['path']
+            property string icon: places_top.entries_favorites[index]['icon']
+            property string theid: places_top.entries_favorites[index]['theid']
+            property string hidden: places_top.entries_favorites[index]['hidden']
+2off_Qt64*/
+/*1on_Qt65+*/
             required property string folder
             required property string path
             required property string icon
             required property string theid
             required property string hidden
+/*2on_Qt65+*/
 
             width: parent.width
             height: (hidden==="false"||PQCConstants.filedialogPlacesShowHidden) ? 35 : 0
             opacity: (hidden==="false") ? 1 : 0.5
             Behavior on opacity { enabled: !PQCSettings.generalDisableAllAnimations; NumberAnimation { duration: 200 } }
-
-            property int part: mouseArea.drag.active ? 1 : parent.parent.part
 
             Connections {
                 target: PQCConstants
@@ -235,8 +238,8 @@ Item {
             }
 
             property bool markCurrent: path===PQCFileFolderModel.folderFileDialog
-            property bool markHovered: places_top.hoverIndex[part]===index||mouseArea.drag.active||currentContextMenu
-            property bool markDown: places_top.pressedIndex[part]===index||mouseArea.drag.active||currentContextMenu
+            property bool markHovered: places_top.hoverIndex[1]===index||mouseArea.drag.active||currentContextMenu
+            property bool markDown: places_top.pressedIndex[1]===index||mouseArea.drag.active||currentContextMenu
 
             Row {
 
@@ -280,7 +283,7 @@ Item {
 
                         id: entrytext
 
-                        width: deleg.width-entryicon.width-(entrysize.visible ? entrysize.width : 0)-10
+                        width: deleg.width-entryicon.width-10
                         height: deleg.height
 
                         // vertically center text
@@ -294,22 +297,6 @@ Item {
                         color: enabled ? palette.text : palette.disabled.text
 
                         text: PQCScriptsFilesPaths.pathWithNativeSeparators(deleg.folder)
-
-                    }
-
-                    PQText {
-
-                        id: entrysize
-
-                        visible: deleg.part==2 && deleg.index>0
-                        height: deleg.height
-
-                        color: palette.text
-
-                        // vertically center text
-                        verticalAlignment: Qt.AlignVCenter
-
-                        text: deleg.theid + " GB"
 
                     }
 
@@ -330,15 +317,15 @@ Item {
                 acceptedButtons: Qt.RightButton|Qt.LeftButton
                 cursorShape: deleg.index > 0 ? Qt.PointingHandCursor : Qt.ArrowCursor
 
-                tooltip: deleg.index===0 ? "" : (PQCScriptsFilesPaths.pathWithNativeSeparators(deleg.path) + (deleg.part == 2 ? ("<br>"+entrysize.text + " (" + deleg.hidden + ")") : ""))
+                tooltip: deleg.index===0 ? "" : PQCScriptsFilesPaths.pathWithNativeSeparators(deleg.path)
 
                 onPressed: {
                     PQCNotify.filedialogShowAddressEdit(false)
-                    places_top.pressedIndex[deleg.part] = deleg.index
+                    places_top.pressedIndex[1] = deleg.index
                     places_top.pressedIndexChanged()
                 }
                 onReleased: {
-                    places_top.pressedIndex[deleg.part] = -1
+                    places_top.pressedIndex[1] = -1
                     places_top.pressedIndexChanged()
                 }
 
@@ -353,7 +340,7 @@ Item {
                     if(mouse.button === Qt.LeftButton)
                         filedialog_top.loadNewPath(deleg.path)
                     else {
-                        if(deleg.part == 1 && deleg.index!==0) {
+                        if(deleg.index!==0) {
                             PQCConstants.filedialogPlacesCurrentEntryId = deleg.theid
                             PQCConstants.filedialogPlacesCurrentEntryHidden = deleg.hidden
                         } else {
@@ -365,16 +352,16 @@ Item {
                 }
 
                 onEntered: {
-                    places_top.hoverIndex[deleg.part] = (deleg.index>0 ? deleg.index : -1)
+                    places_top.hoverIndex[1] = (deleg.index>0 ? deleg.index : -1)
                     places_top.hoverIndexChanged()
                 }
                 onExited: {
-                    resetHoverIndex.oldIndex[deleg.part] = deleg.index
+                    resetHoverIndex.oldIndex[1] = deleg.index
                     resetHoverIndex.start()
                 }
 
 
-                drag.target: (deleg.part==1&&PQCSettings.filedialogDragDropPlaces&&deleg.index>0) ? deleg : undefined
+                drag.target: (PQCSettings.filedialogDragDropPlaces&&deleg.index>0) ? deleg : undefined
                 drag.axis: Drag.YAxis
 
                 // if drag is started
@@ -417,6 +404,170 @@ Item {
                 }
             ]
 
+        }
+    }
+
+    Component {
+
+        id: viewcomponent_devices
+
+        Item {
+
+            id: deleg
+
+            required property int index
+/*1off_Qt64
+            property string folder: places_top.entries_devices[index]['folder']
+            property string path: places_top.entries_devices[index]['path']
+            property string fstype: places_top.entries_devices[index]['fstype']
+            property string fssize: places_top.entries_devices[index]['fssize']
+2off_Qt64*/
+/*1on_Qt65+*/
+            required property string folder
+            required property string path
+            required property string fstype
+            required property string fssize
+/*2on_Qt65+*/
+
+            width: parent.width
+            height: 35
+            opacity: 1
+
+            PQHighlightMarker {
+                opacity: deleg.markDown||deleg.markHovered ? 1 : 0.8
+                visible: deleg.markCurrent||deleg.markHovered||deleg.markDown
+            }
+
+            property bool markCurrent: path===PQCFileFolderModel.folderFileDialog
+            property bool markHovered: places_top.hoverIndex[2]===index
+            property bool markDown: places_top.pressedIndex[2]===index
+
+            Row {
+
+                x: 5
+
+                Item {
+
+                    id: entryicon
+
+                    opacity: 1
+
+                    // its size is square (height==width)
+                    width: deleg.height
+                    height: width
+
+                    // not shown for first entry (first entry is category title)
+                    visible: deleg.index>0
+
+                    // the icon image
+                    Image {
+
+                        // fill parent (with margin for better looks)
+                        anchors.fill: parent
+                        anchors.margins: 3
+
+                        sourceSize: Qt.size(width, height)
+
+                        // the image icon is taken from image loader (i.e., from system theme if available)
+                        source: (deleg.index>0 ? "image://theme/drive-harddisk" : "")
+
+                    }
+
+                }
+
+                // The text of each entry
+                Row {
+
+                    height: deleg.height
+
+                    PQText {
+
+                        id: entrytext
+
+                        width: deleg.width-entryicon.width-(entrysize.visible ? entrysize.width : 0)-10
+                        height: deleg.height
+
+                        // vertically center text
+                        verticalAlignment: Qt.AlignVCenter
+
+                        enabled: deleg.index>0
+
+                        // some styling
+                        elide: Text.ElideRight
+                        font.weight: deleg.index===0 ? PQCLook.fontWeightBold : PQCLook.fontWeightNormal
+                        color: enabled ? palette.text : palette.disabled.text
+
+                        text: PQCScriptsFilesPaths.pathWithNativeSeparators(deleg.folder)
+
+                    }
+
+                    PQText {
+
+                        id: entrysize
+
+                        visible: deleg.index>0
+                        height: deleg.height
+
+                        color: palette.text
+
+                        // vertically center text
+                        verticalAlignment: Qt.AlignVCenter
+
+                        text: PQCScriptsFilesPaths.convertBytesToGB(deleg.fssize) + " GB"
+
+                    }
+
+                }
+
+            }
+
+            // mouse area handling clicks
+            PQMouseArea {
+
+                id: mouseArea
+
+                // fills full entry
+                anchors.fill: parent
+
+                // some properties
+                hoverEnabled: true
+                acceptedButtons: Qt.LeftButton
+                cursorShape: deleg.index > 0 ? Qt.PointingHandCursor : Qt.ArrowCursor
+
+                tooltip: deleg.index===0 ? "" : (PQCScriptsFilesPaths.pathWithNativeSeparators(deleg.path) + " <i>(" + deleg.fstype + ")</i><br>" + entrysize.text)
+
+                onPressed: {
+                    PQCNotify.filedialogShowAddressEdit(false)
+                    places_top.pressedIndex[2] = deleg.index
+                    places_top.pressedIndexChanged()
+                }
+                onReleased: {
+                    places_top.pressedIndex[2] = -1
+                    places_top.pressedIndexChanged()
+                }
+
+                // clicking an entry loads the location or shows a context menu (depends on which button was used)
+                onClicked: (mouse) => {
+
+                    PQCNotify.filedialogShowAddressEdit(false)
+
+                    if(deleg.index == 0)
+                        return
+
+                    filedialog_top.loadNewPath(deleg.path)
+
+                }
+
+                onEntered: {
+                    places_top.hoverIndex[2] = (deleg.index>0 ? deleg.index : -1)
+                    places_top.hoverIndexChanged()
+                }
+                onExited: {
+                    resetHoverIndex.oldIndex[2] = deleg.index
+                    resetHoverIndex.start()
+                }
+
+            }
         }
     }
 
@@ -529,22 +680,22 @@ Item {
         entries_devices.push({"index" : 0,
                   "folder" : qsTranslate("filedialog", "Storage Devices"),
                   "path" : "",
-                  "icon" : "",
-                  "theid" : "",
-                  "hidden" : "false",
-                  "part" : 2})
+                  "fstype" : "",
+                  "fssize" : 0})
 
         for(var i = 0; i < s.length; i+=4) {
+
+            console.warn(">>>", s[i], s[i+1], s[i+2], s[i+3])
 
             entries_devices.push({"index" : i+1,
                       "folder" : s[i],           // folder
                       "path" : s[i+3],           // path
-                      "icon" : "drive-harddisk", // icon
-                      "theid" : s[i+2],          // id
-                      "hidden" : "false",        // hidden
-                      "part" : 2})
+                      "fstype" : s[i+2],         // file system type
+                      "fssize" : s[i+1]})        // file system size
 
         }
+
+        entries_devicesChanged()
 
     }
 
@@ -560,8 +711,7 @@ Item {
                                 "path" : "",
                                 "icon" : "",
                                 "theid" : "",
-                                "hidden" : "false",
-                                "part" : 1})
+                                "hidden" : "false"})
 
         for(var i = 0; i < upl.length; i+=5) {
             entries_favorites.push({"index" : i+1,
@@ -571,6 +721,8 @@ Item {
                                     "theid" : upl[i+3],   // id
                                     "hidden" : upl[i+4]}) // hidden
         }
+
+        entries_favoritesChanged()
 
     }
 

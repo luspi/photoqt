@@ -8,6 +8,7 @@
 #include <QFileDialog>
 #include <QApplication>
 #include <QProcess>
+#include <QStringDecoder>
 
 PQCScriptsColorProfiles &PQCScriptsColorProfiles::get() {
     static PQCScriptsColorProfiles instance;

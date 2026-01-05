@@ -137,7 +137,7 @@ public:
         else if(val == "BottomRight")
             return 8;
         else {
-            qWarning() << "Invalid enum value found:" << val;
+            qWarning() << "Invalid enum value found:" << QString::fromStdString(val);
             return 0;
         }
     }

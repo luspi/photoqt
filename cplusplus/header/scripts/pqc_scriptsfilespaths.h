@@ -73,6 +73,7 @@ public:
     QDateTime getFileModified(QString path);
     QString   getFileType(QString path);
     QString   getFileSizeHumanReadable(QString path);
+    double    convertBytesToGB(const qint64 bytes);
     QString   createTooltipFilename(QString fname);
     void      openInDefaultFileManager(QString filename);
 

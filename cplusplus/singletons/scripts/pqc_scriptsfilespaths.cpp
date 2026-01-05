@@ -255,6 +255,10 @@ QString PQCScriptsFilesPaths::getFileSizeHumanReadable(QString path) {
 
 }
 
+double PQCScriptsFilesPaths::convertBytesToGB(const qint64 bytes) {
+    return qRound(100.0*(bytes/(1024.0*1024.0*1024.0)))/100.0;
+}
+
 QString PQCScriptsFilesPaths::toPercentEncoding(QString str) {
     return QUrl::toPercentEncoding(str);
 }

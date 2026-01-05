@@ -483,9 +483,11 @@ MenuBar {
                 property bool haveSVG: PQCScriptsFilesPaths.doesItExist(sourceSVG)
                 property bool havePNG: PQCScriptsFilesPaths.doesItExist(sourcePNG)
                 property bool haveJPG: PQCScriptsFilesPaths.doesItExist(sourceJPG)
+                /*1off_Qt65+
                 icon.source: haveSVG ?
                                "image://svg/" + sourceSVG :
                                 (havePNG||haveJPG ? ("file://" + (havePNG ? sourcePNG : sourceJPG)) : "")
+                2off_Qt65+*/
 
                 title: (deleg.isEnabled ? "" : "<s>")+PQCExtensionsHandler.getExtensionName(extensionId)+(deleg.isEnabled ? "" : "</s>")
 
