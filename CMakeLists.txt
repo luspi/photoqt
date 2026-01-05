@@ -87,6 +87,12 @@ if(WITH_IMAGEMAGICK)
 endif()
 
 ################################
+#### SET ADDITIONAL SOURCES ####
+################################
+
+SET(photoqt_QML_ADDITIONAL "")
+
+################################
 #### FIND REQUIRED PACKAGES ####
 ################################
 
@@ -274,6 +280,15 @@ if(WITH_WAYLANDSPECIFIC)
     endif()
 endif()
 
+if(WITH_LOCATION)
+    SET(photoqt_QML_ADDITIONAL ${photoqt_QML_ADDITIONAL} ${photoqt_QML_LOCATION})
+else()
+    SET(photoqt_QML_ADDITIONAL ${photoqt_QML_ADDITIONAL} ${photoqt_QML_NOLOCATION})
+endif()
+
+# Any additional sources are added to the full list.
+SET(photoqt_QML ${photoqt_QML} ${photoqt_QML_ADDITIONAL})
+
 ######################
 #### RUN CPPCHECK ####
 ######################
@@ -367,7 +382,7 @@ if(Qt6_VERSION VERSION_LESS 6.5)
             if(WITH_ADAPTSOURCE)
                 file(WRITE ${QMLFILE} "${FILE_CONTENTS}")
             else()
-                message(FATAL_ERROR "Error: Source files are not adapted for Qt 6.4. You need to enable the ADAPT_SOURCE option to automatically convert them!")
+                message(FATAL_ERROR "Error: Source files are not adapted for Qt 6.4. You need to enable the WITH_ADAPTSOURCE option to automatically convert them!")
             endif()
         endif()
 
@@ -412,7 +427,7 @@ else()
             if(WITH_ADAPTSOURCE)
                 file(WRITE ${QMLFILE} "${FILE_CONTENTS}")
             else()
-                message(FATAL_ERROR "Error: Source files were prepared for Qt 6.4 and are not adapted for Qt 6.5+. You need to enable the ADAPT_SOURCE option to automatically convert them!")
+                message(FATAL_ERROR "Error: Source files were prepared for Qt 6.4 and are not adapted for Qt 6.5+. You need to enable the WITH_ADAPTSOURCE option to automatically convert them!")
             endif()
         endif()
 

@@ -156,7 +156,6 @@ SET(photoqt_QML qml/PQMainWindow.qml
                 qml/loaders/PQLoaderMove.qml
                 qml/loaders/PQLoaderRename.qml
                 qml/loaders/PQLoaderSettingsManager.qml
-                qml/loaders/PQLoaderMapExplorer.qml
                 qml/loaders/PQLoaderFilter.qml
                 qml/loaders/PQLoaderSlideshowSetup.qml
                 qml/loaders/PQLoaderSlideshowControls.qml
@@ -249,10 +248,14 @@ SET(photoqt_QML qml/PQMainWindow.qml
 
                 qml/settingsmanager/other/PQSettingsOtherFileDialog.qml
                 qml/settingsmanager/other/PQSettingsOtherSlideshow.qml
+)
 
-                qml/mapexplorer/PQMapExplorer.qml
+SET(photoqt_QML_LOCATION qml/loaders/PQLoaderMapExplorer.qml
+                         qml/mapexplorer/PQMapExplorer.qml
+                         qml/mapexplorer/parts/PQMapExplorerImages.qml
+                         qml/mapexplorer/parts/PQMapExplorerImagesTweaks.qml
+                         qml/mapexplorer/parts/PQMapExplorerMap.qml
+                         qml/mapexplorer/parts/PQMapExplorerMapTweaks.qml
+)
 
-                qml/mapexplorer/parts/PQMapExplorerImages.qml
-                qml/mapexplorer/parts/PQMapExplorerImagesTweaks.qml
-                qml/mapexplorer/parts/PQMapExplorerMap.qml
-                qml/mapexplorer/parts/PQMapExplorerMapTweaks.qml)
+SET(photoqt_QML_NOLOCATION qml/loaders/dummies/PQLoaderMapExplorer.qml)
