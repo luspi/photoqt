@@ -55,13 +55,15 @@ PQSetting {
                         //: Used as identifying name for one of the elements in the interface
                         ["interfacePopoutChromecast", qsTranslate("settingsmanager", "Streaming (Chromecast)")],
                         //: Used as identifying name for one of the elements in the interface
-                        ["interfaceMinimapPopout", qsTranslate("settingsmanager", "Minimap")]]
+                        ["interfaceMinimapPopout", qsTranslate("settingsmanager", "Minimap")],
+                        //: Used as identifying name for one of the elements in the interface
+                        ["interfacePopoutFind", qsTranslate("settingsmanager", "Find in current directory")]]
 
     property list<string> currentCheckBoxStates: ["0","0","0","0","0",
                                                   "0","0","0","0","0",
                                                   "0","0","0","0","0",
                                                   "0","0","0","0","0",
-                                                  "0"]
+                                                  "0","0"]
     property string _defaultCurrentCheckBoxStates: ""
     onCurrentCheckBoxStatesChanged:
         checkForChanges()
@@ -223,6 +225,8 @@ PQSetting {
                                     else if(p === "interfacePopoutChromecast") check.checked = PQCSettings.interfacePopoutChromecast
                                     else if(p === "interfaceMinimapPopout") check.checked = PQCSettings.interfaceMinimapPopout
 
+                                    else if(p === "interfacePopoutFind") check.checked = PQCSettings.interfacePopoutFind
+
                                 }
                                 function onPopoutResetToDefault() {
 
@@ -245,6 +249,7 @@ PQSetting {
                                     else if(p === "interfacePopoutAdvancedSort") check.checked = PQCSettings.getDefaultForInterfacePopoutAdvancedSort()
                                     else if(p === "interfacePopoutChromecast") check.checked = PQCSettings.getDefaultForInterfacePopoutChromecast()
                                     else if(p === "interfaceMinimapPopout") check.checked = PQCSettings.getDefaultForInterfaceMinimapPopout()
+                                    else if(p === "interfacePopoutFind") check.checked = PQCSettings.getDefaultForInterfacePopoutFind()
 
                                 }
 

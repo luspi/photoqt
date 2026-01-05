@@ -421,6 +421,24 @@ MenuBar {
         }
 
         PQMenuItem {
+            iconSource: "image://svg/:/" + PQCLook.iconShade + "/find.svg"
+            text: qsTranslate("other", "&Find")
+            enabled: PQCFileFolderModel.countMainView>0
+            onTriggered: {
+                PQCScriptsShortcuts.executeInternalCommand("__find")
+            }
+        }
+
+        PQMenuItem {
+            iconSource: "image://svg/:/" + PQCLook.iconShade + "/findnext.svg"
+            text: qsTranslate("other", "&Find next")
+            enabled: PQCFileFolderModel.countMainView>0 && PQCConstants.searchText!==""
+            onTriggered: {
+                PQCScriptsShortcuts.executeInternalCommand("__findNext")
+            }
+        }
+
+        PQMenuItem {
             iconSource: "image://svg/:/" + PQCLook.iconShade + "/filter.svg"
             text: qsTranslate("other", "&Filter images")
             enabled: PQCFileFolderModel.countMainView>0

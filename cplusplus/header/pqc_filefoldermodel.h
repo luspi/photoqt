@@ -191,6 +191,7 @@ public:
     Q_INVOKABLE void enableViewerMode(int page = 0);
     Q_INVOKABLE void disableViewerMode(bool bufferDisabling = true);
     Q_INVOKABLE QString getFirstMatchFileDialog(QString partial);
+    Q_INVOKABLE void loadNextMatchOfSearch(const QString search);
 
     /********************************************/
 

@@ -1532,3 +1532,37 @@ QString PQCFileFolderModel::getFirstMatchFileDialog(QString partial) {
     return "";
 
 }
+
+void PQCFileFolderModel::loadNextMatchOfSearch(const QString search) {
+
+    qDebug() << "args: search =" << search;
+
+    if(search == "") {
+        PQCNotifyCPP::get().showNotificationMessage("Nothing to search", "No search term to search for yet.");
+        return;
+    }
+
+    // first look forward
+    for(int i = m_currentIndex+1; i < m_countMainView; ++i) {
+        const QString cur = m_entriesMainView[i];
+        QFileInfo info(cur);
+        if(info.fileName().toLower().contains(search.toLower())) {
+            setFileInFolderMainView(cur);
+            return;
+        }
+    }
+
+    // then wrap around
+    for(int i = 0; i < m_currentIndex+1; ++i) {
+        const QString cur = m_entriesMainView[i];
+        QFileInfo info(cur);
+        if(info.fileName().toLower().contains(search.toLower())) {
+            setFileInFolderMainView(cur);
+            PQCNotifyCPP::get().showNotificationMessage("Wrapped around", "Search wrapped around from the beginning.");
+            return;
+        }
+    }
+
+    PQCNotifyCPP::get().showNotificationMessage("Nothing found", "The current search term returned no results.");
+
+}

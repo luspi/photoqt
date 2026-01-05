@@ -67,6 +67,10 @@ Item {
 
     /*********************************************************************/
 
+    PQLoaderFind { id: loader_find }
+
+    /*********************************************************************/
+
     PQLoaderSlideshowSetup { id: loader_slideshowsetup }
     PQLoaderSlideshowHandler { id: loader_slideshowhandler }
     PQLoaderSlideshowControls { id: loader_slideshowcontrols }
@@ -145,7 +149,8 @@ Item {
                 "AdvancedSort" : loader_advancedsort,
                 "Logging" : loader_logging,
                 "ChromecastManager" : loader_chromecastmanager,
-                "Chromecast" : loader_chromecast
+                "Chromecast" : loader_chromecast,
+                "Find" : loader_find
             }
 
             var notModal = ["SlideshowControls", "SlideshowHandler"]

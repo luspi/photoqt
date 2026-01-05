@@ -559,6 +559,12 @@ Item {
                     loader_advancedsort.item.doSorting()
                 }
                 break
+            case "__find":
+                PQCNotify.loaderShow("Find")
+                break;
+            case "__findNext":
+                PQCFileFolderModel.loadNextMatchOfSearch(PQCConstants.searchText)
+                break;
 
             /**********************/
             // elements (ongoing)

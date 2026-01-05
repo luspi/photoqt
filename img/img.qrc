@@ -208,5 +208,9 @@
         <file>other/wizardwatermark.png</file>
         <file>other/verified_no.svg</file>
         <file>other/verified_yes.svg</file>
+        <file>dark/findnext.svg</file>
+        <file>light/findnext.svg</file>
+        <file>dark/find.svg</file>
+        <file>light/find.svg</file>
     </qresource>
 </RCC>

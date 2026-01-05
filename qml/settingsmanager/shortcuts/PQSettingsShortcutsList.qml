@@ -97,6 +97,10 @@ PQSetting {
                                  //: Name of shortcut action
         ["__showFaceTags",       qsTranslate("settingsmanager", "Hide/Show face tags (stored in metadata)"), "Hide/Show face tags (stored in metadata)", 0],
                                  //: Name of shortcut action
+        ["__find",               qsTranslate("settingsmanager", "Find in current directory"), "Find in current directory", 0],
+                                 //: Name of shortcut action
+        ["__findNext",           qsTranslate("settingsmanager", "Find next"), "Find next", 0],
+                                 //: Name of shortcut action
         ["__toggleAlwaysActualSize", qsTranslate("settingsmanager", "Load image at actual size by default (toggle)"), "Load image at actual size by default (toggle)", 0],
                                  //: Name of shortcut action
         ["__chromecast",         qsTranslate("settingsmanager", "Stream content to Chromecast device"), "Stream content to Chromecast device", 0],

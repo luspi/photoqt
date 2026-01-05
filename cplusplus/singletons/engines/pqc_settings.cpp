@@ -307,6 +307,7 @@ PQCSettings::PQCSettings() {
     connect(this, &PQCSettings::interfacePopoutFileDialogNonModalChanged, this, [=]() { saveChangedValue("interfacePopoutFileDialogNonModal", m_interfacePopoutFileDialogNonModal); });
     connect(this, &PQCSettings::interfacePopoutFileRenameChanged, this, [=]() { saveChangedValue("interfacePopoutFileRename", m_interfacePopoutFileRename); });
     connect(this, &PQCSettings::interfacePopoutFilterChanged, this, [=]() { saveChangedValue("interfacePopoutFilter", m_interfacePopoutFilter); });
+    connect(this, &PQCSettings::interfacePopoutFindChanged, this, [=]() { saveChangedValue("interfacePopoutFind", m_interfacePopoutFind); });
     connect(this, &PQCSettings::interfacePopoutImgurChanged, this, [=]() { saveChangedValue("interfacePopoutImgur", m_interfacePopoutImgur); });
     connect(this, &PQCSettings::interfacePopoutMainMenuChanged, this, [=]() { saveChangedValue("interfacePopoutMainMenu", m_interfacePopoutMainMenu); });
     connect(this, &PQCSettings::interfacePopoutMapExplorerChanged, this, [=]() { saveChangedValue("interfacePopoutMapExplorer", m_interfacePopoutMapExplorer); });
@@ -4054,6 +4055,28 @@ void PQCSettings::setDefaultForInterfacePopoutFilter() {
     }
 }
 
+bool PQCSettings::getInterfacePopoutFind() {
+    return m_interfacePopoutFind;
+}
+
+void PQCSettings::setInterfacePopoutFind(bool val) {
+    if(val != m_interfacePopoutFind) {
+        m_interfacePopoutFind = val;
+        Q_EMIT interfacePopoutFindChanged();
+    }
+}
+
+const bool PQCSettings::getDefaultForInterfacePopoutFind() {
+        return false;
+}
+
+void PQCSettings::setDefaultForInterfacePopoutFind() {
+    if(false != m_interfacePopoutFind) {
+        m_interfacePopoutFind = false;
+        Q_EMIT interfacePopoutFindChanged();
+    }
+}
+
 bool PQCSettings::getInterfacePopoutImgur() {
     return m_interfacePopoutImgur;
 }
@@ -7073,6 +7096,8 @@ void PQCSettings::readDB() {
                     m_interfacePopoutFileRename = value.toInt();
                 } else if(name == "PopoutFilter") {
                     m_interfacePopoutFilter = value.toInt();
+                } else if(name == "PopoutFind") {
+                    m_interfacePopoutFind = value.toInt();
                 } else if(name == "PopoutImgur") {
                     m_interfacePopoutImgur = value.toInt();
                 } else if(name == "PopoutMainMenu") {
@@ -7820,6 +7845,7 @@ void PQCSettings::setupFresh() {
     m_interfacePopoutFileDialogNonModal = false;
     m_interfacePopoutFileRename = false;
     m_interfacePopoutFilter = false;
+    m_interfacePopoutFind = false;
     m_interfacePopoutImgur = true;
     m_interfacePopoutMainMenu = false;
     m_interfacePopoutMapExplorer = true;
@@ -8147,6 +8173,7 @@ void PQCSettings::resetToDefault() {
     setDefaultForInterfacePopoutFileDialogNonModal();
     setDefaultForInterfacePopoutFileRename();
     setDefaultForInterfacePopoutFilter();
+    setDefaultForInterfacePopoutFind();
     setDefaultForInterfacePopoutImgur();
     setDefaultForInterfacePopoutMainMenu();
     setDefaultForInterfacePopoutMapExplorer();
@@ -8954,6 +8981,10 @@ QStringList PQCSettings::updateFromCommandLine() {
     if(key == "interfacePopoutFilter") {
         m_interfacePopoutFilter = (val.toInt()==1);
         Q_EMIT interfacePopoutFilterChanged();
+    }
+    if(key == "interfacePopoutFind") {
+        m_interfacePopoutFind = (val.toInt()==1);
+        Q_EMIT interfacePopoutFindChanged();
     }
     if(key == "interfacePopoutImgur") {
         m_interfacePopoutImgur = (val.toInt()==1);

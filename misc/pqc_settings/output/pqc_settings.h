@@ -1057,6 +1057,12 @@ public:
     Q_INVOKABLE const bool getDefaultForInterfacePopoutFilter();
     Q_INVOKABLE void setDefaultForInterfacePopoutFilter();
 
+    Q_PROPERTY(bool interfacePopoutFind READ getInterfacePopoutFind WRITE setInterfacePopoutFind NOTIFY interfacePopoutFindChanged)
+    bool getInterfacePopoutFind();
+    void setInterfacePopoutFind(bool val);
+    Q_INVOKABLE const bool getDefaultForInterfacePopoutFind();
+    Q_INVOKABLE void setDefaultForInterfacePopoutFind();
+
     Q_PROPERTY(bool interfacePopoutImgur READ getInterfacePopoutImgur WRITE setInterfacePopoutImgur NOTIFY interfacePopoutImgurChanged)
     bool getInterfacePopoutImgur();
     void setInterfacePopoutImgur(bool val);
@@ -1988,6 +1994,7 @@ private:
     bool m_interfacePopoutFileDialogNonModal;
     bool m_interfacePopoutFileRename;
     bool m_interfacePopoutFilter;
+    bool m_interfacePopoutFind;
     bool m_interfacePopoutImgur;
     bool m_interfacePopoutMainMenu;
     bool m_interfacePopoutMapExplorer;
@@ -2302,6 +2309,7 @@ Q_SIGNALS:
     void interfacePopoutFileDialogNonModalChanged();
     void interfacePopoutFileRenameChanged();
     void interfacePopoutFilterChanged();
+    void interfacePopoutFindChanged();
     void interfacePopoutImgurChanged();
     void interfacePopoutMainMenuChanged();
     void interfacePopoutMapExplorerChanged();

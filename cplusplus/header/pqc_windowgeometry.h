@@ -169,6 +169,12 @@ public:
     Q_PROPERTY(bool quickactionsMaximized MEMBER m_quickactionsMaximized NOTIFY quickactionsMaximizedChanged)
     Q_PROPERTY(bool quickactionsForcePopout MEMBER m_quickactionsForcePopout NOTIFY quickactionsForcePopoutChanged)
 
+    // find
+    Q_PROPERTY(QRectF findGeometry MEMBER m_findGeometry NOTIFY findGeometryChanged)
+    Q_PROPERTY(QSize findPopoutThreshold MEMBER m_findPopoutThreshold NOTIFY findPopoutThresholdChanged)
+    Q_PROPERTY(bool findMaximized MEMBER m_findMaximized NOTIFY findMaximizedChanged)
+    Q_PROPERTY(bool findForcePopout MEMBER m_findForcePopout NOTIFY findForcePopoutChanged)
+
     QSettings *settings;
     void load();
 
@@ -279,6 +285,11 @@ private:
     bool m_quickactionsMaximized;
     bool m_quickactionsForcePopout;
 
+    QRectF m_findGeometry;
+    QSize m_findPopoutThreshold;
+    bool m_findMaximized;
+    bool m_findForcePopout;
+
 Q_SIGNALS:
 
     void mainWindowGeometryChanged();
@@ -380,6 +391,11 @@ Q_SIGNALS:
     void quickactionsPopoutThresholdChanged();
     void quickactionsMaximizedChanged();
     void quickactionsForcePopoutChanged();
+
+    void findGeometryChanged();
+    void findPopoutThresholdChanged();
+    void findMaximizedChanged();
+    void findForcePopoutChanged();
 
 };
 

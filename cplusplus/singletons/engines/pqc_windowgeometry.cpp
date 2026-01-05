@@ -136,6 +136,11 @@ PQCWindowGeometry::PQCWindowGeometry() {
     m_quickactionsMaximized = false;
     m_quickactionsForcePopout = false;
 
+    m_findGeometry = QRectF((sw-600)/2.0, (sh-400)/2.0, 600, 400);
+    m_findPopoutThreshold = QSize(0, 0);
+    m_findMaximized = false;
+    m_findForcePopout = false;
+
     /******************************************************************/
 
     // save values with delay
@@ -247,6 +252,11 @@ PQCWindowGeometry::PQCWindowGeometry() {
     connect(this, &PQCWindowGeometry::quickactionsMaximizedChanged, this, [=]() { saveDelay->start(); });
     connect(this, &PQCWindowGeometry::quickactionsForcePopoutChanged, this, [=]() { saveDelay->start(); });
 
+    connect(this, &PQCWindowGeometry::findGeometryChanged, this, [=]() { saveDelay->start(); });
+    connect(this, &PQCWindowGeometry::findPopoutThresholdChanged, this, [=]() { saveDelay->start(); });
+    connect(this, &PQCWindowGeometry::findMaximizedChanged, this, [=]() { saveDelay->start(); });
+    connect(this, &PQCWindowGeometry::findForcePopoutChanged, this, [=]() { saveDelay->start(); });
+
     /******************************************************************/
 
     // load data from file
@@ -345,6 +355,11 @@ void PQCWindowGeometry::load() {
         else if(key == "quickactionsMaximized")
             m_quickactionsMaximized = settings->value(key).toBool();
 
+        else if(key == "findGeometry")
+            m_findGeometry = settings->value(key).toRect();
+        else if(key == "findMaximized")
+            m_findMaximized = settings->value(key).toBool();
+
         else if(key == "scaleGeometry")
             m_scaleGeometry = settings->value(key).toRect();
         else if(key == "scaleMaximized")
@@ -418,6 +433,9 @@ void PQCWindowGeometry::save() {
 
     settings->setValue("quickactionsGeometry", m_quickactionsGeometry);
     settings->setValue("quickactionsMaximized", m_quickactionsMaximized);
+
+    settings->setValue("findGeometry", m_findGeometry);
+    settings->setValue("findMaximized", m_findMaximized);
 
     settings->setValue("scaleGeometry", m_scaleGeometry);
     settings->setValue("scaleMaximized", m_scaleMaximized);
@@ -523,6 +541,10 @@ void PQCWindowGeometry::computeSmallSizeBehavior() {
         const int tw = m_quickactionsGeometry.width();
         const int th = m_quickactionsGeometry.height();
         m_quickactionsForcePopout = (!dontForce && (h<th || w < tw));
+    }{
+        const int tw = m_findGeometry.width();
+        const int th = m_findGeometry.height();
+        m_findForcePopout = (!dontForce && (h<th || w < tw));
     }
 
 }

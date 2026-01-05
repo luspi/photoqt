@@ -721,7 +721,29 @@ Rectangle {
 
                 }
 
-                // FILTER/STREAMING/DEFAULT
+                // Find/FILTER/STREAMING/DEFAULT
+
+                Row {
+                    spacing: 10
+                    PQMainMenuEntry {
+                        img: "find.svg"
+                        txt: qsTranslate("MainMenu", "Find")
+                        cmd: "__find"
+                        closeMenu: true
+                        active: mainmenu_top.anythingLoaded
+                        smallestWidth: (mainmenu_top.colwidth-20)/2
+                        menuColWidth: mainmenu_top.colwidth
+                    }
+                    PQMainMenuEntry {
+                        img: "findnext.svg"
+                        txt: qsTranslate("MainMenu", "Find next")
+                        cmd: "__findNext"
+                        closeMenu: false
+                        active: mainmenu_top.anythingLoaded && PQCConstants.searchText!==""
+                        smallestWidth: (mainmenu_top.colwidth-20)/2
+                        menuColWidth: mainmenu_top.colwidth
+                    }
+                }
 
                 PQMainMenuEntry {
                     img: "filter.svg"
