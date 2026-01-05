@@ -65,7 +65,7 @@ Rectangle {
             forceShow = false
     }
 
-    width: PQCConstants.availableWidth
+    width: PQCConstants.availableWidth + (PQCSettings.generalInterfaceVariant==="integrated"&&PQCSettings.metadataSideBar ? PQCSettings.metadataSideBarWidth : 0)
     height: PQCConstants.availableHeight
     color: palette.alternateBase
 
