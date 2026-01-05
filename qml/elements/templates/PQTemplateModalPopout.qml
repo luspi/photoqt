@@ -144,11 +144,18 @@ Window {
         height: parent.height>500 ? 75 : Math.max(75-(500-parent.height), 50)
         color: palette.base
 
+        Rectangle {
+            anchors.fill: parent
+            color: palette.text
+            opacity: 0.05
+        }
+
         visible: element_top.showTopBottom
 
-        PQTextXL {
+        PQTextXXL {
             anchors.centerIn: parent
             text: element_top.title
+            font.capitalization: Font.SmallCaps
             font.weight: PQCLook.fontWeightBold
         }
 
@@ -183,6 +190,12 @@ Window {
         color: palette.base
 
         visible: element_top.showTopBottom
+
+        Rectangle {
+            anchors.fill: parent
+            color: palette.text
+            opacity: 0.05
+        }
 
         Rectangle {
             x: 0
