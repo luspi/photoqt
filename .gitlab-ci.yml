@@ -11,7 +11,7 @@ localization:
     - git config --global user.email "Lukas@photoqt.org"
     - git config --global user.name "Lukas Spies"
     - git clone https://luspi:${LANG_ACCESS_TOKEN}@gitlab.com/lspies/photoqt-lang.git && cd photoqt-lang
-    - /usr/lib/qt6/bin/lupdate -no-obsolete ../qml/ ../cplusplus/ ../extensions/ -ts photoqt-qt6.ts
+    - /usr/lib/qt6/bin/lupdate -no-obsolete ../qml/ ../cplusplus/ -ts photoqt-qt6.ts
     - git add photoqt-qt6.ts
     - git diff-index --quiet HEAD || git commit -m "updating translation source files from CI - Qt6 version"
     - git push
@@ -37,17 +37,21 @@ appimage:
     - git checkout $(git describe --tags --abbrev=0)
     - ./configure --prefix=/usr --with-bzlib --with-fontconfig --with-freetype=yes --with-gslib --with-gvc --with-jpeg --with-png --with-tiff --with-xml --with-gs-font-dir --enable-hdri --disable-docs
     - make -j$(nproc) install
-    - cd ../photoqt # build and install PhotoQt
-    - git submodule init
-    - git submodule update
+    - cd ..
+    - git clone https://gitlab.com/lspies/photoqt-extensions    # Install extensions
+    - mkdir -p photoqt-extensions/build
+    - cd photoqt-extensions/build
+    - cmake .. -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=/usr/lib/PhotoQt/extensions -DWITH_GRAPHICSMAGICK=OFF -DWITH_IMAGEMAGICK=ON
+    - make DESTDIR=../../appdir -j$(nproc) install
+    - cd ../../photoqt # build and install PhotoQt
     - export QT_SELECT=qt6
     - rm -rf lang/
     - git clone -b l10n_master https://gitlab.com/lspies/photoqt-lang
     - mv photoqt-lang/localized lang
     - cd build/
-    - cmake .. -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=/usr -DWITH_EXIV2=ON -DWITH_GRAPHICSMAGICK=OFF -DWITH_IMAGEMAGICK=ON -DWITH_CHROMECAST=ON -DWITH_VIDEO_QT=ON -DWITH_POPPLER=OFF -DWITH_QTPDF=ON -DWITH_EXIV2_ENABLE_BMFF=ON -DWITH_RESVG=OFF -DWITH_MOTIONPHOTO=ON -DWITH_ZXING=ON -DWITH_LCMS2=ON -DWITH_LOCATION=ON -DWITH_LIBVIPS=OFF -DWITH_WAYLANDSPECIFIC=OFF -DWITH_INCLUDED_EXTENSIONS=ON -DWITH_APPIMAGEBUILD=ON
-    - make DESTDIR=../appdir -j$(nproc) install
-    - cd ..
+    - cmake .. -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=/usr -DWITH_EXIV2=ON -DWITH_GRAPHICSMAGICK=OFF -DWITH_IMAGEMAGICK=ON -DWITH_CHROMECAST=ON -DWITH_VIDEO_QT=ON -DWITH_POPPLER=OFF -DWITH_QTPDF=ON -DWITH_EXIV2_ENABLE_BMFF=ON -DWITH_RESVG=OFF -DWITH_MOTIONPHOTO=ON -DWITH_ZXING=ON -DWITH_LCMS2=ON -DWITH_LOCATION=ON -DWITH_LIBVIPS=OFF -DWITH_WAYLANDSPECIFIC=OFF -DWITH_APPIMAGEBUILD=ON -DWITH_EXTENSIONS_SUPPORT=ON
+    - make DESTDIR=../../appdir -j$(nproc) install
+    - cd ../../
     - wget -c https://github.com/linuxdeploy/linuxdeploy/releases/download/continuous/linuxdeploy-x86_64.AppImage
     - wget -c https://github.com/linuxdeploy/linuxdeploy-plugin-qt/releases/download/continuous/linuxdeploy-plugin-qt-x86_64.AppImage
     - chmod a+x *.AppImage
@@ -57,10 +61,10 @@ appimage:
     - cp /usr/bin/qmake6 /usr/bin/qmake # This file is needed for appimage build to succeed
     - export EXTRA_PLATFORM_PLUGINS=libqwayland-generic.so
     - export EXTRA_QT_MODULES="waylandcompositor;svg"
-    - LD_LIBRARY_PATH=appdir/usr/lib QML_SOURCES_PATHS=./qml ./squashfs-root/AppRun --appdir ./appdir/ --plugin=qt --output appimage
+    - LD_LIBRARY_PATH=appdir/usr/lib QML_SOURCES_PATHS=./photoqt/qml ./squashfs-root/AppRun --appdir ./appdir/ --plugin=qt --output appimage
     - cp -r /usr/lib/x86_64-linux-gnu/qca-qt6/crypto/ ./appdir/usr/plugins/   # This makes QCA plugins available
     - cp -r /usr/lib/x86_64-linux-gnu/qt6/qml/QtCharts/ ./appdir/usr/qml/   # This makes sure that QtCharts is available
-    - LD_LIBRARY_PATH=appdir/usr/lib QML_SOURCES_PATHS=./qml ./squashfs-root/AppRun --appdir ./appdir/ --plugin=qt --output appimage # rebuild appimage to pick up changes above
+    - LD_LIBRARY_PATH=appdir/usr/lib QML_SOURCES_PATHS=./photoqt/qml ./squashfs-root/AppRun --appdir ./appdir/ --plugin=qt --output appimage # rebuild appimage to pick up changes above
     - mv ./PhotoQt*.AppImage PhotoQt-nightly.AppImage
 
   artifacts:
@@ -89,14 +93,18 @@ releaseappimage:
     - git checkout $(git describe --tags --abbrev=0)
     - ./configure --prefix=/usr --with-bzlib --with-fontconfig --with-freetype=yes --with-gslib --with-gvc --with-jpeg --with-png --with-tiff --with-xml --with-gs-font-dir --enable-hdri --disable-docs
     - make -j$(nproc) install
-    - cd ../photoqt # build and install PhotoQt
-    - git submodule init
-    - git submodule update
+    - cd ..
+    - git clone https://gitlab.com/lspies/photoqt-extensions    # Install extensions
+    - mkdir -p photoqt-extensions/build
+    - cd photoqt-extensions/build
+    - cmake .. -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=/usr/lib/PhotoQt/extensions -DWITH_GRAPHICSMAGICK=OFF -DWITH_IMAGEMAGICK=ON
+    - make DESTDIR=../../appdir -j$(nproc) install
+    - cd ../../photoqt # build and install PhotoQt
     - export QT_SELECT=qt6
     - mkdir -p build && cd build/
-    - cmake .. -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=/usr -DWITH_EXIV2=ON -DWITH_GRAPHICSMAGICK=OFF -DWITH_IMAGEMAGICK=ON -DWITH_CHROMECAST=ON -DWITH_VIDEO_QT=ON -DWITH_POPPLER=OFF -DWITH_QTPDF=ON -DWITH_EXIV2_ENABLE_BMFF=ON -DWITH_RESVG=OFF -DWITH_MOTIONPHOTO=ON -DWITH_ZXING=ON -DWITH_LCMS2=ON -DWITH_LOCATION=ON -DWITH_LIBVIPS=OFF -DWITH_WAYLANDSPECIFIC=OFF -DWITH_INCLUDED_EXTENSIONS=ON -DWITH_APPIMAGEBUILD=ON
-    - make DESTDIR=../appdir -j$(nproc) install
-    - cd ..
+    - cmake .. -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=/usr -DWITH_EXIV2=ON -DWITH_GRAPHICSMAGICK=OFF -DWITH_IMAGEMAGICK=ON -DWITH_CHROMECAST=ON -DWITH_VIDEO_QT=ON -DWITH_POPPLER=OFF -DWITH_QTPDF=ON -DWITH_EXIV2_ENABLE_BMFF=ON -DWITH_RESVG=OFF -DWITH_MOTIONPHOTO=ON -DWITH_ZXING=ON -DWITH_LCMS2=ON -DWITH_LOCATION=ON -DWITH_LIBVIPS=OFF -DWITH_WAYLANDSPECIFIC=OFF -DWITH_EXTENSIONS_SUPPORT=ON -DWITH_APPIMAGEBUILD=ON
+    - make DESTDIR=../../appdir -j$(nproc) install
+    - cd ../../
     - wget -c https://github.com/linuxdeploy/linuxdeploy/releases/download/continuous/linuxdeploy-x86_64.AppImage
     - wget -c https://github.com/linuxdeploy/linuxdeploy-plugin-qt/releases/download/continuous/linuxdeploy-plugin-qt-x86_64.AppImage
     - chmod a+x *.AppImage
@@ -106,10 +114,10 @@ releaseappimage:
     - cp /usr/bin/qmake6 /usr/bin/qmake # This file is needed for appimage build to succeed
     - export EXTRA_PLATFORM_PLUGINS=libqwayland-generic.so
     - export EXTRA_QT_MODULES="waylandcompositor;svg"
-    - LD_LIBRARY_PATH=appdir/usr/lib QML_SOURCES_PATHS=./qml ./squashfs-root/AppRun --appdir ./appdir/ --plugin=qt --output appimage
+    - LD_LIBRARY_PATH=appdir/usr/lib QML_SOURCES_PATHS=./photoqt/qml ./squashfs-root/AppRun --appdir ./appdir/ --plugin=qt --output appimage
     - cp -r /usr/lib/x86_64-linux-gnu/qca-qt6/crypto/ ./appdir/usr/plugins/   # This makes QCA plugins available
     - cp -r /usr/lib/x86_64-linux-gnu/qt6/qml/QtCharts/ ./appdir/usr/qml/   # This makes sure that QtCharts is available
-    - LD_LIBRARY_PATH=appdir/usr/lib QML_SOURCES_PATHS=./qml ./squashfs-root/AppRun --appdir ./appdir/ --plugin=qt --output appimage # rebuild appimage to pick up changes above
+    - LD_LIBRARY_PATH=appdir/usr/lib QML_SOURCES_PATHS=./photoqt/qml ./squashfs-root/AppRun --appdir ./appdir/ --plugin=qt --output appimage # rebuild appimage to pick up changes above
     - mv ./PhotoQt*.AppImage PhotoQt-latesttag.AppImage
 
   artifacts:
