@@ -28,13 +28,14 @@ PQMessageBox {
 
     id: delete_top
 
-    title: "Delete?"
-    text: "Are you sure you want to delete this file?"
-    informativeText: "You can either move the file to trash (Enter) from where you can restore it again, or you can delete it permanently (Shift+Enter)."
+    title: qsTranslate("filemanagement", "Delete?")
+    text: qsTranslate("filemanagement", "Are you sure you want to delete this file?")
+    //: The Enter and Shift+Enter refers to keys on the keyboard.
+    informativeText: qsTranslate("filemanagement", "You can either move the file to trash (Enter) from where you can restore it again, or you can delete it permanently (Shift+Enter).")
 
-    button1.text: "Move to trash"
-    button2.text: "Delete permanently"
-    button3.text: "Cancel"
+    button1.text: qsTranslate("filemanagement", "Move to trash")
+    button2.text: qsTranslate("filemanagement", "Delete permanently")
+    button3.text: button3.genericStringCancel
     button2.visible: true
     button3.visible: true
     button1.fontWeight: PQCLook.fontWeightBold
