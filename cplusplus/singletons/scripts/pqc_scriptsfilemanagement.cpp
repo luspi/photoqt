@@ -35,9 +35,6 @@
 #include <QImageWriter>
 #include <QImageReader>
 #include <QtConcurrent/QtConcurrentRun>
-#include <QFileDialog>
-#include <QMessageBox>
-#include <QPushButton>
 #ifdef Q_OS_WIN
 #include <thread>
 #else
@@ -306,38 +303,5 @@ QString PQCScriptsFileManagement::undoLastAction(QString action) {
     }
 
     return QString("-%1: %2").arg(tr("Unknown action"), action);
-
-}
-
-// 0 := cancel
-// 1 := trash
-// 2 := delete permanently
-int PQCScriptsFileManagement::askForDeletion() {
-
-    QMessageBox box;
-    box.setIcon(QMessageBox::Question);
-    box.setModal(true);
-    box.setWindowModality(Qt::ApplicationModal);
-    box.setWindowFlag(Qt::WindowStaysOnTopHint);
-    box.setWindowTitle(tr("Delete?"));
-    box.setText(tr("Are you sure you want to delete this file?"));
-    box.setInformativeText(tr("You can either move the file to trash (default) or delete it permanently."));
-
-    QAbstractButton* butTrash = box.addButton(tr("Move to trash"), QMessageBox::AcceptRole);
-    QAbstractButton* butPerma = box.addButton(tr("Delete permanently"), QMessageBox::AcceptRole);
-    box.addButton(tr("Cancel"), QMessageBox::RejectRole);
-
-    QFont ft = butTrash->font();
-    ft.setBold(true);
-    butTrash->setFont(ft);
-
-    box.exec();
-
-    if(box.clickedButton() == butTrash)
-        return 1;
-    else if(box.clickedButton() == butPerma)
-        return 2;
-
-    return 0;
 
 }

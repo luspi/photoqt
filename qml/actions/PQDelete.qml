@@ -24,13 +24,31 @@ import QtQuick
 import QtQuick.Dialogs
 import PhotoQt
 
-Item {
+PQMessageBox {
 
     id: delete_top
 
-    function show() {
+    title: "Delete?"
+    text: "Are you sure you want to delete this file?"
+    informativeText: "You can either move the file to trash (Enter) from where you can restore it again, or you can delete it permanently (Shift+Enter)."
 
-        var ask = PQCScriptsFileManagement.askForDeletion()
+    button1.text: "Move to trash"
+    button2.text: "Delete permanently"
+    button3.text: "Cancel"
+    button2.visible: true
+    button3.visible: true
+    button1.fontWeight: PQCLook.fontWeightBold
+
+    onButtonClicked: (butId) => {
+        handleDeleting(butId)
+    }
+
+    onClosing: {
+        PQCConstants.idOfVisibleItem = ""
+        PQCNotify.resetActiveFocus()
+    }
+
+    function handleDeleting(ask : int) {
 
         // Trash
         if(ask === 1) {
@@ -84,6 +102,7 @@ Item {
 
             if(what === "forceCloseEverything") {
 
+                delete_top.close()
                 PQCConstants.idOfVisibleItem = ""
                 PQCNotify.resetActiveFocus()
 
@@ -94,6 +113,7 @@ Item {
 
             } else if(what === "hide" && args[0] === "FileDelete") {
 
+                delete_top.close()
                 PQCConstants.idOfVisibleItem = ""
                 PQCNotify.resetActiveFocus()
 
@@ -102,8 +122,14 @@ Item {
                 if(what === "keyEvent") {
 
                     if(args[0] === Qt.Key_Escape) {
+                        delete_top.close()
                         PQCConstants.idOfVisibleItem = ""
                         PQCNotify.resetActiveFocus()
+                    } if(args[0] === Qt.Key_Enter || args[0] === Qt.Key_Return) {
+                        if(args[1] === Qt.ShiftModifier)
+                            delete_top.button2.clicked()
+                        else if(args[1] === Qt.NoModifier)
+                            delete_top.button1.clicked()
                     }
 
                 }

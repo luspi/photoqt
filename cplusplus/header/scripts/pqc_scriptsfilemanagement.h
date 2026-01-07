@@ -49,8 +49,6 @@ public:
     QString undoLastAction(QString action);
     void recordAction(QString actions, QVariantList args);
 
-    int askForDeletion();
-
     // no-op to initialize singleton
     void setup() {}
 

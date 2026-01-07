@@ -76,10 +76,6 @@ public:
         PQCScriptsFileManagement::get().recordAction(actions, args);
     }
 
-    Q_INVOKABLE int askForDeletion() {
-        return PQCScriptsFileManagement::get().askForDeletion();
-    }
-
 Q_SIGNALS:
     void scaleCompleted(bool success);
     void cropCompleted(bool success);
