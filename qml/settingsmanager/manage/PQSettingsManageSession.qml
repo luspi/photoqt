@@ -74,9 +74,9 @@ PQSetting {
         PQSettingSubtitle {
 
             //: Settings title
-            title: qsTranslate("settingsmanager", "Reopen last image")
+            title: qsTranslate("settingsmanager", "Session restoring")
 
-            helptext: qsTranslate("settingsmanager", "When PhotoQt is started normally, by default an empty window is shown with the prompt to open an image from the file dialog. Alternatively it is also possible to reopen the image that was last loaded in the previous session.")
+            helptext: qsTranslate("settingsmanager", "When no image or folder is passed on to PhotoQt, it can either restore the previous session or prompt for a new file from some location.")
 
         },
 
@@ -92,7 +92,7 @@ PQSetting {
         PQRadioButton {
             id: reopenlast
             enforceMaxWidth: set_seha.contentWidth
-            text: qsTranslate("settingsmanager", "reopen last used image")
+            text: qsTranslate("settingsmanager", "restore previous session")
             onCheckedChanged: set_seha.checkForChanges()
             ButtonGroup.group: grp_reopen
         },
@@ -102,6 +102,73 @@ PQSetting {
 
                 reopenlast.checked = PQCSettings.getDefaultForInterfaceRememberLastImage()
                 blanksession.checked = !reopenlast.checked
+
+                set_seha.checkForChanges()
+
+            }
+        },
+
+        /***************************************/
+
+        PQSettingSubtitle {
+
+            //: Settings title
+            title: qsTranslate("settingsmanager", "Default location for browsing the system")
+
+            helptext: qsTranslate("settingsmanager", "When prompting for a new file at startup, PhotoQt can do one of three things: It can reopen the folder from wherever you left off last time, it can show you the files in your home folder, or it can show you everything from a custom location.")
+
+        },
+
+        PQRadioButton {
+            ButtonGroup { id: grp_restore }
+            id: def_previous
+            //: This location refers to a folder in the file system.
+            text: qsTranslate("settingsmanager", "reopen previous location")
+            onCheckedChanged: set_seha.checkForChanges()
+            ButtonGroup.group: grp_restore
+        },
+
+        PQRadioButton {
+            id: def_home
+            text: qsTranslate("settingsmanager", "start in home folder")
+            onCheckedChanged: set_seha.checkForChanges()
+            ButtonGroup.group: grp_restore
+        },
+
+        Row {
+            spacing: 10
+            PQRadioButton {
+                id: def_custom
+                y: (loc_custom.height-height)/2
+                //: This location refers to a folder in the file system.
+                text: qsTranslate("settingsmanager", "start in custom location") + ":"
+                onCheckedChanged: set_seha.checkForChanges()
+                ButtonGroup.group: grp_restore
+            }
+            PQButton {
+                id: loc_custom
+                extraSmall: true
+                property string curLocation: ""
+                property string newLocation: ""
+                onNewLocationChanged: set_seha.checkForChanges()
+                enabled: def_custom.checked
+                text: newLocation==="" ? "..." : (PQCScriptsFilesPaths.getDirname(newLocation))
+                tooltip: newLocation==="" ? qsTranslate("settingsmanager", "Click to select location") : newLocation
+                onClicked: {
+                    var path = PQCScriptsFilesPaths.getExistingDirectory(PQCScriptsFilesPaths.getHomeDir())
+                    if(path !== "")
+                        newLocation = path
+                }
+            }
+        },
+
+        PQSettingsResetButton {
+            onResetToDefaults: {
+
+                def_previous.checked = PQCSettings.getDefaultForFiledialogStartupRestorePrevious()
+                def_home.checked = PQCSettings.getDefaultForFiledialogStartupRestoreHome()
+                def_custom.checked = PQCSettings.getDefaultForFiledialogStartupRestoreCustom()
+                loc_custom.newLocation = PQCSettings.getDefaultForFiledialogStartupRestoreCustomFolder()
 
                 set_seha.checkForChanges()
 
@@ -198,7 +265,8 @@ PQSetting {
         PQCConstants.settingsManagerSettingChanged = (mult.hasChanged() || sing.hasChanged() || blanksession.hasChanged() ||
                                                       reopenlast.hasChanged() || forget.hasChanged() || remember.hasChanged() ||
                                                       reuse.hasChanged() || reuse_zoom.hasChanged() || reuse_rotation.hasChanged() ||
-                                                      reuse_mirror.hasChanged())
+                                                      reuse_mirror.hasChanged() || def_previous.hasChanged() || def_home.hasChanged() ||
+                                                      def_custom.hasChanged() || loc_custom.curLocation !== loc_custom.newLocation)
 
     }
 
@@ -219,6 +287,12 @@ PQSetting {
         reuse_rotation.loadAndSetDefault(PQCSettings.imageviewPreserveRotation)
         reuse_mirror.loadAndSetDefault(PQCSettings.imageviewPreserveMirror)
         reuse.loadAndSetDefault(reuse_zoom.checked||reuse_rotation.checked||reuse_mirror.checked)
+
+        def_previous.loadAndSetDefault(PQCSettings.filedialogStartupRestorePrevious)
+        def_home.loadAndSetDefault(PQCSettings.filedialogStartupRestoreHome)
+        def_custom.loadAndSetDefault(PQCSettings.filedialogStartupRestoreCustom)
+        loc_custom.curLocation = PQCSettings.filedialogStartupRestoreCustomFolder
+        loc_custom.newLocation = PQCSettings.filedialogStartupRestoreCustomFolder
 
         PQCConstants.settingsManagerSettingChanged = false
         settingsLoaded = true
@@ -245,6 +319,16 @@ PQSetting {
         reuse_zoom.saveDefault()
         reuse_rotation.saveDefault()
         reuse_mirror.saveDefault()
+
+        PQCSettings.filedialogStartupRestorePrevious = def_previous.checked
+        PQCSettings.filedialogStartupRestoreHome = def_home.checked
+        PQCSettings.filedialogStartupRestoreCustom = def_custom.checked
+        PQCSettings.filedialogStartupRestoreCustomFolder = loc_custom.newLocation
+        def_previous.saveDefault()
+        def_home.saveDefault()
+        def_custom.saveDefault()
+        var tmp = loc_custom.newLocation
+        loc_custom.curLocation = tmp
 
         PQCConstants.settingsManagerSettingChanged = false
 

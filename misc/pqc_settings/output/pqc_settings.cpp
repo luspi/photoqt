@@ -151,7 +151,6 @@ PQCSettings::PQCSettings() {
     connect(this, &PQCSettings::filedialogFolderContentThumbnailsLoopChanged, this, [=]() { saveChangedValue("filedialogFolderContentThumbnailsLoop", m_filedialogFolderContentThumbnailsLoop); });
     connect(this, &PQCSettings::filedialogFolderContentThumbnailsScaleCropChanged, this, [=]() { saveChangedValue("filedialogFolderContentThumbnailsScaleCrop", m_filedialogFolderContentThumbnailsScaleCrop); });
     connect(this, &PQCSettings::filedialogFolderContentThumbnailsSpeedChanged, this, [=]() { saveChangedValue("filedialogFolderContentThumbnailsSpeed", m_filedialogFolderContentThumbnailsSpeed); });
-    connect(this, &PQCSettings::filedialogKeepLastLocationChanged, this, [=]() { saveChangedValue("filedialogKeepLastLocation", m_filedialogKeepLastLocation); });
     connect(this, &PQCSettings::filedialogLabelsShowGridChanged, this, [=]() { saveChangedValue("filedialogLabelsShowGrid", m_filedialogLabelsShowGrid); });
     connect(this, &PQCSettings::filedialogLabelsShowMasonryChanged, this, [=]() { saveChangedValue("filedialogLabelsShowMasonry", m_filedialogLabelsShowMasonry); });
     connect(this, &PQCSettings::filedialogLayoutChanged, this, [=]() { saveChangedValue("filedialogLayout", m_filedialogLayout); });
@@ -166,6 +165,10 @@ PQCSettings::PQCSettings() {
     connect(this, &PQCSettings::filedialogRememberSelectionChanged, this, [=]() { saveChangedValue("filedialogRememberSelection", m_filedialogRememberSelection); });
     connect(this, &PQCSettings::filedialogShowHiddenFilesFoldersChanged, this, [=]() { saveChangedValue("filedialogShowHiddenFilesFolders", m_filedialogShowHiddenFilesFolders); });
     connect(this, &PQCSettings::filedialogSingleClickSelectChanged, this, [=]() { saveChangedValue("filedialogSingleClickSelect", m_filedialogSingleClickSelect); });
+    connect(this, &PQCSettings::filedialogStartupRestoreCustomChanged, this, [=]() { saveChangedValue("filedialogStartupRestoreCustom", m_filedialogStartupRestoreCustom); });
+    connect(this, &PQCSettings::filedialogStartupRestoreCustomFolderChanged, this, [=]() { saveChangedValue("filedialogStartupRestoreCustomFolder", m_filedialogStartupRestoreCustomFolder); });
+    connect(this, &PQCSettings::filedialogStartupRestoreHomeChanged, this, [=]() { saveChangedValue("filedialogStartupRestoreHome", m_filedialogStartupRestoreHome); });
+    connect(this, &PQCSettings::filedialogStartupRestorePreviousChanged, this, [=]() { saveChangedValue("filedialogStartupRestorePrevious", m_filedialogStartupRestorePrevious); });
     connect(this, &PQCSettings::filedialogThumbnailsChanged, this, [=]() { saveChangedValue("filedialogThumbnails", m_filedialogThumbnails); });
     connect(this, &PQCSettings::filedialogThumbnailsScaleCropChanged, this, [=]() { saveChangedValue("filedialogThumbnailsScaleCrop", m_filedialogThumbnailsScaleCrop); });
     connect(this, &PQCSettings::filedialogUseNativeFileDialogChanged, this, [=]() { saveChangedValue("filedialogUseNativeFileDialog", m_filedialogUseNativeFileDialog); });
@@ -732,28 +735,6 @@ void PQCSettings::setDefaultForFiledialogFolderContentThumbnailsSpeed() {
     }
 }
 
-bool PQCSettings::getFiledialogKeepLastLocation() {
-    return m_filedialogKeepLastLocation;
-}
-
-void PQCSettings::setFiledialogKeepLastLocation(bool val) {
-    if(val != m_filedialogKeepLastLocation) {
-        m_filedialogKeepLastLocation = val;
-        Q_EMIT filedialogKeepLastLocationChanged();
-    }
-}
-
-const bool PQCSettings::getDefaultForFiledialogKeepLastLocation() {
-        return true;
-}
-
-void PQCSettings::setDefaultForFiledialogKeepLastLocation() {
-    if(true != m_filedialogKeepLastLocation) {
-        m_filedialogKeepLastLocation = true;
-        Q_EMIT filedialogKeepLastLocationChanged();
-    }
-}
-
 bool PQCSettings::getFiledialogLabelsShowGrid() {
     return m_filedialogLabelsShowGrid;
 }
@@ -1057,6 +1038,94 @@ void PQCSettings::setDefaultForFiledialogSingleClickSelect() {
     if(false != m_filedialogSingleClickSelect) {
         m_filedialogSingleClickSelect = false;
         Q_EMIT filedialogSingleClickSelectChanged();
+    }
+}
+
+bool PQCSettings::getFiledialogStartupRestoreCustom() {
+    return m_filedialogStartupRestoreCustom;
+}
+
+void PQCSettings::setFiledialogStartupRestoreCustom(bool val) {
+    if(val != m_filedialogStartupRestoreCustom) {
+        m_filedialogStartupRestoreCustom = val;
+        Q_EMIT filedialogStartupRestoreCustomChanged();
+    }
+}
+
+const bool PQCSettings::getDefaultForFiledialogStartupRestoreCustom() {
+        return false;
+}
+
+void PQCSettings::setDefaultForFiledialogStartupRestoreCustom() {
+    if(false != m_filedialogStartupRestoreCustom) {
+        m_filedialogStartupRestoreCustom = false;
+        Q_EMIT filedialogStartupRestoreCustomChanged();
+    }
+}
+
+QString PQCSettings::getFiledialogStartupRestoreCustomFolder() {
+    return m_filedialogStartupRestoreCustomFolder;
+}
+
+void PQCSettings::setFiledialogStartupRestoreCustomFolder(QString val) {
+    if(val != m_filedialogStartupRestoreCustomFolder) {
+        m_filedialogStartupRestoreCustomFolder = val;
+        Q_EMIT filedialogStartupRestoreCustomFolderChanged();
+    }
+}
+
+const QString PQCSettings::getDefaultForFiledialogStartupRestoreCustomFolder() {
+        return "";
+}
+
+void PQCSettings::setDefaultForFiledialogStartupRestoreCustomFolder() {
+    if("" != m_filedialogStartupRestoreCustomFolder) {
+        m_filedialogStartupRestoreCustomFolder = "";
+        Q_EMIT filedialogStartupRestoreCustomFolderChanged();
+    }
+}
+
+bool PQCSettings::getFiledialogStartupRestoreHome() {
+    return m_filedialogStartupRestoreHome;
+}
+
+void PQCSettings::setFiledialogStartupRestoreHome(bool val) {
+    if(val != m_filedialogStartupRestoreHome) {
+        m_filedialogStartupRestoreHome = val;
+        Q_EMIT filedialogStartupRestoreHomeChanged();
+    }
+}
+
+const bool PQCSettings::getDefaultForFiledialogStartupRestoreHome() {
+        return false;
+}
+
+void PQCSettings::setDefaultForFiledialogStartupRestoreHome() {
+    if(false != m_filedialogStartupRestoreHome) {
+        m_filedialogStartupRestoreHome = false;
+        Q_EMIT filedialogStartupRestoreHomeChanged();
+    }
+}
+
+bool PQCSettings::getFiledialogStartupRestorePrevious() {
+    return m_filedialogStartupRestorePrevious;
+}
+
+void PQCSettings::setFiledialogStartupRestorePrevious(bool val) {
+    if(val != m_filedialogStartupRestorePrevious) {
+        m_filedialogStartupRestorePrevious = val;
+        Q_EMIT filedialogStartupRestorePreviousChanged();
+    }
+}
+
+const bool PQCSettings::getDefaultForFiledialogStartupRestorePrevious() {
+        return true;
+}
+
+void PQCSettings::setDefaultForFiledialogStartupRestorePrevious() {
+    if(true != m_filedialogStartupRestorePrevious) {
+        m_filedialogStartupRestorePrevious = true;
+        Q_EMIT filedialogStartupRestorePreviousChanged();
     }
 }
 
@@ -6750,8 +6819,6 @@ void PQCSettings::readDB() {
                     m_filedialogFolderContentThumbnailsScaleCrop = value.toInt();
                 } else if(name == "FolderContentThumbnailsSpeed") {
                     m_filedialogFolderContentThumbnailsSpeed = value.toInt();
-                } else if(name == "KeepLastLocation") {
-                    m_filedialogKeepLastLocation = value.toInt();
                 } else if(name == "LabelsShowGrid") {
                     m_filedialogLabelsShowGrid = value.toInt();
                 } else if(name == "LabelsShowMasonry") {
@@ -6780,6 +6847,14 @@ void PQCSettings::readDB() {
                     m_filedialogShowHiddenFilesFolders = value.toInt();
                 } else if(name == "SingleClickSelect") {
                     m_filedialogSingleClickSelect = value.toInt();
+                } else if(name == "StartupRestoreCustom") {
+                    m_filedialogStartupRestoreCustom = value.toInt();
+                } else if(name == "StartupRestoreCustomFolder") {
+                    m_filedialogStartupRestoreCustomFolder = value.toString();
+                } else if(name == "StartupRestoreHome") {
+                    m_filedialogStartupRestoreHome = value.toInt();
+                } else if(name == "StartupRestorePrevious") {
+                    m_filedialogStartupRestorePrevious = value.toInt();
                 } else if(name == "Thumbnails") {
                     m_filedialogThumbnails = value.toInt();
                 } else if(name == "ThumbnailsScaleCrop") {
@@ -7685,7 +7760,6 @@ void PQCSettings::setupFresh() {
     m_filedialogFolderContentThumbnailsLoop = true;
     m_filedialogFolderContentThumbnailsScaleCrop = true;
     m_filedialogFolderContentThumbnailsSpeed = 2;
-    m_filedialogKeepLastLocation = true;
     m_filedialogLabelsShowGrid = true;
     m_filedialogLabelsShowMasonry = false;
     m_filedialogLayout = "grid";
@@ -7700,6 +7774,10 @@ void PQCSettings::setupFresh() {
     m_filedialogRememberSelection = false;
     m_filedialogShowHiddenFilesFolders = false;
     m_filedialogSingleClickSelect = false;
+    m_filedialogStartupRestoreCustom = false;
+    m_filedialogStartupRestoreCustomFolder = "";
+    m_filedialogStartupRestoreHome = false;
+    m_filedialogStartupRestorePrevious = true;
     m_filedialogThumbnails = true;
     m_filedialogThumbnailsScaleCrop = true;
     m_filedialogUseNativeFileDialog = false;
@@ -8013,7 +8091,6 @@ void PQCSettings::resetToDefault() {
     setDefaultForFiledialogFolderContentThumbnailsLoop();
     setDefaultForFiledialogFolderContentThumbnailsScaleCrop();
     setDefaultForFiledialogFolderContentThumbnailsSpeed();
-    setDefaultForFiledialogKeepLastLocation();
     setDefaultForFiledialogLabelsShowGrid();
     setDefaultForFiledialogLabelsShowMasonry();
     setDefaultForFiledialogLayout();
@@ -8028,6 +8105,10 @@ void PQCSettings::resetToDefault() {
     setDefaultForFiledialogRememberSelection();
     setDefaultForFiledialogShowHiddenFilesFolders();
     setDefaultForFiledialogSingleClickSelect();
+    setDefaultForFiledialogStartupRestoreCustom();
+    setDefaultForFiledialogStartupRestoreCustomFolder();
+    setDefaultForFiledialogStartupRestoreHome();
+    setDefaultForFiledialogStartupRestorePrevious();
     setDefaultForFiledialogThumbnails();
     setDefaultForFiledialogThumbnailsScaleCrop();
     setDefaultForFiledialogUseNativeFileDialog();
@@ -8373,10 +8454,6 @@ QStringList PQCSettings::updateFromCommandLine() {
         m_filedialogFolderContentThumbnailsSpeed = val.toInt();
         Q_EMIT filedialogFolderContentThumbnailsSpeedChanged();
     }
-    if(key == "filedialogKeepLastLocation") {
-        m_filedialogKeepLastLocation = (val.toInt()==1);
-        Q_EMIT filedialogKeepLastLocationChanged();
-    }
     if(key == "filedialogLabelsShowGrid") {
         m_filedialogLabelsShowGrid = (val.toInt()==1);
         Q_EMIT filedialogLabelsShowGridChanged();
@@ -8432,6 +8509,22 @@ QStringList PQCSettings::updateFromCommandLine() {
     if(key == "filedialogSingleClickSelect") {
         m_filedialogSingleClickSelect = (val.toInt()==1);
         Q_EMIT filedialogSingleClickSelectChanged();
+    }
+    if(key == "filedialogStartupRestoreCustom") {
+        m_filedialogStartupRestoreCustom = (val.toInt()==1);
+        Q_EMIT filedialogStartupRestoreCustomChanged();
+    }
+    if(key == "filedialogStartupRestoreCustomFolder") {
+        m_filedialogStartupRestoreCustomFolder = val;
+        Q_EMIT filedialogStartupRestoreCustomFolderChanged();
+    }
+    if(key == "filedialogStartupRestoreHome") {
+        m_filedialogStartupRestoreHome = (val.toInt()==1);
+        Q_EMIT filedialogStartupRestoreHomeChanged();
+    }
+    if(key == "filedialogStartupRestorePrevious") {
+        m_filedialogStartupRestorePrevious = (val.toInt()==1);
+        Q_EMIT filedialogStartupRestorePreviousChanged();
     }
     if(key == "filedialogThumbnails") {
         m_filedialogThumbnails = (val.toInt()==1);

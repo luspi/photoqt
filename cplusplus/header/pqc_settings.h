@@ -133,12 +133,6 @@ public:
     Q_INVOKABLE const int getDefaultForFiledialogFolderContentThumbnailsSpeed();
     Q_INVOKABLE void setDefaultForFiledialogFolderContentThumbnailsSpeed();
 
-    Q_PROPERTY(bool filedialogKeepLastLocation READ getFiledialogKeepLastLocation WRITE setFiledialogKeepLastLocation NOTIFY filedialogKeepLastLocationChanged)
-    bool getFiledialogKeepLastLocation();
-    void setFiledialogKeepLastLocation(bool val);
-    Q_INVOKABLE const bool getDefaultForFiledialogKeepLastLocation();
-    Q_INVOKABLE void setDefaultForFiledialogKeepLastLocation();
-
     Q_PROPERTY(bool filedialogLabelsShowGrid READ getFiledialogLabelsShowGrid WRITE setFiledialogLabelsShowGrid NOTIFY filedialogLabelsShowGridChanged)
     bool getFiledialogLabelsShowGrid();
     void setFiledialogLabelsShowGrid(bool val);
@@ -222,6 +216,30 @@ public:
     void setFiledialogSingleClickSelect(bool val);
     Q_INVOKABLE const bool getDefaultForFiledialogSingleClickSelect();
     Q_INVOKABLE void setDefaultForFiledialogSingleClickSelect();
+
+    Q_PROPERTY(bool filedialogStartupRestoreCustom READ getFiledialogStartupRestoreCustom WRITE setFiledialogStartupRestoreCustom NOTIFY filedialogStartupRestoreCustomChanged)
+    bool getFiledialogStartupRestoreCustom();
+    void setFiledialogStartupRestoreCustom(bool val);
+    Q_INVOKABLE const bool getDefaultForFiledialogStartupRestoreCustom();
+    Q_INVOKABLE void setDefaultForFiledialogStartupRestoreCustom();
+
+    Q_PROPERTY(QString filedialogStartupRestoreCustomFolder READ getFiledialogStartupRestoreCustomFolder WRITE setFiledialogStartupRestoreCustomFolder NOTIFY filedialogStartupRestoreCustomFolderChanged)
+    QString getFiledialogStartupRestoreCustomFolder();
+    void setFiledialogStartupRestoreCustomFolder(QString val);
+    Q_INVOKABLE const QString getDefaultForFiledialogStartupRestoreCustomFolder();
+    Q_INVOKABLE void setDefaultForFiledialogStartupRestoreCustomFolder();
+
+    Q_PROPERTY(bool filedialogStartupRestoreHome READ getFiledialogStartupRestoreHome WRITE setFiledialogStartupRestoreHome NOTIFY filedialogStartupRestoreHomeChanged)
+    bool getFiledialogStartupRestoreHome();
+    void setFiledialogStartupRestoreHome(bool val);
+    Q_INVOKABLE const bool getDefaultForFiledialogStartupRestoreHome();
+    Q_INVOKABLE void setDefaultForFiledialogStartupRestoreHome();
+
+    Q_PROPERTY(bool filedialogStartupRestorePrevious READ getFiledialogStartupRestorePrevious WRITE setFiledialogStartupRestorePrevious NOTIFY filedialogStartupRestorePreviousChanged)
+    bool getFiledialogStartupRestorePrevious();
+    void setFiledialogStartupRestorePrevious(bool val);
+    Q_INVOKABLE const bool getDefaultForFiledialogStartupRestorePrevious();
+    Q_INVOKABLE void setDefaultForFiledialogStartupRestorePrevious();
 
     Q_PROPERTY(bool filedialogThumbnails READ getFiledialogThumbnails WRITE setFiledialogThumbnails NOTIFY filedialogThumbnailsChanged)
     bool getFiledialogThumbnails();
@@ -1834,7 +1852,6 @@ private:
     bool m_filedialogFolderContentThumbnailsLoop;
     bool m_filedialogFolderContentThumbnailsScaleCrop;
     int m_filedialogFolderContentThumbnailsSpeed;
-    bool m_filedialogKeepLastLocation;
     bool m_filedialogLabelsShowGrid;
     bool m_filedialogLabelsShowMasonry;
     QString m_filedialogLayout;
@@ -1849,6 +1866,10 @@ private:
     bool m_filedialogRememberSelection;
     bool m_filedialogShowHiddenFilesFolders;
     bool m_filedialogSingleClickSelect;
+    bool m_filedialogStartupRestoreCustom;
+    QString m_filedialogStartupRestoreCustomFolder;
+    bool m_filedialogStartupRestoreHome;
+    bool m_filedialogStartupRestorePrevious;
     bool m_filedialogThumbnails;
     bool m_filedialogThumbnailsScaleCrop;
     bool m_filedialogUseNativeFileDialog;
@@ -2149,7 +2170,6 @@ Q_SIGNALS:
     void filedialogFolderContentThumbnailsLoopChanged();
     void filedialogFolderContentThumbnailsScaleCropChanged();
     void filedialogFolderContentThumbnailsSpeedChanged();
-    void filedialogKeepLastLocationChanged();
     void filedialogLabelsShowGridChanged();
     void filedialogLabelsShowMasonryChanged();
     void filedialogLayoutChanged();
@@ -2164,6 +2184,10 @@ Q_SIGNALS:
     void filedialogRememberSelectionChanged();
     void filedialogShowHiddenFilesFoldersChanged();
     void filedialogSingleClickSelectChanged();
+    void filedialogStartupRestoreCustomChanged();
+    void filedialogStartupRestoreCustomFolderChanged();
+    void filedialogStartupRestoreHomeChanged();
+    void filedialogStartupRestorePreviousChanged();
     void filedialogThumbnailsChanged();
     void filedialogThumbnailsScaleCropChanged();
     void filedialogUseNativeFileDialogChanged();

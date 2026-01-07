@@ -52,7 +52,7 @@ Item {
 
         var startname = ""
 
-        if(PQCSettings.filedialogKeepLastLocation)
+        if(PQCSettings.filedialogStartupRestorePrevious)
             startname = PQCScriptsFileDialog.getLastLocation()
         else
             startname = PQCScriptsFilesPaths.getHomeDir()

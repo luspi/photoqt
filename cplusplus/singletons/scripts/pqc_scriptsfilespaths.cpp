@@ -223,6 +223,16 @@ QString PQCScriptsFilesPaths::getDir(QString fullpath) {
 
 }
 
+QString PQCScriptsFilesPaths::getDirname(const QString fullpath) {
+
+    if(fullpath == "")
+        return "";
+
+    QDir dir(fullpath);
+    return dir.dirName();
+
+}
+
 QDateTime PQCScriptsFilesPaths::getFileModified(QString path) {
 
     return QFileInfo(path).lastModified();

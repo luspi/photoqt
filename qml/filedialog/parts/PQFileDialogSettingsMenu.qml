@@ -222,13 +222,20 @@ PQMenu {
             }
         }
         PQMenuItem {
-            //: The location here is a folder path
-            text: qsTranslate("filedialog", "Remember last location")
+            //: This refers to restoring the folder from the previous session on startup
+            text: qsTranslate("filedialog", "restore previous folder")
             checkable: true
-            checked: PQCSettings.filedialogKeepLastLocation
+            checked: PQCSettings.filedialogStartupRestorePrevious
             onCheckedChanged: {
-                PQCSettings.filedialogKeepLastLocation = checked
-                checked = Qt.binding(function() { return PQCSettings.filedialogKeepLastLocation })
+                PQCSettings.filedialogStartupRestorePrevious = checked
+                checked = Qt.binding(function() { return PQCSettings.filedialogStartupRestorePrevious })
+                if(checked) {
+                    PQCSettings.filedialogStartupRestoreHome = false
+                    PQCSettings.filedialogStartupRestoreCustom = false
+                } else {
+                    PQCSettings.filedialogStartupRestoreHome = true
+                    PQCSettings.filedialogStartupRestoreCustom = false
+                }
             }
         }
     }

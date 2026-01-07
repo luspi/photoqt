@@ -206,30 +206,6 @@ PQSetting {
             }
         },
 
-        /*************************************/
-
-        PQSettingSubtitle {
-
-            //: Settings title, location here is a folder path
-            title: qsTranslate("settingsmanager", "Last location")
-
-            helptext: qsTranslate("settingsmanager", "By default the file dialog starts out in your home folder at start. Enabling this setting makes the file dialog reopen at the same location where it ended in the last session.")
-
-        },
-
-        PQCheckBox {
-            id: remembercheck
-            enforceMaxWidth: set_fd.contentWidth
-            text: qsTranslate("settingsmanager", "Remember")
-            onCheckedChanged: set_fd.checkForChanges()
-        },
-
-        PQSettingsResetButton {
-            onResetToDefaults: {
-                remembercheck.checked = PQCSettings.getDefaultForFiledialogKeepLastLocation()
-            }
-        },
-
         /***************************************/
 
         PQSettingSubtitle {
@@ -685,7 +661,7 @@ PQSetting {
 
         PQCConstants.settingsManagerSettingChanged = (sortasc.hasChanged() || sortdesc.hasChanged() || sortcriteria.hasChanged() ||
                                                       layout_icon.hasChanged() || layout_list.hasChanged() || layout_masonry.hasChanged() ||
-                                                      hiddencheck.hasChanged() || remembercheck.hasChanged() ||
+                                                      hiddencheck.hasChanged() ||
                                                       singlecheck.hasChanged() || singleexec.hasChanged() || selremem.hasChanged() ||
                                                       sect_bookmarks.hasChanged() || sect_devices.hasChanged() || sect_devicestmpfs.hasChanged() ||
                                                       drag_icon.hasChanged() || drag_list.hasChanged() || drag_bookmarks.hasChanged() ||
@@ -715,8 +691,6 @@ PQSetting {
         hiddencheck.loadAndSetDefault(PQCSettings.filedialogShowHiddenFilesFolders)
 
         tooltipcheck.loadAndSetDefault(PQCSettings.filedialogDetailsTooltip)
-
-        remembercheck.loadAndSetDefault(PQCSettings.filedialogKeepLastLocation)
 
         singleexec.loadAndSetDefault(!PQCSettings.filedialogSingleClickSelect)
         singlecheck.loadAndSetDefault(PQCSettings.filedialogSingleClickSelect)
@@ -776,9 +750,6 @@ PQSetting {
 
         PQCSettings.filedialogDetailsTooltip = tooltipcheck.checked
         tooltipcheck.saveDefault()
-
-        PQCSettings.filedialogKeepLastLocation = remembercheck.checked
-        remembercheck.saveDefault()
 
         PQCSettings.filedialogSingleClickSelect = singlecheck.checked
         singleexec.saveDefault()

@@ -31,6 +31,7 @@ public:
     static void migrate(const QString &oldVersion, const QStringList allVersions);
 
 private:
+    static void migrate510();
     static void migrate500();
     static void migrate491();
     static void migrate490();

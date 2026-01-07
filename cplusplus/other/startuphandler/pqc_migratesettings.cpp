@@ -81,9 +81,23 @@ void PQCMigrateSettings::migrate(const QString &oldVersion, const QStringList al
         else if(curVer == "5.0")
             migrate500();
 
+        else if(curVer == "5.1")
+            migrate510();
+
     }
 
     db.commit();
+
+}
+
+/******************************************************/
+/******************************************************/
+
+void PQCMigrateSettings::migrate510() {
+
+    qDebug() << "";
+
+    migrationHelperChangeSettingsName({{"KeepLastLocation", "filedialog", "StartupRestorePrevious", "filedialog"}});
 
 }
 

@@ -299,8 +299,16 @@ PQTemplate {
             var folder = PQCScriptsFilesPaths.getHomeDir()
 
             // if we remember the last location, load it
-            if(PQCSettings.filedialogKeepLastLocation)
-                folder = PQCScriptsFileDialog.getLastLocation()
+            if(PQCSettings.filedialogStartupRestorePrevious) {
+
+                var tmp = PQCScriptsFileDialog.getLastLocation()
+                if(tmp !== "") folder = tmp
+
+            } else if(PQCSettings.filedialogStartupRestoreCustom &&
+                    PQCSettings.filedialogStartupRestoreCustomFolder !== "" &&
+                    PQCScriptsFilesPaths.doesItExist(PQCSettings.filedialogStartupRestoreCustomFolder))
+                folder = PQCSettings.filedialogStartupRestoreCustomFolder
+
 
             // if an image was loaded with PhotoQt, we make sure the file dialog opens at the right location
             if(PQCFileFolderModel.currentFile !== "" && !PQCScriptsFilesPaths.areDirsTheSame(folder, PQCScriptsFilesPaths.getDir(PQCFileFolderModel.currentFile)))

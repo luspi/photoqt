@@ -313,17 +313,17 @@ QString PQCScriptsFileDialog::getLastLocation() {
 
     qDebug() << "";
 
-    QString ret = QDir::currentPath();
     QFile file(PQCConfigFiles::get().FILEDIALOG_LAST_LOCATION());
     if(file.exists() && file.open(QIODevice::ReadOnly)) {
         QTextStream in(&file);
-        ret = in.readAll().trimmed();
+        QString ret = in.readAll().trimmed();
         file.close();
+        QDir folder(ret);
+        if(folder.exists())
+            return ret;
     }
-    QDir folder(ret);
-    if(folder.exists())
-        return ret;
-    return QDir::homePath();
+
+    return "";
 
 }
 
