@@ -21,10 +21,9 @@
  **************************************************************************/
 
 import QtQuick
-import QtQuick.Controls
 import PhotoQt
 
-ApplicationWindow {
+Window {
 
     id: control
 
@@ -36,7 +35,12 @@ ApplicationWindow {
     minimumWidth: width
     maximumWidth: width
 
-    color: palette.window
+    color: "transparent"
+
+    Rectangle {
+        anchors.fill: parent
+        color: palette.window
+    }
 
     title: "title"
 
