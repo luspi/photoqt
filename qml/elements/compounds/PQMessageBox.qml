@@ -28,7 +28,7 @@ ApplicationWindow {
 
     id: control
 
-    width: 500
+    width: 550
     height: 200
 
     minimumHeight: height
@@ -52,14 +52,13 @@ ApplicationWindow {
 
     signal buttonClicked(int butId)
 
-    onVisibilityChanged: {
-        if(visibility == Window.Windowed) {
+    onVisibilityChanged: (visibility) => {
+        if(visibility === Window.Windowed) {
             PQCConstants.modalWindowOpen = true
         }
     }
 
     onClosing: {
-        console.warn(">>> ON CLOSING ON CLOSING ON CLOSING")
         PQCConstants.modalWindowOpen = false
     }
 
