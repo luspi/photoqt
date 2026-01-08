@@ -34,6 +34,8 @@
 
 #ifdef PQMPUGIXML
 #include <pugixml.hpp>
+#else
+#include <QDomDocument>
 #endif
 
 PQCScriptsFileDialog::PQCScriptsFileDialog() {
@@ -86,8 +88,6 @@ QVariantList PQCScriptsFileDialog::getPlaces(bool performEmptyCheck) {
 
     QVariantList ret;
 
-#ifdef PQMPUGIXML
-
     // if file does not exist yet then we create a sceleton file
     if(!QFile(PQCConfigFiles::get().USER_PLACES_XBEL()).exists()) {
 
@@ -105,6 +105,7 @@ QVariantList PQCScriptsFileDialog::getPlaces(bool performEmptyCheck) {
         }
     }
 
+#ifdef PQMPUGIXML
     pugi::xml_document doc;
     pugi::xml_parse_result result = doc.load_file(PQCConfigFiles::get().USER_PLACES_XBEL().toUtf8());
     if(!result) {
@@ -209,6 +210,128 @@ QVariantList PQCScriptsFileDialog::getPlaces(bool performEmptyCheck) {
     if(docUpdated)
         doc.save_file(PQCConfigFiles::get().USER_PLACES_XBEL().toUtf8(), " ");
 
+#else
+
+    QDomDocument doc;
+    QFile file(PQCConfigFiles::get().USER_PLACES_XBEL());
+    if(!file.open(QIODevice::ReadOnly)) {
+        qWarning() << "Unable to open file to read user places. Either file doesn't exist (yet) or cannot be read...";
+        return {};
+    }
+    if(!doc.setContent(&file)) {
+        qWarning() << "Unable to read user places. Either file doesn't exist (yet) or cannot be read...";
+        file.close();
+        return{};
+    }
+    file.close();
+
+    bool docUpdated = false;
+
+    QDomNodeList bookmarksList = doc.elementsByTagName("bookmark");
+
+    for(int i = 0; i < bookmarksList.count(); ++i) {
+
+        QDomElement ele = bookmarksList.at(i).toElement();
+
+        if(ele.isNull()) {
+            qWarning() << "Unable to find bookmark...";
+            continue;
+        }
+
+        QVariantList entry;
+        QString path = QUrl::fromPercentEncoding(ele.attribute("href").toUtf8());
+
+// we need to check for the old syntax of two/three slashes
+#ifdef Q_OS_WIN
+        if(path.startsWith("file:///"))
+            path = path.remove(0,8);
+        else if(path.startsWith("file://"))
+            path = path.remove(0,7);
+        else if(path.startsWith("file:/"))
+            path = path.remove(0,6);
+        else if(path.startsWith("file:"))
+            path = path.remove(0,5);
+#else
+        if(path.startsWith("file:////"))
+            path = path.remove(0,8);
+        else if(path.startsWith("file:///"))
+            path = path.remove(0,7);
+        else if(path.startsWith("file://"))
+            path = path.remove(0,6);
+        else if(path.startsWith("file:/"))
+            path = path.remove(0,5);
+        else if(path.startsWith("file:"))
+            path = path.remove(0,4);
+        else if(path == "trash:/" || path == "trash:")
+            path = PQCConfigFiles::get().USER_TRASH_FILES();
+#endif
+        else
+            continue;
+
+        // name
+        const QDomNodeList titleList = ele.elementsByTagName("title");
+        const QString nme = (titleList.length() ? titleList.at(0).toElement().text() : "");
+        entry << nme;
+
+        // path
+        entry << path;
+
+        // icon
+        const QDomNodeList iconList = ele.elementsByTagName("bookmark:icon");
+        const QString icn = (iconList.length() ? iconList.at(0).toElement().attribute("name") : "");
+        if((nme == "Home" || nme == QStandardPaths::displayName(QStandardPaths::HomeLocation)) && icn == "true")
+            entry << "user-home";
+        else
+            entry << icn;
+
+        // id
+        const QDomNodeList idList = ele.elementsByTagName("ID");
+        QString id = (idList.length() ? idList.at(0).toElement().text() : "");
+        // id doesn't exist (i.e., kde metadata part missing)
+        if(id.isEmpty()) {
+
+            id = getUniquePlacesId();
+
+            // TODO !!!
+
+            // pugi::xml_node info = bm.select_node("info").node();
+
+            // // <metadata> kde.org
+            // pugi::xml_node metadata = info.append_child("metadata");
+            // metadata.append_attribute("owner");
+            // metadata.attribute("owner").set_value("http://www.kde.org");
+
+            // // <ID>
+            // pugi::xml_node ID = metadata.append_child("ID");
+            // ID.text().set(id.toStdString().c_str());
+
+            // // <IsHidden>
+            // pugi::xml_node IsHidden = metadata.append_child("IsHidden");
+            // IsHidden.text().set("false");
+
+            // // <isSystemItem>
+            // pugi::xml_node isSystemItem = metadata.append_child("isSystemItem");
+            // isSystemItem.text().set("false");
+
+            // docUpdated = true;
+
+        }
+        entry << id;
+
+        // hidden
+        const QDomNodeList hiddenList = ele.elementsByTagName("IsHidden");
+        const QString hidden = (hiddenList.length() ? hiddenList.at(0).toElement().text() : "false");
+        entry << hidden;
+
+        ret.append(entry);
+
+    }
+
+    // TODO !!!
+    // if(docUpdated)
+    //     doc.save_file(PQCConfigFiles::get().USER_PLACES_XBEL().toUtf8(), " ");
+
+
 #endif
 
     // When no entries are found, we fill in the four default entries
@@ -264,6 +387,48 @@ QString PQCScriptsFileDialog::getUniquePlacesId() {
         pugi::xml_node cur = node.node();
         QString curId = cur.select_node("info/metadata/ID").node().child_value();
         QString curPath = QUrl::fromPercentEncoding(cur.attribute("href").value());
+        if(curPath.startsWith("file:") || curPath == "trash:" || curPath == "trash:/")
+            allIds.append(curId);
+    }
+
+    QString newid_base = QString::number(QDateTime::currentSecsSinceEpoch());
+
+    int counter = 0;
+    while(allIds.contains(QString("%1/%2").arg(newid_base).arg(counter)))
+        ++counter;
+
+    return QString("%1/%2").arg(newid_base).arg(counter);
+
+#else
+
+    QDomDocument doc;
+    QFile file(PQCConfigFiles::get().USER_PLACES_XBEL());
+    if(!file.open(QIODevice::ReadOnly)) {
+        qWarning() << "Unable to open file to read user places. Either file doesn't exist (yet) or cannot be read...";
+        return {};
+    }
+    if(!doc.setContent(&file)) {
+        qWarning() << "Unable to read user places. Either file doesn't exist (yet) or cannot be read...";
+        file.close();
+        return{};
+    }
+    file.close();
+
+    const QDomNodeList bookmarksList = doc.elementsByTagName("bookmark");
+
+    QStringList allIds;
+    for(int i = 0; i < bookmarksList.count(); ++i) {
+
+        QDomElement ele = bookmarksList.at(i).toElement();
+
+        if(ele.isNull()) {
+            qWarning() << "Unable to find bookmark...";
+            continue;
+        }
+
+        const QDomNodeList idList = ele.elementsByTagName("ID");
+        const QString curId = (idList.length() ? idList.at(0).toElement().text() : "");
+        const QString curPath = (idList.length() ? QUrl::fromPercentEncoding(idList.at(0).toElement().attribute("href").toUtf8()) : "");
         if(curPath.startsWith("file:") || curPath == "trash:" || curPath == "trash:/")
             allIds.append(curId);
     }
@@ -410,7 +575,6 @@ void PQCScriptsFileDialog::movePlacesEntry(QString id, bool moveDown, int howman
     }
 
     doc.save_file(PQCConfigFiles::get().USER_PLACES_XBEL().toUtf8(), " ");
-
 #endif
 
 }

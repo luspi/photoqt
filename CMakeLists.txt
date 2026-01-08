@@ -47,7 +47,6 @@ option(WITH_LIBSAI                "Configure with support for the libsai library
 option(WITH_EXTENSIONS_SUPPORT    "Enable support for extensions (requires yaml-cpp and qca)" ON)
 option(WITH_EXIV2                 "Configure with support for the Exiv2 library" ON)
 option(WITH_EXIV2_ENABLE_BMFF     "Configure with BMFF format support in Exiv2 (if available) - only needed for Exiv2 0.27.x and before" ON)
-option(WITH_PUGIXML               "Configure with support for the pugixml library" ON)
 option(WITH_ZXING                 "Configure with support for the ZXing library (QR and barcodes detection)" ON)
 option(WITH_CHROMECAST            "Configure with support for Chromecast (through Python)" ON)
 option(WITH_CHROMECAST_PIPINSTALL "Allows CMake to attempt to install PyChromecast locally using pip" OFF)
@@ -55,6 +54,7 @@ option(WITH_LOCATION              "Configure with support for the QtPositioning/
 option(WITH_LCMS2                 "Configure with support for the Little CMS library (advanced color management)" ON)
 option(WITH_MOTIONPHOTO           "Configure with support for Google Motion Photos and Apple Live Photos" ON)
 option(WITH_PHOTOSPHERE           "Configure with support for photo spheres and 360 degree panoramic views" ON)
+option(WITH_PUGIXML               "Configure with support for the pugixml library (in place of Qt's XML support)" OFF)
 
 option(WITH_TESTING               "Enable and build some unit tests" OFF)
 option(WITH_RUNCPPCHECK           "Analyse source code with cppcheck" OFF)
@@ -97,6 +97,9 @@ SET(photoqt_QML_ADDITIONAL "")
 ################################
 
 find_package(Qt6 6.4 REQUIRED COMPONENTS Quick Widgets Sql Core Svg Concurrent Multimedia PrintSupport DBus LinguistTools)
+if(NOT WITH_PUGIXML)
+    find_package(Qt6 6.4 REQUIRED COMPONENTS Xml)
+endif()
 
 list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/CMake")
 
@@ -498,6 +501,10 @@ target_link_libraries(photoqt PRIVATE Qt6::Quick Qt6::Widgets Qt6::Sql Qt6::Core
 
 if(WITH_QTPDF)
     target_link_libraries(photoqt PRIVATE Qt6::Pdf)
+endif()
+
+if(NOT WITH_PUGIXML)
+    target_link_libraries(photoqt PRIVATE Qt6::Xml)
 endif()
 
 ###############################

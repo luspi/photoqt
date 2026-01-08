@@ -181,7 +181,7 @@ Item {
         }
         PQMenuItem {
             visible: (PQCConstants.filedialogCurrentSelection.length===1 && fileview_entry_menu.isCurrentFileSelected) || !fileview_entry_menu.isCurrentFileSelected
-            enabled: fileview_entry_menu.isFolder && PQCScriptsConfig.isPugixmlSupportEnabled()
+            enabled: fileview_entry_menu.isFolder
             iconSource: "image://svg/:/" + PQCLook.iconShade + "/star.svg"
             text: qsTranslate("filedialog", "Add to Favorites")
             onTriggered: {
