@@ -28,7 +28,7 @@ Loader {
 
     id: loader
 
-    property string tooltip: ""
+    property string tooltip: text
 
     signal clicked()
     signal rightClicked()
@@ -117,7 +117,7 @@ Loader {
                 anchors.fill: parent
                 hoverEnabled: true
                 cursorShape: Qt.PointingHandCursor
-                text: loader.text
+                text: loader.tooltip
                 acceptedButtons: Qt.LeftButton|Qt.RightButton
                 onClicked: (mouse) => {
                     if(mouse.button === Qt.LeftButton)
