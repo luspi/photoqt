@@ -311,8 +311,12 @@ PQTemplate {
 
 
             // if an image was loaded with PhotoQt, we make sure the file dialog opens at the right location
-            if(PQCFileFolderModel.currentFile !== "" && !PQCScriptsFilesPaths.areDirsTheSame(folder, PQCScriptsFilesPaths.getDir(PQCFileFolderModel.currentFile)))
-                folder = PQCScriptsFilesPaths.getDir(PQCFileFolderModel.currentFile)
+            if(PQCFileFolderModel.currentFile !== "" && !PQCScriptsFilesPaths.areDirsTheSame(folder, PQCScriptsFilesPaths.getDir(PQCFileFolderModel.currentFile))) {
+                if(PQCFileFolderModel.loadVirtualFolder)
+                    folder = "::virtual::"
+                else
+                    folder = PQCScriptsFilesPaths.getDir(PQCFileFolderModel.currentFile)
+            }
 
             // load folder
             PQCFileFolderModel.folderFileDialog = folder

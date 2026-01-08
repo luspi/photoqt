@@ -877,6 +877,11 @@ Item {
 
     function pasteFiles() {
 
+        if(PQCFileFolderModel.folderFileDialog === "::virtual::") {
+            PQCNotify.showNotificationMessage("Virtual folder", "It is not possible to paste files/folders into a virtual folder.")
+            return
+        }
+
         PQCConstants.filedialogCurrentSelection = []
 
         var lst = PQCScriptsClipboard.getListOfFilesInClipboard()
@@ -953,7 +958,7 @@ Item {
 
         if(key === Qt.Key_Up) {
 
-            if(modifiers & Qt.AltModifier || modifiers & Qt.ControlModifier)
+            if((modifiers & Qt.AltModifier || modifiers & Qt.ControlModifier) && PQCFileFolderModel.folderFileDialog !== "::virtual::")
                 filedialog_top.loadNewPath(PQCScriptsFilesPaths.goUpOneLevel(PQCFileFolderModel.folderFileDialog))
             else
                 getCurrentViewId().goUpARow()
@@ -967,7 +972,7 @@ Item {
 
         } else if(key === Qt.Key_Right) {
 
-            if(modifiers & Qt.ControlModifier && modifiers & Qt.ShiftModifier) {
+            if(modifiers & Qt.ControlModifier && modifiers & Qt.ShiftModifier && PQCFileFolderModel.folderFileDialog !== "::virtual::") {
 
                 var nextpath = PQCScriptsFileDialog.getSiblingFolder(PQCFileFolderModel.folderFileDialog, 1)
                 if(nextpath !== "")
@@ -990,7 +995,7 @@ Item {
 
         } else if(key === Qt.Key_Left) {
 
-            if(modifiers & Qt.ControlModifier && modifiers & Qt.ShiftModifier) {
+            if(modifiers & Qt.ControlModifier && modifiers & Qt.ShiftModifier && PQCFileFolderModel.folderFileDialog !== "::virtual::") {
 
                 var prevpath = PQCScriptsFileDialog.getSiblingFolder(PQCFileFolderModel.folderFileDialog, -1)
                 if(prevpath !== "")
@@ -1029,7 +1034,7 @@ Item {
 
         } else if(key === Qt.Key_Home) {
 
-            if(modifiers & Qt.AltModifier || modifiers & Qt.ControlModifier)
+            if((modifiers & Qt.AltModifier || modifiers & Qt.ControlModifier) && PQCFileFolderModel.folderFileDialog !== "::virtual::")
                 filedialog_top.loadNewPath(PQCScriptsFilesPaths.getHomeDir())
              else
                 view_top.currentIndex = 0

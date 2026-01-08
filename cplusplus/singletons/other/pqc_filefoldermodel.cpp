@@ -86,6 +86,7 @@ PQCFileFolderModel::PQCFileFolderModel(QObject *parent) : QObject(parent) {
     m_justLeftViewerMode = false;
 
     m_extraFoldersToLoad.clear();
+    m_virtualFolderExtraFolder.clear();
     m_virtualFolderContents.clear();
     m_loadVirtualFolder = false;
 
@@ -169,6 +170,7 @@ PQCFileFolderModel::PQCFileFolderModel(QObject *parent) : QObject(parent) {
 
     connect(&PQCFileFolderModelCPP::get(), &PQCFileFolderModelCPP::setFileInFolderMainView, this, [=](QString val) { setFileInFolderMainView(val); });
     connect(&PQCFileFolderModelCPP::get(), &PQCFileFolderModelCPP::setExtraFoldersToLoad, this, [=](QStringList val) { setExtraFoldersToLoad(val); });
+    connect(&PQCFileFolderModelCPP::get(), &PQCFileFolderModelCPP::setVirtualFolderExtraFolder, this, [=](QStringList val) { setVirtualFolderExtraFolder(val); });
     connect(&PQCFileFolderModelCPP::get(), &PQCFileFolderModelCPP::setVirtualFolderContents, this, [=](QStringList val) { setVirtualFolderContents(val); });
     connect(&PQCFileFolderModelCPP::get(), &PQCFileFolderModelCPP::setLoadVirtualFolder, this, [=](bool val) { setLoadVirtualFolder(val); });
 
@@ -346,6 +348,14 @@ QStringList PQCFileFolderModel::getExtraFoldersToLoad() {
 void PQCFileFolderModel::setExtraFoldersToLoad(QStringList val) {
     m_extraFoldersToLoad = val;
     Q_EMIT extraFoldersToLoadChanged();
+}
+
+QStringList PQCFileFolderModel::getVirtualFolderExtraFolder() {
+    return m_virtualFolderExtraFolder;
+}
+void PQCFileFolderModel::setVirtualFolderExtraFolder(QStringList val) {
+    m_virtualFolderExtraFolder = val;
+    Q_EMIT virtualFolderExtraFolderChanged();
     loadDelayMainView->start();
 }
 
@@ -980,7 +990,7 @@ void PQCFileFolderModel::loadDataMainView() {
 
         m_entriesMainView = m_virtualFolderContents;
 
-        for(const QString &f : m_extraFoldersToLoad)
+        for(const QString &f : m_virtualFolderExtraFolder)
             m_entriesMainView.append(getAllFiles(f));
 
         if(m_entriesMainView.length() == 0)
@@ -1158,25 +1168,39 @@ void PQCFileFolderModel::loadDataFileDialog() {
         return;
     }
 
-    ////////////////////////
-    // watch directory for changes
+    if(m_folderFileDialog == "::virtual::") {
 
-    watcherFileDialog->addPath(m_folderFileDialog);
-    connect(watcherFileDialog, &QFileSystemWatcher::directoryChanged, this, &PQCFileFolderModel::loadDataFileDialog);
+        ////////////////////////
+        // virtual folder!
 
-    ////////////////////////
-    // load folders
+        m_entriesFileDialog = m_virtualFolderContents;
+        m_countFoldersFileDialog = 0;
+        m_countFilesFileDialog = m_virtualFolderContents.length();
+        m_countAllFileDialog = m_countFilesFileDialog;
 
-    m_entriesFileDialog = getAllFolders(m_folderFileDialog);
-    m_countFoldersFileDialog = m_entriesFileDialog.length();
+    } else {
 
-    ////////////////////////
-    // load files
+        ////////////////////////
+        // watch directory for changes
 
-    m_entriesFileDialog.append(getAllFiles(m_folderFileDialog, true, true));
-    m_countFilesFileDialog = m_entriesFileDialog.length()-m_countFoldersFileDialog;
+        watcherFileDialog->addPath(m_folderFileDialog);
+        connect(watcherFileDialog, &QFileSystemWatcher::directoryChanged, this, &PQCFileFolderModel::loadDataFileDialog);
 
-    m_countAllFileDialog = m_countFoldersFileDialog+m_countFilesFileDialog;
+        ////////////////////////
+        // load folders
+
+        m_entriesFileDialog = getAllFolders(m_folderFileDialog);
+        m_countFoldersFileDialog = m_entriesFileDialog.length();
+
+        ////////////////////////
+        // load files
+
+        m_entriesFileDialog.append(getAllFiles(m_folderFileDialog, true, true));
+        m_countFilesFileDialog = m_entriesFileDialog.length()-m_countFoldersFileDialog;
+
+        m_countAllFileDialog = m_countFoldersFileDialog+m_countFilesFileDialog;
+
+    }
 
     qDebug() << "Found" << m_countFoldersFileDialog << "folders and" << m_countFilesFileDialog << "files";
 

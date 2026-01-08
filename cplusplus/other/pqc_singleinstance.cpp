@@ -467,7 +467,7 @@ void PQCSingleInstance::handleMessage(const QList<Actions> msg, bool includeFile
                 qDebug() << "setting up virtual folder:" << allfiles << allfolders;
 
                 if(allfolders.length())
-                    PQCFileFolderModelCPP::get().setExtraFoldersToLoad(allfolders);
+                    PQCFileFolderModelCPP::get().setVirtualFolderExtraFolder(allfolders);
                 PQCFileFolderModelCPP::get().setVirtualFolderContents(allfiles);
                 PQCFileFolderModelCPP::get().setLoadVirtualFolder(true);
                 PQCNotifyCPP::get().setVirtualFolder({allfiles, allfolders});

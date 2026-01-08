@@ -103,6 +103,10 @@ public:
     QStringList getExtraFoldersToLoad();
     void setExtraFoldersToLoad(QStringList val);
 
+    Q_PROPERTY(QStringList virtualFolderExtraFolder READ getVirtualFolderExtraFolder WRITE setVirtualFolderExtraFolder NOTIFY virtualFolderExtraFolderChanged)
+    QStringList getVirtualFolderExtraFolder();
+    void setVirtualFolderExtraFolder(QStringList val);
+
     Q_PROPERTY(QStringList virtualFolderContents READ getVirtualFolderContents WRITE setVirtualFolderContents NOTIFY virtualFolderContentsChanged)
     QStringList getVirtualFolderContents();
     void setVirtualFolderContents(QStringList val);
@@ -226,6 +230,7 @@ private:
     bool m_readArchiveOnly;
     bool m_includeFilesInSubFolders;
     QStringList m_extraFoldersToLoad;
+    QStringList m_virtualFolderExtraFolder;
     QStringList m_virtualFolderContents;
     bool m_loadVirtualFolder;
 
@@ -313,6 +318,7 @@ Q_SIGNALS:
     void readArchiveOnlyChanged();
     void includeFilesInSubFoldersChanged();
     void extraFoldersToLoadChanged();
+    void virtualFolderExtraFolderChanged();
     void virtualFolderContentsChanged();
     void loadVirtualFolderChanged();
     void advancedSortDoneChanged();

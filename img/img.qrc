@@ -212,5 +212,7 @@
         <file>light/findnext.svg</file>
         <file>dark/find.svg</file>
         <file>light/find.svg</file>
+        <file>dark/virtualfolder.svg</file>
+        <file>light/virtualfolder.svg</file>
     </qresource>
 </RCC>
