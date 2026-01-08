@@ -46,7 +46,7 @@ PQCSingleInstance::PQCSingleInstance(int &argc, char *argv[]) : QApplication(arg
     PQCCommandLineResult result = parser.getResult();
 
     QList<Actions> msg;
-    QString receivedFile = "";
+    QStringList receivedFiles;
     QString receivedShortcut = "";
     QString receivedSetting[2] = {"", ""};
 
@@ -60,9 +60,11 @@ PQCSingleInstance::PQCSingleInstance(int &argc, char *argv[]) : QApplication(arg
     m_forceSkipWizard = false;
 
     if(result & PQCCommandLineFile) {
+        bool first = true;
         for(const auto &f : std::as_const(parser.filenames)) {
-            msg << Actions::File;
-            receivedFile = QFileInfo(f).canonicalFilePath();
+            if(first) msg << Actions::File;
+            first = false;
+            receivedFiles.append(QFileInfo(f).canonicalFilePath());
         }
     }
 
@@ -198,8 +200,7 @@ PQCSingleInstance::PQCSingleInstance(int &argc, char *argv[]) : QApplication(arg
             else {
                 if(query.next()) {
                     if(query.value(0).toBool()) {
-                        if(receivedFile != "")
-                            m_receivedFile = receivedFile;
+                        m_receivedFiles = receivedFiles;
                         if(receivedShortcut != "")
                             m_receivedShortcut = receivedShortcut;
                         if(receivedSetting[0] != "") {
@@ -253,8 +254,8 @@ PQCSingleInstance::PQCSingleInstance(int &argc, char *argv[]) : QApplication(arg
         }
 
         // Send composed message string
-        if(receivedFile != "")
-            writeMessage.append(QStringLiteral("_F_I_L_E_%1\n").arg(receivedFile).toUtf8());
+        if(receivedFiles.length())
+            writeMessage.append(QStringLiteral("_F_I_L_E_%1\n").arg(receivedFiles.join(":://:://::")).toUtf8());
         if(receivedShortcut != "")
             writeMessage.append(QStringLiteral("_S_H_O_R_T_C_U_T_%1\n").arg(receivedShortcut).toUtf8());
         if(receivedSetting[0] != "")
@@ -279,7 +280,7 @@ PQCSingleInstance::PQCSingleInstance(int &argc, char *argv[]) : QApplication(arg
         server->listen(server_str);
         connect(server, &QLocalServer::newConnection, this, &PQCSingleInstance::newConnection);
 
-        m_receivedFile = receivedFile;
+        m_receivedFiles = receivedFiles;
         m_receivedSetting[0] = receivedSetting[0];
         m_receivedSetting[1] = receivedSetting[1];
         m_receivedShortcut = receivedShortcut;
@@ -301,7 +302,7 @@ void PQCSingleInstance::newConnection() {
             if(rep.startsWith("_T_O_K_E_N_")) {
                 qputenv("XDG_ACTIVATION_TOKEN", rep.last(rep.length()-11));
             } else if(rep.startsWith("_F_I_L_E_")) {
-                m_receivedFile = rep.last(rep.length()-9);
+                m_receivedFiles = QString(rep.last(rep.length()-9)).split(":://:://::");
                 handleAll.append(Actions::File);
             } else if(rep.startsWith("_S_H_O_R_T_C_U_T_")) {
                 m_receivedShortcut = rep.last(rep.length()-17);
@@ -337,8 +338,6 @@ void PQCSingleInstance::handleMessage(const QList<Actions> msg, bool includeFile
     QStringList allfiles;
     QStringList allfolders;
 
-    QFileInfo info(m_receivedFile);
-
     for(const Actions &m : std::as_const(msg)) {
 
         switch(m) {
@@ -347,19 +346,25 @@ void PQCSingleInstance::handleMessage(const QList<Actions> msg, bool includeFile
 
             if(includeFileProcessing) {
 
+                for(const QString &f : m_receivedFiles) {
 
-                // sort by files and folders
-                // that way we can make sure to always load the first specified file as initial image
-                if(!info.exists())
-                    continue;
-                if(info.isFile()) {
-                    qDebug() << "received file:" << m_receivedFile;
-                    allfiles.append(m_receivedFile);
-                } else if(info.isDir()) {
-                    qDebug() << "received folder:" << m_receivedFile;
-                    allfolders.append(m_receivedFile);
+                    // sort by files and folders
+                    // that way we can make sure to always load the first specified file as initial image
+
+                    QFileInfo info(f);
+
+                    if(!info.exists())
+                        continue;
+
+                    if(info.isFile()) {
+                        qDebug() << "received file:" << f;
+                        allfiles.append(f);
+                    } else if(info.isDir()) {
+                        qDebug() << "received folder:" << f;
+                        allfolders.append(f);
+                    }
+
                 }
-
             }
 
             break;
@@ -446,13 +451,28 @@ void PQCSingleInstance::handleMessage(const QList<Actions> msg, bool includeFile
     if(includeFileProcessing) {
         // if we have files and/or folders that were passed on
         if(allfiles.length() > 0 || allfolders.length() > 0) {
-            allfiles.append(allfolders);
-            if(allfiles.length() > 1)
-                Q_EMIT PQCFileFolderModelCPP::get().setExtraFoldersToLoad(allfiles.mid(1));
-            else
+
+            if((allfiles.length() == 1 && allfolders.length() == 0) ||
+               (allfiles.length() == 0 && allfolders.length() == 1)) {
+
+                qDebug() << "setting single file/folder:" << allfiles << allfolders;
+
+                allfiles.append(allfolders);
                 Q_EMIT PQCFileFolderModelCPP::get().setExtraFoldersToLoad({});
-            qDebug() << "request action: set file:" << allfiles[0];
-            PQCNotifyCPP::get().setFilePath(allfiles[0]);
+                PQCNotifyCPP::get().setFilePath(allfiles[0]);
+
+            // if multiple files/folders are passed, then we create a virtual folder with its contents
+            } else {
+
+                qDebug() << "setting up virtual folder:" << allfiles << allfolders;
+
+                if(allfolders.length())
+                    PQCFileFolderModelCPP::get().setExtraFoldersToLoad(allfolders);
+                PQCFileFolderModelCPP::get().setVirtualFolderContents(allfiles);
+                PQCFileFolderModelCPP::get().setLoadVirtualFolder(true);
+                PQCNotifyCPP::get().setVirtualFolder({allfiles, allfolders});
+
+            }
         }
     }
 

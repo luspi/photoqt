@@ -292,13 +292,25 @@ ApplicationWindow {
                 showFullScreen()
         }
 
-        if(PQCConstants.startupFilePath !== "") {
+        if(PQCConstants.startupVirtualFolder.length && (PQCConstants.startupVirtualFolder[0].length || PQCConstants.startupVirtualFolder[1].length)) {
+
+            PQCFileFolderModel.extraFoldersToLoad = PQCConstants.startupVirtualFolder[1]
+            PQCFileFolderModel.virtualFolderContents = PQCConstants.startupVirtualFolder[0]
+            PQCFileFolderModel.loadVirtualFolder = true
+            PQCFileFolderModel.fileInFolderMainView = PQCFileFolderModel.virtualFolderContents[0]
+            PQCConstants.startupFilePath = PQCFileFolderModel.virtualFolderContents[0]
+
+        } else if(PQCConstants.startupFilePath !== "") {
+
             // in the case of a FOLDER passed on we actually need to load the files first to get the first one:
             if(PQCConstants.startupFileIsFolder)
                 PQCFileFolderModel.fileInFolderMainView = PQCConstants.startupFilePath
+
         } else if(PQCSettings.interfaceRememberLastImage) {
+
             PQCConstants.startupFilePath = PQCScriptsConfig.getLastLoadedImage()
             PQCConstants.startupFileIsFolder = PQCScriptsFilesPaths.isFolder(PQCConstants.startupFilePath)
+
         }
 
         // this comes after the above to make sure we load a potentially passed-on image

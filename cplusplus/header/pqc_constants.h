@@ -186,6 +186,7 @@ public:
 
         m_debugMode = PQCNotifyCPP::get().getDebug();
         m_debugLogMessages = "";
+        m_startupVirtualFolder = PQCNotifyCPP::get().getVirtualFolder();
         m_startupFilePath = PQCNotifyCPP::get().getFilePath();
         if(m_startupFilePath != "") {
             QFileInfo info(m_startupFilePath);
@@ -298,6 +299,7 @@ public:
     Q_PROPERTY(bool debugMode MEMBER m_debugMode NOTIFY debugModeChanged)
     Q_PROPERTY(QString debugLogMessages MEMBER m_debugLogMessages NOTIFY debugLogMessagesChanged)
     Q_PROPERTY(QString startupFilePath MEMBER m_startupFilePath NOTIFY startupFilePathChanged)
+    Q_PROPERTY(QList<QStringList> startupVirtualFolder MEMBER m_startupVirtualFolder NOTIFY startupVirtualFolderChanged)
     Q_PROPERTY(bool startupFileIsFolder MEMBER m_startupFileIsFolder NOTIFY startupFileIsFolderChanged)
     Q_PROPERTY(bool startupStartInTray MEMBER m_startupStartInTray NOTIFY startupStartInTrayChanged)
     Q_PROPERTY(bool startupHaveScreenshots MEMBER m_startupHaveScreenshots NOTIFY startupHaveScreenshotsChanged)
@@ -451,6 +453,7 @@ private:
     QString m_debugLogMessages;
     QMutex m_addDebugLogMessageMutex;
     QString m_startupFilePath;
+    QList<QStringList> m_startupVirtualFolder;
     bool m_startupFileIsFolder;
     bool m_startupStartInTray;
     bool m_startupHaveScreenshots;
@@ -572,6 +575,7 @@ Q_SIGNALS:
     void debugModeChanged();
     void debugLogMessagesChanged();
     void startupFilePathChanged();
+    void startupVirtualFolderChanged();
     void startupFileIsFolderChanged();
     void startupStartInTrayChanged();
     void startupHaveScreenshotsChanged();

@@ -92,7 +92,7 @@ private:
     QLocalSocket *socket;
     QLocalServer *server;
 
-    QString m_receivedFile;
+    QStringList m_receivedFiles;
     QString m_receivedShortcut;
     QString m_receivedSetting[2];
 
