@@ -120,7 +120,7 @@
                 https://photoqt.org/news/photoqt-5.0
             </url>
         </release>
-        <release version="5.0-pre2" date="2025-12-17">
+        <release version="5.0~beta2" date="2025-12-17">
             <description>
                 <p>The second (and final) beta release of the upcoming v5.0 is ready for testing. Thank you to all those that tested the first beta and provided feedback. If you are able to help with testing, please do and report any issues you encounter.</p>
             </description>
@@ -128,7 +128,7 @@
                 https://photoqt.org/news/photoqt-5.0-beta2
             </url>
         </release>
-        <release version="5.0-pre1" date="2025-11-28">
+        <release version="5.0~beta1" date="2025-11-28">
             <description>
                 <p>After many months of hard work, the first beta release of v5.0 is ready for testing. There are likely still some bugs and some things might need a bit more polishing. I'm looking for help with testing it, the more people do that and report back their feedback the better.</p>
             </description>
