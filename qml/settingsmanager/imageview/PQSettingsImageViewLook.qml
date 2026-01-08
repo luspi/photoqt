@@ -139,6 +139,17 @@ PQSetting {
             }
         },
 
+        PQText {
+
+            x: -set_look.indentWidth
+
+            width: set_look.contentWidth
+            wrapMode: Text.WrapAtWordBoundaryOrAnywhere
+
+            text: qsTranslate("settingsmanager", "Note that if PhotoQt is told to preserve zoom levels across images, then this setting here will have no effect.")
+
+        },
+
         /***********************************************/
 
         PQSettingSubtitle {

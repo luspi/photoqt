@@ -66,8 +66,6 @@ Loader {
         property size imageResolution: Qt.size(0,0)
 
         onImageResolutionChanged: {
-            if(PQCSettings.imageviewFitInWindow)
-                resetDefaults.triggered()
             if(loader_top.isMainImage)
                 PQCConstants.currentImageResolution = imageResolution
         }
@@ -1477,7 +1475,7 @@ Loader {
 
                             var val = 0.99999999*image_wrapper.computeDefaultScale()
 
-                            if(PQCSettings.imageviewFitInWindow && loader_top.imageResolution.height > 0 && loader_top.imageResolution.width > 0) {
+                            if(PQCSettings.imageviewFitInWindow && loader_top.imageResolution.width > 0 && loader_top.imageResolution.height > 0) {
                                 var factW, factH
                                 if(rotationAnimation.to%180 == 0) {
                                     factW = flickable.width/(loader_top.imageResolution.width*val)
@@ -2568,14 +2566,21 @@ Loader {
                 loader_top.loadScaleRotation()
                 loader_top.resetToDefaults()
 
-                if(PQCSettings.imageviewAlwaysActualSize) {
+                if(PQCSettings.imageviewFitInWindow && flickable.contentWidth < flickable.width && flickable.contentHeight < flickable.height) {
+
+                    resetDefaults.resetScale()
+
+                } else if(PQCSettings.imageviewAlwaysActualSize) {
+
                     loader_top.zoomActualWithoutAnimation()
+
                     if(!PQCSettings.imageviewRememberZoomRotationMirror || !(imageloaderitem.imageSource in image_top.rememberChanges)) {
                         if(flickable.contentWidth > flickable.width)
                             flickable.contentX = Qt.binding(function() { return (flickable.contentWidth-flickable.width)/2 })
                         if(flickable.contentHeight > flickable.height)
                             flickable.contentY = Qt.binding(function() { return (flickable.contentHeight-flickable.height)/2 })
                     }
+
                 } else {
 
                     PQCConstants.imageInitiallyLoaded = true
