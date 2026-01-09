@@ -1191,6 +1191,112 @@ void PQCScriptsFileDialog::hidePlacesEntry(QString id, bool hidden) {
 
     doc.save_file(PQCConfigFiles::get().USER_PLACES_XBEL().toUtf8(), " ");
 
+#else
+
+    QDomDocument doc;
+    QFile file(PQCConfigFiles::get().USER_PLACES_XBEL());
+    if(!file.open(QIODevice::ReadOnly)) {
+        qWarning() << "Unable to open file to read user places. Either file doesn't exist (yet) or cannot be read...";
+        return;
+    }
+    if(!doc.setContent(&file)) {
+        qWarning() << "Unable to read user places. Either file doesn't exist (yet) or cannot be read...";
+        file.close();
+        return;
+    }
+    file.close();
+
+    QDomNodeList bookmarksList = doc.elementsByTagName("bookmark");
+
+    for(int i = 0; i < bookmarksList.count(); ++i) {
+
+        QDomNode node = bookmarksList.at(i);
+        QDomElement ele = node.toElement();
+
+        if(ele.isNull()) {
+            qWarning() << "Unable to find bookmark...";
+            continue;
+        }
+
+        const QDomNodeList idList = ele.elementsByTagName("ID");
+        const QString curId = (idList.length() ? idList.at(0).toElement().text() : "");
+
+        if(curId == id) {
+
+            QDomNodeList hiddenNodeList = ele.elementsByTagName("IsHidden");
+            if(hiddenNodeList.length() == 0) {
+
+                QDomElement isHiddenEle = doc.createElement("IsHidden");
+                QDomText isHiddenText = doc.createTextNode(hidden ? "true" : "false");
+                isHiddenEle.appendChild(isHiddenText);
+
+                QDomNodeList metadataList = ele.elementsByTagName("metadata");
+                bool haveMetadataBlock = false;
+                for(int j = 0; j < metadataList.length(); ++j) {
+
+                    QDomNode metaNode = metadataList.at(j);
+                    if(metaNode.toElement().attribute("owner") == "http://www.kde.org") {
+
+                        haveMetadataBlock = true;
+                        metaNode.appendChild(metaNode);
+                        break;
+
+                    }
+
+                }
+
+                if(!haveMetadataBlock) {
+
+                    // <metadata> kde.org
+                    QDomElement metadataEle = doc.createElement("metadata");
+                    metadataEle.setAttribute("owner", "http://www.kde.org");
+
+                    // <ID>
+                    QDomElement idEle = doc.createElement("ID");
+                    QDomText idText = doc.createTextNode(getUniquePlacesId());
+                    idEle.appendChild(idText);
+
+                    // <IsHidden>
+                    QDomElement isHiddenEle = doc.createElement("IsHidden");
+                    QDomText isHiddenText = doc.createTextNode(hidden ? "true" : "false");
+                    isHiddenEle.appendChild(isHiddenText);
+
+                    // <isSystemItem>
+                    QDomElement isSystemItemEle = doc.createElement("isSystemItem");
+                    QDomText isSystemItemText = doc.createTextNode("false");
+                    isSystemItemEle.appendChild(isSystemItemText);
+
+                    metadataEle.appendChild(idEle);
+                    metadataEle.appendChild(isHiddenEle);
+                    metadataEle.appendChild(isSystemItemEle);
+
+                    QDomNodeList infoList = ele.elementsByTagName("info");
+                    if(infoList.length() == 0) {
+                        QDomElement infoEle = doc.createElement("info");
+                        ele.appendChild(infoEle);
+                        infoList = ele.elementsByTagName("info");
+                    }
+
+                    infoList.at(0).appendChild(metadataEle);
+
+                }
+
+            } else {
+
+                hiddenNodeList.at(0).childNodes().at(0).toText().setData(hidden ? "true" : "false");
+            }
+
+        }
+
+    }
+
+    QFile saveFile(PQCConfigFiles::get().USER_PLACES_XBEL());
+    if(saveFile.open(QIODevice::WriteOnly)) {
+        QTextStream out(&saveFile);
+        out << doc.toString();
+    }
+    saveFile.close();
+
 #endif
 
 }
@@ -1223,6 +1329,54 @@ void PQCScriptsFileDialog::deletePlacesEntry(QString id) {
     }
 
     doc.save_file(PQCConfigFiles::get().USER_PLACES_XBEL().toUtf8(), " ");
+
+#else
+
+    QDomDocument doc;
+    QFile file(PQCConfigFiles::get().USER_PLACES_XBEL());
+    if(!file.open(QIODevice::ReadOnly)) {
+        qWarning() << "Unable to open file to read user places. Either file doesn't exist (yet) or cannot be read...";
+        return;
+    }
+    if(!doc.setContent(&file)) {
+        qWarning() << "Unable to read user places. Either file doesn't exist (yet) or cannot be read...";
+        file.close();
+        return;
+    }
+    file.close();
+
+    const QDomNodeList bookmarksList = doc.elementsByTagName("bookmark");
+
+    for(int i = 0; i < bookmarksList.count(); ++i) {
+
+        QDomNode node = bookmarksList.at(i);
+        QDomElement ele = node.toElement();
+
+        const QDomNodeList idList = ele.elementsByTagName("ID");
+        if(idList.length() == 0) continue;
+        const QString curId = idList.at(0).toElement().text();
+
+        if(curId == id) {
+
+            QDomNodeList xbel = doc.elementsByTagName("xbel");
+            if(xbel.length() != 1) {
+                qWarning() << "ERROR: Expected exactly 1 xbel tag, but found" << xbel.length();
+                return;
+            }
+
+            xbel.at(0).removeChild(node);
+
+            break;
+        }
+
+    }
+
+    QFile saveFile(PQCConfigFiles::get().USER_PLACES_XBEL());
+    if(saveFile.open(QIODevice::WriteOnly)) {
+        QTextStream out(&saveFile);
+        out << doc.toString();
+    }
+    saveFile.close();
 
 #endif
 

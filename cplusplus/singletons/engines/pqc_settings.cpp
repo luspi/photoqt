@@ -8060,13 +8060,6 @@ void PQCSettings::setupFresh() {
     m_filedialogDevices = true;
 #endif
 
-#ifndef PQMPUGIXML
-    // with no pugixml we hide the bookmarks (as they are currently empty)
-    // and instead show the devices by default
-    m_filedialogDevices = true;
-    m_filedialogPlaces = false;
-#endif
-
     // the window decoration on Gnome is a bit weird
     // that's why we disable it by default
     if(qgetenv("XDG_CURRENT_DESKTOP").contains("GNOME"))
