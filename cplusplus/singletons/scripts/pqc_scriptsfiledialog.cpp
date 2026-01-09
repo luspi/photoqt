@@ -231,7 +231,8 @@ QVariantList PQCScriptsFileDialog::getPlaces(bool performEmptyCheck) {
 
     for(int i = 0; i < bookmarksList.count(); ++i) {
 
-        QDomElement ele = bookmarksList.at(i).toElement();
+        QDomNode node = bookmarksList.at(i);
+        QDomElement ele = node.toElement();
 
         if(ele.isNull()) {
             qWarning() << "Unable to find bookmark...";
@@ -292,28 +293,133 @@ QVariantList PQCScriptsFileDialog::getPlaces(bool performEmptyCheck) {
 
             id = getUniquePlacesId();
 
-            // TODO !!!
+            // if we don't have an info tag, add everything
+            if(ele.elementsByTagName("info").length() == 0) {
 
-            // pugi::xml_node info = bm.select_node("info").node();
+                QDomNode newNode(node);
 
-            // // <metadata> kde.org
-            // pugi::xml_node metadata = info.append_child("metadata");
-            // metadata.append_attribute("owner");
-            // metadata.attribute("owner").set_value("http://www.kde.org");
+                QDomElement infoEle = doc.createElement("info");
 
-            // // <ID>
-            // pugi::xml_node ID = metadata.append_child("ID");
-            // ID.text().set(id.toStdString().c_str());
+                // <metadata> freedesktop.org
+                QDomElement metadataFDEle = doc.createElement("metadata");
+                metadataFDEle.setAttribute("owner", "http://freedesktop.org");
 
-            // // <IsHidden>
-            // pugi::xml_node IsHidden = metadata.append_child("IsHidden");
-            // IsHidden.text().set("false");
+                // <bookmark:icon>
+                QDomElement iconFDEle = doc.createElement("bookmark:icon");
+                iconFDEle.setAttribute("name", "folder");
 
-            // // <isSystemItem>
-            // pugi::xml_node isSystemItem = metadata.append_child("isSystemItem");
-            // isSystemItem.text().set("false");
+                metadataFDEle.appendChild(iconFDEle);
 
-            // docUpdated = true;
+                // <metadata> kde.org
+                QDomElement metadataEle = doc.createElement("metadata");
+                metadataEle.setAttribute("owner", "http://www.kde.org");
+
+                // <ID>
+                QDomElement idEle = doc.createElement("ID");
+                QDomText idText = doc.createTextNode(id);
+                idEle.appendChild(idText);
+
+                // <IsHidden>
+                QDomElement isHiddenEle = doc.createElement("IsHidden");
+                QDomText isHiddenText = doc.createTextNode("false");
+                isHiddenEle.appendChild(isHiddenText);
+
+                // <isSystemItem>
+                QDomElement isSystemItemEle = doc.createElement("isSystemItem");
+                QDomText isSystemItemText = doc.createTextNode("false");
+                isSystemItemEle.appendChild(isSystemItemText);
+
+                metadataEle.appendChild(idEle);
+                metadataEle.appendChild(isHiddenEle);
+                metadataEle.appendChild(isSystemItemEle);
+
+                infoEle.appendChild(metadataFDEle);
+                infoEle.appendChild(metadataEle);
+
+                node.appendChild(infoEle);
+
+            // in this case we need to check whether a metadata tag with the right owner exists already
+            } else {
+
+                int existingMetadataIndex = -1;
+                if(ele.elementsByTagName("metadata").length() > 0) {
+
+                    QDomNodeList metadataList = ele.elementsByTagName("metadata");
+                    for(int j = 0; j < metadataList.length(); ++j) {
+
+                        QDomElement metaEle = metadataList.at(j).toElement();
+
+                        if(metaEle.hasAttribute("owner") && metaEle.attribute("owner") == "http://www.kde.org") {
+                            existingMetadataIndex = j;
+                            break;
+                        }
+
+                    }
+                // also create default folder icon
+                } else {
+
+                    // <metadata> freedesktop.org
+                    QDomElement metadataEle = doc.createElement("metadata");
+                    metadataEle.setAttribute("owner", "http://freedesktop.org");
+
+                    // <bookmark:icon>
+                    QDomElement iconEle = doc.createElement("bookmark:icon");
+                    iconEle.setAttribute("name", "folder");
+
+                    metadataEle.appendChild(iconEle);
+
+                    ele.elementsByTagName("info").at(0).appendChild(metadataEle);
+
+                }
+
+                // we need to create this element
+                if(existingMetadataIndex == -1) {
+
+                    // we know at least one exists since we got here by now
+                    QDomElement infoEle = ele.elementsByTagName("info").at(0).toElement();
+
+                    // <metadata> kde.org
+                    QDomElement metadataEle = doc.createElement("metadata");
+                    metadataEle.setAttribute("owner", "http://www.kde.org");
+
+                    // <ID>
+                    QDomElement idEle = doc.createElement("ID");
+                    QDomText idText = doc.createTextNode(id);
+                    idEle.appendChild(idText);
+
+                    // <IsHidden>
+                    QDomElement isHiddenEle = doc.createElement("IsHidden");
+                    QDomText isHiddenText = doc.createTextNode("false");
+                    isHiddenEle.appendChild(isHiddenText);
+
+                    // <isSystemItem>
+                    QDomElement isSystemItemEle = doc.createElement("isSystemItem");
+                    QDomText isSystemItemText = doc.createTextNode("false");
+                    isSystemItemEle.appendChild(isSystemItemText);
+
+                    metadataEle.appendChild(idEle);
+                    metadataEle.appendChild(isHiddenEle);
+                    metadataEle.appendChild(isSystemItemEle);
+
+                    ele.elementsByTagName("info").at(0).appendChild(metadataEle);
+
+                // otherwise we just add an id tag
+                } else {
+
+                    QDomElement metaEle = ele.elementsByTagName("metadata").at(existingMetadataIndex).toElement();
+
+                    // <ID>
+                    QDomElement idEle = doc.createElement("ID");
+                    QDomText idText = doc.createTextNode(id);
+                    idEle.appendChild(idText);
+
+                    metaEle.appendChild(idEle);
+
+                }
+
+            }
+
+            docUpdated = true;
 
         }
         entry << id;
@@ -327,9 +433,15 @@ QVariantList PQCScriptsFileDialog::getPlaces(bool performEmptyCheck) {
 
     }
 
-    // TODO !!!
-    // if(docUpdated)
-    //     doc.save_file(PQCConfigFiles::get().USER_PLACES_XBEL().toUtf8(), " ");
+    // document was updated -> save file
+    if(docUpdated) {
+        QFile saveFile(PQCConfigFiles::get().USER_PLACES_XBEL());
+        if(saveFile.open(QIODevice::WriteOnly)) {
+            QTextStream out(&saveFile);
+            out << doc.toString();
+        }
+        saveFile.close();
+    }
 
 
 #endif
