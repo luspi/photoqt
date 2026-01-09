@@ -687,6 +687,104 @@ void PQCScriptsFileDialog::movePlacesEntry(QString id, bool moveDown, int howman
     }
 
     doc.save_file(PQCConfigFiles::get().USER_PLACES_XBEL().toUtf8(), " ");
+
+#else
+
+    QDomDocument doc;
+    QFile file(PQCConfigFiles::get().USER_PLACES_XBEL());
+    if(!file.open(QIODevice::ReadOnly)) {
+        qWarning() << "Unable to open file to read user places. Either file doesn't exist (yet) or cannot be read...";
+        return;
+    }
+    if(!doc.setContent(&file)) {
+        qWarning() << "Unable to read user places. Either file doesn't exist (yet) or cannot be read...";
+        file.close();
+        return;
+    }
+    file.close();
+
+    const QDomNodeList bookmarksList = doc.elementsByTagName("bookmark");
+
+    QStringList allIds;
+    for(int i = 0; i < bookmarksList.count(); ++i) {
+
+        QDomElement ele = bookmarksList.at(i).toElement();
+
+        if(ele.isNull()) {
+            qWarning() << "Unable to find bookmark...";
+            continue;
+        }
+
+        const QDomNodeList idList = ele.elementsByTagName("ID");
+        const QString curId = (idList.length() ? idList.at(0).toElement().text() : "");
+        const QString curPath = QUrl::fromPercentEncoding(ele.attribute("href").toUtf8());
+        if(curPath.startsWith("file:") || curPath == "trash:" || curPath == "trash:/")
+            allIds.append(curId);
+    }
+
+    for(int i = 0; i < bookmarksList.count(); ++i) {
+
+        QDomNode node = bookmarksList.at(i);
+        QDomElement ele = node.toElement();
+
+        QDomNodeList idList = ele.elementsByTagName("ID");
+        if(idList.length() == 0) continue;
+        QString curId = idList.at(0).toElement().text();
+
+        if(id == curId) {
+
+            QString targetId = "";
+            bool addAtBeginning = false;
+            if(moveDown)
+                targetId = allIds[qMin(allIds.length()-1, allIds.indexOf(id)+howmany)];
+            else {
+                int newid = allIds.indexOf(id)-howmany-1;
+                if(newid < 0)
+                    addAtBeginning = true;
+                targetId = allIds[qMax(0, newid)];
+            }
+
+            for(int j = 0; j < bookmarksList.count(); ++j) {
+
+                QDomNode targetNode = bookmarksList.at(j);
+                QDomElement targetEle = targetNode.toElement();
+
+                QDomNodeList targetList = targetEle.elementsByTagName("ID");
+                if(targetList.length() == 0) continue;
+                QString curId = targetList.at(0).toElement().text();
+
+                if(curId == targetId) {
+
+                    QDomNodeList xbel = doc.elementsByTagName("xbel");
+                    if(xbel.length() != 1) {
+                        qWarning() << "ERROR: Expected exactly 1 xbel tag, but found" << xbel.length();
+                        return;
+                    }
+
+                    xbel.at(0).removeChild(node);
+                    if(addAtBeginning)
+                        xbel.at(0).insertBefore(node, targetNode);
+                    else
+                        xbel.at(0).insertAfter(node, targetNode);
+
+                    break;
+                }
+
+            }
+
+            break;
+
+        }
+
+    }
+
+    QFile saveFile(PQCConfigFiles::get().USER_PLACES_XBEL());
+    if(saveFile.open(QIODevice::WriteOnly)) {
+        QTextStream out(&saveFile);
+        out << doc.toString();
+    }
+    saveFile.close();
+
 #endif
 
 }
@@ -838,6 +936,221 @@ void PQCScriptsFileDialog::addPlacesEntry(QString path, int pos, QString titlest
     }
 
     doc.save_file(PQCConfigFiles::get().USER_PLACES_XBEL().toUtf8(), " ");
+
+#else
+
+    QDomDocument doc;
+    QFile file(PQCConfigFiles::get().USER_PLACES_XBEL());
+    if(!file.open(QIODevice::ReadOnly)) {
+        qWarning() << "Unable to open file to read user places. Either file doesn't exist (yet) or cannot be read...";
+        return;
+    }
+    if(!doc.setContent(&file)) {
+        qWarning() << "Unable to read user places. Either file doesn't exist (yet) or cannot be read...";
+        file.close();
+        return;
+    }
+    file.close();
+
+    const QDomNodeList bookmarksList = doc.elementsByTagName("bookmark");
+
+    QStringList allIds;
+    for(int i = 0; i < bookmarksList.count(); ++i) {
+
+        QDomElement ele = bookmarksList.at(i).toElement();
+
+        if(ele.isNull()) {
+            qWarning() << "Unable to find bookmark...";
+            continue;
+        }
+
+        const QDomNodeList idList = ele.elementsByTagName("ID");
+        const QString curId = (idList.length() ? idList.at(0).toElement().text() : "");
+        const QString curPath = QUrl::fromPercentEncoding(ele.attribute("href").toUtf8());
+        if(curPath.startsWith("file:") || curPath == "trash:" || curPath == "trash:/")
+            allIds.append(curId);
+    }
+
+    QString newid_base = QString::number(QDateTime::currentDateTime().toMSecsSinceEpoch());
+
+    int counter = 0;
+    while(allIds.contains(QString("%1/%2").arg(newid_base).arg(counter)))
+        ++counter;
+
+    // no items currently set
+    if(allIds.length() == 0) {
+
+        QDomNodeList nodeList = doc.elementsByTagName("xbel");
+        // xbel does not exist -> create it!
+        if(nodeList.length() == 0) {
+
+            QDomElement xbelEle = doc.createElement("xbel");
+            xbelEle.setAttribute("xmlns:bookmark", "http://www.freedesktop.org/standards/desktop-bookmarks");
+            xbelEle.setAttribute("xmlns:kdepriv", "http://www.kde.org/kdepriv");
+            xbelEle.setAttribute("xmlns:mime", "http://www.freedesktop.org/standards/shared-mime-info");
+
+            doc.appendChild(xbelEle);
+
+            nodeList = doc.elementsByTagName("xbel");
+
+        }
+
+        QDomNode toplevel = nodeList.at(0);
+
+        // <bookmark>
+        QDomElement newEle = doc.createElement("bookmark");
+        newEle.setAttribute("href", QString("file://%1").arg(path));
+
+        // <title>
+        QDomElement titleEle = doc.createElement("title");
+        QDomText titleText = doc.createTextNode(titlestring=="" ? QFileInfo(path).fileName() : titlestring);
+        titleEle.appendChild(titleText);
+
+        // <info>
+        QDomElement infoEle = doc.createElement("info");
+
+        // <metadata> freedesktop.org
+        QDomElement metadataFDEle = doc.createElement("metadata");
+        metadataFDEle.setAttribute("owner", "http://freedesktop.org");
+
+        // <bookmark:icon>
+        QDomElement iconFDEle = doc.createElement("bookmark:icon");
+        iconFDEle.setAttribute("name", icon);
+
+        metadataFDEle.appendChild(iconFDEle);
+
+        // <metadata> kde.org
+        QDomElement metadataEle = doc.createElement("metadata");
+        metadataEle.setAttribute("owner", "http://www.kde.org");
+
+        // <ID>
+        QDomElement idEle = doc.createElement("ID");
+        QDomText idText = doc.createTextNode(QString("%1/%2").arg(newid_base).arg(counter));
+        idEle.appendChild(idText);
+
+        // <IsHidden>
+        QDomElement isHiddenEle = doc.createElement("IsHidden");
+        QDomText isHiddenText = doc.createTextNode("false");
+        isHiddenEle.appendChild(isHiddenText);
+
+        // <isSystemItem>
+        QDomElement isSystemItemEle = doc.createElement("isSystemItem");
+        QDomText isSystemItemText = doc.createTextNode(isSystemItem ? "true" : "false");
+        isSystemItemEle.appendChild(isSystemItemText);
+
+        metadataEle.appendChild(idEle);
+        metadataEle.appendChild(isHiddenEle);
+        metadataEle.appendChild(isSystemItemEle);
+
+        infoEle.appendChild(metadataFDEle);
+        infoEle.appendChild(metadataEle);
+
+        newEle.appendChild(titleEle);
+        newEle.appendChild(infoEle);
+
+        toplevel.appendChild(newEle);
+
+    } else {
+
+        QDomNodeList nodeList = doc.elementsByTagName("xbel");
+        // xbel does not exist -> create it!
+        if(nodeList.length() == 0) {
+
+            QDomElement xbelEle = doc.createElement("xbel");
+            xbelEle.setAttribute("xmlns:bookmark", "http://www.freedesktop.org/standards/desktop-bookmarks");
+            xbelEle.setAttribute("xmlns:kdepriv", "http://www.kde.org/kdepriv");
+            xbelEle.setAttribute("xmlns:mime", "http://www.freedesktop.org/standards/shared-mime-info");
+
+            doc.appendChild(xbelEle);
+
+            nodeList = doc.elementsByTagName("xbel");
+
+        }
+
+        QDomNode toplevel = nodeList.at(0);
+
+        QString insertAfterId = allIds.length() == 0 ? "" : allIds[qMax(0, pos-2)];
+
+        for(int i = 0; i < bookmarksList.count(); ++i) {
+
+            QDomNode node = bookmarksList.at(i);
+            QDomElement ele = node.toElement();
+
+            QDomNodeList idList = ele.elementsByTagName("ID");
+            if(insertAfterId != "" && idList.length() == 0) continue;
+            QString curId = idList.at(0).toElement().text();
+
+            if(insertAfterId == "" || curId == insertAfterId) {
+
+                QDomElement newNode = doc.createElement("bookmark");
+
+                // <bookmark>
+                newNode.setAttribute("href", QString("file://%1").arg(path));
+
+                // <title>
+                qWarning() << " >>> title =" << QFileInfo(path).fileName();
+                QDomElement titleEle = doc.createElement("title");
+                QDomText titleText = doc.createTextNode(QFileInfo(path).fileName());
+                titleEle.appendChild(titleText);
+
+                // <info>
+                QDomElement infoEle = doc.createElement("info");
+
+                // <metadata> freedesktop.org
+                QDomElement metadataFDEle = doc.createElement("metadata");
+                metadataFDEle.setAttribute("owner", "http://freedesktop.org");
+
+                // <bookmark:icon>
+                QDomElement iconFDEle = doc.createElement("bookmark:icon");
+                iconFDEle.setAttribute("name", icon);
+
+                metadataFDEle.appendChild(iconFDEle);
+
+                // <metadata> kde.org
+                QDomElement metadataEle = doc.createElement("metadata");
+                metadataEle.setAttribute("owner", "http://www.kde.org");
+
+                // <ID>
+                QDomElement idEle = doc.createElement("ID");
+                QDomText idText = doc.createTextNode(QString("%1/%2").arg(newid_base).arg(counter));
+                idEle.appendChild(idText);
+
+                // <IsHidden>
+                QDomElement isHiddenEle = doc.createElement("IsHidden");
+                QDomText isHiddenText = doc.createTextNode("false");
+                isHiddenEle.appendChild(isHiddenText);
+
+                // <isSystemItem>
+                QDomElement isSystemItemEle = doc.createElement("isSystemItem");
+                QDomText isSystemItemText = doc.createTextNode("false");
+                isSystemItemEle.appendChild(isSystemItemText);
+
+                metadataEle.appendChild(idEle);
+                metadataEle.appendChild(isHiddenEle);
+                metadataEle.appendChild(isSystemItemEle);
+
+                infoEle.appendChild(metadataFDEle);
+                infoEle.appendChild(metadataEle);
+
+                newNode.appendChild(titleEle);
+                newNode.appendChild(infoEle);
+
+                toplevel.insertAfter(newNode, node);
+
+                break;
+
+            }
+
+        }
+
+    }
+
+    QFile saveFile(PQCConfigFiles::get().USER_PLACES_XBEL());
+    if(saveFile.open(QIODevice::WriteOnly)) {
+        QTextStream out(&saveFile);
+        out << doc.toString();
+    }
+    saveFile.close();
 
 #endif
 
