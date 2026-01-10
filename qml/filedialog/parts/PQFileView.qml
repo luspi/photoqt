@@ -666,6 +666,18 @@ Item {
         }
     }
 
+    Connections {
+
+        target: PQCSettings
+
+        // react to changes to this setting
+        // otherwise this is not happening automatically when this setting is changed at runtime
+        function onThumbnailsExcludeNetworkSharesChanged() {
+            view_top.currentFolderExcluded = PQCScriptsFilesPaths.isExcludeDirFromCaching(PQCFileFolderModel.folderFileDialog)
+        }
+
+    }
+
     clip: true
 
     // reset index to -1 if no other item has been hovered in the meantime
