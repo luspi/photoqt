@@ -111,6 +111,7 @@ PQSetting {
             PQCheckBox {
                 id: excludenetwork
                 text: qsTranslate("settingsmanager", "Exclude network shares (if any) from caching")
+                onCheckedChanged: set_mana.checkForChanges()
             }
 
             Item {
@@ -326,8 +327,8 @@ PQSetting {
         cache_enable.saveDefault()
         cache_dir_default.saveDefault()
 
-
         PQCSettings.thumbnailsExcludeNetworkShares = excludenetwork.checked
+        excludenetwork.saveDefault()
 
         PQCSettings.thumbnailsExcludeNextcloud = (nextcloud.checked ? nextcloud.folder : "")
         PQCSettings.thumbnailsExcludeOwnCloud = (owncloud.checked ? owncloud.folder : "")
