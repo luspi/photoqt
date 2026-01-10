@@ -626,8 +626,10 @@ Rectangle {
                     text: "openstreetmap.org"
                     ButtonGroup.group: grp2
                     checked: PQCSettings.metadataGpsMap==="openstreetmap.org"
-                    onCheckedChanged:
-                        PQCSettings.metadataGpsMap = "openstreetmap.org"
+                    onCheckedChanged: {
+                        if(checked) PQCSettings.metadataGpsMap = "openstreetmap.org"
+                        checked = Qt.binding(function() { return PQCSettings.metadataGpsMap==="openstreetmap.org" })
+                    }
                 }
                 PQMenuItem {
                     checkable: true
@@ -635,8 +637,10 @@ Rectangle {
                     text: "maps.google.com"
                     ButtonGroup.group: grp2
                     checked: PQCSettings.metadataGpsMap==="maps.google.com"
-                    onCheckedChanged:
-                        PQCSettings.metadataGpsMap = "maps.google.com"
+                    onCheckedChanged: {
+                        if(checked) PQCSettings.metadataGpsMap = "maps.google.com"
+                        checked = Qt.binding(function() { return PQCSettings.metadataGpsMap==="maps.google.com" })
+                    }
                 }
                 PQMenuItem {
                     checkable: true
@@ -644,8 +648,10 @@ Rectangle {
                     text: "bing.com/maps"
                     ButtonGroup.group: grp2
                     checked: PQCSettings.metadataGpsMap==="bing.com/maps"
-                    onCheckedChanged:
-                        PQCSettings.metadataGpsMap = "bing.com/maps"
+                    onCheckedChanged: {
+                        if(checked) PQCSettings.metadataGpsMap = "bing.com/maps"
+                        checked = Qt.binding(function() { return PQCSettings.metadataGpsMap==="bing.com/maps" })
+                    }
                 }
             }
 
