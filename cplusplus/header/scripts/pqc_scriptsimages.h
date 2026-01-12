@@ -35,6 +35,7 @@
 /*************************************************************/
 /*************************************************************/
 
+#include <QMutex>
 class QFile;
 
 class PQCScriptsImages : public QObject {
@@ -92,13 +93,14 @@ public:
 private:
     PQCScriptsImages();
 
-    QMap<QString,QVariantList> histogramCache;
     QMap<QString,QStringList> archiveContentCache;
 
     QMap<QString, bool> alphaChannels;
+    mutable QMutex mutex;
 
     double devicePixelRatioCached;
     qint64 devicePixelRatioCachedWhen;
+
 
 Q_SIGNALS:
     void haveArchiveContentFor(QString filename, QStringList content);

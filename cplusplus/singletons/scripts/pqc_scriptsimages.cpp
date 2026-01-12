@@ -333,7 +333,10 @@ QStringList PQCScriptsImages::listArchiveContentWithoutThread(QString path, QStr
     else
         std::sort(ret.begin(), ret.end(), [&collator](const QString &file1, const QString &file2) { return collator.compare(file2, file1) < 0; });
 
+{
+    QMutexLocker locker(&mutex);
     archiveContentCache.insert(cacheKey, ret);
+}
 
     return ret;
 
@@ -487,6 +490,7 @@ void PQCScriptsImages::setSupportsTransparency(QString path, bool alpha) {
     qDebug() << "args: path =" << path;
     qDebug() << "args: alpha =" << alpha;
 
+    QMutexLocker locker(&mutex);
     alphaChannels.insert(path, alpha);
 
 }
