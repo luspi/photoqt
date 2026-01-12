@@ -348,6 +348,12 @@ QString PQCLoadImageArchive::load(QString filename, QSize maxSize, QSize &origSi
 
     // cache image before potentially scaling it
     if(!img.isNull()) {
+
+        if(PQCSettingsCPP::get().getMetadataAutoRotation()) {
+            // apply transformations if any
+            PQCScriptsImages::get().applyExifOrientation(filename, img);
+        }
+
         PQCScriptsColorProfiles::get().applyColorProfile(filename, img);
         PQCImageCache::get().saveImageToCache(filename, PQCScriptsColorProfiles::get().getColorProfileFor(filename), &img);
     }

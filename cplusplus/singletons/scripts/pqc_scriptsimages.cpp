@@ -40,6 +40,7 @@
 
 #include <scripts/pqc_scriptsimages.h>
 #include <scripts/pqc_scriptsfilespaths.h>
+#include <scripts/pqc_scriptsmetadata.h>
 #include <pqc_settingscpp.h>
 #include <pqc_imageformats.h>
 #include <pqc_loadimage.h>
@@ -1397,4 +1398,57 @@ QString PQCScriptsImages::getNameFromMimetype(QString mimetype, QString filename
 QString PQCScriptsImages::getMimetypeForFile(QString path) {
     QMimeDatabase db;
     return db.mimeTypeForFile(path).name();
+}
+
+void PQCScriptsImages::applyExifOrientation(const QString filename, QImage &img) {
+
+    const int orientation = PQCScriptsMetaData::get().getExifOrientation(filename);
+
+    QTransform transform;
+
+    switch(orientation) {
+
+        case 1:
+            // no rotation, no mirror
+            break;
+        case 2:
+            // no rotation, horizontal mirror
+            img = img.flipped(Qt::Horizontal);
+            break;
+        case 3:
+            // 180 degree rotation, no mirror
+            transform.rotate(180);
+            img = img.transformed(transform);
+            break;
+        case 4:
+            // 180 degree rotation, horizontal mirror
+            transform.rotate(180);
+            img = img.flipped(Qt::Horizontal).transformed(transform);
+            break;
+        case 5:
+            // 90 degree rotation, horizontal mirror
+            transform.rotate(90);
+            img = img.flipped(Qt::Horizontal).transformed(transform);
+            break;
+        case 6:
+            // 90 degree rotation, no mirror
+            transform.rotate(90);
+            img = img.transformed(transform);
+            break;
+        case 7:
+            // 270 degree rotation, horizontal mirror
+            transform.rotate(270);
+            img = img.flipped(Qt::Horizontal).transformed(transform);
+            break;
+        case 8:
+            // 270 degree rotation, no mirror
+            transform.rotate(270);
+            img = img.transformed(transform);
+            break;
+        default:
+            qWarning() << "Unexpected orientation value received:" << orientation;
+            break;
+
+    }
+
 }

@@ -23,6 +23,7 @@
 #include <cstddef>
 #include <pqc_loadimage_libsai.h>
 #include <pqc_configfiles.h>
+#include <pqc_settingscpp.h>
 #include <QSize>
 #include <QImage>
 #include <QtDebug>
@@ -189,6 +190,11 @@ QString PQCLoadImageLibsai::load(QString filename, QSize maxSize, QSize &origSiz
     QPainter p(&img);
     p.drawImage(0, 0, composedImage);
     p.end();
+
+    if(!img.isNull() && PQCSettingsCPP::get().getMetadataAutoRotation()) {
+        // apply transformations if any
+        PQCScriptsImages::get().applyExifOrientation(filename, img);
+    }
 
     // make sure we fit the requested size
     if(maxSize.width() != -1) {

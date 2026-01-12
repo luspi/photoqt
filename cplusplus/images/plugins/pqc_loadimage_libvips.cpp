@@ -25,6 +25,7 @@
 #include <scripts/pqc_scriptsimages.h>
 #include <scripts/pqc_scriptscolorprofiles.h>
 #include <pqc_notify_cpp.h>
+#include <pqc_settingscpp.h>
 #include <QSize>
 #include <QtDebug>
 #include <QImage>
@@ -92,6 +93,11 @@ QString PQCLoadImageLibVips::load(QString filename, QSize maxSize, QSize &origSi
         errormsg = "converting VipsImage to QImage failed";
         qDebug() << errormsg;
         return errormsg;
+    }
+
+    if(PQCSettingsCPP::get().getMetadataAutoRotation()) {
+        // apply transformations if any
+        PQCScriptsImages::get().applyExifOrientation(filename, img);
     }
 
     PQCScriptsColorProfiles::get().applyColorProfile(filename, img);

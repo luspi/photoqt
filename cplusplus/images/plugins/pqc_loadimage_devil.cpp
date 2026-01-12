@@ -25,6 +25,7 @@
 #include <scripts/pqc_scriptsimages.h>
 #include <scripts/pqc_scriptscolorprofiles.h>
 #include <pqc_notify_cpp.h>
+#include <pqc_settingscpp.h>
 
 #include <QSize>
 #include <QtDebug>
@@ -213,6 +214,11 @@ QString PQCLoadImageDevil::load(QString filename, QSize maxSize, QSize &origSize
         errormsg = "Failed to load image with DevIL (unknown error)!";
         qWarning() << errormsg;
         return errormsg;
+    }
+
+    if(!img.isNull() && PQCSettingsCPP::get().getMetadataAutoRotation()) {
+        // apply transformations if any
+        PQCScriptsImages::get().applyExifOrientation(filename, img);
     }
 
     if(img.size() == origSize) {

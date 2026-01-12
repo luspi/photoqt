@@ -25,6 +25,7 @@
 #include <pqc_imageformats.h>
 #include <scripts/pqc_scriptsimages.h>
 #include <scripts/pqc_scriptscolorprofiles.h>
+#include <pqc_settingscpp.h>
 #include <pqc_notify_cpp.h>
 #include <QSize>
 #include <QImage>
@@ -194,6 +195,11 @@ QString PQCLoadImageMagick::load(QString filename, QSize maxSize, QSize &origSiz
         // And load image from memory into QImage
         const QByteArray imgData((char*)(ob.data()),ob.length());
         img = QImage::fromData(imgData);
+
+        if(!img.isNull() && PQCSettingsCPP::get().getMetadataAutoRotation()) {
+            // apply transformations if any
+            PQCScriptsImages::get().applyExifOrientation(filename, img);
+        }
 
         if(!img.isNull() && img.size() == origSize) {
             PQCScriptsColorProfiles::get().applyColorProfile(filename, img);

@@ -74,6 +74,7 @@ public:
     QString extractMotionPhoto(QString path);
     QVariantList getZXingData(QString path);
     bool extractFrameAndSave(QString path, int frameNumber);
+    void applyExifOrientation(const QString filename, QImage &img);
 
     // archive/document methods
     void listArchiveContent(QString path, bool insideFilenameOnly = false);

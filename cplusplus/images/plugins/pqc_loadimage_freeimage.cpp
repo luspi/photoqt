@@ -25,6 +25,7 @@
 #include <scripts/pqc_scriptsimages.h>
 #include <scripts/pqc_scriptscolorprofiles.h>
 #include <pqc_notify_cpp.h>
+#include <pqc_settingscpp.h>
 
 #include <QString>
 #include <QImage>
@@ -124,6 +125,11 @@ QString PQCLoadImageFreeImage::load(QString filename, QSize maxSize, QSize &orig
         QString errormsg = "Loading FreeImage image into QImage resulted in NULL image";
         qWarning() << errormsg;
         return errormsg;
+    }
+
+    if(PQCSettingsCPP::get().getMetadataAutoRotation()) {
+        // apply transformations if any
+        PQCScriptsImages::get().applyExifOrientation(filename, img);
     }
 
     PQCScriptsColorProfiles::get().applyColorProfile(filename, img);

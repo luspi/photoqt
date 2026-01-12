@@ -25,6 +25,7 @@
 #include <pqc_settingscpp.h>
 #include <scripts/pqc_scriptsimages.h>
 #include <scripts/pqc_scriptscolorprofiles.h>
+#include <scripts/pqc_scriptsmetadata.h>
 #include <pqc_notify_cpp.h>
 #include <QSize>
 #include <QImage>
@@ -225,6 +226,11 @@ QString PQCLoadImageRAW::load(QString filename, QSize maxSize, QSize &origSize, 
     raw.dcraw_clear_mem(rawimg);
     raw.recycle();
     raw.free_image();
+
+    if(!img.isNull() && PQCSettingsCPP::get().getMetadataAutoRotation()) {
+        // apply transformations if any
+        PQCScriptsImages::get().applyExifOrientation(filename, img);
+    }
 
     origSize = img.size();
 
