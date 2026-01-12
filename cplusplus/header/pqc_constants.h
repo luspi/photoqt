@@ -428,21 +428,25 @@ public:
 
     Q_PROPERTY(QStringList whichContextMenusOpen READ getWhichContextMenusOpen NOTIFY whichContextMenusOpenChanged)
     Q_INVOKABLE void addToWhichContextMenusOpen(QString val) {
+        QMutexLocker locker(&contextMutex);
         if(!m_whichContextMenusOpen.contains(val)) {
             m_whichContextMenusOpen.append(val);
             Q_EMIT whichContextMenusOpenChanged();
         }
     }
     Q_INVOKABLE void removeFromWhichContextMenusOpen(QString val) {
+        QMutexLocker locker(&contextMutex);
         if(m_whichContextMenusOpen.contains(val)) {
             m_whichContextMenusOpen.remove(m_whichContextMenusOpen.indexOf(val));
             Q_EMIT whichContextMenusOpenChanged();
         }
     }
     Q_INVOKABLE QStringList getWhichContextMenusOpen() {
+        QMutexLocker locker(&contextMutex);
         return m_whichContextMenusOpen;
     }
     Q_INVOKABLE bool isContextmenuOpen(QString which) {
+        QMutexLocker locker(&contextMutex);
         return m_whichContextMenusOpen.contains(which);
     }
 
@@ -451,7 +455,7 @@ public:
 private:
     bool m_debugMode;
     QString m_debugLogMessages;
-    QMutex m_addDebugLogMessageMutex;
+    mutable QMutex m_addDebugLogMessageMutex;
     QString m_startupFilePath;
     QList<QStringList> m_startupVirtualFolder;
     bool m_startupFileIsFolder;
@@ -560,6 +564,7 @@ private:
 
     qint64 m_lastInternalShortcutExecuted;
 
+    mutable QMutex contextMutex;
     QStringList m_whichContextMenusOpen;
 
 private Q_SLOTS:

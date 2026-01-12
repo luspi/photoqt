@@ -93,10 +93,11 @@ public:
 private:
     PQCScriptsImages();
 
+    mutable QMutex archiveMutex;
     QMap<QString,QStringList> archiveContentCache;
 
+    mutable QMutex alphaMutex;
     QMap<QString, bool> alphaChannels;
-    mutable QMutex mutex;
 
     double devicePixelRatioCached;
     qint64 devicePixelRatioCachedWhen;

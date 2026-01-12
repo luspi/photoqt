@@ -234,6 +234,9 @@ void PQCScriptsColorProfiles::setColorProfile(QString path, int index) {
     qDebug() << "args: path =" << path;
     qDebug() << "args: index =" << index;
 
+    // protect writes to m_iccColorProfiles
+    QMutexLocker locker(&iccMmutex);
+
     if(index == -1)
         m_iccColorProfiles.remove(path);
     else

@@ -564,6 +564,9 @@ unsigned int PQCScriptsFileDialog::getNumberOfFilesInFolder(const QString &path)
     // cache key
     const QString key = QString("%1%2").arg(path,QFileInfo(path).lastModified().toString());
 
+    // protect accesses to cacheNumberOfFilesInFolder
+    QMutexLocker locker(&cacheMutex);
+
     // if already loaded before, read from cache
     if(cacheNumberOfFilesInFolder.contains(key))
         return cacheNumberOfFilesInFolder[key];

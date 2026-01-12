@@ -23,6 +23,7 @@
 
 #include <QObject>
 #include <QHash>
+#include <QMutex>
 
 class QJSValue;
 
@@ -66,6 +67,7 @@ private:
     PQCScriptsFileDialog();
     ~PQCScriptsFileDialog();
 
+    mutable QMutex cacheMutex;
     QHash<QString,int> cacheNumberOfFilesInFolder;
 
 };

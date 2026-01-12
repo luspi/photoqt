@@ -42,7 +42,7 @@ public:
         void operator=(PQCLoadImageDevilMutex const&) = delete;
 #ifdef PQMDEVIL
         // DevIL is not threadsafe -> this ensures only one image is loaded at a time
-        QMutex devilMutex;
+        mutable QMutex devilMutex;
 #endif
 private:
         PQCLoadImageDevilMutex() {}

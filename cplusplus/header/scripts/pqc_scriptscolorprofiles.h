@@ -27,6 +27,7 @@
 #include <QList>
 #include <QColorSpace>
 #include <QImage>
+#include <QMutex>
 
 #ifdef PQMLCMS2
 #include <lcms2.h>
@@ -81,6 +82,8 @@ private:
     QStringList m_externalColorProfileDescriptions;
     QStringList m_importedColorProfiles;
     QStringList m_importedColorProfileDescriptions;
+
+    mutable QMutex iccMmutex;
     QMap<QString, QString> m_iccColorProfiles;
 
     qint64 m_importedICCLastMod;
@@ -91,7 +94,6 @@ private:
 #ifdef PQMLCMS2
     bool _applyColorSpaceLCMS2(QImage &img, QString filename, cmsHPROFILE targetProfile);
 #endif
-
 
 };
 
