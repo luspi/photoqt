@@ -304,8 +304,9 @@ Item {
             : (fileview_entry_menu.isFile ? qsTranslate("filedialog", "Cut file")
             : (fileview_entry_menu.isFolder ? qsTranslate("filedialog", "Cut folder")
             : qsTranslate("filedialog", "Cut file/folder")))
-            onTriggered:
-            PQCNotify.filedialogCutFiles(false)
+            onTriggered: {
+                PQCNotify.filedialogCutFiles(false)
+            }
         }
         PQMenuItem {
             enabled: (fileview_entry_menu.isFile || fileview_entry_menu.isFolder || PQCConstants.filedialogCurrentSelection.length)
@@ -315,23 +316,25 @@ Item {
             : (fileview_entry_menu.isFile ? qsTranslate("filedialog", "Copy file")
             : (fileview_entry_menu.isFolder ? qsTranslate("filedialog", "Copy folder")
             : qsTranslate("filedialog", "Copy file/folder")))
-            onTriggered:
-            PQCNotify.filedialogCopyFiles(false)
+            onTriggered: {
+                PQCNotify.filedialogCopyFiles(false)
+            }
         }
         PQMenuItem {
             id: menuItem_paste
             iconSource: "image://svg/:/" + PQCLook.iconShade + "/clipboard.svg"
             text: qsTranslate("filedialog", "Paste files from clipboard")
-            onTriggered:
-            PQCNotify.filedialogPasteFiles()
+            onTriggered: {
+                PQCNotify.filedialogPasteFiles()
+            }
 
             Component.onCompleted: {
-                enabled = PQCScriptsClipboard.areFilesInClipboard()
+                enabled = (PQCScriptsClipboard.areFilesInClipboard() && !PQCFileFolderModel.loadVirtualFolderFileDialog)
             }
             Connections {
                 target: PQCScriptsClipboard
                 function onClipboardUpdated() {
-                    menuItem_paste.enabled = PQCScriptsClipboard.areFilesInClipboard()
+                    menuItem_paste.enabled = (PQCScriptsClipboard.areFilesInClipboard() && !PQCFileFolderModel.loadVirtualFolderFileDialog)
                 }
             }
         }
@@ -341,14 +344,16 @@ Item {
         PQMenuItem {
             moveToRightABit: true
             text: PQCSettings.filedialogShowHiddenFilesFolders ? qsTranslate("filedialog", "Hide hidden files") : qsTranslate("filedialog", "Show hidden files")
-            onTriggered:
-            PQCSettings.filedialogShowHiddenFilesFolders = !PQCSettings.filedialogShowHiddenFilesFolders
+            onTriggered: {
+                PQCSettings.filedialogShowHiddenFilesFolders = !PQCSettings.filedialogShowHiddenFilesFolders
+            }
         }
         PQMenuItem {
             moveToRightABit: true
             text: PQCSettings.filedialogDetailsTooltip ? qsTranslate("filedialog", "Hide tooltip with image details") : qsTranslate("filedialog", "Show tooltip with image details")
-            onTriggered:
-            PQCSettings.filedialogDetailsTooltip = !PQCSettings.filedialogDetailsTooltip
+            onTriggered: {
+                PQCSettings.filedialogDetailsTooltip = !PQCSettings.filedialogDetailsTooltip
+            }
         }
 
         onAboutToHide: {
@@ -893,6 +898,11 @@ Item {
 
     function pasteFiles() {
 
+        if(PQCFileFolderModel.loadVirtualFolderFileDialog) {
+            PQCNotify.showNotificationMessage(qsTranslate("filedialog", "Virtual folder"), qsTranslate("filedialog", "Pasting files into a virtual folder is not possible."))
+            return
+        }
+
         PQCConstants.filedialogCurrentSelection = []
 
         var lst = PQCScriptsClipboard.getListOfFilesInClipboard()
@@ -969,9 +979,10 @@ Item {
 
         if(key === Qt.Key_Up) {
 
-            if(modifiers & Qt.AltModifier || modifiers & Qt.ControlModifier)
-                filedialog_top.loadNewPath(PQCScriptsFilesPaths.goUpOneLevel(PQCFileFolderModel.folderFileDialog))
-            else
+            if(modifiers & Qt.AltModifier || modifiers & Qt.ControlModifier) {
+                if(!PQCFileFolderModel.loadVirtualFolderFileDialog)
+                    filedialog_top.loadNewPath(PQCScriptsFilesPaths.goUpOneLevel(PQCFileFolderModel.folderFileDialog))
+            } else
                 getCurrentViewId().goUpARow()
 
             navigateToFileStartingWith = []
@@ -985,9 +996,11 @@ Item {
 
             if(modifiers & Qt.ControlModifier && modifiers & Qt.ShiftModifier) {
 
-                var nextpath = PQCScriptsFileDialog.getSiblingFolder(PQCFileFolderModel.folderFileDialog, 1)
-                if(nextpath !== "")
-                    filedialog_top.loadNewPath(nextpath)
+                if(!PQCFileFolderModel.loadVirtualFolderFileDialog) {
+                    var nextpath = PQCScriptsFileDialog.getSiblingFolder(PQCFileFolderModel.folderFileDialog, 1)
+                    if(nextpath !== "")
+                        filedialog_top.loadNewPath(nextpath)
+                }
 
             } else if(modifiers & Qt.AltModifier || modifiers & Qt.ControlModifier) {
 
@@ -1008,9 +1021,11 @@ Item {
 
             if(modifiers & Qt.ControlModifier && modifiers & Qt.ShiftModifier) {
 
-                var prevpath = PQCScriptsFileDialog.getSiblingFolder(PQCFileFolderModel.folderFileDialog, -1)
-                if(prevpath !== "")
-                    filedialog_top.loadNewPath(prevpath)
+                if(!PQCFileFolderModel.loadVirtualFolderFileDialog) {
+                    var prevpath = PQCScriptsFileDialog.getSiblingFolder(PQCFileFolderModel.folderFileDialog, -1)
+                    if(prevpath !== "")
+                        filedialog_top.loadNewPath(prevpath)
+                }
 
             } else if(modifiers & Qt.AltModifier || modifiers & Qt.ControlModifier) {
 

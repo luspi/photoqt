@@ -266,7 +266,7 @@ Item {
 
                 PQTextL {
                     height: parent.height
-                    text: "virtual folder"
+                    text: qsTranslate("filedialog", "virtual folder")
                     font.italic: true
                     font.weight: PQCLook.fontWeightBold
                     elide: Text.ElideRight
