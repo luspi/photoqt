@@ -239,8 +239,8 @@ Item {
                     var cur = PQCFileFolderModel.entriesFileDialog[PQCConstants.filedialogCurrentSelection[i]]
                     if(PQCScriptsFilesPaths.isFolder(cur))
                         allfolders.push(cur)
-                        else
-                            allfiles.push(cur)
+                    else
+                        allfiles.push(cur)
                 }
 
                 var comb = allfiles.concat(allfolders)
@@ -249,7 +249,10 @@ Item {
 
                     var f = comb.shift()
 
-                    PQCFileFolderModel.extraFoldersToLoad = comb
+                    PQCFileFolderModel.virtualFolders = allfolders
+                    PQCFileFolderModel.virtualFiles = allfiles
+                    PQCFileFolderModel.loadVirtualFolderMainView = (allfolders.length+allfiles.length > 1)
+                    PQCFileFolderModel.loadVirtualFolderFileDialog = PQCFileFolderModel.loadVirtualFolderMainView
                     PQCFileFolderModel.fileInFolderMainView = f
                     PQCNotify.filedialogClose()
 
@@ -837,6 +840,7 @@ Item {
             filedialog_top.loadNewPath(PQCFileFolderModel.entriesFileDialog[index])
         else {
             PQCFileFolderModel.extraFoldersToLoad = []
+            PQCFileFolderModel.loadVirtualFolderMainView = PQCFileFolderModel.loadVirtualFolderFileDialog
             PQCFileFolderModel.fileInFolderMainView = PQCFileFolderModel.entriesFileDialog[index]
             if(!PQCSettings.interfacePopoutFileDialog || !PQCSettings.interfacePopoutFileDialogNonModal)
                 filedialog_top.handleHiding(true)

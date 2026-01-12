@@ -103,6 +103,22 @@ public:
     QStringList getExtraFoldersToLoad();
     void setExtraFoldersToLoad(QStringList val);
 
+    Q_PROPERTY(QStringList virtualFolders READ getVirtualFolders WRITE setVirtualFolders NOTIFY virtualFoldersChanged)
+    QStringList getVirtualFolders();
+    void setVirtualFolders(QStringList val);
+
+    Q_PROPERTY(QStringList virtualFiles READ getVirtualFiles WRITE setVirtualFiles NOTIFY virtualFilesChanged)
+    QStringList getVirtualFiles();
+    void setVirtualFiles(QStringList val);
+
+    Q_PROPERTY(bool loadVirtualFolderFileDialog READ getLoadVirtualFolderFileDialog WRITE setLoadVirtualFolderFileDialog NOTIFY loadVirtualFolderFileDialogChanged)
+    bool getLoadVirtualFolderFileDialog();
+    void setLoadVirtualFolderFileDialog(bool c);
+
+    Q_PROPERTY(bool loadVirtualFolderMainView READ getLoadVirtualFolderMainView WRITE setLoadVirtualFolderMainView NOTIFY loadVirtualFolderMainViewChanged)
+    bool getLoadVirtualFolderMainView();
+    void setLoadVirtualFolderMainView(bool c);
+
     /********************************************/
     /********************************************/
 
@@ -218,6 +234,10 @@ private:
     bool m_readArchiveOnly;
     bool m_includeFilesInSubFolders;
     QStringList m_extraFoldersToLoad;
+    QStringList m_virtualFolders;
+    QStringList m_virtualFiles;
+    bool m_loadVirtualFolderFileDialog;
+    bool m_loadVirtualFolderMainView;
 
     QStringList m_entriesMainView;
     QStringList m_entriesFileDialog;
@@ -303,6 +323,10 @@ Q_SIGNALS:
     void readArchiveOnlyChanged();
     void includeFilesInSubFoldersChanged();
     void extraFoldersToLoadChanged();
+    void virtualFoldersChanged();
+    void virtualFilesChanged();
+    void loadVirtualFolderFileDialogChanged();
+    void loadVirtualFolderMainViewChanged();
     void advancedSortDoneChanged();
     void currentIndexChanged();
     void currentIndexNoDelayChanged();

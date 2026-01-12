@@ -206,11 +206,16 @@ public:
             Q_EMIT startupFilePathChanged();
             Q_EMIT startupFileIsFolderChanged();
         });
-        connect(&PQCNotifyCPP::get(), &PQCNotifyCPP::debugChanged, this, [=](bool val) { m_debugMode = val; Q_EMIT debugModeChanged(); });
-        connect(&PQCNotifyCPP::get(), &PQCNotifyCPP::addDebugLogMessages, this, &PQCConstants::addDebugLogMessages);
-        connect(&PQCNotifyCPP::get(), &PQCNotifyCPP::startInTrayChanged, this, [=](bool val) { m_startupStartInTray = val; Q_EMIT startupStartInTrayChanged(); });
-        connect(&PQCNotifyCPP::get(), &PQCNotifyCPP::haveScreenshotsChanged, this, [=](bool val) { m_startupHaveScreenshots = val; Q_EMIT startupHaveScreenshotsChanged(); });
-        connect(&PQCNotifyCPP::get(), &PQCNotifyCPP::settingUpdateChanged, this, [=](QStringList val) { m_startupHaveSettingUpdate = val; Q_EMIT startupHaveSettingUpdateChanged(); });
+        connect(&PQCNotifyCPP::get(), &PQCNotifyCPP::debugChanged,
+                this, [=](bool val) { m_debugMode = val; Q_EMIT debugModeChanged(); });
+        connect(&PQCNotifyCPP::get(), &PQCNotifyCPP::addDebugLogMessages,
+                this, &PQCConstants::addDebugLogMessages);
+        connect(&PQCNotifyCPP::get(), &PQCNotifyCPP::startInTrayChanged,
+                this, [=](bool val) { m_startupStartInTray = val; Q_EMIT startupStartInTrayChanged(); });
+        connect(&PQCNotifyCPP::get(), &PQCNotifyCPP::haveScreenshotsChanged,
+                this, [=](bool val) { m_startupHaveScreenshots = val; Q_EMIT startupHaveScreenshotsChanged(); });
+        connect(&PQCNotifyCPP::get(), &PQCNotifyCPP::settingUpdateChanged,
+                this, [=](QStringList val) { m_startupHaveSettingUpdate = val; Q_EMIT startupHaveSettingUpdateChanged(); });
 
         // update currently visible area (used, e.g., by extensions)
         connect(this, &PQCConstants::currentVisibleAreaXChanged, this, [=]() {
@@ -426,25 +431,21 @@ public:
 
     Q_PROPERTY(QStringList whichContextMenusOpen READ getWhichContextMenusOpen NOTIFY whichContextMenusOpenChanged)
     Q_INVOKABLE void addToWhichContextMenusOpen(QString val) {
-        QMutexLocker locker(&contextMutex);
         if(!m_whichContextMenusOpen.contains(val)) {
             m_whichContextMenusOpen.append(val);
             Q_EMIT whichContextMenusOpenChanged();
         }
     }
     Q_INVOKABLE void removeFromWhichContextMenusOpen(QString val) {
-        QMutexLocker locker(&contextMutex);
         if(m_whichContextMenusOpen.contains(val)) {
             m_whichContextMenusOpen.remove(m_whichContextMenusOpen.indexOf(val));
             Q_EMIT whichContextMenusOpenChanged();
         }
     }
     Q_INVOKABLE QStringList getWhichContextMenusOpen() {
-        QMutexLocker locker(&contextMutex);
         return m_whichContextMenusOpen;
     }
     Q_INVOKABLE bool isContextmenuOpen(QString which) {
-        QMutexLocker locker(&contextMutex);
         return m_whichContextMenusOpen.contains(which);
     }
 
@@ -561,7 +562,6 @@ private:
 
     qint64 m_lastInternalShortcutExecuted;
 
-    mutable QMutex contextMutex;
     QStringList m_whichContextMenusOpen;
 
 private Q_SLOTS:

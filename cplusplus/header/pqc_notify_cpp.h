@@ -46,6 +46,8 @@ public:
     // in its constructor.
 
     void setFilePath(QString val) { m_filepath = val; Q_EMIT filePathChanged(val); }
+    void setVirtualFiles(QStringList val) { m_virtualFiles = val; Q_EMIT virtualFilesChanged(val); }
+    void setVirtualFolders(QStringList val) { m_virtualFolders = val; Q_EMIT virtualFoldersChanged(val); }
     void setDebug(bool val) { m_debug = val; Q_EMIT debugChanged(val); }
     void setStartInTray(bool val) { m_startInTray = val; Q_EMIT startInTrayChanged(val); }
     void setHaveScreenshots(bool val) { m_haveScreenshots = val; Q_EMIT haveScreenshotsChanged(val); }
@@ -56,6 +58,8 @@ public:
     bool getStartInTray() { return m_startInTray; }
     bool getHaveScreenshots() { return m_haveScreenshots; }
     QStringList getSettingUpdate() { return m_settingUpdate; }
+    QStringList getVirtualFolders() { return m_virtualFolders; }
+    QStringList getVirtualFiles() { return m_virtualFiles; }
 
     /******************************************************/
 
@@ -80,6 +84,8 @@ private:
     bool m_startInTray;
     bool m_haveScreenshots;
     QStringList m_settingUpdate;
+    QStringList m_virtualFolders;
+    QStringList m_virtualFiles;
 
     /******************************************************/
 
@@ -96,6 +102,8 @@ Q_SIGNALS:
     // these cached startup property signals are picked up in PQCConstants
 
     void filePathChanged(QString val);
+    void virtualFilesChanged(QStringList val);
+    void virtualFoldersChanged(QStringList val);
     void debugChanged(bool val);
     void startInTrayChanged(bool val);
     void haveScreenshotsChanged(bool val);

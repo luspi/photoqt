@@ -88,14 +88,101 @@ Item {
         horizontalAlignment: Text.AlignHCenter
     }
 
+    Item {
+
+        id: virtualEntry
+
+        visible: (PQCFileFolderModel.virtualFiles.length+PQCFileFolderModel.virtualFolders.length > 0)
+
+        x: 5
+        y: 5
+        width: parent.width-10
+        height: 35
+
+        Row {
+
+            x: 5
+
+            Item {
+                width: virtualEntry.height
+                height: width
+
+                // the icon image
+                Image {
+
+                    // fill parent (with margin for better looks)
+                    anchors.fill: parent
+                    anchors.margins: 5
+
+                    sourceSize: Qt.size(width, height)
+
+                    // the image icon is taken from image loader (i.e., from system theme if available)
+                    source: "image://theme/folder"
+
+                }
+
+            }
+
+            // The text of each entry
+            Row {
+
+                height: virtualEntry.height
+
+                PQText {
+
+                    id: entrytext
+
+                    width: virtualEntry.width-virtualEntry.height-10
+                    height: virtualEntry.height
+
+                    // vertically center text
+                    verticalAlignment: Qt.AlignVCenter
+
+                    // some styling
+                    elide: Text.ElideRight
+                    font.weight: PQCLook.fontWeightNormal
+                    font.italic: true
+
+                    text: qsTranslate("filedialog", "virtual folder")
+
+                }
+
+            }
+
+        }
+
+        PQHighlightMarker {
+            opacity: virtualMouse.containsMouse ? 1 : 0.8
+            visible: virtualMouse.containsMouse || PQCFileFolderModel.loadVirtualFolderFileDialog
+        }
+
+        PQMouseArea {
+
+            id: virtualMouse
+
+            anchors.fill: parent
+
+            cursorShape: Qt.PointingHandCursor
+
+            onClicked: {
+                PQCNotify.filedialogShowAddressEdit(false)
+                PQCFileFolderModel.loadVirtualFolderFileDialog = true
+                filedialog_top.loadNewPath(":virtual:")
+            }
+
+        }
+
+    }
+
+
     ListView {
 
         id: view_favorites
 
         x: 5
-        y: 5
+        y: (virtualEntry.visible ? virtualEntry.y+virtualEntry.height : 0) + 5
         width: parent.width-10
-        height: parent.height - (view_devices.visible ? (view_devices.height+10) : 0) - fd_tweaks.zoomMoveUpHeight
+        height: parent.height - (view_devices.visible ? (view_devices.height+10) : 0) - fd_tweaks.zoomMoveUpHeight - (virtualEntry.visible ? virtualEntry.height : 0)
 
         clip: true
         visible: PQCSettings.filedialogPlaces

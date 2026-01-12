@@ -250,10 +250,35 @@ Item {
                 }
             }
 
+            Row {
+                x: 10
+                height: parent.height
+                spacing: 10
+                visible: PQCFileFolderModel.loadVirtualFolderFileDialog
+
+                Image {
+                    y: (parent.height-height)/2
+                    height: parent.height/2
+                    width: height
+                    sourceSize: Qt.size(width, height)
+                    source: "image://svg/:/" + PQCLook.iconShade + "/virtualfolder.svg"
+                }
+
+                PQTextL {
+                    height: parent.height
+                    text: "virtual folder"
+                    font.italic: true
+                    font.weight: PQCLook.fontWeightBold
+                    elide: Text.ElideRight
+                    verticalAlignment: Text.AlignVCenter
+                }
+            }
+
             Flickable {
 
                 height: parent.height
                 width: Math.min(contentWidth, parent.width-editbutton.width-10)
+                visible: !PQCFileFolderModel.loadVirtualFolderFileDialog
                 contentWidth: crumbs.width
                 onWidthChanged: {
                     if(contentWidth > width)

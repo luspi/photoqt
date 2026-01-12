@@ -295,24 +295,34 @@ PQTemplate {
 
         if(!nothingHere) {
 
-            // we default to showing the home folder
-            var folder = PQCScriptsFilesPaths.getHomeDir()
+            var folder = ""
 
-            // if we remember the last location, load it
-            if(PQCSettings.filedialogStartupRestorePrevious) {
+            if(PQCFileFolderModel.loadVirtualFolderFileDialog)
 
-                var tmp = PQCScriptsFileDialog.getLastLocation()
-                if(tmp !== "") folder = tmp
+                folder = ":virtual:"
 
-            } else if(PQCSettings.filedialogStartupRestoreCustom &&
-                    PQCSettings.filedialogStartupRestoreCustomFolder !== "" &&
-                    PQCScriptsFilesPaths.doesItExist(PQCSettings.filedialogStartupRestoreCustomFolder))
-                folder = PQCSettings.filedialogStartupRestoreCustomFolder
+            else {
+
+                // we default to showing the home folder
+                folder = PQCScriptsFilesPaths.getHomeDir()
+
+                // if we remember the last location, load it
+                if(PQCSettings.filedialogStartupRestorePrevious) {
+
+                    var tmp = PQCScriptsFileDialog.getLastLocation()
+                    if(tmp !== "") folder = tmp
+
+                } else if(PQCSettings.filedialogStartupRestoreCustom &&
+                        PQCSettings.filedialogStartupRestoreCustomFolder !== "" &&
+                        PQCScriptsFilesPaths.doesItExist(PQCSettings.filedialogStartupRestoreCustomFolder))
+                    folder = PQCSettings.filedialogStartupRestoreCustomFolder
 
 
-            // if an image was loaded with PhotoQt, we make sure the file dialog opens at the right location
-            if(PQCFileFolderModel.currentFile !== "" && !PQCScriptsFilesPaths.areDirsTheSame(folder, PQCScriptsFilesPaths.getDir(PQCFileFolderModel.currentFile)))
-                folder = PQCScriptsFilesPaths.getDir(PQCFileFolderModel.currentFile)
+                // if an image was loaded with PhotoQt, we make sure the file dialog opens at the right location
+                if(PQCFileFolderModel.currentFile !== "" && !PQCScriptsFilesPaths.areDirsTheSame(folder, PQCScriptsFilesPaths.getDir(PQCFileFolderModel.currentFile)))
+                    folder = PQCScriptsFilesPaths.getDir(PQCFileFolderModel.currentFile)
+
+            }
 
 
             // load folder
@@ -366,7 +376,15 @@ PQTemplate {
 
     }
 
+    function showing() {
+        if(PQCFileFolderModel.loadVirtualFolderFileDialog && PQCFileFolderModel.folderFileDialog !== ":virtual:")
+            PQCFileFolderModel.folderFileDialog = ":virtual:"
+        PQCNotify.resetActiveFocus()
+        return true
+    }
+
     function loadNewPath(path : string) {
+        PQCFileFolderModel.loadVirtualFolderFileDialog = (path === ":virtual:")
         PQCNotify.filedialogShowAddressEdit(false)
         PQCFileFolderModel.folderFileDialog = PQCScriptsFilesPaths.cleanPath(path)
         if(PQCConstants.filedialogHistoryIndex < PQCConstants.filedialogHistory.length-1)
@@ -379,13 +397,17 @@ PQTemplate {
     function goBackInHistory() {
         PQCNotify.filedialogShowAddressEdit(false)
         PQCConstants.filedialogHistoryIndex = Math.max(0, PQCConstants.filedialogHistoryIndex-1)
-        PQCFileFolderModel.folderFileDialog = PQCConstants.filedialogHistory[PQCConstants.filedialogHistoryIndex]
+        var path = PQCConstants.filedialogHistory[PQCConstants.filedialogHistoryIndex]
+        PQCFileFolderModel.loadVirtualFolderFileDialog = (path === ":virtual:")
+        PQCFileFolderModel.folderFileDialog = path
     }
 
     function goForwardsInHistory() {
         PQCNotify.filedialogShowAddressEdit(false)
         PQCConstants.filedialogHistoryIndex = Math.min(PQCConstants.filedialogHistory.length-1, PQCConstants.filedialogHistoryIndex+1)
-        PQCFileFolderModel.folderFileDialog = PQCConstants.filedialogHistory[PQCConstants.filedialogHistoryIndex]
+        var path = PQCConstants.filedialogHistory[PQCConstants.filedialogHistoryIndex]
+        PQCFileFolderModel.loadVirtualFolderFileDialog = (path === ":virtual:")
+        PQCFileFolderModel.folderFileDialog = path
     }
 
     function handleShowing() {

@@ -86,6 +86,10 @@ PQCFileFolderModel::PQCFileFolderModel(QObject *parent) : QObject(parent) {
     m_justLeftViewerMode = false;
 
     m_extraFoldersToLoad.clear();
+    m_virtualFolders = PQCNotifyCPP::get().getVirtualFolders();
+    m_virtualFiles = PQCNotifyCPP::get().getVirtualFiles();
+    m_loadVirtualFolderFileDialog = (m_virtualFolders.length()+m_virtualFiles.length() > 0);
+    m_loadVirtualFolderMainView = (m_virtualFolders.length()+m_virtualFiles.length() > 0);
 
     watcherMainView = new QFileSystemWatcher;
     watcherFileDialog = new QFileSystemWatcher;
@@ -159,6 +163,11 @@ PQCFileFolderModel::PQCFileFolderModel(QObject *parent) : QObject(parent) {
     connect(&PQCSettingsCPP::get(), &PQCSettingsCPP::filedialogShowHiddenFilesFoldersChanged, this, &PQCFileFolderModel::loadDataMainView);
 
     connect(&PQCNotifyCPP::get(), &PQCNotifyCPP::resetSessionData, this, &PQCFileFolderModel::resetModel);
+
+    connect(&PQCNotifyCPP::get(), &PQCNotifyCPP::virtualFoldersChanged,
+            this, [=](QStringList val) { m_virtualFolders = val; Q_EMIT virtualFoldersChanged(); });
+    connect(&PQCNotifyCPP::get(), &PQCNotifyCPP::virtualFilesChanged,
+            this, [=](QStringList val) { m_virtualFiles = val; Q_EMIT virtualFilesChanged(); });
 
     /********************************************/
     /********************************************/
@@ -342,6 +351,38 @@ QStringList PQCFileFolderModel::getExtraFoldersToLoad() {
 void PQCFileFolderModel::setExtraFoldersToLoad(QStringList val) {
     m_extraFoldersToLoad = val;
     Q_EMIT extraFoldersToLoadChanged();
+}
+
+QStringList PQCFileFolderModel::getVirtualFolders() {
+    return m_virtualFolders;
+}
+void PQCFileFolderModel::setVirtualFolders(QStringList val) {
+    m_virtualFolders = val;
+    Q_EMIT virtualFoldersChanged();
+}
+
+QStringList PQCFileFolderModel::getVirtualFiles() {
+    return m_virtualFiles;
+}
+void PQCFileFolderModel::setVirtualFiles(QStringList val) {
+    m_virtualFiles = val;
+    Q_EMIT virtualFilesChanged();
+}
+
+bool PQCFileFolderModel::getLoadVirtualFolderFileDialog() {
+    return m_loadVirtualFolderFileDialog;
+}
+void PQCFileFolderModel::setLoadVirtualFolderFileDialog(bool val) {
+    m_loadVirtualFolderFileDialog = val;
+    Q_EMIT loadVirtualFolderFileDialogChanged();
+}
+
+bool PQCFileFolderModel::getLoadVirtualFolderMainView() {
+    return m_loadVirtualFolderMainView;
+}
+void PQCFileFolderModel::setLoadVirtualFolderMainView(bool val) {
+    m_loadVirtualFolderMainView = val;
+    Q_EMIT loadVirtualFolderMainViewChanged();
 }
 
 /********************************************/
@@ -945,9 +986,38 @@ void PQCFileFolderModel::loadDataMainView() {
     qDebug() << "";
 
     ////////////////////////
+    // virtual folder
+
+    bool virtualFolderLoaded = false;
+    bool virtualFolderEmpty = false;
+    if(m_loadVirtualFolderMainView) {
+
+        qDebug() << "Loading virtual folder:" << m_virtualFolders << "/" << m_virtualFiles;
+
+        QStringList allFiles = m_virtualFiles;
+        for(const QString &f : std::as_const(m_virtualFolders)) {
+
+            allFiles.append(getAllFiles(f));
+
+        }
+
+        m_entriesMainView = allFiles;
+
+        PQCFileFolderModelCPP::get().setEntriesMainView(m_entriesMainView);
+        setCountMainView(m_entriesMainView.length());
+
+        if(allFiles.length() == 0)
+            virtualFolderEmpty = true;
+        else
+            virtualFolderLoaded = true;
+
+    }
+
+
+    ////////////////////////
     // no new directory
 
-    if(m_fileInFolderMainView.isEmpty()) {
+    if(virtualFolderEmpty || m_fileInFolderMainView.isEmpty()) {
 
         qDebug() << "No file in main view -> nothing here";
 
@@ -977,65 +1047,69 @@ void PQCFileFolderModel::loadDataMainView() {
         return;
     }
 
-    ////////////////////////
-    // load files
+    if(!virtualFolderLoaded) {
 
-    int numberPageDocument = 0;
-    if(m_fileInFolderMainView.contains("::PDF::")) {
-        m_readDocumentOnly = true;
-        numberPageDocument = m_fileInFolderMainView.split("::PDF::").at(0).toInt();
-        m_fileInFolderMainView = m_fileInFolderMainView.split("::PDF::").at(1);
-    } else if(m_fileInFolderMainView.contains("::ARC::")) {
-        m_readArchiveOnly = true;
-        numberPageDocument = m_fileInFolderMainView.split("::ARC::").at(0).toInt();
-        m_fileInFolderMainView = m_fileInFolderMainView.split("::ARC::").at(1);
-    }
+        ////////////////////////
+        // load files
 
-    const bool isFolder = (QFile::exists(m_fileInFolderMainView) && !QFileInfo(m_fileInFolderMainView).isFile()) || m_fileInFolderMainView.endsWith("/");
-
-    // clear any old watchers
-    if(watcherMainView->directories().length())
-        watcherMainView->removePaths(watcherMainView->directories());
-    if(watcherMainView->files().length())
-        watcherMainView->removePaths(watcherMainView->files());
-
-    // and set the current one
-    watcherMainView->addPath(isFolder ? m_fileInFolderMainView : QFileInfo(m_fileInFolderMainView).absolutePath());
-    connect(watcherMainView, &QFileSystemWatcher::directoryChanged, this, [=]() { m_fileInFolderMainView = m_currentFile; loadDelayMainView->start(); });
-
-    if(m_readDocumentOnly) {// && PQCImageFormats::get().getEnabledFormatsPoppler().contains(QFileInfo(m_fileInFolderMainView).suffix().toLower())) {
-
-        m_entriesMainView = listPDFPages(m_fileInFolderMainView);
-        PQCFileFolderModelCPP::get().setEntriesMainView(m_entriesMainView);
-        setCountMainView(m_entriesMainView.length());
-        m_readDocumentOnly = false;
-        setCurrentIndex(numberPageDocument);
-
-        qDebug() << "Found" << m_entriesMainView.length() << "pages in document";
-
-    } else if(m_readArchiveOnly) {// && PQCImageFormats::get().getEnabledFormatsLibArchive().contains(QFileInfo(m_fileInFolderMainView).suffix().toLower())) {
-
-        if(archiveContentPreloaded.length() > 0) {
-            m_entriesMainView = archiveContentPreloaded;
-            PQCFileFolderModelCPP::get().setEntriesMainView(m_entriesMainView);
-            archiveContentPreloaded.clear();
+        int numberPageDocument = 0;
+        if(m_fileInFolderMainView.contains("::PDF::")) {
+            m_readDocumentOnly = true;
+            numberPageDocument = m_fileInFolderMainView.split("::PDF::").at(0).toInt();
+            m_fileInFolderMainView = m_fileInFolderMainView.split("::PDF::").at(1);
+        } else if(m_fileInFolderMainView.contains("::ARC::")) {
+            m_readArchiveOnly = true;
+            numberPageDocument = m_fileInFolderMainView.split("::ARC::").at(0).toInt();
+            m_fileInFolderMainView = m_fileInFolderMainView.split("::ARC::").at(1);
         }
-        setCountMainView(m_entriesMainView.length());
-        m_readArchiveOnly = false;
-        setCurrentIndex(numberPageDocument);
 
-        qDebug() << "Found" << m_entriesMainView.length() << "files in archive";
+        const bool isFolder = (QFile::exists(m_fileInFolderMainView) && !QFileInfo(m_fileInFolderMainView).isFile()) || m_fileInFolderMainView.endsWith("/");
 
-    } else {
+        // clear any old watchers
+        if(watcherMainView->directories().length())
+            watcherMainView->removePaths(watcherMainView->directories());
+        if(watcherMainView->files().length())
+            watcherMainView->removePaths(watcherMainView->files());
 
-        m_entriesMainView = getAllFiles(isFolder ? m_fileInFolderMainView : QFileInfo(m_fileInFolderMainView).absolutePath());
-        PQCFileFolderModelCPP::get().setEntriesMainView(m_entriesMainView);
-        setCountMainView(m_entriesMainView.length());
+        // and set the current one
+        watcherMainView->addPath(isFolder ? m_fileInFolderMainView : QFileInfo(m_fileInFolderMainView).absolutePath());
+        connect(watcherMainView, &QFileSystemWatcher::directoryChanged, this, [=]() { m_fileInFolderMainView = m_currentFile; loadDelayMainView->start(); });
 
-        qDebug() << "Found" << m_entriesMainView.length() << "files";
+        if(m_readDocumentOnly) {// && PQCImageFormats::get().getEnabledFormatsPoppler().contains(QFileInfo(m_fileInFolderMainView).suffix().toLower())) {
 
-        if(isFolder && m_entriesMainView.length())
-            m_fileInFolderMainView = m_entriesMainView[0];
+            m_entriesMainView = listPDFPages(m_fileInFolderMainView);
+            PQCFileFolderModelCPP::get().setEntriesMainView(m_entriesMainView);
+            setCountMainView(m_entriesMainView.length());
+            m_readDocumentOnly = false;
+            setCurrentIndex(numberPageDocument);
+
+            qDebug() << "Found" << m_entriesMainView.length() << "pages in document";
+
+        } else if(m_readArchiveOnly) {// && PQCImageFormats::get().getEnabledFormatsLibArchive().contains(QFileInfo(m_fileInFolderMainView).suffix().toLower())) {
+
+            if(archiveContentPreloaded.length() > 0) {
+                m_entriesMainView = archiveContentPreloaded;
+                PQCFileFolderModelCPP::get().setEntriesMainView(m_entriesMainView);
+                archiveContentPreloaded.clear();
+            }
+            setCountMainView(m_entriesMainView.length());
+            m_readArchiveOnly = false;
+            setCurrentIndex(numberPageDocument);
+
+            qDebug() << "Found" << m_entriesMainView.length() << "files in archive";
+
+        } else {
+
+            m_entriesMainView = getAllFiles(isFolder ? m_fileInFolderMainView : QFileInfo(m_fileInFolderMainView).absolutePath());
+            PQCFileFolderModelCPP::get().setEntriesMainView(m_entriesMainView);
+            setCountMainView(m_entriesMainView.length());
+
+            qDebug() << "Found" << m_entriesMainView.length() << "files";
+
+            if(isFolder && m_entriesMainView.length())
+                m_fileInFolderMainView = m_entriesMainView[0];
+
+        }
 
     }
 
@@ -1082,9 +1156,36 @@ void PQCFileFolderModel::loadDataFileDialog() {
     qDebug() << "";
 
     ////////////////////////
+    // virtual folder
+
+    bool virtualFolderLoaded = false;
+    bool virtualFolderEmpty = false;
+    if(m_loadVirtualFolderFileDialog) {
+
+        qDebug() << "Loading virtual folder:" << m_virtualFolders << "/" << m_virtualFiles;
+
+        QStringList allFiles = m_virtualFiles;
+        for(const QString &f : std::as_const(m_virtualFolders)) {
+
+            allFiles.append(getAllFiles(f));
+
+        }
+
+        m_entriesFileDialog = allFiles;
+        m_countFoldersFileDialog = 0;
+        m_countFilesFileDialog = allFiles.length();
+
+        if(allFiles.length() == 0)
+            virtualFolderEmpty = true;
+        else
+            virtualFolderLoaded = true;
+
+    }
+
+    ////////////////////////
     // no new directory
 
-    if(m_folderFileDialog.isEmpty()) {
+    if(virtualFolderEmpty || m_folderFileDialog.isEmpty()) {
 
         // clear old entries
         m_entriesFileDialog.clear();
@@ -1100,23 +1201,27 @@ void PQCFileFolderModel::loadDataFileDialog() {
         return;
     }
 
-    ////////////////////////
-    // watch directory for changes
+    if(!virtualFolderLoaded) {
 
-    watcherFileDialog->addPath(m_folderFileDialog);
-    connect(watcherFileDialog, &QFileSystemWatcher::directoryChanged, this, &PQCFileFolderModel::loadDataFileDialog);
+        ////////////////////////
+        // watch directory for changes
 
-    ////////////////////////
-    // load folders
+        watcherFileDialog->addPath(m_folderFileDialog);
+        connect(watcherFileDialog, &QFileSystemWatcher::directoryChanged, this, &PQCFileFolderModel::loadDataFileDialog);
 
-    m_entriesFileDialog = getAllFolders(m_folderFileDialog);
-    m_countFoldersFileDialog = m_entriesFileDialog.length();
+        ////////////////////////
+        // load folders
 
-    ////////////////////////
-    // load files
+        m_entriesFileDialog = getAllFolders(m_folderFileDialog);
+        m_countFoldersFileDialog = m_entriesFileDialog.length();
 
-    m_entriesFileDialog.append(getAllFiles(m_folderFileDialog, true, true));
-    m_countFilesFileDialog = m_entriesFileDialog.length()-m_countFoldersFileDialog;
+        ////////////////////////
+        // load files
+
+        m_entriesFileDialog.append(getAllFiles(m_folderFileDialog, true, true));
+        m_countFilesFileDialog = m_entriesFileDialog.length()-m_countFoldersFileDialog;
+
+    }
 
     m_countAllFileDialog = m_countFoldersFileDialog+m_countFilesFileDialog;
 

@@ -451,13 +451,14 @@ void PQCSingleInstance::handleMessage(const QList<Actions> msg, bool includeFile
     if(includeFileProcessing) {
         // if we have files and/or folders that were passed on
         if(allfiles.length() > 0 || allfolders.length() > 0) {
-            allfiles.append(allfolders);
-            if(allfiles.length() > 1)
-                Q_EMIT PQCFileFolderModelCPP::get().setExtraFoldersToLoad(allfiles.mid(1));
-            else
-                Q_EMIT PQCFileFolderModelCPP::get().setExtraFoldersToLoad({});
-            qDebug() << "request action: set file:" << allfiles[0];
-            PQCNotifyCPP::get().setFilePath(allfiles[0]);
+
+            if(allfiles.length()+allfolders.length() > 1) {
+                Q_EMIT PQCNotifyCPP::get().setVirtualFiles(allfiles);
+                Q_EMIT PQCNotifyCPP::get().setVirtualFolders(allfolders);
+            }
+
+            PQCNotifyCPP::get().setFilePath(allfiles.length() ? allfiles[0] : allfolders[0]);
+
         }
     }
 

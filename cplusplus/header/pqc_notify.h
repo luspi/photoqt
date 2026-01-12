@@ -110,14 +110,6 @@ Q_SIGNALS:
 
     /**********************************************************/
 
-    // Q_PROPERTY SIGNALS
-    void filePathChanged();
-    void debugChanged();
-    void debugLogMessagesChanged();
-    void startInTrayChanged();
-    void haveScreenshotsChanged();
-    void haveSettingUpdateChanged();
-
     // some window states control from QML
     void setWindowState(int state);
     void windowRaiseAndFocus();
