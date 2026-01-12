@@ -451,28 +451,13 @@ void PQCSingleInstance::handleMessage(const QList<Actions> msg, bool includeFile
     if(includeFileProcessing) {
         // if we have files and/or folders that were passed on
         if(allfiles.length() > 0 || allfolders.length() > 0) {
-
-            if((allfiles.length() == 1 && allfolders.length() == 0) ||
-               (allfiles.length() == 0 && allfolders.length() == 1)) {
-
-                qDebug() << "setting single file/folder:" << allfiles << allfolders;
-
-                allfiles.append(allfolders);
+            allfiles.append(allfolders);
+            if(allfiles.length() > 1)
+                Q_EMIT PQCFileFolderModelCPP::get().setExtraFoldersToLoad(allfiles.mid(1));
+            else
                 Q_EMIT PQCFileFolderModelCPP::get().setExtraFoldersToLoad({});
-                PQCNotifyCPP::get().setFilePath(allfiles[0]);
-
-            // if multiple files/folders are passed, then we create a virtual folder with its contents
-            } else {
-
-                qDebug() << "setting up virtual folder:" << allfiles << allfolders;
-
-                if(allfolders.length())
-                    PQCFileFolderModelCPP::get().setVirtualFolderExtraFolder(allfolders);
-                PQCFileFolderModelCPP::get().setVirtualFolderContents(allfiles);
-                PQCFileFolderModelCPP::get().setLoadVirtualFolder(true);
-                PQCNotifyCPP::get().setVirtualFolder({allfiles, allfolders});
-
-            }
+            qDebug() << "request action: set file:" << allfiles[0];
+            PQCNotifyCPP::get().setFilePath(allfiles[0]);
         }
     }
 

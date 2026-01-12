@@ -93,9 +93,6 @@ Q_SIGNALS:
 
     // these are picked up in PQCFileFolderModel
     void setExtraFoldersToLoad(QStringList val);
-    void setVirtualFolderContents(QStringList val);
-    void setVirtualFolderExtraFolder(QStringList val);
-    void setLoadVirtualFolder(bool val);
     void setFileInFolderMainView(QString val);
 
 };

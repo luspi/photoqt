@@ -50,14 +50,12 @@ public:
     void setStartInTray(bool val) { m_startInTray = val; Q_EMIT startInTrayChanged(val); }
     void setHaveScreenshots(bool val) { m_haveScreenshots = val; Q_EMIT haveScreenshotsChanged(val); }
     void setSettingUpdate(QStringList val) { m_settingUpdate = val; Q_EMIT settingUpdateChanged(val); }
-    void setVirtualFolder(QList<QStringList> val) { m_virtualFolder = val; Q_EMIT virtualFolderChanged(val); }
 
     QString getFilePath() { return m_filepath; }
     bool getDebug() { return m_debug; }
     bool getStartInTray() { return m_startInTray; }
     bool getHaveScreenshots() { return m_haveScreenshots; }
     QStringList getSettingUpdate() { return m_settingUpdate; }
-    QList<QStringList> getVirtualFolder() { return m_virtualFolder; }
 
     /******************************************************/
 
@@ -68,7 +66,6 @@ private:
         m_startInTray = false;
         m_haveScreenshots = false;
         m_settingUpdate.clear();
-        m_virtualFolder = {{}, {}};
     }
 
     /******************************************************/
@@ -83,7 +80,6 @@ private:
     bool m_startInTray;
     bool m_haveScreenshots;
     QStringList m_settingUpdate;
-    QList<QStringList> m_virtualFolder;
 
     /******************************************************/
 
@@ -105,7 +101,6 @@ Q_SIGNALS:
     void haveScreenshotsChanged(bool val);
     void settingUpdateChanged(QStringList val);
     void addDebugLogMessages(QString val);
-    void virtualFolderChanged(QList<QStringList> val);
 
     void setColorProfileFor(QString path, QString val);
 

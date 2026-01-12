@@ -292,15 +292,7 @@ ApplicationWindow {
                 showFullScreen()
         }
 
-        if(PQCConstants.startupVirtualFolder.length && (PQCConstants.startupVirtualFolder[0].length || PQCConstants.startupVirtualFolder[1].length)) {
-
-            PQCFileFolderModel.extraFoldersToLoad = PQCConstants.startupVirtualFolder[1]
-            PQCFileFolderModel.virtualFolderContents = PQCConstants.startupVirtualFolder[0]
-            PQCFileFolderModel.loadVirtualFolder = true
-            PQCFileFolderModel.fileInFolderMainView = PQCFileFolderModel.virtualFolderContents[0]
-            PQCConstants.startupFilePath = PQCFileFolderModel.virtualFolderContents[0]
-
-        } else if(PQCConstants.startupFilePath !== "") {
+        if(PQCConstants.startupFilePath !== "") {
 
             // in the case of a FOLDER passed on we actually need to load the files first to get the first one:
             if(PQCConstants.startupFileIsFolder)

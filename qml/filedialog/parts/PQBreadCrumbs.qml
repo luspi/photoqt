@@ -250,22 +250,11 @@ Item {
                 }
             }
 
-            PQTextL {
-                x: 10
-                height: parent.height
-                width: parent.width-10
-                verticalAlignment: Text.AlignVCenter
-                visible: PQCFileFolderModel.folderFileDialog==="::virtual::"
-                font.italic: true
-                text: qsTranslate("filedialog", "virtual folder")
-            }
-
             Flickable {
 
                 height: parent.height
                 width: Math.min(contentWidth, parent.width-editbutton.width-10)
                 contentWidth: crumbs.width
-                visible: PQCFileFolderModel.folderFileDialog!=="::virtual::"
                 onWidthChanged: {
                     if(contentWidth > width)
                         contentX = (contentWidth-width)
