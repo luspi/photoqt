@@ -750,7 +750,6 @@ Item {
             PQCNotify.filedialogLoadNewPath(path)
         else {
             PQCNotify.filedialogLoadNewPath(PQCScriptsFilesPaths.getDir(path))
-            PQCFileFolderModel.extraFoldersToLoad = []
             PQCFileFolderModel.fileInFolderMainView = path
             PQCNotify.filedialogClose()
         }

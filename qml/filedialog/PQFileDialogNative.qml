@@ -65,7 +65,6 @@ Item {
 
         if(fname !== "") {
             PQCScriptsFileDialog.setLastLocation(PQCScriptsFilesPaths.getDir(fname))
-            PQCFileFolderModel.extraFoldersToLoad = []
             PQCFileFolderModel.fileInFolderMainView = fname
         }
 

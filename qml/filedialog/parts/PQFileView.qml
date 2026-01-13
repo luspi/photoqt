@@ -196,7 +196,6 @@ Item {
             iconSource: "image://svg/:/" + PQCLook.iconShade + "/folder.svg"
             text: (fileview_entry_menu.isFolder ? qsTranslate("filedialog", "Load content of folder") : qsTranslate("filedialog", "Load this file"))
             onTriggered: {
-                PQCFileFolderModel.extraFoldersToLoad = []
                 PQCFileFolderModel.fileInFolderMainView = fileview_entry_menu.path
                 PQCNotify.filedialogClose()
             }
@@ -568,7 +567,6 @@ Item {
                         if(isFolder)
                             filedialog_top.loadNewPath(currentPath)
                         else {
-                            PQCFileFolderModel.extraFoldersToLoad = []
                             PQCFileFolderModel.fileInFolderMainView = currentPath
                             filedialog_top.handleHiding(true)
                         }
@@ -844,7 +842,6 @@ Item {
         if(index < PQCFileFolderModel.countFoldersFileDialog)
             filedialog_top.loadNewPath(PQCFileFolderModel.entriesFileDialog[index])
         else {
-            PQCFileFolderModel.extraFoldersToLoad = []
             PQCFileFolderModel.loadVirtualFolderMainView = PQCFileFolderModel.loadVirtualFolderFileDialog
             PQCFileFolderModel.fileInFolderMainView = PQCFileFolderModel.entriesFileDialog[index]
             if(!PQCSettings.interfacePopoutFileDialog || !PQCSettings.interfacePopoutFileDialogNonModal)

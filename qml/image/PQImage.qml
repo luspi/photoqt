@@ -140,7 +140,6 @@ Item {
                     if(PQCImageFormats.getEnabledFormats().indexOf(suffix1) > -1 ||
                        PQCImageFormats.getEnabledFormats().indexOf(suffix2) > -1 ||
                        PQCImageFormats.getEnabledMimeTypes().indexOf(mimetype) > -1) {
-                        PQCFileFolderModel.extraFoldersToLoad = []
                         PQCFileFolderModel.fileInFolderMainView = PQCScriptsFilesPaths.cleanPath(PQCScriptsFilesPaths.fromPercentEncoding(event.urls[i]))
                         PQCFileFolderModel.folderFileDialog = PQCScriptsFilesPaths.getDir(PQCFileFolderModel.fileInFolderMainView)
                         found = true
@@ -390,7 +389,6 @@ Item {
         }
 
         function onSendShortcutShowFile(path : string) {
-            PQCFileFolderModel.extraFoldersToLoad = []
             PQCFileFolderModel.fileInFolderMainView = path
         }
 

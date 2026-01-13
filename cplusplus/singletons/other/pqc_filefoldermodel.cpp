@@ -85,7 +85,6 @@ PQCFileFolderModel::PQCFileFolderModel(QObject *parent) : QObject(parent) {
     m_fileSizeFilter = 0;
     m_justLeftViewerMode = false;
 
-    m_extraFoldersToLoad.clear();
     m_virtualFolders = PQCNotifyCPP::get().getVirtualFolders();
     m_virtualFiles = PQCNotifyCPP::get().getVirtualFiles();
     m_loadVirtualFolderFileDialog = (m_virtualFolders.length()+m_virtualFiles.length() > 0);
@@ -175,7 +174,6 @@ PQCFileFolderModel::PQCFileFolderModel(QObject *parent) : QObject(parent) {
     // these are READ FROM PQCFileFolderModelCPP
 
     connect(&PQCFileFolderModelCPP::get(), &PQCFileFolderModelCPP::setFileInFolderMainView, this, [=](QString val) { setFileInFolderMainView(val); });
-    connect(&PQCFileFolderModelCPP::get(), &PQCFileFolderModelCPP::setExtraFoldersToLoad, this, [=](QStringList val) { setExtraFoldersToLoad(val); });
 
     /********************************************/
     /********************************************/
@@ -343,14 +341,6 @@ void PQCFileFolderModel::setReadArchiveOnly(bool c) {
     m_readArchiveOnly = c;
     Q_EMIT readArchiveOnlyChanged();
     loadDelayMainView->start();
-}
-
-QStringList PQCFileFolderModel::getExtraFoldersToLoad() {
-    return m_extraFoldersToLoad;
-}
-void PQCFileFolderModel::setExtraFoldersToLoad(QStringList val) {
-    m_extraFoldersToLoad = val;
-    Q_EMIT extraFoldersToLoadChanged();
 }
 
 QStringList PQCFileFolderModel::getVirtualFolders() {
@@ -1347,8 +1337,6 @@ QStringList PQCFileFolderModel::getAllFiles(QString folder, bool ignoreFiltersEx
                 if(count > 100)
                     break;
             }
-        } else if(m_extraFoldersToLoad.length() > 0) {
-            foldersToScan.append(m_extraFoldersToLoad);
         }
 
     }

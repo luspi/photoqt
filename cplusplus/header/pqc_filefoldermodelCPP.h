@@ -92,7 +92,6 @@ Q_SIGNALS:
     void entriesMainViewChanged();
 
     // these are picked up in PQCFileFolderModel
-    void setExtraFoldersToLoad(QStringList val);
     void setFileInFolderMainView(QString val);
 
 };

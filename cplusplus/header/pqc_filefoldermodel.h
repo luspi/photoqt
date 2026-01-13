@@ -99,10 +99,6 @@ public:
     bool getReadArchiveOnly();
     void setReadArchiveOnly(bool c);
 
-    Q_PROPERTY(QStringList extraFoldersToLoad READ getExtraFoldersToLoad WRITE setExtraFoldersToLoad NOTIFY extraFoldersToLoadChanged)
-    QStringList getExtraFoldersToLoad();
-    void setExtraFoldersToLoad(QStringList val);
-
     Q_PROPERTY(QStringList virtualFolders READ getVirtualFolders WRITE setVirtualFolders NOTIFY virtualFoldersChanged)
     QStringList getVirtualFolders();
     void setVirtualFolders(QStringList val);
@@ -233,7 +229,6 @@ private:
     bool m_readDocumentOnly;
     bool m_readArchiveOnly;
     bool m_includeFilesInSubFolders;
-    QStringList m_extraFoldersToLoad;
     QStringList m_virtualFolders;
     QStringList m_virtualFiles;
     bool m_loadVirtualFolderFileDialog;
@@ -322,7 +317,6 @@ Q_SIGNALS:
     void readDocumentOnlyChanged();
     void readArchiveOnlyChanged();
     void includeFilesInSubFoldersChanged();
-    void extraFoldersToLoadChanged();
     void virtualFoldersChanged();
     void virtualFilesChanged();
     void loadVirtualFolderFileDialogChanged();
