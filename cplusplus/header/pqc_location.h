@@ -19,9 +19,7 @@
  ** along with PhotoQt. If not, see <http://www.gnu.org/licenses/>.      **
  **                                                                      **
  **************************************************************************/
-
-#ifndef PQCLOCATION_H
-#define PQCLOCATION_H
+#pragma once
 
 #include <QObject>
 #include <QSqlDatabase>
@@ -111,5 +109,3 @@ Q_SIGNALS:
     void maximumLocationChanged();
 
 };
-
-#endif // PQCLOCATION_H

@@ -19,9 +19,7 @@
  ** along with PhotoQt. If not, see <http://www.gnu.org/licenses/>.      **
  **                                                                      **
  **************************************************************************/
-
-#ifndef PQCIMAGEFORMATS_H
-#define PQCIMAGEFORMATS_H
+#pragma once
 
 #include <QObject>
 #include <QVariantMap>
@@ -244,6 +242,3 @@ private:
     bool readonly;
 
 };
-
-
-#endif // PQIMAGEFORMATS_H

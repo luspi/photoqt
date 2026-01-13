@@ -19,9 +19,7 @@
  ** along with PhotoQt. If not, see <http://www.gnu.org/licenses/>.      **
  **                                                                      **
  **************************************************************************/
-
-#ifndef PQCSCRIPTSCONFIG_H
-#define PQCSCRIPTSCONFIG_H
+#pragma once
 
 #include <QObject>
 #include <QTranslator>
@@ -91,5 +89,3 @@ private:
     ~PQCScriptsConfig();
 
 };
-
-#endif

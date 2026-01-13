@@ -62,9 +62,7 @@ def get(duplicateSettings):
  ** along with PhotoQt. If not, see <http://www.gnu.org/licenses/>.      **
  **                                                                      **
  **************************************************************************/
-
-#ifndef PQCREADONLYSETTINGS_H
-#define PQCREADONLYSETTINGS_H
+#pragma once
 
 #include <QObject>
 #include <QFile>
@@ -345,7 +343,6 @@ Q_SIGNALS:
 
 };
 
-#endif
 """
 
     return cont

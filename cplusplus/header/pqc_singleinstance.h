@@ -19,9 +19,7 @@
  ** along with PhotoQt. If not, see <http://www.gnu.org/licenses/>.      **
  **                                                                      **
  **************************************************************************/
-
-#ifndef PQCSINGLEINSTANCE_H
-#define PQCSINGLEINSTANCE_H
+#pragma once
 
 #include <QApplication>
 #include <pqc_commandlineparser.h>
@@ -104,5 +102,3 @@ private:
 
     QList<Actions> m_startupMessageForProcessing;
 };
-
-#endif // PQSINGLEINSTANCE_H

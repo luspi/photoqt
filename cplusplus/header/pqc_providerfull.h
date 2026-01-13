@@ -19,9 +19,7 @@
  ** along with PhotoQt. If not, see <http://www.gnu.org/licenses/>.      **
  **                                                                      **
  **************************************************************************/
-
-#ifndef PQCProviderFull_H
-#define PQCProviderFull_H
+#pragma once
 
 #include <QQuickImageProvider>
 
@@ -34,6 +32,3 @@ public:
     QImage requestImage(const QString &url, QSize *origSize, const QSize &requestedSize);
 
 };
-
-
-#endif // PQCProviderFull_H

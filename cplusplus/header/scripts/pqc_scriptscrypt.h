@@ -22,9 +22,7 @@
  ** along with PhotoQt. If not, see <http://www.gnu.org/licenses/>.      **
  **                                                                      **
  **************************************************************************/
-
-#ifndef PQCSCRIPTSCRYPT_H
-#define PQCSCRIPTSCRYPT_H
+#pragma once
 
 #include <QObject>
 #include <QRandomGenerator>
@@ -61,5 +59,3 @@ private:
     QRandomGenerator randgen;
 
 };
-
-#endif

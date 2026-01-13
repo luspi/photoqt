@@ -20,9 +20,7 @@
  ** along with PhotoQt. If not, see <http://www.gnu.org/licenses/>.      **
  **                                                                      **
  **************************************************************************/
-
-#ifndef MPVRENDERER_H_
-#define MPVRENDERER_H_
+#pragma once
 
 #ifdef PQMVIDEOMPV
 
@@ -84,7 +82,5 @@ private:
     int m_h;
 
 };
-
-#endif
 
 #endif

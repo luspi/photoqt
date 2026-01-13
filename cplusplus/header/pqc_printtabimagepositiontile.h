@@ -19,9 +19,7 @@
  ** along with PhotoQt. If not, see <http://www.gnu.org/licenses/>.      **
  **                                                                      **
  **************************************************************************/
-
-#ifndef TABIMAGEPOSITIONTILE_H
-#define TABIMAGEPOSITIONTILE_H
+#pragma once
 
 #include <QLabel>
 
@@ -60,5 +58,3 @@ Q_SIGNALS:
     void newPosSelected(int id);
 
 };
-
-#endif // TABIMAGEPOSITIONTILE_H

@@ -19,9 +19,7 @@
  ** along with PhotoQt. If not, see <http://www.gnu.org/licenses/>.      **
  **                                                                      **
  **************************************************************************/
-
-#ifndef PQCSCRIPTSSHORTCUTS_H
-#define PQCSCRIPTSSHORTCUTS_H
+#pragma once
 
 #include <QObject>
 #include <QHash>
@@ -94,5 +92,3 @@ Q_SIGNALS:
     void sendShortcutMirrorReset();
 
 };
-
-#endif

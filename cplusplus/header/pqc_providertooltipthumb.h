@@ -19,8 +19,7 @@
  ** along with PhotoQt. If not, see <http://www.gnu.org/licenses/>.      **
  **                                                                      **
  **************************************************************************/
-#ifndef PQCASYNCIMAGEPROVIDERTOOLTIPTHUMB_H
-#define PQCASYNCIMAGEPROVIDERTOOLTIPTHUMB_H
+#pragma once
 
 #include <QQuickAsyncImageProvider>
 #include <QThreadPool>
@@ -58,5 +57,3 @@ private:
     PQCAsyncImageResponseThumb *loader;
 
 };
-
-#endif // PQCASYNCIMAGEPROVIDERTOOLTIPTHUMB_H

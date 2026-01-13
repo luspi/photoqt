@@ -19,9 +19,7 @@
  ** along with PhotoQt. If not, see <http://www.gnu.org/licenses/>.      **
  **                                                                      **
  **************************************************************************/
-
-#ifndef TABIMAGEOPTIONS_H
-#define TABIMAGEOPTIONS_H
+#pragma once
 
 #include <pqc_printtabimagepositiontile.h>
 #include <QWidget>
@@ -87,8 +85,3 @@ Q_SIGNALS:
     void notifyNewPosSelected(int id);
 
 };
-
-
-
-
-#endif // TABIMAGEOPTIONS_H

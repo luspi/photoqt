@@ -19,9 +19,7 @@
  ** along with PhotoQt. If not, see <http://www.gnu.org/licenses/>.      **
  **                                                                      **
  **************************************************************************/
-
-#ifndef PQCLOADIMAGEUNRAR_H
-#define PQCLOADIMAGEUNRAR_H
+#pragma once
 
 class QSize;
 class QImage;
@@ -39,5 +37,3 @@ private:
     static QImage loadArchiveIntoImage(QString filename);
 
 };
-
-#endif // PQCLOADIMAGEUNRAR_H

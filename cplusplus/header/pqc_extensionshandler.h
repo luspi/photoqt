@@ -19,9 +19,7 @@
  ** along with PhotoQt. If not, see <http://www.gnu.org/licenses/>.      **
  **                                                                      **
  **************************************************************************/
-
-#ifndef PQCSCRIPTSEXTENSIONS_H
-#define PQCSCRIPTSEXTENSIONS_H
+#pragma once
 
 #include <QObject>
 #include <QMap>
@@ -219,5 +217,3 @@ Q_SIGNALS:
 
 
 };
-
-#endif

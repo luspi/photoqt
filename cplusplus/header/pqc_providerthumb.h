@@ -19,8 +19,7 @@
  ** along with PhotoQt. If not, see <http://www.gnu.org/licenses/>.      **
  **                                                                      **
  **************************************************************************/
-#ifndef PQCASYNCIMAGEPROVIDERTHUMB_H
-#define PQCASYNCIMAGEPROVIDERTHUMB_H
+#pragma once
 
 #include <QQuickAsyncImageProvider>
 #include <QThreadPool>
@@ -57,5 +56,3 @@ public:
     PQCProviderIcon *providerIcon;
 
 };
-
-#endif // PQCASYNCIMAGEPROVIDERTHUMB_H

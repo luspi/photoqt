@@ -19,9 +19,7 @@
  ** along with PhotoQt. If not, see <http://www.gnu.org/licenses/>.      **
  **                                                                      **
  **************************************************************************/
-
-#ifndef PQPHOTOSPHERE_H
-#define PQPHOTOSPHERE_H
+#pragma once
 
 // This is the QML type
 
@@ -89,5 +87,3 @@ private:
     bool recreateRenderer = false;
 
 };
-
-#endif // PQPHOTOSPHERE_H

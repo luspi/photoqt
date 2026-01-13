@@ -19,9 +19,7 @@
  ** along with PhotoQt. If not, see <http://www.gnu.org/licenses/>.      **
  **                                                                      **
  **************************************************************************/
-
-#ifndef PQCSCRIPTSCOLORPROFILES_H
-#define PQCSCRIPTSCOLORPROFILES_H
+#pragma once
 
 #include <QObject>
 #include <QList>
@@ -96,5 +94,3 @@ private:
 #endif
 
 };
-
-#endif

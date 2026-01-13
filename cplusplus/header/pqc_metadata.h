@@ -19,9 +19,7 @@
  ** along with PhotoQt. If not, see <http://www.gnu.org/licenses/>.      **
  **                                                                      **
  **************************************************************************/
-
-#ifndef PQCMETADATA_H
-#define PQCMETADATA_H
+#pragma once
 
 #include <QObject>
 #include <QtDebug>
@@ -272,5 +270,3 @@ Q_SIGNALS:
     void iptcCopyrightChanged();
 
 };
-
-#endif // PQCMETADATA_H

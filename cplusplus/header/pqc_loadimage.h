@@ -19,9 +19,7 @@
  ** along with PhotoQt. If not, see <http://www.gnu.org/licenses/>.      **
  **                                                                      **
  **************************************************************************/
-
-#ifndef PQCLOADIMAGE_H
-#define PQCLOADIMAGE_H
+#pragma once
 
 #include <pqc_imagecache.h>
 
@@ -43,5 +41,3 @@ public:
 private:
     PQCLoadImage();
 };
-
-#endif // PQCLOADIMAGE_H

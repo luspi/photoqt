@@ -19,9 +19,7 @@
  ** along with PhotoQt. If not, see <http://www.gnu.org/licenses/>.      **
  **                                                                      **
  **************************************************************************/
-
-#ifndef PQCSCRIPTSOTHER_H
-#define PQCSCRIPTSOTHER_H
+#pragma once
 
 #include <QObject>
 #include <QJSValue>
@@ -71,5 +69,3 @@ private:
     ~PQCScriptsOther();
 
 };
-
-#endif

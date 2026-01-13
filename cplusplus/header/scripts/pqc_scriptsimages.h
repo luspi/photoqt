@@ -19,9 +19,7 @@
  ** along with PhotoQt. If not, see <http://www.gnu.org/licenses/>.      **
  **                                                                      **
  **************************************************************************/
-
-#ifndef PQCSCRIPTSIMAGES_H
-#define PQCSCRIPTSIMAGES_H
+#pragma once
 
 #include <QObject>
 #include <QMap>
@@ -108,5 +106,3 @@ Q_SIGNALS:
     void haveArchiveContentFor(QString filename, QStringList content);
 
 };
-
-#endif

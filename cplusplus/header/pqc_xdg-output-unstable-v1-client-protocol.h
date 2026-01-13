@@ -2,8 +2,7 @@
 
 #ifdef PQMWAYLANDSPECIFIC
 
-#ifndef XDG_OUTPUT_UNSTABLE_V1_CLIENT_PROTOCOL_H
-#define XDG_OUTPUT_UNSTABLE_V1_CLIENT_PROTOCOL_H
+#pragma once
 
 #include <stdint.h>
 #include <stddef.h>
@@ -410,8 +409,6 @@ zxdg_output_v1_destroy(struct zxdg_output_v1 *zxdg_output_v1)
 
 #ifdef  __cplusplus
 }
-#endif
-
 #endif
 
 #endif

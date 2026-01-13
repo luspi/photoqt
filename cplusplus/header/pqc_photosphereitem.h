@@ -19,9 +19,7 @@
  ** along with PhotoQt. If not, see <http://www.gnu.org/licenses/>.      **
  **                                                                      **
  **************************************************************************/
-
-#ifndef PQC_PHOTOSPHERE
-#define PQC_PHOTOSPHERE
+#pragma once
 
 #ifdef PQMPHOTOSPHERE
 
@@ -50,6 +48,3 @@ private:
 };
 
 #endif
-
-#endif
-

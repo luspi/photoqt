@@ -19,9 +19,7 @@
  ** along with PhotoQt. If not, see <http://www.gnu.org/licenses/>.      **
  **                                                                      **
  **************************************************************************/
-
-#ifndef PQCSCRIPTSMETADATA_H
-#define PQCSCRIPTSMETADATA_H
+#pragma once
 
 #include <QObject>
 
@@ -72,5 +70,3 @@ private:
     PQCScriptsMetaData();
 
 };
-
-#endif

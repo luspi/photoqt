@@ -19,9 +19,7 @@
  ** along with PhotoQt. If not, see <http://www.gnu.org/licenses/>.      **
  **                                                                      **
  **************************************************************************/
-
-#ifndef PQCPROVIDERICON_H
-#define PQCPROVIDERICON_H
+#pragma once
 
 #include <QQuickImageProvider>
 
@@ -39,5 +37,3 @@ private:
     PQCProviderSVG *svg;
 
 };
-
-#endif // PQCPROVIDERICON_H

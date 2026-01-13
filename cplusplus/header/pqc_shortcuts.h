@@ -19,9 +19,7 @@
  ** along with PhotoQt. If not, see <http://www.gnu.org/licenses/>.      **
  **                                                                      **
  **************************************************************************/
-
-#ifndef PQCSHORTCUTS_H
-#define PQCSHORTCUTS_H
+#pragma once
 
 #include <QObject>
 #include <QtSql/QSqlDatabase>
@@ -93,5 +91,3 @@ Q_SIGNALS:
     void aboutChanged();
 
 };
-
-#endif // PQCSHORTCUTS_H

@@ -19,9 +19,7 @@
  ** along with PhotoQt. If not, see <http://www.gnu.org/licenses/>.      **
  **                                                                      **
  **************************************************************************/
-
-#ifndef PQCLOADIMAGELIBVIPS_H
-#define PQCLOADIMAGELIBVIPS_H
+#pragma once
 
 class QSize;
 class QString;
@@ -36,5 +34,3 @@ public:
     static QString load(QString filename, QSize, QSize &origSize, QImage &img);
 
 };
-
-#endif // PQCLOADIMAGELIBVIPS_H

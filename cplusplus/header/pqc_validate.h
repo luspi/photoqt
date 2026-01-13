@@ -19,9 +19,7 @@
  ** along with PhotoQt. If not, see <http://www.gnu.org/licenses/>.      **
  **                                                                      **
  **************************************************************************/
-
-#ifndef PQCVALIDATE_H
-#define PQCVALIDATE_H
+#pragma once
 
 #include <QObject>
 
@@ -43,5 +41,3 @@ public:
     bool validateLocationDatabase();
 
 };
-
-#endif // PQVALIDATE_H

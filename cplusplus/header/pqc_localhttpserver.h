@@ -19,9 +19,7 @@
  ** along with PhotoQt. If not, see <http://www.gnu.org/licenses/>.      **
  **                                                                      **
  **************************************************************************/
-
-#ifndef PQCLOCALHTTPSERVER_H
-#define PQCLOCALHTTPSERVER_H
+#pragma once
 
 #include <QtGlobal>
 
@@ -54,5 +52,3 @@ private:
     qint64 bytesAvailable() const;
     QTcpServer *server;
 };
-
-#endif // PQCLOCALHTTPSERVER_H

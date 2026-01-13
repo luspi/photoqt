@@ -19,9 +19,7 @@
  ** along with PhotoQt. If not, see <http://www.gnu.org/licenses/>.      **
  **                                                                      **
  **************************************************************************/
-
-#ifndef PQCLOOK_H
-#define PQCLOOK_H
+#pragma once
 
 #include <QObject>
 #include <QHash>
@@ -125,5 +123,3 @@ Q_SIGNALS:
     void brightTextChanged();
 
 };
-
-#endif

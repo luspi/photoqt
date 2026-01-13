@@ -19,7 +19,6 @@
  ** along with PhotoQt. If not, see <http://www.gnu.org/licenses/>.      **
  **                                                                      **
  **************************************************************************/
-
 #pragma once
 
 #include <QSettings>

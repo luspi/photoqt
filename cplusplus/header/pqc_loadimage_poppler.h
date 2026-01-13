@@ -19,9 +19,7 @@
  ** along with PhotoQt. If not, see <http://www.gnu.org/licenses/>.      **
  **                                                                      **
  **************************************************************************/
-
-#ifndef PQCLOADIMAGESPOPPLER_H
-#define PQCLOADIMAGESPOPPLER_H
+#pragma once
 
 class QSize;
 class QImage;
@@ -36,5 +34,3 @@ public:
     static QString load(QString filename, QSize maxSize, QSize &origSize, QImage &img);
 
 };
-
-#endif // PQCLOADIMAGESPOPPLER_H

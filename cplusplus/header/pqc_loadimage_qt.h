@@ -19,9 +19,7 @@
  ** along with PhotoQt. If not, see <http://www.gnu.org/licenses/>.      **
  **                                                                      **
  **************************************************************************/
-
-#ifndef PQCLOADIMAGEQT_H
-#define PQCLOADIMAGEQT_H
+#pragma once
 
 class QSize;
 class QImage;
@@ -36,5 +34,3 @@ public:
     static QSize loadSize(QString filename);
 
 };
-
-#endif

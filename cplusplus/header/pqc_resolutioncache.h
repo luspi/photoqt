@@ -19,9 +19,7 @@
  ** along with PhotoQt. If not, see <http://www.gnu.org/licenses/>.      **
  **                                                                      **
  **************************************************************************/
-
-#ifndef PQC_RESOLUTIONCACHE
-#define PQC_RESOLUTIONCACHE
+#pragma once
 
 #include <QObject>
 #include <QMap>
@@ -50,5 +48,3 @@ private:
     QMap<QString,QSize> resolution;
 
 };
-
-#endif

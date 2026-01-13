@@ -19,9 +19,7 @@
  ** along with PhotoQt. If not, see <http://www.gnu.org/licenses/>.      **
  **                                                                      **
  **************************************************************************/
-
-#ifndef PQCFILEFOLDERMODELCACHE_H
-#define PQCFILEFOLDERMODELCACHE_H
+#pragma once
 
 #include <QObject>
 #include <QHash>
@@ -61,5 +59,3 @@ private:
 
 
 };
-
-#endif // PQFILEFOLDERMODELCACHE_H

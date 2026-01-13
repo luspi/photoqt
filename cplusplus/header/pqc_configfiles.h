@@ -19,9 +19,7 @@
  ** along with PhotoQt. If not, see <http://www.gnu.org/licenses/>.      **
  **                                                                      **
  **************************************************************************/
-
-#ifndef PQCCONFIGFILES_H
-#define PQCCONFIGFILES_H
+#pragma once
 
 #include <QObject>
 #include <QStandardPaths>
@@ -232,5 +230,3 @@ private:
     QString m_ICC_COLOR_PROFILE_DIR;
 
 };
-
-#endif // PQCCONFIGFILES_H

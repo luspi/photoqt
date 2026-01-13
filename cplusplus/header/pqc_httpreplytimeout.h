@@ -19,9 +19,7 @@
  ** along with PhotoQt. If not, see <http://www.gnu.org/licenses/>.      **
  **                                                                      **
  **************************************************************************/
-
-#ifndef PQCHTTPREPLYTIMEOUT_H
-#define PQCHTTPREPLYTIMEOUT_H
+#pragma once
 
 #include <QObject>
 #include <QTimerEvent>
@@ -50,5 +48,3 @@ protected:
         m_timer.stop();
     }
 };
-
-#endif // PQCHTTPREPLYTIMEOUT_H
