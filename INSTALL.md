@@ -9,9 +9,12 @@ The instructions below serve as a guide to compile and install PhotoQt from sour
 - Qt6 ImageFormats
 
 Make sure that you have all the required QML modules installed:
-QtGraphicalEffects, QtMultimedia, QtQuick, QtQuick.Controls, QtQuick.Controls.Styles, QtQuick.Layouts, QtQuick.Window, QtLocation, QtPositioning, QtCharts.
+QtGraphicalEffects, QtMultimedia, QtQuick, QtQuick.Controls, QtQuick.Controls.Styles, QtQuick.Layouts, QtQuick.Window, QtLocation, QtPositioning.
 
-Dependencies that are needed by default, but can be disabled via CMake:
+For the extensions you also need to have the following QML modules installed:
+QtCharts
+
+Other dependencies that are needed by default, but can be disabled via CMake:
 
 - [yaml-cpp](https://github.com/jbeder/yaml-cpp)
 - [QCA (with rsa/openssl support)](https://invent.kde.org/libraries/qca)
@@ -32,6 +35,7 @@ Dependencies that are disabled by default, but can be enabled via CMake:
 
 - [LibVips](https://www.libvips.org/)
 - [resvg](https://github.com/RazrFalcon/resvg)
+- [libsai](https://github.com/Wunkolo/libsai)
 
 
 Please note that you probably want to have as many of these enabled as possible as they greatly enhance the experience of PhotoQt.
@@ -49,7 +53,7 @@ PhotoQt can work with either ImageMagick and GraphicsMagick, but due to conflict
 
 #### NOTE
 
-Exiv2 can be compiled with support for the BMFF format. Note that there is the possibility that BMFF support may be the subject of patent rights. PhotoQt will by default opt-in to reading this format (if supported by Exiv2). If you prefer to not include support for this format in PhotoQt simply set the `EXIV2_ENABLE_BMFF` CMake option to `OFF`.
+Before Exiv2 v0.28.0, when compiled with support for the BMFF format, then this would need to be explicitely enabled, due to concern for patent rights. Starting with Exiv2 v0.28.0, this is enabled by default as long as the build of Exiv2 supports it. For older versions of Exiv2, you can explicitely disable support for the BMFF format by setting the `WITH_EXIV2_ENABLE_BMFF` CMake option to `OFF`.
 
 ## ADDITIONAL IMAGE FORMATS
 
