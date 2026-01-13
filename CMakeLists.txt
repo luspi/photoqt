@@ -119,9 +119,6 @@ SET(photoqt_QML_ADDITIONAL "")
 ################################
 
 find_package(Qt6 6.4 REQUIRED COMPONENTS Quick Widgets Sql Core Svg Concurrent Multimedia PrintSupport DBus LinguistTools)
-if(NOT WITH_PUGIXML)
-    find_package(Qt6 6.4 REQUIRED COMPONENTS Xml)
-endif()
 
 list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/CMake")
 
@@ -254,6 +251,10 @@ if(WITH_PUGIXML)
         message("** pugixml not found. Disabling.")
         SET(WITH_PUGIXML OFF)
     endif()
+endif()
+# this is a seperate check as this option might be set to OFF in the block above
+if(NOT WITH_PUGIXML)
+    find_package(Qt6 6.4 REQUIRED COMPONENTS Xml)
 endif()
 
 if(WITH_ZXING)
