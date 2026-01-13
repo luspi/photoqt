@@ -772,8 +772,6 @@ Item {
 
         for(var i = 0; i < s.length; i+=4) {
 
-            console.warn(">>>", s[i], s[i+1], s[i+2], s[i+3])
-
             entries_devices.push({"index" : i+1,
                       "folder" : s[i],           // folder
                       "path" : s[i+3],           // path
