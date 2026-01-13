@@ -1413,7 +1413,11 @@ void PQCScriptsImages::applyExifOrientation(const QString filename, QImage &img)
             break;
         case 2:
             // no rotation, horizontal mirror
+#if QT_VERSION >= QT_VERSION_CHECK(6, 9, 0)
             img = img.flipped(Qt::Horizontal);
+#else
+            img = img.mirrored(true, false);
+#endif
             break;
         case 3:
             // 180 degree rotation, no mirror
@@ -1423,12 +1427,20 @@ void PQCScriptsImages::applyExifOrientation(const QString filename, QImage &img)
         case 4:
             // 180 degree rotation, horizontal mirror
             transform.rotate(180);
+#if QT_VERSION >= QT_VERSION_CHECK(6, 9, 0)
             img = img.flipped(Qt::Horizontal).transformed(transform);
+#else
+            img = img.mirrored(true, false).transformed(transform);
+#endif
             break;
         case 5:
             // 90 degree rotation, horizontal mirror
             transform.rotate(90);
+#if QT_VERSION >= QT_VERSION_CHECK(6, 9, 0)
             img = img.flipped(Qt::Horizontal).transformed(transform);
+#else
+            img = img.mirrored(true, false).transformed(transform);
+#endif
             break;
         case 6:
             // 90 degree rotation, no mirror
@@ -1438,7 +1450,11 @@ void PQCScriptsImages::applyExifOrientation(const QString filename, QImage &img)
         case 7:
             // 270 degree rotation, horizontal mirror
             transform.rotate(270);
+#if QT_VERSION >= QT_VERSION_CHECK(6, 9, 0)
             img = img.flipped(Qt::Horizontal).transformed(transform);
+#else
+            img = img.mirrored(true, false).transformed(transform);
+#endif
             break;
         case 8:
             // 270 degree rotation, no mirror
