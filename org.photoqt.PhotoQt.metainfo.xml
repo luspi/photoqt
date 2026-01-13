@@ -9,7 +9,7 @@
         <p>PhotoQt is a fast and simple, good looking, yet powerful and highly configurable image viewer.</p>
         <p>It provides an uncluttered interface and can be extensively tweaked to fit ones needs perfectly. It is possible to set key or mouse shortcuts for many of its features and capabilities, as well as for any external script/command.</p>
         <p>It supports loading 100+ image formats, video files, and documents. Additionally, it fully supports Google Motion Photos, Apple Live Photos, and photo spheres (including 360 degree panoramas).</p>
-        <p>The many features provided include: thumbnails, slideshow, color profiles, chromecast, zooming, rotating, flipping, displaying metadata (selection of Exif and IPTC), set-as-wallpaper, simple file management, scaling, face tags (XMP metadata), touchscreen support, and a lot more.</p>
+        <p>The many features provided include: thumbnails, slideshow, color profiles, chromecast, zooming, rotating, flipping, displaying metadata (selection of Exif and IPTC), set-as-wallpaper, simple file management, scaling, face tags (XMP metadata), touchscreen support, and a lot more. Using extensions it is possible to extend the capabilities of PhotoQt in many different ways.</p>
     </description>
     <screenshots>
         <screenshot type="default">
@@ -88,6 +88,7 @@
         <keyword>cbz</keyword>
         <keyword>cbr</keyword>
         <keyword>cbt</keyword>
+        <keyword>sai</keyword>
     </keywords>
     <content_rating type="oars-1.0">
         <content_attribute id="violence-cartoon">none</content_attribute>
