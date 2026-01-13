@@ -22,6 +22,10 @@ target_link_libraries(${testname} PRIVATE Qt6::Quick Qt6::Widgets Qt6::Sql Qt6::
 target_include_directories(${testname} PRIVATE "../../cplusplus/header")
 target_include_directories(${testname} PRIVATE "../../cplusplus/extensions")
 
+if(NOT WITH_PUGIXML)
+    target_link_libraries(${testname} PRIVATE Qt6::Xml)
+endif()
+
 if(WITH_QTPDF)
     find_package(Qt6 COMPONENTS Pdf)
     target_link_libraries(${testname} PRIVATE Qt6::Pdf)
