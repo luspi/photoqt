@@ -173,7 +173,6 @@
         <file>filetypes/ptx.svg</file>
         <file>filetypes/pes.svg</file>
         <file>filetypes/pfb.svg</file>
-        <file>filetypes/pfm.svg</file>
         <file>filetypes/afm.svg</file>
         <file>filetypes/inf.svg</file>
         <file>filetypes/pfa.svg</file>
@@ -182,7 +181,6 @@
         <file>filetypes/pgm.svg</file>
         <file>filetypes/pgx.svg</file>
         <file>filetypes/phm.svg</file>
-        <file>filetypes/pic.svg</file>
         <file>filetypes/picon.svg</file>
         <file>filetypes/pict.svg</file>
         <file>filetypes/pct.svg</file>
