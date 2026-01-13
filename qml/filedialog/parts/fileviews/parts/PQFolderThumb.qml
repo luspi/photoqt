@@ -50,7 +50,7 @@ Item {
             mipmap: false
             fillMode: PQCSettings.filedialogFolderContentThumbnailsScaleCrop ? Image.PreserveAspectCrop : Image.PreserveAspectFit
             onStatusChanged: {
-                if(status == Image.Ready) {
+                if(status == Image.Ready && source !== "") {
                     if((curindex === view_top.currentIndex || PQCSettings.filedialogFolderContentThumbnailsAutoload) && !PQCConstants.isContextmenuOpen("fileviewentry"))
                         folderthumb_next.restart()
                     folderthumb.hideExcept(num)
