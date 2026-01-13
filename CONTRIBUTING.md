@@ -12,7 +12,7 @@ Bug reports, feature requests, code contributions - all types of ways of contrib
 4. Commit your work to your fork
 5. Open a merge request here on GitLab
 
-Please **do not** open a pull request on GitHub, all development is manager on GitLab. Keep changes focused and include clear commit messages.
+Please **do not** open a pull request on GitHub, all development is managed on GitLab. Keep changes focused and include clear commit messages.
 
 ## Developer Certificate of Origin (DCO)
 
