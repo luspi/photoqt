@@ -126,8 +126,8 @@ Rectangle {
             PQMetaDataEntry {
                 //: Type here refers to the file type
                 whichtxt: qsTranslate("metadata", "Type")
-                property string mimeType: PQCScriptsFilesPaths.getFileType(PQCFileFolderModel.currentFile)
-                property string mimeName: PQCScriptsImages.getNameFromMimetype(mimeType, PQCFileFolderModel.currentFile)
+                property string mimeType: PQCFileFolderModel.currentFile==="" ? "" : PQCScriptsFilesPaths.getFileType(PQCFileFolderModel.currentFile)
+                property string mimeName: PQCFileFolderModel.currentFile==="" ? "" : PQCScriptsImages.getNameFromMimetype(mimeType, PQCFileFolderModel.currentFile)
                 valtxt: mimeName + " (" + mimeType + ")"
                 prop: PQCSettings.metadataFileType
             }
