@@ -3,7 +3,7 @@
  ** Copyright (c) 2011, Andre Somers                                     **
  ** All rights reserved.                                                 **
  **                                                                      **
- ** Copyright (C) 2011-2025 Lukas Spies                                  **
+ ** Copyright (C) 2011-2026 Lukas Spies                                  **
  ** Contact: https://photoqt.org                                         **
  **                                                                      **
  ** This file is part of PhotoQt.                                        **
