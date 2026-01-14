@@ -12,6 +12,8 @@ Release 5.1
 - improve: enable thumbnail sizes up to 4000 pixels
 - improve: slight visual improvements
 - improve: changing network shares behavior is immediately reflected in file dialog
+- improve: localized date/time string for metadata (thanks to @chenxiaolong)
+- improve: fail gracefully when OpenGL fails for photo spheres
 - fix: building with Qt 6.4
 - fix: building and using PhotoQt with QtLocation/QtPositioning disabled
 - fix: thumbnail bar width when centering on active thumbnail
@@ -21,6 +23,8 @@ Release 5.1
 - fix: changing GPS map from settings
 - fix: prevent concurrent writes to QMap to avoid (rare) crashes
 - fix: windows portable: accept paths with special characters
+- fix: sizing image when started with image and with thumbnail bar kept visible
+- fix: loading metadata when started with image
 
 
 Release 5.0 - 2025-12-23
