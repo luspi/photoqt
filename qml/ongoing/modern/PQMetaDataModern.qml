@@ -181,6 +181,8 @@ Rectangle {
             metadata_top.setVisible = true
             resetIgnoreMouseMoveShortly.restart()
         }
+        if(PQCFileFolderModel.currentIndexNoDelay > -1)
+            PQCMetaData.forceUpdateMetadata()
     }
 
     MouseArea {

@@ -216,6 +216,10 @@ public:
         }
     }
 
+    Q_INVOKABLE void forceUpdateMetadata() {
+        updateMetadata();
+    }
+
 private:
     QTimer *loadDelay;
 

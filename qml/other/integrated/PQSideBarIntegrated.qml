@@ -499,4 +499,9 @@ Rectangle {
         }
     }
 
+    Component.onCompleted: {
+        if(PQCFileFolderModel.currentIndexNoDelay > -1)
+            PQCMetaData.forceUpdateMetadata()
+    }
+
 }
