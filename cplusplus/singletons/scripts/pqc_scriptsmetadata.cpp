@@ -23,8 +23,11 @@
 #include <scripts/pqc_scriptsmetadata.h>
 #include <pqc_configfiles.h>
 #include <pqc_imageformats.h>
+#include <pqc_settingscpp.h>
 
 #include <QtDebug>
+#include <QDateTime>
+#include <QLocale>
 #include <QPointF>
 #include <QVariant>
 #include <QFileInfo>
@@ -41,16 +44,34 @@ PQCScriptsMetaData &PQCScriptsMetaData::get() {
 PQCScriptsMetaData::PQCScriptsMetaData() {}
 PQCScriptsMetaData::~PQCScriptsMetaData() {}
 
-QString PQCScriptsMetaData::analyzeDateTimeOriginal(const QString val) {
+QString PQCScriptsMetaData::analyzeDateTimeOriginal(const QString dateTime, const QString offset) {
 
-    qDebug() << "args: val =" << val;
+    qDebug() << "args: dateTime =" << dateTime;
+    qDebug() << "args: offset =" << offset;
 
-    QStringList split1 = val.split(" ");
-    QStringList split2 = split1.at(0).split(":");
-    if(split1.length() > 1 && split2.length() > 2)
-        return split2.at(2) + "/" + split2.at(1) + "/" + split2.at(0) + ", " + split1.at(1);
+    QLocale locale = QLocale(PQCSettingsCPP::get().getInterfaceLanguage());
 
-    return val;
+    QString inputFormat = "yyyy:MM:dd HH:mm:ss";
+    if(!offset.isEmpty())
+        inputFormat += "ttt";
+
+    QString combined = dateTime + offset;
+    QDateTime dt = locale.toDateTime(combined, inputFormat);
+
+    if(dt.isValid()) {
+
+        QString outputFormat = locale.dateTimeFormat();
+
+        // If the EXIF data doesn't contain the time zone offset, don't show the user a potentially
+        // invalid time zone.
+        if(offset.isEmpty())
+            outputFormat = outputFormat.replace("t", "").trimmed();
+
+        return locale.toString(dt, outputFormat);
+
+    }
+
+    return combined;
 
 }
 
