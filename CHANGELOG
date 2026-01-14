@@ -1,6 +1,28 @@
 Changelog PhotoQt - Copyright (C) 2011-2026, Lukas Spies (Lukas@photoqt.org), License: GPLv2 (or later)
 ----------------------------------------------------------------------------------------------------------
 
+Release 5.1
+----------------------------
+
+- add: virtual folders for browsing a selection of files and folders together
+- add: find/search feature (including 'find next' shortcuts)
+- add: use Qt's built-in XML by default with pugixml opt-in replacement
+- change: extensions need to be built separately
+- improve: all image plugins check for orientation metadata
+- improve: enable thumbnail sizes up to 4000 pixels
+- improve: slight visual improvements
+- improve: changing network shares behavior is immediately reflected in file dialog
+- fix: building with Qt 6.4
+- fix: building and using PhotoQt with QtLocation/QtPositioning disabled
+- fix: thumbnail bar width when centering on active thumbnail
+- fix: delete popup window now properly styled
+- fix: when location is not remembered default to home or custom folder
+- fix: respecting FitInWindow and PreserveZoom settings
+- fix: changing GPS map from settings
+- fix: prevent concurrent writes to QMap to avoid (rare) crashes
+- fix: windows portable: accept paths with special characters
+
+
 Release 5.0 - 2025-12-23
 ----------------------------
 
@@ -17,6 +39,7 @@ Release 5.0 - 2025-12-23
 
 Release 5.0-beta2 - 2025-12-17
 ----------------------------
+
 - improve: dropping a file/folder on PhotoQt loads the respective path
 - improve: detect alt/shift modifiers pressed on their own
 - improve: extensions are identified by id that incorporates their path
