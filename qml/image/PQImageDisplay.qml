@@ -1495,9 +1495,20 @@ Loader {
                     Connections {
                         target: PQCConstants
                         function onAvailableWidthChanged() {
-                            if(Math.abs(loader_top.imageScale - loader_top.defaultScale) < 1e-12)
-                                loader_top.dontAnimateNextZoom = true
-                            resetDefaults.resetScale()
+                            resetDefaults.restart()
+                        }
+                        function onAvailableHeightChanged() {
+                            resetDefaults.restart()
+                        }
+                    }
+
+                    Connections {
+                        target: flickable
+                        function onWidthChanged() {
+                            resetDefaults.restart()
+                        }
+                        function onHeightChanged() {
+                            resetDefaults.restart()
                         }
                     }
 
