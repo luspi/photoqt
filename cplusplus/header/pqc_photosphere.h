@@ -55,6 +55,8 @@ public:
     QString getSource();
     void setSource(QString path);
 
+    Q_PROPERTY(bool isSupported MEMBER m_isSupported NOTIFY isSupportedChanged)
+
     QByteArray getImage();
     bool getPartial();
     QSize getCroppedSize();
@@ -65,6 +67,7 @@ Q_SIGNALS:
     void elevationChanged();
     void fieldOfViewChanged();
     void sourceChanged();
+    void isSupportedChanged();
 
 protected:
 #ifdef PQMPHOTOSPHERE
@@ -83,6 +86,7 @@ private:
     double m_elevation;
     double m_fieldOfView;
     QString m_imageUrl;
+    bool m_isSupported;
 
     bool recreateRenderer = false;
 

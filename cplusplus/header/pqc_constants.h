@@ -71,6 +71,7 @@ public:
         m_ctrlKeyPressed = false;
         m_displayTextMaxLength = 1000;
         m_searchText = "";
+        m_openGLAvailableForSpheres = true;
 
         m_slideshowRunning = false;
         m_slideshowRunningAndPlaying = false;
@@ -324,6 +325,7 @@ public:
     Q_PROPERTY(bool ctrlKeyPressed MEMBER m_ctrlKeyPressed NOTIFY ctrlKeyPressedChanged)
     Q_PROPERTY(int displayTextMaxLength MEMBER m_displayTextMaxLength NOTIFY displayTextMaxLengthChanged)
     Q_PROPERTY(QString searchText MEMBER m_searchText NOTIFY searchTextChanged)
+    Q_PROPERTY(bool openGLAvailableForSpheres MEMBER m_openGLAvailableForSpheres NOTIFY openGLAvailableForSpheresChanged)
 
     /******************************************************/
     // some window properties
@@ -484,6 +486,7 @@ private:
     bool m_ctrlKeyPressed;
     int m_displayTextMaxLength;
     QString m_searchText;
+    bool m_openGLAvailableForSpheres;
 
     bool m_slideshowRunning;
     bool m_slideshowRunningAndPlaying;
@@ -671,5 +674,6 @@ Q_SIGNALS:
     void settingsManagerCacheShortcutNamesChanged();
     void settingsManagerStartWithExtensionOpenChanged();
     void searchTextChanged();
+    void openGLAvailableForSpheresChanged();
 
 };
