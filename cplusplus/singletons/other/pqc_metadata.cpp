@@ -169,6 +169,7 @@ void PQCMetaData::updateMetadata() {
     }
 
     QString gpsLatRef = "", gpsLat = "", gpsLonRef = "", gpsLon = "";
+    QString dateTime = "", offsetTime = "";
 
     Exiv2::ExifData::const_iterator end = exifData.end();
     for (Exiv2::ExifData::const_iterator i = exifData.begin(); i != end; ++i) {
@@ -186,7 +187,10 @@ void PQCMetaData::updateMetadata() {
             setExifSoftware(val);
 
         else if(key == "Exif.Photo.DateTimeOriginal")
-            setExifDateTimeOriginal(PQCScriptsMetaData::get().analyzeDateTimeOriginal(val));
+            dateTime = val;
+
+        else if(key == "Exif.Photo.OffsetTimeOriginal")
+            offsetTime = val;
 
         else if(key == "Exif.Photo.ExposureTime")
             setExifExposureTime(PQCScriptsMetaData::get().analyzeExposureTime(val));
@@ -234,6 +238,10 @@ void PQCMetaData::updateMetadata() {
         setExifGPS(PQCScriptsMetaData::get().analyzeGPS(gpsLatRef, gpsLat, gpsLonRef, gpsLon));
     }
 
+    if(dateTime != "") {
+        // The time zone offset is intentionally optional.
+        setExifDateTimeOriginal(PQCScriptsMetaData::get().analyzeDateTimeOriginal(dateTime, offsetTime));
+    }
 
     Exiv2::IptcData iptcData;
 

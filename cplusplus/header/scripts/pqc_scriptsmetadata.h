@@ -45,7 +45,7 @@ public:
     PQCScriptsMetaData(PQCScriptsMetaData const&)     = delete;
     void operator=(PQCScriptsMetaData const&) = delete;
 
-    QString analyzeDateTimeOriginal(const QString val);
+    QString analyzeDateTimeOriginal(const QString dateTime, const QString offset);
     QString analyzeExposureTime(const QString val);
     QString analyzeFlash(const QString val);
     QString analyzeSceneCaptureType(const QString val);
