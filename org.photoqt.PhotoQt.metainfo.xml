@@ -113,6 +113,14 @@
         <content_attribute id="money-gambling">none</content_attribute>
     </content_rating>
     <releases>
+        <release version="5.1" date="2026-01-16">
+            <description>
+                <p>Another month, another release. PhotoQt v5.1 is ready with a wide range of bug fixes, improvements, and a couple of additions. Thank you to everybody who tested the previous release and some of the changes since then.</p>
+            </description>
+            <url>
+                https://photoqt.org/news/photoqt-5.1
+            </url>
+        </release>
         <release version="5.0" date="2025-12-23">
             <description>
                 <p>PhotoQt v5.0 is finally here! After months of hard work and two beta test versions the all-new release is now ready. It brings a plethora of changes, most notably support for extensions and a new user interface variant.</p>
