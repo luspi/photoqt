@@ -69,7 +69,7 @@ appimage:
 
   artifacts:
     paths:
-      - PhotoQt-nightly.AppImage
+      - /builds/lspies/PhotoQt-nightly.AppImage
 
 
 releaseappimage:
@@ -122,6 +122,6 @@ releaseappimage:
 
   artifacts:
     paths:
-      - PhotoQt-latesttag.AppImage
+      - /builds/lspies/PhotoQt-latesttag.AppImage
 
 
