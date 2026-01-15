@@ -24,6 +24,7 @@
 #include <pqc_loadimage_libsai.h>
 #include <pqc_configfiles.h>
 #include <pqc_settingscpp.h>
+#include <scripts/pqc_scriptsimages.h>
 #include <QSize>
 #include <QImage>
 #include <QtDebug>
