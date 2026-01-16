@@ -1,6 +1,6 @@
 /**************************************************************************
  **                                                                      **
- ** Copyright (C) 2011-2025 Lukas Spies                                  **
+ ** Copyright (C) 2011-2026 Lukas Spies                                  **
  ** Contact: https://photoqt.org                                         **
  **                                                                      **
  ** This file is part of PhotoQt.                                        **
@@ -145,7 +145,7 @@ void PQCExtensionsHandler::setup() {
                 const QString identifyName = QString("%1 (%2)").arg(nameId, extensionDir);
 
                 // if there is a YAML file, then we load that one
-                const QString yamlfile = QString("%1/manifest.yml").arg(extensionDir, nameId);
+                const QString yamlfile = QString("%1/manifest.yml").arg(extensionDir);
                 if(!QFile::exists(yamlfile)) {
 
                     qWarning() << "Required YAML file not found for extension" << identifyName;

@@ -1,3 +1,25 @@
+##########################################################################
+##                                                                      ##
+## Copyright (C) 2011-2026 Lukas Spies                                  ##
+## Contact: https://photoqt.org                                         ##
+##                                                                      ##
+## This file is part of PhotoQt.                                        ##
+##                                                                      ##
+## PhotoQt is free software: you can redistribute it and/or modify      ##
+## it under the terms of the GNU General Public License as published by ##
+## the Free Software Foundation, either version 2 of the License, or    ##
+## (at your option) any later version.                                  ##
+##                                                                      ##
+## PhotoQt is distributed in the hope that it will be useful,           ##
+## but WITHOUT ANY WARRANTY; without even the implied warranty of       ##
+## MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the        ##
+## GNU General Public License for more details.                         ##
+##                                                                      ##
+## You should have received a copy of the GNU General Public License    ##
+## along with PhotoQt. If not, see <http://www.gnu.org/licenses/>.      ##
+##                                                                      ##
+##########################################################################
+
 ##############################################
 # CMakeLists for PhotoQt: http://photoqt.org #
 ##############################################
@@ -9,7 +31,7 @@ project(photoqt LANGUAGES C CXX)
 ####  GLOBAL VERSION STRING FOR ALL FILES (INCLUDING CPP/QML) ####
 ##################################################################
 
-SET(APPVERSION "dev")
+SET(APPVERSION "5.1")
 
 ###################################
 ####  ENSURE BUILD TYPE IS SET ####
@@ -97,9 +119,6 @@ SET(photoqt_QML_ADDITIONAL "")
 ################################
 
 find_package(Qt6 6.4 REQUIRED COMPONENTS Quick Widgets Sql Core Svg Concurrent Multimedia PrintSupport DBus LinguistTools)
-if(NOT WITH_PUGIXML)
-    find_package(Qt6 6.4 REQUIRED COMPONENTS Xml)
-endif()
 
 list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/CMake")
 
@@ -232,6 +251,10 @@ if(WITH_PUGIXML)
         message("** pugixml not found. Disabling.")
         SET(WITH_PUGIXML OFF)
     endif()
+endif()
+# this is a seperate check as this option might be set to OFF in the block above
+if(NOT WITH_PUGIXML)
+    find_package(Qt6 6.4 REQUIRED COMPONENTS Xml)
 endif()
 
 if(WITH_ZXING)

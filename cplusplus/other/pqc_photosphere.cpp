@@ -1,6 +1,6 @@
 /**************************************************************************
  **                                                                      **
- ** Copyright (C) 2011-2025 Lukas Spies                                  **
+ ** Copyright (C) 2011-2026 Lukas Spies                                  **
  ** Contact: https://photoqt.org                                         **
  **                                                                      **
  ** This file is part of PhotoQt.                                        **
@@ -30,6 +30,7 @@
 #include <QSGNode>
 #include <QImage>
 #include <QBuffer>
+#include <QOpenGLContext>
 
 #ifdef PQMEXIV2
 #include <exiv2/exiv2.hpp>
@@ -45,6 +46,10 @@ PQCPhotoSphere::PQCPhotoSphere(QQuickItem *parent) : QQuickItem(parent) {
     m_fieldOfView = 90;
 
     partial = false;
+
+    // this will be set to false once we know that the necessary OpenGL is not supported
+    // see updatePaintNode() below
+    m_isSupported = true;
 
 #ifdef PQMPHOTOSPHERE
     setFlag(ItemHasContents);
@@ -240,6 +245,15 @@ QSize PQCPhotoSphere::getFullSize() {
 
 #ifdef PQMPHOTOSPHERE
 QSGNode *PQCPhotoSphere::updatePaintNode(QSGNode *oldNode, UpdatePaintNodeData *updatePaintNodeData) {
+
+    // ensure that the necessary OpenGL is available
+    // if not, then we set this variable to false
+    // which will be reacted to in PQPhotoSphere
+    QOpenGLContext *context = QOpenGLContext::currentContext();
+    if(!context && m_isSupported) {
+        m_isSupported = false;
+        Q_EMIT isSupportedChanged();
+    }
 
     if(oldNode && recreateRenderer) {
         delete oldNode;

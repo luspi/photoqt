@@ -1,6 +1,6 @@
 /**************************************************************************
  **                                                                      **
- ** Copyright (C) 2011-2025 Lukas Spies                                  **
+ ** Copyright (C) 2011-2026 Lukas Spies                                  **
  ** Contact: https://photoqt.org                                         **
  **                                                                      **
  ** This file is part of PhotoQt.                                        **
@@ -171,12 +171,20 @@ PQTemplate {
         id: configloader
         active: false
         sourceComponent:
-        ApplicationWindow {
+        Window {
 
             id: config_window
 
             width: 600
             height: 400
+
+            color: "transparent"
+
+            Rectangle {
+                width: parent.width
+                height: parent.height
+                color: palette.base
+            }
 
             modality: Qt.ApplicationModal
             flags: Qt.Window|Qt.WindowStaysOnTopHint|Qt.WindowTitleHint|Qt.WindowMinMaxButtonsHint|Qt.WindowCloseButtonHint
@@ -196,7 +204,7 @@ PQTemplate {
                 contentHeight: configcol.height+20
                 clip: true
 
-                ScrollBar.vertical: ScrollBar { id: scroll }
+                ScrollBar.vertical: PQVerticalScrollBar { id: scroll }
 
                 Column {
 

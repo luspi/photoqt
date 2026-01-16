@@ -1,6 +1,6 @@
 /**************************************************************************
  **                                                                      **
- ** Copyright (C) 2011-2025 Lukas Spies                                  **
+ ** Copyright (C) 2011-2026 Lukas Spies                                  **
  ** Contact: https://photoqt.org                                         **
  **                                                                      **
  ** This file is part of PhotoQt.                                        **
@@ -19,9 +19,7 @@
  ** along with PhotoQt. If not, see <http://www.gnu.org/licenses/>.      **
  **                                                                      **
  **************************************************************************/
-
-#ifndef PQPHOTOSPHERE_H
-#define PQPHOTOSPHERE_H
+#pragma once
 
 // This is the QML type
 
@@ -57,6 +55,8 @@ public:
     QString getSource();
     void setSource(QString path);
 
+    Q_PROPERTY(bool isSupported MEMBER m_isSupported NOTIFY isSupportedChanged)
+
     QByteArray getImage();
     bool getPartial();
     QSize getCroppedSize();
@@ -67,6 +67,7 @@ Q_SIGNALS:
     void elevationChanged();
     void fieldOfViewChanged();
     void sourceChanged();
+    void isSupportedChanged();
 
 protected:
 #ifdef PQMPHOTOSPHERE
@@ -85,9 +86,8 @@ private:
     double m_elevation;
     double m_fieldOfView;
     QString m_imageUrl;
+    bool m_isSupported;
 
     bool recreateRenderer = false;
 
 };
-
-#endif // PQPHOTOSPHERE_H

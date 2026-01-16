@@ -1,6 +1,6 @@
 /**************************************************************************
  **                                                                      **
- ** Copyright (C) 2011-2025 Lukas Spies                                  **
+ ** Copyright (C) 2011-2026 Lukas Spies                                  **
  ** Contact: https://photoqt.org                                         **
  **                                                                      **
  ** This file is part of PhotoQt.                                        **
@@ -19,9 +19,7 @@
  ** along with PhotoQt. If not, see <http://www.gnu.org/licenses/>.      **
  **                                                                      **
  **************************************************************************/
-
-#ifndef PQCSCRIPTSFILEMANAGEMENT_H
-#define PQCSCRIPTSFILEMANAGEMENT_H
+#pragma once
 
 #include <QObject>
 
@@ -64,5 +62,3 @@ Q_SIGNALS:
     void cropCompleted(bool success);
 
 };
-
-#endif

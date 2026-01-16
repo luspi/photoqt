@@ -1,6 +1,6 @@
 /**************************************************************************
  **                                                                      **
- ** Copyright (C) 2011-2025 Lukas Spies                                  **
+ ** Copyright (C) 2011-2026 Lukas Spies                                  **
  ** Contact: https://photoqt.org                                         **
  **                                                                      **
  ** This file is part of PhotoQt.                                        **
@@ -19,9 +19,7 @@
  ** along with PhotoQt. If not, see <http://www.gnu.org/licenses/>.      **
  **                                                                      **
  **************************************************************************/
-
-#ifndef PQCIMAGECACHE_H
-#define PQCIMAGECACHE_H
+#pragma once
 
 #include <QObject>
 
@@ -48,5 +46,3 @@ private Q_SLOTS:
     void resetData();
 
 };
-
-#endif // PQIMAGELOADERHELPER_H

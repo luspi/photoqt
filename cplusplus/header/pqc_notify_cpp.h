@@ -1,6 +1,6 @@
 /**************************************************************************
  **                                                                      **
- ** Copyright (C) 2011-2025 Lukas Spies                                  **
+ ** Copyright (C) 2011-2026 Lukas Spies                                  **
  ** Contact: https://photoqt.org                                         **
  **                                                                      **
  ** This file is part of PhotoQt.                                        **
@@ -141,7 +141,6 @@ Q_SIGNALS:
     void storeLocationToDatabase(QString path, QPointF location);
 
     void showExtension(QString ele);
-
     void showSettingsForExtension(QString id);
 
     /*************************************************************/

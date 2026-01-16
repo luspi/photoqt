@@ -1,6 +1,6 @@
 /**************************************************************************
  **                                                                      **
- ** Copyright (C) 2011-2025 Lukas Spies                                  **
+ ** Copyright (C) 2011-2026 Lukas Spies                                  **
  ** Contact: https://photoqt.org                                         **
  **                                                                      **
  ** This file is part of PhotoQt.                                        **
@@ -19,9 +19,7 @@
  ** along with PhotoQt. If not, see <http://www.gnu.org/licenses/>.      **
  **                                                                      **
  **************************************************************************/
-
-#ifndef PQCFILEFOLDERMODEL_H
-#define PQCFILEFOLDERMODEL_H
+#pragma once
 
 #include <QObject>
 #include <pqc_filefoldermodelcache.h>
@@ -336,5 +334,3 @@ Q_SIGNALS:
     void activeViewerModeChanged();
 
 };
-
-#endif

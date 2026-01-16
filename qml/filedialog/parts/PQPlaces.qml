@@ -1,6 +1,6 @@
 /**************************************************************************
  **                                                                      **
- ** Copyright (C) 2011-2025 Lukas Spies                                  **
+ ** Copyright (C) 2011-2026 Lukas Spies                                  **
  ** Contact: https://photoqt.org                                         **
  **                                                                      **
  ** This file is part of PhotoQt.                                        **
@@ -771,8 +771,6 @@ Item {
                   "fssize" : 0})
 
         for(var i = 0; i < s.length; i+=4) {
-
-            console.warn(">>>", s[i], s[i+1], s[i+2], s[i+3])
 
             entries_devices.push({"index" : i+1,
                       "folder" : s[i],           // folder

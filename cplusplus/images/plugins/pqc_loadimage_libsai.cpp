@@ -1,6 +1,6 @@
 /**************************************************************************
  **                                                                      **
- ** Copyright (C) 2011-2025 Lukas Spies                                  **
+ ** Copyright (C) 2011-2026 Lukas Spies                                  **
  ** Contact: https://photoqt.org                                         **
  **                                                                      **
  ** This file is part of PhotoQt.                                        **
@@ -24,6 +24,7 @@
 #include <pqc_loadimage_libsai.h>
 #include <pqc_configfiles.h>
 #include <pqc_settingscpp.h>
+#include <scripts/pqc_scriptsimages.h>
 #include <QSize>
 #include <QImage>
 #include <QtDebug>

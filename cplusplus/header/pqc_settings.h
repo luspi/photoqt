@@ -1,6 +1,6 @@
 /**************************************************************************
 **                                                                      **
-** Copyright (C) 2011-2025 Lukas Spies                                  **
+** Copyright (C) 2011-2026 Lukas Spies                                  **
 ** Contact: https://photoqt.org                                         **
 **                                                                      **
 ** This file is part of PhotoQt.                                        **
@@ -20,7 +20,6 @@
 **                                                                      **
 **************************************************************************/
 
-
 /**//**//**//**//**//**//**//**//**//**//**//**//**//**//**/
 //
 // WARNING
@@ -29,9 +28,7 @@
 //
 /**//**//**//**//**//**//**//**//**//**//**//**//**//**//**/
 
-
-#ifndef PQCSETTINGS_H
-#define PQCSETTINGS_H
+#pragma once
 
 #include <QObject>
 #include <QSqlDatabase>
@@ -2466,6 +2463,4 @@ Q_SIGNALS:
     void thumbnailsVisibilityChanged();
 
 };
-
-#endif
 

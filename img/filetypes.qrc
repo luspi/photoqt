@@ -144,7 +144,6 @@
         <file>filetypes/m2ts.svg</file>
         <file>filetypes/ts.svg</file>
         <file>filetypes/mtv.svg</file>
-        <file>filetypes/pic.svg</file>
         <file>filetypes/mvg.svg</file>
         <file>filetypes/mxf.svg</file>
         <file>filetypes/nef.svg</file>
@@ -174,7 +173,6 @@
         <file>filetypes/ptx.svg</file>
         <file>filetypes/pes.svg</file>
         <file>filetypes/pfb.svg</file>
-        <file>filetypes/pfm.svg</file>
         <file>filetypes/afm.svg</file>
         <file>filetypes/inf.svg</file>
         <file>filetypes/pfa.svg</file>
@@ -183,7 +181,6 @@
         <file>filetypes/pgm.svg</file>
         <file>filetypes/pgx.svg</file>
         <file>filetypes/phm.svg</file>
-        <file>filetypes/pic.svg</file>
         <file>filetypes/picon.svg</file>
         <file>filetypes/pict.svg</file>
         <file>filetypes/pct.svg</file>
@@ -241,7 +238,6 @@
         <file>filetypes/srw.svg</file>
         <file>filetypes/sti.svg</file>
         <file>filetypes/sun.svg</file>
-        <file>filetypes/ras.svg</file>
         <file>filetypes/sr.svg</file>
         <file>filetypes/im1.svg</file>
         <file>filetypes/im24.svg</file>
@@ -249,7 +245,6 @@
         <file>filetypes/im8.svg</file>
         <file>filetypes/rast.svg</file>
         <file>filetypes/rs.svg</file>
-        <file>filetypes/scr.svg</file>
         <file>filetypes/svg.svg</file>
         <file>filetypes/svgz.svg</file>
         <file>filetypes/tar.svg</file>
@@ -260,7 +255,6 @@
         <file>filetypes/tiff.svg</file>
         <file>filetypes/tif.svg</file>
         <file>filetypes/tim.svg</file>
-        <file>filetypes/ttf.svg</file>
         <file>filetypes/unknown.svg</file>
         <file>filetypes/vicar.svg</file>
         <file>filetypes/vic.svg</file>

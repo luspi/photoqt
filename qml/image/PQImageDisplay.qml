@@ -1,6 +1,6 @@
 /**************************************************************************
  **                                                                      **
- ** Copyright (C) 2011-2025 Lukas Spies                                  **
+ ** Copyright (C) 2011-2026 Lukas Spies                                  **
  ** Contact: https://photoqt.org                                         **
  **                                                                      **
  ** This file is part of PhotoQt.                                        **
@@ -1339,7 +1339,7 @@ Loader {
                                 loader_top.listenToClicksOnImage = true
                             } else if(PQCScriptsImages.isSVG(imageloaderitem.imageSource)) {
                                 image_loader_svg.active = true
-                            } else if(loader_top.photoSphereManuallyEntered || PQCScriptsImages.isPhotoSphere(imageloaderitem.imageSource) && (loader_top.photoSphereManuallyEntered || PQCSettings.filetypesPhotoSphereAutoLoad)) {
+                            } else if(PQCConstants.openGLAvailableForSpheres && (loader_top.photoSphereManuallyEntered || PQCScriptsImages.isPhotoSphere(imageloaderitem.imageSource) && (loader_top.photoSphereManuallyEntered || PQCSettings.filetypesPhotoSphereAutoLoad))) {
                                 loader_top.thisIsAPhotoSphere = true
                                 image_loader_sph.active = true
                             } else {
@@ -1495,9 +1495,20 @@ Loader {
                     Connections {
                         target: PQCConstants
                         function onAvailableWidthChanged() {
-                            if(Math.abs(loader_top.imageScale - loader_top.defaultScale) < 1e-12)
-                                loader_top.dontAnimateNextZoom = true
-                            resetDefaults.resetScale()
+                            resetDefaults.restart()
+                        }
+                        function onAvailableHeightChanged() {
+                            resetDefaults.restart()
+                        }
+                    }
+
+                    Connections {
+                        target: flickable
+                        function onWidthChanged() {
+                            resetDefaults.restart()
+                        }
+                        function onHeightChanged() {
+                            resetDefaults.restart()
                         }
                     }
 

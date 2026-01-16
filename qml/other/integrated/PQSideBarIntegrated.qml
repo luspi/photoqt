@@ -1,6 +1,6 @@
 /**************************************************************************
  **                                                                      **
- ** Copyright (C) 2011-2025 Lukas Spies                                  **
+ ** Copyright (C) 2011-2026 Lukas Spies                                  **
  ** Contact: https://photoqt.org                                         **
  **                                                                      **
  ** This file is part of PhotoQt.                                        **
@@ -126,8 +126,8 @@ Rectangle {
             PQMetaDataEntry {
                 //: Type here refers to the file type
                 whichtxt: qsTranslate("metadata", "Type")
-                property string mimeType: PQCScriptsFilesPaths.getFileType(PQCFileFolderModel.currentFile)
-                property string mimeName: PQCScriptsImages.getNameFromMimetype(mimeType, PQCFileFolderModel.currentFile)
+                property string mimeType: PQCFileFolderModel.currentFile==="" ? "" : PQCScriptsFilesPaths.getFileType(PQCFileFolderModel.currentFile)
+                property string mimeName: PQCFileFolderModel.currentFile==="" ? "" : PQCScriptsImages.getNameFromMimetype(mimeType, PQCFileFolderModel.currentFile)
                 valtxt: mimeName + " (" + mimeType + ")"
                 prop: PQCSettings.metadataFileType
             }
@@ -497,6 +497,11 @@ Rectangle {
         onReleased: {
             pressStart = -1
         }
+    }
+
+    Component.onCompleted: {
+        if(PQCFileFolderModel.currentIndexNoDelay > -1)
+            PQCMetaData.forceUpdateMetadata()
     }
 
 }

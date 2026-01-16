@@ -1,6 +1,6 @@
 /**************************************************************************
  **                                                                      **
- ** Copyright (C) 2011-2025 Lukas Spies                                  **
+ ** Copyright (C) 2011-2026 Lukas Spies                                  **
  ** Contact: https://photoqt.org                                         **
  **                                                                      **
  ** This file is part of PhotoQt.                                        **
@@ -50,7 +50,7 @@ Item {
             mipmap: false
             fillMode: PQCSettings.filedialogFolderContentThumbnailsScaleCrop ? Image.PreserveAspectCrop : Image.PreserveAspectFit
             onStatusChanged: {
-                if(status == Image.Ready) {
+                if(status == Image.Ready && source !== "") {
                     if((curindex === view_top.currentIndex || PQCSettings.filedialogFolderContentThumbnailsAutoload) && !PQCConstants.isContextmenuOpen("fileviewentry"))
                         folderthumb_next.restart()
                     folderthumb.hideExcept(num)

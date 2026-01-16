@@ -1,6 +1,6 @@
 ##########################################################################
 ##                                                                      ##
-## Copyright (C) 2011-2025 Lukas Spies                                  ##
+## Copyright (C) 2011-2026 Lukas Spies                                  ##
 ## Contact: https://photoqt.org                                         ##
 ##                                                                      ##
 ## This file is part of PhotoQt.                                        ##
@@ -41,7 +41,7 @@ def get():
 
     cont_HEADER = """/**************************************************************************
 **                                                                      **
-** Copyright (C) 2011-2025 Lukas Spies                                  **
+** Copyright (C) 2011-2026 Lukas Spies                                  **
 ** Contact: https://photoqt.org                                         **
 **                                                                      **
 ** This file is part of PhotoQt.                                        **
@@ -61,7 +61,6 @@ def get():
 **                                                                      **
 **************************************************************************/
 
-
 /**//**//**//**//**//**//**//**//**//**//**//**//**//**//**/
 //
 // WARNING
@@ -70,9 +69,7 @@ def get():
 //
 /**//**//**//**//**//**//**//**//**//**//**//**//**//**//**/
 
-
-#ifndef PQCSETTINGS_H
-#define PQCSETTINGS_H
+#pragma once
 
 #include <QObject>
 #include <QSqlDatabase>
@@ -233,8 +230,6 @@ Q_SIGNALS:"""
     cont_HEADER += """
 
 };
-
-#endif
 
 """
 

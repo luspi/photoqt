@@ -1,6 +1,6 @@
 /**************************************************************************
  **                                                                      **
- ** Copyright (C) 2011-2025 Lukas Spies                                  **
+ ** Copyright (C) 2011-2026 Lukas Spies                                  **
  ** Contact: https://photoqt.org                                         **
  **                                                                      **
  ** This file is part of PhotoQt.                                        **
@@ -43,7 +43,18 @@ PQCPhotoSphere {
 
     property int aniDuration: 0
 
+    // if this changes (to false), then we show a notification,
+    // set a global variable to false and reload the current image
+    onIsSupportedChanged: {
+        if(!isSupported) {
+            PQCNotify.showNotificationMessage("Spheres unsupported", "The available OpenGL features are not sufficient for photo spheres")
+            PQCConstants.openGLAvailableForSpheres = false
+            loader_top.finishSetup()
+        }
+    }
+
     Component.onCompleted: {
+
         thesphere.aniDuration = 50
 
         if(!panOnCompleted.running && !PQCConstants.slideshowRunning && PQCSettings.filetypesPhotoSpherePanOnLoad)

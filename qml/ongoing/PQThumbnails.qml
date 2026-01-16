@@ -1,6 +1,6 @@
 /**************************************************************************
  **                                                                      **
- ** Copyright (C) 2011-2025 Lukas Spies                                  **
+ ** Copyright (C) 2011-2026 Lukas Spies                                  **
  ** Contact: https://photoqt.org                                         **
  **                                                                      **
  ** This file is part of PhotoQt.                                        **
@@ -32,8 +32,8 @@ Rectangle {
     // positioning
     x: (setVisible||holdVisible) ? visiblePos[0] : invisiblePos[0]
     y: (setVisible||holdVisible) ? visiblePos[1] : invisiblePos[1]
-    Behavior on x { enabled: !PQCSettings.generalDisableAllAnimations; NumberAnimation { duration: 200 } }
-    Behavior on y { enabled: !PQCSettings.generalDisableAllAnimations; NumberAnimation { duration: 200 } }
+    Behavior on x { enabled: !PQCSettings.generalDisableAllAnimations; NumberAnimation { duration: holdVisible ? 0 : 200 } }
+    Behavior on y { enabled: !PQCSettings.generalDisableAllAnimations; NumberAnimation { duration: holdVisible ? 0 : 200 } }
 
     // visibility status
     opacity: ((setVisible||holdVisible) && windowSizeOkay) ? 1 : 0
@@ -74,13 +74,17 @@ Rectangle {
     PQShadowEffect { masterItem: thumbnails_top }
 
     onWidthChanged: {
-        PQCConstants.thumbnailsBarWidth = thumbnails_top.width
+        PQCConstants.thumbnailsBarWidth = (windowSizeOkay ? thumbnails_top.width : 0)
     }
     onHeightChanged: {
-        PQCConstants.thumbnailsBarHeight = thumbnails_top.height
+        PQCConstants.thumbnailsBarHeight = (windowSizeOkay ? thumbnails_top.height : 0)
     }
     onOpacityChanged: {
         PQCConstants.thumbnailsBarOpacity = thumbnails_top.opacity
+    }
+    onWindowSizeOkayChanged: {
+        PQCConstants.thumbnailsBarWidth = (windowSizeOkay ? thumbnails_top.width : 0)
+        PQCConstants.thumbnailsBarHeight = (windowSizeOkay ? thumbnails_top.height : 0)
     }
 
     // the four states corresponding to screen edges

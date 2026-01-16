@@ -1,6 +1,6 @@
 /**************************************************************************
  **                                                                      **
- ** Copyright (C) 2011-2025 Lukas Spies                                  **
+ ** Copyright (C) 2011-2026 Lukas Spies                                  **
  ** Contact: https://photoqt.org                                         **
  **                                                                      **
  ** This file is part of PhotoQt.                                        **
@@ -19,9 +19,7 @@
  ** along with PhotoQt. If not, see <http://www.gnu.org/licenses/>.      **
  **                                                                      **
  **************************************************************************/
-
-#ifndef PQCLOADIMAGEVIDEO_H
-#define PQCLOADIMAGEVIDEO_H
+#pragma once
 
 class QSize;
 class QImage;
@@ -37,5 +35,3 @@ public:
     static QString load(QString filename, QSize maxSize, QSize &origSize, QImage &img);
 
 };
-
-#endif // PQCLOADIMAGEVIDEO_H

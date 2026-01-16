@@ -1,6 +1,6 @@
 /**************************************************************************
  **                                                                      **
- ** Copyright (C) 2011-2025 Lukas Spies                                  **
+ ** Copyright (C) 2011-2026 Lukas Spies                                  **
  ** Contact: https://photoqt.org                                         **
  **                                                                      **
  ** This file is part of PhotoQt.                                        **
@@ -19,9 +19,7 @@
  ** along with PhotoQt. If not, see <http://www.gnu.org/licenses/>.      **
  **                                                                      **
  **************************************************************************/
-
-#ifndef PQCLOADIMAGEMAGICK_H
-#define PQCLOADIMAGEMAGICK_H
+#pragma once
 
 class QString;
 class QSize;
@@ -36,5 +34,3 @@ public:
     static QString load(QString filename, QSize maxSize, QSize &origSize, QImage &img);
 
 };
-
-#endif // PQCLOADIMAGEMAGICK_H
