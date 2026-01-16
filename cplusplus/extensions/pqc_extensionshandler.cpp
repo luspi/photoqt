@@ -103,23 +103,23 @@ void PQCExtensionsHandler::setup() {
 
     m_systemExtensionDir = "";
 
-  #ifdef Q_OS_UNIX
+#ifdef Q_OS_UNIX
     #ifdef NDEBUG
       #ifdef PQMAPPIMAGEBUILD
         const QStringList checkDirs = {PQCConfigFiles::get().EXTENSION_DATA_DIR(),
                                        QString("%1/../lib/PhotoQt/extensions").arg(QCoreApplication::applicationDirPath())};
-        m_systemExtensionDir = QString("%1/../lib/PhotoQt/extensions").arg(QCoreApplication::applicationDirPath());
+        m_systemExtensionDir = QString("%1/../%2/PhotoQt/extensions").arg(QCoreApplication::applicationDirPath(), PQMSHAREDLIBDIR);
       #else
         const QStringList checkDirs = {PQCConfigFiles::get().EXTENSION_DATA_DIR(),
                                        QString("%1/lib/PhotoQt/extensions").arg(PQMINSTALLPREFIX)};
-        m_systemExtensionDir = QString("%1/lib/PhotoQt/extensions").arg(PQMINSTALLPREFIX);
+        m_systemExtensionDir = QString("%1/%2/PhotoQt/extensions").arg(PQMINSTALLPREFIX, PQMSHAREDLIBDIR);
       #endif
     #else
         const QStringList checkDirs = {QString("%1/extensions").arg(PQMBUILDDIR),
                                        PQCConfigFiles::get().EXTENSION_DATA_DIR(),
                                        QString("%1/lib/PhotoQt/extensions").arg(QCoreApplication::applicationDirPath())};
         m_systemExtensionDir = QString("%1/extensions").arg(PQMBUILDDIR);
-  #endif
+    #endif
 #else
         const QStringList checkDirs = {PQCConfigFiles::get().EXTENSION_DATA_DIR(),
                                        QCoreApplication::applicationDirPath() + "/extensions"};

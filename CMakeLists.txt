@@ -694,6 +694,11 @@ if(WITH_EXTENSIONS_SUPPORT)
     target_compile_definitions(photoqt PRIVATE PQMINSTALLPREFIX="${CMAKE_INSTALL_PREFIX}")
     target_compile_definitions(photoqt PRIVATE PQMBUILDDIR="${CMAKE_BINARY_DIR}")
     target_compile_definitions(photoqt PRIVATE PQMEXTENSIONS)
+
+    # This avoids hardcoding 'lib' as subdir for the shared libraries
+    include(GNUInstallDirs)
+    target_compile_definitions(photoqt PRIVATE PQMSHAREDLIBDIR="${CMAKE_INSTALL_LIBDIR}")
+
     if(TARGET yaml-cpp::yaml-cpp)
         target_link_libraries(photoqt PRIVATE yaml-cpp::yaml-cpp)
     else()
@@ -898,8 +903,6 @@ endif()
 #######################
 
 if(UNIX)
-
-    include(GNUInstallDirs)
 
     # Install executable
     install(
