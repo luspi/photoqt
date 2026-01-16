@@ -38,6 +38,11 @@ appimage:
     - ./configure --prefix=/usr --with-bzlib --with-fontconfig --with-freetype=yes --with-gslib --with-gvc --with-jpeg --with-png --with-tiff --with-xml --with-gs-font-dir --enable-hdri --disable-docs
     - make -j$(nproc) install
     - cd ..
+    - git clone https://github.com/Wunkolo/libsai # Install libsai
+    - mkdir -p libsai/build && cd libsai/build
+    - cmake .. -DBUILD_SHARED_LIBS=ON -DCMAKE_INSTALL_PREFIX=/usr
+    - make -j$(nproc) install
+    - cd ../..
     - git clone https://gitlab.com/lspies/photoqt-extensions    # Install extensions
     - mkdir -p photoqt-extensions/build
     - cd photoqt-extensions/build
@@ -49,7 +54,7 @@ appimage:
     - git clone -b l10n_master https://gitlab.com/lspies/photoqt-lang
     - mv photoqt-lang/localized lang
     - cd build/
-    - cmake .. -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=/usr -DWITH_EXIV2=ON -DWITH_GRAPHICSMAGICK=OFF -DWITH_IMAGEMAGICK=ON -DWITH_CHROMECAST=ON -DWITH_VIDEO_QT=ON -DWITH_POPPLER=OFF -DWITH_QTPDF=ON -DWITH_EXIV2_ENABLE_BMFF=ON -DWITH_RESVG=OFF -DWITH_MOTIONPHOTO=ON -DWITH_ZXING=ON -DWITH_LCMS2=ON -DWITH_LOCATION=ON -DWITH_LIBVIPS=OFF -DWITH_WAYLANDSPECIFIC=OFF -DWITH_APPIMAGEBUILD=ON -DWITH_EXTENSIONS_SUPPORT=ON
+    - cmake .. -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=/usr -DWITH_EXIV2=ON -DWITH_GRAPHICSMAGICK=OFF -DWITH_IMAGEMAGICK=ON -DWITH_CHROMECAST=ON -DWITH_VIDEO_QT=ON -DWITH_POPPLER=OFF -DWITH_QTPDF=ON -DWITH_EXIV2_ENABLE_BMFF=ON -DWITH_RESVG=OFF -DWITH_MOTIONPHOTO=ON -DWITH_ZXING=ON -DWITH_LCMS2=ON -DWITH_LOCATION=ON -DWITH_LIBVIPS=OFF -DWITH_WAYLANDSPECIFIC=OFF -DWITH_APPIMAGEBUILD=ON -DWITH_EXTENSIONS_SUPPORT=ON -DWITH_LIBSAI=ON
     - make DESTDIR=../appdir -j$(nproc) install
     - cd ../
     - wget -c https://github.com/linuxdeploy/linuxdeploy/releases/download/continuous/linuxdeploy-x86_64.AppImage
@@ -94,6 +99,11 @@ releaseappimage:
     - ./configure --prefix=/usr --with-bzlib --with-fontconfig --with-freetype=yes --with-gslib --with-gvc --with-jpeg --with-png --with-tiff --with-xml --with-gs-font-dir --enable-hdri --disable-docs
     - make -j$(nproc) install
     - cd ..
+    - git clone https://github.com/Wunkolo/libsai # Install libsai
+    - mkdir -p libsai/build && cd libsai/build
+    - cmake .. -DBUILD_SHARED_LIBS=ON -DCMAKE_INSTALL_PREFIX=/usr
+    - make -j$(nproc) install
+    - cd ../..
     - git clone https://gitlab.com/lspies/photoqt-extensions    # Install extensions
     - mkdir -p photoqt-extensions/build
     - cd photoqt-extensions/build
@@ -102,7 +112,7 @@ releaseappimage:
     - cd ../../photoqt # build and install PhotoQt
     - export QT_SELECT=qt6
     - mkdir -p build && cd build/
-    - cmake .. -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=/usr -DWITH_EXIV2=ON -DWITH_GRAPHICSMAGICK=OFF -DWITH_IMAGEMAGICK=ON -DWITH_CHROMECAST=ON -DWITH_VIDEO_QT=ON -DWITH_POPPLER=OFF -DWITH_QTPDF=ON -DWITH_EXIV2_ENABLE_BMFF=ON -DWITH_RESVG=OFF -DWITH_MOTIONPHOTO=ON -DWITH_ZXING=ON -DWITH_LCMS2=ON -DWITH_LOCATION=ON -DWITH_LIBVIPS=OFF -DWITH_WAYLANDSPECIFIC=OFF -DWITH_EXTENSIONS_SUPPORT=ON -DWITH_APPIMAGEBUILD=ON
+    - cmake .. -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=/usr -DWITH_EXIV2=ON -DWITH_GRAPHICSMAGICK=OFF -DWITH_IMAGEMAGICK=ON -DWITH_CHROMECAST=ON -DWITH_VIDEO_QT=ON -DWITH_POPPLER=OFF -DWITH_QTPDF=ON -DWITH_EXIV2_ENABLE_BMFF=ON -DWITH_RESVG=OFF -DWITH_MOTIONPHOTO=ON -DWITH_ZXING=ON -DWITH_LCMS2=ON -DWITH_LOCATION=ON -DWITH_LIBVIPS=OFF -DWITH_WAYLANDSPECIFIC=OFF -DWITH_EXTENSIONS_SUPPORT=ON -DWITH_APPIMAGEBUILD=ON -DWITH_LIBSAI=ON
     - make DESTDIR=../appdir -j$(nproc) install
     - cd ../
     - wget -c https://github.com/linuxdeploy/linuxdeploy/releases/download/continuous/linuxdeploy-x86_64.AppImage
