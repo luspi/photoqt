@@ -341,6 +341,11 @@ Rectangle {
 
         maximumFlickVelocity: 5000 * Math.max(1, PQCSettings.thumbnailsSize/250)
 
+        Component.onCompleted: {
+            if(currentIndex > -1)
+                view.positionViewAtIndex(currentIndex, ListView.Contain)
+        }
+
         // bottom scroll bar
         PQHorizontalScrollBar {
             id: scrollbar_bottom

@@ -63,6 +63,7 @@ PQCFileFolderModel::PQCFileFolderModel(QObject *parent) : QObject(parent) {
 
     m_fileInFolderMainView = "";
     m_folderFileDialog = "";
+    m_currentIndex = -1;
     m_countMainView = 0;
     m_countFoldersFileDialog = 0;
     m_countFilesFileDialog = 0;
