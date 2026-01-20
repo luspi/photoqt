@@ -156,7 +156,7 @@ PQSetting {
             onCheckedChanged: {
                 if(checked) {
                     resetTestColor.stop()
-                    set_accent.testcolor = customrect.colorAsHex
+                    set_accent.selectedColor = customrect.colorAsHex
                     PQCLook.testColor(customrect.colorAsHex)
                 }
             }
@@ -275,6 +275,7 @@ PQSetting {
             if(section == "accent") {
                 var col = PQCScriptsOther.convertRgbToHex([255*coldiag.currentColor.r, 255*coldiag.currentColor.g, 255*coldiag.currentColor.b])
                 customrect.color = col
+                set_accent.selectedColor = col
                 PQCLook.testColor(col)
             } else
                 bgcustomuse.color = coldiag.currentColor
@@ -304,8 +305,10 @@ PQSetting {
 
         set_accent.selectedColor = PQCSettings.interfaceAccentColor
         color_predefined.checked = set_accent.hexes.indexOf(set_accent.selectedColor)>-1
-        color_custom.checked = !color_predefined.checked
+
+        // the color needs to be set BEFORE setting the checkbox as the color will be read as reaction to setting the checkbox
         customrect.color = PQCSettings.interfaceAccentColor
+        color_custom.checked = !color_predefined.checked
 
         bgaccentusecheck.loadAndSetDefault(!PQCSettings.interfaceBackgroundCustomOverlay)
         bgcustomusecheck.loadAndSetDefault(PQCSettings.interfaceBackgroundCustomOverlay)
