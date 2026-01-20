@@ -112,6 +112,12 @@ public:
     Q_INVOKABLE const bool getDefaultForFiledialogFolderContentThumbnailsAutoload();
     Q_INVOKABLE void setDefaultForFiledialogFolderContentThumbnailsAutoload();
 
+    Q_PROPERTY(QString filedialogFolderContentThumbnailsFirstLast READ getFiledialogFolderContentThumbnailsFirstLast WRITE setFiledialogFolderContentThumbnailsFirstLast NOTIFY filedialogFolderContentThumbnailsFirstLastChanged)
+    QString getFiledialogFolderContentThumbnailsFirstLast();
+    void setFiledialogFolderContentThumbnailsFirstLast(QString val);
+    Q_INVOKABLE const QString getDefaultForFiledialogFolderContentThumbnailsFirstLast();
+    Q_INVOKABLE void setDefaultForFiledialogFolderContentThumbnailsFirstLast();
+
     Q_PROPERTY(bool filedialogFolderContentThumbnailsLoop READ getFiledialogFolderContentThumbnailsLoop WRITE setFiledialogFolderContentThumbnailsLoop NOTIFY filedialogFolderContentThumbnailsLoopChanged)
     bool getFiledialogFolderContentThumbnailsLoop();
     void setFiledialogFolderContentThumbnailsLoop(bool val);
@@ -1846,6 +1852,7 @@ private:
     int m_filedialogElementPadding;
     bool m_filedialogFolderContentThumbnails;
     bool m_filedialogFolderContentThumbnailsAutoload;
+    QString m_filedialogFolderContentThumbnailsFirstLast;
     bool m_filedialogFolderContentThumbnailsLoop;
     bool m_filedialogFolderContentThumbnailsScaleCrop;
     int m_filedialogFolderContentThumbnailsSpeed;
@@ -2164,6 +2171,7 @@ Q_SIGNALS:
     void filedialogElementPaddingChanged();
     void filedialogFolderContentThumbnailsChanged();
     void filedialogFolderContentThumbnailsAutoloadChanged();
+    void filedialogFolderContentThumbnailsFirstLastChanged();
     void filedialogFolderContentThumbnailsLoopChanged();
     void filedialogFolderContentThumbnailsScaleCropChanged();
     void filedialogFolderContentThumbnailsSpeedChanged();

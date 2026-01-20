@@ -148,6 +148,7 @@ PQCSettings::PQCSettings() {
     connect(this, &PQCSettings::filedialogElementPaddingChanged, this, [=]() { saveChangedValue("filedialogElementPadding", m_filedialogElementPadding); });
     connect(this, &PQCSettings::filedialogFolderContentThumbnailsChanged, this, [=]() { saveChangedValue("filedialogFolderContentThumbnails", m_filedialogFolderContentThumbnails); });
     connect(this, &PQCSettings::filedialogFolderContentThumbnailsAutoloadChanged, this, [=]() { saveChangedValue("filedialogFolderContentThumbnailsAutoload", m_filedialogFolderContentThumbnailsAutoload); });
+    connect(this, &PQCSettings::filedialogFolderContentThumbnailsFirstLastChanged, this, [=]() { saveChangedValue("filedialogFolderContentThumbnailsFirstLast", m_filedialogFolderContentThumbnailsFirstLast); });
     connect(this, &PQCSettings::filedialogFolderContentThumbnailsLoopChanged, this, [=]() { saveChangedValue("filedialogFolderContentThumbnailsLoop", m_filedialogFolderContentThumbnailsLoop); });
     connect(this, &PQCSettings::filedialogFolderContentThumbnailsScaleCropChanged, this, [=]() { saveChangedValue("filedialogFolderContentThumbnailsScaleCrop", m_filedialogFolderContentThumbnailsScaleCrop); });
     connect(this, &PQCSettings::filedialogFolderContentThumbnailsSpeedChanged, this, [=]() { saveChangedValue("filedialogFolderContentThumbnailsSpeed", m_filedialogFolderContentThumbnailsSpeed); });
@@ -667,6 +668,28 @@ void PQCSettings::setDefaultForFiledialogFolderContentThumbnailsAutoload() {
     if(false != m_filedialogFolderContentThumbnailsAutoload) {
         m_filedialogFolderContentThumbnailsAutoload = false;
         Q_EMIT filedialogFolderContentThumbnailsAutoloadChanged();
+    }
+}
+
+QString PQCSettings::getFiledialogFolderContentThumbnailsFirstLast() {
+    return m_filedialogFolderContentThumbnailsFirstLast;
+}
+
+void PQCSettings::setFiledialogFolderContentThumbnailsFirstLast(QString val) {
+    if(val != m_filedialogFolderContentThumbnailsFirstLast) {
+        m_filedialogFolderContentThumbnailsFirstLast = val;
+        Q_EMIT filedialogFolderContentThumbnailsFirstLastChanged();
+    }
+}
+
+const QString PQCSettings::getDefaultForFiledialogFolderContentThumbnailsFirstLast() {
+        return "first";
+}
+
+void PQCSettings::setDefaultForFiledialogFolderContentThumbnailsFirstLast() {
+    if("first" != m_filedialogFolderContentThumbnailsFirstLast) {
+        m_filedialogFolderContentThumbnailsFirstLast = "first";
+        Q_EMIT filedialogFolderContentThumbnailsFirstLastChanged();
     }
 }
 
@@ -6813,6 +6836,8 @@ void PQCSettings::readDB() {
                     m_filedialogFolderContentThumbnails = value.toInt();
                 } else if(name == "FolderContentThumbnailsAutoload") {
                     m_filedialogFolderContentThumbnailsAutoload = value.toInt();
+                } else if(name == "FolderContentThumbnailsFirstLast") {
+                    m_filedialogFolderContentThumbnailsFirstLast = value.toString();
                 } else if(name == "FolderContentThumbnailsLoop") {
                     m_filedialogFolderContentThumbnailsLoop = value.toInt();
                 } else if(name == "FolderContentThumbnailsScaleCrop") {
@@ -7757,6 +7782,7 @@ void PQCSettings::setupFresh() {
     m_filedialogElementPadding = 1;
     m_filedialogFolderContentThumbnails = true;
     m_filedialogFolderContentThumbnailsAutoload = false;
+    m_filedialogFolderContentThumbnailsFirstLast = "first";
     m_filedialogFolderContentThumbnailsLoop = true;
     m_filedialogFolderContentThumbnailsScaleCrop = true;
     m_filedialogFolderContentThumbnailsSpeed = 2;
@@ -8081,6 +8107,7 @@ void PQCSettings::resetToDefault() {
     setDefaultForFiledialogElementPadding();
     setDefaultForFiledialogFolderContentThumbnails();
     setDefaultForFiledialogFolderContentThumbnailsAutoload();
+    setDefaultForFiledialogFolderContentThumbnailsFirstLast();
     setDefaultForFiledialogFolderContentThumbnailsLoop();
     setDefaultForFiledialogFolderContentThumbnailsScaleCrop();
     setDefaultForFiledialogFolderContentThumbnailsSpeed();
@@ -8434,6 +8461,10 @@ QStringList PQCSettings::updateFromCommandLine() {
     if(key == "filedialogFolderContentThumbnailsAutoload") {
         m_filedialogFolderContentThumbnailsAutoload = (val.toInt()==1);
         Q_EMIT filedialogFolderContentThumbnailsAutoloadChanged();
+    }
+    if(key == "filedialogFolderContentThumbnailsFirstLast") {
+        m_filedialogFolderContentThumbnailsFirstLast = val;
+        Q_EMIT filedialogFolderContentThumbnailsFirstLastChanged();
     }
     if(key == "filedialogFolderContentThumbnailsLoop") {
         m_filedialogFolderContentThumbnailsLoop = (val.toInt()==1);

@@ -75,7 +75,7 @@ Item {
                         : (PQCSettings.filedialogFolderContentThumbnailsSpeed===2
                                 ? 1000
                                 : 500)
-        running: false||PQCSettings.filedialogFolderContentThumbnailsAutoload
+        running: false
         onTriggered: {
 
             // if thumbnails are disabled, then do nothing here
@@ -89,7 +89,15 @@ Item {
             if(!PQCSettings.filedialogFolderContentThumbnails || PQCScriptsFilesPaths.isExcludeDirFromCaching(fname))
                 return
             if((view_top.currentIndex===deleg.modelData || PQCSettings.filedialogFolderContentThumbnailsAutoload) && (PQCSettings.filedialogFolderContentThumbnailsLoop || folderthumb.curnum == 0)) {
-                folderthumb.curnum = folderthumb.curnum%deleg.numberFilesInsideFolder +1
+
+                var toload = folderthumb.curnum%deleg.numberFilesInsideFolder +1
+                if(PQCSettings.filedialogFolderContentThumbnailsAutoload &&
+                        PQCSettings.filedialogFolderContentThumbnailsFirstLast === "last" &&
+                        folderthumb.curnum === 0) {
+                    toload = deleg.numberFilesInsideFolder
+                }
+
+                folderthumb.curnum = toload
                 folderthumb_model.append({"folder": fname, "num": folderthumb.curnum, "curindex": deleg.modelData})
             }
         }
@@ -99,6 +107,29 @@ Item {
         function onCurrentIndexChanged() {
             if(view_top.currentIndex===deleg.modelData && !PQCSettings.filedialogFolderContentThumbnailsAutoload && PQCSettings.filedialogThumbnails)
                 folderthumb_next.restart()
+        }
+    }
+
+    Connections {
+        target: deleg
+        onNumberFilesInsideFolderChanged: {
+            if(PQCSettings.filedialogFolderContentThumbnailsAutoload && folderthumb.curnum === 0) {
+                if(PQCSettings.filedialogFolderContentThumbnailsLoop)
+                    folderthumb_next.start()
+                else
+                    folderthumb_next.triggered()
+            }
+        }
+    }
+
+    Connections {
+        target: PQCSettings
+        function onFiledialogFolderContentThumbnailsAutoloadChanged() {
+            if(PQCSettings.filedialogFolderContentThumbnailsAutoload && folderthumb.curnum === 0)
+                if(PQCSettings.filedialogFolderContentThumbnailsLoop)
+                    folderthumb_next.start()
+                else
+                    folderthumb_next.triggered()
         }
     }
 

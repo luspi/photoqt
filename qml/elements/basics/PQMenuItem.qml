@@ -114,7 +114,7 @@ MenuItem {
             color: palette.base
             border.width: 1
             border.color: control.checked ? palette.highlight : palette.disabled.text
-            radius: 4
+            radius: control.checkableLikeRadioButton ? width/2 : 4
 
             Rectangle {
                 anchors.fill: parent
@@ -124,10 +124,20 @@ MenuItem {
                 opacity: 0.3
             }
 
+            Rectangle {
+
+                visible: control.checkableLikeRadioButton && control.checked
+                anchors.fill: parent
+                anchors.margins: 4
+                radius: width/2
+                color: palette.text
+
+            }
+
             // Checkmark
             Canvas {
                 anchors.fill: parent
-                visible: control.checked
+                visible: control.checked && !control.checkableLikeRadioButton
                 onPaint: {
                     var ctx = getContext("2d")
                     ctx.strokeStyle = palette.text

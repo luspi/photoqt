@@ -284,6 +284,7 @@ PQMenu {
                 checked = Qt.binding(function() { return PQCSettings.filedialogFolderContentThumbnails })
             }
         }
+
         PQMenuItem {
             //: file manager settings popdown: scale and crop the folder thumbnails
             text: qsTranslate("filedialog", "scale and crop")
@@ -295,18 +296,69 @@ PQMenu {
                 checked = Qt.binding(function() { return PQCSettings.filedialogFolderContentThumbnailsScaleCrop })
             }
         }
-        PQMenuItem {
-            //: file manager settings popdown: automatically load the folder thumbnails
-            text: qsTranslate("filedialog", "autoload")
+
+        PQMenu {
+
+            title: qsTranslate("filedialog", "autoload")
             enabled: folderthumbshow.checked && thumbnailsshow.checked
-            checkable: true
-            checked: PQCSettings.filedialogFolderContentThumbnailsAutoload
-            onCheckedChanged: {
-                PQCSettings.filedialogFolderContentThumbnailsAutoload = checked
-                checked = Qt.binding(function() { return PQCSettings.filedialogFolderContentThumbnailsAutoload })
+
+            ButtonGroup { id: grp_fl }
+
+            PQMenuItem {
+                id: autoload_check
+                //: file manager settings popdown: automatically load the folder thumbnails
+                text: qsTranslate("filedialog", "autoload")
+                checkable: true
+                checked: PQCSettings.filedialogFolderContentThumbnailsAutoload
+                onCheckedChanged: {
+                    PQCSettings.filedialogFolderContentThumbnailsAutoload = checked
+                    checked = Qt.binding(function() { return PQCSettings.filedialogFolderContentThumbnailsAutoload })
+                }
             }
+
+            PQMenuItem {
+                id: autothumb_first
+                text: qsTranslate("filedialog", "first thumbnail")
+                checkable: true
+                enabled: autoload_check.checked
+                checkableLikeRadioButton: true
+                ButtonGroup.group: grp_fl
+                checked: PQCSettings.filedialogFolderContentThumbnailsFirstLast==="first"
+                onCheckedChanged: {
+                    if(checked)
+                        PQCSettings.filedialogFolderContentThumbnailsFirstLast = "first"
+                }
+                Connections {
+                    target: PQCSettings
+                    function onFiledialogFolderContentThumbnailsFirstLastChanged() {
+                        autothumb_first.checked = (PQCSettings.filedialogFolderContentThumbnailsFirstLast==="first")
+                    }
+                }
+            }
+            PQMenuItem {
+                id: autothumb_last
+                text: qsTranslate("filedialog", "last thumbnail")
+                enabled: autoload_check.checked
+                checkable: true
+                checkableLikeRadioButton: true
+                ButtonGroup.group: grp_fl
+                checked: PQCSettings.filedialogFolderContentThumbnailsFirstLast==="last"
+                onCheckedChanged: {
+                    if(checked)
+                        PQCSettings.filedialogFolderContentThumbnailsFirstLast = "last"
+                }
+                Connections {
+                    target: PQCSettings
+                    function onFiledialogFolderContentThumbnailsFirstLastChanged() {
+                        autothumb_last.checked = (PQCSettings.filedialogFolderContentThumbnailsFirstLast==="last")
+                    }
+                }
+            }
+
         }
+
         PQMenuItem {
+            id: loop_entry
             //: file manager settings popdown: loop through the folder thumbnails
             text: qsTranslate("filedialog", "loop")
             enabled: folderthumbshow.checked && thumbnailsshow.checked
@@ -328,7 +380,7 @@ PQMenu {
         }
         PQMenuItem {
             id: foldthumb2
-            enabled: folderthumbshow.checked && thumbnailsshow.checked
+            enabled: folderthumbshow.checked && thumbnailsshow.checked && loop_entry.checked
             text: "2 seconds"
             checkable: true
             checked: PQCSettings.filedialogFolderContentThumbnailsSpeed===1
@@ -345,7 +397,7 @@ PQMenu {
         }
         PQMenuItem {
             id: foldthumb1
-            enabled: folderthumbshow.checked && thumbnailsshow.checked
+            enabled: folderthumbshow.checked && thumbnailsshow.checked && loop_entry.checked
             text: qsTranslate("filedialog", "1 second")
             checkable: true
             checked: PQCSettings.filedialogFolderContentThumbnailsSpeed===2
@@ -362,7 +414,7 @@ PQMenu {
         }
         PQMenuItem {
             id: foldthumb05
-            enabled: folderthumbshow.checked && thumbnailsshow.checked
+            enabled: folderthumbshow.checked && thumbnailsshow.checked && loop_entry.checked
             text: qsTranslate("filedialog", "half a second")
             checkable: true
             checked: PQCSettings.filedialogFolderContentThumbnailsSpeed===3
