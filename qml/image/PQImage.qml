@@ -124,7 +124,7 @@ Item {
     DropArea {
 
         anchors.fill: parent
-        enabled: PQCConstants.idOfVisibleItem===""
+        enabled: !PQCConstants.isModalOpen
 
         onDropped: (event) => {
 

@@ -52,6 +52,8 @@ Item {
 
         var startname = ""
 
+        PQCConstants.modalFileDialogOpen = true
+
         if(PQCSettings.filedialogStartupRestorePrevious)
             startname = PQCScriptsFileDialog.getLastLocation()
         else
@@ -68,7 +70,7 @@ Item {
             PQCFileFolderModel.fileInFolderMainView = fname
         }
 
-        PQCConstants.idOfVisibleItem = ""
+        PQCConstants.modalFileDialogOpen = false
 
     }
 

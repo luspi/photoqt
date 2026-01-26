@@ -46,6 +46,16 @@ PQTemplate {
         }
     }
 
+    function showing() {
+        PQCConstants.modalAboutOpen = true
+        return true
+    }
+
+    function hiding() {
+        PQCConstants.modalAboutOpen = false
+        return true
+    }
+
     content: [
 
         Flickable {

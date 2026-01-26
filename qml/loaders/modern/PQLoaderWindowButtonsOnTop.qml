@@ -29,7 +29,7 @@ Loader {
     active: PQCSettings.generalInterfaceVariant==="modern"
     sourceComponent: PQWindowButtonsModern {}
     visible: opacity>0
-    opacity: PQCConstants.idOfVisibleItem!=="" ? 1 : 0
+    opacity: PQCConstants.isModalOpen ? 1 : 0
     Behavior on opacity { enabled: !PQCSettings.generalDisableAllAnimations; NumberAnimation { duration: 200 } }
     onStatusChanged: {
         if(status == Loader.Ready)

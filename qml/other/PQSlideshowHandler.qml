@@ -296,7 +296,6 @@ Item {
         PQCConstants.slideshowRunningAndPlaying = false
         if(PQCSettings.slideshowMusic)
             loader_audioplayer.item.checkPlayPause()
-        PQCNotify.loaderRegisterClose("SlideshowHandler")
 
         PQCSettings.imageviewAnimationType = backupAnimType
         PQCSettings.imageviewAnimationDuration = backupAnimSpeed

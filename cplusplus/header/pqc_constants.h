@@ -61,7 +61,6 @@ public:
         m_windowFullScreen = false;
         m_windowMaxAndNotWindowed = true;
         m_faceTaggingMode = false;
-        m_idOfVisibleItem = "";
         m_modalWindowOpen = false;
         m_lastExecutedShortcutCommand = "";
         m_ignoreFileFolderChangesTemporary = false;
@@ -72,6 +71,22 @@ public:
         m_displayTextMaxLength = 1000;
         m_searchText = "";
         m_openGLAvailableForSpheres = true;
+
+        m_isModalOpen = false;
+        m_modalElementOpen = false;
+        m_modalFileDialogOpen = false;
+        m_modalAboutOpen = false;
+        m_modalSettingsManagerOpen = false;
+        m_modalFileRenameOpen = false;
+        m_modalFileDeleteOpen = false;
+        m_modalMapExplorerOpen = false;
+        m_modalFilterOpen = false;
+        m_modalSlideshowSetupOpen = false;
+        m_modalSlideshowControlsOpen = false;
+        m_modalAdvancedSortOpen = false;
+        m_modalChromecastManagerOpen = false;
+        m_modalFindOpen = false;
+        m_modalFaceTaggerOpen = false;
 
         m_slideshowRunning = false;
         m_slideshowRunningAndPlaying = false;
@@ -171,6 +186,21 @@ public:
         m_whichContextMenusOpen.clear();
 
         m_colorProfileCache.clear();
+
+        connect(this, &PQCConstants::modalFileDialogOpenChanged, this, &PQCConstants::recheckModalOpenStates);
+        connect(this, &PQCConstants::modalElementOpenChanged, this, &PQCConstants::recheckModalOpenStates);
+        connect(this, &PQCConstants::modalAboutOpenChanged, this, &PQCConstants::recheckModalOpenStates);
+        connect(this, &PQCConstants::modalSettingsManagerOpenChanged, this, &PQCConstants::recheckModalOpenStates);
+        connect(this, &PQCConstants::modalFileRenameOpenChanged, this, &PQCConstants::recheckModalOpenStates);
+        connect(this, &PQCConstants::modalFileDeleteOpenChanged, this, &PQCConstants::recheckModalOpenStates);
+        connect(this, &PQCConstants::modalMapExplorerOpenChanged, this, &PQCConstants::recheckModalOpenStates);
+        connect(this, &PQCConstants::modalFilterOpenChanged, this, &PQCConstants::recheckModalOpenStates);
+        connect(this, &PQCConstants::modalSlideshowControlsOpenChanged, this, &PQCConstants::recheckModalOpenStates);
+        connect(this, &PQCConstants::modalSlideshowSetupOpenChanged, this, &PQCConstants::recheckModalOpenStates);
+        connect(this, &PQCConstants::modalAdvancedSortOpenChanged, this, &PQCConstants::recheckModalOpenStates);
+        connect(this, &PQCConstants::modalChromecastManagerOpenChanged, this, &PQCConstants::recheckModalOpenStates);
+        connect(this, &PQCConstants::modalFindOpenChanged, this, &PQCConstants::recheckModalOpenStates);
+        connect(this, &PQCConstants::modalFaceTaggerOpenChanged, this, &PQCConstants::recheckModalOpenStates);
 
         /****************************************/
 
@@ -309,13 +339,30 @@ public:
     Q_PROPERTY(bool startupHaveScreenshots MEMBER m_startupHaveScreenshots NOTIFY startupHaveScreenshotsChanged)
     Q_PROPERTY(QStringList startupHaveSettingUpdate MEMBER m_startupHaveSettingUpdate NOTIFY startupHaveSettingUpdateChanged)
 
+    /******************************************************/
+    // modal element states
+
+    Q_PROPERTY(bool isModalOpen                MEMBER m_isModalOpen                NOTIFY isModalOpenChanged)
+    Q_PROPERTY(bool modalElementOpen           MEMBER m_modalElementOpen           NOTIFY modalElementOpenChanged)
+    Q_PROPERTY(bool modalFileDialogOpen        MEMBER m_modalFileDialogOpen        NOTIFY modalFileDialogOpenChanged)
+    Q_PROPERTY(bool modalAboutOpen             MEMBER m_modalAboutOpen             NOTIFY modalAboutOpenChanged)
+    Q_PROPERTY(bool modalSettingsManagerOpen   MEMBER m_modalSettingsManagerOpen   NOTIFY modalSettingsManagerOpenChanged)
+    Q_PROPERTY(bool modalFileRenameOpen        MEMBER m_modalFileRenameOpen        NOTIFY modalFileRenameOpenChanged)
+    Q_PROPERTY(bool modalFileDeleteOpen        MEMBER m_modalFileDeleteOpen        NOTIFY modalFileDeleteOpenChanged)
+    Q_PROPERTY(bool modalMapExplorerOpen       MEMBER m_modalMapExplorerOpen       NOTIFY modalMapExplorerOpenChanged)
+    Q_PROPERTY(bool modalFilterOpen            MEMBER m_modalFilterOpen            NOTIFY modalFilterOpenChanged)
+    Q_PROPERTY(bool modalSlideshowControlsOpen MEMBER m_modalSlideshowControlsOpen NOTIFY modalSlideshowControlsOpenChanged)
+    Q_PROPERTY(bool modalSlideshowSetupOpen    MEMBER m_modalSlideshowSetupOpen    NOTIFY modalSlideshowSetupOpenChanged)
+    Q_PROPERTY(bool modalAdvancedSortOpen      MEMBER m_modalAdvancedSortOpen      NOTIFY modalAdvancedSortOpenChanged)
+    Q_PROPERTY(bool modalChromecastManagerOpen MEMBER m_modalChromecastManagerOpen NOTIFY modalChromecastManagerOpenChanged)
+    Q_PROPERTY(bool modalFindOpen              MEMBER m_modalFindOpen              NOTIFY modalFindOpenChanged)
+    Q_PROPERTY(bool modalFaceTaggerOpen        MEMBER m_modalFaceTaggerOpen        NOTIFY modalFaceTaggerOpenChanged)
 
     /******************************************************/
     // some generic global properties
 
     Q_PROPERTY(bool photoQtShuttingDown MEMBER m_photoQtShuttingDown NOTIFY photoQtShuttingDownChanged)
     Q_PROPERTY(bool modalWindowOpen MEMBER m_modalWindowOpen NOTIFY modalWindowOpenChanged)
-    Q_PROPERTY(QString idOfVisibleItem MEMBER m_idOfVisibleItem NOTIFY idOfVisibleItemChanged)
     Q_PROPERTY(double devicePixelRatio MEMBER m_devicePixelRatio NOTIFY devicePixelRatioChanged)
     Q_PROPERTY(bool touchGestureActive MEMBER m_touchGestureActive NOTIFY touchGestureActiveChanged)
     Q_PROPERTY(QString lastExecutedShortcutCommand MEMBER m_lastExecutedShortcutCommand NOTIFY lastExecutedShortcutCommandChanged)
@@ -451,6 +498,24 @@ public:
         return m_whichContextMenusOpen.contains(which);
     }
 
+    Q_INVOKABLE bool checkIsModalOpen(QString mdl) {
+        if(mdl == "FileDialog") return m_modalFileDialogOpen;
+        if(mdl == "About") return m_modalAboutOpen;
+        if(mdl == "SettingsManager") return m_modalSettingsManagerOpen;
+        if(mdl == "FileRename") return m_modalFileRenameOpen;
+        if(mdl == "FileDelete") return m_modalFileDeleteOpen;
+        if(mdl == "MapExplorer") return m_modalMapExplorerOpen;
+        if(mdl == "Filter") return m_modalFilterOpen;
+        if(mdl == "SlideshowSetup") return m_modalSlideshowSetupOpen;
+        if(mdl == "SlideshowControls") return m_modalSlideshowControlsOpen;
+        if(mdl == "AdvancedSort") return m_modalAdvancedSortOpen;
+        if(mdl == "ChromecastManager") return m_modalChromecastManagerOpen;
+        if(mdl == "Find") return m_modalFindOpen;
+        if(mdl == "facetagger") return m_modalFaceTaggerOpen;
+        qWarning() << "ERROR: Unknown modal window passed on:" << mdl;
+        return false;
+    }
+
     /******************************************************/
 
 private:
@@ -462,6 +527,22 @@ private:
     bool m_startupStartInTray;
     bool m_startupHaveScreenshots;
     QStringList m_startupHaveSettingUpdate;
+
+    bool m_isModalOpen;
+    bool m_modalElementOpen;
+    bool m_modalFileDialogOpen;
+    bool m_modalAboutOpen;
+    bool m_modalSettingsManagerOpen;
+    bool m_modalFileRenameOpen;
+    bool m_modalFileDeleteOpen;
+    bool m_modalMapExplorerOpen;
+    bool m_modalFilterOpen;
+    bool m_modalSlideshowControlsOpen;
+    bool m_modalSlideshowSetupOpen;
+    bool m_modalAdvancedSortOpen;
+    bool m_modalChromecastManagerOpen;
+    bool m_modalFindOpen;
+    bool m_modalFaceTaggerOpen;
 
     int m_availableWidth;
     int m_availableHeight;
@@ -476,7 +557,6 @@ private:
 
     bool m_faceTaggingMode;
     bool m_modalWindowOpen;
-    QString m_idOfVisibleItem;
     double m_devicePixelRatio;
     bool m_touchGestureActive;
     bool m_ignoreFileFolderChangesTemporary;
@@ -576,6 +656,20 @@ private Q_SLOTS:
         Q_EMIT debugLogMessagesChanged();
     }
 
+    void recheckModalOpenStates() {
+
+        m_isModalOpen = ((m_modalFileDialogOpen && !PQCSettingsCPP::get().getInterfacePopoutFileDialogNonModal()) ||
+                         (m_modalSettingsManagerOpen && !PQCSettingsCPP::get().getInterfacePopoutSettingsManagerNonModal()) ||
+                         (m_modalMapExplorerOpen && !PQCSettingsCPP::get().getInterfacePopoutMapExplorerNonModal()) ||
+                         m_modalFileDeleteOpen || m_modalFilterOpen || m_modalAboutOpen ||
+                         m_modalSlideshowSetupOpen || m_modalAdvancedSortOpen || m_modalChromecastManagerOpen ||
+                         m_modalFindOpen || m_modalFileRenameOpen || m_modalElementOpen ||
+                         m_modalFaceTaggerOpen || m_modalSlideshowControlsOpen);
+
+        Q_EMIT isModalOpenChanged();
+
+    }
+
 Q_SIGNALS:
     void debugModeChanged();
     void debugLogMessagesChanged();
@@ -584,6 +678,22 @@ Q_SIGNALS:
     void startupStartInTrayChanged();
     void startupHaveScreenshotsChanged();
     void startupHaveSettingUpdateChanged();
+
+    void isModalOpenChanged();
+    void modalElementOpenChanged();
+    void modalFileDialogOpenChanged();
+    void modalAboutOpenChanged();
+    void modalSettingsManagerOpenChanged();
+    void modalFileRenameOpenChanged();
+    void modalFileDeleteOpenChanged();
+    void modalMapExplorerOpenChanged();
+    void modalFilterOpenChanged();
+    void modalSlideshowControlsOpenChanged();
+    void modalSlideshowSetupOpenChanged();
+    void modalAdvancedSortOpenChanged();
+    void modalChromecastManagerOpenChanged();
+    void modalFindOpenChanged();
+    void modalFaceTaggerOpenChanged();
 
     void availableWidthChanged();
     void availableHeightChanged();
@@ -596,7 +706,6 @@ Q_SIGNALS:
     void photoQtShuttingDownChanged();
     void faceTaggingModeChanged();
     void modalWindowOpenChanged();
-    void idOfVisibleItemChanged();
     void devicePixelRatioChanged();
     void touchGestureActiveChanged();
     void lastExecutedShortcutCommandChanged();

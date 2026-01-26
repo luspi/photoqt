@@ -117,9 +117,6 @@ PQTemplate {
                             find_top.hide()
                         else {
                             searchbox.text = ""
-                            // this is necessary as otherwise the id might be reset to empty
-                            // even though this element is still open.
-                            PQCConstants.idOfVisibleItem = find_top.elementId
                         }
 
                     } else if(param[0] === Qt.Key_Enter || param[0] === Qt.Key_Return) {
@@ -138,15 +135,24 @@ PQTemplate {
             return false
         }
 
+        PQCConstants.modalFindOpen = true
+
         searchbox.enabled = true
         searchbox.text = PQCConstants.searchText
         searchbox.setFocus()
 
+        return true
+
     }
 
     function hiding() {
+
+        PQCConstants.modalFindOpen = false
         PQCConstants.searchText = searchbox.text
         searchbox.enabled = false
+
+        return true
+
     }
 
 }

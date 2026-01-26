@@ -35,8 +35,6 @@ Loader {
         target: PQCNotify
         function onLoaderShow(ele : string) {
             if(ele === "FileDialog") {
-                if(!PQCSettings.interfacePo2poutFileDialog || !PQCSettings.interfacePopoutFileDialogNonModal)
-                    PQCConstants.idOfVisibleItem = "FileDialog"
                 loader_filedialog.active = true
                 PQCNotify.loaderPassOn("show", ["FileDialog"])
             }

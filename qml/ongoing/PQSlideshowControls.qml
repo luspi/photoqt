@@ -423,6 +423,7 @@ Item {
 
     function show() {
         opacity = 1
+        PQCConstants.modalSlideshowControlsOpen = true
         if(popoutWindowUsed)
             slideshowcontrols_popout.visible = true
     }
@@ -431,7 +432,7 @@ Item {
         opacity = 0
         if(popoutWindowUsed)
             slideshowcontrols_popout.visible = false
-        PQCNotify.loaderRegisterClose("SlideshowControls")
+        PQCConstants.modalSlideshowControlsOpen = false
     }
 
     Component.onCompleted: {

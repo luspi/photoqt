@@ -71,6 +71,8 @@ PQTemplate {
 
     function showing() {
         PQCNotify.settingsmanagerSendCommand("loadcurrent", [])
+        PQCConstants.modalSettingsManagerOpen = true
+        return true
     }
 
     function hiding() {
@@ -82,6 +84,7 @@ PQTemplate {
         }
 
         confirmUnsaved.opacity = 0
+        PQCConstants.modalSettingsManagerOpen = false
 
         return true
 

@@ -649,6 +649,8 @@ PQTemplate {
             return false
         }
 
+        PQCConstants.modalSlideshowSetupOpen = true
+
         var animArray = ["kenburns", "opacity", "x", "y", "rotation", "explosion", "implosion", "random"]
         animtype_combo.currentIndex = animArray.indexOf(PQCSettings.slideshowTypeAnimation)
         if(animtype_combo.currentIndex === -1) animtype_combo.currentIndex = 0
@@ -673,10 +675,17 @@ PQTemplate {
         }
         slideshowsettings_top.musicfiles = tmp
 
+        return true
+
     }
 
     function hiding() {
+
         closePopupMenuSpin()
+        PQCConstants.modalSlideshowSetupOpen = false
+
+        return true
+
     }
 
     function startSlideshow() {

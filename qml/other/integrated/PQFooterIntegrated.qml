@@ -61,18 +61,18 @@ ToolBar {
         spacing: 5
 
         PQText {
-            visible: PQCFileFolderModel.countMainView===0 && PQCConstants.idOfVisibleItem!=="FileDialog"
+            visible: PQCFileFolderModel.countMainView===0 && !PQCConstants.modalFileDialogOpen
             text: qsTranslate("other", "Click anywhere to open a file")
         }
 
         PQText {
-            visible: PQCConstants.idOfVisibleItem==="FileDialog"
+            visible: PQCConstants.modalFileDialogOpen
             text: qsTranslate("other", "Select a file")
         }
 
         PQText {
             id: statusinfo
-            visible: PQCFileFolderModel.countMainView>0 && PQCConstants.idOfVisibleItem!=="FileDialog"
+            visible: PQCFileFolderModel.countMainView>0 && !PQCConstants.modalFileDialogOpen
             elide: Text.ElideMiddle
             horizontalAlignment: Qt.AlignHCenter
             verticalAlignment: Qt.AlignVCenter

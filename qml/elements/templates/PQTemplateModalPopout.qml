@@ -85,7 +85,7 @@ Window {
         setupCompleted.restart()
 
         // in this case the user switched the popped out state
-        if(PQCConstants.idOfVisibleItem === elementId || forceShow)
+        if(PQCConstants.checkIsModalOpen(elementId) || forceShow)
             _show()
 
         forceShow = false
@@ -338,11 +338,9 @@ Window {
 
         var ret = cont.item.showing()
         if(ret !== undefined && !ret) {
-            PQCNotify.loaderRegisterClose(element_top.elementId)
             return false
         }
 
-        PQCNotify.loaderRegisterOpen(element_top.elementId)
         if(defaultPopoutMaximized)
             element_top.showMaximized()
         else
@@ -364,7 +362,6 @@ Window {
         if(ret !== undefined && !ret)
             return
 
-        PQCNotify.loaderRegisterClose(element_top.elementId)
         element_top.close()
         PQCNotify.resetActiveFocus()
     }

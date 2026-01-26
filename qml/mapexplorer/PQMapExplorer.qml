@@ -260,6 +260,13 @@ PQTemplate {
 
     function showing() {
         loadExplorerData()
+        PQCConstants.modalMapExplorerOpen = true
+        return true
+    }
+
+    function hiding() {
+        PQCConstants.modalMapExplorerOpen = false
+        return true
     }
 
     function loadExplorerData() {

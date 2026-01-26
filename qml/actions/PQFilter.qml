@@ -371,6 +371,7 @@ PQTemplate {
             return false
         }
         opacity = 1
+        PQCConstants.modalFilterOpen = true
 
         // we explicitely load the data below to pre-load it even when switching between popout and not
 
@@ -427,10 +428,14 @@ PQTemplate {
 
         }
 
+        return true
+
     }
 
     function hiding() {
         closePopupMenuSpin()
+        PQCConstants.modalFilterOpen = false
+        return true
     }
 
     function setFilter() {

@@ -59,8 +59,15 @@ PQTemplate {
     signal saveData()
 
     function showing() {
+        PQCConstants.modalAdvancedSortOpen = true
         working.hide()
         loadData()
+        return true
+    }
+
+    function hiding() {
+        PQCConstants.modalAdvancedSortOpen = false
+        return true
     }
 
     content: [

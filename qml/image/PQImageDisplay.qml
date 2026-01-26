@@ -1958,7 +1958,7 @@ Loader {
                         onTriggered: {
                             if(PQCSettings.imageviewHideCursorTimeout === 0)
                                 return
-                            if(PQCConstants.isContextmenuOpen("globalcontextmenu") || PQCConstants.idOfVisibleItem !== "")
+                            if(PQCConstants.isContextmenuOpen("globalcontextmenu") || PQCConstants.isModalOpen)
                                 hidecursor.restart()
                             else
                                 imagemouse.cursorShape = Qt.BlankCursor
@@ -1969,8 +1969,8 @@ Loader {
 
                         target: PQCConstants
 
-                        function onIdOfVisibleItemChanged() {
-                            if(PQCConstants.idOfVisibleItem !== "") {
+                        function onIsModalOpenChanged() {
+                            if(PQCConstants.isModalOpen) {
                                 imagemouse.cursorShape = Qt.ArrowCursor
                                 hidecursor.restart()
                             }

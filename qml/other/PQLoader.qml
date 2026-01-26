@@ -99,21 +99,19 @@ Item {
         target: PQCNotify
 
         function onOpenSettingsManagerAt(category : string, subcategory : string) {
-            if(PQCConstants.idOfVisibleItem !== "")
+            if(PQCConstants.isModalOpen)
                 return
             if(!loader_settingsmanager.active)
                 loader_settingsmanager.active = true
-            PQCConstants.idOfVisibleItem = "SettingsManager"
             PQCNotify.loaderPassOn("show", ["SettingsManager"])
             PQCNotify.loaderPassOn("showSettings", [category, subcategory])
         }
 
         function onShowSettingsForExtension(id : string) {
-            if(PQCConstants.idOfVisibleItem !== "")
+            if(PQCConstants.isModalOpen)
                 return
             if(!loader_settingsmanager.active)
                 loader_settingsmanager.active = true
-            PQCConstants.idOfVisibleItem = "SettingsManager"
             PQCNotify.loaderPassOn("show", ["SettingsManager"])
             PQCConstants.settingsManagerStartWithExtensionOpen = id
             PQCNotify.loaderPassOn("showExtensionSettings", [id])
@@ -123,7 +121,7 @@ Item {
 
             console.log("args: ele =", ele)
 
-            if(PQCConstants.idOfVisibleItem !== "")
+            if(PQCConstants.isModalOpen)
                 return
 
             var ind = PQCExtensionsHandler.getExtensions().indexOf(ele)
@@ -158,8 +156,6 @@ Item {
             if(ele in allele) {
                 if(!allele[ele].active)
                     allele[ele].active = true
-                if(notModal.indexOf(ele) == -1)
-                    PQCConstants.idOfVisibleItem = ele
                 PQCNotify.loaderPassOn("show", [ele])
             } else
                 console.warn("Warning: element not found:", ele)
@@ -170,14 +166,6 @@ Item {
             if(!loader_notification.active)
                 loader_notification.active = true
             PQCNotify.loaderPassOn("show", ["Notification", [title, msg]])
-        }
-
-        function onLoaderRegisterOpen(ele : string) {
-            PQCConstants.idOfVisibleItem = ele
-        }
-
-        function onLoaderRegisterClose(ele : string) {
-            PQCConstants.idOfVisibleItem = ""
         }
 
         // onLoaderSetupExtension() and onLoaderShowExtension() are handled in PQMasterItem

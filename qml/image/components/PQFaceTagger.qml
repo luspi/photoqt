@@ -454,6 +454,7 @@ Loader {
             }
 
             opacity = 1
+            PQCConstants.modalFaceTaggerOpen = true
             loadData()
         }
 
@@ -472,7 +473,7 @@ Loader {
             whoisthis.hide()
             opacity = 0
             PQCConstants.faceTaggingMode = false
-            PQCNotify.loaderRegisterClose("facetagger")
+            PQCConstants.modalFaceTaggerOpen = false
         }
 
     }

@@ -80,7 +80,7 @@ MenuBar {
         PQMenuItem {
             iconSource: "image://svg/:/" + PQCLook.iconShade + "/settings.svg"
             text: qsTranslate("other", "&Settings manager")
-            enabled: PQCConstants.idOfVisibleItem===""
+            enabled: !PQCConstants.isModalOpen
             onTriggered: {
                 PQCScriptsShortcuts.executeInternalCommand("__settings")
             }
@@ -103,7 +103,7 @@ MenuBar {
         id: menu_navigation
 
         title: qsTranslate("other", "&Navigation")
-        enabled: PQCConstants.idOfVisibleItem===""
+        enabled: !PQCConstants.isModalOpen
 
         PQMenuItem {
             iconSource: "image://svg/:/" + PQCLook.iconShade + "/next.svg"
@@ -171,7 +171,7 @@ MenuBar {
         id: menu_image
 
         title: qsTranslate("other", "&Image")
-        enabled: PQCConstants.idOfVisibleItem===""
+        enabled: !PQCConstants.isModalOpen
 
         PQMenuItem {
             iconSource: "image://svg/:/" + PQCLook.iconShade + "/rename.svg"
@@ -369,7 +369,7 @@ MenuBar {
         id: menu_folder
 
         title: qsTranslate("other", "&Folder")
-        enabled: PQCConstants.idOfVisibleItem===""
+        enabled: !PQCConstants.isModalOpen
 
         PQMenu {
 
@@ -472,7 +472,7 @@ MenuBar {
         id: menu_extensions
 
         title: qsTranslate("other", "&Extensions")
-        enabled: PQCConstants.idOfVisibleItem===""
+        enabled: !PQCConstants.isModalOpen
 
         PQMenuItem {
             text: qsTranslate("other", "Manage extensions")
@@ -560,7 +560,7 @@ MenuBar {
         id: menu_about
 
         title: qsTranslate("other", "&Help")
-        enabled: PQCConstants.idOfVisibleItem===""
+        enabled: !PQCConstants.isModalOpen
 
         PQMenuItem {
             iconSource: "image://svg/:/" + PQCLook.iconShade + "/help.svg"

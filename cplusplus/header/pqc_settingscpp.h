@@ -82,6 +82,9 @@ public:
     int getInterfaceFontBoldWeight() { return m_interfaceFontBoldWeight; }
     int getInterfaceFontNormalWeight() { return m_interfaceFontNormalWeight; }
     QString getInterfaceLanguage() { return m_interfaceLanguage; }
+    bool getInterfacePopoutFileDialogNonModal() { return m_interfacePopoutFileDialogNonModal; }
+    bool getInterfacePopoutMapExplorerNonModal() { return m_interfacePopoutMapExplorerNonModal; }
+    bool getInterfacePopoutSettingsManagerNonModal() { return m_interfacePopoutSettingsManagerNonModal; }
     bool getInterfacePopoutWhenWindowIsSmall() { return m_interfacePopoutWhenWindowIsSmall; }
     bool getMetadataAutoRotation() { return m_metadataAutoRotation; }
     bool getThumbnailsCache() { return m_thumbnailsCache; }
@@ -327,6 +330,24 @@ public:
                         m_interfaceLanguage = val;
                         Q_EMIT interfaceLanguageChanged();
                     }
+                } else if(table == "interface" && name == "PopoutFileDialogNonModal") {
+                    const bool val = value.toInt();
+                    if(m_interfacePopoutFileDialogNonModal != val) {
+                        m_interfacePopoutFileDialogNonModal = value.toInt();
+                        Q_EMIT interfacePopoutFileDialogNonModalChanged();
+                    }
+                } else if(table == "interface" && name == "PopoutMapExplorerNonModal") {
+                    const bool val = value.toInt();
+                    if(m_interfacePopoutMapExplorerNonModal != val) {
+                        m_interfacePopoutMapExplorerNonModal = value.toInt();
+                        Q_EMIT interfacePopoutMapExplorerNonModalChanged();
+                    }
+                } else if(table == "interface" && name == "PopoutSettingsManagerNonModal") {
+                    const bool val = value.toInt();
+                    if(m_interfacePopoutSettingsManagerNonModal != val) {
+                        m_interfacePopoutSettingsManagerNonModal = value.toInt();
+                        Q_EMIT interfacePopoutSettingsManagerNonModalChanged();
+                    }
                 } else if(table == "interface" && name == "PopoutWhenWindowIsSmall") {
                     const bool val = value.toInt();
                     if(m_interfacePopoutWhenWindowIsSmall != val) {
@@ -445,6 +466,9 @@ private:
         m_interfaceFontBoldWeight = 700;
         m_interfaceFontNormalWeight = 400;
         m_interfaceLanguage = "en";
+        m_interfacePopoutFileDialogNonModal = false;
+        m_interfacePopoutMapExplorerNonModal = false;
+        m_interfacePopoutSettingsManagerNonModal = false;
         m_interfacePopoutWhenWindowIsSmall = true;
         m_metadataAutoRotation = true;
         m_thumbnailsCache = true;
@@ -496,6 +520,9 @@ private:
     int m_interfaceFontBoldWeight;
     int m_interfaceFontNormalWeight;
     QString m_interfaceLanguage;
+    bool m_interfacePopoutFileDialogNonModal;
+    bool m_interfacePopoutMapExplorerNonModal;
+    bool m_interfacePopoutSettingsManagerNonModal;
     bool m_interfacePopoutWhenWindowIsSmall;
     bool m_metadataAutoRotation;
     bool m_thumbnailsCache;
@@ -543,6 +570,9 @@ Q_SIGNALS:
     void interfaceFontBoldWeightChanged();
     void interfacePopoutWhenWindowIsSmallChanged();
     void interfaceLanguageChanged();
+    void interfacePopoutMapExplorerNonModalChanged();
+    void interfacePopoutFileDialogNonModalChanged();
+    void interfacePopoutSettingsManagerNonModalChanged();
     void thumbnailsExcludeDropBoxChanged();
     void thumbnailsExcludeNextcloudChanged();
     void thumbnailsExcludeOwnCloudChanged();

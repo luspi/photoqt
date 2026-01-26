@@ -44,8 +44,11 @@ PQMessageBox {
         handleDeleting(butId)
     }
 
+    onVisibleChanged: (visible) => {
+        PQCConstants.modalFileDeleteOpen = visible
+    }
+
     onClosing: {
-        PQCConstants.idOfVisibleItem = ""
         PQCNotify.resetActiveFocus()
     }
 
@@ -60,7 +63,6 @@ PQMessageBox {
                 PQCScriptsConfig.inform(qsTranslate("filemanagement", "Error"),
                                         qsTranslate("filemanagement", "An error occured, file could not be moved to trash."))
                 PQCConstants.ignoreFileFolderChangesTemporary = false
-                PQCConstants.idOfVisibleItem = ""
                 PQCNotify.resetActiveFocus()
                 return
             }
@@ -77,7 +79,6 @@ PQMessageBox {
                 PQCScriptsConfig.inform(qsTranslate("filemanagement", "Error"),
                                         qsTranslate("filemanagement", "An error occured, file could not be deleted permanently."))
                 PQCConstants.ignoreFileFolderChangesTemporary = false
-                PQCConstants.idOfVisibleItem = ""
                 PQCNotify.resetActiveFocus()
                 return
             }
@@ -87,7 +88,6 @@ PQMessageBox {
 
         }
 
-        PQCConstants.idOfVisibleItem = ""
         PQCNotify.resetActiveFocus()
 
     }
@@ -104,7 +104,6 @@ PQMessageBox {
             if(what === "forceCloseEverything") {
 
                 delete_top.close()
-                PQCConstants.idOfVisibleItem = ""
                 PQCNotify.resetActiveFocus()
 
             } else if(what === "show" && args[0] === "FileDelete") {
@@ -115,7 +114,6 @@ PQMessageBox {
             } else if(what === "hide" && args[0] === "FileDelete") {
 
                 delete_top.close()
-                PQCConstants.idOfVisibleItem = ""
                 PQCNotify.resetActiveFocus()
 
             } else if(delete_top.opacity > 0) {
@@ -124,7 +122,6 @@ PQMessageBox {
 
                     if(args[0] === Qt.Key_Escape) {
                         delete_top.close()
-                        PQCConstants.idOfVisibleItem = ""
                         PQCNotify.resetActiveFocus()
                     } if(args[0] === Qt.Key_Enter || args[0] === Qt.Key_Return) {
                         if(args[1] === Qt.ShiftModifier)

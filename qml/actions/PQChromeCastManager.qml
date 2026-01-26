@@ -50,6 +50,13 @@ PQTemplate {
         // we also show the chromecast handler
         PQCNotify.loaderShow("Chromecast")
         PQCScriptsChromeCast.startDiscovery()
+        PQCConstants.modalChromecastManagerOpen = true
+        return true
+    }
+
+    function hiding() {
+        PQCConstants.modalChromecastManagerOpen = false
+        return true
     }
 
     Connections {

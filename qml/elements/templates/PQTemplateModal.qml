@@ -233,7 +233,7 @@ Rectangle {
 
     Component.onCompleted: {
         // in this case the user switched the popped out state
-        if(PQCConstants.idOfVisibleItem === elementId || forceShow)
+        if(PQCConstants.checkIsModalOpen(elementId) || forceShow)
             _show()
     }
 
@@ -275,11 +275,9 @@ Rectangle {
 
         var ret = cont.item.showing()
         if(ret !== undefined && !ret) {
-            PQCNotify.loaderRegisterClose(element_top.elementId)
             return false
         }
 
-        PQCNotify.loaderRegisterOpen(element_top.elementId)
         opacity = 1
         dontAnimateFirstShow = false
     }
@@ -298,7 +296,6 @@ Rectangle {
         if(ret !== undefined && !ret)
             return false
 
-        PQCNotify.loaderRegisterClose(element_top.elementId)
         opacity = 0
         PQCNotify.resetActiveFocus()
     }

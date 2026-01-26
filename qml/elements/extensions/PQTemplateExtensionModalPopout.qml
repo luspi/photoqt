@@ -261,7 +261,7 @@ Window {
             text: qsTranslate("popinpopout", "Merge into main interface")
             onClicked: {
                 element_top.settings["ExtPopout"] = false
-                PQCNotify.loaderRegisterClose(element_top.extensionId)
+                PQCConstants.modalElementOpen = false
                 PQCNotify.loaderShowExtension(element_top.extensionId)
             }
         }
@@ -327,16 +327,16 @@ Window {
 
         var ret = popout_loader.item.showing()
         if(ret !== undefined && !ret) {
-            PQCNotify.loaderRegisterClose(element_top.extensionId)
             return
         }
 
+        PQCConstants.modalElementOpen = true
         settings["ExtShow"] = true
 
         if(settings["ExtForcePopout"]) {
             var minsize = PQCExtensionsHandler.getExtensionIntegratedMinimumRequiredWindowSize(extensionId)
             if(PQCConstants.availableWidth > minsize.width && PQCConstants.availableHeight > minsize.height) {
-                PQCNotify.loaderRegisterClose(extensionId)
+                PQCConstants.modalElementOpen = false
                 settings["ExtForcePopout"] = false
                 settings["ExtPopout"] = false
                 PQCNotify.loaderShowExtension(extensionId)
@@ -344,7 +344,6 @@ Window {
             }
         }
 
-        PQCNotify.loaderRegisterOpen(element_top.extensionId)
         show()
     }
 
@@ -352,14 +351,14 @@ Window {
         var ret = popout_loader.item.hiding()
         if(ret !== undefined && !ret)
             return
-        PQCNotify.loaderRegisterClose(element_top.extensionId)
+        PQCConstants.modalElementOpen = false
         settings["ExtShow"] = false
         element_top.close()
     }
 
     function hideNoCheck() {
         fullscreen_loader.item.hiding()
-        PQCNotify.loaderRegisterClose(element_top.extensionId)
+        PQCConstants.modalElementOpen = false
         settings["ExtShow"] = false
         element_top.close()
     }

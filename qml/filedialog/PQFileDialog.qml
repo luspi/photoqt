@@ -334,10 +334,10 @@ PQTemplate {
 
         }
 
-        // PQCConstants.idOfVisibleItem might contain the settingsmanager id
+        // Thge settings manager might be open
         // this happens when the type of file dialog for the integrated ui is changed there
         // in that case we don't want to show the filedialog onCompleted()
-        if((dontAnimateFirstStart || nothingHere) && PQCConstants.idOfVisibleItem === "") {
+        if((dontAnimateFirstStart || nothingHere) && !PQCConstants.isModalOpen) {
 
             if(nothingHere) {
 
@@ -380,6 +380,12 @@ PQTemplate {
         if(PQCFileFolderModel.loadVirtualFolderFileDialog && PQCFileFolderModel.folderFileDialog !== ":virtual:")
             PQCFileFolderModel.folderFileDialog = ":virtual:"
         PQCNotify.resetActiveFocus()
+        PQCConstants.modalFileDialogOpen = true
+        return true
+    }
+
+    function hiding() {
+        PQCConstants.modalFileDialogOpen = false
         return true
     }
 
@@ -434,7 +440,6 @@ PQTemplate {
             filedialog_top.forceActiveFocus()
             PQCNotify.filedialogShowAddressEdit(false)
             filedialog_top.hide()
-            PQCConstants.idOfVisibleItem = ""
 
             return
 
@@ -466,7 +471,6 @@ PQTemplate {
             filedialog_top.forceActiveFocus()
             PQCNotify.filedialogShowAddressEdit(false)
             filedialog_top.hide()
-            PQCConstants.idOfVisibleItem = ""
 
         }
 

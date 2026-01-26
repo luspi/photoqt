@@ -248,15 +248,15 @@ Rectangle {
 
         var ret = fullscreen_loader.item.showing()
         if(ret !== undefined && !ret) {
-            PQCNotify.loaderRegisterClose(element_top.extensionId)
             return
         }
 
+        PQCConstants.modalElementOpen = true
         settings["ExtShow"] = true
 
         var minsize = PQCExtensionsHandler.getExtensionIntegratedMinimumRequiredWindowSize(extensionId)
         if(PQCConstants.availableWidth < minsize.width || PQCConstants.availableHeight < minsize.height) {
-            PQCNotify.loaderRegisterClose(extensionId)
+            PQCConstants.modalElementOpen = false
             settings["ExtForcePopout"] = true
             settings["ExtPopout"] = true
             return
@@ -265,7 +265,6 @@ Rectangle {
             settings["ExtPopout"] = false
         }
 
-        PQCNotify.loaderRegisterOpen(element_top.extensionId)
         opacity = 1
     }
 
@@ -273,14 +272,14 @@ Rectangle {
         var ret = fullscreen_loader.item.hiding()
         if(ret !== undefined && !ret)
             return
-        PQCNotify.loaderRegisterClose(element_top.extensionId)
+        PQCConstants.modalElementOpen = false
         opacity = 0
         settings["ExtShow"] = false
     }
 
     function hideNoCheck() {
         fullscreen_loader.item.hiding()
-        PQCNotify.loaderRegisterClose(element_top.extensionId)
+        PQCConstants.modalElementOpen = false
         opacity = 0
         settings["ExtShow"] = false
     }

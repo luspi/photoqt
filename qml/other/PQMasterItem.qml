@@ -241,10 +241,8 @@ Loader {
                 }
 
                 if(PQCExtensionsHandler.getExtensionModal(ele)) {
-                    if(PQCConstants.idOfVisibleItem !== "")
+                    if(PQCConstants.isModalOpen)
                         return
-                    else
-                        PQCConstants.idOfVisibleItem = ele
                 }
 
                 loader_extensions.itemAt(ind).active = true

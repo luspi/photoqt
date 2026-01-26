@@ -27,7 +27,8 @@ Loader {
     id: masterloader
     z: 3
     anchors.fill: parent
-    asynchronous: true
+    // this is important, otherwise there will be a time of partial non-responsiveness at startup
+    asynchronous: false
     signal showExtension(var ele)
     sourceComponent: PQLoader {
         onShowExtension: (ele) => {

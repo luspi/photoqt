@@ -32,14 +32,12 @@ Item {
 
         var targetfile = PQCScriptsFilesPaths.selectFileFromDialog(qsTranslate("filemanagement", "Move here"), PQCFileFolderModel.currentFile, PQCImageFormats.detectFormatId(PQCFileFolderModel.currentFile), true);
         if(targetfile === "" || targetfile === PQCFileFolderModel.currentFile) {
-            PQCNotify.loaderRegisterClose("FileMove")
         } else {
             if(!PQCScriptsFileManagement.moveFile(PQCFileFolderModel.currentFile, targetfile)) {
                 PQCScriptsConfig.inform(qsTranslate("filemanagement", "Error"),
                                         qsTranslate("filemanagement", "An error occured, file could not be moved."))
             } else {
                 PQCFileFolderModel.removeEntryMainView(PQCFileFolderModel.currentIndex)
-                PQCNotify.loaderRegisterClose("FileMove")
             }
         }
 
@@ -56,7 +54,6 @@ Item {
 
             if(what === "forceCloseEverything") {
 
-                PQCConstants.idOfVisibleItem = ""
                 PQCNotify.resetActiveFocus()
 
             } else if(what === "show" && args[0] === "FileMove") {
@@ -66,7 +63,6 @@ Item {
 
             } else if(what === "hide" && args[0] === "FileMove") {
 
-                PQCConstants.idOfVisibleItem = ""
                 PQCNotify.resetActiveFocus()
 
             } else if(move_top.opacity > 0) {
@@ -74,7 +70,6 @@ Item {
                 if(what === "keyEvent") {
 
                     if(args[0] === Qt.Key_Escape) {
-                        PQCConstants.idOfVisibleItem = ""
                         PQCNotify.resetActiveFocus()
                     }
 

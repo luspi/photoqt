@@ -24,6 +24,6 @@ import QtQuick
 import PhotoQt
 
 Loader {
-    asynchronous: true
+    asynchronous: false
     sourceComponent: PQShortcuts {}
 }

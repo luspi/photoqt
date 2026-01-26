@@ -112,7 +112,7 @@ Item {
 
     Connections {
         target: deleg
-        onNumberFilesInsideFolderChanged: {
+        function onNumberFilesInsideFolderChanged() {
             if(PQCSettings.filedialogFolderContentThumbnailsAutoload && folderthumb.curnum === 0) {
                 if(PQCSettings.filedialogFolderContentThumbnailsLoop)
                     folderthumb_next.start()

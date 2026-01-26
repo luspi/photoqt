@@ -88,7 +88,7 @@ ApplicationWindow {
 
     }
 
-    onVisibleChanged: {
+    onVisibleChanged: (visible) => {
         if(visible) {
             filenameedit.enabled = true
             cacheDir = PQCScriptsFilesPaths.getDir(PQCFileFolderModel.currentFile)
@@ -98,9 +98,9 @@ ApplicationWindow {
             filenameedit.setFocus()
         } else {
             filenameedit.enabled = false
-            PQCConstants.idOfVisibleItem = ""
             PQCNotify.resetActiveFocus()
         }
+        PQCConstants.modalFileRenameOpen = visible
     }
 
     Component.onCompleted: {
