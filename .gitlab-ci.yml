@@ -74,7 +74,7 @@ appimage:
 
   artifacts:
     paths:
-      - /PhotoQt-nightly.AppImage
+      - PhotoQt-nightly.AppImage
 
 
 releaseappimage:
@@ -132,6 +132,6 @@ releaseappimage:
 
   artifacts:
     paths:
-      - /PhotoQt-latesttag.AppImage
+      - PhotoQt-latesttag.AppImage
 
 
