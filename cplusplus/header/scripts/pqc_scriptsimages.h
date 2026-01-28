@@ -63,7 +63,7 @@ public:
     bool isItAnimated(QString filename);
     bool supportsTransparency(QString path);
     void setSupportsTransparency(QString path, bool alpha);
-    double getPixelDensity();
+    double getPixelDensity(QString modelName);
     QString getNameFromMimetype(QString mimetype, QString filename);
     QString getMimetypeForFile(QString path);
 
@@ -98,7 +98,7 @@ private:
     mutable QMutex alphaMutex;
     QMap<QString, bool> alphaChannels;
 
-    double devicePixelRatioCached;
+    QVariantMap devicePixelRatioCached;
     qint64 devicePixelRatioCachedWhen;
 
 

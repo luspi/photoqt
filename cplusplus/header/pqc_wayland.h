@@ -22,11 +22,12 @@
 #pragma once
 
 #ifdef PQMWAYLANDSPECIFIC
+#include <QVariantMap>
 
 class PQCWayland {
 
 public:
-    static double getDevicePixelRatio();
+    static QVariantMap getDevicePixelRatio();
 
 };
 

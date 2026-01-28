@@ -238,6 +238,7 @@ PQCSettings::PQCSettings() {
     connect(this, &PQCSettings::imageviewHideCursorTimeoutChanged, this, [=]() { saveChangedValue("imageviewHideCursorTimeout", m_imageviewHideCursorTimeout); });
     connect(this, &PQCSettings::imageviewInterpolationDisableForSmallImagesChanged, this, [=]() { saveChangedValue("imageviewInterpolationDisableForSmallImages", m_imageviewInterpolationDisableForSmallImages); });
     connect(this, &PQCSettings::imageviewInterpolationThresholdChanged, this, [=]() { saveChangedValue("imageviewInterpolationThreshold", m_imageviewInterpolationThreshold); });
+    connect(this, &PQCSettings::imageviewLoadScaledImageWithDelayChanged, this, [=]() { saveChangedValue("imageviewLoadScaledImageWithDelay", m_imageviewLoadScaledImageWithDelay); });
     connect(this, &PQCSettings::imageviewLoopThroughFolderChanged, this, [=]() { saveChangedValue("imageviewLoopThroughFolder", m_imageviewLoopThroughFolder); });
     connect(this, &PQCSettings::imageviewMarginChanged, this, [=]() { saveChangedValue("imageviewMargin", m_imageviewMargin); });
     connect(this, &PQCSettings::imageviewMinimapSizeLevelChanged, this, [=]() { saveChangedValue("imageviewMinimapSizeLevel", m_imageviewMinimapSizeLevel); });

@@ -57,6 +57,7 @@ typedef void (*PQCWAYLAND_collect_info_t)(void *info);
 typedef void (*PQCWAYLAND_destroy_info_t)(void *info);
 
 std::map<int, int[2]> PQCWAYLAND_final_data;
+std::map<std::string, int> PQCWAYLAND_final_screens;
 
 struct PQCWAYLAND_wayland_global_info {
     struct wl_list link;
@@ -78,6 +79,7 @@ struct PQCWAYLAND_output_info {
 
     // we only keep track of width, that's sufficient for our use case
     int32_t actual_width;
+    std::string model_name;
 
 };
 
@@ -124,6 +126,7 @@ static void PQCWAYLAND_collect_output_info(void *data) {
     struct PQCWAYLAND_wayland_global_info *global = static_cast<PQCWAYLAND_wayland_global_info*>(data);
 
     PQCWAYLAND_final_data[global->id][1] = output->actual_width;
+    PQCWAYLAND_final_screens[output->model_name] = global->id;
 
 }
 
@@ -224,7 +227,10 @@ static void PQCWAYLAND_output_handle_done(void *data, struct wl_output *wl_outpu
 
 static void PQCWAYLAND_output_handle_scale(void *data, struct wl_output *wl_output, int32_t scale) {}
 
-static void PQCWAYLAND_output_handle_name(void *data, struct wl_output *wl_output, const char *name) {}
+static void PQCWAYLAND_output_handle_name(void *data, struct wl_output *wl_output, const char *name) {
+    struct PQCWAYLAND_output_info *output = static_cast<PQCWAYLAND_output_info*>(data);
+    output->model_name = name;
+}
 
 static void PQCWAYLAND_output_handle_description(void *data, struct wl_output *wl_output, const char *description) {}
 
@@ -302,14 +308,16 @@ static void PQCWAYLAND_destroy_infos(struct wl_list *infos) {
     }
 }
 
-float get_device_pixel_ratio() {
+QVariantMap get_device_pixel_ratios() {
+
+    QVariantMap ret;
 
     struct PQCWAYLAND_wayland_info info;
 
     info.display = wl_display_connect(NULL);
     if(!info.display) {
         qWarning() << "failed to create display:" << strerror(errno);
-        return 1.0;
+        return ret;
     }
 
     info.xdg_output_manager_v1_info = NULL;
@@ -326,18 +334,18 @@ float get_device_pixel_ratio() {
 
     PQCWAYLAND_collect_infos(&info);
 
-    float ratio = 0;
-    for (const auto& [key, value] : PQCWAYLAND_final_data) {
+    QMap<int, QString> id2String;
+
+    for(const auto& [key, value] : PQCWAYLAND_final_screens) {
+        id2String[value] = QString::fromStdString(key);
+    }
+
+    for(const auto& [key, value] : PQCWAYLAND_final_data) {
         if(value[0] > 0) {
             float rat = static_cast<float>(value[1])/static_cast<float>(value[0]);
-            if(ratio < 1e-4)
-                ratio = rat;
-            else {
-                if(std::abs(rat-ratio) > 1e-4) {
-                    ratio = 1.0;
-                    break;
-                }
-            }
+            ret.insert(id2String[key], rat);
+            if(std::abs(rat) < 1e-4)
+                ret[id2String[key]] = 1.0;
         }
     }
 
@@ -346,12 +354,12 @@ float get_device_pixel_ratio() {
     wl_registry_destroy(info.registry);
     wl_display_disconnect(info.display);
 
-    return ratio;
+    return ret;
 
 }
 
-double PQCWayland::getDevicePixelRatio() {
-    return get_device_pixel_ratio();
+QVariantMap PQCWayland::getDevicePixelRatio() {
+    return get_device_pixel_ratios();
 }
 
 #endif

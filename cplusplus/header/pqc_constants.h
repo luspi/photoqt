@@ -166,9 +166,8 @@ public:
         m_quickActionsMovedManually = false;
         m_statusInfoMovedDown = false;
 
+        m_currentScreenModelName = "";
         m_devicePixelRatio = 1.0;
-        if(PQCSettingsCPP::get().getImageviewRespectDevicePixelRatio())
-            m_devicePixelRatio = PQCScriptsImages::get().getPixelDensity();
 
         m_touchGestureActive = false;
 
@@ -176,11 +175,23 @@ public:
         m_updateDevicePixelRatio->setInterval(1000*60*5);
         m_updateDevicePixelRatio->setSingleShot(false);
         connect(m_updateDevicePixelRatio, &QTimer::timeout, this, [=]() {
+            double bak = m_devicePixelRatio;
             m_devicePixelRatio = 1.0;
-            if(PQCSettingsCPP::get().getImageviewRespectDevicePixelRatio())
-                m_devicePixelRatio = PQCScriptsImages::get().getPixelDensity();
+            if(PQCSettingsCPP::get().getImageviewRespectDevicePixelRatio() && m_currentScreenModelName != "")
+                m_devicePixelRatio = PQCScriptsImages::get().getPixelDensity(m_currentScreenModelName);
+            if(bak != m_devicePixelRatio)
+                Q_EMIT devicePixelRatioChanged();
         });
         m_updateDevicePixelRatio->start();
+
+        connect(this, &PQCConstants::currentScreenModelNameChanged, this, [=]() {
+            double bak = m_devicePixelRatio;
+            m_devicePixelRatio = 1.0;
+            if(PQCSettingsCPP::get().getImageviewRespectDevicePixelRatio() && m_currentScreenModelName != "")
+                m_devicePixelRatio = PQCScriptsImages::get().getPixelDensity(m_currentScreenModelName);
+            if(bak != m_devicePixelRatio)
+                Q_EMIT devicePixelRatioChanged();
+        });
 
         m_lastInternalShortcutExecuted = 0;
         m_whichContextMenusOpen.clear();
@@ -363,6 +374,7 @@ public:
 
     Q_PROPERTY(bool photoQtShuttingDown MEMBER m_photoQtShuttingDown NOTIFY photoQtShuttingDownChanged)
     Q_PROPERTY(bool modalWindowOpen MEMBER m_modalWindowOpen NOTIFY modalWindowOpenChanged)
+    Q_PROPERTY(QString currentScreenModelName MEMBER m_currentScreenModelName NOTIFY currentScreenModelNameChanged)
     Q_PROPERTY(double devicePixelRatio MEMBER m_devicePixelRatio NOTIFY devicePixelRatioChanged)
     Q_PROPERTY(bool touchGestureActive MEMBER m_touchGestureActive NOTIFY touchGestureActiveChanged)
     Q_PROPERTY(QString lastExecutedShortcutCommand MEMBER m_lastExecutedShortcutCommand NOTIFY lastExecutedShortcutCommandChanged)
@@ -557,6 +569,7 @@ private:
 
     bool m_faceTaggingMode;
     bool m_modalWindowOpen;
+    QString m_currentScreenModelName;
     double m_devicePixelRatio;
     bool m_touchGestureActive;
     bool m_ignoreFileFolderChangesTemporary;
@@ -706,6 +719,7 @@ Q_SIGNALS:
     void photoQtShuttingDownChanged();
     void faceTaggingModeChanged();
     void modalWindowOpenChanged();
+    void currentScreenModelNameChanged();
     void devicePixelRatioChanged();
     void touchGestureActiveChanged();
     void lastExecutedShortcutCommandChanged();

@@ -97,7 +97,6 @@ PQCScriptsImages::PQCScriptsImages() {
 
     // lcms2CountFailedApplications = 0;
 
-    devicePixelRatioCached = 0;
     devicePixelRatioCachedWhen = 0;
 
 }
@@ -1226,7 +1225,7 @@ void PQCScriptsImages::removeThumbnailFor(QString path) {
 
 }
 
-double PQCScriptsImages::getPixelDensity() {
+double PQCScriptsImages::getPixelDensity(QString modelName) {
 
 #ifndef Q_OS_WIN
 
@@ -1234,6 +1233,8 @@ double PQCScriptsImages::getPixelDensity() {
     // Fractional scaling factors are currently (Qt 6.8.1) reported as full integers by QScreen::devicePixelRatio()
     // The same issue occurs in wayland-info (from wayland-utils 1.2.0) with the reported scale factor there
     // However, we can try to calculate the right scaling factor from the logical and physical dimensions reported by wayland-info
+    // Using the modelId of the current screen we can get the exact factor as floating point.
+    // It is HIGHLY RECOMMENDED to enable this part of the code if there is any chance this instance will be run on wayland.
 
     // If we are on wayland...
     if(qApp->platformName() == "wayland") {
@@ -1246,14 +1247,14 @@ double PQCScriptsImages::getPixelDensity() {
 
         // we cache a once calculated value for 5 or 1 minutes
         if(QDateTime::currentSecsSinceEpoch()-devicePixelRatioCachedWhen < timeout) {
-            return devicePixelRatioCached;
+            return devicePixelRatioCached.value(modelName, 1.0).toDouble();
         }
 
 #ifdef PQMWAYLANDSPECIFIC
 
         devicePixelRatioCached = PQCWayland::getDevicePixelRatio();
         devicePixelRatioCachedWhen = QDateTime::currentSecsSinceEpoch();
-        return devicePixelRatioCached;
+        return devicePixelRatioCached.value(modelName, 1.0).toDouble();
 
 #else
 

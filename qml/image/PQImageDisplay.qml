@@ -1500,6 +1500,9 @@ Loader {
                         function onAvailableHeightChanged() {
                             resetDefaults.restart()
                         }
+                        function onDevicePixelRatioChanged() {
+                            PQCNotify.currentImageReload()
+                        }
                     }
 
                     Connections {

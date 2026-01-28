@@ -21,6 +21,7 @@
  **************************************************************************/
 
 import QtQuick
+import QtQuick.Window
 import QtQuick.Controls
 import PhotoQt
 
@@ -460,6 +461,15 @@ ApplicationWindow {
             toplevel.quitPhotoQt()
         }
 
+    }
+
+    // this reacts to changes to which screen the window is displayed on
+    // this is necessary in order to handle different device/pixel ratios for
+    // different screens
+    onScreenChanged: {
+        if(toplevel.screen !== undefined) {
+            PQCConstants.currentScreenModelName = toplevel.screen.name
+        }
     }
 
     function handleBeforeClosing() {

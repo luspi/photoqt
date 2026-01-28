@@ -55,7 +55,7 @@ public:
     Q_INVOKABLE QSize   getCurrentImageResolution(QString filename)    { return PQCScriptsImages::get().getCurrentImageResolution(filename); }
     Q_INVOKABLE bool    isItAnimated(QString filename)                 { return PQCScriptsImages::get().isItAnimated(filename); }
     Q_INVOKABLE bool    supportsTransparency(QString path)             { return PQCScriptsImages::get().supportsTransparency(path); }
-    Q_INVOKABLE double  getPixelDensity()                              { return PQCScriptsImages::get().getPixelDensity(); }
+    Q_INVOKABLE double  getPixelDensity(QString modelName)             { return PQCScriptsImages::get().getPixelDensity(modelName); }
     Q_INVOKABLE QString getNameFromMimetype(QString mimetype, QString filename) { return PQCScriptsImages::get().getNameFromMimetype(mimetype, filename); }
     Q_INVOKABLE QString getMimetypeForFile(QString path)               { return PQCScriptsImages::get().getMimetypeForFile(path); }
 
