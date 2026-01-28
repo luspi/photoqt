@@ -230,10 +230,8 @@ int main(int argc, char **argv) {
     /***************************************/
     // figure out modern vs integrated without use of PQCSettings
 
-    bool useModernInterface = (startupHandler.getInterfaceVariant()=="modern");
-
     if(app.forceModernInterface || app.forceIntegratedInterface) {
-        useModernInterface = !app.forceIntegratedInterface;
+        bool useModernInterface = !app.forceIntegratedInterface;
         QSqlDatabase dbtmp = QSqlDatabase::database("settings");
         QSqlQuery query(dbtmp);
         query.prepare("INSERT OR REPLACE INTO `general` (`name`,`value`,`datatype`) VALUES ('InterfaceVariant', :val, 'string')");
