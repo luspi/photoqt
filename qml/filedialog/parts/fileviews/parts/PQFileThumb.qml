@@ -32,6 +32,10 @@ Image {
     opacity: view_top.currentFileCut ? 0.3 : 1
     Behavior on opacity { enabled: !PQCSettings.generalDisableAllAnimations; NumberAnimation { duration: 200 } }
 
+    // On older systems (e.g., Ubuntu 24.04), some file types cause a crash in the folder view due to some jasper/magick issues.
+    // To avoid this, we use the `full` image provider in those cases instead of the `thumb` provider.
+    property list<string> useFullImageProvider: PQCScriptsConfig.isJasperWorkaroundsEnabled() ? ["j2k", "jp2", "jpx", "jpc", "jpeg2000", "icns"] : []
+
     smooth: true
     mipmap: false
     asynchronous: true
@@ -55,7 +59,9 @@ Image {
     fillMode: PQCSettings.filedialogThumbnailsScaleCrop ? Image.PreserveAspectCrop : Image.PreserveAspectFit
 
     // when changing this line also change the line in the Connections below
-    source: visible&&deleg.currentPath!=="" ? encodeURI("image://thumb/" + deleg.currentPath) : ""
+    source: visible&&deleg.currentPath!=="" ?
+                encodeURI("image://" + (useFullImageProvider.indexOf(PQCScriptsFilesPaths.getSuffixLowerCase(deleg.currentPath)) > -1 ? "full" : "thumb") + "/" + deleg.currentPath) :
+                ""
     onSourceChanged: {
         if(!visible)
             fileicon.source = fileicon.sourceString

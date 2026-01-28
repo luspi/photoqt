@@ -78,6 +78,7 @@ option(WITH_MOTIONPHOTO           "Configure with support for Google Motion Phot
 option(WITH_PHOTOSPHERE           "Configure with support for photo spheres and 360 degree panoramic views" ON)
 option(WITH_PUGIXML               "Configure with support for the pugixml library (in place of Qt's XML support)" OFF)
 
+option(WITH_JASPER_WORKAROUNDS    "Enable workarounds for jasper (needed on systems roughly older than Ubuntu 25.10)" OFF)
 option(WITH_TESTING               "Enable and build some unit tests" OFF)
 option(WITH_RUNCPPCHECK           "Analyse source code with cppcheck" OFF)
 option(WITH_FLATPAKBUILD          "Enable this option if this is a build for Flatpak" OFF)
@@ -661,6 +662,13 @@ if(WITH_VIDEO_MPV)
     target_link_libraries(photoqt PRIVATE Libmpv::Libmpv)
 else()
     list(APPEND STATUS_FORMATS_DISABLED "libmpv")
+endif()
+
+if(WITH_JASPER_WORKAROUNDS)
+    list(APPEND STATUS_FORMATS_ENABLED "Jasper workarounds")
+    target_compile_definitions(photoqt PRIVATE PQMJASPERWORKAROUNDS)
+else()
+    list(APPEND STATUS_FORMATS_DISABLED "Jasper workarounds")
 endif()
 
 if(WITH_LIBVIPS)

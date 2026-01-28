@@ -611,6 +611,13 @@ bool PQCScriptsConfig::isICUSupportEnabled() {
     return true;
 }
 
+bool PQCScriptsConfig::isJasperWorkaroundsEnabled() {
+#ifdef PQMJASPERWORKAROUNDS
+    return true;
+#endif
+    return false;
+}
+
 void PQCScriptsConfig::callStartupSetupFresh() {
 
 #ifndef PQMTESTING

@@ -58,7 +58,6 @@ QImage PQCProviderFull::requestImage(const QString &url, QSize *origSize, const 
         return QImage();
     }
 
-
     // Load image
     QImage ret;
     PQCLoadImage::get().load(filename, requestedSize, *origSize, ret);

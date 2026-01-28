@@ -70,6 +70,7 @@ public:
     bool isZXingSupportEnabled();
     bool isLCMS2SupportEnabled();
     bool isICUSupportEnabled();
+    bool isJasperWorkaroundsEnabled();
 
     // other methods
     QString getLastLoadedImage();

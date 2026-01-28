@@ -39,7 +39,6 @@
 
 PQCLoadImageMagick::PQCLoadImageMagick() {}
 
-
 QSize PQCLoadImageMagick::loadSize(QString filename) {
 
     qDebug() << "args: filename =" << filename;
