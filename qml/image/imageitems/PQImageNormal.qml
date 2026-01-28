@@ -25,9 +25,9 @@ import QtQuick
 import QtMultimedia
 import PhotoQt
 
-Image {
+Item {
 
-    id: image
+    id: imgtop
 
     /*******************************************/
     // these values are READONLY, they are set in PQImageDisplay as bindings
@@ -51,158 +51,140 @@ Image {
     // see below for more details
     signal ensureSourceSizeSet()
 
-    source: image.imageSource==="" ? "" : "image://full/" + PQCScriptsFilesPaths.toPercentEncoding(imageSource)
-
-    asynchronous: true
-
-    // IMPORTANT NOTE REGARDING MIPMAP !!!
-    //
-    // Whenever the mipmap property changes, then the image is fully reloaded.
-    // Making the mipmap property solely depend on the sourceSize makes it switch from false to true most of the time as the
-    // sourceSize is reported as QSize(-1,-1) initially. This results, e.g., in the image to flicker when PhotoQt is started with one being passed on.
-    // Making the mipmap property by default evaluate to true and ONLY if the image actually is below the threshold in size and the respective setting
-    // is switched on, then it is set to false causing the reloading of a very small images (very fast).
-    //
-    // Another note about using a seperate property to store the sourceSize evaluation for both smooth and mipmap:
-    // Such a property is NOT guaranteed to be evaluated before mipmap and might result in it still returning the value of QSize(-1,-1) for
-    // the sourceSize even though initialLoad already caused a retrigger of mipmap.
-    //
-    // This property, initialLoad, ensures the 'true by default' value of mipmap and is set to false once we know the actual sourceSize.
-    property bool initialLoad: true
-
-    smooth: !PQCSettings.imageviewInterpolationDisableForSmallImages ||
-            (sourceSize.width > PQCConstants.availableWidth && sourceSize.height > PQCConstants.availableHeight) ||
-            currentScale > 1.01 || currentScale < 0.95*defaultScale
-    mipmap: initialLoad || !PQCSettings.imageviewInterpolationDisableForSmallImages ||
-            (sourceSize.width > PQCConstants.availableWidth && sourceSize.height > PQCConstants.availableHeight)
-
-    property bool ignoreSignals: false
-
-    cache: true
-
-    fillMode: Image.Pad
-
-    onStatusChanged: {
-
-        if(ignoreSignals)
-            return
-
-        if(status == Image.Ready) {
-            // this signal is necessary, otherwise it *can* happen that the image source size is not reported correctly
-            // this then results in a 0x0 dimension reported, the fit-to-size does not work, and the image might not show up at all
-            ensureSourceSizeSet()
-            hasAlpha = PQCScriptsImages.supportsTransparency(image.imageSource)
-        } else if(status == Image.Error)
-            source = "image://svg/:/other/errorimage.svg"
-    }
-
-    onDefaultScaleChanged: {
-        if(defaultScale < 0.95)
-            loadScaledDown.restart()
-    }
-
-    // we use custom mirror properties to be able to animate the mirror process with transforms
-    property bool myMirrorH: false
-    property bool myMirrorV: false
-
-    onMyMirrorHChanged: {
-        if(!ignoreSignals)
-            image.imageMirrorH = myMirrorH
-    }
-    onMyMirrorVChanged: {
-        if(!ignoreSignals)
-            image.imageMirrorV = myMirrorV
-    }
+    property alias source: image.source
+    property alias sourceSize: image.sourceSize
+    property alias status: image.status
+    width: image.width
+    height: image.height
 
     property bool hasAlpha: false
 
-    onSourceSizeChanged: {
-        image.initialLoad = false
-    }
-
-    Connections {
-        target: PQCScriptsShortcuts
-        function onSendShortcutMirrorHorizontal() {
-            if(image.visible) image.myMirrorH = !image.myMirrorH
-        }
-        function onSendShortcutMirrorVertical() {
-            if(image.visible) image.myMirrorV = !image.myMirrorV
-        }
-        function onSendShortcutMirrorReset() {
-            if(!image.visible) return
-            image.myMirrorH = false
-            image.myMirrorV = false
-        }
-    }
-
-    transform: [
-        Rotation {
-            origin.x: image.width / 2
-            origin.y: image.height / 2
-            axis { x: 0; y: 1; z: 0 }
-            angle: image.myMirrorH ? 180 : 0
-            Behavior on angle { enabled: !PQCSettings.generalDisableAllAnimations; NumberAnimation { duration: PQCSettings.imageviewMirrorAnimate ? 200 : 0 } }
-        },
-        Rotation {
-            origin.x: image.width / 2
-            origin.y: image.height / 2
-            axis { x: 1; y: 0; z: 0 }
-            angle: image.myMirrorV ? -180 : 0
-            Behavior on angle { enabled: !PQCSettings.generalDisableAllAnimations; NumberAnimation { duration: PQCSettings.imageviewMirrorAnimate ? 200 : 0 } }
-        }
-    ]
+    property bool ignoreSignals: false
 
     Image {
-        anchors.fill: parent
-        z: parent.z-1
-        fillMode: Image.Tile
 
-        source: PQCSettings.imageviewTransparencyMarker&&image.hasAlpha ? "/other/checkerboard.png" : ""
+        id: image
 
-    }
+        source: imgtop.imageSource==="" ? "" : "image://full/" + PQCScriptsFilesPaths.toPercentEncoding(imgtop.imageSource)
 
-    // with a short delay we load a version of the image scaled to screen dimensions
-    Timer {
-        id: loadScaledDown
-        // this ensures it happens after the animation has stopped
-        interval: (PQCSettings.imageviewAnimationDuration+1)*100
-        onTriggered: {
-            if(image.isMainImage) {
-                ldl.active = true
+        asynchronous: true
+
+        // IMPORTANT NOTE REGARDING MIPMAP !!!
+        //
+        // Whenever the mipmap property changes, then the image is fully reloaded.
+        // Making the mipmap property solely depend on the sourceSize makes it switch from false to true most of the time as the
+        // sourceSize is reported as QSize(-1,-1) initially. This results, e.g., in the image to flicker when PhotoQt is started with one being passed on.
+        // Making the mipmap property by default evaluate to true and ONLY if the image actually is below the threshold in size and the respective setting
+        // is switched on, then it is set to false causing the reloading of a very small images (very fast).
+        //
+        // Another note about using a seperate property to store the sourceSize evaluation for both smooth and mipmap:
+        // Such a property is NOT guaranteed to be evaluated before mipmap and might result in it still returning the value of QSize(-1,-1) for
+        // the sourceSize even though initialLoad already caused a retrigger of mipmap.
+        //
+        // This property, initialLoad, ensures the 'true by default' value of mipmap and is set to false once we know the actual sourceSize.
+        property bool initialLoad: true
+
+        property bool interpThresholdMet: ((sourceSize.width > PQCConstants.availableWidth || sourceSize.height > PQCConstants.availableHeight) && PQCSettings.imageviewInterpolationThresholdWindowSize) ||
+                                          ((sourceSize.width > PQCSettings.imageviewInterpolationThreshold || sourceSize.height > PQCSettings.imageviewInterpolationThreshold) && !PQCSettings.imageviewInterpolationThresholdWindowSize)
+        smooth: !PQCSettings.imageviewInterpolationDisableForSmallImages || interpThresholdMet
+        mipmap: initialLoad || !PQCSettings.imageviewInterpolationDisableForSmallImages || interpThresholdMet
+
+        Component.onCompleted: {
+            // this is necessary, otherwise the interpThresholdMet property is not properly updated
+            PQCConstants.availableWidthChanged()
+        }
+
+        cache: true
+
+        fillMode: Image.Pad
+
+        onStatusChanged: {
+
+            if(imgtop.ignoreSignals)
+                return
+
+            if(status == Image.Ready) {
+                PQCConstants.availableWidthChanged()
+                // this signal is necessary, otherwise it *can* happen that the image source size is not reported correctly
+                // this then results in a 0x0 dimension reported, the fit-to-size does not work, and the image might not show up at all
+                imgtop.ensureSourceSizeSet()
+                imgtop.hasAlpha = PQCScriptsImages.supportsTransparency(image.imageSource)
+                // asynchronous = false
+            } else if(status == Image.Error)
+                source = "image://svg/:/other/errorimage.svg"
+        }
+
+        // we use custom mirror properties to be able to animate the mirror process with transforms
+        property bool myMirrorH: false
+        property bool myMirrorV: false
+
+        onMyMirrorHChanged: {
+            if(!imgtop.ignoreSignals)
+                imgtop.imageMirrorH = myMirrorH
+        }
+        onMyMirrorVChanged: {
+            if(!imgtop.ignoreSignals)
+                imgtop.imageMirrorV = myMirrorV
+        }
+
+        onSourceSizeChanged: {
+            image.initialLoad = false
+        }
+
+        Connections {
+            target: PQCScriptsShortcuts
+            function onSendShortcutMirrorHorizontal() {
+                if(image.visible) image.myMirrorH = !image.myMirrorH
+            }
+            function onSendShortcutMirrorVertical() {
+                if(image.visible) image.myMirrorV = !image.myMirrorV
+            }
+            function onSendShortcutMirrorReset() {
+                if(!image.visible) return
+                image.myMirrorH = false
+                image.myMirrorV = false
             }
         }
-    }
 
-    // image scaled to screen dimensions
-    Loader {
-        id: ldl
-        asynchronous: true
-        active: false
-        sourceComponent:
+        transform: [
+            Rotation {
+                origin.x: image.width / 2
+                origin.y: image.height / 2
+                axis { x: 0; y: 1; z: 0 }
+                angle: image.myMirrorH ? 180 : 0
+                Behavior on angle { enabled: !PQCSettings.generalDisableAllAnimations; NumberAnimation { duration: PQCSettings.imageviewMirrorAnimate ? 200 : 0 } }
+            },
+            Rotation {
+                origin.x: image.width / 2
+                origin.y: image.height / 2
+                axis { x: 1; y: 0; z: 0 }
+                angle: image.myMirrorV ? -180 : 0
+                Behavior on angle { enabled: !PQCSettings.generalDisableAllAnimations; NumberAnimation { duration: PQCSettings.imageviewMirrorAnimate ? 200 : 0 } }
+            }
+        ]
+
         Image {
-            width: image.width
-            height: image.height
-            source: image.source
-            smooth: image.currentScale < 0.95*image.defaultScale
-            mipmap: smooth
-            cache: false
-            visible: image.defaultScale >= image.currentScale
-            asynchronous: true
-            sourceSize: Qt.size(PQCConstants.availableWidth, PQCConstants.availableHeight)
-        }
-    }
+            anchors.fill: parent
+            z: parent.z-1
+            fillMode: Image.Tile
 
-    // This is a black overlay that is shown when this instance is used as background for the ken burns effect
-    Loader {
-        active: image.ignoreSignals
-        asynchronous: true
-        sourceComponent:
-            Rectangle {
-            width: image.width
-            height: image.height
-            color: "black"
-            opacity: 0.75
+            source: PQCSettings.imageviewTransparencyMarker&&image.hasAlpha ? "/other/checkerboard.png" : ""
+
         }
+
+        // This is a black overlay that is shown when this instance is used as background for the ken burns effect
+        Loader {
+            active: imgtop.ignoreSignals
+            asynchronous: true
+            sourceComponent:
+                Rectangle {
+                width: image.width
+                height: image.height
+                color: "black"
+                opacity: 0.75
+            }
+        }
+
     }
 
     function setMirrorHV(mH : bool, mV : bool) {
@@ -210,23 +192,63 @@ Image {
         image.myMirrorV = mV
     }
 
+    onCurrentScaleChanged: {
+        if(delayCurrentScale == 0) {
+            delaySetCurrentScale.stop()
+            delaySetCurrentScale.triggered()
+        } else
+            delaySetCurrentScale.restart()
+    }
+
+    property real delayCurrentScale: 0
+    Timer {
+        id: delaySetCurrentScale
+        interval: 200
+        triggeredOnStart: true
+        onTriggered: {
+            if(delaySetCurrentScale.running) {
+                scaledloader.manualHidden = true
+            } else {
+                scaledloader.manualHidden = false
+                imgtop.delayCurrentScale = imgtop.currentScale
+            }
+        }
+    }
+
+    Loader {
+        id: scaledloader
+        width: image.paintedWidth
+        height: image.paintedHeight
+        property bool manualHidden: false
+        active: (!image.initialLoad || image.status===Image.Ready) && (!PQCSettings.imageviewInterpolationDisableForSmallImages || image.interpThresholdMet)
+        asynchronous: true
+        sourceComponent:
+        Image {
+            id: scaledimage
+            width: image.paintedWidth
+            height: image.paintedHeight
+            source: imgtop.source
+            visible: image.status == Image.Ready && !scaledloader.manualHidden
+            cache: false
+            smooth: true
+            mipmap: true
+            z: parent.z+1
+            asynchronous: false
+            sourceSize: Qt.size(Math.min(image.sourceSize.width,width*(imgtop.delayCurrentScale/imgtop.defaultScale)),
+                                Math.min(image.sourceSize.height, height*(imgtop.delayCurrentScale/imgtop.defaultScale)))
+        }
+    }
+
+
     /**********************************************************************************/
     // the code below takes care of loading special photo actions
 
     Connections {
         target: PQCConstants
         function onCurrentImageSourceChanged() {
-            if(!image.isMainImage && !image.ignoreSignals) {
+            if(!imgtop.isMainImage && !imgtop.ignoreSignals) {
                 videoloader.active = false
             }
-        }
-        function onAvailableWidthChanged() {
-            if(image.defaultScale < 0.95)
-                loadScaledDown.restart()
-        }
-        function onAvailableHeightChanged() {
-            if(image.defaultScale < 0.95)
-                loadScaledDown.restart()
         }
     }
 
@@ -241,13 +263,13 @@ Image {
         interval: PQCSettings.imageviewAnimationDuration*100
 
         // we use this trimmed down version whenever we don't use the motion photo stuff below (the photo sphere checks are part of it)
-        running: !image.ignoreSignals && image.visible&&(PQCSettings.filetypesLoadMotionPhotos || PQCSettings.filetypesLoadAppleLivePhotos)
+        running: !imgtop.ignoreSignals && image.visible&&(PQCSettings.filetypesLoadMotionPhotos || PQCSettings.filetypesLoadAppleLivePhotos)
         onTriggered: {
 
             if(PQCConstants.slideshowRunning)
                 return
 
-            if(!image.isMainImage)
+            if(!imgtop.isMainImage)
                 return
 
             if(PQCScriptsConfig.isMotionPhotoSupportEnabled() && (PQCSettings.filetypesLoadMotionPhotos || PQCSettings.filetypesLoadAppleLivePhotos)) {
@@ -391,7 +413,7 @@ Image {
 
                     function onPlayPauseAnimationVideo() {
 
-                        if(!image.isMainImage)
+                        if(!imgtop.isMainImage)
                             return
 
                         if(mediaplayer.playbackState == MediaPlayer.PausedState)

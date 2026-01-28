@@ -643,6 +643,12 @@ public:
     Q_INVOKABLE const int getDefaultForImageviewInterpolationThreshold();
     Q_INVOKABLE void setDefaultForImageviewInterpolationThreshold();
 
+    Q_PROPERTY(bool imageviewInterpolationThresholdWindowSize READ getImageviewInterpolationThresholdWindowSize WRITE setImageviewInterpolationThresholdWindowSize NOTIFY imageviewInterpolationThresholdWindowSizeChanged)
+    bool getImageviewInterpolationThresholdWindowSize();
+    void setImageviewInterpolationThresholdWindowSize(bool val);
+    Q_INVOKABLE const bool getDefaultForImageviewInterpolationThresholdWindowSize();
+    Q_INVOKABLE void setDefaultForImageviewInterpolationThresholdWindowSize();
+
     Q_PROPERTY(bool imageviewLoopThroughFolder READ getImageviewLoopThroughFolder WRITE setImageviewLoopThroughFolder NOTIFY imageviewLoopThroughFolderChanged)
     bool getImageviewLoopThroughFolder();
     void setImageviewLoopThroughFolder(bool val);
@@ -1945,6 +1951,7 @@ private:
     int m_imageviewHideCursorTimeout;
     bool m_imageviewInterpolationDisableForSmallImages;
     int m_imageviewInterpolationThreshold;
+    bool m_imageviewInterpolationThresholdWindowSize;
     bool m_imageviewLoopThroughFolder;
     int m_imageviewMargin;
     int m_imageviewMinimapSizeLevel;
@@ -2264,6 +2271,7 @@ Q_SIGNALS:
     void imageviewHideCursorTimeoutChanged();
     void imageviewInterpolationDisableForSmallImagesChanged();
     void imageviewInterpolationThresholdChanged();
+    void imageviewInterpolationThresholdWindowSizeChanged();
     void imageviewLoopThroughFolderChanged();
     void imageviewMarginChanged();
     void imageviewMinimapSizeLevelChanged();

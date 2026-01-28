@@ -742,7 +742,7 @@ Loader {
                                     image_wrapper.startupScale = true
                                 loader_top.defaultWidth = width*loader_top.defaultScale
                                 loader_top.defaultHeight = height*loader_top.defaultScale
-                                loader_top.defaultScale = 0.99999999*tmp
+                                loader_top.defaultScale = tmp
                                 PQCConstants.currentImageDefaultScale = loader_top.defaultScale
                                 imageloaderitem.iAmReady()
                                 loader_top.setUpImageWhenReady()
@@ -1463,7 +1463,7 @@ Loader {
 
                             } else {
 
-                                loader_top.defaultScale = 0.99999999*image_wrapper.computeDefaultScale()
+                                loader_top.defaultScale = image_wrapper.computeDefaultScale()
 
                             }
 
@@ -1473,7 +1473,7 @@ Loader {
                         }
                         function resetScale() {
 
-                            var val = 0.99999999*image_wrapper.computeDefaultScale()
+                            var val = image_wrapper.computeDefaultScale()
 
                             if(PQCSettings.imageviewFitInWindow && loader_top.imageResolution.width > 0 && loader_top.imageResolution.height > 0) {
                                 var factW, factH
@@ -1949,8 +1949,8 @@ Loader {
                     function computeDefaultScale() : real {
                         var dpr = (loader_top.thisIsAPhotoSphere ? 1 : PQCConstants.devicePixelRatio)
                         if(loader_top.rotatedUpright)
-                            return Math.min(1./dpr, Math.min((flickable.width/width), (flickable.height/height)))
-                        return Math.min(1./dpr, Math.min((flickable.width/height), (flickable.height/width)))
+                            return parseFloat(Math.min(1./dpr, Math.min((flickable.width/width), (flickable.height/height))).toFixed(2))
+                        return parseFloat(Math.min(1./dpr, Math.min((flickable.width/height), (flickable.height/width)))).toFixed(2)
                     }
 
                     Timer {
