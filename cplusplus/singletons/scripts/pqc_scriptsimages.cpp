@@ -1245,6 +1245,10 @@ double PQCScriptsImages::getPixelDensity(QString modelName) {
         const int timeout = 60*5;
 #endif
 
+#ifndef PQMWAYLANDSPECIFIC
+        modelName = "_all_";
+#endif
+
         // we cache a once calculated value for 5 or 1 minutes
         if(QDateTime::currentSecsSinceEpoch()-devicePixelRatioCachedWhen < timeout) {
             return devicePixelRatioCached.value(modelName, 1.0).toDouble();
@@ -1358,14 +1362,14 @@ double PQCScriptsImages::getPixelDensity(QString modelName) {
             // Found single ratio across all screens
             if(useRatio > 0) {
 
-                devicePixelRatioCached = useRatio;
+                devicePixelRatioCached.insert("_all_", useRatio);
                 devicePixelRatioCachedWhen = QDateTime::currentSecsSinceEpoch();
                 return useRatio;
 
             // if error occurred, then we effectively disable this feature
             } else {
 
-                devicePixelRatioCached = 1;
+                devicePixelRatioCached.insert("_all_", 1);
                 devicePixelRatioCachedWhen = QDateTime::currentSecsSinceEpoch();
                 return 1;
 
