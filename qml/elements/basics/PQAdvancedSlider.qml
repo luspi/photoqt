@@ -29,7 +29,7 @@ Item {
 
     clip: true
 
-    width: pretext.width + controlrow.spacing
+    width: pretext.width + sliderrow.width + spinbox.width + controlrow.spacing
     height: controlrow.height
 
     property alias spinboxItem: spinbox
@@ -132,7 +132,8 @@ Item {
                     from: control.minval
                     to: control.maxval
                     width: sliderrow.width-(control.showSlider ? acceptbut.width : 0)
-                    tooltipSuffix: control.suffix
+                    //: Tooltip, The value here is a number.
+                    tooltip: qsTranslate("settingsmanager", "Enter a value")
                     Keys.onEnterPressed:
                         acceptbut.clicked()
                     Keys.onReturnPressed:
@@ -148,7 +149,7 @@ Item {
                     sizeToText: true
                     height: spinbox.height
                     onClicked: {
-                        slidervalue.value = spinbox.liveValue
+                        slidervalue.value = spinbox.value
                         control.editMode = false
                     }
                 }
@@ -166,11 +167,11 @@ Item {
             sizeToText: true
             horizontalAlignment: Text.AlignLeft
             visible: !control.editMode
-            text: "(" + (overrideMinValText!==""&&spinbox.liveValue===control.minval
+            text: "(" + (overrideMinValText!==""&&spinbox.value===control.minval
                             ? overrideMinValText
-                            : (overrideMaxValText!==""&&spinbox.liveValue===control.maxval
+                            : (overrideMaxValText!==""&&spinbox.value===control.maxval
                                    ? overrideMaxValText
-                                   : spinbox.liveValue + control.suffix)) + ")"
+                                   : spinbox.value + control.suffix)) + ")"
             //: Tooltip, used as in: Click to edit this value
             tooltip: qsTranslate("settingsmanager", "Click to edit")
             onClicked: {
