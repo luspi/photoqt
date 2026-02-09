@@ -82,7 +82,7 @@ private:
     QStringList m_importedColorProfileDescriptions;
 
     mutable QMutex iccMmutex;
-    QMap<QString, QString> m_iccColorProfiles;
+    QHash<QString, QString> m_iccColorProfiles;
 
     qint64 m_importedICCLastMod;
 
