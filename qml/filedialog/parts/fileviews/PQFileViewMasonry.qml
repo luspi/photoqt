@@ -572,6 +572,8 @@ Flickable {
 
     function setupData() {
 
+        if(!isCurrentView) return
+
         for(var i = 0; i < masonryview.numColumns; ++i) {
             listviews[i].clear()
             columnHeights[i] = 0
