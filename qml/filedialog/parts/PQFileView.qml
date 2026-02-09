@@ -630,7 +630,20 @@ Item {
         }
     }
 
+    Timer {
+        id: waitForFileviewToBeReady
+        interval: 50
+        onTriggered: {
+            setupNewData()
+        }
+    }
+
     function setupNewData() {
+
+        if(fileview.item === null) {
+            waitForFileviewToBeReady.restart()
+            return
+        }
 
         // This check is necessary, otherwise this function MIGHT get called BEFORE everything is accessible to QML
         // resulting in a bunch of undefined warnings before the function is called AGAIN seting everything up properly
