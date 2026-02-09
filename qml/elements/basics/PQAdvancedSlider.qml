@@ -29,7 +29,7 @@ Item {
 
     clip: true
 
-    width: pretext.width + sliderrow.width + spinbox.width + controlrow.spacing
+    width: pretext.width + sliderrow.width + (control.editMode ? 0 : txt.width+10)  + controlrow.spacing
     height: controlrow.height
 
     property alias spinboxItem: spinbox
