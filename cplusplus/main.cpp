@@ -137,7 +137,7 @@ int main(int argc, char **argv) {
         newdir.mkdir(portablefolder);
     }
 #else
-    QString portablefolder = QString("%1/.PhotoQtData").arg(argc > 1 ? argv[1] : QCoreApplication::applicationDirPath());
+    QString portablefolder = QString("%1/PhotoQtData").arg(argc > 1 ? argv[1] : QCoreApplication::applicationDirPath());
     QDir dir;
     dir.mkdir(portablefolder);
 #endif

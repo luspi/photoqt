@@ -47,8 +47,8 @@ Item {
     property int currentIndex: -1
     onCurrentIndexChanged: {
         view_top.currentIndex = currentIndex
-        if(currentIndex !== getCurrentViewId().currentIndex)
-            getCurrentViewId().currentIndex = currentIndex
+        if(currentIndex !== fileview.item.currentIndex)
+            fileview.item.currentIndex = currentIndex
     }
 
     // properties
@@ -74,45 +74,61 @@ Item {
 
     /*********************************************************************/
 
-    PQFileViewList {
+    // The fileview holding one of the three layouts
+    Loader {
+        id: fileview
+        anchors.fill: parent
+        sourceComponent: (PQCSettings.filedialogLayout === "grid" ? gridfileview : (PQCSettings.filedialogLayout === "masonry" ? masonryfileview : listfileview))
+    }
+
+    Component {
 
         id: listfileview
 
-        onIsCurrentViewChanged: {
-            if(isCurrentView)
-                view_top.setupNewData()
-            else
-                model = 0
-        }
+        PQFileViewList {
 
+            onIsCurrentViewChanged: {
+                if(isCurrentView)
+                    view_top.setupNewData()
+                else
+                    model = 0
+            }
+
+        }
     }
 
-    PQFileViewGrid {
+    Component {
 
         id: gridfileview
 
-        ignoreMouseEvents: view_top.ignoreMouseEvents
+        PQFileViewGrid {
 
-        onIsCurrentViewChanged: {
-            if(isCurrentView)
-                view_top.setupNewData()
-            else
-                model = 0
+            ignoreMouseEvents: view_top.ignoreMouseEvents
+
+            onIsCurrentViewChanged: {
+                if(isCurrentView)
+                    view_top.setupNewData()
+                else
+                    model = 0
+            }
+
         }
-
     }
 
-    PQFileViewMasonry {
+    Component {
 
         id: masonryfileview
 
-        onIsCurrentViewChanged: {
-            if(isCurrentView) {
-                view_top.setupNewData()
-            } else
-                model = 0
-        }
+        PQFileViewMasonry {
 
+            onIsCurrentViewChanged: {
+                if(isCurrentView) {
+                    view_top.setupNewData()
+                } else
+                    model = 0
+            }
+
+        }
     }
 
     PinchHandler {
@@ -126,20 +142,6 @@ Item {
         }
 
     }
-
-    function getCurrentViewId() : var {
-        if(PQCSettings.filedialogLayout === "grid")
-            return gridfileview
-        else if(PQCSettings.filedialogLayout === "list")
-            return listfileview
-        else if(PQCSettings.filedialogLayout === "masonry")
-            return masonryfileview
-
-        console.warn("ERROR! I don't know which view is supposed to be active... using listview")
-        PQCSettings.filedialogLayout = "list"
-        return listfileview
-    }
-
 
     PQMenu {
 
@@ -644,12 +646,12 @@ Item {
         // store new folder name
         view_top.storeCurrentFolderName = PQCFileFolderModel.folderFileDialog
 
-        getCurrentViewId().model = 0
+        fileview.item.model = 0
 
         view_top.currentFolderExcluded = PQCScriptsFilesPaths.isExcludeDirFromCaching(PQCFileFolderModel.folderFileDialog)
         view_top.currentFolderOnNetwork = PQCScriptsFilesPaths.isOnNetwork(PQCFileFolderModel.folderFileDialog)
 
-        getCurrentViewId().model = PQCFileFolderModel.countAllFileDialog
+        fileview.item.model = PQCFileFolderModel.countAllFileDialog
 
         // We set the currentIndex AFTER the model was loaded so that it doesn't mess with this property
         // By default we pre-select the first entry in the list.
@@ -660,15 +662,15 @@ Item {
     }
 
     Component.onCompleted: {
-        getCurrentViewId().model = PQCFileFolderModel.countAllFileDialog
+        fileview.item.model = PQCFileFolderModel.countAllFileDialog
     }
 
     Connections {
         target: PQCImageFormats
         function onFormatsUpdated() {
-            view_top.getCurrentViewId().model = 0
+            fileview.item.model = 0
             PQCFileFolderModel.forceReloadFileDialog()
-            view_top.getCurrentViewId().model = PQCFileFolderModel.countAllFileDialog
+            fileview.item.model = PQCFileFolderModel.countAllFileDialog
         }
     }
 
@@ -858,7 +860,7 @@ Item {
             PQCConstants.filedialogCurrentSelection = []
             return
         }
-        PQCConstants.filedialogCurrentSelection = [...Array(getCurrentViewId().model).keys()]
+        PQCConstants.filedialogCurrentSelection = [...Array(fileview.item.model).keys()]
     }
 
     function copyFiles(forceSelection : bool) {
@@ -980,13 +982,13 @@ Item {
                 if(!PQCFileFolderModel.loadVirtualFolderFileDialog)
                     filedialog_top.loadNewPath(PQCScriptsFilesPaths.goUpOneLevel(PQCFileFolderModel.folderFileDialog))
             } else
-                getCurrentViewId().goUpARow()
+                fileview.item.goUpARow()
 
             navigateToFileStartingWith = []
 
         } else if(key === Qt.Key_Down) {
 
-            getCurrentViewId().goDownARow()
+            fileview.item.goDownARow()
             navigateToFileStartingWith = []
 
         } else if(key === Qt.Key_Right) {
@@ -1041,12 +1043,12 @@ Item {
 
         } else if(key === Qt.Key_PageDown) {
 
-            getCurrentViewId().goDownSomeRows()
+            fileview.item.goDownSomeRows()
             navigateToFileStartingWith = []
 
         } else if(key === Qt.Key_PageUp) {
 
-            getCurrentViewId().goUpSomeRows()
+            fileview.item.goUpSomeRows()
             navigateToFileStartingWith = []
 
         } else if(key === Qt.Key_End) {

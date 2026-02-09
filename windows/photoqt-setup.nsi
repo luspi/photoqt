@@ -1648,10 +1648,6 @@ Section "Uninstall"
     DeleteRegKey ${INSTDIR_REG_ROOT} "${INSTDIR_REG_KEY}"
     DeleteRegKey HKCU "Software\PhotoQt"
 
-    ; Remove environment variables
-    EnVar::Delete "PHOTOQT_MAGICK_CODER_MODULE_PATH"
-    EnVar::Delete "PHOTOQT_MAGICK_FILTER_MODULE_PATH"
-
     System::Call 'shell32.dll::SHChangeNotify(i, i, i, i) v (0x08000000, 0, 0, 0)'
 
 SectionEnd
