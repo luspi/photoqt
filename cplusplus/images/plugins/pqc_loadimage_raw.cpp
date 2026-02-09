@@ -53,6 +53,9 @@ QSize PQCLoadImageRAW::loadSize(QString filename) {
     raw.imgdata.params.user_qual = 2;
     raw.imgdata.params.use_camera_wb = 1;
 
+    // We apply EXIF orientation ourselves.
+    raw.imgdata.params.user_flip = 0;
+
     // Open the RAW image
     int ret = raw.open_file((const char*)(QFile::encodeName(filename)).constData());
     if(ret != LIBRAW_SUCCESS) {
@@ -95,6 +98,9 @@ QString PQCLoadImageRAW::load(QString filename, QSize maxSize, QSize &origSize, 
     // them, we can optimise for speed
     raw.imgdata.params.user_qual = 2;
     raw.imgdata.params.use_camera_wb = 1;
+
+    // We apply EXIF orientation ourselves.
+    raw.imgdata.params.user_flip = 0;
 
     // Open the RAW image
     int ret = raw.open_file((const char*)(QFile::encodeName(filename)).constData());
