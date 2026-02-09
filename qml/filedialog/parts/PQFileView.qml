@@ -131,6 +131,31 @@ Item {
         }
     }
 
+    MouseArea {
+
+        anchors.fill: parent
+        propagateComposedEvents: true
+        acceptedButtons: Qt.AllButtons
+
+        onClicked: (mouse) => { mouse.accepted = false }
+        onPressAndHold: (mouse) => { mouse.accepted = false }
+        onPressed: (mouse) => {
+            view_top.handleEntriesMouseClick(-1, "", false, mouse.modifiers, mouse.button)
+            mouse.accepted = false
+        }
+        onReleased: (mouse) => { mouse.accepted = false }
+
+        // detect Ctrl+scroll for zooming
+        onWheel: (wheel) => {
+            if(wheel.modifiers === Qt.ControlModifier) {
+                PQCSettings.filedialogZoom += (wheel.angleDelta.y < 0 ? -2 : 2)
+                wheel.accepted = true
+                return
+            }
+            wheel.accepted = false
+        }
+    }
+
     PinchHandler {
 
         target: null
@@ -501,6 +526,9 @@ Item {
             fileview_entry_menu.popup()
             return;
         }
+
+        // if index is -1 then this was a click in the empty area in a fileview
+        if(index < 0) return
 
         if(mouseModifiers & Qt.ShiftModifier) {
 
