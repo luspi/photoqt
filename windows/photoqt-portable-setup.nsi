@@ -56,7 +56,7 @@ Section
 	InitPluginsDir
 
 	SetOutPath $pluginsdir
-	File /r /x *nsh /x *nsi /x *qmlc /x photoqt-setup.exe ".\"
+	File /r /x *nsh /x *nsi /x *qmlc /x photoqt-*.exe ".\"
 
 	; the directory of the executable is passed on as we store config/cache data there
 	ExecWait '"$pluginsdir\photoqt.exe" "$exedir" $CMDLINE'
