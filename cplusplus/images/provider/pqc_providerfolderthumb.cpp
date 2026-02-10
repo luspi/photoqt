@@ -47,7 +47,7 @@ PQCAsyncImageResponseFolderThumbCache::PQCAsyncImageResponseFolderThumbCache() {
     cache.clear();
 }
 bool PQCAsyncImageResponseFolderThumbCache::loadFromCache(QString foldername, int numEnabledFormats, QFileInfoList &entries) {
-    QString key = QString("%1::%2::%3").arg(foldername).arg(numEnabledFormats).arg(QFileInfo(foldername).lastModified().toMSecsSinceEpoch());
+    const QString key = generateCacheKey(foldername, numEnabledFormats);
     if(cache.contains(key)) {
         entries = cache.value(key);
         return true;
@@ -55,8 +55,20 @@ bool PQCAsyncImageResponseFolderThumbCache::loadFromCache(QString foldername, in
     return false;
 }
 void PQCAsyncImageResponseFolderThumbCache::saveToCache(QString foldername, int numEnabledFormats, QFileInfoList &entries) {
-    QString key = QString("%1::%2::%3").arg(foldername).arg(numEnabledFormats).arg(QFileInfo(foldername).lastModified().toMSecsSinceEpoch());
-    cache.insert(key, entries);
+    cache.insert(generateCacheKey(foldername, numEnabledFormats), entries);
+}
+
+const QString PQCAsyncImageResponseFolderThumbCache::generateCacheKey(QString foldername, int numEnabledFormats) {
+    return QString("%1::%2::%3::%4::%5")
+                .arg(foldername)
+                .arg(numEnabledFormats)
+                .arg(QFileInfo(foldername).lastModified().toMSecsSinceEpoch())
+                .arg(PQCSettingsCPP::get().getFiledialogFolderContentThumbnailsSortBy()=="default"
+                         ? PQCSettingsCPP::get().getImageviewSortImagesBy()
+                         : PQCSettingsCPP::get().getFiledialogFolderContentThumbnailsSortBy())
+                .arg(PQCSettingsCPP::get().getFiledialogFolderContentThumbnailsSortBy()=="default"
+                         ? (PQCSettingsCPP::get().getImageviewSortImagesAscending() ? 1 : 0)
+                         : (PQCSettingsCPP::get().getFiledialogFolderContentThumbnailsSortAscending()?1:0));
 }
 
 /***********************************************************/
@@ -105,14 +117,41 @@ void PQCAsyncImageResponseFolderThumb::run() {
         dir.setNameFilters(checkForTheseFormats);
         dir.setFilter(QDir::Files);
 
+        bool sortAscending = (PQCSettingsCPP::get().getFiledialogFolderContentThumbnailsSortBy()=="default"
+                                  ? PQCSettingsCPP::get().getImageviewSortImagesAscending()
+                                  : PQCSettingsCPP::get().getFiledialogFolderContentThumbnailsSortAscending());
+        QString sortBy = (PQCSettingsCPP::get().getFiledialogFolderContentThumbnailsSortBy()=="default"
+                              ? PQCSettingsCPP::get().getImageviewSortImagesBy()
+                              : PQCSettingsCPP::get().getFiledialogFolderContentThumbnailsSortBy());
+
+        QDir::SortFlags sortFlags = QDir::IgnoreCase;
+        if(sortAscending)
+            sortFlags |= QDir::Reversed;
+        if(sortBy == "name")
+            sortFlags |= QDir::Name;
+        else if(sortBy == "time")
+            sortFlags |= QDir::Time;
+        else if(sortBy == "size")
+            sortFlags |= QDir::Size;
+        else if(sortBy == "type")
+            sortFlags |= QDir::Type;
+
+        if(sortBy != "naturalname")
+            dir.setSorting(sortFlags);
+
         count = dir.count();
         fileinfolist = dir.entryInfoList();
 
-        QCollator collator;
+        if(sortBy == "naturalname") {
+            QCollator collator;
 #ifndef PQMWITHOUTICU
-        collator.setNumericMode(true);
+            collator.setNumericMode(true);
 #endif
-        std::sort(fileinfolist.begin(), fileinfolist.end(), [&collator](const QFileInfo &file1, const QFileInfo &file2) { return collator.compare(file1.fileName(), file2.fileName()) < 0; });
+            if(!sortAscending)
+                std::sort(fileinfolist.begin(), fileinfolist.end(), [&collator](const QFileInfo &file1, const QFileInfo &file2) { return collator.compare(file2.fileName(), file1.fileName()) < 0; });
+            else
+                std::sort(fileinfolist.begin(), fileinfolist.end(), [&collator](const QFileInfo &file1, const QFileInfo &file2) { return collator.compare(file1.fileName(), file2.fileName()) < 0; });
+        }
 
         PQCAsyncImageResponseFolderThumbCache::get().saveToCache(m_folder, checknum, fileinfolist);
 

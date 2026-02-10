@@ -55,6 +55,8 @@ private:
     PQCAsyncImageResponseFolderThumbCache();
     QHash<QString,QFileInfoList> cache;
 
+    const QString generateCacheKey(QString foldername, int numEnabledFormats);
+
 };
 
 /*****************************************************/

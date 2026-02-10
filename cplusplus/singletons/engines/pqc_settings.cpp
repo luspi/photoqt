@@ -148,9 +148,10 @@ PQCSettings::PQCSettings() {
     connect(this, &PQCSettings::filedialogElementPaddingChanged, this, [=]() { saveChangedValue("filedialogElementPadding", m_filedialogElementPadding); });
     connect(this, &PQCSettings::filedialogFolderContentThumbnailsChanged, this, [=]() { saveChangedValue("filedialogFolderContentThumbnails", m_filedialogFolderContentThumbnails); });
     connect(this, &PQCSettings::filedialogFolderContentThumbnailsAutoloadChanged, this, [=]() { saveChangedValue("filedialogFolderContentThumbnailsAutoload", m_filedialogFolderContentThumbnailsAutoload); });
-    connect(this, &PQCSettings::filedialogFolderContentThumbnailsFirstLastChanged, this, [=]() { saveChangedValue("filedialogFolderContentThumbnailsFirstLast", m_filedialogFolderContentThumbnailsFirstLast); });
     connect(this, &PQCSettings::filedialogFolderContentThumbnailsLoopChanged, this, [=]() { saveChangedValue("filedialogFolderContentThumbnailsLoop", m_filedialogFolderContentThumbnailsLoop); });
     connect(this, &PQCSettings::filedialogFolderContentThumbnailsScaleCropChanged, this, [=]() { saveChangedValue("filedialogFolderContentThumbnailsScaleCrop", m_filedialogFolderContentThumbnailsScaleCrop); });
+    connect(this, &PQCSettings::filedialogFolderContentThumbnailsSortAscendingChanged, this, [=]() { saveChangedValue("filedialogFolderContentThumbnailsSortAscending", m_filedialogFolderContentThumbnailsSortAscending); });
+    connect(this, &PQCSettings::filedialogFolderContentThumbnailsSortByChanged, this, [=]() { saveChangedValue("filedialogFolderContentThumbnailsSortBy", m_filedialogFolderContentThumbnailsSortBy); });
     connect(this, &PQCSettings::filedialogFolderContentThumbnailsSpeedChanged, this, [=]() { saveChangedValue("filedialogFolderContentThumbnailsSpeed", m_filedialogFolderContentThumbnailsSpeed); });
     connect(this, &PQCSettings::filedialogLabelsShowGridChanged, this, [=]() { saveChangedValue("filedialogLabelsShowGrid", m_filedialogLabelsShowGrid); });
     connect(this, &PQCSettings::filedialogLabelsShowMasonryChanged, this, [=]() { saveChangedValue("filedialogLabelsShowMasonry", m_filedialogLabelsShowMasonry); });
@@ -672,28 +673,6 @@ void PQCSettings::setDefaultForFiledialogFolderContentThumbnailsAutoload() {
     }
 }
 
-QString PQCSettings::getFiledialogFolderContentThumbnailsFirstLast() {
-    return m_filedialogFolderContentThumbnailsFirstLast;
-}
-
-void PQCSettings::setFiledialogFolderContentThumbnailsFirstLast(QString val) {
-    if(val != m_filedialogFolderContentThumbnailsFirstLast) {
-        m_filedialogFolderContentThumbnailsFirstLast = val;
-        Q_EMIT filedialogFolderContentThumbnailsFirstLastChanged();
-    }
-}
-
-const QString PQCSettings::getDefaultForFiledialogFolderContentThumbnailsFirstLast() {
-        return "first";
-}
-
-void PQCSettings::setDefaultForFiledialogFolderContentThumbnailsFirstLast() {
-    if("first" != m_filedialogFolderContentThumbnailsFirstLast) {
-        m_filedialogFolderContentThumbnailsFirstLast = "first";
-        Q_EMIT filedialogFolderContentThumbnailsFirstLastChanged();
-    }
-}
-
 bool PQCSettings::getFiledialogFolderContentThumbnailsLoop() {
     return m_filedialogFolderContentThumbnailsLoop;
 }
@@ -735,6 +714,50 @@ void PQCSettings::setDefaultForFiledialogFolderContentThumbnailsScaleCrop() {
     if(true != m_filedialogFolderContentThumbnailsScaleCrop) {
         m_filedialogFolderContentThumbnailsScaleCrop = true;
         Q_EMIT filedialogFolderContentThumbnailsScaleCropChanged();
+    }
+}
+
+bool PQCSettings::getFiledialogFolderContentThumbnailsSortAscending() {
+    return m_filedialogFolderContentThumbnailsSortAscending;
+}
+
+void PQCSettings::setFiledialogFolderContentThumbnailsSortAscending(bool val) {
+    if(val != m_filedialogFolderContentThumbnailsSortAscending) {
+        m_filedialogFolderContentThumbnailsSortAscending = val;
+        Q_EMIT filedialogFolderContentThumbnailsSortAscendingChanged();
+    }
+}
+
+const bool PQCSettings::getDefaultForFiledialogFolderContentThumbnailsSortAscending() {
+        return false;
+}
+
+void PQCSettings::setDefaultForFiledialogFolderContentThumbnailsSortAscending() {
+    if(false != m_filedialogFolderContentThumbnailsSortAscending) {
+        m_filedialogFolderContentThumbnailsSortAscending = false;
+        Q_EMIT filedialogFolderContentThumbnailsSortAscendingChanged();
+    }
+}
+
+QString PQCSettings::getFiledialogFolderContentThumbnailsSortBy() {
+    return m_filedialogFolderContentThumbnailsSortBy;
+}
+
+void PQCSettings::setFiledialogFolderContentThumbnailsSortBy(QString val) {
+    if(val != m_filedialogFolderContentThumbnailsSortBy) {
+        m_filedialogFolderContentThumbnailsSortBy = val;
+        Q_EMIT filedialogFolderContentThumbnailsSortByChanged();
+    }
+}
+
+const QString PQCSettings::getDefaultForFiledialogFolderContentThumbnailsSortBy() {
+        return "default";
+}
+
+void PQCSettings::setDefaultForFiledialogFolderContentThumbnailsSortBy() {
+    if("default" != m_filedialogFolderContentThumbnailsSortBy) {
+        m_filedialogFolderContentThumbnailsSortBy = "default";
+        Q_EMIT filedialogFolderContentThumbnailsSortByChanged();
     }
 }
 
@@ -6859,12 +6882,14 @@ void PQCSettings::readDB() {
                     m_filedialogFolderContentThumbnails = value.toInt();
                 } else if(name == "FolderContentThumbnailsAutoload") {
                     m_filedialogFolderContentThumbnailsAutoload = value.toInt();
-                } else if(name == "FolderContentThumbnailsFirstLast") {
-                    m_filedialogFolderContentThumbnailsFirstLast = value.toString();
                 } else if(name == "FolderContentThumbnailsLoop") {
                     m_filedialogFolderContentThumbnailsLoop = value.toInt();
                 } else if(name == "FolderContentThumbnailsScaleCrop") {
                     m_filedialogFolderContentThumbnailsScaleCrop = value.toInt();
+                } else if(name == "FolderContentThumbnailsSortAscending") {
+                    m_filedialogFolderContentThumbnailsSortAscending = value.toInt();
+                } else if(name == "FolderContentThumbnailsSortBy") {
+                    m_filedialogFolderContentThumbnailsSortBy = value.toString();
                 } else if(name == "FolderContentThumbnailsSpeed") {
                     m_filedialogFolderContentThumbnailsSpeed = value.toInt();
                 } else if(name == "LabelsShowGrid") {
@@ -7807,9 +7832,10 @@ void PQCSettings::setupFresh() {
     m_filedialogElementPadding = 1;
     m_filedialogFolderContentThumbnails = true;
     m_filedialogFolderContentThumbnailsAutoload = false;
-    m_filedialogFolderContentThumbnailsFirstLast = "first";
     m_filedialogFolderContentThumbnailsLoop = true;
     m_filedialogFolderContentThumbnailsScaleCrop = true;
+    m_filedialogFolderContentThumbnailsSortAscending = true;
+    m_filedialogFolderContentThumbnailsSortBy = "default";
     m_filedialogFolderContentThumbnailsSpeed = 2;
     m_filedialogLabelsShowGrid = true;
     m_filedialogLabelsShowMasonry = false;
@@ -8133,9 +8159,10 @@ void PQCSettings::resetToDefault() {
     setDefaultForFiledialogElementPadding();
     setDefaultForFiledialogFolderContentThumbnails();
     setDefaultForFiledialogFolderContentThumbnailsAutoload();
-    setDefaultForFiledialogFolderContentThumbnailsFirstLast();
     setDefaultForFiledialogFolderContentThumbnailsLoop();
     setDefaultForFiledialogFolderContentThumbnailsScaleCrop();
+    setDefaultForFiledialogFolderContentThumbnailsSortAscending();
+    setDefaultForFiledialogFolderContentThumbnailsSortBy();
     setDefaultForFiledialogFolderContentThumbnailsSpeed();
     setDefaultForFiledialogLabelsShowGrid();
     setDefaultForFiledialogLabelsShowMasonry();
@@ -8489,10 +8516,6 @@ QStringList PQCSettings::updateFromCommandLine() {
         m_filedialogFolderContentThumbnailsAutoload = (val.toInt()==1);
         Q_EMIT filedialogFolderContentThumbnailsAutoloadChanged();
     }
-    if(key == "filedialogFolderContentThumbnailsFirstLast") {
-        m_filedialogFolderContentThumbnailsFirstLast = val;
-        Q_EMIT filedialogFolderContentThumbnailsFirstLastChanged();
-    }
     if(key == "filedialogFolderContentThumbnailsLoop") {
         m_filedialogFolderContentThumbnailsLoop = (val.toInt()==1);
         Q_EMIT filedialogFolderContentThumbnailsLoopChanged();
@@ -8500,6 +8523,14 @@ QStringList PQCSettings::updateFromCommandLine() {
     if(key == "filedialogFolderContentThumbnailsScaleCrop") {
         m_filedialogFolderContentThumbnailsScaleCrop = (val.toInt()==1);
         Q_EMIT filedialogFolderContentThumbnailsScaleCropChanged();
+    }
+    if(key == "filedialogFolderContentThumbnailsSortAscending") {
+        m_filedialogFolderContentThumbnailsSortAscending = (val.toInt()==1);
+        Q_EMIT filedialogFolderContentThumbnailsSortAscendingChanged();
+    }
+    if(key == "filedialogFolderContentThumbnailsSortBy") {
+        m_filedialogFolderContentThumbnailsSortBy = val;
+        Q_EMIT filedialogFolderContentThumbnailsSortByChanged();
     }
     if(key == "filedialogFolderContentThumbnailsSpeed") {
         m_filedialogFolderContentThumbnailsSpeed = val.toInt();

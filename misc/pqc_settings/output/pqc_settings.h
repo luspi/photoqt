@@ -112,12 +112,6 @@ public:
     Q_INVOKABLE const bool getDefaultForFiledialogFolderContentThumbnailsAutoload();
     Q_INVOKABLE void setDefaultForFiledialogFolderContentThumbnailsAutoload();
 
-    Q_PROPERTY(QString filedialogFolderContentThumbnailsFirstLast READ getFiledialogFolderContentThumbnailsFirstLast WRITE setFiledialogFolderContentThumbnailsFirstLast NOTIFY filedialogFolderContentThumbnailsFirstLastChanged)
-    QString getFiledialogFolderContentThumbnailsFirstLast();
-    void setFiledialogFolderContentThumbnailsFirstLast(QString val);
-    Q_INVOKABLE const QString getDefaultForFiledialogFolderContentThumbnailsFirstLast();
-    Q_INVOKABLE void setDefaultForFiledialogFolderContentThumbnailsFirstLast();
-
     Q_PROPERTY(bool filedialogFolderContentThumbnailsLoop READ getFiledialogFolderContentThumbnailsLoop WRITE setFiledialogFolderContentThumbnailsLoop NOTIFY filedialogFolderContentThumbnailsLoopChanged)
     bool getFiledialogFolderContentThumbnailsLoop();
     void setFiledialogFolderContentThumbnailsLoop(bool val);
@@ -129,6 +123,18 @@ public:
     void setFiledialogFolderContentThumbnailsScaleCrop(bool val);
     Q_INVOKABLE const bool getDefaultForFiledialogFolderContentThumbnailsScaleCrop();
     Q_INVOKABLE void setDefaultForFiledialogFolderContentThumbnailsScaleCrop();
+
+    Q_PROPERTY(bool filedialogFolderContentThumbnailsSortAscending READ getFiledialogFolderContentThumbnailsSortAscending WRITE setFiledialogFolderContentThumbnailsSortAscending NOTIFY filedialogFolderContentThumbnailsSortAscendingChanged)
+    bool getFiledialogFolderContentThumbnailsSortAscending();
+    void setFiledialogFolderContentThumbnailsSortAscending(bool val);
+    Q_INVOKABLE const bool getDefaultForFiledialogFolderContentThumbnailsSortAscending();
+    Q_INVOKABLE void setDefaultForFiledialogFolderContentThumbnailsSortAscending();
+
+    Q_PROPERTY(QString filedialogFolderContentThumbnailsSortBy READ getFiledialogFolderContentThumbnailsSortBy WRITE setFiledialogFolderContentThumbnailsSortBy NOTIFY filedialogFolderContentThumbnailsSortByChanged)
+    QString getFiledialogFolderContentThumbnailsSortBy();
+    void setFiledialogFolderContentThumbnailsSortBy(QString val);
+    Q_INVOKABLE const QString getDefaultForFiledialogFolderContentThumbnailsSortBy();
+    Q_INVOKABLE void setDefaultForFiledialogFolderContentThumbnailsSortBy();
 
     Q_PROPERTY(int filedialogFolderContentThumbnailsSpeed READ getFiledialogFolderContentThumbnailsSpeed WRITE setFiledialogFolderContentThumbnailsSpeed NOTIFY filedialogFolderContentThumbnailsSpeedChanged)
     int getFiledialogFolderContentThumbnailsSpeed();
@@ -1858,9 +1864,10 @@ private:
     int m_filedialogElementPadding;
     bool m_filedialogFolderContentThumbnails;
     bool m_filedialogFolderContentThumbnailsAutoload;
-    QString m_filedialogFolderContentThumbnailsFirstLast;
     bool m_filedialogFolderContentThumbnailsLoop;
     bool m_filedialogFolderContentThumbnailsScaleCrop;
+    bool m_filedialogFolderContentThumbnailsSortAscending;
+    QString m_filedialogFolderContentThumbnailsSortBy;
     int m_filedialogFolderContentThumbnailsSpeed;
     bool m_filedialogLabelsShowGrid;
     bool m_filedialogLabelsShowMasonry;
@@ -2178,9 +2185,10 @@ Q_SIGNALS:
     void filedialogElementPaddingChanged();
     void filedialogFolderContentThumbnailsChanged();
     void filedialogFolderContentThumbnailsAutoloadChanged();
-    void filedialogFolderContentThumbnailsFirstLastChanged();
     void filedialogFolderContentThumbnailsLoopChanged();
     void filedialogFolderContentThumbnailsScaleCropChanged();
+    void filedialogFolderContentThumbnailsSortAscendingChanged();
+    void filedialogFolderContentThumbnailsSortByChanged();
     void filedialogFolderContentThumbnailsSpeedChanged();
     void filedialogLabelsShowGridChanged();
     void filedialogLabelsShowMasonryChanged();

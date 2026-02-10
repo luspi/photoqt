@@ -52,6 +52,8 @@ public:
     void forceInterfaceVariant(QString var) { m_generalInterfaceVariant = var; }
 
     bool getFiledialogDevicesShowTmpfs() { return m_filedialogDevicesShowTmpfs; }
+    bool getFiledialogFolderContentThumbnailsSortAscending() { return m_filedialogFolderContentThumbnailsSortAscending; }
+    QString getFiledialogFolderContentThumbnailsSortBy() { return m_filedialogFolderContentThumbnailsSortBy; }
     bool getFiledialogShowHiddenFilesFolders() { return m_filedialogShowHiddenFilesFolders; }
     bool getFiletypesArchiveAlwaysEnterAutomatically() { return m_filetypesArchiveAlwaysEnterAutomatically; }
     bool getFiletypesComicBookAlwaysEnterAutomatically() { return m_filetypesComicBookAlwaysEnterAutomatically; }
@@ -134,6 +136,18 @@ public:
                     if(m_filedialogDevicesShowTmpfs != val) {
                         m_filedialogDevicesShowTmpfs = value.toInt();
                         Q_EMIT filedialogDevicesShowTmpfsChanged();
+                    }
+                } else if(table == "filedialog" && name == "FolderContentThumbnailsSortAscending") {
+                    const bool val = value.toInt();
+                    if(m_filedialogFolderContentThumbnailsSortAscending != val) {
+                        m_filedialogFolderContentThumbnailsSortAscending = value.toInt();
+                        Q_EMIT filedialogFolderContentThumbnailsSortAscendingChanged();
+                    }
+                } else if(table == "filedialog" && name == "FolderContentThumbnailsSortBy") {
+                    const QString val = value.toString();
+                    if(m_filedialogFolderContentThumbnailsSortBy != val) {
+                        m_filedialogFolderContentThumbnailsSortBy = val;
+                        Q_EMIT filedialogFolderContentThumbnailsSortByChanged();
                     }
                 } else if(table == "filedialog" && name == "ShowHiddenFilesFolders") {
                     const bool val = value.toInt();
@@ -436,6 +450,8 @@ private:
     PQCSettingsCPP(QObject *parent = nullptr) : QObject(parent) {
 
         m_filedialogDevicesShowTmpfs = false;
+        m_filedialogFolderContentThumbnailsSortAscending = true;
+        m_filedialogFolderContentThumbnailsSortBy = "default";
         m_filedialogShowHiddenFilesFolders = false;
         m_filetypesArchiveAlwaysEnterAutomatically = false;
         m_filetypesComicBookAlwaysEnterAutomatically = false;
@@ -490,6 +506,8 @@ private:
 
 
     bool m_filedialogDevicesShowTmpfs;
+    bool m_filedialogFolderContentThumbnailsSortAscending;
+    QString m_filedialogFolderContentThumbnailsSortBy;
     bool m_filedialogShowHiddenFilesFolders;
     bool m_filetypesArchiveAlwaysEnterAutomatically;
     bool m_filetypesComicBookAlwaysEnterAutomatically;
@@ -555,6 +573,8 @@ Q_SIGNALS:
     void imageviewRespectDevicePixelRatioChanged();
     void filedialogDevicesShowTmpfsChanged();
     void filedialogShowHiddenFilesFoldersChanged();
+    void filedialogFolderContentThumbnailsSortByChanged();
+    void filedialogFolderContentThumbnailsSortAscendingChanged();
     void filetypesLoadAppleLivePhotosChanged();
     void filetypesLoadMotionPhotosChanged();
     void filetypesExternalUnrarChanged();

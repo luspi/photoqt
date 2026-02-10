@@ -44,9 +44,8 @@ Item {
             required property string folder
             required property int num
             required property int curindex
-            required property string overwriteThumbFilename
             anchors.fill: folderthumb
-            source: (overwriteThumbFilename==="" ? ("image://folderthumb/" + folder + ":://::" + num) : ("image://thumb/" + overwriteThumbFilename))
+            source: "image://folderthumb/" + folder + ":://::" + num
             smooth: true
             mipmap: false
             fillMode: PQCSettings.filedialogFolderContentThumbnailsScaleCrop ? Image.PreserveAspectCrop : Image.PreserveAspectFit
@@ -90,24 +89,8 @@ Item {
             if(!PQCSettings.filedialogFolderContentThumbnails || PQCScriptsFilesPaths.isExcludeDirFromCaching(fname))
                 return
             if((view_top.currentIndex===deleg.modelData || PQCSettings.filedialogFolderContentThumbnailsAutoload) && (PQCSettings.filedialogFolderContentThumbnailsLoop || folderthumb.curnum == 0)) {
-
-                var overwriteThumbFilename = ""
-
-                var toload = (folderthumb.curnum<0 ? 1 : folderthumb.curnum%deleg.numberFilesInsideFolder +1)
-                if(PQCSettings.filedialogFolderContentThumbnailsAutoload &&
-                        (PQCSettings.filedialogFolderContentThumbnailsFirstLast === "last" || PQCSettings.filedialogFolderContentThumbnailsFirstLast === "mostrecent") &&
-                        folderthumb.curnum === 0) {
-                    if(PQCSettings.filedialogFolderContentThumbnailsFirstLast === "last")
-                        toload = deleg.numberFilesInsideFolder
-                    else {
-                        toload = -1
-                        overwriteThumbFilename = PQCFileFolderModel.getFilenameOfMostRecentFile(fname)
-                    }
-                }
-
-
-                folderthumb.curnum = toload
-                folderthumb_model.append({"folder": fname, "num": folderthumb.curnum, "overwriteThumbFilename": overwriteThumbFilename, "curindex": deleg.modelData})
+                folderthumb.curnum = (folderthumb.curnum<0 ? 1 : folderthumb.curnum%deleg.numberFilesInsideFolder +1)
+                folderthumb_model.append({"folder": fname, "num": folderthumb.curnum, "curindex": deleg.modelData})
             }
         }
     }

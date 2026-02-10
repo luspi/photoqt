@@ -302,7 +302,8 @@ PQMenu {
             title: qsTranslate("filedialog", "autoload")
             enabled: folderthumbshow.checked && thumbnailsshow.checked
 
-            ButtonGroup { id: grp_fl }
+            ButtonGroup { id: grp_sort }
+            ButtonGroup { id: grp_sortasc }
 
             PQMenuItem {
                 id: autoload_check
@@ -321,64 +322,168 @@ PQMenu {
             PQMenuItem {
                 enabled: false
                 moveToRightABit: true
-                //: file manager settings popdown: start autoload with first or last entry in subfolder
-                text: qsTranslate("filedialog", "start with:")
+                //: file manager settings popdown: sort folder thumbnail list by a custom criteria
+                text: qsTranslate("filedialog", "sort thumbnail by:")
             }
 
             PQMenuItem {
-                id: autothumb_first
-                text: qsTranslate("filedialog", "first thumbnail")
+                id: autothumb_sortdefault
+                text: qsTranslate("filedialog", "same as main view")
                 checkable: true
                 enabled: autoload_check.checked
                 checkableLikeRadioButton: true
-                ButtonGroup.group: grp_fl
-                checked: PQCSettings.filedialogFolderContentThumbnailsFirstLast==="first"
+                ButtonGroup.group: grp_sort
+                checked: PQCSettings.filedialogFolderContentThumbnailsSortBy==="default"
                 onCheckedChanged: {
                     if(checked)
-                        PQCSettings.filedialogFolderContentThumbnailsFirstLast = "first"
+                        PQCSettings.filedialogFolderContentThumbnailsSortBy = "default"
                 }
                 Connections {
                     target: PQCSettings
-                    function onFiledialogFolderContentThumbnailsFirstLastChanged() {
-                        autothumb_first.checked = (PQCSettings.filedialogFolderContentThumbnailsFirstLast==="first")
+                    function onFiledialogFolderContentThumbnailsSortByChanged() {
+                        autothumb_sortdefault.checked = (PQCSettings.filedialogFolderContentThumbnailsSortBy==="default")
                     }
                 }
             }
             PQMenuItem {
-                id: autothumb_last
-                text: qsTranslate("filedialog", "last thumbnail")
-                enabled: autoload_check.checked
+                id: autothumb_sortname
+                text: qsTranslate("filedialog", "name")
                 checkable: true
+                enabled: autoload_check.checked
                 checkableLikeRadioButton: true
-                ButtonGroup.group: grp_fl
-                checked: PQCSettings.filedialogFolderContentThumbnailsFirstLast==="last"
+                ButtonGroup.group: grp_sort
+                checked: PQCSettings.filedialogFolderContentThumbnailsSortBy==="name"
                 onCheckedChanged: {
                     if(checked)
-                        PQCSettings.filedialogFolderContentThumbnailsFirstLast = "last"
+                        PQCSettings.filedialogFolderContentThumbnailsSortBy = "name"
                 }
                 Connections {
                     target: PQCSettings
-                    function onFiledialogFolderContentThumbnailsFirstLastChanged() {
-                        autothumb_last.checked = (PQCSettings.filedialogFolderContentThumbnailsFirstLast==="last")
+                    function onFiledialogFolderContentThumbnailsSortByChanged() {
+                        autothumb_sortname.checked = (PQCSettings.filedialogFolderContentThumbnailsSortBy==="name")
                     }
                 }
             }
             PQMenuItem {
-                id: autothumb_recent
-                text: qsTranslate("filedialog", "most recently modified")
-                enabled: autoload_check.checked
+                id: autothumb_sortnaturalname
+                text: qsTranslate("filedialog", "natural name")
                 checkable: true
+                enabled: autoload_check.checked
                 checkableLikeRadioButton: true
-                ButtonGroup.group: grp_fl
-                checked: PQCSettings.filedialogFolderContentThumbnailsFirstLast==="mostrecent"
+                ButtonGroup.group: grp_sort
+                checked: PQCSettings.filedialogFolderContentThumbnailsSortBy==="naturalname"
                 onCheckedChanged: {
                     if(checked)
-                        PQCSettings.filedialogFolderContentThumbnailsFirstLast = "mostrecent"
+                        PQCSettings.filedialogFolderContentThumbnailsSortBy = "naturalname"
                 }
                 Connections {
                     target: PQCSettings
-                    function onFiledialogFolderContentThumbnailsFirstLastChanged() {
-                        autothumb_recent.checked = (PQCSettings.filedialogFolderContentThumbnailsFirstLast==="mostrecent")
+                    function onFiledialogFolderContentThumbnailsSortByChanged() {
+                        autothumb_sortnaturalname.checked = (PQCSettings.filedialogFolderContentThumbnailsSortBy==="naturalname")
+                    }
+                }
+            }
+            PQMenuItem {
+                id: autothumb_sorttime
+                text: qsTranslate("filedialog", "time modified")
+                checkable: true
+                enabled: autoload_check.checked
+                checkableLikeRadioButton: true
+                ButtonGroup.group: grp_sort
+                checked: PQCSettings.filedialogFolderContentThumbnailsSortBy==="time"
+                onCheckedChanged: {
+                    if(checked)
+                        PQCSettings.filedialogFolderContentThumbnailsSortBy = "time"
+                }
+                Connections {
+                    target: PQCSettings
+                    function onFiledialogFolderContentThumbnailsSortByChanged() {
+                        autothumb_sorttime.checked = (PQCSettings.filedialogFolderContentThumbnailsSortBy==="time")
+                    }
+                }
+            }
+            PQMenuItem {
+                id: autothumb_sortfilesize
+                text: qsTranslate("filedialog", "file size")
+                checkable: true
+                enabled: autoload_check.checked
+                checkableLikeRadioButton: true
+                ButtonGroup.group: grp_sort
+                checked: PQCSettings.filedialogFolderContentThumbnailsSortBy==="size"
+                onCheckedChanged: {
+                    if(checked)
+                        PQCSettings.filedialogFolderContentThumbnailsSortBy = "size"
+                }
+                Connections {
+                    target: PQCSettings
+                    function onFiledialogFolderContentThumbnailsSortByChanged() {
+                        autothumb_sortfilesize.checked = (PQCSettings.filedialogFolderContentThumbnailsSortBy==="size")
+                    }
+                }
+            }
+            PQMenuItem {
+                id: autothumb_sortfiletype
+                text: qsTranslate("filedialog", "file type")
+                checkable: true
+                enabled: autoload_check.checked
+                checkableLikeRadioButton: true
+                ButtonGroup.group: grp_sort
+                checked: PQCSettings.filedialogFolderContentThumbnailsSortBy==="type"
+                onCheckedChanged: {
+                    if(checked)
+                        PQCSettings.filedialogFolderContentThumbnailsSortBy = "type"
+                }
+                Connections {
+                    target: PQCSettings
+                    function onFiledialogFolderContentThumbnailsSortByChanged() {
+                        autothumb_sortfiletype.checked = (PQCSettings.filedialogFolderContentThumbnailsSortBy==="type")
+                    }
+                }
+            }
+
+            PQMenuSeparator {}
+
+            PQMenuItem {
+                enabled: false
+                moveToRightABit: true
+                //: file manager settings popdown: sort folder thumbnails in ascending or descending order
+                text: qsTranslate("filedialog", "sort order:")
+            }
+            PQMenuItem {
+                id: autothumb_sortasc
+                text: qsTranslate("filedialog", "ascending")
+                checkable: true
+                enabled: autoload_check.checked && !autothumb_sortdefault.checked
+                checkableLikeRadioButton: true
+                ButtonGroup.group: grp_sortasc
+                checked: PQCSettings.filedialogFolderContentThumbnailsSortAscending
+                onCheckedChanged: {
+                    if(checked)
+                        PQCSettings.filedialogFolderContentThumbnailsSortAscending = true
+                }
+                Connections {
+                    target: PQCSettings
+                    function onFiledialogFolderContentThumbnailsSortByChanged() {
+                        autothumb_sortasc.checked = PQCSettings.filedialogFolderContentThumbnailsSortAscending
+                    }
+                }
+            }
+            PQMenuItem {
+                id: autothumb_sortdesc
+                text: qsTranslate("filedialog", "descending")
+                checkable: true
+                enabled: autoload_check.checked && !autothumb_sortdefault.checked
+                checkableLikeRadioButton: true
+                ButtonGroup.group: grp_sortasc
+                checked: !PQCSettings.filedialogFolderContentThumbnailsSortAscending
+                onCheckedChanged: {
+                    if(checked)
+                        PQCSettings.filedialogFolderContentThumbnailsSortAscending = false
+                }
+                Connections {
+                    target: PQCSettings
+                    function onFiledialogFolderContentThumbnailsSortByChanged() {
+                        autothumb_sortdesc.checked = !PQCSettings.filedialogFolderContentThumbnailsSortAscending
                     }
                 }
             }
