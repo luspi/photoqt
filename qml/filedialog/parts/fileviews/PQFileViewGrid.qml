@@ -207,7 +207,7 @@ GridView {
                     mipmap: true
                     width: height
                     opacity: 0.3
-                    visible: deleg.isFolder && folderthumb.curnum>0
+                    visible: deleg.isFolder && folderthumb.curnum!==0
                 }
             }
 
@@ -271,6 +271,7 @@ GridView {
                 x: 5
                 y: (parent.height-height)/2-2
                 font.weight: PQCLook.fontWeightBold
+                visible: folderthumb.curnum>0
                 color: palette.base
                 elide: Text.ElideMiddle
                 text: "#"+folderthumb.curnum

@@ -44,8 +44,9 @@ Item {
             required property string folder
             required property int num
             required property int curindex
+            required property string overwriteThumbFilename
             anchors.fill: folderthumb
-            source: "image://folderthumb/" + folder + ":://::" + num
+            source: (overwriteThumbFilename==="" ? ("image://folderthumb/" + folder + ":://::" + num) : ("image://thumb/" + overwriteThumbFilename))
             smooth: true
             mipmap: false
             fillMode: PQCSettings.filedialogFolderContentThumbnailsScaleCrop ? Image.PreserveAspectCrop : Image.PreserveAspectFit
@@ -81,24 +82,32 @@ Item {
             // if thumbnails are disabled, then do nothing here
             if(!PQCSettings.filedialogThumbnails) return
 
-            var fname = PQCFileFolderModel.entriesFileDialog[deleg.modelData]
             if(!deleg.isFolder)
                 return
             if(deleg.numberFilesInsideFolder === 0)
                 return
+            var fname = PQCFileFolderModel.entriesFileDialog[deleg.modelData]
             if(!PQCSettings.filedialogFolderContentThumbnails || PQCScriptsFilesPaths.isExcludeDirFromCaching(fname))
                 return
             if((view_top.currentIndex===deleg.modelData || PQCSettings.filedialogFolderContentThumbnailsAutoload) && (PQCSettings.filedialogFolderContentThumbnailsLoop || folderthumb.curnum == 0)) {
 
-                var toload = folderthumb.curnum%deleg.numberFilesInsideFolder +1
+                var overwriteThumbFilename = ""
+
+                var toload = (folderthumb.curnum<0 ? 1 : folderthumb.curnum%deleg.numberFilesInsideFolder +1)
                 if(PQCSettings.filedialogFolderContentThumbnailsAutoload &&
-                        PQCSettings.filedialogFolderContentThumbnailsFirstLast === "last" &&
+                        (PQCSettings.filedialogFolderContentThumbnailsFirstLast === "last" || PQCSettings.filedialogFolderContentThumbnailsFirstLast === "mostrecent") &&
                         folderthumb.curnum === 0) {
-                    toload = deleg.numberFilesInsideFolder
+                    if(PQCSettings.filedialogFolderContentThumbnailsFirstLast === "last")
+                        toload = deleg.numberFilesInsideFolder
+                    else {
+                        toload = -1
+                        overwriteThumbFilename = PQCFileFolderModel.getFilenameOfMostRecentFile(fname)
+                    }
                 }
 
+
                 folderthumb.curnum = toload
-                folderthumb_model.append({"folder": fname, "num": folderthumb.curnum, "curindex": deleg.modelData})
+                folderthumb_model.append({"folder": fname, "num": folderthumb.curnum, "overwriteThumbFilename": overwriteThumbFilename, "curindex": deleg.modelData})
             }
         }
     }
@@ -113,12 +122,8 @@ Item {
     Connections {
         target: deleg
         function onNumberFilesInsideFolderChanged() {
-            if(PQCSettings.filedialogFolderContentThumbnailsAutoload && folderthumb.curnum === 0) {
-                if(PQCSettings.filedialogFolderContentThumbnailsLoop)
-                    folderthumb_next.start()
-                else
-                    folderthumb_next.triggered()
-            }
+            if(PQCSettings.filedialogFolderContentThumbnailsAutoload && folderthumb.curnum === 0)
+                folderthumb_next.triggered()
         }
     }
 
@@ -126,10 +131,7 @@ Item {
         target: PQCSettings
         function onFiledialogFolderContentThumbnailsAutoloadChanged() {
             if(PQCSettings.filedialogFolderContentThumbnailsAutoload && folderthumb.curnum === 0)
-                if(PQCSettings.filedialogFolderContentThumbnailsLoop)
-                    folderthumb_next.start()
-                else
-                    folderthumb_next.triggered()
+                folderthumb_next.triggered()
         }
     }
 

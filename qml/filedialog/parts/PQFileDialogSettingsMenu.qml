@@ -363,6 +363,25 @@ PQMenu {
                     }
                 }
             }
+            PQMenuItem {
+                id: autothumb_recent
+                text: qsTranslate("filedialog", "most recently modified")
+                enabled: autoload_check.checked
+                checkable: true
+                checkableLikeRadioButton: true
+                ButtonGroup.group: grp_fl
+                checked: PQCSettings.filedialogFolderContentThumbnailsFirstLast==="mostrecent"
+                onCheckedChanged: {
+                    if(checked)
+                        PQCSettings.filedialogFolderContentThumbnailsFirstLast = "mostrecent"
+                }
+                Connections {
+                    target: PQCSettings
+                    function onFiledialogFolderContentThumbnailsFirstLastChanged() {
+                        autothumb_recent.checked = (PQCSettings.filedialogFolderContentThumbnailsFirstLast==="mostrecent")
+                    }
+                }
+            }
 
         }
 

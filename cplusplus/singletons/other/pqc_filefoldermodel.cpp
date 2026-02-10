@@ -1661,3 +1661,15 @@ void PQCFileFolderModel::loadNextMatchOfSearch(const QString search) {
     PQCNotifyCPP::get().showNotificationMessage("Nothing found", "The current search term returned no results.");
 
 }
+
+QString PQCFileFolderModel::getFilenameOfMostRecentFile(const QString folder) {
+
+    QDir dir(folder);
+    const QStringList lst = dir.entryList(QDir::Files|QDir::NoDotAndDotDot, QDir::Time);
+    qDebug() << folder;
+    qDebug() << lst;
+    if(lst.length()) return QString("%1/%2").arg(folder, lst[0]);
+
+    return "";
+
+}

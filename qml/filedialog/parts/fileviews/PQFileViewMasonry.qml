@@ -387,7 +387,7 @@ Flickable {
                         mipmap: true
                         width: height
                         opacity: 0.3
-                        visible: deleg.isFolder && deleg.folderthumbCurNum>0
+                        visible: deleg.isFolder && deleg.folderthumbCurNum!==0
                     }
 
                 }

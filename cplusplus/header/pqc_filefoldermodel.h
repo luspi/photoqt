@@ -202,6 +202,7 @@ public:
     Q_INVOKABLE void disableViewerMode(bool bufferDisabling = true);
     Q_INVOKABLE QString getFirstMatchFileDialog(QString partial);
     Q_INVOKABLE void loadNextMatchOfSearch(const QString search);
+    Q_INVOKABLE QString getFilenameOfMostRecentFile(const QString folder);
 
     /********************************************/
 
