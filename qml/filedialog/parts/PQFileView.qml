@@ -625,7 +625,9 @@ Item {
 
         function onNewDataLoadedFileDialog() {
 
-            view_top.setupNewData()
+            // see comment next to definition of this property for more details
+            if(view_top.firstSetupCalled)
+                view_top.setupNewData()
 
         }
     }
@@ -638,12 +640,23 @@ Item {
         }
     }
 
+    // at startup, this get triggered twice:
+    // 1) once from setting the current view
+    // 2) once from new data being available
+    // The second gets called before the first, so we only react to it after the data has been set up at least once
+    // This avoids the setupNewData() function to be called twice at startup
+    property bool firstSetupCalled: false
+
     function setupNewData() {
 
         if(fileview.item === null) {
             waitForFileviewToBeReady.restart()
             return
         }
+
+        // register that we called this at least once
+        // see comment at definition of this property for more details
+        firstSetupCalled = true
 
         // This check is necessary, otherwise this function MIGHT get called BEFORE everything is accessible to QML
         // resulting in a bunch of undefined warnings before the function is called AGAIN seting everything up properly
