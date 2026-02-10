@@ -136,6 +136,7 @@ Item {
         anchors.fill: parent
         propagateComposedEvents: true
         acceptedButtons: Qt.AllButtons
+        cursorShape: view_top.currentIndex > -1 ? Qt.PointingHandCursor : Qt.ArrowCursor
 
         onClicked: (mouse) => { mouse.accepted = false }
         onPressAndHold: (mouse) => { mouse.accepted = false }
