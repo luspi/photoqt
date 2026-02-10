@@ -32,6 +32,14 @@ Rectangle {
     visible: opacity>0
     Behavior on opacity { enabled: !PQCSettings.generalDisableAllAnimations; NumberAnimation { id: opacityAny; duration: 200 } }
 
+    onOpacityChanged: {
+        if(opacity === 0) {
+            exportbusy.opacity = 0
+            exportfailure.opacity = 0
+            exportsuccess.opacity = 0
+        }
+    }
+
     anchors.fill: parent
     color: "#44000000"
 

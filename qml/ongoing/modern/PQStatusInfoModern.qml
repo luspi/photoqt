@@ -334,8 +334,10 @@ Item {
 
                         filterrect.filterset = txt.length>0
 
+                        PQCConstants.currentFilterString = txt.join("&nbsp;&nbsp;|&nbsp;&nbsp;")
+
                         //: This refers to the currently set filter
-                        text = "<b>" + qsTranslate("statusinfo", "Filter:") + "</b>&nbsp;&nbsp;" + txt.join("&nbsp;&nbsp;|&nbsp;&nbsp;")
+                        text = "<b>" + qsTranslate("statusinfo", "Filter:") + "</b>&nbsp;&nbsp;" + PQCConstants.currentFilterString
 
                     }
                 }

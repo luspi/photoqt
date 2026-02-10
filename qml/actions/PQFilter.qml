@@ -22,6 +22,7 @@
 
 import QtQuick
 import PhotoQt
+import "../other/PQCommonFunctions.js" as PQF
 
 PQTemplate {
 
@@ -34,6 +35,7 @@ PQTemplate {
 
         //: Written on a clickable button - please keep short
         button1.text = qsTranslate("filter", "Filter")
+        button1.enabled = Qt.binding(function() { return !filter_top.attemptToSetFilter })
 
         button2.visible = true
         button2.text = button2.genericStringCancel
@@ -44,20 +46,32 @@ PQTemplate {
         button3.fontWeight = PQCLook.fontWeightNormal
     }
 
+    // when setting a new filter we wait until we get some feedback
+    // this boolean stores that this is what we are doing
+    property bool attemptToSetFilter: false
+
+    // When nothing was found, we remove the filter again
+    // But in that case we want to ignore the "new data!" signal
+    // as this would be taken as "successfull filter application" and close the filter window
+    property bool ignoreFilterRemoval: false
+
     Connections {
         target: button1
         function onClicked() {
-            if(!filenamecheck.checked && !rescheck.checked && !filesizecheck.checked)
+            if(!filenamecheck.checked && !rescheck.checked && !filesizecheck.checked) {
                 filter_top.removeFilter()
-            else
+                filter_top.hide()
+            } else {
+                filter_top.attemptToSetFilter = true
                 filter_top.setFilter()
-            filter_top.hide()
+            }
         }
     }
     Connections {
         target: button2
         function onClicked() {
             filter_top.hide()
+            filter_top.removeFilter()
         }
     }
     Connections {
@@ -65,6 +79,34 @@ PQTemplate {
         function onClicked() {
             filter_top.hide()
             filter_top.removeFilter()
+        }
+    }
+
+    Connections {
+        target: PQCFileFolderModel
+        // if the data changed and we were expecting it, react to it
+        function onNewDataLoadedMainView() {
+
+            if(filter_top.ignoreFilterRemoval) {
+                filter_top.ignoreFilterRemoval = false
+                return
+            }
+
+            if(filter_top.visible && filter_top.attemptToSetFilter) {
+                if(PQCFileFolderModel.countMainView > 0) {
+                    doingFilter.showSuccess()
+                    doingFilter.hide()
+                    filter_top.hide()
+                } else {
+                    doingFilter.showFailure()
+                    filter_top.attemptToSetFilter = false
+                                                      //: The matches here refer to matches to some filter criteria
+                    PQCNotify.showNotificationMessage(qsTranslate("filter", "No matches found"),
+                                                      qsTranslate("filter", "No files match the requested filter."))
+                    filter_top.ignoreFilterRemoval = true
+                    PQCFileFolderModel.removeAllUserFilter()
+                }
+            }
         }
     }
 
@@ -79,6 +121,7 @@ PQTemplate {
             y: (filter_top.availableHeight-height)/2
 
             spacing: 10
+            enabled: !filter_top.attemptToSetFilter
 
             PQTextL {
 
@@ -325,6 +368,10 @@ PQTemplate {
 
     ]
 
+    PQWorking {
+        id: doingFilter
+    }
+
     Connections {
 
         target: PQCNotify
@@ -341,14 +388,25 @@ PQTemplate {
 
                     if(param[0] === Qt.Key_Escape) {
 
-                        if(reswidth.editMode || resheight.editMode || filesize.editMode)
-                            filter_top.closePopupMenuSpin()
-                        else
-                            filter_top.button2.clicked()
+                        if(filter_top.attemptToSetFilter) {
+
+                            filter_top.ignoreFilterRemoval = true
+                            PQCFileFolderModel.removeAllUserFilter()
+
+                        } else {
+
+                            if(reswidth.editMode || resheight.editMode || filesize.editMode)
+                                filter_top.closePopupMenuSpin()
+                            else
+                                filter_top.button2.clicked()
+
+                        }
 
                     } else if(param[0] === Qt.Key_Enter || param[0] === Qt.Key_Return)
-                        filter_top.button1.clicked()
+                        if(!filter_top.attemptToSetFilter)
+                            filter_top.button1.clicked()
                     else if(param[0] === Qt.Key_Tab) {
+                        if(filter_top.attemptToSetFilter) return
                         if(reswidth.activeFocus)
                             resheight.forceActiveFocus()
                         else if(resheight.activeFocus)
@@ -370,6 +428,9 @@ PQTemplate {
         if((PQCFileFolderModel.currentIndex === -1 || PQCFileFolderModel.countMainView === 0) && !PQCFileFolderModel.filterCurrentlyActive) {
             return false
         }
+        doingFilter.hide()
+        ignoreFilterRemoval = false
+        attemptToSetFilter = false
         opacity = 1
         PQCConstants.modalFilterOpen = true
 
@@ -454,18 +515,39 @@ PQTemplate {
                 }
             }
         }
+
+        // if the filter hasn't changed, nothing will happen
+        // in that case we need to remove the filter window as we're done
+        var willReload = false
+
+        if(!PQF.areTwoListsEqual(PQCFileFolderModel.nameFilters, fileEndingFilter)) willReload = true
         PQCFileFolderModel.nameFilters = fileEndingFilter
+
+        if(!PQF.areTwoListsEqual(PQCFileFolderModel.filenameFilters, fileNameFilter)) willReload = true
         PQCFileFolderModel.filenameFilters = fileNameFilter
 
-        if(rescheck.checked)
-            PQCFileFolderModel.imageResolutionFilter = Qt.size((resgreaterless.greater ? 1 : -1)*reswidth.value, (resgreaterless.greater ? 1 : -1)*resheight.value)
-        else
+        if(rescheck.checked) {
+            var toSet = Qt.size((resgreaterless.greater ? 1 : -1)*reswidth.value, (resgreaterless.greater ? 1 : -1)*resheight.value)
+            if(PQCFileFolderModel.imageResolutionFilter !== toSet) willReload = true
+            PQCFileFolderModel.imageResolutionFilter = toSet
+        } else {
+            if(PQCFileFolderModel.imageResolutionFilter !== Qt.size(0,0)) willReload = true
             PQCFileFolderModel.imageResolutionFilter = Qt.size(0,0)
+        }
 
-        if(filesizecheck.checked)
-            PQCFileFolderModel.fileSizeFilter = (filesizegreaterless.greater ? 1 : -1)*filesize.value*(filesizekb.checked ? 1024 : (1024*1024))
-        else
+        if(filesizecheck.checked) {
+            var toSetFS = (filesizegreaterless.greater ? 1 : -1)*filesize.value*(filesizekb.checked ? 1024 : (1024*1024))
+            if(PQCFileFolderModel.fileSizeFilter !== toSetFS) willReload = true
+            PQCFileFolderModel.fileSizeFilter = toSetFS
+        } else {
+            if(PQCFileFolderModel.fileSizeFilter !== 0) willReload = true
             PQCFileFolderModel.fileSizeFilter = 0
+        }
+
+        if(willReload)
+            doingFilter.showBusy()
+        else if(PQCConstants.currentFilterString !== "")
+            filter_top.hide()
 
     }
 

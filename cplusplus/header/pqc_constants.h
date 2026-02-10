@@ -71,6 +71,7 @@ public:
         m_displayTextMaxLength = 1000;
         m_searchText = "";
         m_openGLAvailableForSpheres = true;
+        m_currentFilterString = "";
 
         m_isModalOpen = false;
         m_modalElementOpen = false;
@@ -385,6 +386,7 @@ public:
     Q_PROPERTY(int displayTextMaxLength MEMBER m_displayTextMaxLength NOTIFY displayTextMaxLengthChanged)
     Q_PROPERTY(QString searchText MEMBER m_searchText NOTIFY searchTextChanged)
     Q_PROPERTY(bool openGLAvailableForSpheres MEMBER m_openGLAvailableForSpheres NOTIFY openGLAvailableForSpheresChanged)
+    Q_PROPERTY(QString currentFilterString MEMBER m_currentFilterString NOTIFY currentFilterStringChanged)
 
     /******************************************************/
     // some window properties
@@ -580,6 +582,7 @@ private:
     int m_displayTextMaxLength;
     QString m_searchText;
     bool m_openGLAvailableForSpheres;
+    QString m_currentFilterString;
 
     bool m_slideshowRunning;
     bool m_slideshowRunningAndPlaying;
@@ -798,5 +801,6 @@ Q_SIGNALS:
     void settingsManagerStartWithExtensionOpenChanged();
     void searchTextChanged();
     void openGLAvailableForSpheresChanged();
+    void currentFilterStringChanged();
 
 };
