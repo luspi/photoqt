@@ -69,7 +69,7 @@
 #endif
 
 #ifdef PQMZXING
-#if __has_include(<ZXing/ZXingCpp.h>)
+#if __has_include(<ZXing/WriteBarcode.h>)
 #include <ZXing/ZXingCpp.h>
 #else
 #include <ZXing/ReadBarcode.h>
