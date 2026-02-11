@@ -69,8 +69,12 @@
 #endif
 
 #ifdef PQMZXING
+#if __has_include(<ZXing/ZXingCpp.h>)
+#include <ZXing/ZXingCpp.h>
+#else
 #include <ZXing/ReadBarcode.h>
 #include <ZXing/ZXVersion.h>
+#endif
 #endif
 
 #if defined(PQMIMAGEMAGICK) || defined(PQMGRAPHICSMAGICK)
@@ -817,24 +821,18 @@ QVariantList PQCScriptsImages::getZXingData(QString path) {
 #if ZXING_VERSION_MAJOR == 1 && ZXING_VERSION_MINOR <= 2
 
     // Read any bar code
-    const ZXing::DecodeHints hints = ZXing::DecodeHints().setFormats(ZXing::BarcodeFormat::Any);
-    const ZXing::Result r = ZXing::ReadBarcode({img.bits(), img.width(), img.height(), ZXing::ImageFormat::Lum}, hints);
+    const ZXing::Result r = ZXing::ReadBarcode({img.bits(), img.width(), img.height(), ZXing::ImageFormat::Lum});
 
 #elif (ZXING_VERSION_MAJOR == 2 && ZXING_VERSION_MINOR <= 1) || ZXING_VERSION_MAJOR == 1
 
     // Read all bar codes
-    const ZXing::DecodeHints hints = ZXing::DecodeHints().setFormats(ZXing::BarcodeFormat::Any);
-    const std::vector<ZXing::Result> results = ZXing::ReadBarcodes({img.bits(), img.width(), img.height(), ZXing::ImageFormat::Lum}, hints);
+    const auto results = ZXing::ReadBarcodes({img.bits(), img.width(), img.height(), frmt, static_cast<int>(img.bytesPerLine())});
 
 #else
 
     // Read all bar codes
-    auto hints = ZXing::ReaderOptions().setFormats(ZXing::BarcodeFormat::Any)
-                                                             .setTryHarder(true)
-                                                             .setTryInvert(true)
-                                                             .setTextMode(ZXing::TextMode::HRI)
-                                                             .setMaxNumberOfSymbols(10);
-    auto results = ZXing::ReadBarcodes({img.bits(), img.width(), img.height(), frmt, static_cast<int>(img.bytesPerLine())}, hints);
+    auto options = ZXing::ReaderOptions().setMaxNumberOfSymbols(10);
+    auto results = ZXing::ReadBarcodes({img.bits(), img.width(), img.height(), frmt, static_cast<int>(img.bytesPerLine())}, options);
 
 #endif
 
