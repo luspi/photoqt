@@ -78,6 +78,7 @@ option(WITH_MOTIONPHOTO           "Configure with support for Google Motion Phot
 option(WITH_PHOTOSPHERE           "Configure with support for photo spheres and 360 degree panoramic views" ON)
 option(WITH_PUGIXML               "Configure with support for the pugixml library (in place of Qt's XML support)" OFF)
 
+option(WITH_WAYLANDSPECIFIC       "Enable optional Wayland-specific code to allow for further optimizations." ON)
 option(WITH_JASPER_WORKAROUNDS    "Enable workarounds for jasper (needed on systems roughly older than Ubuntu 25.10)" OFF)
 option(WITH_TESTING               "Enable and build some unit tests" OFF)
 option(WITH_RUNCPPCHECK           "Analyse source code with cppcheck" OFF)
@@ -86,7 +87,6 @@ option(WITH_APPIMAGEBUILD         "Enable this option if this is an AppImage bui
 option(WITH_ADAPTSOURCE           "Adapt and change the source files for the current Qt version (if necessary)" OFF)
 option(WITHOUT_ICU                "Enable this option if your Qt6 setup has no ICU support" OFF)
 option(WITH_PORTABLETWEAKS        "Apply tweaks for a build of a portable version" OFF)
-option(WITH_WAYLANDSPECIFIC      "Enable optional Wayland-specific code to allow for further optimizations." OFF)
 
 
 #####################################
