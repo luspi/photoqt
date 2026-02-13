@@ -42,130 +42,130 @@ public:
         readFromDatabase();
     }
 
-    QVariantList getAllFormats() {
+    const QVariantList getAllFormats() {
         return formats;
     }
     void setAllFormats(QVariantList f) {
         writeToDatabase(f);
     }
 
-    QStringList getEnabledFormats() {
+    const QStringList getEnabledFormats() {
         return formats_enabled;
     }
 
-    QStringList getEnabledMimeTypes() {
+    const QStringList getEnabledMimeTypes() {
         return mimetypes_enabled;
     }
 
-    QStringList getEnabledFormatsQt() {
+    const QStringList getEnabledFormatsQt() {
         return formats_qt;
     }
 
-    QStringList getEnabledMimeTypesQt() {
+    const QStringList getEnabledMimeTypesQt() {
         return mimetypes_qt;
     }
 
-    QStringList getEnabledFormatsResvg() {
+    const QStringList getEnabledFormatsResvg() {
         return formats_resvg;
     }
 
-    QStringList getEnabledMimeTypesResvg() {
+    const QStringList getEnabledMimeTypesResvg() {
         return mimetypes_resvg;
     }
 
-    QStringList getEnabledFormatsLibVips() {
+    const QStringList getEnabledFormatsLibVips() {
         return formats_libvips;
     }
 
-    QStringList getEnabledMimeTypesLibVips() {
+    const QStringList getEnabledMimeTypesLibVips() {
         return mimetypes_libvips;
     }
 
-    QStringList getEnabledFormatsMagick() {
+    const QStringList getEnabledFormatsMagick() {
         return formats_magick;
     }
 
-    QStringList getEnabledMimeTypesMagick() {
+    const QStringList getEnabledMimeTypesMagick() {
         return mimetypes_magick;
     }
 
-    QStringList getEnabledFormatsLibRaw() {
+    const QStringList getEnabledFormatsLibRaw() {
         return formats_libraw;
     }
 
-    QStringList getEnabledMimeTypesLibRaw() {
+    const QStringList getEnabledMimeTypesLibRaw() {
         return mimetypes_libraw;
     }
 
-    QStringList getEnabledFormatsPoppler() {
+    const QStringList getEnabledFormatsPoppler() {
         return formats_poppler;
     }
 
-    QStringList getEnabledMimeTypesPoppler() {
+    const QStringList getEnabledMimeTypesPoppler() {
         return mimetypes_poppler;
     }
 
-    QStringList getEnabledFormatsXCFTools() {
+    const QStringList getEnabledFormatsXCFTools() {
         return formats_xcftools;
     }
 
-    QStringList getEnabledMimeTypesXCFTools() {
+    const QStringList getEnabledMimeTypesXCFTools() {
         return mimetypes_xcftools;
     }
 
-    QStringList getEnabledFormatsDevIL() {
+    const QStringList getEnabledFormatsDevIL() {
         return formats_devil;
     }
 
-    QStringList getEnabledMimeTypesDevIL() {
+    const QStringList getEnabledMimeTypesDevIL() {
         return mimetypes_devil;
     }
 
-    QStringList getEnabledFormatsFreeImage() {
+    const QStringList getEnabledFormatsFreeImage() {
         return formats_freeimage;
     }
 
-    QStringList getEnabledMimeTypesFreeImage() {
+    const QStringList getEnabledMimeTypesFreeImage() {
         return mimetypes_freeimage;
     }
 
-    QStringList getEnabledFormatsLibArchive() {
+    const QStringList getEnabledFormatsLibArchive() {
         return formats_archive;
     }
 
-    QStringList getEnabledMimeTypesLibArchive() {
+    const QStringList getEnabledMimeTypesLibArchive() {
         return mimetypes_archive;
     }
 
-    QStringList getEnabledFormatsVideo() {
+    const QStringList getEnabledFormatsVideo() {
         return formats_video;
     }
 
-    QStringList getEnabledMimeTypesVideo() {
+    const QStringList getEnabledMimeTypesVideo() {
         return mimetypes_video;
     }
 
-    QStringList getEnabledFormatsLibmpv() {
+    const QStringList getEnabledFormatsLibmpv() {
         return formats_libmpv;
     }
 
-    QStringList getEnabledMimeTypesLibmpv() {
+    const QStringList getEnabledMimeTypesLibmpv() {
         return mimetypes_libmpv;
     }
 
-    QStringList getEnabledFormatsLibsai() {
+    const QStringList getEnabledFormatsLibsai() {
         return formats_libsai;
     }
 
-    QStringList getEnabledMimeTypesLibsai() {
+    const QStringList getEnabledMimeTypesLibsai() {
         return mimetypes_libsai;
     }
 
-    QVariantHash getMagick() {
+    const QVariantHash getMagick() {
         return magick;
     }
 
-    QVariantHash getMagickMimeType() {
+    const QVariantHash getMagickMimeType() {
         return magick_mimetype;
     }
 
