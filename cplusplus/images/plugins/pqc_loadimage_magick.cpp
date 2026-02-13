@@ -147,6 +147,9 @@ QString PQCLoadImageMagick::load(QString filename, QSize maxSize, QSize &origSiz
             // Read image into Magick
             image.read(filename.toStdString());
 
+            // Don't apply any orientation automatically, we handle it ourselves below
+            image.orientation(Magick::UndefinedOrientation);
+
             // done with the loop if we manage to get here.
             break;
 
@@ -195,7 +198,8 @@ QString PQCLoadImageMagick::load(QString filename, QSize maxSize, QSize &origSiz
         const QByteArray imgData((char*)(ob.data()),ob.length());
         img = QImage::fromData(imgData);
 
-        if(!img.isNull() && PQCSettingsCPP::get().getMetadataAutoRotation()) {
+        // heif/heic images always will be loaded already transformed, even if we attempt to disable it explicitely
+        if(!img.isNull() && PQCSettingsCPP::get().getMetadataAutoRotation() && suf != "HEIF" && suf != "HEIC") {
             // apply transformations if any
             PQCScriptsImages::get().applyExifOrientation(filename, img);
         }
