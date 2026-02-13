@@ -95,7 +95,8 @@ QString PQCLoadImageLibVips::load(QString filename, QSize maxSize, QSize &origSi
         return errormsg;
     }
 
-    if(PQCSettingsCPP::get().getMetadataAutoRotation()) {
+    const QString suf = QFileInfo(filename).suffix().toLower();
+    if(PQCSettingsCPP::get().getMetadataAutoRotation() && suf != "heif" && suf != "heic") {
         // apply transformations if any
         PQCScriptsImages::get().applyExifOrientation(filename, img);
     }
