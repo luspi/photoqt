@@ -61,7 +61,7 @@ QSize PQCLoadImageArchive::loadSize(QString filename) {
             qWarning() << "Unable to list contents of archive file...";
             return QSize();
         }
-        compressedFilename = cont.at(0).split("::ARC::").at(0);
+        compressedFilename = cont.at(0);
     }
 
     if(!QFileInfo::exists(archivefile)) {
@@ -183,7 +183,7 @@ QString PQCLoadImageArchive::load(QString filename, QSize maxSize, QSize &origSi
             qWarning() << errormsg;
             return errormsg;
         }
-        compressedFilename = cont.at(0).split("::ARC::").at(0);
+        compressedFilename = cont.at(0);
     }
 
     if(!QFileInfo::exists(archivefile)) {

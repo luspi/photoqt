@@ -643,7 +643,7 @@ Item {
             holdTrigger = true
             var pos = imagemouse.mapToItem(fullscreenitem, mouse.x, mouse.y)
             if(Math.abs(pos.x - touchPos.x) < 20 && Math.abs(pos.y - touchPos.y) < 20)
-                shortcuts.item.executeInternalFunction("__contextMenuTouch", pos, Qt.point(0,0))
+                PQCScriptsShortcuts.executeInternalCommandWithMousePos("__contextMenuTouch", pos)
         }
     }
 

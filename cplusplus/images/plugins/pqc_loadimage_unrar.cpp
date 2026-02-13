@@ -50,7 +50,7 @@ QImage PQCLoadImageUNRAR::loadArchiveIntoImage(QString filename) {
             qWarning() << "Unable to list contents of archive file...";
             return QImage();
         }
-        compressedFilename = cont.at(0).split("::ARC::").at(0);
+        compressedFilename = cont.at(0);
     }
 
     if(!QFileInfo::exists(archivefile)) {

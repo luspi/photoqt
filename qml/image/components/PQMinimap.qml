@@ -243,26 +243,14 @@ Rectangle {
             }
         }
 
-        Timer {
-            interval: PQCSettings.imageviewAnimationDuration*100
-            running: !hasBeenTriggered
-            property bool hasBeenTriggered: false
-            onTriggered: {
-                hasBeenTriggered = true
-                var cl = PQCScriptsFilesPaths.cleanPath(PQCFileFolderModel.currentFile)
-                if(cl !== "")
-                    img.source = encodeURI("image://mipmap/" + cl)
-            }
-        }
-
     }
 
+    // This signal is emitted AFTER the image has been displayed. There might be some actions that happen in the meantime (e.g., very large archives
+    // with very many files might sit for a while loading) and we don't want to bother with a mipmap until that is done
     Connections {
-        target: PQCFileFolderModel
-        function onCurrentFileChanged() {
-            var cl = PQCScriptsFilesPaths.cleanPath(PQCFileFolderModel.currentFile)
-            if(cl !== "")
-                img.source = encodeURI("image://mipmap/" + cl)
+        target: PQCNotify
+        function onNewImageHasBeenDisplayed() {
+            img.source = encodeURI(PQCFileFolderModel.currentFile==="" ? "" : ("image://mipmap/" + PQCFileFolderModel.currentFile))
         }
     }
 

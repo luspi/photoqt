@@ -183,36 +183,60 @@ QString PQCScriptsImages::loadImageAndConvertToBase64(QString filename) {
 
 }
 
-void PQCScriptsImages::listArchiveContent(QString path, bool insideFilenameOnly) {
+void PQCScriptsImages::listArchiveContent(QString path) {
 
     qDebug() << "args: path =" << path;
-    qDebug() << "args: insideFilenameOnly =" << insideFilenameOnly;
 
     if(path.contains("::ARC::"))
         path = path.split("::ARC::").at(1);
 
     const QFileInfo info(path);
-    QString cacheKey = QString("%1::%2::%3::%4").arg(info.lastModified().toMSecsSinceEpoch()).arg(path, PQCSettingsCPP::get().getImageviewSortImagesAscending()).arg(insideFilenameOnly);
+    QString cacheKey = QString("%1::%2::%3").arg(info.lastModified().toMSecsSinceEpoch())
+                                                .arg(path)
+                                                .arg(PQCSettingsCPP::get().getImageviewSortImagesAscending());
 
     if(archiveContentCache.contains(cacheKey)) {
+        qDebug() << "Found cached content, using that.";
         Q_EMIT haveArchiveContentFor(path, archiveContentCache[cacheKey]);
         return;
     }
 
+    if(inProcesOfLoadingTheseArchives.contains(cacheKey)) {
+        qDebug() << "Archive is currently being loaded. Waiting...";
+        QTimer::singleShot(500, [=]() { listArchiveContent(path); } );
+        return;
+    }
+
+    inProcesOfLoadingTheseArchives.append(cacheKey);
+
     QFuture<void> f = QtConcurrent::run([=]() {
-        Q_EMIT haveArchiveContentFor(path, PQCScriptsImages::listArchiveContentWithoutThread(path, cacheKey, insideFilenameOnly));
+        const QStringList ret = PQCScriptsImages::listArchiveContentWithoutThread(path, cacheKey);
+        Q_EMIT haveArchiveContentFor(path, ret);
+        inProcesOfLoadingTheseArchives.removeAt(inProcesOfLoadingTheseArchives.indexOf(cacheKey));
     });
 
 }
 
-QStringList PQCScriptsImages::listArchiveContentWithoutThread(QString path, QString cacheKey, bool insideFilenameOnly) {
+QStringList PQCScriptsImages::listArchiveContentWithoutThread(QString path, QString cacheKey) {
+
+    qDebug() << "args: path =" << path;
+    qDebug() << "args: cacheKey =" << cacheKey;
 
     QStringList ret;
 
     const QFileInfo info(path);
 
     if(cacheKey == "") {
-        cacheKey = QString("%1::%2::%3::%4").arg(info.lastModified().toMSecsSinceEpoch()).arg(path, PQCSettingsCPP::get().getImageviewSortImagesAscending()).arg(insideFilenameOnly);
+        cacheKey = QString("%1::%2::%3").arg(info.lastModified().toMSecsSinceEpoch())
+                                            .arg(path)
+                                            .arg(PQCSettingsCPP::get().getImageviewSortImagesAscending());
+
+        qDebug() << "Constructed cacheKey =" << cacheKey;
+    }
+
+    if(archiveContentCache.contains(cacheKey)) {
+        qDebug() << "Found cached content, using that.";
+        return archiveContentCache[cacheKey];
     }
 
 #ifndef Q_OS_WIN
@@ -241,16 +265,9 @@ QStringList PQCScriptsImages::listArchiveContentWithoutThread(QString path, QStr
 
                 allfiles.sort();
 
-                if(insideFilenameOnly) {
-                    for(const QString &f : std::as_const(allfiles)) {
-                        if(PQCImageFormats::get().getEnabledFormats().contains(QFileInfo(f).suffix().toLower()))
-                            ret.append(f);
-                    }
-                } else {
-                    for(const QString &f : std::as_const(allfiles)) {
-                        if(PQCImageFormats::get().getEnabledFormats().contains(QFileInfo(f).suffix().toLower()))
-                            ret.append(QString("%1::ARC::%2").arg(f, path));
-                    }
+                for(const QString &f : std::as_const(allfiles)) {
+                    if(PQCImageFormats::get().getEnabledFormats().contains(QFileInfo(f).suffix().toLower()))
+                        ret.append(f);
                 }
 
             }
@@ -307,12 +324,7 @@ QStringList PQCScriptsImages::listArchiveContentWithoutThread(QString path, QStr
         // Sort the temporary list and add to global list
         allfiles.sort();
 
-        if(insideFilenameOnly) {
-            ret = allfiles;
-        } else {
-            for(const QString &f : std::as_const(allfiles))
-                ret.append(QString("%1::ARC::%2").arg(f, path));
-        }
+        ret = allfiles;
 
         // Close archive
         r = archive_read_free(a);
@@ -337,10 +349,10 @@ QStringList PQCScriptsImages::listArchiveContentWithoutThread(QString path, QStr
     else
         std::sort(ret.begin(), ret.end(), [&collator](const QString &file1, const QString &file2) { return collator.compare(file2, file1) < 0; });
 
-{
-    QMutexLocker locker(&archiveMutex);
-    archiveContentCache.insert(cacheKey, ret);
-}
+    {
+        QMutexLocker locker(&archiveMutex);
+        archiveContentCache.insert(cacheKey, ret);
+    }
 
     return ret;
 

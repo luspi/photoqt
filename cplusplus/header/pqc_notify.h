@@ -185,6 +185,7 @@ Q_SIGNALS:
     void settingsmanagerSendCommand(QString what, QVariantList args);
     void storeLocationToDatabase(QString path, QPointF location);
     void showSettingsForExtension(QString id);
+    void showBusyIndicatorWhileImageIsLoading();
 
     // slideshow
     void slideshowHideHandler();

@@ -45,6 +45,63 @@ Item {
 
     property Item toplevelItem
 
+    // this mouse area will catch mouse movements AFTER a file has been selected and BEFORE it is loaded
+    // that time gap can be long, e.g., for very large archives with very many files
+    PQMouseArea {
+        anchors.fill: parent
+        anchors.topMargin: PQCSettings.interfaceWindowMode && !PQCSettings.interfaceWindowDecoration ? 30 : 0
+        hoverEnabled: true
+        enabled: !PQCConstants.imageInitiallyLoaded
+        acceptedButtons: Qt.AllButtons
+        doubleClickThreshold: PQCSettings.interfaceDoubleClickThreshold
+
+        property bool holdTrigger: false
+        property point touchPos: Qt.point(-1,-1)
+        onPositionChanged: (mouse) => {
+            var pos = mapToItem(fullscreenitem, mouse.x, mouse.y)
+            PQCNotify.mouseMove(pos.x, pos.y)
+        }
+        onWheel: (wheel) => {
+            wheel.accepted = true
+            PQCNotify.mouseWheel(Qt.point(wheel.x, wheel.y), wheel.angleDelta, wheel.modifiers)
+        }
+        onPressed: (mouse) => {
+            holdTrigger = false
+            var pos = mapToItem(fullscreenitem, mouse.x, mouse.y)
+            touchPos = pos
+            PQCNotify.mousePressed(mouse.modifiers, mouse.button, pos)
+        }
+        onMouseDoubleClicked: (mouse) => {
+            var pos = mapToItem(fullscreenitem, mouse.x, mouse.y)
+            PQCNotify.mouseDoubleClicked(mouse.modifiers, mouse.button, pos)
+        }
+        onReleased: (mouse) => {
+            if(holdTrigger) {
+                holdTrigger = false
+                return
+            }
+
+            // a context menu is open -> don't continue
+            if(PQCConstants.whichContextMenusOpen.length > 0) {
+                PQCNotify.closeAllContextMenus()
+                return
+            }
+
+            if(mouse.button === Qt.LeftButton)
+                PQCNotify.loaderShow("FileDialog")
+            else {
+                var pos = mapToItem(fullscreenitem, mouse.x, mouse.y)
+                PQCNotify.mouseReleased(mouse.modifiers, mouse.button, pos)
+            }
+        }
+        onPressAndHold: (mouse) => {
+            holdTrigger = true
+            var pos = mapToItem(fullscreenitem, mouse.x, mouse.y)
+            if(Math.abs(pos.x - touchPos.x) < 20 && Math.abs(pos.y - touchPos.y) < 20)
+                PQCScriptsShortcuts.executeInternalCommandWithMousePos("__contextMenuTouch", pos)
+        }
+    }
+
     property list<string> visibleSourcePrevCur: ["",""]
     Connections{
 

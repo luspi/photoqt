@@ -142,7 +142,7 @@ Loader {
                     }
                 }
 
-                model: PQCConstants.currentFileInsideList
+                model: PQCConstants.currentFileInsideTotal< 50 ? PQCConstants.currentFileInsideList : PQCConstants.currentFileInsideList.slice(0, 50)
 
                 popup.onOpened: {
                     PQCConstants.currentArchiveComboOpen = true

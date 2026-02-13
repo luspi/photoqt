@@ -148,7 +148,7 @@ Image {
                 return
             }
             if(currentFile > fileCount-1)
-                fileList = PQCScriptsImages.listArchiveContentWithoutThread(image.imageSource, true)
+                fileList = PQCScriptsImages.listArchiveContentWithoutThread(image.imageSource)
 
             PQCConstants.currentFileInsideNum = currentFile
             PQCConstants.currentFileInsideName = fileList[currentFile]
@@ -167,11 +167,10 @@ Image {
             return
         }
 
-        image.asynchronous = false
-
-        if(fileCount == 0)
-            PQCScriptsImages.listArchiveContent(image.imageSource, true)
-        else
+        if(fileCount == 0) {
+            if(isMainImage) PQCNotify.showBusyIndicatorWhileImageIsLoading()
+            PQCScriptsImages.listArchiveContent(image.imageSource)
+        } else
             finishSettingSource()
 
     }
@@ -184,7 +183,6 @@ Image {
             image.source = "image://full/%1::ARC::%2".arg(fileList[currentFile]).arg(PQCScriptsFilesPaths.toPercentEncoding(image.imageSource))
         else
             image.source = "image://full/" + PQCScriptsFilesPaths.toPercentEncoding(image.imageSource)
-        image.asynchronous = true
 
     }
 

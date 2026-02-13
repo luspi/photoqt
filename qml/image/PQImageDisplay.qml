@@ -761,6 +761,15 @@ Loader {
                         }
                     }
 
+                    Connections {
+
+                        target: PQCNotify
+
+                        function onShowBusyIndicatorWhileImageIsLoading() {
+                            timer_busyloading.restart()
+                        }
+                    }
+
                     // BUSY indicator
                     PQWorking {
                         id: busyloading
@@ -893,7 +902,8 @@ Loader {
                                 }
 
                                 onStatusChanged: {
-                                    image_wrapper.status = status
+                                    if(source !== "")
+                                        image_wrapper.status = status
                                 }
 
                                 onImageMirrorHChanged: {

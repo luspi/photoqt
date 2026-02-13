@@ -75,8 +75,8 @@ public:
     void applyExifOrientation(const QString filename, QImage &img);
 
     // archive/document methods
-    void listArchiveContent(QString path, bool insideFilenameOnly = false);
-    QStringList listArchiveContentWithoutThread(QString path, QString cacheKey = "", bool insideFilenameOnly = false);
+    void listArchiveContent(QString path);
+    QStringList listArchiveContentWithoutThread(QString path, QString cacheKey = "");
     int getNumberDocumentPages(QString path);
     int getDocumentPageCount(QString path);
     QString extractArchiveFileToTempLocation(QString path);
@@ -100,6 +100,8 @@ private:
 
     QVariantMap devicePixelRatioCached;
     qint64 devicePixelRatioCachedWhen;
+
+    QStringList inProcesOfLoadingTheseArchives;
 
 
 Q_SIGNALS:
