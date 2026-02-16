@@ -131,6 +131,7 @@ PQSetting {
             maxval: 10240
             suffix: "MB"
             value: PQCSettings.filetypesArchiveIgnoreLargerThanSize
+            onValueChanged: set_arc.checkForChanges()
         },
 
         PQCheckBox {
@@ -146,6 +147,7 @@ PQSetting {
             minval: 1
             maxval: 10000
             value: PQCSettings.filetypesArchiveIgnoreLargerThanSize
+            onValueChanged: set_arc.checkForChanges()
         },
 
         PQSettingsResetButton {
