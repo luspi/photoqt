@@ -39,7 +39,7 @@ Item {
     property int maxval: 10
 
     property alias title: pretext.text
-    property alias value: spinbox.liveValue
+    property alias value: slidervalue.value
     property string suffix: ""
 
     property string overrideMinValText: ""
