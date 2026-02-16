@@ -54,6 +54,7 @@ public:
     Q_INVOKABLE QString        getFilename(QString fullpath)                  { return PQCScriptsFilesPaths::get().getFilename(fullpath); }
     Q_INVOKABLE QString        getDir(QString fullpath)                       { return PQCScriptsFilesPaths::get().getDir(fullpath); }
     Q_INVOKABLE QString        getDirname(QString fullpath)                   { return PQCScriptsFilesPaths::get().getDirname(fullpath); }
+    Q_INVOKABLE QString        getFullArchivePath(QString path)               { return PQCScriptsFilesPaths::get().getFullArchivePath(path); }
     Q_INVOKABLE bool           isUrl(QString path)                            { return PQCScriptsFilesPaths::get().isUrl(path); }
     Q_INVOKABLE bool           areDirsTheSame(QString folder1, QString folder2) { return PQCScriptsFilesPaths::get().areDirsTheSame(folder1, folder2); }
 

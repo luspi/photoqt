@@ -233,6 +233,19 @@ QString PQCScriptsFilesPaths::getDirname(const QString fullpath) {
 
 }
 
+QString PQCScriptsFilesPaths::getFullArchivePath(QString path) {
+
+    if(path.contains("::ARC::"))
+        return path.split("::ARC::")[0];
+
+    if(path.contains("::PDF::")) {
+        const QStringList lst = path.split("::PDF::");
+        return QString("%1 (%2)").arg(lst[1]).arg(lst[0].toInt()+1);
+    }
+
+    return path;
+}
+
 QDateTime PQCScriptsFilesPaths::getFileModified(QString path) {
 
     return QFileInfo(path).lastModified();

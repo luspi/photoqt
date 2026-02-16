@@ -462,7 +462,9 @@ Item {
     Component {
         id: rectFilepath
         PQText {
-            text: PQCFileFolderModel.currentFileNoDelay
+            text: PQCFileFolderModel.isARC||PQCFileFolderModel.isPDF
+                        ? PQCScriptsFilesPaths.getFullArchivePath(PQCFileFolderModel.currentFileNoDelay)
+                        : PQCFileFolderModel.currentFileNoDelay
             font.pointSize: PQCSettings.interfaceStatusInfoFontSize
         }
     }
