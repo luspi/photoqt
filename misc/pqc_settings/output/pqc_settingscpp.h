@@ -56,6 +56,10 @@ public:
     QString getFiledialogFolderContentThumbnailsSortBy() { return m_filedialogFolderContentThumbnailsSortBy; }
     bool getFiledialogShowHiddenFilesFolders() { return m_filedialogShowHiddenFilesFolders; }
     bool getFiletypesArchiveAlwaysEnterAutomatically() { return m_filetypesArchiveAlwaysEnterAutomatically; }
+    bool getFiletypesArchiveDontLoadMoreFilesThan() { return m_filetypesArchiveDontLoadMoreFilesThan; }
+    int getFiletypesArchiveDontLoadMoreFilesThanCount() { return m_filetypesArchiveDontLoadMoreFilesThanCount; }
+    bool getFiletypesArchiveIgnoreLargerThan() { return m_filetypesArchiveIgnoreLargerThan; }
+    int getFiletypesArchiveIgnoreLargerThanSize() { return m_filetypesArchiveIgnoreLargerThanSize; }
     bool getFiletypesComicBookAlwaysEnterAutomatically() { return m_filetypesComicBookAlwaysEnterAutomatically; }
     bool getFiletypesDocumentAlwaysEnterAutomatically() { return m_filetypesDocumentAlwaysEnterAutomatically; }
     bool getFiletypesExternalUnrar() { return m_filetypesExternalUnrar; }
@@ -160,6 +164,30 @@ public:
                     if(m_filetypesArchiveAlwaysEnterAutomatically != val) {
                         m_filetypesArchiveAlwaysEnterAutomatically = value.toInt();
                         Q_EMIT filetypesArchiveAlwaysEnterAutomaticallyChanged();
+                    }
+                } else if(table == "filetypes" && name == "ArchiveDontLoadMoreFilesThan") {
+                    const bool val = value.toInt();
+                    if(m_filetypesArchiveDontLoadMoreFilesThan != val) {
+                        m_filetypesArchiveDontLoadMoreFilesThan = value.toInt();
+                        Q_EMIT filetypesArchiveDontLoadMoreFilesThanChanged();
+                    }
+                } else if(table == "filetypes" && name == "ArchiveDontLoadMoreFilesThanCount") {
+                    const int val = value.toInt();
+                    if(m_filetypesArchiveDontLoadMoreFilesThanCount != val) {
+                        m_filetypesArchiveDontLoadMoreFilesThanCount = value.toInt();
+                        Q_EMIT filetypesArchiveDontLoadMoreFilesThanCountChanged();
+                    }
+                } else if(table == "filetypes" && name == "ArchiveIgnoreLargerThan") {
+                    const bool val = value.toInt();
+                    if(m_filetypesArchiveIgnoreLargerThan != val) {
+                        m_filetypesArchiveIgnoreLargerThan = value.toInt();
+                        Q_EMIT filetypesArchiveIgnoreLargerThanChanged();
+                    }
+                } else if(table == "filetypes" && name == "ArchiveIgnoreLargerThanSize") {
+                    const int val = value.toInt();
+                    if(m_filetypesArchiveIgnoreLargerThanSize != val) {
+                        m_filetypesArchiveIgnoreLargerThanSize = value.toInt();
+                        Q_EMIT filetypesArchiveIgnoreLargerThanSizeChanged();
                     }
                 } else if(table == "filetypes" && name == "ComicBookAlwaysEnterAutomatically") {
                     const bool val = value.toInt();
@@ -454,6 +482,10 @@ private:
         m_filedialogFolderContentThumbnailsSortBy = "default";
         m_filedialogShowHiddenFilesFolders = false;
         m_filetypesArchiveAlwaysEnterAutomatically = false;
+        m_filetypesArchiveDontLoadMoreFilesThan = false;
+        m_filetypesArchiveDontLoadMoreFilesThanCount = 2000;
+        m_filetypesArchiveIgnoreLargerThan = false;
+        m_filetypesArchiveIgnoreLargerThanSize = 2048;
         m_filetypesComicBookAlwaysEnterAutomatically = false;
         m_filetypesDocumentAlwaysEnterAutomatically = false;
         m_filetypesExternalUnrar = false;
@@ -510,6 +542,10 @@ private:
     QString m_filedialogFolderContentThumbnailsSortBy;
     bool m_filedialogShowHiddenFilesFolders;
     bool m_filetypesArchiveAlwaysEnterAutomatically;
+    bool m_filetypesArchiveDontLoadMoreFilesThan;
+    int m_filetypesArchiveDontLoadMoreFilesThanCount;
+    bool m_filetypesArchiveIgnoreLargerThan;
+    int m_filetypesArchiveIgnoreLargerThanSize;
     bool m_filetypesComicBookAlwaysEnterAutomatically;
     bool m_filetypesDocumentAlwaysEnterAutomatically;
     bool m_filetypesExternalUnrar;
@@ -585,6 +621,10 @@ Q_SIGNALS:
     void filetypesArchiveAlwaysEnterAutomaticallyChanged();
     void filetypesComicBookAlwaysEnterAutomaticallyChanged();
     void filetypesDocumentAlwaysEnterAutomaticallyChanged();
+    void filetypesArchiveDontLoadMoreFilesThanChanged();
+    void filetypesArchiveDontLoadMoreFilesThanCountChanged();
+    void filetypesArchiveIgnoreLargerThanChanged();
+    void filetypesArchiveIgnoreLargerThanSizeChanged();
     void interfaceAccentColorChanged();
     void interfaceFontNormalWeightChanged();
     void interfaceFontBoldWeightChanged();

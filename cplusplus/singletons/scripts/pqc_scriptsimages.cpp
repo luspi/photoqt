@@ -190,10 +190,14 @@ void PQCScriptsImages::listArchiveContent(QString path) {
     if(path.contains("::ARC::"))
         path = path.split("::ARC::").at(1);
 
+    const bool limitArchiveFileCount = PQCSettingsCPP::get().getFiletypesArchiveDontLoadMoreFilesThan();
+    const int limitArchiveFileCountNumber = PQCSettingsCPP::get().getFiletypesArchiveDontLoadMoreFilesThanCount();
+
     const QFileInfo info(path);
-    QString cacheKey = QString("%1::%2::%3").arg(info.lastModified().toMSecsSinceEpoch())
+    QString cacheKey = QString("%1::%2::%3::%4").arg(info.lastModified().toMSecsSinceEpoch())
                                                 .arg(path)
-                                                .arg(PQCSettingsCPP::get().getImageviewSortImagesAscending());
+                                                .arg(PQCSettingsCPP::get().getImageviewSortImagesAscending())
+                                                .arg(limitArchiveFileCount ? limitArchiveFileCountNumber : -1);
 
     if(archiveContentCache.contains(cacheKey)) {
         qDebug() << "Found cached content, using that.";
@@ -224,12 +228,16 @@ QStringList PQCScriptsImages::listArchiveContentWithoutThread(QString path, QStr
 
     QStringList ret;
 
+    const bool limitArchiveFileCount = PQCSettingsCPP::get().getFiletypesArchiveDontLoadMoreFilesThan();
+    const int limitArchiveFileCountNumber = PQCSettingsCPP::get().getFiletypesArchiveDontLoadMoreFilesThanCount();
+
     const QFileInfo info(path);
 
     if(cacheKey == "") {
-        cacheKey = QString("%1::%2::%3").arg(info.lastModified().toMSecsSinceEpoch())
+        cacheKey = QString("%1::%2::%3::%4").arg(info.lastModified().toMSecsSinceEpoch())
                                             .arg(path)
-                                            .arg(PQCSettingsCPP::get().getImageviewSortImagesAscending());
+                                            .arg(PQCSettingsCPP::get().getImageviewSortImagesAscending())
+                                            .arg(limitArchiveFileCount ? limitArchiveFileCountNumber : -1);
 
         qDebug() << "Constructed cacheKey =" << cacheKey;
     }
@@ -265,8 +273,12 @@ QStringList PQCScriptsImages::listArchiveContentWithoutThread(QString path, QStr
 
                 allfiles.sort();
 
+                // limit how many files to load
+                if(limitArchiveFileCount)
+                    allfiles = allfiles.mid(0, limitArchiveFileCountNumber);
+
                 for(const QString &f : std::as_const(allfiles)) {
-                    if(PQCImageFormats::get().getEnabledFormats().contains(QFileInfo(f).suffix().toLower()))
+                    if(!isArchive(f, true) && PQCImageFormats::get().getEnabledFormats().contains(QFileInfo(f).suffix().toLower()))
                         ret.append(f);
                 }
 
@@ -305,10 +317,14 @@ QStringList PQCScriptsImages::listArchiveContentWithoutThread(QString path, QStr
             return ret;
         }
 
+        int counter = 0;
+
         // Loop over entries in archive
         struct archive_entry *entry;
         QStringList allfiles;
         while(archive_read_next_header(a, &entry) == ARCHIVE_OK) {
+
+            ++counter;
 
             // Read the current file entry
             // We use the '_w' variant here, as otherwise on Windows this call causes a segfault when a file in an archive contains non-latin characters
@@ -316,8 +332,12 @@ QStringList PQCScriptsImages::listArchiveContentWithoutThread(QString path, QStr
 
             // If supported file format, append to temporary list
             const QFileInfo info(filenameinside);
-            if(PQCImageFormats::get().getEnabledFormats().contains(info.suffix().toLower()) || PQCImageFormats::get().getEnabledFormats().contains(info.completeSuffix().toLower()))
+            if(!isArchive(filenameinside, true) && (PQCImageFormats::get().getEnabledFormats().contains(info.suffix().toLower()) || PQCImageFormats::get().getEnabledFormats().contains(info.completeSuffix().toLower())))
                 allfiles.append(filenameinside);
+
+            // limit how many files to load
+            if(limitArchiveFileCount && counter > limitArchiveFileCountNumber)
+                break;
 
         }
 
@@ -459,9 +479,12 @@ bool PQCScriptsImages::isPDFDocument(QString path) {
 
 }
 
-bool PQCScriptsImages::isArchive(QString path) {
+bool PQCScriptsImages::isArchive(QString path, bool silent) {
 
-    qDebug() << "args: path =" << path;
+    // each entry in an archive is checked for whether it is an archive or not
+    // for archives with many files, this generates a LOT of output
+    // thus for that check we set the 'silent' flat
+    if(!silent) qDebug() << "args: path =" << path;
 
     if(PQCImageFormats::get().getEnabledFormatsLibArchive().contains(QFileInfo(path).suffix().toLower()) ||
        PQCImageFormats::get().getEnabledFormatsLibArchive().contains(QFileInfo(path).completeSuffix().toLower()))

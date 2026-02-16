@@ -137,7 +137,7 @@ ToolBar {
                     if(PQCFileFolderModel.isARC || PQCFileFolderModel.isPDF)
                         PQCFileFolderModel.disableViewerMode()
                     else
-                        PQCFileFolderModel.enableViewerMode()
+                        PQCFileFolderModel.enableViewerMode(PQCFileFolderModel.currentFile, PQCConstants.currentFileInsideNum)
                 } else if(whatisit == "facetagging") {
                     PQCNotify.stopFaceTagging()
                 }

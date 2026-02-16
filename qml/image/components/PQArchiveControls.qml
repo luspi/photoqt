@@ -137,12 +137,17 @@ Loader {
                 currentIndex: Math.max(0, PQCConstants.currentFileInsideNum)
 
                 onCurrentIndexChanged: {
+                    if(PQCConstants.currentFileInsideTotal >= 50 && currentIndex === 50) {
+                        PQCFileFolderModel.enableViewerMode(PQCFileFolderModel.currentFile, 49)
+                        return
+                    }
+
                     if(currentIndex !== PQCConstants.currentFileInsideNum) {
                         PQCNotify.currentArchiveJumpTo(currentIndex)
                     }
                 }
 
-                model: PQCConstants.currentFileInsideTotal< 50 ? PQCConstants.currentFileInsideList : PQCConstants.currentFileInsideList.slice(0, 50)
+                model: PQCConstants.currentFileInsideTotal < 50 ? PQCConstants.currentFileInsideList : PQCConstants.currentFileInsideList.slice(0, 50).concat(["<i>&gt;&gt;&gt; more</i>"])
 
                 popup.onOpened: {
                     PQCConstants.currentArchiveComboOpen = true
@@ -375,7 +380,7 @@ Loader {
                         tooltip: qsTranslate("image", "Click to enter viewer mode")
                         onClicked: (mouse) => {
                             if(mouse.button === Qt.LeftButton)
-                                PQCFileFolderModel.enableViewerMode(PQCConstants.currentFileInsideName)
+                                PQCFileFolderModel.enableViewerMode(PQCFileFolderModel.currentFile, PQCConstants.currentFileInsideNum)
                             else
                                 rightclickmenu.popup()
                         }
@@ -450,7 +455,7 @@ Loader {
                     iconSource: "image://svg/:/" + PQCLook.iconShade + "/viewermode_on.svg"
                     text: qsTranslate("image", "Viewer mode")
                     onTriggered: {
-                        PQCFileFolderModel.enableViewerMode(PQCFileFolderModel.currentFile)
+                        PQCFileFolderModel.enableViewerMode(PQCFileFolderModel.currentFile, PQCConstants.currentFileInsideNum)
                     }
                 }
 

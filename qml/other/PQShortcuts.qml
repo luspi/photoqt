@@ -631,9 +631,9 @@ Item {
                 if(!(PQCFileFolderModel.isPDF || PQCFileFolderModel.isARC)) {
                     if(PQCScriptsImages.isPDFDocument(PQCFileFolderModel.currentFile)) {
                         if(PQCScriptsImages.getNumberDocumentPages(PQCFileFolderModel.currentFile))
-                            PQCFileFolderModel.enableViewerMode()
+                            PQCFileFolderModel.enableViewerMode(PQCFileFolderModel.currentFile, PQCConstants.currentFileInsideNum)
                     } else if(PQCScriptsImages.isArchive(PQCFileFolderModel.currentFile))
-                        PQCFileFolderModel.enableViewerMode()
+                        PQCFileFolderModel.enableViewerMode(PQCFileFolderModel.currentFile, PQCConstants.currentFileInsideNum)
                 }
                 break
             case "__enterPhotoSphere":

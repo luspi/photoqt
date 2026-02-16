@@ -496,10 +496,18 @@ Item {
 
             image_top.bgFiles = []
             for(var b = 0; b < PQCSettings.imageviewPreloadInBackground; ++b) {
+
                 var newp = (cur_showing-(b+1)+PQCFileFolderModel.countMainView)%PQCFileFolderModel.countMainView
                 var newn = (cur_showing+(b+1))%PQCFileFolderModel.countMainView
-                image_top.bgFiles.push(PQCFileFolderModel.entriesMainView[newp])
-                image_top.bgFiles.push(PQCFileFolderModel.entriesMainView[newn])
+
+                var newpF = PQCFileFolderModel.entriesMainView[newp]
+                var newnF = PQCFileFolderModel.entriesMainView[newn]
+
+                // we don't preload neighboring archives as this can be somewhat slow
+                if(!PQCScriptsImages.isArchive(newpF))
+                    image_top.bgFiles.push(newpF)
+                if(!PQCScriptsImages.isArchive(newnF))
+                    image_top.bgFiles.push(newnF)
             }
 
             // image not already loaded

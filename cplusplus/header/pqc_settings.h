@@ -307,6 +307,30 @@ public:
     Q_INVOKABLE const bool getDefaultForFiletypesArchiveControls();
     Q_INVOKABLE void setDefaultForFiletypesArchiveControls();
 
+    Q_PROPERTY(bool filetypesArchiveDontLoadMoreFilesThan READ getFiletypesArchiveDontLoadMoreFilesThan WRITE setFiletypesArchiveDontLoadMoreFilesThan NOTIFY filetypesArchiveDontLoadMoreFilesThanChanged)
+    bool getFiletypesArchiveDontLoadMoreFilesThan();
+    void setFiletypesArchiveDontLoadMoreFilesThan(bool val);
+    Q_INVOKABLE const bool getDefaultForFiletypesArchiveDontLoadMoreFilesThan();
+    Q_INVOKABLE void setDefaultForFiletypesArchiveDontLoadMoreFilesThan();
+
+    Q_PROPERTY(int filetypesArchiveDontLoadMoreFilesThanCount READ getFiletypesArchiveDontLoadMoreFilesThanCount WRITE setFiletypesArchiveDontLoadMoreFilesThanCount NOTIFY filetypesArchiveDontLoadMoreFilesThanCountChanged)
+    int getFiletypesArchiveDontLoadMoreFilesThanCount();
+    void setFiletypesArchiveDontLoadMoreFilesThanCount(int val);
+    Q_INVOKABLE const int getDefaultForFiletypesArchiveDontLoadMoreFilesThanCount();
+    Q_INVOKABLE void setDefaultForFiletypesArchiveDontLoadMoreFilesThanCount();
+
+    Q_PROPERTY(bool filetypesArchiveIgnoreLargerThan READ getFiletypesArchiveIgnoreLargerThan WRITE setFiletypesArchiveIgnoreLargerThan NOTIFY filetypesArchiveIgnoreLargerThanChanged)
+    bool getFiletypesArchiveIgnoreLargerThan();
+    void setFiletypesArchiveIgnoreLargerThan(bool val);
+    Q_INVOKABLE const bool getDefaultForFiletypesArchiveIgnoreLargerThan();
+    Q_INVOKABLE void setDefaultForFiletypesArchiveIgnoreLargerThan();
+
+    Q_PROPERTY(int filetypesArchiveIgnoreLargerThanSize READ getFiletypesArchiveIgnoreLargerThanSize WRITE setFiletypesArchiveIgnoreLargerThanSize NOTIFY filetypesArchiveIgnoreLargerThanSizeChanged)
+    int getFiletypesArchiveIgnoreLargerThanSize();
+    void setFiletypesArchiveIgnoreLargerThanSize(int val);
+    Q_INVOKABLE const int getDefaultForFiletypesArchiveIgnoreLargerThanSize();
+    Q_INVOKABLE void setDefaultForFiletypesArchiveIgnoreLargerThanSize();
+
     Q_PROPERTY(bool filetypesArchiveLeftRight READ getFiletypesArchiveLeftRight WRITE setFiletypesArchiveLeftRight NOTIFY filetypesArchiveLeftRightChanged)
     bool getFiletypesArchiveLeftRight();
     void setFiletypesArchiveLeftRight(bool val);
@@ -1898,6 +1922,10 @@ private:
     bool m_filetypesAnimatedSpacePause;
     bool m_filetypesArchiveAlwaysEnterAutomatically;
     bool m_filetypesArchiveControls;
+    bool m_filetypesArchiveDontLoadMoreFilesThan;
+    int m_filetypesArchiveDontLoadMoreFilesThanCount;
+    bool m_filetypesArchiveIgnoreLargerThan;
+    int m_filetypesArchiveIgnoreLargerThanSize;
     bool m_filetypesArchiveLeftRight;
     bool m_filetypesArchiveViewerModeExitButton;
     bool m_filetypesComicBookAlwaysEnterAutomatically;
@@ -2219,6 +2247,10 @@ Q_SIGNALS:
     void filetypesAnimatedSpacePauseChanged();
     void filetypesArchiveAlwaysEnterAutomaticallyChanged();
     void filetypesArchiveControlsChanged();
+    void filetypesArchiveDontLoadMoreFilesThanChanged();
+    void filetypesArchiveDontLoadMoreFilesThanCountChanged();
+    void filetypesArchiveIgnoreLargerThanChanged();
+    void filetypesArchiveIgnoreLargerThanSizeChanged();
     void filetypesArchiveLeftRightChanged();
     void filetypesArchiveViewerModeExitButtonChanged();
     void filetypesComicBookAlwaysEnterAutomaticallyChanged();

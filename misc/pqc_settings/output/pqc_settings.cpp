@@ -181,6 +181,10 @@ PQCSettings::PQCSettings() {
     connect(this, &PQCSettings::filetypesAnimatedSpacePauseChanged, this, [=]() { saveChangedValue("filetypesAnimatedSpacePause", m_filetypesAnimatedSpacePause); });
     connect(this, &PQCSettings::filetypesArchiveAlwaysEnterAutomaticallyChanged, this, [=]() { saveChangedValue("filetypesArchiveAlwaysEnterAutomatically", m_filetypesArchiveAlwaysEnterAutomatically); });
     connect(this, &PQCSettings::filetypesArchiveControlsChanged, this, [=]() { saveChangedValue("filetypesArchiveControls", m_filetypesArchiveControls); });
+    connect(this, &PQCSettings::filetypesArchiveDontLoadMoreFilesThanChanged, this, [=]() { saveChangedValue("filetypesArchiveDontLoadMoreFilesThan", m_filetypesArchiveDontLoadMoreFilesThan); });
+    connect(this, &PQCSettings::filetypesArchiveDontLoadMoreFilesThanCountChanged, this, [=]() { saveChangedValue("filetypesArchiveDontLoadMoreFilesThanCount", m_filetypesArchiveDontLoadMoreFilesThanCount); });
+    connect(this, &PQCSettings::filetypesArchiveIgnoreLargerThanChanged, this, [=]() { saveChangedValue("filetypesArchiveIgnoreLargerThan", m_filetypesArchiveIgnoreLargerThan); });
+    connect(this, &PQCSettings::filetypesArchiveIgnoreLargerThanSizeChanged, this, [=]() { saveChangedValue("filetypesArchiveIgnoreLargerThanSize", m_filetypesArchiveIgnoreLargerThanSize); });
     connect(this, &PQCSettings::filetypesArchiveLeftRightChanged, this, [=]() { saveChangedValue("filetypesArchiveLeftRight", m_filetypesArchiveLeftRight); });
     connect(this, &PQCSettings::filetypesArchiveViewerModeExitButtonChanged, this, [=]() { saveChangedValue("filetypesArchiveViewerModeExitButton", m_filetypesArchiveViewerModeExitButton); });
     connect(this, &PQCSettings::filetypesComicBookAlwaysEnterAutomaticallyChanged, this, [=]() { saveChangedValue("filetypesComicBookAlwaysEnterAutomatically", m_filetypesComicBookAlwaysEnterAutomatically); });
@@ -1370,6 +1374,92 @@ void PQCSettings::setDefaultForFiletypesArchiveControls() {
     if(true != m_filetypesArchiveControls) {
         m_filetypesArchiveControls = true;
         Q_EMIT filetypesArchiveControlsChanged();
+    }
+}
+
+bool PQCSettings::getFiletypesArchiveDontLoadMoreFilesThan() {
+    return m_filetypesArchiveDontLoadMoreFilesThan;
+}
+
+void PQCSettings::setFiletypesArchiveDontLoadMoreFilesThan(bool val) {
+    if(val != m_filetypesArchiveDontLoadMoreFilesThan) {
+        m_filetypesArchiveDontLoadMoreFilesThan = val;
+        Q_EMIT filetypesArchiveDontLoadMoreFilesThanChanged();
+    }
+}
+
+const bool PQCSettings::getDefaultForFiletypesArchiveDontLoadMoreFilesThan() {
+        return false;
+}
+
+void PQCSettings::setDefaultForFiletypesArchiveDontLoadMoreFilesThan() {
+    if(false != m_filetypesArchiveDontLoadMoreFilesThan) {
+        m_filetypesArchiveDontLoadMoreFilesThan = false;
+        Q_EMIT filetypesArchiveDontLoadMoreFilesThanChanged();
+    }
+}
+
+int PQCSettings::getFiletypesArchiveDontLoadMoreFilesThanCount() {
+    return m_filetypesArchiveDontLoadMoreFilesThanCount;
+}
+
+void PQCSettings::setFiletypesArchiveDontLoadMoreFilesThanCount(int val) {
+    if(val != m_filetypesArchiveDontLoadMoreFilesThanCount) {
+        m_filetypesArchiveDontLoadMoreFilesThanCount = val;
+        Q_EMIT filetypesArchiveDontLoadMoreFilesThanCountChanged();
+    }
+}
+
+const int PQCSettings::getDefaultForFiletypesArchiveDontLoadMoreFilesThanCount() {
+        return 2000;
+}
+
+void PQCSettings::setDefaultForFiletypesArchiveDontLoadMoreFilesThanCount() {
+    if(2000 != m_filetypesArchiveDontLoadMoreFilesThanCount) {
+        m_filetypesArchiveDontLoadMoreFilesThanCount = 2000;
+    }
+}
+
+bool PQCSettings::getFiletypesArchiveIgnoreLargerThan() {
+    return m_filetypesArchiveIgnoreLargerThan;
+}
+
+void PQCSettings::setFiletypesArchiveIgnoreLargerThan(bool val) {
+    if(val != m_filetypesArchiveIgnoreLargerThan) {
+        m_filetypesArchiveIgnoreLargerThan = val;
+        Q_EMIT filetypesArchiveIgnoreLargerThanChanged();
+    }
+}
+
+const bool PQCSettings::getDefaultForFiletypesArchiveIgnoreLargerThan() {
+        return false;
+}
+
+void PQCSettings::setDefaultForFiletypesArchiveIgnoreLargerThan() {
+    if(false != m_filetypesArchiveIgnoreLargerThan) {
+        m_filetypesArchiveIgnoreLargerThan = false;
+        Q_EMIT filetypesArchiveIgnoreLargerThanChanged();
+    }
+}
+
+int PQCSettings::getFiletypesArchiveIgnoreLargerThanSize() {
+    return m_filetypesArchiveIgnoreLargerThanSize;
+}
+
+void PQCSettings::setFiletypesArchiveIgnoreLargerThanSize(int val) {
+    if(val != m_filetypesArchiveIgnoreLargerThanSize) {
+        m_filetypesArchiveIgnoreLargerThanSize = val;
+        Q_EMIT filetypesArchiveIgnoreLargerThanSizeChanged();
+    }
+}
+
+const int PQCSettings::getDefaultForFiletypesArchiveIgnoreLargerThanSize() {
+        return 2048;
+}
+
+void PQCSettings::setDefaultForFiletypesArchiveIgnoreLargerThanSize() {
+    if(2048 != m_filetypesArchiveIgnoreLargerThanSize) {
+        m_filetypesArchiveIgnoreLargerThanSize = 2048;
     }
 }
 
@@ -6949,6 +7039,14 @@ void PQCSettings::readDB() {
                     m_filetypesArchiveAlwaysEnterAutomatically = value.toInt();
                 } else if(name == "ArchiveControls") {
                     m_filetypesArchiveControls = value.toInt();
+                } else if(name == "ArchiveDontLoadMoreFilesThan") {
+                    m_filetypesArchiveDontLoadMoreFilesThan = value.toInt();
+                } else if(name == "ArchiveDontLoadMoreFilesThanCount") {
+                    m_filetypesArchiveDontLoadMoreFilesThanCount = value.toInt();
+                } else if(name == "ArchiveIgnoreLargerThan") {
+                    m_filetypesArchiveIgnoreLargerThan = value.toInt();
+                } else if(name == "ArchiveIgnoreLargerThanSize") {
+                    m_filetypesArchiveIgnoreLargerThanSize = value.toInt();
                 } else if(name == "ArchiveLeftRight") {
                     m_filetypesArchiveLeftRight = value.toInt();
                 } else if(name == "ArchiveViewerModeExitButton") {
@@ -7866,6 +7964,10 @@ void PQCSettings::setupFresh() {
     m_filetypesAnimatedSpacePause = true;
     m_filetypesArchiveAlwaysEnterAutomatically = false;
     m_filetypesArchiveControls = true;
+    m_filetypesArchiveDontLoadMoreFilesThan = false;
+    m_filetypesArchiveDontLoadMoreFilesThanCount = 2000;
+    m_filetypesArchiveIgnoreLargerThan = false;
+    m_filetypesArchiveIgnoreLargerThanSize = 2048;
     m_filetypesArchiveLeftRight = false;
     m_filetypesArchiveViewerModeExitButton = true;
     m_filetypesComicBookAlwaysEnterAutomatically = false;
@@ -8193,6 +8295,10 @@ void PQCSettings::resetToDefault() {
     setDefaultForFiletypesAnimatedSpacePause();
     setDefaultForFiletypesArchiveAlwaysEnterAutomatically();
     setDefaultForFiletypesArchiveControls();
+    setDefaultForFiletypesArchiveDontLoadMoreFilesThan();
+    setDefaultForFiletypesArchiveDontLoadMoreFilesThanCount();
+    setDefaultForFiletypesArchiveIgnoreLargerThan();
+    setDefaultForFiletypesArchiveIgnoreLargerThanSize();
     setDefaultForFiletypesArchiveLeftRight();
     setDefaultForFiletypesArchiveViewerModeExitButton();
     setDefaultForFiletypesComicBookAlwaysEnterAutomatically();
@@ -8643,6 +8749,22 @@ QStringList PQCSettings::updateFromCommandLine() {
     if(key == "filetypesArchiveControls") {
         m_filetypesArchiveControls = (val.toInt()==1);
         Q_EMIT filetypesArchiveControlsChanged();
+    }
+    if(key == "filetypesArchiveDontLoadMoreFilesThan") {
+        m_filetypesArchiveDontLoadMoreFilesThan = (val.toInt()==1);
+        Q_EMIT filetypesArchiveDontLoadMoreFilesThanChanged();
+    }
+    if(key == "filetypesArchiveDontLoadMoreFilesThanCount") {
+        m_filetypesArchiveDontLoadMoreFilesThanCount = val.toInt();
+        Q_EMIT filetypesArchiveDontLoadMoreFilesThanCountChanged();
+    }
+    if(key == "filetypesArchiveIgnoreLargerThan") {
+        m_filetypesArchiveIgnoreLargerThan = (val.toInt()==1);
+        Q_EMIT filetypesArchiveIgnoreLargerThanChanged();
+    }
+    if(key == "filetypesArchiveIgnoreLargerThanSize") {
+        m_filetypesArchiveIgnoreLargerThanSize = val.toInt();
+        Q_EMIT filetypesArchiveIgnoreLargerThanSizeChanged();
     }
     if(key == "filetypesArchiveLeftRight") {
         m_filetypesArchiveLeftRight = (val.toInt()==1);

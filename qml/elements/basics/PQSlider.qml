@@ -38,6 +38,8 @@ Slider {
 
     stepSize: 1.0
 
+    opacity: enabled ? 1 : 0.6
+
     property bool extraSmall: false
     property bool extraWide: false
 

@@ -198,7 +198,7 @@ public:
     Q_INVOKABLE void removeEntryMainView(int index);
     Q_INVOKABLE void removeAllUserFilter();
     Q_INVOKABLE bool isUserFilterSet();
-    Q_INVOKABLE void enableViewerMode(int page = 0);
+    Q_INVOKABLE void enableViewerMode(QString baseFile, int page = 0);
     Q_INVOKABLE void disableViewerMode(bool bufferDisabling = true);
     Q_INVOKABLE QString getFirstMatchFileDialog(QString partial);
     Q_INVOKABLE void loadNextMatchOfSearch(const QString search);
@@ -245,6 +245,7 @@ private:
     bool m_filterCurrentlyActive;
     bool m_justLeftViewerMode;
     bool m_activeViewerMode;
+    QString m_viewerModeBaseFile;
 
     int m_currentIndex;
     int m_currentIndexNoDelay;

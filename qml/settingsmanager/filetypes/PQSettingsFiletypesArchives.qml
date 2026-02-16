@@ -49,7 +49,7 @@ PQSetting {
 
         PQSettingSubtitle {
 
-            showLineAbove: false
+            title: qsTranslate("settingsmanager", "Navigation")
 
             helptext: qsTranslate("settingsmanager",  "When an archive is loaded it is possible to browse through the contents of such a file either through floating controls that show up when the archive contains more than one file, or by entering the viewer mode. When the viewer mode is activated all files in the archive are loaded as thumbnails. The viewer mode can be activated by shortcut or through a small button located below the status info and as part of the floating controls.")
 
@@ -107,6 +107,58 @@ PQSetting {
                 set_arc.checkForChanges()
 
             }
+        },
+
+        PQSettingSubtitle {
+
+            title: qsTranslate("settingsmanager", "Loading Archives")
+
+            helptext: qsTranslate("settingsmanager", "By default, PhotoQt loads any archive it can find and checks it for any supported file type. This can take a few seconds with very large archives (multible Gigabytes). In situations where such large archives are common, it might be preferential to skip over archives of a certain size, or to limit the number of files that are listed from inside the archive.")
+
+        },
+
+        PQCheckBox {
+            id: archive_ignoresizecheck
+            text: qsTranslate("settingsmanager", "Ignore archives larger than this size:")
+            checked: PQCSettings.filetypesArchiveIgnoreLargerThan
+            onCheckedChanged: set_arc.checkForChanges()
+        },
+
+        PQAdvancedSlider {
+            id: archive_ignoresize
+            enabled: archive_ignoresizecheck.checked
+            minval: 128
+            maxval: 10240
+            suffix: "MB"
+            value: PQCSettings.filetypesArchiveIgnoreLargerThanSize
+        },
+
+        PQCheckBox {
+            id: archive_ignorecountcheck
+            text: qsTranslate("settingsmanager", "Don't load more than this many files:")
+            checked: PQCSettings.filetypesArchiveDontLoadMoreFilesThan
+            onCheckedChanged: set_arc.checkForChanges()
+        },
+
+        PQAdvancedSlider {
+            id: archive_ignorecount
+            enabled: archive_ignorecountcheck.checked
+            minval: 1
+            maxval: 10000
+            value: PQCSettings.filetypesArchiveIgnoreLargerThanSize
+        },
+
+        PQSettingsResetButton {
+            onResetToDefaults: {
+
+                archive_ignoresizecheck.checked = PQCSettings.getDefaultForFiletypesArchiveIgnoreLargerThan()
+                archive_ignorecountcheck.checked = PQCSettings.getDefaultForFiletypesArchiveDontLoadMoreFilesThan()
+                archive_ignoresize.setValue(PQCSettings.getDefaultForFiletypesArchiveIgnoreLargerThanSize())
+                archive_ignorecount.setValue(PQCSettings.getDefaultForFiletypesArchiveDontLoadMoreFilesThanCount())
+
+                set_arc.checkForChanges()
+
+            }
         }
 
     ]
@@ -124,7 +176,8 @@ PQSetting {
 
         PQCConstants.settingsManagerSettingChanged = (arc_extunrar.hasChanged() || archivecontrols.hasChanged() || archiveleftright.hasChanged() ||
                                                       archive_escape.hasChanged() || archive_exitbutton.hasChanged() || archive_autoenter.hasChanged() ||
-                                                      archive_comautoenter.hasChanged())
+                                                      archive_comautoenter.hasChanged() || archive_ignoresize.hasChanged() || archive_ignoresizecheck.hasChanged() ||
+                                                      archive_ignorecount.hasChanged() || archive_ignorecountcheck.hasChanged())
 
     }
 
@@ -140,6 +193,11 @@ PQSetting {
         archive_autoenter.loadAndSetDefault(PQCSettings.filetypesArchiveAlwaysEnterAutomatically)
         archive_comautoenter.loadAndSetDefault(PQCSettings.filetypesComicBookAlwaysEnterAutomatically)
 
+        archive_ignoresizecheck.loadAndSetDefault(PQCSettings.filetypesArchiveIgnoreLargerThan)
+        archive_ignoresize.loadAndSetDefault(PQCSettings.filetypesArchiveIgnoreLargerThanSize)
+        archive_ignorecountcheck.loadAndSetDefault(PQCSettings.filetypesArchiveDontLoadMoreFilesThan)
+        archive_ignorecount.loadAndSetDefault(PQCSettings.filetypesArchiveDontLoadMoreFilesThanCount)
+
         PQCConstants.settingsManagerSettingChanged = false
         settingsLoaded = true
 
@@ -154,6 +212,12 @@ PQSetting {
         PQCSettings.filetypesArchiveViewerModeExitButton = archive_exitbutton.checked
         PQCSettings.filetypesArchiveAlwaysEnterAutomatically = archive_autoenter.checked
         PQCSettings.filetypesComicBookAlwaysEnterAutomatically = archive_comautoenter.checked
+
+        PQCSettings.filetypesArchiveIgnoreLargerThan = archive_ignoresizecheck.checked
+        PQCSettings.filetypesArchiveIgnoreLargerThanSize = archive_ignoresize.value
+        PQCSettings.filetypesArchiveDontLoadMoreFilesThan = archive_ignorecountcheck.checked
+        PQCSettings.filetypesArchiveDontLoadMoreFilesThanCount = archive_ignorecount.value
+
         arc_extunrar.saveDefault()
         archivecontrols.saveDefault()
         archiveleftright.saveDefault()
@@ -161,6 +225,10 @@ PQSetting {
         archive_exitbutton.saveDefault()
         archive_autoenter.saveDefault()
         archive_comautoenter.saveDefault()
+        archive_ignoresize.saveDefault()
+        archive_ignoresizecheck.saveDefault()
+        archive_ignorecount.saveDefault()
+        archive_ignorecountcheck.saveDefault()
 
         PQCConstants.settingsManagerSettingChanged = false
 

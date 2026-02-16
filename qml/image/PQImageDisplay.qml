@@ -2432,7 +2432,7 @@ Loader {
             if(imageloaderitem.imageLoadedAndReady) {
 
                 if(shouldEnableViewerMode()) {
-                    PQCFileFolderModel.enableViewerMode(PQCFileFolderModel.currentFile)
+                    PQCFileFolderModel.enableViewerMode(PQCFileFolderModel.currentFile, 0)
                 } else {
                     imageloaderitem.iAmReady()
                     if(!imageloaderitem.imageFullyShown)
@@ -2445,7 +2445,7 @@ Loader {
         function setUpImageWhenReady() {
 
             if(shouldEnableViewerMode()) {
-                PQCFileFolderModel.enableViewerMode(PQCFileFolderModel.currentFile)
+                PQCFileFolderModel.enableViewerMode(PQCFileFolderModel.currentFile, 0)
                 return
             }
 

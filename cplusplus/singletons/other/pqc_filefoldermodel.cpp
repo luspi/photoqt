@@ -74,6 +74,7 @@ PQCFileFolderModel::PQCFileFolderModel(QObject *parent) : QObject(parent) {
     m_isARC = false;
     m_isPDF = false;
     m_activeViewerMode = false;
+    m_viewerModeBaseFile = "";
 
     m_entriesMainView.clear();
     m_entriesFileDialog.clear();
@@ -1079,7 +1080,9 @@ void PQCFileFolderModel::loadDataMainView() {
         } else if(m_readArchiveOnly) {// && PQCImageFormats::get().getEnabledFormatsLibArchive().contains(QFileInfo(m_fileInFolderMainView).suffix().toLower())) {
 
             if(archiveContentPreloaded.length() > 0) {
-                m_entriesMainView = archiveContentPreloaded;
+                m_entriesMainView.clear();
+                for(const QString &f : archiveContentPreloaded)
+                    m_entriesMainView.append(QString("%1::ARC::%2").arg(f, m_viewerModeBaseFile));
                 PQCFileFolderModelCPP::get().setEntriesMainView(m_entriesMainView);
                 archiveContentPreloaded.clear();
             }
@@ -1344,6 +1347,9 @@ QStringList PQCFileFolderModel::getAllFiles(QString folder, bool ignoreFiltersEx
 
     }
 
+    const bool ignoreLargeArchive = PQCSettingsCPP::get().getFiletypesArchiveIgnoreLargerThan();
+    const qint64 ignoreLargeArchiveSize = PQCSettingsCPP::get().getFiletypesArchiveIgnoreLargerThanSize()*1024*1024;
+
     for(const QString &f : std::as_const(foldersToScan)) {
 
         if(!cache.loadFilesFromCache(f, showHidden, sortReversed, sortBy, m_restrictToSuffixes, m_nameFilters, m_filenameFilters, m_restrictToMimeTypes, m_imageResolutionFilter, m_fileSizeFilter, ignoreFiltersExceptDefault, PQCImageFormats::get().getEnabledFormatsNum(), ret)) {
@@ -1376,8 +1382,13 @@ QStringList PQCFileFolderModel::getAllFiles(QString folder, bool ignoreFiltersEx
                         ret_cur << f.filePath();
                     }
                 } else {
-                    for(const auto &f: lst)
-                        ret_cur << f.filePath();
+                    for(const auto &f: lst) {
+                        const QString fp = f.filePath();
+                        // ignore large archives
+                        if(PQCScriptsImages::get().isArchive(fp) && ignoreLargeArchive && f.size() > ignoreLargeArchiveSize)
+                            continue;
+                        ret_cur << fp;
+                    }
                 }
             } else {
 
@@ -1425,17 +1436,25 @@ QStringList PQCFileFolderModel::getAllFiles(QString folder, bool ignoreFiltersEx
                     if((m_nameFilters.size() == 0 || (!ignoreFiltersExceptDefault && (m_nameFilters.contains(suffix1) || m_nameFilters.contains(suffix2)))) &&
                         (m_restrictToSuffixes.size() == 0 || m_restrictToSuffixes.contains(suffix1) || m_restrictToSuffixes.contains(suffix2))) {
                         if(m_filenameFilters.length() == 0 || ignoreFiltersExceptDefault) {
+                            const QString fp = f.absoluteFilePath();
                             // we need to exclude video files connected to Apple Live Videos (if support enabled)
                             if(PQCSettingsCPP::get().getFiletypesLoadAppleLivePhotos() && suffix1 == "mov" && QFileInfo::exists(f.absolutePath()+"/"+f.baseName()+".heic"))
                                 continue;
-                            ret_cur << f.absoluteFilePath();
+                            // ignore large archives
+                            if(PQCScriptsImages::get().isArchive(fp) && ignoreLargeArchive && f.size() > ignoreLargeArchiveSize)
+                                continue;
+                            ret_cur << fp;
                         } else {
+                            const QString fp = f.absoluteFilePath();
                             // we need to exclude video files connected to Apple Live Videos (if support enabled)
                             if(PQCSettingsCPP::get().getFiletypesLoadAppleLivePhotos() && suffix1 == "mov" && QFileInfo::exists(f.absolutePath()+"/"+f.baseName()+".heic"))
+                                continue;
+                            // ignore large archives
+                            if(PQCScriptsImages::get().isArchive(fp) && ignoreLargeArchive && f.size() > ignoreLargeArchiveSize)
                                 continue;
                             for(const QString &fil : std::as_const(m_filenameFilters)) {
                                 if(f.baseName().contains(fil)) {
-                                    ret_cur << f.absoluteFilePath();
+                                    ret_cur << fp;
                                     break;
                                 }
                             }
@@ -1443,12 +1462,20 @@ QStringList PQCFileFolderModel::getAllFiles(QString folder, bool ignoreFiltersEx
                     }
                     // if not the ending, then check the mime type
                     else if(m_nameFilters.size() == 0 && m_restrictToMimeTypes.contains(db.mimeTypeForFile(f.absoluteFilePath()).name())) {
-                        if(m_filenameFilters.length() == 0 || ignoreFiltersExceptDefault)
-                            ret_cur << f.absoluteFilePath();
-                        else {
+                        if(m_filenameFilters.length() == 0 || ignoreFiltersExceptDefault) {
+                            const QString fp = f.absoluteFilePath();
+                            // ignore large archives
+                            if(PQCScriptsImages::get().isArchive(fp) && ignoreLargeArchive && f.size() > ignoreLargeArchiveSize)
+                                continue;
+                            ret_cur << fp;
+                        } else {
+                            const QString fp = f.absoluteFilePath();
+                            // ignore large archives
+                            if(PQCScriptsImages::get().isArchive(fp) && ignoreLargeArchive && f.size() > ignoreLargeArchiveSize)
+                                continue;
                             for(const QString &fil : std::as_const(m_filenameFilters)) {
                                 if(f.baseName().contains(fil)) {
-                                    ret_cur << f.absoluteFilePath();
+                                    ret_cur << fp;
                                     break;
                                 }
                             }
@@ -1558,18 +1585,20 @@ bool PQCFileFolderModel::isUserFilterSet() {
             m_fileSizeFilter > 0);
 }
 
-void PQCFileFolderModel::enableViewerMode(int page) {
+void PQCFileFolderModel::enableViewerMode(QString baseFile, int page) {
 
+    qDebug() << "args: baseFile =" << baseFile;
     qDebug() << "args: page =" << page;
 
+    m_viewerModeBaseFile = baseFile;
     m_activeViewerMode = true;
     Q_EMIT activeViewerModeChanged();
 
-    if(PQCScriptsImages::get().isPDFDocument(getCurrentFile()))
-        setFileInFolderMainView(QString("%1::PDF::%2").arg(page).arg(getCurrentFile()));
+    if(PQCScriptsImages::get().isPDFDocument(baseFile))
+        setFileInFolderMainView(QString("%1::PDF::%2").arg(page).arg(baseFile));
     else {
-        archiveContentPreloaded = PQCScriptsImages::get().listArchiveContentWithoutThread(getCurrentFile());
-        setFileInFolderMainView(QString("%1::ARC::%2").arg(archiveContentPreloaded[page], getCurrentFile()));
+        archiveContentPreloaded = PQCScriptsImages::get().listArchiveContentWithoutThread(baseFile);
+        setFileInFolderMainView(QString("%1::ARC::%2").arg(archiveContentPreloaded[page], baseFile));
     }
     forceReloadMainView();
     setCurrentIndex(page);
@@ -1580,6 +1609,7 @@ void PQCFileFolderModel::disableViewerMode(bool bufferDisabling) {
     qDebug() << "";
 
     m_activeViewerMode = false;
+    m_viewerModeBaseFile = "";
     Q_EMIT activeViewerModeChanged();
 
     if(bufferDisabling)

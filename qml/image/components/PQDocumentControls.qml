@@ -334,7 +334,7 @@ Loader {
                         tooltip: qsTranslate("image", "Click to enter viewer mode")
                         onClicked: (mouse) => {
                             if(mouse.button === Qt.LeftButton)
-                                PQCFileFolderModel.enableViewerMode(PQCConstants.currentFileInsideName)
+                                PQCFileFolderModel.enableViewerMode(PQCFileFolderModel.currentFile, PQCConstants.currentFileInsideNum)
                             else
                                 rightclickmenu.popup()
                         }
@@ -409,7 +409,7 @@ Loader {
                 iconSource: "image://svg/:/" + PQCLook.iconShade + "/viewermode_on.svg"
                 text: qsTranslate("image", "Viewer mode")
                 onTriggered: {
-                    PQCFileFolderModel.enableViewerMode(PQCConstants.currentFileInsideNum)
+                    PQCFileFolderModel.enableViewerMode(PQCFileFolderModel.currentFile, PQCConstants.currentFileInsideNum)
                 }
             }
 

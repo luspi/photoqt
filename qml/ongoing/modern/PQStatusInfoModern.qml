@@ -385,7 +385,7 @@ Item {
                     if(PQCFileFolderModel.isPDF || PQCFileFolderModel.isARC)
                         PQCFileFolderModel.disableViewerMode()
                     else {
-                        PQCFileFolderModel.enableViewerMode(PQCConstants.currentFileInsideNum)
+                        PQCFileFolderModel.enableViewerMode(PQCFileFolderModel.currentFile, PQCConstants.currentFileInsideNum)
                     }
                 }
                 drag.onActiveChanged: {
