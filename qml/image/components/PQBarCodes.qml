@@ -83,160 +83,155 @@ Item {
 
         active: bartop.barcodes.length>0
         asynchronous: true
+        anchors.fill: parent
 
-        Item {
-            // id: barcodes
-            anchors.fill: parent
+        Repeater {
+            model: bartop.barcodes.length/3
 
-            Repeater {
-                model: bartop.barcodes.length/3
+            Rectangle {
 
-                Rectangle {
+                id: bardeleg
 
-                    id: bardeleg
+                required property int modelData
 
-                    required property int modelData
+                property string val: bartop.barcodes[3*modelData]
 
-                    property string val: bartop.barcodes[3*modelData]
-                    property point loc: bartop.barcodes[3*modelData+1]
-                    property size sze: bartop.barcodes[3*modelData+2]
-                    x: loc.x
-                    y: loc.y
-                    width: sze.width
-                    height: sze.height
+                x: bartop.barcodes[3*modelData+1].x
+                y: bartop.barcodes[3*modelData+1].y
+                width: bartop.barcodes[3*modelData+2].x
+                height: bartop.barcodes[3*modelData+2].y
 
-                    color: "#8800ff00"
-                    radius: 5
+                color: "#8800ff00"
+                radius: 5
 
-                    property bool overrideCursorSet: false
-                    property bool hovered: false
+                property bool overrideCursorSet: false
+                property bool hovered: false
 
-                    Column {
+                Column {
+
+                    x: (parent.width-width)/2
+                    y: (parent.height-height)/2
+
+                    spacing: 1
+
+                    scale: 1/bartop.loaderImageScale
+                    Behavior on scale { enabled: !PQCSettings.generalDisableAllAnimations; NumberAnimation { duration: 200 } }
+
+                    Rectangle {
+                        id: txtcont
+                        x: (parent.width-width)/2
+                        width: valtxt.width+10
+                        height: valtxt.height+10
+                        color: palette.base
+                        border.width: 1
+                        border.color: PQCLook.baseBorder
+                        radius: 5
+                        opacity: bardeleg.hovered||copycont.hovered||linkcont.hovered||(bartop.barcodes.length<4) ? 1 : 0.4
+                        Behavior on opacity { enabled: !PQCSettings.generalDisableAllAnimations; NumberAnimation { duration: 200 } }
+                        PQText {
+                            id: valtxt
+                            x: 5
+                            y: 5
+                            wrapMode: Text.WrapAtWordBoundaryOrAnywhere
+                            font.weight: PQCLook.fontWeightBold
+                            text: bardeleg.val
+                        }
+
+                    }
+
+                    Row {
 
                         x: (parent.width-width)/2
-                        y: (parent.height-height)/2
 
                         spacing: 1
 
-                        scale: 1/bartop.loaderImageScale
-                        Behavior on scale { enabled: !PQCSettings.generalDisableAllAnimations; NumberAnimation { duration: 200 } }
-
-                        Rectangle {
-                            id: txtcont
-                            x: (parent.width-width)/2
-                            width: valtxt.width+10
-                            height: valtxt.height+10
-                            color: palette.base
-                            border.width: 1
-                            border.color: PQCLook.baseBorder
-                            radius: 5
-                            opacity: bardeleg.hovered||copycont.hovered||linkcont.hovered||(bartop.barcodes.length<4) ? 1 : 0.4
+                        Item {
+                            id: copycont
+                            width: 32
+                            height: 32
+                            Rectangle {
+                                anchors.fill: parent
+                                color: palette.base
+                                border.width: 1
+                                border.color: PQCLook.baseBorder
+                                radius: 5
+                            }
+                            property bool hovered: false
+                            opacity: hovered ? 1 : 0.4
                             Behavior on opacity { enabled: !PQCSettings.generalDisableAllAnimations; NumberAnimation { duration: 200 } }
-                            PQText {
-                                id: valtxt
-                                x: 5
-                                y: 5
-                                font.weight: PQCLook.fontWeightBold
-                                text: bardeleg.val
+                            Image {
+                                anchors.fill: parent
+                                anchors.margins: 5
+                                sourceSize: Qt.size(width, height)
+                                fillMode: Image.Pad
+                                source: "image://svg/:/" + PQCLook.iconShade + "/copy.svg"
+                            }
+                        }
+
+                        Item {
+                            id: linkcont
+                            width: 32
+                            height: 32
+                            Rectangle {
+                                anchors.fill: parent
+                                color: palette.base
+                                border.width: 1
+                                border.color: PQCLook.baseBorder
+                                radius: 5
+                            }
+                            property bool hovered: false
+                            opacity: hovered ? 1 : 0.4
+                            Behavior on opacity { enabled: !PQCSettings.generalDisableAllAnimations; NumberAnimation { duration: 200 } }
+                            visible: PQCScriptsFilesPaths.isUrl(bardeleg.val)
+                            enabled: visible
+                            Image {
+                                anchors.fill: parent
+                                anchors.margins: 5
+                                sourceSize: Qt.size(width, height)
+                                fillMode: Image.Pad
+                                source: "image://svg/:/" + PQCLook.iconShade + "/globe.svg"
+                            }
+                        }
+
+                        Connections {
+
+                            target: bartop
+
+                            function onBarcodeClicked() {
+                                if(copycont.hovered)
+                                    PQCScriptsClipboard.copyTextToClipboard(bardeleg.val)
+                                else if(linkcont.hovered)
+                                    Qt.openUrlExternally(bardeleg.val)
                             }
 
                         }
 
-                        Row {
+                        Connections {
 
-                            x: (parent.width-width)/2
+                            target: PQCNotify
+                            enabled: bartop.isMainImage
 
-                            spacing: 1
+                            function onMouseMove(x : int, y : int) {
 
-                            Item {
-                                id: copycont
-                                width: 32
-                                height: 32
-                                Rectangle {
-                                    anchors.fill: parent
-                                    color: palette.base
-                                    border.width: 1
-                                    border.color: PQCLook.baseBorder
-                                    radius: 5
-                                }
-                                property bool hovered: false
-                                opacity: hovered ? 1 : 0.4
-                                Behavior on opacity { enabled: !PQCSettings.generalDisableAllAnimations; NumberAnimation { duration: 200 } }
-                                Image {
-                                    anchors.fill: parent
-                                    anchors.margins: 5
-                                    sourceSize: Qt.size(width, height)
-                                    fillMode: Image.Pad
-                                    source: "image://svg/:/" + PQCLook.iconShade + "/copy.svg"
-                                }
-                            }
+                                var local = copycont.mapFromItem(fullscreenitem, Qt.point(x,y))
+                                copycont.hovered = (local.x > 0 && local.y > 0 && local.x < copycont.width && local.y < copycont.height)
 
-                            Item {
-                                id: linkcont
-                                width: 32
-                                height: 32
-                                Rectangle {
-                                    anchors.fill: parent
-                                    color: palette.base
-                                    border.width: 1
-                                    border.color: PQCLook.baseBorder
-                                    radius: 5
-                                }
-                                property bool hovered: false
-                                opacity: hovered ? 1 : 0.4
-                                Behavior on opacity { enabled: !PQCSettings.generalDisableAllAnimations; NumberAnimation { duration: 200 } }
-                                visible: PQCScriptsFilesPaths.isUrl(bardeleg.val)
-                                enabled: visible
-                                Image {
-                                    anchors.fill: parent
-                                    anchors.margins: 5
-                                    sourceSize: Qt.size(width, height)
-                                    fillMode: Image.Pad
-                                    source: "image://svg/:/" + PQCLook.iconShade + "/globe.svg"
-                                }
-                            }
+                                local = linkcont.mapFromItem(fullscreenitem, Qt.point(x,y))
+                                linkcont.hovered = (local.x > 0 && local.y > 0 && local.x < linkcont.width && local.y < linkcont.height)
 
-                            Connections {
+                                local = bardeleg.mapFromItem(fullscreenitem, Qt.point(x,y))
+                                bardeleg.hovered = (local.x > 0 && local.y > 0 && local.x < bardeleg.width && local.y < bardeleg.height)
 
-                                target: bartop
-
-                                function onBarcodeClicked() {
-                                    if(copycont.hovered)
-                                        PQCScriptsClipboard.copyTextToClipboard(bardeleg.val)
-                                    else if(linkcont.hovered)
-                                        Qt.openUrlExternally(bardeleg.val)
-                                }
-
-                            }
-
-                            Connections {
-
-                                target: PQCNotify
-                                enabled: bartop.isMainImage
-
-                                function onMouseMove(x : int, y : int) {
-
-                                    var local = copycont.mapFromItem(fullscreenitem, Qt.point(x,y))
-                                    copycont.hovered = (local.x > 0 && local.y > 0 && local.x < copycont.width && local.y < copycont.height)
-
-                                    local = linkcont.mapFromItem(fullscreenitem, Qt.point(x,y))
-                                    linkcont.hovered = (local.x > 0 && local.y > 0 && local.x < linkcont.width && local.y < linkcont.height)
-
-                                    local = bardeleg.mapFromItem(fullscreenitem, Qt.point(x,y))
-                                    bardeleg.hovered = (local.x > 0 && local.y > 0 && local.x < bardeleg.width && local.y < bardeleg.height)
-
-                                    if(copycont.hovered || linkcont.hovered || bardeleg.hovered) {
-                                        bartop.barcode_z += 1
-                                        bardeleg.z = bartop.barcode_z
-                                        if(copycont.hovered || linkcont.hovered) {
-                                            bardeleg.overrideCursorSet = true
-                                            PQCScriptsOther.setPointingHandCursor()
-                                        }
-                                    } else if(bardeleg.overrideCursorSet) {
-                                        bardeleg.overrideCursorSet = false
-                                        PQCScriptsOther.restoreOverrideCursor()
+                                if(copycont.hovered || linkcont.hovered || bardeleg.hovered) {
+                                    bartop.barcode_z += 1
+                                    bardeleg.z = bartop.barcode_z
+                                    if(copycont.hovered || linkcont.hovered) {
+                                        bardeleg.overrideCursorSet = true
+                                        PQCScriptsOther.setPointingHandCursor()
                                     }
-
+                                } else if(bardeleg.overrideCursorSet) {
+                                    bardeleg.overrideCursorSet = false
+                                    PQCScriptsOther.restoreOverrideCursor()
                                 }
 
                             }

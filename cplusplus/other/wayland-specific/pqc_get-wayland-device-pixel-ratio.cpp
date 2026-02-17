@@ -39,7 +39,6 @@
 #include <QtDebug>
 
 #include <cerrno>
-#include <cstdbool>
 #include <cstdlib>
 #include <cstring>
 #include <cmath>

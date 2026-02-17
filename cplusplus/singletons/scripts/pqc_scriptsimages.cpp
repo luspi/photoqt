@@ -68,7 +68,9 @@
 #include <exiv2/exiv2.hpp>
 #endif
 
-#ifdef PQMZXING
+#ifdef PQMZXINGQT
+#include <ZXing/ZXingQt.h>
+#elif defined(PQMZXING)
 #if __has_include(<ZXing/WriteBarcode.h>)
 #include <ZXing/ZXingCpp.h>
 #else
@@ -810,7 +812,24 @@ QVariantList PQCScriptsImages::getZXingData(QString path) {
 
     QVariantList ret;
 
-#ifdef PQMZXING
+#ifdef PQMZXINGQT
+
+    QSize origSize;
+    QImage img;
+    PQCLoadImage::get().load(path, QSize(-1,-1), origSize, img);
+
+    // Read from QImage
+    for (const auto& barcode : ZXingQt::ReadBarcodes(img)) {
+
+        QVariantList vals;
+        vals << barcode.text();
+        vals << barcode.position().topLeft();
+        vals << barcode.position().bottomRight()-barcode.position().topLeft();
+        ret << vals;
+
+    }
+
+#elif defined(PQMZXING)
 
     QSize origSize;
     QImage img;
@@ -820,7 +839,7 @@ QVariantList PQCScriptsImages::getZXingData(QString path) {
     switch (img.format()) {
         case QImage::Format_ARGB32:
         case QImage::Format_RGB32:
-#if ZXING_VERSION_MAJOR <=2 && ZXING_VERSION_MINOR <= 2
+#if ZXING_VERSION_MAJOR ==2 && ZXING_VERSION_MINOR <= 2
     #if Q_BYTE_ORDER == Q_LITTLE_ENDIAN
             frmt = ZXing::ImageFormat::BGRX;
     #else
@@ -839,7 +858,7 @@ QVariantList PQCScriptsImages::getZXingData(QString path) {
             break;
         case QImage::Format_RGBX8888:
         case QImage::Format_RGBA8888:
-#if ZXING_VERSION_MAJOR <=2 && ZXING_VERSION_MINOR <= 2
+#if ZXING_VERSION_MAJOR ==2 && ZXING_VERSION_MINOR <= 2
             frmt = ZXing::ImageFormat::RGBX;
 #else
             frmt = ZXing::ImageFormat::RGBA;
@@ -853,12 +872,7 @@ QVariantList PQCScriptsImages::getZXingData(QString path) {
             frmt = ZXing::ImageFormat::Lum;
     }
 
-#if ZXING_VERSION_MAJOR == 1 && ZXING_VERSION_MINOR <= 2
-
-    // Read any bar code
-    const ZXing::Result r = ZXing::ReadBarcode({img.bits(), img.width(), img.height(), ZXing::ImageFormat::Lum});
-
-#elif (ZXING_VERSION_MAJOR == 2 && ZXING_VERSION_MINOR <= 1) || ZXING_VERSION_MAJOR == 1
+#if (ZXING_VERSION_MAJOR == 2 && ZXING_VERSION_MINOR <= 1)
 
     // Read all bar codes
     const auto results = ZXing::ReadBarcodes({img.bits(), img.width(), img.height(), frmt, static_cast<int>(img.bytesPerLine())});
@@ -874,24 +888,12 @@ QVariantList PQCScriptsImages::getZXingData(QString path) {
     /******************************/
     // process and store results
 
-#if ZXING_VERSION_MAJOR == 1 && ZXING_VERSION_MINOR <= 2
-
-    if(r.format() != ZXing::BarcodeFormat::None) {
-
-#else // ZXing 1.3 and up
-
     for(const auto& r : results) {
 
-#endif
-
         QVariantList vals;
-#if ZXING_VERSION_MAJOR == 1 && ZXING_VERSION_MINOR <= 4
-        vals << QString::fromStdWString(r.text());
-#else
         vals << QString::fromStdString(r.text());
-#endif
         vals << QPoint(r.position().topLeft().x, r.position().topLeft().y);
-        vals << QSize(r.position().bottomRight().x-r.position().topLeft().x, r.position().bottomRight().y-r.position().topLeft().y);
+        vals << QPoint(r.position().bottomRight().x-r.position().topLeft().x, r.position().bottomRight().y-r.position().topLeft().y);
         ret << vals;
 
     }
