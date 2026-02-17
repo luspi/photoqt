@@ -58,7 +58,7 @@ PQSetting {
                                                 "%u = " + qsTranslate("settingsmanager", "filename without path") + "\n" +
                                                 "%d = " + qsTranslate("settingsmanager", "directory containing file") + "\n\n" +
                       qsTranslate("settingsmanager", "If you type out a path, make sure to escape spaces accordingly by prepending a backslash:") + " '\\ '\n\n" +
-                      qsTranslate("settingsmanager", "Please note that any external shortcut action that doesnot have any mouse or key combination associated with it will not be saved.")
+                      qsTranslate("settingsmanager", "Please note: any external shortcut action that is not associated with any mouse or key combination will not be saved.")
 
 
         },

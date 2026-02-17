@@ -260,7 +260,7 @@ PQSetting {
 
             title: qsTranslate("settingsmanager", "Shortcuts")
 
-            helptext: qsTranslate("settingsmanager", "PhotoQt is highly customizable by shortcuts. Both key shortcuts and mouse gestures can be used. The list of all available actions is available below and can be filtered by keywords. A key shortcut or mouse gesture can be assigned to multiple actions. How this situation is handled can be adjusted from another subtab that can be found along the left side of the window.")
+            helptext: qsTranslate("settingsmanager", "PhotoQt is highly customizable by shortcuts. Both key shortcuts and mouse gestures can be used. The list of all available actions is available below and can be filtered by keywords. A key shortcut or mouse gesture can be assigned to multiple actions. How this situation is handled can be adjusted from another tab that can be found along the left side of the window.")
 
         },
 

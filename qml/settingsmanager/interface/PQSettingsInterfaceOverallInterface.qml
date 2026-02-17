@@ -349,7 +349,7 @@ PQSetting {
 
             title: qsTranslate("settingsmanager", "Disable all animations")
 
-            helptext: qsTranslate("settingsmanager", "PhotoQt animates all parts of its interface in small ways to support the user friendliness of the interface. If your system has only very limited resources it can be helpful to disable all animations in PhotoQt. Note that this setting trumps any area-sepcific animation settings.")
+            helptext: qsTranslate("settingsmanager", "PhotoQt animates all parts of its interface in small ways to support the user friendliness of the interface. If your system has only very limited resources it can be helpful to disable all animations in PhotoQt. Note that this setting trumps any area-specific animation settings.")
 
         },
 
