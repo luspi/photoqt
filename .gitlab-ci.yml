@@ -46,7 +46,7 @@ appimage:
     - git clone https://gitlab.com/lspies/photoqt-extensions    # Install extensions
     - mkdir -p photoqt-extensions/build
     - cd photoqt-extensions/build
-    - cmake .. -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=/usr/lib/PhotoQt/extensions -DWITH_GRAPHICSMAGICK=OFF -DWITH_IMAGEMAGICK=ON
+    - cmake .. -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=/usr/lib/x86_64-linux-gnu/PhotoQt/extensions -DWITH_GRAPHICSMAGICK=OFF -DWITH_IMAGEMAGICK=ON
     - make DESTDIR=../../photoqt/appdir -j$(nproc) install
     - cd ../../photoqt # build and install PhotoQt
     - export QT_SELECT=qt6
@@ -107,7 +107,7 @@ releaseappimage:
     - git clone https://gitlab.com/lspies/photoqt-extensions    # Install extensions
     - mkdir -p photoqt-extensions/build
     - cd photoqt-extensions/build
-    - cmake .. -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=/usr/lib/PhotoQt/extensions -DWITH_GRAPHICSMAGICK=OFF -DWITH_IMAGEMAGICK=ON
+    - cmake .. -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=/usr/lib/x86_64-linux-gnu/PhotoQt/extensions -DWITH_GRAPHICSMAGICK=OFF -DWITH_IMAGEMAGICK=ON
     - make DESTDIR=../../photoqt/appdir -j$(nproc) install
     - cd ../../photoqt # build and install PhotoQt
     - export QT_SELECT=qt6
