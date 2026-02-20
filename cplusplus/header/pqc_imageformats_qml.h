@@ -129,14 +129,6 @@ public:
         return PQCImageFormats::get().getEnabledMimeTypesDevIL();
     }
 
-    Q_INVOKABLE const QStringList getEnabledFormatsFreeImage() {
-        return PQCImageFormats::get().getEnabledFormatsFreeImage();
-    }
-
-    Q_INVOKABLE const QStringList getEnabledMimeTypesFreeImage() {
-        return PQCImageFormats::get().getEnabledMimeTypesFreeImage();
-    }
-
     Q_INVOKABLE const QStringList getEnabledFormatsLibArchive() {
         return PQCImageFormats::get().getEnabledFormatsLibArchive();
     }
@@ -207,19 +199,19 @@ public:
 
     bool const enterNewFormat(QString endings, QString mimetypes, QString description, QString category,
                               int enabled, int qt, int resvg, int libvips, int imagemagick, int graphicsmagick, int libraw, int poppler,
-                              int xcftools, int devil, int freeimage, int archive, int video, int libmpv, int libsai,
+                              int xcftools, int devil, int archive, int video, int libmpv, int libsai,
                               QString im_gm_magick, QString qt_formatname, bool silentIfExists) {
         return PQCImageFormats::get().enterNewFormat(endings, mimetypes, description, category,
                                                      enabled, qt, resvg, libvips, imagemagick, graphicsmagick, libraw, poppler, xcftools, devil,
-                                                     freeimage, archive, video, libmpv, libsai, im_gm_magick, qt_formatname, silentIfExists);
+                                                     archive, video, libmpv, libsai, im_gm_magick, qt_formatname, silentIfExists);
     }
 
     bool const updateFormatByEnding(QString endings, QString mimetypes, QString description, QString category,
                                     int enabled, int qt, int resvg, int libvips, int imagemagick, int graphicsmagick, int libraw, int poppler,
-                                    int xcftools, int devil, int freeimage, int archive, int video, int libmpv, int libsai,
+                                    int xcftools, int devil, int archive, int video, int libmpv, int libsai,
                                     QString im_gm_magick, QString qt_formatname, bool silentIfExists) {
         return PQCImageFormats::get().updateFormatByEnding(endings, mimetypes, description, category, enabled, qt, resvg, libvips, imagemagick,
-                                                           graphicsmagick, libraw, poppler, xcftools, devil, freeimage, archive, video, libmpv,
+                                                           graphicsmagick, libraw, poppler, xcftools, devil, archive, video, libmpv,
                                                            libsai, im_gm_magick, qt_formatname, silentIfExists);
     }
 

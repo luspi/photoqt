@@ -8,7 +8,6 @@
         "libraw",
         "pugixml",
         "devil",
-        "freeimage",
         "nu-book-zxing-cpp",
         "yaml-cpp"
     ]

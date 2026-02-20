@@ -61,12 +61,6 @@ if(WITH_DEVIL)
     target_link_libraries(${testname} PRIVATE DevIL::IL)
 endif()
 
-if(WITH_FREEIMAGE)
-    target_include_directories(${testname} PRIVATE ${FREEIMAGE_INCLUDE_DIRS})
-    target_compile_definitions(${testname} PRIVATE PQMFREEIMAGE)
-    target_link_libraries(${testname} PRIVATE ${FREEIMAGE_C_LIBRARY})
-endif()
-
 if(WITH_POPPLER)
     target_include_directories(${testname} PRIVATE ${Poppler_INCLUDE_DIRS})
     target_compile_definitions(${testname} PRIVATE PQMPOPPLER)

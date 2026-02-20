@@ -1591,7 +1591,7 @@ if which == 'all' or which == 'formatsdb':
     conndb = sqlite3.connect('imageformats.db')
     cdb = conndb.cursor()
 
-    cdb.execute("SELECT endings,description,qt,imagemagick,graphicsmagick,libraw,poppler,xcftools,devil,freeimage,archive,video,libmpv FROM imageformats ORDER BY endings")
+    cdb.execute("SELECT endings,description,qt,imagemagick,graphicsmagick,libraw,poppler,xcftools,devil,archive,video,libmpv FROM imageformats ORDER BY endings")
     data = cdb.fetchall()
 
     for row in data:
@@ -1610,7 +1610,7 @@ if which == 'all' or which == 'formatsdb':
         vid = row[11]
         mpv = row[12]
 
-        sqltxt += f"INSERT INTO imageformats (`endings`,`description`,`qt`,`imagemagick`,`graphicsmagick`,`libraw`,`poppler`,`xcftools`,`devil`,`freeimage`,`archive`,`video`,`libmpv`) VALUES ('{end}', '{des}', {qt}, {im}, {gm}, {raw}, {pop}, {xcf}, {dev}, {fre}, {arc}, {vid}, {mpv});\n"
+        sqltxt += f"INSERT INTO imageformats (`endings`,`description`,`qt`,`imagemagick`,`graphicsmagick`,`libraw`,`poppler`,`xcftools`,`devil`,`archive`,`video`,`libmpv`) VALUES ('{end}', '{des}', {qt}, {im}, {gm}, {raw}, {pop}, {xcf}, {dev}, {arc}, {vid}, {mpv});\n"
 
     f = open("output/imageformats_website.sql", "w")
     f.write(sqltxt)

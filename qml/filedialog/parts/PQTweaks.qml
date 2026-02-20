@@ -274,8 +274,6 @@ Item {
                         mdl.append({"txt" : "LibRaw", "checked" : 1})
                     if(PQCScriptsConfig.isDevILSupportEnabled())
                         mdl.append({"txt" : "DevIL", "checked" : 1})
-                    if(PQCScriptsConfig.isFreeImageSupportEnabled())
-                        mdl.append({"txt" : "FreeImage", "checked" : 1})
                     if(PQCScriptsConfig.isLibVipsSupportEnabled())
                         mdl.append({"txt" : "LibVips", "checked" : 1})
                     if(PQCScriptsConfig.isLibArchiveSupportEnabled())
@@ -365,16 +363,6 @@ Item {
                                     txts.push("DevIL")
                                     suffixes = suffixes.concat(PQCImageFormats.getEnabledFormatsDevIL())
                                     mimetypes = mimetypes.concat(PQCImageFormats.getEnabledMimeTypesDevIL())
-                                }
-                                runningIndex += 1
-                            }
-
-                            // FreeImage
-                            if(PQCScriptsConfig.isFreeImageSupportEnabled()) {
-                                if(mdl.get(runningIndex).checked) {
-                                    txts.push("FreeImage")
-                                    suffixes = suffixes.concat(PQCImageFormats.getEnabledFormatsFreeImage())
-                                    mimetypes = mimetypes.concat(PQCImageFormats.getEnabledMimeTypesFreeImage())
                                 }
                                 runningIndex += 1
                             }

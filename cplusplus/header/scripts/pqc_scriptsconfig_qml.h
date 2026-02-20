@@ -99,9 +99,6 @@ public:
     Q_INVOKABLE bool isDevILSupportEnabled() {
         return PQCScriptsConfig::get().isDevILSupportEnabled();
     }
-    Q_INVOKABLE bool isFreeImageSupportEnabled() {
-        return PQCScriptsConfig::get().isFreeImageSupportEnabled();
-    }
     Q_INVOKABLE bool isPDFSupportEnabled() {
         return PQCScriptsConfig::get().isPDFSupportEnabled();
     }

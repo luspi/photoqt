@@ -79,10 +79,6 @@
 #include <exiv2/exiv2.hpp>
 #endif
 
-#ifdef PQMFREEIMAGE
-#include <FreeImage.h>
-#endif
-
 #ifdef Q_OS_WIN
 #include <QQuickWindow>
 #include <QSGRendererInterface>
@@ -272,10 +268,6 @@ int main(int argc, char **argv) {
     ilInit();
 #endif
 
-#ifdef PQMFREEIMAGE
-    FreeImage_Initialise();
-#endif
-
 #ifdef PQMLIBVIPS
     VIPS_INIT(argv[0]);
 #endif
@@ -313,10 +305,6 @@ int main(int argc, char **argv) {
 #endif
 
     int currentExitCode = app.exec();
-
-#ifdef PQMFREEIMAGE
-    FreeImage_DeInitialise();
-#endif
 
 #ifdef PQMLIBVIPS
     vips_shutdown();

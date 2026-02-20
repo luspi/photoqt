@@ -70,7 +70,6 @@ SET(photoqt_testscripts_SOURCES
 
                     ../../cplusplus/images/plugins/pqc_loadimage_archive.cpp
                     ../../cplusplus/images/plugins/pqc_loadimage_devil.cpp
-                    ../../cplusplus/images/plugins/pqc_loadimage_freeimage.cpp
                     ../../cplusplus/images/plugins/pqc_loadimage_libvips.cpp
                     ../../cplusplus/images/plugins/pqc_loadimage_magick.cpp
                     ../../cplusplus/images/plugins/pqc_loadimage_poppler.cpp

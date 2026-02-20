@@ -30,7 +30,6 @@
 #include <pqc_loadimage_libvips.h>
 #include <pqc_loadimage_archive.h>
 #include <pqc_loadimage_devil.h>
-#include <pqc_loadimage_freeimage.h>
 #include <pqc_loadimage_video.h>
 #include <pqc_loadimage_libsai.h>
 
@@ -122,11 +121,6 @@ QSize PQCLoadImage::load(QString filename) {
         sze = PQCLoadImageLibVips::loadSize(filename);
 #endif
 
-#ifdef PQMFREEIMAGE
-    if(sze.isNull() && (PQCImageFormats::get().getEnabledFormatsFreeImage().contains(suffix1) || PQCImageFormats::get().getEnabledFormatsFreeImage().contains(suffix2)))
-        sze = PQCLoadImageFreeImage::loadSize(filename);
-#endif
-
 #ifdef PQMDEVIL
     if(sze.isNull() && (PQCImageFormats::get().getEnabledFormatsDevIL().contains(suffix1) || PQCImageFormats::get().getEnabledFormatsDevIL().contains(suffix2)))
         sze = PQCLoadImageDevil::loadSize(filename);
@@ -192,11 +186,6 @@ QSize PQCLoadImage::load(QString filename) {
 #ifdef PQMLIBVIPS
             if(sze.isNull() && PQCImageFormats::get().getEnabledMimeTypesLibVips().contains(mimetype))
                 sze = PQCLoadImageLibVips::loadSize(filename);
-#endif
-
-#ifdef PQMFREEIMAGE
-            if(sze.isNull() && PQCImageFormats::get().getEnabledMimeTypesFreeImage().contains(mimetype))
-                sze = PQCLoadImageFreeImage::loadSize(filename);
 #endif
 
 #ifdef PQMDEVIL
@@ -306,11 +295,6 @@ QString PQCLoadImage::load(QString filename, QSize requestedSize, QSize &origSiz
         err = PQCLoadImageLibVips::load(filename, requestedSize, origSize, img);
 #endif
 
-#ifdef PQMFREEIMAGE
-    if(img.isNull() && (PQCImageFormats::get().getEnabledFormatsFreeImage().contains(suffix1) || PQCImageFormats::get().getEnabledFormatsFreeImage().contains(suffix2)))
-        err = PQCLoadImageFreeImage::load(filename, requestedSize, origSize, img);
-#endif
-
 #ifdef PQMDEVIL
     if(img.isNull() && (PQCImageFormats::get().getEnabledFormatsDevIL().contains(suffix1) || PQCImageFormats::get().getEnabledFormatsDevIL().contains(suffix2)))
         err = PQCLoadImageDevil::load(filename, requestedSize, origSize, img);
@@ -376,11 +360,6 @@ QString PQCLoadImage::load(QString filename, QSize requestedSize, QSize &origSiz
 #ifdef PQMLIBVIPS
             if(img.isNull() && PQCImageFormats::get().getEnabledMimeTypesLibVips().contains(mimetype))
                 err = PQCLoadImageLibVips::load(filename, requestedSize, origSize, img);
-#endif
-
-#ifdef PQMFREEIMAGE
-            if(img.isNull() && PQCImageFormats::get().getEnabledMimeTypesFreeImage().contains(mimetype))
-                err = PQCLoadImageFreeImage::load(filename, requestedSize, origSize, img);
 #endif
 
 #ifdef PQMDEVIL

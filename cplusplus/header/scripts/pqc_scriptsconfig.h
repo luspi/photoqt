@@ -59,7 +59,6 @@ public:
     bool isPugixmlSupportEnabled();
     bool isLibRawSupportEnabled();
     bool isDevILSupportEnabled();
-    bool isFreeImageSupportEnabled();
     bool isPDFSupportEnabled();
     bool isLibVipsSupportEnabled();
     bool isLibArchiveSupportEnabled();

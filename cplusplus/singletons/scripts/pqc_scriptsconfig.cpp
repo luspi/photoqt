@@ -65,10 +65,6 @@
 #include <IL/il.h>
 #endif
 
-#ifdef PQMFREEIMAGE
-#include <FreeImage.h>
-#endif
-
 #ifdef PQMVIDEOMPV
 #include <pqc_mpvobject.h>
 #endif
@@ -149,10 +145,6 @@ QString PQCScriptsConfig::getConfigInfo(bool formatHTML) {
 
 #ifdef PQMGRAPHICSMAGICK
     txt += QString(" - %1GraphicsMagick%2: %3%4").arg(bold1, bold2, MagickLibVersionText, nl);
-#endif
-
-#ifdef PQMFREEIMAGE
-    txt += QString(" - %1FreeImage%2: %3.%4%5").arg(bold1, bold2).arg(FREEIMAGE_MAJOR_VERSION).arg(FREEIMAGE_MINOR_VERSION).arg(nl);
 #endif
 
 #ifdef PQMDEVIL
@@ -515,13 +507,6 @@ bool PQCScriptsConfig::isLibRawSupportEnabled() {
 
 bool PQCScriptsConfig::isDevILSupportEnabled() {
 #ifdef PQMDEVIL
-    return true;
-#endif
-    return false;
-}
-
-bool PQCScriptsConfig::isFreeImageSupportEnabled() {
-#ifdef PQMFREEIMAGE
     return true;
 #endif
     return false;

@@ -121,14 +121,6 @@ public:
         return mimetypes_devil;
     }
 
-    const QStringList getEnabledFormatsFreeImage() {
-        return formats_freeimage;
-    }
-
-    const QStringList getEnabledMimeTypesFreeImage() {
-        return mimetypes_freeimage;
-    }
-
     const QStringList getEnabledFormatsLibArchive() {
         return formats_archive;
     }
@@ -180,8 +172,8 @@ public:
     int detectFormatId(QString filename);
     int getWriteStatus(int uniqueid);
 
-    bool enterNewFormat(QString endings, QString mimetypes, QString description, QString category, int enabled, int qt, int resvg, int libvips, int imagemagick, int graphicsmagick, int libraw, int poppler, int xcftools, int devil, int freeimage, int archive, int video, int libmpv, int libsai, QString im_gm_magick, QString qt_formatname, bool silentIfExists);
-    bool updateFormatByEnding(QString endings, QString mimetypes, QString description, QString category, int enabled, int qt, int resvg, int libvips, int imagemagick, int graphicsmagick, int libraw, int poppler, int xcftools, int devil, int freeimage, int archive, int video, int libmpv, int libsai, QString im_gm_magick, QString qt_formatname, bool silentIfExists);
+    bool enterNewFormat(QString endings, QString mimetypes, QString description, QString category, int enabled, int qt, int resvg, int libvips, int imagemagick, int graphicsmagick, int libraw, int poppler, int xcftools, int devil, int archive, int video, int libmpv, int libsai, QString im_gm_magick, QString qt_formatname, bool silentIfExists);
+    bool updateFormatByEnding(QString endings, QString mimetypes, QString description, QString category, int enabled, int qt, int resvg, int libvips, int imagemagick, int graphicsmagick, int libraw, int poppler, int xcftools, int devil, int archive, int video, int libmpv, int libsai, QString im_gm_magick, QString qt_formatname, bool silentIfExists);
 
     void closeDatabase();
     void reopenDatabase();
@@ -223,8 +215,6 @@ private:
     QStringList mimetypes_xcftools;
     QStringList formats_devil;
     QStringList mimetypes_devil;
-    QStringList formats_freeimage;
-    QStringList mimetypes_freeimage;
     QStringList formats_archive;
     QStringList mimetypes_archive;
     QStringList formats_video;
