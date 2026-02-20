@@ -1,6 +1,29 @@
 Changelog PhotoQt - Copyright (C) 2011-2026, Lukas Spies (Lukas@photoqt.org), License: GPLv2 (or later)
 ----------------------------------------------------------------------------------------------------------
 
+Release 5.2 - 2026-02-20
+----------------------------
+- add: controls for ignoring/limiting large archives
+- add: customizable sort order for folder thumbnails
+- improve: handle different screen scale factors for different screens on Wayland
+- improve: interpolation of normal images, both large and small
+- improve: filter not applied if no matches, showing notification instead
+- improve: only ever fully load one of the file views in the file dialog
+- improve: mouse events also captured on empty area around files in file dialog
+- improve: show busy indicator while loading large archives
+- improve: better information in status bar when in viewer mode
+- improve: handling of modal windows/elements
+- fix: building with ZXing-C++ 3.x
+- fix: scroll to thumbnail when PhotoQt started with an image
+- fix: don't load same archive more than once concurrently, keeping interface responsive
+- fix: setting/previewing custom accent colors
+- fix: width of slider in slideshow settings
+- fix: don't apply Exif orientation twice with any image plugin
+- fix: don't set up file view twice at startup
+- fix: don't always load image sizes in file dialog unless needed
+- change: removed support for FreeImage
+
+
 Release 5.1 - 2026-01-16
 ----------------------------
 
