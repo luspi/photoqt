@@ -651,8 +651,8 @@ Loader {
             Item {
                 id: flickable_content
 
-                x: Math.max(0, (flickable.width-width)/2)
-                y: Math.max(0, (flickable.height-height)/2)
+                x: Math.round(Math.max(0, (flickable.width-width)/2))
+                y: Math.round(Math.max(0, (flickable.height-height)/2))
                 width: (loader_top.rotatedUpright ? image_wrapper.width : image_wrapper.height)*image_wrapper.scale
                 height: (loader_top.rotatedUpright ? image_wrapper.height : image_wrapper.width)*image_wrapper.scale
 

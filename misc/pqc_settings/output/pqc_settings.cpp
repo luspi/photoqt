@@ -242,8 +242,6 @@ PQCSettings::PQCSettings() {
     connect(this, &PQCSettings::imageviewFitInWindowChanged, this, [=]() { saveChangedValue("imageviewFitInWindow", m_imageviewFitInWindow); });
     connect(this, &PQCSettings::imageviewHideCursorTimeoutChanged, this, [=]() { saveChangedValue("imageviewHideCursorTimeout", m_imageviewHideCursorTimeout); });
     connect(this, &PQCSettings::imageviewInterpolationDisableForSmallImagesChanged, this, [=]() { saveChangedValue("imageviewInterpolationDisableForSmallImages", m_imageviewInterpolationDisableForSmallImages); });
-    connect(this, &PQCSettings::imageviewInterpolationThresholdChanged, this, [=]() { saveChangedValue("imageviewInterpolationThreshold", m_imageviewInterpolationThreshold); });
-    connect(this, &PQCSettings::imageviewInterpolationThresholdWindowSizeChanged, this, [=]() { saveChangedValue("imageviewInterpolationThresholdWindowSize", m_imageviewInterpolationThresholdWindowSize); });
     connect(this, &PQCSettings::imageviewLoopThroughFolderChanged, this, [=]() { saveChangedValue("imageviewLoopThroughFolder", m_imageviewLoopThroughFolder); });
     connect(this, &PQCSettings::imageviewMarginChanged, this, [=]() { saveChangedValue("imageviewMargin", m_imageviewMargin); });
     connect(this, &PQCSettings::imageviewMinimapSizeLevelChanged, this, [=]() { saveChangedValue("imageviewMinimapSizeLevel", m_imageviewMinimapSizeLevel); });
@@ -2670,49 +2668,6 @@ void PQCSettings::setDefaultForImageviewInterpolationDisableForSmallImages() {
     if(false != m_imageviewInterpolationDisableForSmallImages) {
         m_imageviewInterpolationDisableForSmallImages = false;
         Q_EMIT imageviewInterpolationDisableForSmallImagesChanged();
-    }
-}
-
-int PQCSettings::getImageviewInterpolationThreshold() {
-    return m_imageviewInterpolationThreshold;
-}
-
-void PQCSettings::setImageviewInterpolationThreshold(int val) {
-    if(val != m_imageviewInterpolationThreshold) {
-        m_imageviewInterpolationThreshold = val;
-        Q_EMIT imageviewInterpolationThresholdChanged();
-    }
-}
-
-const int PQCSettings::getDefaultForImageviewInterpolationThreshold() {
-        return 100;
-}
-
-void PQCSettings::setDefaultForImageviewInterpolationThreshold() {
-    if(100 != m_imageviewInterpolationThreshold) {
-        m_imageviewInterpolationThreshold = 100;
-    }
-}
-
-bool PQCSettings::getImageviewInterpolationThresholdWindowSize() {
-    return m_imageviewInterpolationThresholdWindowSize;
-}
-
-void PQCSettings::setImageviewInterpolationThresholdWindowSize(bool val) {
-    if(val != m_imageviewInterpolationThresholdWindowSize) {
-        m_imageviewInterpolationThresholdWindowSize = val;
-        Q_EMIT imageviewInterpolationThresholdWindowSizeChanged();
-    }
-}
-
-const bool PQCSettings::getDefaultForImageviewInterpolationThresholdWindowSize() {
-        return true;
-}
-
-void PQCSettings::setDefaultForImageviewInterpolationThresholdWindowSize() {
-    if(true != m_imageviewInterpolationThresholdWindowSize) {
-        m_imageviewInterpolationThresholdWindowSize = true;
-        Q_EMIT imageviewInterpolationThresholdWindowSizeChanged();
     }
 }
 
@@ -7193,10 +7148,6 @@ void PQCSettings::readDB() {
                     m_imageviewHideCursorTimeout = value.toInt();
                 } else if(name == "InterpolationDisableForSmallImages") {
                     m_imageviewInterpolationDisableForSmallImages = value.toInt();
-                } else if(name == "InterpolationThreshold") {
-                    m_imageviewInterpolationThreshold = value.toInt();
-                } else if(name == "InterpolationThresholdWindowSize") {
-                    m_imageviewInterpolationThresholdWindowSize = value.toInt();
                 } else if(name == "LoopThroughFolder") {
                     m_imageviewLoopThroughFolder = value.toInt();
                 } else if(name == "Margin") {
@@ -8027,8 +7978,6 @@ void PQCSettings::setupFresh() {
     m_imageviewFitInWindow = false;
     m_imageviewHideCursorTimeout = 1;
     m_imageviewInterpolationDisableForSmallImages = false;
-    m_imageviewInterpolationThreshold = 100;
-    m_imageviewInterpolationThresholdWindowSize = true;
     m_imageviewLoopThroughFolder = true;
     m_imageviewMargin = 5;
     m_imageviewMinimapSizeLevel = 0;
@@ -8358,8 +8307,6 @@ void PQCSettings::resetToDefault() {
     setDefaultForImageviewFitInWindow();
     setDefaultForImageviewHideCursorTimeout();
     setDefaultForImageviewInterpolationDisableForSmallImages();
-    setDefaultForImageviewInterpolationThreshold();
-    setDefaultForImageviewInterpolationThresholdWindowSize();
     setDefaultForImageviewLoopThroughFolder();
     setDefaultForImageviewMargin();
     setDefaultForImageviewMinimapSizeLevel();
@@ -8985,14 +8932,6 @@ QStringList PQCSettings::updateFromCommandLine() {
     if(key == "imageviewInterpolationDisableForSmallImages") {
         m_imageviewInterpolationDisableForSmallImages = (val.toInt()==1);
         Q_EMIT imageviewInterpolationDisableForSmallImagesChanged();
-    }
-    if(key == "imageviewInterpolationThreshold") {
-        m_imageviewInterpolationThreshold = val.toInt();
-        Q_EMIT imageviewInterpolationThresholdChanged();
-    }
-    if(key == "imageviewInterpolationThresholdWindowSize") {
-        m_imageviewInterpolationThresholdWindowSize = (val.toInt()==1);
-        Q_EMIT imageviewInterpolationThresholdWindowSizeChanged();
     }
     if(key == "imageviewLoopThroughFolder") {
         m_imageviewLoopThroughFolder = (val.toInt()==1);

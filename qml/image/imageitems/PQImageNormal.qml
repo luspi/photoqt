@@ -69,25 +69,15 @@ Item {
 
         asynchronous: true
 
-        // IMPORTANT NOTE REGARDING MIPMAP !!!
-        //
-        // Whenever the mipmap property changes, then the image is fully reloaded.
-        // Making the mipmap property solely depend on the sourceSize makes it switch from false to true most of the time as the
-        // sourceSize is reported as QSize(-1,-1) initially. This results, e.g., in the image to flicker when PhotoQt is started with one being passed on.
-        // Making the mipmap property by default evaluate to true and ONLY if the image actually is below the threshold in size and the respective setting
-        // is switched on, then it is set to false causing the reloading of a very small images (very fast).
-        //
-        // Another note about using a seperate property to store the sourceSize evaluation for both smooth and mipmap:
-        // Such a property is NOT guaranteed to be evaluated before mipmap and might result in it still returning the value of QSize(-1,-1) for
-        // the sourceSize even though initialLoad already caused a retrigger of mipmap.
-        //
-        // This property, initialLoad, ensures the 'true by default' value of mipmap and is set to false once we know the actual sourceSize.
+        // this stores whether we are still in our initial loading phase
+        // it will be set to false once the proper sourceSize is available
         property bool initialLoad: true
 
-        property bool interpThresholdMet: ((sourceSize.width > PQCConstants.availableWidth || sourceSize.height > PQCConstants.availableHeight) && PQCSettings.imageviewInterpolationThresholdWindowSize) ||
-                                          ((sourceSize.width > PQCSettings.imageviewInterpolationThreshold || sourceSize.height > PQCSettings.imageviewInterpolationThreshold) && !PQCSettings.imageviewInterpolationThresholdWindowSize)
-        smooth: !PQCSettings.imageviewInterpolationDisableForSmallImages || interpThresholdMet
-        mipmap: initialLoad || !PQCSettings.imageviewInterpolationDisableForSmallImages || interpThresholdMet
+        property bool interpThresholdMet: sourceSize.width > PQCConstants.availableWidth || sourceSize.height > PQCConstants.availableHeight
+
+        smooth: !PQCSettings.imageviewInterpolationDisableForSmallImages || interpThresholdMet || initialLoad
+        mipmap: false
+
 
         Component.onCompleted: {
             // this is necessary, otherwise the interpThresholdMet property is not properly updated
@@ -234,7 +224,7 @@ Item {
             mipmap: true
             z: parent.z+1
             asynchronous: false
-            sourceSize: Qt.size(Math.min(image.sourceSize.width,width*(imgtop.delayCurrentScale/imgtop.defaultScale)),
+            sourceSize: Qt.size(Math.min(image.sourceSize.width, width*(imgtop.delayCurrentScale/imgtop.defaultScale)),
                                 Math.min(image.sourceSize.height, height*(imgtop.delayCurrentScale/imgtop.defaultScale)))
         }
     }

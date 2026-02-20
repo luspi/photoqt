@@ -293,6 +293,10 @@ ApplicationWindow {
                 showFullScreen()
         }
 
+        // Make sure to set the current screen name on startup
+        if(toplevel.screen !== undefined)
+            PQCConstants.currentScreenModelName = toplevel.screen.name
+
         if(PQCConstants.startupFilePath !== "") {
 
             // in the case of a FOLDER passed on we actually need to load the files first to get the first one:
