@@ -113,7 +113,7 @@ PQSetting {
 
             title: qsTranslate("settingsmanager", "Loading Archives")
 
-            helptext: qsTranslate("settingsmanager", "By default, PhotoQt loads any archive it can find and checks it for any supported file type. This can take a few seconds with very large archives (multible Gigabytes). In situations where such large archives are common, it might be preferential to skip over archives of a certain size, or to limit the number of files that are listed from inside the archive.")
+            helptext: qsTranslate("settingsmanager", "By default, PhotoQt loads any archive it can find and checks it for any supported file type. This can take a few seconds with very large archives (multiple Gigabytes). In situations where such large archives are common, it might be preferential to skip over archives of a certain size, or to limit the number of files that are listed from inside the archive.")
 
         },
 
