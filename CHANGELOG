@@ -13,7 +13,7 @@ Release 5.2 - 2026-02-20
 - improve: show busy indicator while loading large archives
 - improve: better information in status bar when in viewer mode
 - improve: handling of modal windows/elements
-- fix: building with ZXing-C++ 3+
+- fix: building with ZXing-C++ 3.x
 - fix: scroll to thumbnail when PhotoQt started with an image
 - fix: don't load same archive more than once concurrently, keeping interface responsive
 - fix: setting/previewing custom accent colors

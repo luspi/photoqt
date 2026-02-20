@@ -115,6 +115,7 @@
     <releases>
         <release version="5.2" date="2026-02-20">
             <description>
+                <p>It's time for another release, version 5.2! All the changes that have been added to PhotoQt this past month focussed on improving existing features and fixing a few bugs, with a few nice additions nonetheless along for the ride.</p>
             </description>
             <url>
                 https://photoqt.org/news/photoqt-5.2
