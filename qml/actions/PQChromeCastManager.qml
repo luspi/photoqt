@@ -35,7 +35,7 @@ PQTemplate {
 
         //: Used as in: Connect to chromecast device
         button1.text = qsTranslate("streaming", "Connect")
-        button1.enabled = view.currentIndex>-1
+        button1.enabled = Qt.binding(function() { return view.currentIndex>-1 })
 
         button2.visible = true
         button2.text = button2.genericStringCancel
