@@ -213,9 +213,10 @@ void PQCExtensionsHandler::setup() {
                     if(!QFile::exists(qmfile))
                         qDebug() << identifyName << "- no translation file found:" << qmfile;
                     else {
-                        if(trans->load(qmfile))
+                        if(trans->load(qmfile)) {
+                            qDebug() << identifyName << "- installing translation file:" << qmfile;
                             qApp->installTranslator(trans);
-                        else
+                        } else
                             qWarning() << identifyName << "- unable to install translator:" << PQCScriptsLocalization::get().getActiveTranslationCode();
                     }
                 } else {
@@ -271,7 +272,7 @@ bool PQCExtensionsHandler::loadExtension(PQCExtensionInfo *extinfo, QString name
     }
 
     /***********************************/
-    // PROPERTIES: about (all except longName are REQUIRED)
+    // PROPERTIES: about (all except longName are REQUIRED, localizations are OPTIONAL)
 
     // version
     try {
@@ -290,12 +291,17 @@ bool PQCExtensionsHandler::loadExtension(PQCExtensionInfo *extinfo, QString name
     }
 
     // long name
+    bool haveProperLongName = true;
     try {
         extinfo->longName = QString::fromStdString(config["about"]["longName"].as<std::string>());
     } catch(YAML::Exception &e) {
+        haveProperLongName = false;
         qDebug() << "Extension:" << identifyName << "- Optional value for 'longName' not found, adopting value of 'name':" << e.what();
     }
-    if(extinfo->longName == "") extinfo->longName = extinfo->name;
+    if(extinfo->longName == "") {
+        haveProperLongName = false;
+        extinfo->longName = extinfo->name;
+    }
 
     // description
     try {
@@ -342,6 +348,74 @@ bool PQCExtensionsHandler::loadExtension(PQCExtensionInfo *extinfo, QString name
     } catch(YAML::Exception &e) {
         qWarning() << "Extension:" << identifyName << "- Failed to read required value for 'targetAPI':" << e.what();
         return false;
+    }
+
+    // OPTIONAL localizations
+    // check localizations for name
+    for(const QString &lang : PQCScriptsLocalization::get().getAvailableTranslations()) {
+        try {
+            if(config["about"][QString("name[%1]").arg(lang).toStdString()].IsDefined()) {
+                const QString val = QString::fromStdString(config["about"][QString("name[%1]").arg(lang).toStdString()].as<std::string>());
+                qDebug() << "Extension:" << identifyName << "- localized name to" << lang << "found:" << val;
+                extinfo->nameLocalized[lang] = val;
+            } else if(lang.contains("_")) {
+                const QString lang_ = lang.split("_")[0];
+                if(config["about"][QString("name[%1]").arg(lang_).toStdString()].IsDefined()) {
+                    const QString val = QString::fromStdString(config["about"][QString("name[%1]").arg(lang_).toStdString()].as<std::string>());
+                    qDebug() << "Extension:" << identifyName << "- localized name to" << lang_ << "found:" << val;
+                    extinfo->nameLocalized[lang] = val;
+                } else
+                    qDebug() << "Extension:" << identifyName << "- localized 'name' to" << lang << "not found.";
+            } else
+                qDebug() << "Extension:" << identifyName << "- localized 'name' to" << lang << "not found.";
+        } catch(YAML::Exception &e) {
+            qDebug() << "Extension:" << identifyName << "- localized 'name' to" << lang << "not found.";
+        }
+    }
+    // check localizations for longName
+    for(const QString &lang : PQCScriptsLocalization::get().getAvailableTranslations()) {
+        if(haveProperLongName) {
+            try {
+                if(config["about"][QString("longName[%1]").arg(lang).toStdString()].IsDefined()) {
+                    const QString val = QString::fromStdString(config["about"][QString("longName[%1]").arg(lang).toStdString()].as<std::string>());
+                    qDebug() << "Extension:" << identifyName << "- localized longName to" << lang << "found:" << val;
+                    extinfo->longNameLocalized[lang] = val;
+                } else if(lang.contains("_")) {
+                    const QString lang_ = lang.split("_")[0];
+                    if(config["about"][QString("longName[%1]").arg(lang_).toStdString()].IsDefined()){
+                        const QString val = QString::fromStdString(config["about"][QString("longName[%1]").arg(lang_).toStdString()].as<std::string>());
+                        qDebug() << "Extension:" << identifyName << "- localized longName to" << lang_ << "found:" << val;
+                        extinfo->longNameLocalized[lang] = val;
+                    } else
+                        qDebug() << "Extension:" << identifyName << "- localized 'longName' to" << lang << "not found.";
+                } else
+                    qDebug() << "Extension:" << identifyName << "- localized 'longName' to" << lang << "not found.";
+            } catch(YAML::Exception &e) {
+                qDebug() << "Extension:" << identifyName << "- localized 'longName' to" << lang << "not found.";
+            }
+        } else
+            extinfo->longNameLocalized = extinfo->nameLocalized;
+    }
+    // check localizations for description
+    for(const QString &lang : PQCScriptsLocalization::get().getAvailableTranslations()) {
+        try {
+            if(config["about"][QString("description[%1]").arg(lang).toStdString()].IsDefined()) {
+                const QString val = QString::fromStdString(config["about"][QString("description[%1]").arg(lang).toStdString()].as<std::string>());
+                qDebug() << "Extension:" << identifyName << "- localized description to" << lang << "found:" << val;
+                extinfo->descriptionLocalized[lang] = val;
+            } else if(lang.contains("_")) {
+                const QString lang_ = lang.split("_")[0];
+                if(config["about"][QString("description[%1]").arg(lang_).toStdString()].IsDefined()){
+                    const QString val = QString::fromStdString(config["about"][QString("description[%1]").arg(lang_).toStdString()].as<std::string>());
+                    qDebug() << "Extension:" << identifyName << "- localized description to" << lang_ << "found:" << val;
+                    extinfo->descriptionLocalized[lang] = val;
+                } else
+                    qDebug() << "Extension:" << identifyName << "- localized 'description' to" << lang << "not found.";
+            } else
+                qDebug() << "Extension:" << identifyName << "- localized 'description' to" << lang << "not found.";
+        } catch(YAML::Exception &e) {
+            qDebug() << "Extension:" << identifyName << "- localized 'description' to" << lang << "not found.";
+        }
     }
 
     /***********************************/
@@ -657,8 +731,19 @@ QString PQCExtensionsHandler::getExtensionNameId(QString id) {
 }
 
 QString PQCExtensionsHandler::getExtensionName(QString id) {
-    if(m_allextensions.contains(id))
+    if(m_allextensions.contains(id)) {
+        const QString l1 = PQCSettingsCPP::get().getInterfaceLanguage();
+        if(l1 != "en") {
+            if(m_allextensions[id]->nameLocalized.contains(l1))
+                return m_allextensions[id]->nameLocalized[l1];
+            else if(l1.contains("_")) {
+                const QString l2 = l1.split("_")[0];
+                if(m_allextensions[id]->nameLocalized.contains(l2))
+                    return m_allextensions[id]->nameLocalized[l2];
+            }
+        }
         return m_allextensions[id]->name;
+    }
     qWarning() << "Unknown extension id:" << id;
     return "";
 }
@@ -678,15 +763,37 @@ QString PQCExtensionsHandler::getExtensionContact(QString id) {
 }
 
 QString PQCExtensionsHandler::getExtensionDescription(QString id) {
-    if(m_allextensions.contains(id))
+    if(m_allextensions.contains(id)) {
+        const QString l1 = PQCSettingsCPP::get().getInterfaceLanguage();
+        if(l1 != "en") {
+            if(m_allextensions[id]->descriptionLocalized.contains(l1))
+                return m_allextensions[id]->descriptionLocalized[l1];
+            else if(l1.contains("_")) {
+                const QString l2 = l1.split("_")[0];
+                if(m_allextensions[id]->descriptionLocalized.contains(l2))
+                    return m_allextensions[id]->descriptionLocalized[l2];
+            }
+        }
         return m_allextensions[id]->description;
+    }
     qWarning() << "Unknown extension id:" << id;
     return "";
 }
 
 QString PQCExtensionsHandler::getExtensionLongName(QString id) {
-    if(m_allextensions.contains(id))
+    if(m_allextensions.contains(id)) {
+        const QString l1 = PQCSettingsCPP::get().getInterfaceLanguage();
+        if(l1 != "en") {
+            if(m_allextensions[id]->longNameLocalized.contains(l1))
+                return m_allextensions[id]->longNameLocalized[l1];
+            else if(l1.contains("_")) {
+                const QString l2 = l1.split("_")[0];
+                if(m_allextensions[id]->longNameLocalized.contains(l2))
+                    return m_allextensions[id]->longNameLocalized[l2];
+            }
+        }
         return m_allextensions[id]->longName;
+    }
     qWarning() << "Unknown extension id:" << id;
     return "";
 }

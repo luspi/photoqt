@@ -45,6 +45,11 @@ public:
         website = "";
         targetAPI = 0;
 
+        // localized entries
+        nameLocalized.clear();
+        longNameLocalized.clear();
+        descriptionLocalized.clear();
+
         // setup/integrated
         integratedAllow = true;
         integratedMinimumRequiredWindowSize = QSize(0,0);
@@ -87,6 +92,10 @@ public:
     QString contact;
     QString website;
     int targetAPI;
+
+    QMap<QString,QString> nameLocalized;
+    QMap<QString,QString> longNameLocalized;
+    QMap<QString,QString> descriptionLocalized;
 
     // setup/integrated
     bool  integratedAllow;
