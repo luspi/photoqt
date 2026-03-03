@@ -285,7 +285,7 @@ Item {
                         contentX = (contentWidth-width)
                 }
 
-                ScrollBar.horizontal: ScrollBar {}
+                ScrollBar.horizontal: PQHorizontalScrollBar {}
 
                 clip: true
 
