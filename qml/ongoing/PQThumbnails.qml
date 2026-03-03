@@ -1026,13 +1026,29 @@ Rectangle {
         }
     }
 
+    // the *Changed() signals for the available width/height MIGHT NOT indicate an actual change
+    // in their value but are needed in places to read their proper values.
+    // Here we want to IGNORE those if the actual values did not change.
+    property int cacheAvailableWidth
+    property int cacheAvailableHeight
+    Item {
+        Component.onCompleted: {
+            thumbnails_top.cacheAvailableWidth = PQCConstants.availableWidth
+            thumbnails_top.cacheAvailableHeight = PQCConstants.availableHeight
+        }
+    }
+
     Connections {
         target: PQCConstants
         function onAvailableWidthChanged() {
-            thumbnails_top.setVisible = false
+            if(thumbnails_top.cacheAvailableWidth !== PQCConstants.availableWidth)
+                thumbnails_top.setVisible = false
+            thumbnails_top.cacheAvailableWidth = PQCConstants.availableWidth
         }
         function onAvailableHeightChanged() {
-            thumbnails_top.setVisible = false
+            if(thumbnails_top.cacheAvailableHeight !== PQCConstants.availableHeight)
+                thumbnails_top.setVisible = false
+            thumbnails_top.cacheAvailableHeight = PQCConstants.availableHeight
         }
     }
 
