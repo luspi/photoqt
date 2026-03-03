@@ -67,7 +67,7 @@ public:
     bool getFiletypesLoadMotionPhotos() { return m_filetypesLoadMotionPhotos; }
     int getFiletypesPDFQuality() { return m_filetypesPDFQuality; }
     bool getFiletypesRAWUseEmbeddedIfAvailable() { return m_filetypesRAWUseEmbeddedIfAvailable; }
-    bool getFiletypesVideoPreferLibmpv() { return m_filetypesVideoPreferLibmpv; }
+    QStringList getFiletypesVideoBackend() { return m_filetypesVideoBackend; }
     QString getFiletypesVideoThumbnailer() { return m_filetypesVideoThumbnailer; }
     QStringList getGeneralExtensionsAllowUntrusted() { return m_generalExtensionsAllowUntrusted; }
     QStringList getGeneralExtensionsEnabled() { return m_generalExtensionsEnabled; }
@@ -231,11 +231,16 @@ public:
                         m_filetypesRAWUseEmbeddedIfAvailable = value.toInt();
                         Q_EMIT filetypesRAWUseEmbeddedIfAvailableChanged();
                     }
-                } else if(table == "filetypes" && name == "VideoPreferLibmpv") {
-                    const bool val = value.toInt();
-                    if(m_filetypesVideoPreferLibmpv != val) {
-                        m_filetypesVideoPreferLibmpv = value.toInt();
-                        Q_EMIT filetypesVideoPreferLibmpvChanged();
+                } else if(table == "filetypes" && name == "VideoBackend") {
+                    const QString val = value.toString();
+                    QStringList valToSet = QStringList();
+                    if(val.contains(":://::"))
+                        valToSet = val.split(":://::");
+                    else if(val != "")
+                        valToSet = QStringList() << val;
+                    if(m_filetypesVideoBackend != valToSet) {
+                        m_filetypesVideoBackend = valToSet;
+                        Q_EMIT filetypesVideoBackendChanged();
                     }
                 } else if(table == "filetypes" && name == "VideoThumbnailer") {
                     const QString val = value.toString();
@@ -493,7 +498,7 @@ private:
         m_filetypesLoadMotionPhotos = true;
         m_filetypesPDFQuality = 150;
         m_filetypesRAWUseEmbeddedIfAvailable = true;
-        m_filetypesVideoPreferLibmpv = true;
+        m_filetypesVideoBackend = QStringList() << "qt" << "libmpv";
         m_filetypesVideoThumbnailer = "ffmpegthumbnailer";
         m_generalExtensionsAllowUntrusted = QStringList();
         m_generalExtensionsEnabled = QStringList() << "CropImage" << "ExportImage" << "FloatingNavigation" << "Histogram" << "ImgurCom" << "MapCurrent" << "QuickActions" << "ScaleImage" << "Wallpaper";
@@ -553,7 +558,7 @@ private:
     bool m_filetypesLoadMotionPhotos;
     int m_filetypesPDFQuality;
     bool m_filetypesRAWUseEmbeddedIfAvailable;
-    bool m_filetypesVideoPreferLibmpv;
+    QStringList m_filetypesVideoBackend;
     QString m_filetypesVideoThumbnailer;
     QStringList m_generalExtensionsAllowUntrusted;
     QStringList m_generalExtensionsEnabled;
@@ -617,7 +622,7 @@ Q_SIGNALS:
     void filetypesVideoThumbnailerChanged();
     void filetypesRAWUseEmbeddedIfAvailableChanged();
     void filetypesPDFQualityChanged();
-    void filetypesVideoPreferLibmpvChanged();
+    void filetypesVideoBackendChanged();
     void filetypesArchiveAlwaysEnterAutomaticallyChanged();
     void filetypesComicBookAlwaysEnterAutomaticallyChanged();
     void filetypesDocumentAlwaysEnterAutomaticallyChanged();

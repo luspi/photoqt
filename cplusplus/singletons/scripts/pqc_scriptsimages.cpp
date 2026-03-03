@@ -426,7 +426,7 @@ bool PQCScriptsImages::isMpvVideo(QString path) {
 
 #ifdef PQMVIDEOQT
     if(supported) {
-        if(!PQCSettingsCPP::get().getFiletypesVideoPreferLibmpv())
+        if(PQCSettingsCPP::get().getFiletypesVideoBackend().startsWith("qt"))
             supported = false;
     }
 #endif
@@ -458,6 +458,13 @@ bool PQCScriptsImages::isQtVideo(QString path) {
             supported = true;
 
     }
+
+#ifdef PQMVIDEOMPV
+    if(supported) {
+        if(PQCSettingsCPP::get().getFiletypesVideoBackend().startsWith("libmpv"))
+            supported = false;
+    }
+#endif
 
 #endif
 

@@ -43,6 +43,7 @@ PQSetting {
         PQCheckBox {
             id: vid_autoplay
             enforceMaxWidth: set_vide.contentWidth
+            spacing: 10
             text: qsTranslate("settingsmanager", "Autoplay")
             onCheckedChanged: set_vide.checkForChanges()
         },
@@ -50,21 +51,32 @@ PQSetting {
         PQCheckBox {
             id: vid_loop
             enforceMaxWidth: set_vide.contentWidth
+            spacing: 10
             text: qsTranslate("settingsmanager", "Loop")
             onCheckedChanged: set_vide.checkForChanges()
         },
 
         Flow {
             width: set_vide.contentWidth
-            spacing: 5
+            spacing: 10
+            Item {
+                width: 15
+                height: 1
+            }
+            PQText {
+                height: vid_qtmult.height
+                verticalAlignment: Text.AlignVCenter
+                text: "Multimedia backend:"
+            }
+
             PQRadioButton {
                 id: vid_qtmult
-                text: qsTranslate("settingsmanager", "prefer Qt Multimedia")
+                text: qsTranslate("settingsmanager", "Qt Multimedia")
                 onCheckedChanged: set_vide.checkForChanges()
             }
             PQRadioButton {
                 id: vid_libmpv
-                text: qsTranslate("settingsmanager", "prefer Libmpv")
+                text: qsTranslate("settingsmanager", "libmpv")
                 onCheckedChanged: set_vide.checkForChanges()
             }
         },
@@ -73,7 +85,7 @@ PQSetting {
             width: set_vide.contentWidth
             spacing: 10
             Item {
-                width: 25
+                width: 15
                 height: 1
             }
 
@@ -112,8 +124,8 @@ PQSetting {
 
                 vid_autoplay.checked = PQCSettings.getDefaultForFiletypesVideoAutoplay()
                 vid_loop.checked = PQCSettings.getDefaultForFiletypesVideoLoop()
-                vid_qtmult.checked = !PQCSettings.getDefaultForFiletypesVideoPreferLibmpv()
-                vid_libmpv.checked = PQCSettings.getDefaultForFiletypesVideoPreferLibmpv()
+                vid_qtmult.checked = (PQCSettings.getDefaultForFiletypesVideoBackend()[0]==="qt")
+                vid_libmpv.checked = (PQCSettings.getDefaultForFiletypesVideoBackend()[0]==="libmpv")
                 videothumb.currentIndex = (PQCSettings.getDefaultForFiletypesVideoThumbnailer()==="" ? 0 : 1)
                 videojump.checked = PQCSettings.getDefaultForFiletypesVideoLeftRightJumpVideo()
                 videospace.checked = PQCSettings.getDefaultForFiletypesVideoSpacePause()
@@ -148,8 +160,8 @@ PQSetting {
 
         vid_autoplay.loadAndSetDefault(PQCSettings.filetypesVideoAutoplay)
         vid_loop.loadAndSetDefault(PQCSettings.filetypesVideoLoop)
-        vid_qtmult.loadAndSetDefault(!PQCSettings.filetypesVideoPreferLibmpv)
-        vid_libmpv.loadAndSetDefault(PQCSettings.filetypesVideoPreferLibmpv)
+        vid_qtmult.loadAndSetDefault(PQCSettings.filetypesVideoBackend[0]==="qt")
+        vid_libmpv.loadAndSetDefault(PQCSettings.filetypesVideoBackend[0]==="libmpv")
         videothumb.loadAndSetDefault(PQCSettings.filetypesVideoThumbnailer==="" ? 0 : 1)
         videojump.loadAndSetDefault(PQCSettings.filetypesVideoLeftRightJumpVideo)
         videospace.loadAndSetDefault(PQCSettings.filetypesVideoSpacePause)
@@ -163,7 +175,7 @@ PQSetting {
 
         PQCSettings.filetypesVideoAutoplay = vid_autoplay.checked
         PQCSettings.filetypesVideoLoop = vid_loop.checked
-        PQCSettings.filetypesVideoPreferLibmpv = vid_libmpv.checked
+        PQCSettings.filetypesVideoBackend = (vid_libmpv.checked ? ["libmpv","qt"] : ["qt", "libmpv"])
         PQCSettings.filetypesVideoThumbnailer = (videothumb.currentIndex===1 ? videothumb.currentText : "")
         PQCSettings.filetypesVideoLeftRightJumpVideo = videojump.checked
         PQCSettings.filetypesVideoSpacePause = videospace.checked

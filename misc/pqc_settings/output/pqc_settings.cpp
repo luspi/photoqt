@@ -206,9 +206,9 @@ PQCSettings::PQCSettings() {
     connect(this, &PQCSettings::filetypesPhotoSpherePanOnLoadChanged, this, [=]() { saveChangedValue("filetypesPhotoSpherePanOnLoad", m_filetypesPhotoSpherePanOnLoad); });
     connect(this, &PQCSettings::filetypesRAWUseEmbeddedIfAvailableChanged, this, [=]() { saveChangedValue("filetypesRAWUseEmbeddedIfAvailable", m_filetypesRAWUseEmbeddedIfAvailable); });
     connect(this, &PQCSettings::filetypesVideoAutoplayChanged, this, [=]() { saveChangedValue("filetypesVideoAutoplay", m_filetypesVideoAutoplay); });
+    connect(this, &PQCSettings::filetypesVideoBackendChanged, this, [=]() { saveChangedValue("filetypesVideoBackend", m_filetypesVideoBackend); });
     connect(this, &PQCSettings::filetypesVideoLeftRightJumpVideoChanged, this, [=]() { saveChangedValue("filetypesVideoLeftRightJumpVideo", m_filetypesVideoLeftRightJumpVideo); });
     connect(this, &PQCSettings::filetypesVideoLoopChanged, this, [=]() { saveChangedValue("filetypesVideoLoop", m_filetypesVideoLoop); });
-    connect(this, &PQCSettings::filetypesVideoPreferLibmpvChanged, this, [=]() { saveChangedValue("filetypesVideoPreferLibmpv", m_filetypesVideoPreferLibmpv); });
     connect(this, &PQCSettings::filetypesVideoSpacePauseChanged, this, [=]() { saveChangedValue("filetypesVideoSpacePause", m_filetypesVideoSpacePause); });
     connect(this, &PQCSettings::filetypesVideoThumbnailerChanged, this, [=]() { saveChangedValue("filetypesVideoThumbnailer", m_filetypesVideoThumbnailer); });
     connect(this, &PQCSettings::filetypesVideoVolumeChanged, this, [=]() { saveChangedValue("filetypesVideoVolume", m_filetypesVideoVolume); });
@@ -1922,6 +1922,29 @@ void PQCSettings::setDefaultForFiletypesVideoAutoplay() {
     }
 }
 
+QStringList PQCSettings::getFiletypesVideoBackend() {
+    return m_filetypesVideoBackend;
+}
+
+void PQCSettings::setFiletypesVideoBackend(QStringList val) {
+    if(val != m_filetypesVideoBackend) {
+        m_filetypesVideoBackend = val;
+        Q_EMIT filetypesVideoBackendChanged();
+    }
+}
+
+const QStringList PQCSettings::getDefaultForFiletypesVideoBackend() {
+        return QStringList() << "qt" << "libmpv";
+}
+
+void PQCSettings::setDefaultForFiletypesVideoBackend() {
+    QStringList tmp = QStringList() << "qt" << "libmpv";
+    if(tmp != m_filetypesVideoBackend) {
+        m_filetypesVideoBackend = tmp;
+        Q_EMIT filetypesVideoBackendChanged();
+    }
+}
+
 bool PQCSettings::getFiletypesVideoLeftRightJumpVideo() {
     return m_filetypesVideoLeftRightJumpVideo;
 }
@@ -1963,28 +1986,6 @@ void PQCSettings::setDefaultForFiletypesVideoLoop() {
     if(false != m_filetypesVideoLoop) {
         m_filetypesVideoLoop = false;
         Q_EMIT filetypesVideoLoopChanged();
-    }
-}
-
-bool PQCSettings::getFiletypesVideoPreferLibmpv() {
-    return m_filetypesVideoPreferLibmpv;
-}
-
-void PQCSettings::setFiletypesVideoPreferLibmpv(bool val) {
-    if(val != m_filetypesVideoPreferLibmpv) {
-        m_filetypesVideoPreferLibmpv = val;
-        Q_EMIT filetypesVideoPreferLibmpvChanged();
-    }
-}
-
-const bool PQCSettings::getDefaultForFiletypesVideoPreferLibmpv() {
-        return true;
-}
-
-void PQCSettings::setDefaultForFiletypesVideoPreferLibmpv() {
-    if(true != m_filetypesVideoPreferLibmpv) {
-        m_filetypesVideoPreferLibmpv = true;
-        Q_EMIT filetypesVideoPreferLibmpvChanged();
     }
 }
 
@@ -7044,12 +7045,18 @@ void PQCSettings::readDB() {
                     m_filetypesRAWUseEmbeddedIfAvailable = value.toInt();
                 } else if(name == "VideoAutoplay") {
                     m_filetypesVideoAutoplay = value.toInt();
+                } else if(name == "VideoBackend") {
+                    QString val = value.toString();
+                    if(val.contains(":://::"))
+                        m_filetypesVideoBackend = val.split(":://::");
+                    else if(val != "")
+                        m_filetypesVideoBackend = QStringList() << val;
+                    else
+                        m_filetypesVideoBackend = QStringList();
                 } else if(name == "VideoLeftRightJumpVideo") {
                     m_filetypesVideoLeftRightJumpVideo = value.toInt();
                 } else if(name == "VideoLoop") {
                     m_filetypesVideoLoop = value.toInt();
-                } else if(name == "VideoPreferLibmpv") {
-                    m_filetypesVideoPreferLibmpv = value.toInt();
                 } else if(name == "VideoSpacePause") {
                     m_filetypesVideoSpacePause = value.toInt();
                 } else if(name == "VideoThumbnailer") {
@@ -7940,9 +7947,9 @@ void PQCSettings::setupFresh() {
     m_filetypesPhotoSpherePanOnLoad = true;
     m_filetypesRAWUseEmbeddedIfAvailable = true;
     m_filetypesVideoAutoplay = true;
+    m_filetypesVideoBackend = QStringList() << "qt" << "libmpv";
     m_filetypesVideoLeftRightJumpVideo = false;
     m_filetypesVideoLoop = false;
-    m_filetypesVideoPreferLibmpv = true;
     m_filetypesVideoSpacePause = true;
     m_filetypesVideoThumbnailer = "ffmpegthumbnailer";
     m_filetypesVideoVolume = 100;
@@ -8269,9 +8276,9 @@ void PQCSettings::resetToDefault() {
     setDefaultForFiletypesPhotoSpherePanOnLoad();
     setDefaultForFiletypesRAWUseEmbeddedIfAvailable();
     setDefaultForFiletypesVideoAutoplay();
+    setDefaultForFiletypesVideoBackend();
     setDefaultForFiletypesVideoLeftRightJumpVideo();
     setDefaultForFiletypesVideoLoop();
-    setDefaultForFiletypesVideoPreferLibmpv();
     setDefaultForFiletypesVideoSpacePause();
     setDefaultForFiletypesVideoThumbnailer();
     setDefaultForFiletypesVideoVolume();
@@ -8797,6 +8804,10 @@ QStringList PQCSettings::updateFromCommandLine() {
         m_filetypesVideoAutoplay = (val.toInt()==1);
         Q_EMIT filetypesVideoAutoplayChanged();
     }
+    if(key == "filetypesVideoBackend") {
+        m_filetypesVideoBackend = val.split(":://::");
+        Q_EMIT filetypesVideoBackendChanged();
+    }
     if(key == "filetypesVideoLeftRightJumpVideo") {
         m_filetypesVideoLeftRightJumpVideo = (val.toInt()==1);
         Q_EMIT filetypesVideoLeftRightJumpVideoChanged();
@@ -8804,10 +8815,6 @@ QStringList PQCSettings::updateFromCommandLine() {
     if(key == "filetypesVideoLoop") {
         m_filetypesVideoLoop = (val.toInt()==1);
         Q_EMIT filetypesVideoLoopChanged();
-    }
-    if(key == "filetypesVideoPreferLibmpv") {
-        m_filetypesVideoPreferLibmpv = (val.toInt()==1);
-        Q_EMIT filetypesVideoPreferLibmpvChanged();
     }
     if(key == "filetypesVideoSpacePause") {
         m_filetypesVideoSpacePause = (val.toInt()==1);

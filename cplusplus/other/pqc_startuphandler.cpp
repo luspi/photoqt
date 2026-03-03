@@ -52,7 +52,7 @@ PQCStartupHandler::PQCStartupHandler(bool forceShowWizard, bool forceSkipWizard,
     }
 
     m_allVersions << "4.0" << "4.1" << "4.2" << "4.3" << "4.4" << "4.5" << "4.6" << "4.7" << "4.8" << "4.8.1" << "4.9" << "4.9.1" << "4.9.2"
-                  << "5.0" << "5.1" << "5.2";
+                  << "5.0" << "5.1" << "5.2" << "5.3";
 
 }
 

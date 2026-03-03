@@ -31,7 +31,7 @@ project(photoqt LANGUAGES C CXX)
 ####  GLOBAL VERSION STRING FOR ALL FILES (INCLUDING CPP/QML) ####
 ##################################################################
 
-SET(APPVERSION "5.2")
+SET(APPVERSION "dev")
 
 ###################################
 ####  ENSURE BUILD TYPE IS SET ####

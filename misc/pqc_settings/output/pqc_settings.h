@@ -457,6 +457,12 @@ public:
     Q_INVOKABLE const bool getDefaultForFiletypesVideoAutoplay();
     Q_INVOKABLE void setDefaultForFiletypesVideoAutoplay();
 
+    Q_PROPERTY(QStringList filetypesVideoBackend READ getFiletypesVideoBackend WRITE setFiletypesVideoBackend NOTIFY filetypesVideoBackendChanged)
+    QStringList getFiletypesVideoBackend();
+    void setFiletypesVideoBackend(QStringList val);
+    Q_INVOKABLE const QStringList getDefaultForFiletypesVideoBackend();
+    Q_INVOKABLE void setDefaultForFiletypesVideoBackend();
+
     Q_PROPERTY(bool filetypesVideoLeftRightJumpVideo READ getFiletypesVideoLeftRightJumpVideo WRITE setFiletypesVideoLeftRightJumpVideo NOTIFY filetypesVideoLeftRightJumpVideoChanged)
     bool getFiletypesVideoLeftRightJumpVideo();
     void setFiletypesVideoLeftRightJumpVideo(bool val);
@@ -468,12 +474,6 @@ public:
     void setFiletypesVideoLoop(bool val);
     Q_INVOKABLE const bool getDefaultForFiletypesVideoLoop();
     Q_INVOKABLE void setDefaultForFiletypesVideoLoop();
-
-    Q_PROPERTY(bool filetypesVideoPreferLibmpv READ getFiletypesVideoPreferLibmpv WRITE setFiletypesVideoPreferLibmpv NOTIFY filetypesVideoPreferLibmpvChanged)
-    bool getFiletypesVideoPreferLibmpv();
-    void setFiletypesVideoPreferLibmpv(bool val);
-    Q_INVOKABLE const bool getDefaultForFiletypesVideoPreferLibmpv();
-    Q_INVOKABLE void setDefaultForFiletypesVideoPreferLibmpv();
 
     Q_PROPERTY(bool filetypesVideoSpacePause READ getFiletypesVideoSpacePause WRITE setFiletypesVideoSpacePause NOTIFY filetypesVideoSpacePauseChanged)
     bool getFiletypesVideoSpacePause();
@@ -1935,9 +1935,9 @@ private:
     bool m_filetypesPhotoSpherePanOnLoad;
     bool m_filetypesRAWUseEmbeddedIfAvailable;
     bool m_filetypesVideoAutoplay;
+    QStringList m_filetypesVideoBackend;
     bool m_filetypesVideoLeftRightJumpVideo;
     bool m_filetypesVideoLoop;
-    bool m_filetypesVideoPreferLibmpv;
     bool m_filetypesVideoSpacePause;
     QString m_filetypesVideoThumbnailer;
     int m_filetypesVideoVolume;
@@ -2258,9 +2258,9 @@ Q_SIGNALS:
     void filetypesPhotoSpherePanOnLoadChanged();
     void filetypesRAWUseEmbeddedIfAvailableChanged();
     void filetypesVideoAutoplayChanged();
+    void filetypesVideoBackendChanged();
     void filetypesVideoLeftRightJumpVideoChanged();
     void filetypesVideoLoopChanged();
-    void filetypesVideoPreferLibmpvChanged();
     void filetypesVideoSpacePauseChanged();
     void filetypesVideoThumbnailerChanged();
     void filetypesVideoVolumeChanged();

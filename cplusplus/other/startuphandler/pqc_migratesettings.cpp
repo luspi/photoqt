@@ -84,9 +84,27 @@ void PQCMigrateSettings::migrate(const QString &oldVersion, const QStringList al
         else if(curVer == "5.1")
             migrate510();
 
+        else if(curVer == "5.3")
+            migrate530();
+
     }
 
     db.commit();
+
+}
+
+/******************************************************/
+/******************************************************/
+
+void PQCMigrateSettings::migrate530() {
+
+    qDebug() << "";
+
+    const bool oldVal = migrationHelperGetOldValue("filetypes", "VideoPreferLibmpv").toBool();
+    const QString newVal = (oldVal ? "libmpv:://::qt" : "qt:://::libmpv");
+
+    migrationHelperRemoveValue("filetypes", "VideoPreferLibmpv");
+    migrationHelperInsertValue("filetypes", "VideoBackend", {newVal, "", "list"});
 
 }
 
