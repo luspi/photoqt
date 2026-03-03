@@ -116,7 +116,7 @@ PQMessageBox {
                 delete_top.close()
                 PQCNotify.resetActiveFocus()
 
-            } else if(delete_top.opacity > 0) {
+            } else if(delete_top.visible) {
 
                 if(what === "keyEvent") {
 
