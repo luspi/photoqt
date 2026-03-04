@@ -403,8 +403,10 @@ Item {
 
             id: motionphoto_img
 
-            width: image.width
-            height: image.height
+            x: (forceRotation%180==0 ? 0 : -(image.height-image.width)/2)
+            y: (forceRotation%180==0 ? 0 : -(image.height-image.width)/2)
+            width: image.width + (forceRotation%180==0 ? 0 : -2*x)
+            height: image.height + (forceRotation%180==0 ? 0 : -2*y)
 
             transform:
                 Rotation {
