@@ -317,6 +317,7 @@ endif()
 
 if(WITH_VIDEO_MPV)
     SET(photoqt_QML_ADDITIONAL ${photoqt_QML_ADDITIONAL} ${photoqt_QML_LIBMPV})
+    SET(photoqt_SOURCES ${photoqt_SOURCES} ${photoqt_SOURCES_LIBMPV})
 else()
     SET(photoqt_QML_ADDITIONAL ${photoqt_QML_ADDITIONAL} ${photoqt_QML_NOLIBMPV})
 endif()

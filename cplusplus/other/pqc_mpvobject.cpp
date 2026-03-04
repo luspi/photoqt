@@ -21,8 +21,6 @@
  **                                                                      **
  **************************************************************************/
 
-#ifdef PQMVIDEOMPV
-
 #include <pqc_mpvobject.h>
 
 #include <stdexcept>
@@ -169,5 +167,3 @@ QQuickFramebufferObject::Renderer *PQCMPVObject::createRenderer() const {
     window()->setPersistentSceneGraph(true);
     return new PQCMPVRenderer(const_cast<PQCMPVObject *>(this));
 }
-
-#endif

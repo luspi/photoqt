@@ -4,7 +4,6 @@
  ** Contact: https://photoqt.org                                         **
  **                                                                      **
  ** This file is part of PhotoQt.                                        **
- ** Adapted from: https://github.com/mpv-player/mpv-examples/            **
  **                                                                      **
  ** PhotoQt is free software: you can redistribute it and/or modify      **
  ** it under the terms of the GNU General Public License as published by **
@@ -20,41 +19,19 @@
  ** along with PhotoQt. If not, see <http://www.gnu.org/licenses/>.      **
  **                                                                      **
  **************************************************************************/
-#pragma once
 
-#include <QtQuick/QQuickFramebufferObject>
+import QtQuick
 
-#include <mpv/client.h>
-#include <mpv/render_gl.h>
-#include <pqc_mpvqthelper.h>
+Item {
 
-class PQCMPVRenderer;
+    property string imageSource
+    property bool isMainImage
+    property Item loaderTop
+    property bool videoLoaded
 
-class PQCMPVObject : public QQuickFramebufferObject {
+    property int status
+    property bool imageMirrorH
+    property bool imageMirrorV
+    property bool videoHasAudio
 
-    Q_OBJECT
-    QML_ELEMENT
-
-    mpv_handle *mpv;
-    mpv_render_context *mpv_gl;
-
-    friend class PQCMPVRenderer;
-
-public:
-    static void on_update(void *ctx);
-
-    PQCMPVObject(QQuickItem * parent = 0);
-    virtual ~PQCMPVObject();
-    virtual Renderer *createRenderer() const;
-
-public Q_SLOTS:
-    void command(const QVariant& params);
-    void setProperty(const QString& name, const QVariant& value);
-    QVariant getProperty(const QString& name);
-
-Q_SIGNALS:
-    void onUpdate();
-
-private Q_SLOTS:
-    void doUpdate();
-};
+}

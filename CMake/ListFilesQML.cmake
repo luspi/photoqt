@@ -131,8 +131,6 @@ SET(photoqt_QML qml/PQMainWindow.qml
 
                 qml/image/imageitems/PQImageNormal.qml
                 qml/image/imageitems/PQImageAnimated.qml
-                qml/image/imageitems/PQVideoMpv.qml
-                qml/image/imageitems/PQVideoQt.qml
                 qml/image/imageitems/PQArchive.qml
                 qml/image/imageitems/PQPhotoSphere.qml
                 qml/image/imageitems/PQDocument.qml
@@ -253,11 +251,15 @@ SET(photoqt_QML qml/PQMainWindow.qml
                 qml/settingsmanager/other/PQSettingsOtherSlideshow.qml
 )
 
-SET(photoqt_QML_QTMULTIMEDIA   qml/image/components/PQMotionPhotoQt.qml)
-SET(photoqt_QML_NOQTMULTIMEDIA qml/image/components/dummy/PQMotionPhotoQt.qml)
+SET(photoqt_QML_QTMULTIMEDIA   qml/image/imageitems/PQVideoQt.qml
+                               qml/image/components/PQMotionPhotoQt.qml)
+SET(photoqt_QML_NOQTMULTIMEDIA qml/image/imageitems/dummy/PQVideoQt.qml
+                               qml/image/components/dummy/PQMotionPhotoQt.qml)
 
-SET(photoqt_QML_LIBMPV   qml/image/components/PQMotionPhotoMpv.qml)
-SET(photoqt_QML_NOLIBMPV qml/image/components/dummy/PQMotionPhotoMpv.qml)
+SET(photoqt_QML_LIBMPV   qml/image/imageitems/PQVideoMpv.qml
+                         qml/image/components/PQMotionPhotoMpv.qml)
+SET(photoqt_QML_NOLIBMPV qml/image/imageitems/dummy/PQVideoMpv.qml
+                         qml/image/components/dummy/PQMotionPhotoMpv.qml)
 
 SET(photoqt_QML_LOCATION qml/loaders/PQLoaderMapExplorer.qml
                          qml/mapexplorer/PQMapExplorer.qml
