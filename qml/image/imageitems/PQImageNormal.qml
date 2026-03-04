@@ -22,7 +22,6 @@
 pragma ComponentBehavior: Bound
 
 import QtQuick
-import QtMultimedia
 import PhotoQt
 
 Item {
@@ -98,7 +97,7 @@ Item {
                 // this signal is necessary, otherwise it *can* happen that the image source size is not reported correctly
                 // this then results in a 0x0 dimension reported, the fit-to-size does not work, and the image might not show up at all
                 imgtop.ensureSourceSizeSet()
-                imgtop.hasAlpha = PQCScriptsImages.supportsTransparency(image.imageSource)
+                imgtop.hasAlpha = PQCScriptsImages.supportsTransparency(imgtop.imageSource)
                 // asynchronous = false
             } else if(status == Image.Error)
                 source = "image://svg/:/other/errorimage.svg"
@@ -262,18 +261,21 @@ Item {
             if(!imgtop.isMainImage)
                 return
 
+            if(!PQCScriptsConfig.isVideoQtSupportEnabled() && !PQCScriptsConfig.isMPVSupportEnabled())
+                return
+
             if(PQCScriptsConfig.isMotionPhotoSupportEnabled() && (PQCSettings.filetypesLoadMotionPhotos || PQCSettings.filetypesLoadAppleLivePhotos)) {
 
-                var what = PQCScriptsImages.isMotionPhoto(image.imageSource)
+                var what = PQCScriptsImages.isMotionPhoto(imgtop.imageSource)
 
                 if(what > 0) {
 
                     var src = ""
 
                     if(what === 1)
-                        src = PQCScriptsFilesPaths.getDir(image.imageSource) + "/" + PQCScriptsFilesPaths.getBasename(image.imageSource) + ".mov"
+                        src = PQCScriptsFilesPaths.getDir(imgtop.imageSource) + "/" + PQCScriptsFilesPaths.getBasename(imgtop.imageSource) + ".mov"
                     else if(what === 2 || what === 3)
-                        src = PQCScriptsImages.extractMotionPhoto(image.imageSource)
+                        src = PQCScriptsImages.extractMotionPhoto(imgtop.imageSource)
 
                     if(src != "") {
 
@@ -282,10 +284,10 @@ Item {
                         // HEIF/HEIC images are a little trickier with their orientation handling
                         // We need to ignore this value as the Exif orientation might not be correct
                         // See also: https://github.com/Exiv2/exiv2/issues/2958
-                        var suf = PQCScriptsFilesPaths.getSuffixLowerCase(image.imageSource)
+                        var suf = PQCScriptsFilesPaths.getSuffixLowerCase(imgtop.imageSource)
                         if(PQCSettings.metadataAutoRotation && suf !== "heic" && suf !== "heif") {
 
-                            var orientation = PQCScriptsMetaData.getExifOrientation(image.imageSource)
+                            var orientation = PQCScriptsMetaData.getExifOrientation(imgtop.imageSource)
                             switch(orientation) {
 
                             case 1:
@@ -337,7 +339,7 @@ Item {
                         }
 
                         videoloader.active = false
-                        videoloader.mediaSrc = "file:" + PQCScriptsFilesPaths.toPercentEncoding(src)
+                        videoloader.mediaSrc = src
                         videoloader.active = true
                         return
                     }
@@ -363,19 +365,22 @@ Item {
         property bool forceMirror: false
 
         asynchronous: true
-        sourceComponent: motionphoto
+        sourceComponent: (PQCScriptsConfig.isMPVSupportEnabled()&&PQCSettings.filetypesVideoBackend[0]==="mpv")
+                         ? motionphoto_mpv
+                         : (PQCScriptsConfig.isVideoQtSupportEnabled() ? motionphoto_qt : motionphoto_dummy)
     }
 
     Component {
 
-        id: motionphoto
+        id: motionphoto_qt
 
-        Item {
+        PQMotionPhotoQt {
 
             id: motionphoto_img
 
             width: image.width
             height: image.height
+
             transform:
                 Rotation {
                     origin.x: motionphoto_img.width / 2
@@ -383,44 +388,43 @@ Item {
                     angle: videoloader.forceMirror ? 180 : 0
                 }
 
-            Video {
-                id: mediaplayer
-                rotation: videoloader.forceRotation
-                anchors.fill: parent
-                anchors.margins: rotation%180==0 ? 0 : -(image.height-image.width)/2
-                source: videoloader.mediaSrc
-                Component.onCompleted: {
-                    if(PQCSettings.filetypesMotionAutoPlay)
-                        play()
-                }
-                onPlaybackStateChanged: {
-                    PQCConstants.motionPhotoIsPlaying = (mediaplayer.playbackState == MediaPlayer.PlayingState)
-                }
-
-                Connections {
-
-                    target: PQCNotify
-
-                    function onPlayPauseAnimationVideo() {
-
-                        if(!imgtop.isMainImage)
-                            return
-
-                        if(mediaplayer.playbackState == MediaPlayer.PausedState)
-                            mediaplayer.play()
-                        else if(mediaplayer.playbackState == MediaPlayer.StoppedState) {
-                            mediaplayer.source = videoloader.mediaSrc
-                            mediaplayer.play()
-                        } else
-                            mediaplayer.pause()
-
-                    }
-
-                }
-
-            }
-
+            sourceCache: videoloader.mediaSrc
+            isMainImage: imgtop.isMainImage
+            forceRotation: videoloader.forceRotation
         }
+
+    }
+
+    Component {
+
+        id: motionphoto_mpv
+
+        PQMotionPhotoMpv {
+
+            id: motionphoto_img
+
+            width: image.width
+            height: image.height
+
+            transform:
+                Rotation {
+                    origin.x: motionphoto_img.width / 2
+                    axis { x: 0; y: 1; z: 0 }
+                    angle: videoloader.forceMirror ? 180 : 0
+                }
+
+            sourceCache: videoloader.mediaSrc
+            isMainImage: imgtop.isMainImage
+            forceRotation: videoloader.forceRotation
+        }
+
+    }
+
+    Component {
+
+        id: motionphoto_dummy
+
+        Item {}
 
     }
 

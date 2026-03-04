@@ -1934,11 +1934,11 @@ void PQCSettings::setFiletypesVideoBackend(QStringList val) {
 }
 
 const QStringList PQCSettings::getDefaultForFiletypesVideoBackend() {
-        return QStringList() << "qt" << "libmpv";
+        return QStringList() << "qt" << "mpv";
 }
 
 void PQCSettings::setDefaultForFiletypesVideoBackend() {
-    QStringList tmp = QStringList() << "qt" << "libmpv";
+    QStringList tmp = QStringList() << "qt" << "mpv";
     if(tmp != m_filetypesVideoBackend) {
         m_filetypesVideoBackend = tmp;
         Q_EMIT filetypesVideoBackendChanged();
@@ -7947,7 +7947,7 @@ void PQCSettings::setupFresh() {
     m_filetypesPhotoSpherePanOnLoad = true;
     m_filetypesRAWUseEmbeddedIfAvailable = true;
     m_filetypesVideoAutoplay = true;
-    m_filetypesVideoBackend = QStringList() << "qt" << "libmpv";
+    m_filetypesVideoBackend = QStringList() << "qt" << "mpv";
     m_filetypesVideoLeftRightJumpVideo = false;
     m_filetypesVideoLoop = false;
     m_filetypesVideoSpacePause = true;

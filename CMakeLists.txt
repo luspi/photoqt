@@ -309,6 +309,18 @@ else()
     SET(photoqt_QML_ADDITIONAL ${photoqt_QML_ADDITIONAL} ${photoqt_QML_NOLOCATION})
 endif()
 
+if(WITH_VIDEO_QT)
+    SET(photoqt_QML_ADDITIONAL ${photoqt_QML_ADDITIONAL} ${photoqt_QML_QTMULTIMEDIA})
+else()
+    SET(photoqt_QML_ADDITIONAL ${photoqt_QML_ADDITIONAL} ${photoqt_QML_NOQTMULTIMEDIA})
+endif()
+
+if(WITH_VIDEO_MPV)
+    SET(photoqt_QML_ADDITIONAL ${photoqt_QML_ADDITIONAL} ${photoqt_QML_LIBMPV})
+else()
+    SET(photoqt_QML_ADDITIONAL ${photoqt_QML_ADDITIONAL} ${photoqt_QML_NOLIBMPV})
+endif()
+
 # Any additional sources are added to the full list.
 SET(photoqt_QML ${photoqt_QML} ${photoqt_QML_ADDITIONAL})
 

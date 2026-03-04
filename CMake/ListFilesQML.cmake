@@ -253,6 +253,12 @@ SET(photoqt_QML qml/PQMainWindow.qml
                 qml/settingsmanager/other/PQSettingsOtherSlideshow.qml
 )
 
+SET(photoqt_QML_QTMULTIMEDIA   qml/image/components/PQMotionPhotoQt.qml)
+SET(photoqt_QML_NOQTMULTIMEDIA qml/image/components/dummy/PQMotionPhotoQt.qml)
+
+SET(photoqt_QML_LIBMPV   qml/image/components/PQMotionPhotoMpv.qml)
+SET(photoqt_QML_NOLIBMPV qml/image/components/dummy/PQMotionPhotoMpv.qml)
+
 SET(photoqt_QML_LOCATION qml/loaders/PQLoaderMapExplorer.qml
                          qml/mapexplorer/PQMapExplorer.qml
                          qml/mapexplorer/parts/PQMapExplorerImages.qml

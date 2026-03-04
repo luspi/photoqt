@@ -124,7 +124,8 @@ PQCMPVObject::PQCMPVObject(QQuickItem * parent) : QQuickFramebufferObject(parent
         throw std::runtime_error("could not create mpv context");
 
     mpv_set_option_string(mpv, "terminal", "yes");
-    mpv_set_option_string(mpv, "msg-level", "all=v");
+    mpv_set_option_string(mpv, "force-window", "no");
+    mpv_set_option_string(mpv, "msg-level", "all=error");
 
     if (mpv_initialize(mpv) < 0)
         throw std::runtime_error("could not initialize mpv context");

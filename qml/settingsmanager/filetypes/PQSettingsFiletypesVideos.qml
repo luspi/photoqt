@@ -56,53 +56,6 @@ PQSetting {
             onCheckedChanged: set_vide.checkForChanges()
         },
 
-        Flow {
-            width: set_vide.contentWidth
-            spacing: 10
-            Item {
-                width: 15
-                height: 1
-            }
-            PQText {
-                height: vid_qtmult.height
-                verticalAlignment: Text.AlignVCenter
-                text: "Multimedia backend:"
-            }
-
-            PQRadioButton {
-                id: vid_qtmult
-                text: qsTranslate("settingsmanager", "Qt Multimedia")
-                onCheckedChanged: set_vide.checkForChanges()
-            }
-            PQRadioButton {
-                id: vid_libmpv
-                text: qsTranslate("settingsmanager", "libmpv")
-                onCheckedChanged: set_vide.checkForChanges()
-            }
-        },
-
-        Flow {
-            width: set_vide.contentWidth
-            spacing: 10
-            Item {
-                width: 15
-                height: 1
-            }
-
-            PQText {
-                height: videothumb.height
-                verticalAlignment: Text.AlignVCenter
-                text: qsTranslate("settingsmanager", "Video thumbnail generator:")
-            }
-            PQComboBox {
-                id: videothumb
-                model: ["------",
-                        "ffmpegthumbnailer"]
-                currentIndex: (PQCSettings.filetypesVideoThumbnailer==="" ? 0 : 1)
-                onCurrentIndexChanged: set_vide.checkForChanges()
-            }
-        },
-
         PQCheckBox {
             id: videojump
             enforceMaxWidth: set_vide.contentWidth
@@ -119,13 +72,54 @@ PQSetting {
             onCheckedChanged: set_vide.checkForChanges()
         },
 
+        PQSettingsSeparator {},
+
+        Flow {
+            width: set_vide.contentWidth
+            spacing: 10
+            visible: (PQCScriptsConfig.isMPVSupportEnabled() && PQCScriptsConfig.isVideoQtSupportEnabled())
+            PQText {
+                height: vid_qtmult.height
+                verticalAlignment: Text.AlignVCenter
+                text: "Multimedia backend:"
+            }
+
+            PQRadioButton {
+                id: vid_qtmult
+                text: "Qt Multimedia"
+                onCheckedChanged: set_vide.checkForChanges()
+            }
+            PQRadioButton {
+                id: vid_libmpv
+                text: "libmpv"
+                onCheckedChanged: set_vide.checkForChanges()
+            }
+        },
+
+        Flow {
+            width: set_vide.contentWidth
+            spacing: 10
+            PQText {
+                height: videothumb.height
+                verticalAlignment: Text.AlignVCenter
+                text: qsTranslate("settingsmanager", "Video thumbnail generator:")
+            }
+            PQComboBox {
+                id: videothumb
+                model: ["------",
+                        "ffmpegthumbnailer"]
+                currentIndex: (PQCSettings.filetypesVideoThumbnailer==="" ? 0 : 1)
+                onCurrentIndexChanged: set_vide.checkForChanges()
+            }
+        },
+
         PQSettingsResetButton {
             onResetToDefaults: {
 
                 vid_autoplay.checked = PQCSettings.getDefaultForFiletypesVideoAutoplay()
                 vid_loop.checked = PQCSettings.getDefaultForFiletypesVideoLoop()
                 vid_qtmult.checked = (PQCSettings.getDefaultForFiletypesVideoBackend()[0]==="qt")
-                vid_libmpv.checked = (PQCSettings.getDefaultForFiletypesVideoBackend()[0]==="libmpv")
+                vid_libmpv.checked = (PQCSettings.getDefaultForFiletypesVideoBackend()[0]==="mpv")
                 videothumb.currentIndex = (PQCSettings.getDefaultForFiletypesVideoThumbnailer()==="" ? 0 : 1)
                 videojump.checked = PQCSettings.getDefaultForFiletypesVideoLeftRightJumpVideo()
                 videospace.checked = PQCSettings.getDefaultForFiletypesVideoSpacePause()
@@ -161,7 +155,7 @@ PQSetting {
         vid_autoplay.loadAndSetDefault(PQCSettings.filetypesVideoAutoplay)
         vid_loop.loadAndSetDefault(PQCSettings.filetypesVideoLoop)
         vid_qtmult.loadAndSetDefault(PQCSettings.filetypesVideoBackend[0]==="qt")
-        vid_libmpv.loadAndSetDefault(PQCSettings.filetypesVideoBackend[0]==="libmpv")
+        vid_libmpv.loadAndSetDefault(PQCSettings.filetypesVideoBackend[0]==="mpv")
         videothumb.loadAndSetDefault(PQCSettings.filetypesVideoThumbnailer==="" ? 0 : 1)
         videojump.loadAndSetDefault(PQCSettings.filetypesVideoLeftRightJumpVideo)
         videospace.loadAndSetDefault(PQCSettings.filetypesVideoSpacePause)
@@ -175,7 +169,7 @@ PQSetting {
 
         PQCSettings.filetypesVideoAutoplay = vid_autoplay.checked
         PQCSettings.filetypesVideoLoop = vid_loop.checked
-        PQCSettings.filetypesVideoBackend = (vid_libmpv.checked ? ["libmpv","qt"] : ["qt", "libmpv"])
+        PQCSettings.filetypesVideoBackend = (vid_libmpv.checked ? ["mpv","qt"] : ["qt", "mpv"])
         PQCSettings.filetypesVideoThumbnailer = (videothumb.currentIndex===1 ? videothumb.currentText : "")
         PQCSettings.filetypesVideoLeftRightJumpVideo = videojump.checked
         PQCSettings.filetypesVideoSpacePause = videospace.checked

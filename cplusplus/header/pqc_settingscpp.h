@@ -498,7 +498,7 @@ private:
         m_filetypesLoadMotionPhotos = true;
         m_filetypesPDFQuality = 150;
         m_filetypesRAWUseEmbeddedIfAvailable = true;
-        m_filetypesVideoBackend = QStringList() << "qt" << "libmpv";
+        m_filetypesVideoBackend = QStringList() << "qt" << "mpv";
         m_filetypesVideoThumbnailer = "ffmpegthumbnailer";
         m_generalExtensionsAllowUntrusted = QStringList();
         m_generalExtensionsEnabled = QStringList() << "CropImage" << "ExportImage" << "FloatingNavigation" << "Histogram" << "ImgurCom" << "MapCurrent" << "QuickActions" << "ScaleImage" << "Wallpaper";
