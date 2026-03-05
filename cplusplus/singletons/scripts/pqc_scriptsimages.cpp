@@ -47,6 +47,10 @@
 #include <pqc_configfiles.h>
 #include <pqc_notify_cpp.h>
 
+#ifdef Q_OS_UNIX
+#include <sys/xattr.h>
+#endif
+
 #ifdef PQMWAYLANDSPECIFIC
 #include <pqc_wayland.h>
 #endif
@@ -1514,4 +1518,273 @@ void PQCScriptsImages::applyExifOrientation(const QString filename, QImage &img)
 
     }
 
+}
+
+void PQCScriptsImages::setStarRating(const int star, const QString path) {
+
+    qDebug() << "args: star =" << star;
+    qDebug() << "args: path =" << path;
+
+    if(star < 0 || star > 5) {
+        qWarning() << "Invalid star rating (0 <= star <= 5):" << star;
+        return;
+    }
+
+    const QList<int> percentageSteps = {0, 1, 25, 50, 75, 99};
+    const int percentage = percentageSteps[star];
+
+    // there are a few different places/ways star ratings need to be stored for support across various systems
+    // not all of them are stored IN the file and wont travel, but some will
+
+    /******************************************/
+    // 1) Store to metadata (exif and xmp)
+#ifdef PQMEXIV2
+
+    qDebug() << "Setting star rating with Exiv2...";
+
+#if EXIV2_TEST_VERSION(0, 28, 0)
+    Exiv2::Image::UniquePtr image;
+#else
+    Exiv2::Image::AutoPtr image;
+#endif
+
+    bool haveExiv2 = true;
+
+    try {
+        image = Exiv2::ImageFactory::open(path.toStdString());
+        image->readMetadata();
+    } catch (Exiv2::Error& e) {
+        // An error code of kerFileContainsUnknownImageType (older version: 11) means unknown file type
+        // Since we always try to read any file's meta data, this happens a lot
+#if EXIV2_TEST_VERSION(0, 28, 0)
+        if(e.code() != Exiv2::ErrorCode::kerFileContainsUnknownImageType)
+#else
+        if(e.code() != 11)
+#endif
+            qWarning() << "ERROR reading exiv data (caught exception):" << e.what();
+        else
+            qDebug() << "ERROR reading exiv data (caught exception):" << e.what();
+
+        haveExiv2 = false;
+    }
+
+    if(haveExiv2) {
+
+        Exiv2::ExifData exifData;
+        try {
+            exifData = image->exifData();
+            if(star > 0) {
+                exifData["Exif.Image.Rating"] = star;
+                exifData["Exif.Image.RatingPercent"] = percentage;
+            } else {
+                auto iter1 = exifData.findKey(Exiv2::ExifKey("Exif.Image.Rating"));
+                if(iter1 != exifData.end())
+                    exifData.erase(iter1);
+                auto iter2 = exifData.findKey(Exiv2::ExifKey("Exif.Image.RatingPercent"));
+                if(iter2 != exifData.end())
+                    exifData.erase(iter2);
+            }
+            image->setExifData(exifData);
+        } catch(Exiv2::Error &e) {
+            qDebug() << "ERROR: Unable to manipulate exif metadata:" << e.what();
+        }
+
+        Exiv2::XmpData xmpData;
+        try {
+            xmpData = image->xmpData();
+            if(star > 0) {
+                xmpData["Xmp.xmp.Rating"] = star;
+                xmpData["Xmp.MicrosoftPhoto.Rating"] = percentage;
+            } else {
+                auto iter1 = xmpData.findKey(Exiv2::XmpKey("Xmp.xmp.Rating"));
+                if(iter1 != xmpData.end())
+                    xmpData.erase(iter1);
+                auto iter2 = xmpData.findKey(Exiv2::XmpKey("Xmp.MicrosoftPhoto.Rating"));
+                if(iter2 != xmpData.end())
+                    xmpData.erase(iter2);
+            }
+            image->setXmpData(xmpData);
+        } catch(Exiv2::Error &e) {
+            qDebug() << "ERROR: Unable to manipulate xmp metadata:" << e.what();
+        }
+
+    }
+
+#endif
+
+    /******************************************/
+    // 2) Store KDE rating
+#ifdef Q_OS_UNIX
+
+    qDebug() << "Setting star rating for KDE...";
+
+    if(star > 0) {
+
+        const QByteArray attr_path = path.toUtf8();
+        const QByteArray attr_value = QByteArray::number(star*2);
+        const QByteArray attr_name = "user.baloo.rating";
+
+        // setting an attribute
+        int ret = setxattr(attr_path, attr_name, attr_value, strlen(attr_value), 0);
+        if(ret == -1)
+            qWarning() << "ERROR setting star rating with setxattr(), return value:" << ret;
+
+    } else {
+
+        const QByteArray attr_path = path.toUtf8();
+        const char* attr_name = "user.baloo.rating";
+
+        int ret = removexattr(attr_path, attr_name);
+        if(ret != 0)
+            qWarning() << "ERROR removing star rating with removexattr, return value:" << ret;
+
+    }
+
+#endif
+
+}
+
+int PQCScriptsImages::getStarRating(const QString path) {
+
+    // 1) check system specific data first: KDE
+#ifdef Q_OS_UNIX
+
+    qDebug() << "Getting star rating from KDE...";
+
+    const QByteArray attr_path = path.toUtf8();
+    const QByteArray attr_name = "user.baloo.rating";
+
+    // if something went wrong we don't continue with this section
+    bool cont = true;
+
+    // FIRST get size of value
+    ssize_t size = getxattr(attr_path, attr_name, NULL, 0);
+    if(size == -1) {
+        qDebug() << "KDE star rating not found.";
+        cont = false;
+    } else if(size == 0) {
+        qDebug() << "KDE star rating value empty.";
+        cont = false;
+    }
+
+    int kdeStarRating = -1;
+    char *value;
+    if(cont) {
+
+        // SECOND allocate a buffer based on the size found
+        value = (char*)malloc(size);
+        if(value == NULL) {
+            qWarning() << "FAILED to allocate memory...";
+            cont = false;
+        }
+
+    }
+
+    if(cont) {
+
+        // THIRD call getxattr again to actually retrieve the data
+        size = getxattr(attr_path, attr_name, value, size);
+
+        if(size == -1) {
+            qWarning() << "FAILED to retrieve data.";
+            free(value);
+        } else {
+            // KDE supports half-step ratings
+            kdeStarRating = atoi(value)/2;
+            if(kdeStarRating < 0 || kdeStarRating > 5)
+                kdeStarRating = -1;
+        }
+
+    }
+
+    if(kdeStarRating > -1) {
+        qDebug() << "Found KDE star rating, returning that.";
+        return kdeStarRating;
+    }
+
+#endif
+
+#ifdef PQMEXIV2
+
+    qDebug() << "Getting star rating with Exiv2...";
+
+#if EXIV2_TEST_VERSION(0, 28, 0)
+    Exiv2::Image::UniquePtr image;
+#else
+    Exiv2::Image::AutoPtr image;
+#endif
+
+    bool haveExiv2 = true;
+
+    try {
+        image = Exiv2::ImageFactory::open(path.toStdString());
+        image->readMetadata();
+    } catch (Exiv2::Error& e) {
+        // An error code of kerFileContainsUnknownImageType (older version: 11) means unknown file type
+        // Since we always try to read any file's meta data, this happens a lot
+#if EXIV2_TEST_VERSION(0, 28, 0)
+        if(e.code() != Exiv2::ErrorCode::kerFileContainsUnknownImageType)
+#else
+        if(e.code() != 11)
+#endif
+            qWarning() << "ERROR reading exiv data (caught exception):" << e.what();
+        else
+            qDebug() << "ERROR reading exiv data (caught exception):" << e.what();
+
+        haveExiv2 = false;
+    }
+
+    if(haveExiv2) {
+
+        const QList<int> percentageSteps = {0, 1, 25, 50, 75, 99};
+
+        Exiv2::ExifData exifData;
+        try {
+            exifData = image->exifData();
+            auto iter1 = exifData.findKey(Exiv2::ExifKey("Exif.Image.Rating"));
+            if(iter1 != exifData.end()) {
+                const int star = QString::fromStdString(iter1->value().toString()).toInt();
+                if(star >= 0 && star <= 5)
+                    return star;
+            }
+            auto iter2 = exifData.findKey(Exiv2::ExifKey("Exif.Image.RatingPercent"));
+            if(iter2 != exifData.end()) {
+                const int star = QString::fromStdString(iter2->value().toString()).toInt();
+                if(star >= 0 && star <= 99) {
+                    for(int i = 0; i < percentageSteps.length(); ++i)
+                        if(star <= percentageSteps[i])
+                            return i;
+                }
+            }
+        } catch(Exiv2::Error &e) {
+            qDebug() << "ERROR: Unable to read exif metadata:" << e.what();
+        }
+
+        Exiv2::XmpData xmpData;
+        try {
+            xmpData = image->xmpData();
+            auto iter1 = xmpData.findKey(Exiv2::XmpKey("Xmp.xmp.Rating"));
+            if(iter1 != xmpData.end()) {
+                const int star = QString::fromStdString(iter1->value().toString()).toInt();
+                if(star >= 0 && star <= 5)
+                    return star;
+            }
+            auto iter2 = xmpData.findKey(Exiv2::XmpKey("Xmp.MicrosoftPhoto.Rating"));
+            if(iter2 != xmpData.end()) {
+                const int star = QString::fromStdString(iter2->value().toString()).toInt();
+                if(star >= 0 && star <= 99) {
+                    for(int i = 0; i < percentageSteps.length(); ++i)
+                        if(star <= percentageSteps[i])
+                            return i;
+                }
+            }
+        } catch(Exiv2::Error &e) {
+            qDebug() << "ERROR: Unable to read xmp metadata:" << e.what();
+        }
+
+    }
+
+#endif
+
+    return 0;
 }

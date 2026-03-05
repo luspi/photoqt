@@ -73,6 +73,8 @@ public:
     QVariantList getZXingData(QString path);
     bool extractFrameAndSave(QString path, int frameNumber);
     void applyExifOrientation(const QString filename, QImage &img);
+    void setStarRating(const int star, const QString path);
+    int getStarRating(const QString path);
 
     // archive/document methods
     void listArchiveContent(QString path);

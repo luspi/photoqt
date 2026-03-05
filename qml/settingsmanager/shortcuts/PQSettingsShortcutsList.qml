@@ -128,6 +128,18 @@ PQSetting {
         ["__goToTopEdge",        qsTranslate("settingsmanager", "Go to top edge of image"), "Go to top edge of image", 0],
                                  //: Name of shortcut action
         ["__goToBottomEdge",     qsTranslate("settingsmanager", "Go to bottom edge of image"), "Go to bottom edge of image", 0],
+                                 //: Name of shortcut action
+        ["__setRating0",     qsTranslate("settingsmanager", "Set rating of image to 0 stars"), "Set rating of image to 0 stars", 0],
+                                 //: Name of shortcut action
+        ["__setRating1",     qsTranslate("settingsmanager", "Set rating of image to 1 stars"), "Set rating of image to 1 stars", 0],
+                                 //: Name of shortcut action
+        ["__setRating2",     qsTranslate("settingsmanager", "Set rating of image to 2 stars"), "Set rating of image to 2 stars", 0],
+                                 //: Name of shortcut action
+        ["__setRating3",     qsTranslate("settingsmanager", "Set rating of image to 3 stars"), "Set rating of image to 3 stars", 0],
+                                 //: Name of shortcut action
+        ["__setRating4",     qsTranslate("settingsmanager", "Set rating of image to 4 stars"), "Set rating of image to 4 stars", 0],
+                                 //: Name of shortcut action
+        ["__setRating5",     qsTranslate("settingsmanager", "Set rating of image to 5 stars"), "Set rating of image to 5 stars", 0],
 
 
         /***********************************************************************************/

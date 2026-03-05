@@ -2440,6 +2440,8 @@ Loader {
                 }
             }
 
+            checkStarRating.restart()
+
         }
 
         function setUpImageWhenReady() {
@@ -2622,6 +2624,15 @@ Loader {
 
             PQCNotify.newImageHasBeenDisplayed()
 
+        }
+
+        // Find star rating
+        Timer {
+            id: checkStarRating
+            interval: 10
+            onTriggered: {
+                PQCConstants.currentStarRating = PQCScriptsImages.getStarRating(imageloaderitem.imageSource)
+            }
         }
 
         // This is done with a slight delay IF the image is to be loaded at full scale

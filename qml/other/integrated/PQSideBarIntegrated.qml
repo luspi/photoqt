@@ -95,7 +95,7 @@ Rectangle {
                 height: 20
             }
 
-            PQTextXL {
+            PQTextL {
                 x: 5
                 width: parent.width-10
                 horizontalAlignment: Text.AlignHCenter
@@ -107,8 +107,105 @@ Rectangle {
             }
 
             Item {
-                width: 1
-                height: 10
+
+                width: parent.width
+                height: 50
+
+                Row {
+                    id: starrow
+                    x: (parent.width-width)/2
+                    y: (parent.height-height)/2
+                    spacing: 5
+                    property int rating: 0
+                    Item {
+                        id: zerostardeleg
+                        width: 20
+                        height: 20
+                        PQMouseArea {
+                            anchors.fill: parent
+                            anchors.leftMargin: zerostardeleg.width/3
+                            anchors.rightMargin: -zerostardeleg.width/3
+                            hoverEnabled: true
+                            onEntered: {
+                                resetRating.stop()
+                                starrow.rating = 0
+                            }
+                            onExited: {
+                                resetRating.restart()
+                            }
+                            onClicked: {
+                                PQCScriptsShortcuts.executeInternalCommand("__setRating0")
+                            }
+                        }
+                    }
+
+                    Repeater {
+                        model: 5
+                        Image {
+                            id: stardeleg
+                            required property int modelData
+                            width: 20
+                            height: 20
+                            sourceSize: Qt.size(width, height)
+                            source: "image://svg/:/" + PQCLook.iconShade + (modelData<starrow.rating ? "/star.svg" : "/star_empty.svg")
+                            PQMouseArea {
+                                anchors.fill: parent
+                                anchors.leftMargin: stardeleg.width/3
+                                anchors.rightMargin: -stardeleg.width/3
+                                hoverEnabled: true
+                                onEntered: {
+                                    resetRating.stop()
+                                    starrow.rating = stardeleg.modelData+1
+                                }
+                                onExited: {
+                                    resetRating.restart()
+                                }
+                                onClicked: {
+                                    PQCScriptsShortcuts.executeInternalCommand("__setRating"+(stardeleg.modelData+1))
+                                }
+                            }
+                        }
+                    }
+
+                    Item {
+                        id: fivestardeleg
+                        width: 20
+                        height: 20
+                        PQMouseArea {
+                            anchors.fill: parent
+                            anchors.leftMargin: fivestardeleg.width/3
+                            anchors.rightMargin: -fivestardeleg.width/3
+                            hoverEnabled: true
+                            onEntered: {
+                                resetRating.stop()
+                                starrow.rating = 5
+                            }
+                            onExited: {
+                                resetRating.restart()
+                            }
+                            onClicked: {
+                                PQCScriptsShortcuts.executeInternalCommand("__setRating5")
+                            }
+                        }
+                    }
+
+                    Timer {
+                        id: resetRating
+                        interval: 500
+                        onTriggered: {
+                            starrow.rating = PQCConstants.currentStarRating
+                        }
+                    }
+
+                    Connections {
+                        target: PQCConstants
+                        function onCurrentStarRatingChanged() {
+                            if(PQCConstants.currentStarRating > -1)
+                                starrow.rating = PQCConstants.currentStarRating
+                        }
+                    }
+                }
+
             }
 
             Rectangle {

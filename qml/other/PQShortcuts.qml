@@ -747,6 +747,36 @@ Item {
             case "__videoJumpBackwards":
                 PQCNotify.currentVideoJump(-5)
                 break
+            case "__setRating0":
+                if(PQCConstants.currentStarRating !== 0)
+                    PQCScriptsImages.setStarRating(0, PQCFileFolderModel.currentFile)
+                PQCConstants.currentStarRating = 0
+                break
+            case "__setRating1":
+                if(PQCConstants.currentStarRating !== 1)
+                    PQCScriptsImages.setStarRating(1, PQCFileFolderModel.currentFile)
+                PQCConstants.currentStarRating = 1
+                break
+            case "__setRating2":
+                if(PQCConstants.currentStarRating !== 2)
+                    PQCScriptsImages.setStarRating(2, PQCFileFolderModel.currentFile)
+                PQCConstants.currentStarRating = 2
+                break
+            case "__setRating3":
+                if(PQCConstants.currentStarRating !== 3)
+                    PQCScriptsImages.setStarRating(3, PQCFileFolderModel.currentFile)
+                PQCConstants.currentStarRating = 3
+                break
+            case "__setRating4":
+                if(PQCConstants.currentStarRating !== 4)
+                    PQCScriptsImages.setStarRating(4, PQCFileFolderModel.currentFile)
+                PQCConstants.currentStarRating = 4
+                break
+            case "__setRating5":
+                if(PQCConstants.currentStarRating !== 5)
+                    PQCScriptsImages.setStarRating(5, PQCFileFolderModel.currentFile)
+                PQCConstants.currentStarRating = 5
+                break
 
             /**********************/
             // file actions

@@ -216,7 +216,6 @@ private:
     QFileSystemWatcher *watcherMainView;
     QFileSystemWatcher *watcherFileDialog;
 
-
     QString m_fileInFolderMainView;
     QString m_folderFileDialog;
     bool m_firstFolderMainViewLoaded;

@@ -31,6 +31,7 @@ public:
     static void migrate(const QString &oldVersion, const QStringList &allVersions);
 
 private:
+    static void migrate530();
     static void migrate500();
     static void migrate491();
     static void migrate460();
@@ -38,5 +39,8 @@ private:
     static void migrate400();
 
     static void migrate500_helperMoveShortcut(const QStringList &cmds, const QString &extId);
+
+    static bool helperCheckIfComboPresent(const QString combo);
+    static void helperInsertShortcut(const QString combo, const QString command, const int cycle, const int cycletimeout, const int simultaneous);
 
 };

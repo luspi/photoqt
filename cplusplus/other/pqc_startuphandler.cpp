@@ -186,15 +186,15 @@ void PQCStartupHandler::performChecksAndUpdates() {
     /********************************************************************/
     // CHECK SHORTCUT DB
 
-    QString oldShortcutsVersion = "";
+    QString oldShortcutsVersion = m_allVersions.at(m_allVersions.length()-2);
     PQEUpdateCheck shortcutsChecker = PQEUpdateCheck::SameVersion;
 
     // if no shortcuts db exist, then it is a fresh install
-    if(!QFile::exists(PQCConfigFiles::get().SHORTCUTS_DB())) {
+    if(!QFile::exists(PQCConfigFiles::get().SHORTCUTS_DB()))
 
         shortcutsChecker = PQEUpdateCheck::FreshInstall;
 
-    } else {
+    else {
 
         QSqlDatabase dbtmp;
         if(QSqlDatabase::contains("shortcuts"))
@@ -211,7 +211,7 @@ void PQCStartupHandler::performChecksAndUpdates() {
             qWarning() << "Assuming we came from and are on the current version";
         } else {
             QSqlQuery query(dbtmp);
-            if(!query.exec("SELECT `value` FROM config WHERE `name`='Version'"))
+            if(!query.exec("SELECT `value` FROM config WHERE `name`='version'"))
                 qWarning() << "Unable to check for version value";
             else {
                 if(query.next()) {
@@ -251,8 +251,14 @@ void PQCStartupHandler::performChecksAndUpdates() {
 
         validate.validateShortcutsDatabase();
 
-    }
+        // store shortcuts version number
+        QSqlQuery query(QSqlDatabase::database("shortcuts"));
+        query.prepare("UPDATE config SET `value`=:ver WHERE `name`='version'");
+        query.bindValue(":ver", PQMVERSION);
+        if(!query.exec())
+            qWarning() << "ERROR storing version number in shortcut database";
 
+    }
 
     /********************************************************************/
     /********************************************************************/

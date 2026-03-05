@@ -111,6 +111,7 @@ public:
         m_currentVisibleAreaWidthRatio = 0;
         m_currentVisibleAreaHeightRatio = 0;
 
+        m_currentStarRating = -1;
         m_currentArchiveComboOpen = false;
         m_currentImageIsPhotoSphere = false;
         m_currentImageIsMotionPhoto = false;
@@ -450,6 +451,7 @@ public:
     Q_PROPERTY(QString currentFileInsideName MEMBER m_currentFileInsideName NOTIFY currentFileInsideNameChanged)
     Q_PROPERTY(QStringList currentFileInsideList MEMBER m_currentFileInsideList NOTIFY currentFileInsideListChanged)
     Q_PROPERTY(bool currentArchiveComboOpen MEMBER m_currentArchiveComboOpen NOTIFY currentArchiveComboOpenChanged)
+    Q_PROPERTY(int currentStarRating MEMBER m_currentStarRating NOTIFY currentStarRatingChanged)
 
     // this signals that an image (any image) has been fully loaded. Only then do we start, e.g., loading thumbnails
     Q_PROPERTY(bool imageInitiallyLoaded MEMBER m_imageInitiallyLoaded NOTIFY imageInitiallyLoadedChanged)
@@ -613,6 +615,7 @@ private:
     double m_metadataOpacity;
     double m_mainmenuShowWhenReady;
     double m_metadataShowWhenReady;
+    int m_currentStarRating;
 
     QList<int> m_filedialogCurrentSelection;
     int m_filedialogCurrentIndex;
@@ -802,5 +805,6 @@ Q_SIGNALS:
     void searchTextChanged();
     void openGLAvailableForSpheresChanged();
     void currentFilterStringChanged();
+    void currentStarRatingChanged();
 
 };

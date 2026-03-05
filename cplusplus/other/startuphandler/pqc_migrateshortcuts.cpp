@@ -39,7 +39,7 @@ void PQCMigrateShortcuts::migrate(const QString &oldVersion, const QStringList &
 
     // this is a safety check to make sure we don't forget the above check
     if(oldVersion != "dev" && allVersions.indexOf(oldVersion) == -1) {
-        qCritical() << "WARNING: The current version number needs to be added to the migrate() functions";
+        qCritical() << "WARNING: The current version number needs to be added to the migrate() functions:" << oldVersion;
     }
 
     int iVersion = 0;
@@ -68,9 +68,55 @@ void PQCMigrateShortcuts::migrate(const QString &oldVersion, const QStringList &
         else if(curVer == "5.0")
             migrate500();
 
+        else if(curVer == "5.3")
+            migrate530();
+
     }
 
     db.commit();
+
+}
+
+/******************************************************/
+/******************************************************/
+
+void PQCMigrateShortcuts::migrate530() {
+
+    if(!helperCheckIfComboPresent("Shift+0"))
+        helperInsertShortcut("Shift+0", "__setRating0", 1, 0, 0);
+    if(!helperCheckIfComboPresent("Shift+)"))
+        helperInsertShortcut("Shift+)", "__setRating0", 1, 0, 0);
+    if(!helperCheckIfComboPresent("Shift+="))
+        helperInsertShortcut("Shift+=", "__setRating0", 1, 0, 0);
+
+    if(!helperCheckIfComboPresent("Shift+1"))
+        helperInsertShortcut("Shift+1", "__setRating1", 1, 0, 0);
+    if(!helperCheckIfComboPresent("Shift+!"))
+        helperInsertShortcut("Shift+!", "__setRating1", 1, 0, 0);
+
+    if(!helperCheckIfComboPresent("Shift+2"))
+        helperInsertShortcut("Shift+2", "__setRating2", 1, 0, 0);
+    if(!helperCheckIfComboPresent("Shift+@"))
+        helperInsertShortcut("Shift+@", "__setRating2", 1, 0, 0);
+    if(!helperCheckIfComboPresent("Shift+\""))
+        helperInsertShortcut("Shift+\"", "__setRating2", 1, 0, 0);
+
+    if(!helperCheckIfComboPresent("Shift+3"))
+        helperInsertShortcut("Shift+3", "__setRating3", 1, 0, 0);
+    if(!helperCheckIfComboPresent("Shift+#"))
+        helperInsertShortcut("Shift+#", "__setRating3", 1, 0, 0);
+    if(!helperCheckIfComboPresent("Shift+§"))
+        helperInsertShortcut("Shift+§", "__setRating3", 1, 0, 0);
+
+    if(!helperCheckIfComboPresent("Shift+4"))
+        helperInsertShortcut("Shift+4", "__setRating4", 1, 0, 0);
+    if(!helperCheckIfComboPresent("Shift+$"))
+        helperInsertShortcut("Shift+$", "__setRating4", 1, 0, 0);
+
+    if(!helperCheckIfComboPresent("Shift+5"))
+        helperInsertShortcut("Shift+5", "__setRating5", 1, 0, 0);
+    if(!helperCheckIfComboPresent("Shift+%"))
+        helperInsertShortcut("Shift+%", "__setRating5", 1, 0, 0);
 
 }
 
@@ -320,3 +366,37 @@ void PQCMigrateShortcuts::migrate400() {
 }
 
 /******************************************************/
+
+bool PQCMigrateShortcuts::helperCheckIfComboPresent(const QString combo) {
+
+    QSqlQuery query(QSqlDatabase::database("shortcuts"));
+
+    query.prepare("SELECT COUNT(combo) FROM shortcuts WHERE combo=':combo'");
+    query.bindValue(":combo", combo);
+    if(!query.exec()) {
+        qWarning() << "Failed to check if combo" << combo << "is present:" << query.lastError().text();
+        return false;
+    }
+
+    query.next();
+
+    return query.value(0).toInt()>0;
+
+}
+
+void PQCMigrateShortcuts::helperInsertShortcut(const QString combo, const QString command,
+                                               const int cycle, const int cycletimeout, const int simultaneous) {
+
+    QSqlQuery query(QSqlDatabase::database("shortcuts"));
+
+    query.prepare("INSERT INTO shortcuts (combo, commands, cycle, cycletimeout, simultaneous) VALUES (:com, :cmd, :cyc, :tim, :sim)");
+    query.bindValue(":com", combo);
+    query.bindValue(":cmd", command);
+    query.bindValue(":cyc", cycle);
+    query.bindValue(":tim", cycletimeout);
+    query.bindValue(":sim", simultaneous);
+
+    if(!query.exec())
+        qWarning() << "Failed to enter new shortcut:" << combo << ":" << query.lastError().text();
+
+}

@@ -230,12 +230,14 @@ Rectangle {
             radius: 5
         }
 
-        PQTextXL {
+        PQTextL {
             id: head_txt
             x: 5
             y: 5
-            //: The title of the floating element
-            text: qsTranslate("metadata", "Metadata")
+            width: parent.width-2*x
+            wrapMode: Text.WrapAtWordBoundaryOrAnywhere
+            horizontalAlignment: Text.AlignHCenter
+            text: PQCScriptsFilesPaths.getFilename(PQCFileFolderModel.currentFile)
             font.weight: PQCLook.fontWeightBold
             opacity: 0.8
         }
@@ -276,10 +278,107 @@ Rectangle {
 
             spacing: 8
 
-            PQMetaDataEntry {
-                whichtxt: qsTranslate("metadata", "File name")
-                valtxt: PQCScriptsFilesPaths.getFilename(PQCFileFolderModel.currentFile)
-                prop: PQCSettings.metadataFilename
+            Item {
+
+                width: parent.width
+                height: 50
+
+                Row {
+                    id: starrow
+                    x: (parent.width-width)/2
+                    y: (parent.height-height)/2
+                    spacing: 5
+                    property int rating: 0
+
+                    Item {
+                        id: zerostardeleg
+                        width: 20
+                        height: 20
+                        PQMouseArea {
+                            anchors.fill: parent
+                            anchors.leftMargin: zerostardeleg.width/3
+                            anchors.rightMargin: -zerostardeleg.width/3
+                            hoverEnabled: true
+                            onEntered: {
+                                resetRating.stop()
+                                starrow.rating = 0
+                            }
+                            onExited: {
+                                resetRating.restart()
+                            }
+                            onClicked: {
+                                PQCScriptsShortcuts.executeInternalCommand("__setRating0")
+                            }
+                        }
+                    }
+
+                    Repeater {
+                        model: 5
+                        Image {
+                            id: stardeleg
+                            required property int modelData
+                            width: 20
+                            height: 20
+                            sourceSize: Qt.size(width, height)
+                            source: "image://svg/:/" + PQCLook.iconShade + (modelData<starrow.rating ? "/star.svg" : "/star_empty.svg")
+                            PQMouseArea {
+                                anchors.fill: parent
+                                anchors.leftMargin: stardeleg.width/3
+                                anchors.rightMargin: -stardeleg.width/3
+                                hoverEnabled: true
+                                onEntered: {
+                                    resetRating.stop()
+                                    starrow.rating = stardeleg.modelData+1
+                                }
+                                onExited: {
+                                    resetRating.restart()
+                                }
+                                onClicked: {
+                                    PQCScriptsShortcuts.executeInternalCommand("__setRating"+(stardeleg.modelData+1))
+                                }
+                            }
+                        }
+                    }
+
+                    Item {
+                        id: fivestardeleg
+                        width: 20
+                        height: 20
+                        PQMouseArea {
+                            anchors.fill: parent
+                            anchors.leftMargin: fivestardeleg.width/3
+                            anchors.rightMargin: -fivestardeleg.width/3
+                            hoverEnabled: true
+                            onEntered: {
+                                resetRating.stop()
+                                starrow.rating = 5
+                            }
+                            onExited: {
+                                resetRating.restart()
+                            }
+                            onClicked: {
+                                PQCScriptsShortcuts.executeInternalCommand("__setRating5")
+                            }
+                        }
+                    }
+
+                    Timer {
+                        id: resetRating
+                        interval: 500
+                        onTriggered: {
+                            starrow.rating = PQCConstants.currentStarRating
+                        }
+                    }
+
+                    Connections {
+                        target: PQCConstants
+                        function onCurrentStarRatingChanged() {
+                            if(PQCConstants.currentStarRating > -1)
+                                starrow.rating = PQCConstants.currentStarRating
+                        }
+                    }
+                }
+
             }
 
             PQMetaDataEntry {
@@ -791,19 +890,29 @@ Rectangle {
 
     property bool ignoreMouseMoveShortly: false
 
-    Connections {
-
-        target: PQCNotify
-
+    // the *Changed() signals for the available width/height MIGHT NOT indicate an actual change
+    // in their value but are needed in places to read their proper values.
+    // Here we want to IGNORE those if the actual values did not change.
+    property int cacheAvailableWidth
+    property int cacheAvailableHeight
+    Item {
+        Component.onCompleted: {
+            metadata_top.cacheAvailableWidth = PQCConstants.availableWidth
+            metadata_top.cacheAvailableHeight = PQCConstants.availableHeight
+        }
     }
 
     Connections {
         target: PQCConstants
         function onAvailableWidthChanged() {
-            metadata_top.setVisible = false
+            if(metadata_top.cacheAvailableWidth !== PQCConstants.availableWidth)
+                metadata_top.setVisible = false
+            metadata_top.cacheAvailableWidth = PQCConstants.availableWidth
         }
         function onAvailableHeightChanged() {
-            metadata_top.setVisible = false
+            if(metadata_top.cacheAvailableHeight !== PQCConstants.availableHeight)
+                metadata_top.setVisible = false
+            metadata_top.cacheAvailableHeight = PQCConstants.availableHeight
         }
     }
 

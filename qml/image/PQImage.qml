@@ -462,6 +462,8 @@ Item {
                 return
             }
 
+            PQCConstants.currentStarRating = -1
+
             if(PQCFileFolderModel.countMainView === 0) {
                 for(var i = 0; i < howManyLoaders; ++i) {
                     var curimg = repeaterimage.itemAt(i)
