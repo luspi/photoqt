@@ -1959,8 +1959,8 @@ Loader {
                     function computeDefaultScale() : real {
                         var dpr = (loader_top.thisIsAPhotoSphere ? 1 : PQCConstants.devicePixelRatio)
                         if(loader_top.rotatedUpright)
-                            return parseFloat(Math.min(1./dpr, Math.min((flickable.width/width), (flickable.height/height))).toFixed(2))
-                        return parseFloat(Math.min(1./dpr, Math.min((flickable.width/height), (flickable.height/width)))).toFixed(2)
+                            return Math.min(1./dpr, Math.min((flickable.width/width), (flickable.height/height)))
+                        return Math.min(1./dpr, Math.min((flickable.width/height), (flickable.height/width)))
                     }
 
                     Timer {
