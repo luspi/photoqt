@@ -129,9 +129,9 @@ PQSetting {
                                  //: Name of shortcut action
         ["__goToBottomEdge",     qsTranslate("settingsmanager", "Go to bottom edge of image"), "Go to bottom edge of image", 0],
                                  //: Name of shortcut action
-        ["__setRating0",     qsTranslate("settingsmanager", "Set rating of image to 0 stars"), "Set rating of image to 0 stars", 0],
+        ["__setRating0",     qsTranslate("settingsmanager", "Remove star rating of image"), "Remove star rating of image", 0],
                                  //: Name of shortcut action
-        ["__setRating1",     qsTranslate("settingsmanager", "Set rating of image to 1 stars"), "Set rating of image to 1 stars", 0],
+        ["__setRating1",     qsTranslate("settingsmanager", "Set rating of image to 1 star"), "Set rating of image to 1 star", 0],
                                  //: Name of shortcut action
         ["__setRating2",     qsTranslate("settingsmanager", "Set rating of image to 2 stars"), "Set rating of image to 2 stars", 0],
                                  //: Name of shortcut action
