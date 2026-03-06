@@ -58,7 +58,7 @@ PQTemplate {
     Connections {
         target: button1
         function onClicked() {
-            if(!filenamecheck.checked && !rescheck.checked && !filesizecheck.checked) {
+            if(!filenamecheck.checked && !rescheck.checked && !filesizecheck.checked && !ratingscheck.checked) {
                 filter_top.removeFilter()
                 filter_top.hide()
             } else {
@@ -285,12 +285,13 @@ PQTemplate {
                         PQButton {
                             id: filesizegreaterless
                             y: (filesize.height-height)/2
-                            width: height
                             enabled: filesizecheck.checked
                             property bool greater: true
                             text: greater ? ">" : "<"
                             fontWeight: PQCLook.fontWeightBold
                             fontPointSize: PQCLook.fontSizeL
+                            extraextraSmall: true
+                            smallerVersion: true
                             tooltip: greater ?
                                          //: used as tooltip in the sense of 'file size GREATER THAN 123 KB/MB'
                                          qsTranslate("filter", "greater than") :
@@ -335,6 +336,98 @@ PQTemplate {
                             y: (filesize.height-height)/2
                             text: "MB"
                             enabled: filesizecheck.checked
+                        }
+
+                    }
+
+                    Row {
+
+                        id: ratingsrow
+
+                        spacing: 10
+
+                        PQCheckBox {
+                            id: ratingscheck
+                            y: (ratingsgreaterless.height-height)/2
+                            text: qsTranslate("filter", "Rating")
+                        }
+
+                        PQButton {
+                            id: ratingsgreaterless
+                            enabled: ratingscheck.checked && !noratingscheck.checked
+                            property bool greater: true
+                            text: greater ? "≥" : "≤"
+                            fontWeight: PQCLook.fontWeightBold
+                            fontPointSize: PQCLook.fontSizeL
+                            extraextraSmall: true
+                            smallerVersion: true
+                            tooltip: greater ?
+                                         //: used as tooltip in the sense of 'rating AT LEAST x stars'
+                                         qsTranslate("filter", "at least") :
+                                         //: used as tooltip in the sense of 'rating AT MOST x stars'
+                                         qsTranslate("filter", "at most")
+                            onClicked: {
+                                greater = !greater
+                            }
+                        }
+
+                        Row {
+
+                            id: starrow
+                            spacing: 5
+                            y: (ratingsgreaterless.height-height)/2
+                            property int rating: 1
+                            property int cacheRating: 1
+                            enabled: ratingscheck.checked && !noratingscheck.checked
+
+                            Repeater {
+                                model: 5
+                                Image {
+                                    id: stardeleg
+                                    required property int modelData
+                                    width: 20
+                                    height: 20
+                                    sourceSize: Qt.size(width, height)
+                                    opacity: enabled ? 1 : 0.5
+                                    source: "image://svg/:/" + PQCLook.iconShade + (modelData<starrow.rating ? "/star.svg" : "/star_empty.svg")
+                                    PQMouseArea {
+                                        anchors.fill: parent
+                                        anchors.leftMargin: -starrow.spacing/2
+                                        anchors.rightMargin: -starrow.spacing/2
+                                        hoverEnabled: true
+                                        enabled: starrow.enabled
+                                        onEntered: {
+                                            resetRating.stop()
+                                            starrow.rating = stardeleg.modelData+1
+                                        }
+                                        onExited: {
+                                            resetRating.startedBy = stardeleg.modelData+1
+                                            resetRating.restart()
+                                        }
+                                        onClicked: {
+                                            starrow.cacheRating = starrow.rating
+                                        }
+                                    }
+                                }
+                            }
+
+                            Timer {
+                                id: resetRating
+                                interval: 500
+                                property int startedBy
+                                onTriggered: {
+                                    if(starrow.rating == startedBy)
+                                        starrow.rating = starrow.cacheRating
+                                }
+                            }
+
+                        }
+
+                        PQCheckBox {
+                            id: noratingscheck
+                            y: (parent.height-height)/2
+                            enabled: ratingscheck.checked
+                            text: qsTranslate("filter", "not rated")
                         }
 
                     }
@@ -526,6 +619,16 @@ PQTemplate {
         if(!PQF.areTwoListsEqual(PQCFileFolderModel.filenameFilters, fileNameFilter)) willReload = true
         PQCFileFolderModel.filenameFilters = fileNameFilter
 
+        if(ratingscheck.checked) {
+            var toSetStars = (ratingsgreaterless.greater ? 1 : -1) * starrow.cacheRating
+            if(noratingscheck.checked) toSetStars = 100
+            if(PQCFileFolderModel.ratingsFilter !== toSetStars) willReload = true
+            PQCFileFolderModel.ratingsFilter = toSetStars
+        } else {
+            if(PQCFileFolderModel.ratingsFilter !== 0) willReload = true
+            PQCFileFolderModel.ratingsFilter = 0
+        }
+
         if(rescheck.checked) {
             var toSet = Qt.size((resgreaterless.greater ? 1 : -1)*reswidth.value, (resgreaterless.greater ? 1 : -1)*resheight.value)
             if(PQCFileFolderModel.imageResolutionFilter !== toSet) willReload = true
@@ -556,6 +659,7 @@ PQTemplate {
         filenamecheck.checked = false
         rescheck.checked = false
         filesizecheck.checked = false
+        ratingscheck.checked = false
 
         PQCFileFolderModel.removeAllUserFilter()
 

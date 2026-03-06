@@ -128,6 +128,8 @@ public:
     QStringList getFilenameFilters();
     void setFilenameFilters(QStringList val);
 
+    Q_PROPERTY(int ratingsFilter MEMBER m_ratingsFilter NOTIFY ratingsFilterChanged)
+
     Q_PROPERTY(QStringList restrictToMimeTypes READ getRestrictToMimeTypes WRITE setRestrictToMimeTypes NOTIFY restrictToMimeTypesChanged)
     QStringList getRestrictToMimeTypes();
     void setRestrictToMimeTypes(QStringList val);
@@ -239,6 +241,7 @@ private:
     QStringList m_restrictToSuffixes;
     QStringList m_restrictToMimeTypes;
     QStringList m_filenameFilters;
+    int m_ratingsFilter;
     QSize m_imageResolutionFilter;
     qint64 m_fileSizeFilter;
     bool m_filterCurrentlyActive;
@@ -307,6 +310,7 @@ Q_SIGNALS:
     void nameFiltersChanged();
     void restrictToSuffixesChanged();
     void filenameFiltersChanged();
+    void ratingsFilterChanged();
     void restrictToMimeTypesChanged();
     void imageResolutionFilterChanged();
     void fileSizeFilterChanged();

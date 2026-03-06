@@ -58,6 +58,7 @@ Loader {
     property bool extraWide: false
     property bool extraextraWide: false
     property bool extraSmall: false
+    property bool extraextraSmall: false
 
     property bool enableRadiusModern: true
 
@@ -186,7 +187,7 @@ Loader {
             }
 
             background: Rectangle {
-                implicitWidth: 100
+                implicitWidth: loader.extraextraSmall ? 40 : 100
                 implicitHeight: 40
                 opacity: enabled ? 1 : 0.3
                 color: PQCScriptsConfig.amIOnWindows() ? palette.button :
@@ -195,7 +196,7 @@ Loader {
                 border.width: control.flat ? 0 : 1
                 radius: 2
             }
-            leftPadding: loader.extraSmall ? 10 : (loader.extraextraWide ? 300 : (loader.extraWide ? 100 : 40))
+            leftPadding: loader.extraextraSmall ? 0 : (loader.extraSmall ? 10 : (loader.extraextraWide ? 300 : (loader.extraWide ? 100 : 40)))
             rightPadding: leftPadding
 
             onHoveredChanged: {

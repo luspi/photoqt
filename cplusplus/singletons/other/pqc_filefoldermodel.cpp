@@ -86,6 +86,7 @@ PQCFileFolderModel::PQCFileFolderModel(QObject *parent) : QObject(parent) {
     m_imageResolutionFilter = QSize(0,0);
     m_fileSizeFilter = 0;
     m_justLeftViewerMode = false;
+    m_ratingsFilter = 0;
 
     m_virtualFolders = PQCNotifyCPP::get().getVirtualFolders();
     m_virtualFiles = PQCNotifyCPP::get().getVirtualFiles();
@@ -149,8 +150,8 @@ PQCFileFolderModel::PQCFileFolderModel(QObject *parent) : QObject(parent) {
 
     // we add a tiny delay to this signal to make sure that when the directory has changed all files are fully written
     // not having this delay can cause faulty thumbnails to be loaded
-    connect(watcherMainView, &QFileSystemWatcher::directoryChanged, this, [=]() { m_fileInFolderMainView = m_currentFile; loadDelayMainView->start(); });
-    connect(watcherFileDialog, &QFileSystemWatcher::directoryChanged, this, [=]() { loadDelayFileDialog->start(); });
+    connect(watcherMainView, &QFileSystemWatcher::directoryChanged, this, [=]() { m_fileInFolderMainView = m_currentFile; loadDelayMainView->start(500); });
+    connect(watcherFileDialog, &QFileSystemWatcher::directoryChanged, this, [=]() { loadDelayFileDialog->start(500); });
 
     m_advancedSortDone = 0;
 
@@ -179,6 +180,12 @@ PQCFileFolderModel::PQCFileFolderModel(QObject *parent) : QObject(parent) {
 
     /********************************************/
     /********************************************/
+
+    connect(this, &PQCFileFolderModel::ratingsFilterChanged, this, [=]() {
+        loadDelayMainView->start();
+        loadDelayFileDialog->start();
+        checkFilterActive();
+    });
 
 }
 
@@ -464,7 +471,7 @@ void PQCFileFolderModel::checkFilterActive() {
 
     if(m_nameFilters.length() > 0 || m_filenameFilters.length() > 0 ||
         m_imageResolutionFilter.width() > 0 || m_imageResolutionFilter.height() > 0 ||
-        m_fileSizeFilter > 0) {
+        m_fileSizeFilter > 0 || m_ratingsFilter != 0) {
 
         if(!m_filterCurrentlyActive) {
             m_filterCurrentlyActive = true;
@@ -692,6 +699,10 @@ void PQCFileFolderModel::advancedSortMainView(QString advSortCriteria, bool advS
                 // if no usable value was found, then we simply list them in order
                 if(!foundvalue)
                     key = i;
+
+            } else if(advSortCriteria == "rating") {
+
+                key = PQCScriptsImages::get().getStarRating(fn);
 
             } else {
 
@@ -1255,7 +1266,7 @@ QStringList PQCFileFolderModel::getAllFolders(QString folder, bool forceShowHidd
     else if(sortBy == "type")
         sortFlags |= QDir::Type;
 
-    if(!cache.loadFoldersFromCache(folder, showHidden, sortReversed, sortBy, m_restrictToSuffixes, m_nameFilters, m_filenameFilters, m_restrictToMimeTypes, m_imageResolutionFilter, m_fileSizeFilter, false, ret)) {
+    if(!cache.loadFoldersFromCache(folder, showHidden, sortReversed, sortBy, m_restrictToSuffixes, m_nameFilters, m_filenameFilters, m_restrictToMimeTypes, m_imageResolutionFilter, m_fileSizeFilter, m_ratingsFilter, false, ret)) {
 
         QDir dir(folder);
 
@@ -1287,7 +1298,7 @@ QStringList PQCFileFolderModel::getAllFolders(QString folder, bool forceShowHidd
                 std::sort(ret.begin(), ret.end(), [&collator](const QString &file1, const QString &file2) { return collator.compare(file1, file2) < 0; });
         }
 
-        cache.saveFoldersToCache(folder, showHidden, sortReversed, sortBy, m_restrictToSuffixes, m_nameFilters, m_filenameFilters, m_restrictToMimeTypes, m_imageResolutionFilter, m_fileSizeFilter, false, ret);
+        cache.saveFoldersToCache(folder, showHidden, sortReversed, sortBy, m_restrictToSuffixes, m_nameFilters, m_filenameFilters, m_restrictToMimeTypes, m_imageResolutionFilter, m_fileSizeFilter, m_ratingsFilter, false, ret);
 
     }
 
@@ -1352,7 +1363,7 @@ QStringList PQCFileFolderModel::getAllFiles(QString folder, bool ignoreFiltersEx
 
     for(const QString &f : std::as_const(foldersToScan)) {
 
-        if(!cache.loadFilesFromCache(f, showHidden, sortReversed, sortBy, m_restrictToSuffixes, m_nameFilters, m_filenameFilters, m_restrictToMimeTypes, m_imageResolutionFilter, m_fileSizeFilter, ignoreFiltersExceptDefault, PQCImageFormats::get().getEnabledFormatsNum(), ret)) {
+        if(!cache.loadFilesFromCache(f, showHidden, sortReversed, sortBy, m_restrictToSuffixes, m_nameFilters, m_filenameFilters, m_restrictToMimeTypes, m_imageResolutionFilter, m_fileSizeFilter, m_ratingsFilter, ignoreFiltersExceptDefault, PQCImageFormats::get().getEnabledFormatsNum(), ret)) {
 
             QStringList ret_cur;
 
@@ -1371,7 +1382,7 @@ QStringList PQCFileFolderModel::getAllFiles(QString folder, bool ignoreFiltersEx
             if(sortBy != "naturalname")
                 dir.setSorting(sortFlags);
 
-            if(m_nameFilters.size() == 0 && m_restrictToSuffixes.size() == 0 && m_restrictToMimeTypes.size() == 0 && m_imageResolutionFilter.isNull() && m_fileSizeFilter == 0) {
+            if(m_nameFilters.size() == 0 && m_restrictToSuffixes.size() == 0 && m_restrictToMimeTypes.size() == 0 && m_imageResolutionFilter.isNull() && m_fileSizeFilter == 0 && m_ratingsFilter == 0) {
                 const QFileInfoList lst = dir.entryInfoList();
                 if(PQCSettingsCPP::get().getFiletypesLoadAppleLivePhotos()) {
                     for(const auto &f: lst) {
@@ -1422,6 +1433,20 @@ QStringList PQCFileFolderModel::getAllFiles(QString folder, bool ignoreFiltersEx
 
                             if(!greater && ((origSize.width() > -width && width < 0) || (origSize.height() > -height && width < 0)))
                                 continue;
+
+                        }
+
+                        if(m_ratingsFilter != 0) {
+
+                            int stars = PQCScriptsImages::get().getStarRating(f.absoluteFilePath());
+                            if(stars == 0) {
+                                if(m_ratingsFilter != 100)
+                                    continue;
+                            } else if((m_ratingsFilter < 0 && stars > -m_ratingsFilter) || m_ratingsFilter == 100) {
+                                continue;
+                            } else if((m_ratingsFilter > 0 && stars < m_ratingsFilter) || m_ratingsFilter == 100) {
+                                continue;
+                            }
 
                         }
 
@@ -1498,7 +1523,7 @@ QStringList PQCFileFolderModel::getAllFiles(QString folder, bool ignoreFiltersEx
             // add current list, sorted, to global result list
             ret << ret_cur;
 
-            cache.saveFilesToCache(f, showHidden, sortReversed, sortBy, m_restrictToSuffixes, m_nameFilters, m_filenameFilters, m_restrictToMimeTypes, m_imageResolutionFilter, m_fileSizeFilter, ignoreFiltersExceptDefault, PQCImageFormats::get().getEnabledFormatsNum(), ret_cur);
+            cache.saveFilesToCache(f, showHidden, sortReversed, sortBy, m_restrictToSuffixes, m_nameFilters, m_filenameFilters, m_restrictToMimeTypes, m_imageResolutionFilter, m_fileSizeFilter, m_ratingsFilter, ignoreFiltersExceptDefault, PQCImageFormats::get().getEnabledFormatsNum(), ret_cur);
 
         }
 
@@ -1567,14 +1592,15 @@ void PQCFileFolderModel::removeAllUserFilter() {
     m_filenameFilters.clear();
     m_imageResolutionFilter = QSize(0,0);
     m_fileSizeFilter = 0;
+    m_ratingsFilter = 0;
 
     Q_EMIT nameFiltersChanged();
     Q_EMIT filenameFiltersChanged();
     Q_EMIT imageResolutionFilterChanged();
     Q_EMIT fileSizeFilterChanged();
+    Q_EMIT ratingsFilterChanged();
 
     setFileInFolderMainView(getCurrentFile());
-    loadDataMainView();
 
 }
 
@@ -1582,7 +1608,8 @@ bool PQCFileFolderModel::isUserFilterSet() {
     return (m_nameFilters.length()>0 ||
             m_filenameFilters.length()>0 ||
             !m_imageResolutionFilter.isNull() ||
-            m_fileSizeFilter > 0);
+            m_fileSizeFilter > 0 ||
+            m_ratingsFilter != 0);
 }
 
 void PQCFileFolderModel::enableViewerMode(QString baseFile, int page) {
