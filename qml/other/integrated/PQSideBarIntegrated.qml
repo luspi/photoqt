@@ -109,12 +109,12 @@ Rectangle {
             Item {
 
                 width: parent.width
-                height: 50
+                height: 30
 
                 Row {
                     id: starrow
                     x: (parent.width-width)/2
-                    y: (parent.height-height)/2
+                    y: 0
                     spacing: 5
                     property int rating: 0
                     Item {
@@ -124,13 +124,14 @@ Rectangle {
                         PQMouseArea {
                             anchors.fill: parent
                             anchors.leftMargin: zerostardeleg.width/3
-                            anchors.rightMargin: -zerostardeleg.width/3
+                            anchors.rightMargin: -zerostardeleg.width/3-starrow.spacing
                             hoverEnabled: true
                             onEntered: {
                                 resetRating.stop()
                                 starrow.rating = 0
                             }
                             onExited: {
+                                resetRating.startedBy = 0
                                 resetRating.restart()
                             }
                             onClicked: {
@@ -147,17 +148,19 @@ Rectangle {
                             width: 20
                             height: 20
                             sourceSize: Qt.size(width, height)
+                            opacity: modelData<starrow.rating ? 1 : 0.5
                             source: "image://svg/:/" + PQCLook.iconShade + (modelData<starrow.rating ? "/star.svg" : "/star_empty.svg")
                             PQMouseArea {
                                 anchors.fill: parent
                                 anchors.leftMargin: stardeleg.width/3
-                                anchors.rightMargin: -stardeleg.width/3
+                                anchors.rightMargin: -stardeleg.width/3-starrow.spacing
                                 hoverEnabled: true
                                 onEntered: {
                                     resetRating.stop()
                                     starrow.rating = stardeleg.modelData+1
                                 }
                                 onExited: {
+                                    resetRating.startedBy = stardeleg.modelData+1
                                     resetRating.restart()
                                 }
                                 onClicked: {
@@ -174,13 +177,14 @@ Rectangle {
                         PQMouseArea {
                             anchors.fill: parent
                             anchors.leftMargin: fivestardeleg.width/3
-                            anchors.rightMargin: -fivestardeleg.width/3
+                            anchors.rightMargin: -fivestardeleg.width/3-starrow.spacing
                             hoverEnabled: true
                             onEntered: {
                                 resetRating.stop()
                                 starrow.rating = 5
                             }
                             onExited: {
+                                resetRating.startedBy = 5
                                 resetRating.restart()
                             }
                             onClicked: {
@@ -192,8 +196,10 @@ Rectangle {
                     Timer {
                         id: resetRating
                         interval: 500
+                        property int startedBy
                         onTriggered: {
-                            starrow.rating = PQCConstants.currentStarRating
+                            if(starrow.rating == startedBy)
+                                starrow.rating = PQCConstants.currentStarRating
                         }
                     }
 

@@ -1646,6 +1646,11 @@ void PQCScriptsImages::setStarRating(const int star, const QString path) {
 
 int PQCScriptsImages::getStarRating(const QString path) {
 
+    qDebug() << "args: path =" << path;
+
+    int kdeStarRating = -1;
+    int exifStarRating = -1;
+
     // 1) check system specific data first: KDE
 #ifdef Q_OS_UNIX
 
@@ -1667,7 +1672,6 @@ int PQCScriptsImages::getStarRating(const QString path) {
         cont = false;
     }
 
-    int kdeStarRating = -1;
     char *value;
     if(cont) {
 
@@ -1698,8 +1702,12 @@ int PQCScriptsImages::getStarRating(const QString path) {
     }
 
     if(kdeStarRating > -1) {
-        qDebug() << "Found KDE star rating, returning that.";
-        return kdeStarRating;
+        // if we are actually running KDE/Plasma, then we treat this as top authority and stop here
+        QList<QByteArray> wm = QByteArray(getenv("XDG_CURRENT_DESKTOP")).toLower().split(',');
+        if(wm.contains("plasma") || wm.contains("kde")) {
+            qDebug() << "Found KDE star rating, returning that.";
+            return kdeStarRating;
+        }
     }
 
 #endif
@@ -1745,46 +1753,59 @@ int PQCScriptsImages::getStarRating(const QString path) {
             if(iter1 != exifData.end()) {
                 const int star = QString::fromStdString(iter1->value().toString()).toInt();
                 if(star >= 0 && star <= 5)
-                    return star;
+                    exifStarRating = star;
             }
-            auto iter2 = exifData.findKey(Exiv2::ExifKey("Exif.Image.RatingPercent"));
-            if(iter2 != exifData.end()) {
-                const int star = QString::fromStdString(iter2->value().toString()).toInt();
-                if(star >= 0 && star <= 99) {
-                    for(int i = 0; i < percentageSteps.length(); ++i)
-                        if(star <= percentageSteps[i])
-                            return i;
+            if(exifStarRating == -1) {
+                auto iter2 = exifData.findKey(Exiv2::ExifKey("Exif.Image.RatingPercent"));
+                if(iter2 != exifData.end()) {
+                    const int star = QString::fromStdString(iter2->value().toString()).toInt();
+                    if(star >= 0 && star <= 99) {
+                        for(int i = 0; i < percentageSteps.length(); ++i)
+                            if(star <= percentageSteps[i])
+                                exifStarRating = i;
+                    }
                 }
             }
         } catch(Exiv2::Error &e) {
             qDebug() << "ERROR: Unable to read exif metadata:" << e.what();
         }
 
-        Exiv2::XmpData xmpData;
-        try {
-            xmpData = image->xmpData();
-            auto iter1 = xmpData.findKey(Exiv2::XmpKey("Xmp.xmp.Rating"));
-            if(iter1 != xmpData.end()) {
-                const int star = QString::fromStdString(iter1->value().toString()).toInt();
-                if(star >= 0 && star <= 5)
-                    return star;
-            }
-            auto iter2 = xmpData.findKey(Exiv2::XmpKey("Xmp.MicrosoftPhoto.Rating"));
-            if(iter2 != xmpData.end()) {
-                const int star = QString::fromStdString(iter2->value().toString()).toInt();
-                if(star >= 0 && star <= 99) {
-                    for(int i = 0; i < percentageSteps.length(); ++i)
-                        if(star <= percentageSteps[i])
-                            return i;
+        if(exifStarRating == -1) {
+
+            Exiv2::XmpData xmpData;
+            try {
+                xmpData = image->xmpData();
+                auto iter1 = xmpData.findKey(Exiv2::XmpKey("Xmp.xmp.Rating"));
+                if(iter1 != xmpData.end()) {
+                    const int star = QString::fromStdString(iter1->value().toString()).toInt();
+                    if(star >= 0 && star <= 5)
+                        exifStarRating = star;
                 }
+                if(exifStarRating == -1) {
+                    auto iter2 = xmpData.findKey(Exiv2::XmpKey("Xmp.MicrosoftPhoto.Rating"));
+                    if(iter2 != xmpData.end()) {
+                        const int star = QString::fromStdString(iter2->value().toString()).toInt();
+                        if(star >= 0 && star <= 99) {
+                            for(int i = 0; i < percentageSteps.length(); ++i)
+                                if(star <= percentageSteps[i])
+                                    exifStarRating = i;
+                        }
+                    }
+                }
+            } catch(Exiv2::Error &e) {
+                qDebug() << "ERROR: Unable to read xmp metadata:" << e.what();
             }
-        } catch(Exiv2::Error &e) {
-            qDebug() << "ERROR: Unable to read xmp metadata:" << e.what();
+
         }
 
     }
 
 #endif
+
+    if(exifStarRating != -1)
+        return exifStarRating;
+    else if(kdeStarRating != -1)
+        return kdeStarRating;
 
     return 0;
 }

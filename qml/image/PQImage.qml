@@ -557,11 +557,23 @@ Item {
             }
         }
 
+        // check the star rating of the current image
+        checkStarRating.restart()
+
         // start the timer to load images in background
         bgOffset = 0
         if(bgFiles.length > 0)
             timer_loadbg.restart()
 
+    }
+
+    // Find star rating
+    Timer {
+        id: checkStarRating
+        interval: 10
+        onTriggered: {
+            PQCConstants.currentStarRating = PQCScriptsImages.getStarRating(PQCFileFolderModel.currentFile)
+        }
     }
 
     // some global handlers
