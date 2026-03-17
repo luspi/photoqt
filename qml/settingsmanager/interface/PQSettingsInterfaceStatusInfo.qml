@@ -100,7 +100,9 @@ PQSetting {
                         //: Please keep short! This is the filesize of the current image.
                         "filesize": qsTranslate("settingsmanager", "filesize"),
                         //: Please keep short! This is the color profile used for the current image
-                        "colorprofile": qsTranslate("settingsmanager", "color profile")
+                        "colorprofile": qsTranslate("settingsmanager", "color profile"),
+                        //: Please keep short! This is the star rating of the current image
+                        "rating": qsTranslate("settingsmanager", "star rating")
                     }
 
                     model: ListModel {
@@ -243,7 +245,8 @@ PQSetting {
                         "zoom",
                         "rotation",
                         "filesize",
-                        "colorprofile"
+                        "colorprofile",
+                        "rating"
                     ]
                     property list<string> statusdata_vals: [
                         //: Please keep short! The counter shows where we are in the folder.
@@ -261,7 +264,9 @@ PQSetting {
                         //: Please keep short! This is the filesize of the current image.
                         qsTranslate("settingsmanager", "filesize"),
                         //: Please keep short! This is the color profile used for the current image
-                        qsTranslate("settingsmanager", "color profile")
+                        qsTranslate("settingsmanager", "color profile"),
+                        //: Please keep short! This is the star rating of the current image
+                        qsTranslate("settingsmanager", "star rating")
                     ]
                     model: statusdata_vals
                 }

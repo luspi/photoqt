@@ -168,7 +168,9 @@ Item {
                                                                                rectFilesize :
                                                                                t=="colorprofile" ?
                                                                                    rectColorProfile :
-                                                                                   rectDummy
+                                                                                   t=="rating" ?
+                                                                                       rectRating :
+                                                                                       rectDummy
                             }
 
                             Rectangle {
@@ -577,6 +579,59 @@ Item {
                     csptxt.text = val
                 }
             }
+        }
+    }
+
+    Component {
+        id: rectRating
+        Item {
+
+            id: starrect
+            width: starrow.width
+            height: starrow.height
+
+            property int currentRating: 0
+
+            Connections {
+                target: PQCFileFolderModel
+                function onCurrentFileNoDelayChanged() {
+                    setNewStarRating.restart()
+                }
+            }
+            Connections {
+                target: PQCConstants
+                function onCurrentStarRatingChanged() {
+                    setNewStarRating.restart()
+                }
+            }
+
+            Timer {
+                id: setNewStarRating
+                interval: 500
+                running: true
+                onTriggered: {
+                    // a value of -1 means that it is busy retrieving the data
+                    if(PQCConstants.currentStarRating > -1)
+                        starrect.currentRating = PQCConstants.currentStarRating
+                }
+            }
+
+            Row {
+                id: starrow
+
+                Repeater {
+                    model: 5
+                    Image {
+                        id: deleg
+                        required property int modelData
+                        width: 20
+                        height: 20
+                        sourceSize: Qt.size(width, height)
+                        source: "image://svg/:/" + PQCLook.iconShade + (modelData<starrect.currentRating ? "/star.svg" : "/star_empty.svg")
+                    }
+                }
+            }
+
         }
     }
 

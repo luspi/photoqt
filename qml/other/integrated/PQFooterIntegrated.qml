@@ -181,6 +181,7 @@ ToolBar {
         }
 
         function onCurrentFileNoDelayChanged() {
+            setNewStarRating.restart()
             ftr.craftString()
         }
 
@@ -215,6 +216,25 @@ ToolBar {
             ftr.craftString()
         }
 
+        function onCurrentStarRatingChanged() {
+            setNewStarRating.restart()
+        }
+
+    }
+
+    property int currentRating: 0
+
+    Timer {
+        id: setNewStarRating
+        interval: 500
+        running: true
+        onTriggered: {
+            // a value of -1 means that it is busy retrieving the data
+            if(PQCConstants.currentStarRating > -1) {
+                ftr.currentRating = PQCConstants.currentStarRating
+                ftr.craftString()
+            }
+        }
     }
 
     function craftString() {
@@ -277,6 +297,14 @@ ToolBar {
                     str.push(val)
                 else
                     str.push("<font color='"+palette.disabled.text+"'>---</font>")
+
+            } else if(cur === "rating") {
+
+                var tmp = ""
+                for(var i = 0; i < 5; ++i)
+                    tmp += (i<ftr.currentRating ? "★" : "☆")
+
+                str.push(tmp)
 
             }
 
