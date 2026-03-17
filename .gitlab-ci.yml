@@ -39,6 +39,7 @@ appimage:
     - make -j$(nproc) install
     - cd ..
     - git clone https://github.com/Wunkolo/libsai # Install libsai
+    - sed -i 's|FILES include/sai.hpp|& include/sai2.hpp include/util.hpp|' libsai/CMakeLists.txt
     - mkdir -p libsai/build && cd libsai/build
     - cmake .. -DBUILD_SHARED_LIBS=ON -DCMAKE_INSTALL_PREFIX=/usr
     - make -j$(nproc) install
@@ -100,6 +101,7 @@ releaseappimage:
     - make -j$(nproc) install
     - cd ..
     - git clone https://github.com/Wunkolo/libsai # Install libsai
+    - sed -i 's|FILES include/sai.hpp|& include/sai2.hpp include/util.hpp|' libsai/CMakeLists.txt
     - mkdir -p libsai/build && cd libsai/build
     - cmake .. -DBUILD_SHARED_LIBS=ON -DCMAKE_INSTALL_PREFIX=/usr
     - make -j$(nproc) install
