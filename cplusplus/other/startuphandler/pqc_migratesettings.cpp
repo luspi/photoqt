@@ -106,6 +106,9 @@ void PQCMigrateSettings::migrate530() {
     migrationHelperRemoveValue("filetypes", "VideoPreferLibmpv");
     migrationHelperInsertValue("filetypes", "VideoBackend", {newVal, "", "list"});
 
+    const int oldThumbSize = migrationHelperGetOldValue("filedialog", "FiledialogZoom").toInt();
+    migrationHelperSetNewValue("filedialog", "FiledialogZoom", oldThumbSize*40);
+
 }
 
 /******************************************************/

@@ -32,7 +32,8 @@ GridView {
 
     model: 0
 
-    property int baseSize: 50 + PQCSettings.filedialogZoom*3
+    property int baseSize: Math.min((PQCSettings.filedialogThumbnailSizeFollowsGlobalThumbnails ? PQCSettings.thumbnailsSize : PQCSettings.filedialogZoom),
+                                    Math.min(gridview.width, gridview.height)*0.9)
 
     property bool ignoreMouseEvents: false
     interactive: !ignoreMouseEvents
@@ -350,7 +351,17 @@ GridView {
             // detect Ctrl+scroll for zooming
             onWheel: (wheel) => {
                 if(wheel.modifiers === Qt.ControlModifier) {
-                    PQCSettings.filedialogZoom += (wheel.angleDelta.y < 0 ? -2 : 2)
+                    if(PQCSettings.filedialogThumbnailSizeFollowsGlobalThumbnails) {
+                        if(wheel.angleDelta.y < 0)
+                            PQCSettings.thumbnailsSize = Math.max(PQCSettings.thumbnailsSize-10, 32)
+                        else
+                            PQCSettings.thumbnailsSize = Math.min(PQCSettings.thumbnailsSize+10, 4000)
+                    } else {
+                        if(wheel.angleDelta.y < 0)
+                            PQCSettings.filedialogZoom = Math.max(PQCSettings.filedialogZoom-10, 32)
+                        else
+                            PQCSettings.filedialogZoom = Math.min(PQCSettings.filedialogZoom+10, 4000)
+                    }
                     wheel.accepted = true
                     return
                 }

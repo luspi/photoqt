@@ -35,7 +35,7 @@ Slider {
     implicitWidth: _horizontal ? (extraWide ? 300 : (extraSmall ? 150 : 200)) : 20
 
     stepSize: 1.0
-    property real wheelStepSize: 1.0
+    property real wheelStepSize: 10.0
 
     property bool _horizontal: (orientation==Qt.Horizontal)
 
@@ -50,6 +50,14 @@ Slider {
 
     property string suffix: ""
     property string tooltip: ""
+
+    from: 0
+    to: 1000
+    property int minVal: 1
+    property int maxVal: 4000
+
+    // the 2.5 in the pow() has to match the 1/2.5 in the pow() of setValue()
+    readonly property int realValue: minVal + (maxVal-minVal) * Math.pow(value/1000, 2.5)
 
     snapMode: Slider.SnapAlways
 
@@ -102,14 +110,14 @@ Slider {
                 // if(!control.wheelEnabled) return
                 if(control.reverseWheelChange) {
                     if(wheel.angleDelta.y > 0)
-                        control.value += control.wheelStepSize
+                        control.setValue(control.value+control.wheelStepSize)
                     else
-                        control.value -= control.wheelStepSize
+                        control.setValue(control.value-control.wheelStepSize)
                 } else {
                     if(wheel.angleDelta.y > 0)
-                        control.value -= control.wheelStepSize
+                        control.setValue(control.value-control.wheelStepSize)
                     else
-                        control.value += control.wheelStepSize
+                        control.setValue(control.value+control.wheelStepSize)
                 }
             }
         }
@@ -139,39 +147,22 @@ Slider {
                 if(!control.wheelEnabled) return
                 if(control.reverseWheelChange) {
                     if(wheel.angleDelta.y > 0)
-                        control.value += control.wheelStepSize
+                        control.setValue(control.value+control.wheelStepSize)
                     else
-                        control.value -= control.wheelStepSize
+                        control.setValue(control.value-control.wheelStepSize)
                 } else {
                     if(wheel.angleDelta.y > 0)
-                        control.value -= control.wheelStepSize
+                        control.setValue(control.value-control.wheelStepSize)
                     else
-                        control.value += control.wheelStepSize
+                        control.setValue(control.value+control.wheelStepSize)
                 }
             }
         }
     }
 
-    property int _defaultValue
-    Component.onCompleted: {
-        _defaultValue = value
-    }
-
-    function saveDefault() {
-        _defaultValue = value
-    }
-
-    function setDefault(val : int) {
-        _defaultValue = val
-    }
-
-    function loadAndSetDefault(val : int) {
-        value = val
-        _defaultValue = val
-    }
-
-    function hasChanged() : bool {
-        return _defaultValue!==value
+    function setValue(val : int) {
+        // the 1/2.5 in the pow() has to match the 2.5 in the pow() of realValue
+        value = to * Math.pow((val - minVal)/(maxVal-minVal), 1/2.5)
     }
 
 }

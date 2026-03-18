@@ -367,23 +367,53 @@ PQSetting {
             text: qsTranslate("settingsmanager", "Show thumbnails")
             onCheckedChanged: set_fd.checkForChanges()
         },
-        Item {
 
-            clip: true
+        PQCheckBox {
+            id: thumb_scalecrop
             enabled: thumb_show.checked
+            enforceMaxWidth: set_fd.contentWidth
+            text: qsTranslate("settingsmanager", "Scale and crop thumbnails")
+            onCheckedChanged: set_fd.checkForChanges()
+        },
 
-            width: thumb_scalecrop.width
-            height: enabled ? thumb_scalecrop.height : 0
-            opacity: enabled ? 1 : 0
-
-            Behavior on height { enabled: !PQCSettings.generalDisableAllAnimations; NumberAnimation { duration: 200 } }
-            Behavior on opacity { enabled: !PQCSettings.generalDisableAllAnimations; NumberAnimation { duration: 150 } }
-
-            PQCheckBox {
-                id: thumb_scalecrop
-                enforceMaxWidth: set_fd.contentWidth
-                text: qsTranslate("settingsmanager", "Scale and crop thumbnails")
-                onCheckedChanged: set_fd.checkForChanges()
+        Row {
+            spacing: 5
+            PQText {
+                enabled: thumb_show.checked
+                text: qsTranslate("settingsmanager", "Size:")
+            }
+            Column {
+                spacing: 5
+                enabled: thumb_show.checked
+                PQRadioButton {
+                    id: thbsze_indep
+                    text: "independent size"
+                    onCheckedChanged: {
+                        if(checked)
+                            thbsze_slider.loadAndSetDefault(PQCSettings.filedialogZoom/40)
+                        set_fd.checkForChanges()
+                    }
+                }
+                PQRadioButton {
+                    id: thbsze_glob
+                    text: "follow global thumbnail size"
+                    onCheckedChanged: {
+                        if(checked)
+                            thbsze_slider.loadAndSetDefault(PQCSettings.thumbnailsSize/40)
+                        set_fd.checkForChanges()
+                    }
+                }
+                Item {
+                    width: 5
+                    height: 5
+                }
+                PQAdvancedSlider {
+                    id: thbsze_slider
+                    minval: 1
+                    maxval: 100
+                    suffix: "%"
+                    onValueChanged: set_fd.checkForChanges()
+                }
             }
         },
 
@@ -391,6 +421,11 @@ PQSetting {
             onResetToDefaults: {
                 thumb_show.checked = PQCSettings.getDefaultForFiledialogThumbnails()
                 thumb_scalecrop.checked = PQCSettings.getDefaultForFiledialogThumbnailsScaleCrop()
+                thbsze_indep.checked = !PQCSettings.getDefaultForFiledialogThumbnailSizeFollowsGlobalThumbnails()
+                thbsze_glob.checked = PQCSettings.getDefaultForFiledialogThumbnailSizeFollowsGlobalThumbnails()
+                thbsze_slider.value = (PQCSettings.getDefaultForFiledialogThumbnailSizeFollowsGlobalThumbnails() ?
+                                           PQCSettings.thumbnailsSize/40 :
+                                           PQCSettings.filedialogZoom/40)
             }
         },
 
@@ -671,7 +706,8 @@ PQSetting {
                                                       folderthumb_autoload.hasChanged() || folderthumb_scalecrop.hasChanged() ||
                                                       preview_check.hasChanged() || preview_blur.hasChanged() || preview_mute.hasChanged() ||
                                                       preview_colintspin.hasChanged() || preview_resolution.hasChanged() || preview_scalecrop.hasChanged() ||
-                                                      tooltipcheck.hasChanged())
+                                                      tooltipcheck.hasChanged() ||
+                                                      thbsze_indep.hasChanged() || thbsze_glob.hasChanged() || thbsze_slider.hasChanged())
 
     }
 
@@ -707,6 +743,12 @@ PQSetting {
 
         thumb_show.loadAndSetDefault(PQCSettings.filedialogThumbnails)
         thumb_scalecrop.loadAndSetDefault(PQCSettings.filedialogThumbnailsScaleCrop)
+        thbsze_indep.loadAndSetDefault(!PQCSettings.filedialogThumbnailSizeFollowsGlobalThumbnails)
+        thbsze_glob.loadAndSetDefault(PQCSettings.filedialogThumbnailSizeFollowsGlobalThumbnails)
+        if(PQCSettings.filedialogThumbnailSizeFollowsGlobalThumbnails)
+            thbsze_slider.loadAndSetDefault(PQCSettings.thumbnailsSize/40)
+        else
+            thbsze_slider.loadAndSetDefault(PQCSettings.filedialogZoom/40)
 
         padding.loadAndSetDefault(PQCSettings.filedialogElementPadding)
 
@@ -774,8 +816,16 @@ PQSetting {
 
         PQCSettings.filedialogThumbnails = thumb_show.checked
         PQCSettings.filedialogThumbnailsScaleCrop = thumb_scalecrop.checked
+        PQCSettings.filedialogThumbnailSizeFollowsGlobalThumbnails = thbsze_glob.checked
+        if(thbsze_glob.checked)
+            PQCSettings.thumbnailsSize = thbsze_slider.value*40
+        else
+            PQCSettings.filedialogZoom = thbsze_slider.value*40
         thumb_show.saveDefault()
         thumb_scalecrop.saveDefault()
+        thbsze_indep.saveDefault()
+        thbsze_glob.saveDefault()
+        thbsze_slider.saveDefault()
 
         PQCSettings.filedialogElementPadding = padding.value
         padding.saveDefault()

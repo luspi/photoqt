@@ -93,7 +93,7 @@ Flickable {
 
     property bool firstStart: true
 
-    property int _startWidth: 50 + PQCSettings.filedialogZoom*3
+    property int _startWidth: (PQCSettings.filedialogThumbnailSizeFollowsGlobalThumbnails ? PQCSettings.thumbnailsSize : PQCSettings.filedialogZoom)
     property int numColumns: Math.floor(width/_startWidth)
     onNumColumnsChanged: {
         if(firstStart) {

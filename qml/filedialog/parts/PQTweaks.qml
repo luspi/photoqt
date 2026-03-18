@@ -72,17 +72,31 @@ Item {
 
                 y: (parent.height-height)/2
 
-                from: 1
-                to: 100
+                minVal: 1
+                maxVal: 4000
 
                 stepSize: 1
 
-                value: PQCSettings.filedialogZoom
-                onValueChanged: {
-                    var newval = Math.round(value)
-                    if(newval !== PQCSettings.filedialogZoom)
-                        PQCSettings.filedialogZoom = newval
+                onRealValueChanged: {
+                    if(!isSetup) return
+                    var newval = Math.round(realValue)
+                    if(PQCSettings.filedialogThumbnailSizeFollowsGlobalThumbnails) {
+                        if(newval !== PQCSettings.thumbnailsSize)
+                            PQCSettings.thumbnailsSize = newval
+                    } else {
+                        if(newval !== PQCSettings.filedialogZoom)
+                            PQCSettings.filedialogZoom = newval
+                    }
                     tweaks_top.forceActiveFocus()
+                }
+
+                // without this delay the value would be stored BEFORE it was actually set up
+                property bool isSetup: false
+                Timer {
+                    interval: 500
+                    running: true
+                    onTriggered:
+                        zoomslider.isSetup = true
                 }
 
                 Connections {
@@ -90,20 +104,28 @@ Item {
                     target: PQCSettings
 
                     function onFiledialogZoomChanged() {
-                        if(zoomslider.value !== PQCSettings.filedialogZoom)
-                            zoomslider.value = PQCSettings.filedialogZoom
+                        if(PQCSettings.filedialogThumbnailSizeFollowsGlobalThumbnails) return
+                        if(zoomslider.realValue !== PQCSettings.filedialogZoom)
+                            zoomslider.setValue(PQCSettings.filedialogZoom)
                     }
+
+                    function onThumbnailsSizeChanged() {
+                        if(!PQCSettings.filedialogThumbnailSizeFollowsGlobalThumbnails) return
+                        if(zoomslider.realValue !== PQCSettings.thumbnailsSize)
+                            zoomslider.setValue(PQCSettings.thumbnailsSize)
+                    }
+
                 }
 
                 Component.onCompleted: {
-                    value = 1*value
+                    setValue(PQCSettings.filedialogThumbnailSizeFollowsGlobalThumbnails ? PQCSettings.thumbnailsSize : PQCSettings.filedialogZoom)
                 }
 
             }
 
             Text {
                 y: (parent.height-height)/2
-                text: zoomslider.value + "%"
+                text: Math.round(zoomslider.realValue/40) + "%"
                 font.pointSize: PQCLook.fontSize
                 color: palette.text
             }

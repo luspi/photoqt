@@ -171,6 +171,7 @@ PQCSettings::PQCSettings() {
     connect(this, &PQCSettings::filedialogStartupRestoreCustomFolderChanged, this, [=]() { saveChangedValue("filedialogStartupRestoreCustomFolder", m_filedialogStartupRestoreCustomFolder); });
     connect(this, &PQCSettings::filedialogStartupRestoreHomeChanged, this, [=]() { saveChangedValue("filedialogStartupRestoreHome", m_filedialogStartupRestoreHome); });
     connect(this, &PQCSettings::filedialogStartupRestorePreviousChanged, this, [=]() { saveChangedValue("filedialogStartupRestorePrevious", m_filedialogStartupRestorePrevious); });
+    connect(this, &PQCSettings::filedialogThumbnailSizeFollowsGlobalThumbnailsChanged, this, [=]() { saveChangedValue("filedialogThumbnailSizeFollowsGlobalThumbnails", m_filedialogThumbnailSizeFollowsGlobalThumbnails); });
     connect(this, &PQCSettings::filedialogThumbnailsChanged, this, [=]() { saveChangedValue("filedialogThumbnails", m_filedialogThumbnails); });
     connect(this, &PQCSettings::filedialogThumbnailsScaleCropChanged, this, [=]() { saveChangedValue("filedialogThumbnailsScaleCrop", m_filedialogThumbnailsScaleCrop); });
     connect(this, &PQCSettings::filedialogUseNativeFileDialogChanged, this, [=]() { saveChangedValue("filedialogUseNativeFileDialog", m_filedialogUseNativeFileDialog); });
@@ -1175,6 +1176,28 @@ void PQCSettings::setDefaultForFiledialogStartupRestorePrevious() {
     if(true != m_filedialogStartupRestorePrevious) {
         m_filedialogStartupRestorePrevious = true;
         Q_EMIT filedialogStartupRestorePreviousChanged();
+    }
+}
+
+bool PQCSettings::getFiledialogThumbnailSizeFollowsGlobalThumbnails() {
+    return m_filedialogThumbnailSizeFollowsGlobalThumbnails;
+}
+
+void PQCSettings::setFiledialogThumbnailSizeFollowsGlobalThumbnails(bool val) {
+    if(val != m_filedialogThumbnailSizeFollowsGlobalThumbnails) {
+        m_filedialogThumbnailSizeFollowsGlobalThumbnails = val;
+        Q_EMIT filedialogThumbnailSizeFollowsGlobalThumbnailsChanged();
+    }
+}
+
+const bool PQCSettings::getDefaultForFiledialogThumbnailSizeFollowsGlobalThumbnails() {
+        return true;
+}
+
+void PQCSettings::setDefaultForFiledialogThumbnailSizeFollowsGlobalThumbnails() {
+    if(true != m_filedialogThumbnailSizeFollowsGlobalThumbnails) {
+        m_filedialogThumbnailSizeFollowsGlobalThumbnails = true;
+        Q_EMIT filedialogThumbnailSizeFollowsGlobalThumbnailsChanged();
     }
 }
 
@@ -6974,6 +6997,8 @@ void PQCSettings::readDB() {
                     m_filedialogStartupRestoreHome = value.toInt();
                 } else if(name == "StartupRestorePrevious") {
                     m_filedialogStartupRestorePrevious = value.toInt();
+                } else if(name == "ThumbnailSizeFollowsGlobalThumbnails") {
+                    m_filedialogThumbnailSizeFollowsGlobalThumbnails = value.toInt();
                 } else if(name == "Thumbnails") {
                     m_filedialogThumbnails = value.toInt();
                 } else if(name == "ThumbnailsScaleCrop") {
@@ -7911,6 +7936,7 @@ void PQCSettings::setupFresh() {
     m_filedialogStartupRestoreCustomFolder = "";
     m_filedialogStartupRestoreHome = false;
     m_filedialogStartupRestorePrevious = true;
+    m_filedialogThumbnailSizeFollowsGlobalThumbnails = true;
     m_filedialogThumbnails = true;
     m_filedialogThumbnailsScaleCrop = true;
     m_filedialogUseNativeFileDialog = false;
@@ -8240,6 +8266,7 @@ void PQCSettings::resetToDefault() {
     setDefaultForFiledialogStartupRestoreCustomFolder();
     setDefaultForFiledialogStartupRestoreHome();
     setDefaultForFiledialogStartupRestorePrevious();
+    setDefaultForFiledialogThumbnailSizeFollowsGlobalThumbnails();
     setDefaultForFiledialogThumbnails();
     setDefaultForFiledialogThumbnailsScaleCrop();
     setDefaultForFiledialogUseNativeFileDialog();
@@ -8667,6 +8694,10 @@ QStringList PQCSettings::updateFromCommandLine() {
     if(key == "filedialogStartupRestorePrevious") {
         m_filedialogStartupRestorePrevious = (val.toInt()==1);
         Q_EMIT filedialogStartupRestorePreviousChanged();
+    }
+    if(key == "filedialogThumbnailSizeFollowsGlobalThumbnails") {
+        m_filedialogThumbnailSizeFollowsGlobalThumbnails = (val.toInt()==1);
+        Q_EMIT filedialogThumbnailSizeFollowsGlobalThumbnailsChanged();
     }
     if(key == "filedialogThumbnails") {
         m_filedialogThumbnails = (val.toInt()==1);

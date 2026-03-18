@@ -149,7 +149,17 @@ Item {
         // detect Ctrl+scroll for zooming
         onWheel: (wheel) => {
             if(wheel.modifiers === Qt.ControlModifier) {
-                PQCSettings.filedialogZoom += (wheel.angleDelta.y < 0 ? -2 : 2)
+                if(PQCSettings.filedialogThumbnailSizeFollowsGlobalThumbnails) {
+                    if(wheel.angleDelta.y < 0)
+                        PQCSettings.thumbnailsSize = Math.max(PQCSettings.thumbnailsSize-10, 32)
+                    else
+                        PQCSettings.thumbnailsSize = Math.min(PQCSettings.thumbnailsSize+10, 4000)
+                } else {
+                    if(wheel.angleDelta.y < 0)
+                        PQCSettings.filedialogZoom = Math.max(PQCSettings.filedialogZoom-10, 32)
+                    else
+                        PQCSettings.filedialogZoom = Math.min(PQCSettings.filedialogZoom+10, 4000)
+                }
                 wheel.accepted = true
                 return
             }
@@ -162,9 +172,15 @@ Item {
         target: null
 
         onScaleChanged: (delta) => {
-            var newval = Math.round(PQCSettings.filedialogZoom*delta)
-            if(newval !== PQCSettings.filedialogZoom)
-                PQCSettings.filedialogZoom = newval
+            if(PQCSettings.filedialogThumbnailSizeFollowsGlobalThumbnails) {
+                var newval = Math.round(PQCSettings.thumbnailsSize*delta)
+                if(newval !== PQCSettings.thumbnailsSize)
+                    PQCSettings.thumbnailsSize = newval
+            } else {
+                var newval2 = Math.round(PQCSettings.filedialogZoom*delta)
+                if(newval2 !== PQCSettings.filedialogZoom)
+                    PQCSettings.filedialogZoom = newval2
+            }
         }
 
     }

@@ -250,6 +250,12 @@ public:
     Q_INVOKABLE const bool getDefaultForFiledialogStartupRestorePrevious();
     Q_INVOKABLE void setDefaultForFiledialogStartupRestorePrevious();
 
+    Q_PROPERTY(bool filedialogThumbnailSizeFollowsGlobalThumbnails READ getFiledialogThumbnailSizeFollowsGlobalThumbnails WRITE setFiledialogThumbnailSizeFollowsGlobalThumbnails NOTIFY filedialogThumbnailSizeFollowsGlobalThumbnailsChanged)
+    bool getFiledialogThumbnailSizeFollowsGlobalThumbnails();
+    void setFiledialogThumbnailSizeFollowsGlobalThumbnails(bool val);
+    Q_INVOKABLE const bool getDefaultForFiledialogThumbnailSizeFollowsGlobalThumbnails();
+    Q_INVOKABLE void setDefaultForFiledialogThumbnailSizeFollowsGlobalThumbnails();
+
     Q_PROPERTY(bool filedialogThumbnails READ getFiledialogThumbnails WRITE setFiledialogThumbnails NOTIFY filedialogThumbnailsChanged)
     bool getFiledialogThumbnails();
     void setFiledialogThumbnails(bool val);
@@ -1899,6 +1905,7 @@ private:
     QString m_filedialogStartupRestoreCustomFolder;
     bool m_filedialogStartupRestoreHome;
     bool m_filedialogStartupRestorePrevious;
+    bool m_filedialogThumbnailSizeFollowsGlobalThumbnails;
     bool m_filedialogThumbnails;
     bool m_filedialogThumbnailsScaleCrop;
     bool m_filedialogUseNativeFileDialog;
@@ -2222,6 +2229,7 @@ Q_SIGNALS:
     void filedialogStartupRestoreCustomFolderChanged();
     void filedialogStartupRestoreHomeChanged();
     void filedialogStartupRestorePreviousChanged();
+    void filedialogThumbnailSizeFollowsGlobalThumbnailsChanged();
     void filedialogThumbnailsChanged();
     void filedialogThumbnailsScaleCropChanged();
     void filedialogUseNativeFileDialogChanged();

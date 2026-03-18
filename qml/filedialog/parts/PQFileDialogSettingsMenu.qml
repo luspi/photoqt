@@ -265,6 +265,39 @@ PQMenu {
             }
         }
 
+        PQMenu {
+
+            id: menu_thbsze
+
+            title: qsTranslate("filedialog", "size")
+
+            ButtonGroup { id: grp_thbsze }
+
+            PQMenuItem {
+                text: qsTranslate("filedialog", "independent size")
+                checkable: true
+                checkableLikeRadioButton: true
+                ButtonGroup.group: grp_thbsze
+                checked: !PQCSettings.filedialogThumbnailSizeFollowsGlobalThumbnails
+                onCheckedChanged: {
+                    checked = Qt.binding(function() { return !PQCSettings.filedialogThumbnailSizeFollowsGlobalThumbnails })
+                }
+            }
+
+            PQMenuItem {
+                text: qsTranslate("filedialog", "follow global size")
+                checkable: true
+                checkableLikeRadioButton: true
+                ButtonGroup.group: grp_thbsze
+                checked: PQCSettings.filedialogThumbnailSizeFollowsGlobalThumbnails
+                onCheckedChanged: {
+                    PQCSettings.filedialogThumbnailSizeFollowsGlobalThumbnails = checked
+                    checked = Qt.binding(function() { return PQCSettings.filedialogThumbnailSizeFollowsGlobalThumbnails })
+                }
+            }
+
+        }
+
         PQMenuSeparator {}
 
         PQMenuItem {
