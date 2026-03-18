@@ -656,7 +656,7 @@ PQTemplate {
         if(animtype_combo.currentIndex === -1) animtype_combo.currentIndex = 0
 
         interval_slider.loadAndSetDefault(PQCSettings.slideshowTime)
-        transition_slider.loadAndSetDefault(PQCSettings.slideshowImageTransition)
+        transition_slider.loadAndSetDefault(transition_slider.to-PQCSettings.slideshowImageTransition)
         loop_check.loadAndSetDefault(PQCSettings.slideshowLoop)
         shuffle_check.loadAndSetDefault(PQCSettings.slideshowShuffle)
         winbut_check.loadAndSetDefault(PQCSettings.slideshowHideWindowButtons)
@@ -694,7 +694,7 @@ PQTemplate {
         PQCSettings.slideshowTypeAnimation = animArray[animtype_combo.currentIndex]
 
         PQCSettings.slideshowTime = interval_slider.value
-        PQCSettings.slideshowImageTransition = transition_slider.value
+        PQCSettings.slideshowImageTransition = transition_slider.to-transition_slider.value
         PQCSettings.slideshowLoop = loop_check.checked
         PQCSettings.slideshowShuffle = shuffle_check.checked
         PQCSettings.slideshowHideWindowButtons = winbut_check.checked
