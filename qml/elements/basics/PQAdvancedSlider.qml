@@ -38,8 +38,11 @@ Item {
     property int minval: 1
     property int maxval: 10
 
+    property bool logarithmicScale: false
+    property real logarithmicScaleFactor: 2.5
+
     property alias title: pretext.text
-    property alias value: slidervalue.value
+    property int value: calculateRealValue(slidervalue.value)
     property string suffix: ""
 
     property string overrideMinValText: ""
@@ -57,6 +60,12 @@ Item {
         if(!visible) {
             editMode = false
         }
+    }
+
+    function calculateRealValue(val : int) : int {
+        if(logarithmicScale)
+            return Math.ceil(minval + (maxval-minval) * Math.pow(val/1000, logarithmicScaleFactor))
+        return val
     }
 
     Flow {
@@ -103,13 +112,19 @@ Item {
                     y: (parent.height-height)/2
                     extraSmall: control.sliderExtraSmall
                     extraWide: control.sliderExtraWide
-                    from: control.minval
-                    to: control.maxval
+                    from: control.logarithmicScale ? 0 : control.minval
+                    to: control.logarithmicScale ? 1000 : control.maxval
                     suffix: control.suffix
-                    tooltip: ""
+                    tooltip: control.value
                     onValueChanged: {
-                        if(!control.editMode)
-                            spinbox.setValue(value)
+                        if(control.editMode) return
+                        spinbox.setValue(control.calculateRealValue(value))
+                    }
+                    function setValue(val : int) {
+                        if(control.logarithmicScale)
+                            value = to * Math.pow((val - control.minval)/(control.maxval-control.minval), 1/control.logarithmicScaleFactor)
+                        else
+                            value = val
                     }
                 }
 
@@ -149,7 +164,7 @@ Item {
                     sizeToText: true
                     height: spinbox.height
                     onClicked: {
-                        slidervalue.value = spinbox.value
+                        slidervalue.setValue(spinbox.value)
                         control.editMode = false
                     }
                 }
@@ -187,18 +202,18 @@ Item {
     }
 
     function setDefault(val : int) {
-        slidervalue.value = val
+        slidervalue.setValue(val)
         spinbox.setDefault(val)
     }
 
     function loadAndSetDefault(val : int) {
         acceptValue()
-        slidervalue.value = val
+        slidervalue.setValue(val)
         spinbox.loadAndSetDefault(val)
     }
 
     function setValue(val : int) {
-        slidervalue.value = val
+        slidervalue.setValue(val)
         spinbox.setValue(val)
     }
 

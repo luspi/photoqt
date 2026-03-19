@@ -47,6 +47,7 @@ PQSetting {
             sliderExtraWide: true
             minval: 32
             maxval: 4000
+            logarithmicScale: true
             title: ""
             suffix: " px"
             onValueChanged:
