@@ -42,7 +42,7 @@ Item {
     property real logarithmicScaleFactor: 2.5
 
     property alias title: pretext.text
-    property int value: calculateRealValue(slidervalue.value)
+    property int value: spinbox.value
     property string suffix: ""
 
     property string overrideMinValText: ""
@@ -60,12 +60,6 @@ Item {
         if(!visible) {
             editMode = false
         }
-    }
-
-    function calculateRealValue(val : int) : int {
-        if(logarithmicScale)
-            return Math.ceil(minval + (maxval-minval) * Math.pow(val/1000, logarithmicScaleFactor))
-        return val
     }
 
     Flow {
@@ -115,15 +109,17 @@ Item {
                     from: control.logarithmicScale ? 0 : control.minval
                     to: control.logarithmicScale ? 1000 : control.maxval
                     suffix: control.suffix
-                    tooltip: control.value
+                    tooltip: spinbox.value
                     onValueChanged: {
                         if(control.editMode) return
-                        spinbox.setValue(control.calculateRealValue(value))
+                        if(logarithmicScale)
+                            spinbox.setValue(Math.ceil(minval + (maxval-minval) * Math.pow(value/1000, logarithmicScaleFactor)))
+                        spinbox.setValue(value)
                     }
                     function setValue(val : int) {
-                        if(control.logarithmicScale)
+                        if(control.logarithmicScale) {
                             value = to * Math.pow((val - control.minval)/(control.maxval-control.minval), 1/control.logarithmicScaleFactor)
-                        else
+                        } else
                             value = val
                     }
                 }
