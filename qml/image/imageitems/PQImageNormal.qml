@@ -60,6 +60,35 @@ Item {
 
     property bool ignoreSignals: false
 
+    transform: [
+        Rotation {
+            origin.x: image.width / 2
+            origin.y: image.height / 2
+            axis { x: 0; y: 1; z: 0 }
+            angle: image.myMirrorH ? 180 : 0
+            Behavior on angle {
+                enabled: !PQCSettings.generalDisableAllAnimations
+                NumberAnimation {
+                    id: yTransform;
+                    duration: PQCSettings.imageviewMirrorAnimate ? 200 : 0
+                }
+            }
+        },
+        Rotation {
+            origin.x: image.width / 2
+            origin.y: image.height / 2
+            axis { x: 1; y: 0; z: 0 }
+            angle: image.myMirrorV ? -180 : 0
+            Behavior on angle {
+                enabled: !PQCSettings.generalDisableAllAnimations
+                NumberAnimation {
+                    id: xTransform
+                    duration: PQCSettings.imageviewMirrorAnimate ? 200 : 0
+                }
+            }
+        }
+    ]
+
     Image {
 
         id: image
@@ -76,7 +105,6 @@ Item {
 
         smooth: !PQCSettings.imageviewInterpolationDisableForSmallImages || interpThresholdMet || initialLoad
         mipmap: false
-
 
         Component.onCompleted: {
             // this is necessary, otherwise the interpThresholdMet property is not properly updated
@@ -135,23 +163,6 @@ Item {
             }
         }
 
-        transform: [
-            Rotation {
-                origin.x: image.width / 2
-                origin.y: image.height / 2
-                axis { x: 0; y: 1; z: 0 }
-                angle: image.myMirrorH ? 180 : 0
-                Behavior on angle { enabled: !PQCSettings.generalDisableAllAnimations; NumberAnimation { duration: PQCSettings.imageviewMirrorAnimate ? 200 : 0 } }
-            },
-            Rotation {
-                origin.x: image.width / 2
-                origin.y: image.height / 2
-                axis { x: 1; y: 0; z: 0 }
-                angle: image.myMirrorV ? -180 : 0
-                Behavior on angle { enabled: !PQCSettings.generalDisableAllAnimations; NumberAnimation { duration: PQCSettings.imageviewMirrorAnimate ? 200 : 0 } }
-            }
-        ]
-
         Image {
             anchors.fill: parent
             z: parent.z-1
@@ -209,7 +220,7 @@ Item {
         width: image.paintedWidth
         height: image.paintedHeight
         property bool manualHidden: false
-        active: (!image.initialLoad || image.status===Image.Ready) && (!PQCSettings.imageviewInterpolationDisableForSmallImages || image.interpThresholdMet)
+        active: (!image.initialLoad || image.status===Image.Ready) && (!PQCSettings.imageviewInterpolationDisableForSmallImages || image.interpThresholdMet) && !xTransform.running && !yTransform.running
         asynchronous: true
         sourceComponent:
         Image {
@@ -223,6 +234,7 @@ Item {
             mipmap: true
             z: parent.z+1
             asynchronous: false
+            rotation: image.rotation
             sourceSize: Qt.size(Math.min(image.sourceSize.width, width*(imgtop.delayCurrentScale/imgtop.defaultScale)),
                                 Math.min(image.sourceSize.height, height*(imgtop.delayCurrentScale/imgtop.defaultScale)))
         }
