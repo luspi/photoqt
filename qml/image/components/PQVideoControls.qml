@@ -46,9 +46,18 @@ Loader {
         width: cont_row.width+20
         height: 50
 
+        property bool mouseNotMovedRecently: false
+        Timer {
+            id: resetMouseNotMovedRecently
+            interval: 2000
+            running: true
+            onTriggered:
+                controlitem.mouseNotMovedRecently = true
+        }
+
         property bool hovered: bgmouse.containsMouse || leftrightmouse.containsMouse || volumeslider.hovered || volumebg.containsMouse ||
                                playpausemouse.containsMouse || volumeiconmouse.containsMouse || posslider.hovered
-        opacity: hovered ? 1 : 0.4
+        opacity: hovered ? 1 : (mouseNotMovedRecently&&PQCConstants.currentlyShowingVideoPlaying ? 0 : 0.4)
         Behavior on opacity { enabled: !PQCSettings.generalDisableAllAnimations; NumberAnimation { duration: 200 } }
 
         property bool manuallyDragged: false
@@ -79,6 +88,19 @@ Loader {
                 PQCConstants.extraControlsLocation = Qt.point(-1,-1)
             }
 
+            function onMouseMove(x : double, y : double) {
+                controlitem.mouseNotMovedRecently = false
+                resetMouseNotMovedRecently.restart()
+            }
+
+        }
+
+        Connections {
+            target: PQCConstants
+            function onCurrentlyShowingVideoPlayingChanged() {
+                controlitem.mouseNotMovedRecently = false
+                resetMouseNotMovedRecently.restart()
+            }
         }
 
         onXChanged: {
