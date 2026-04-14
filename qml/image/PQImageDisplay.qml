@@ -1428,7 +1428,7 @@ Loader {
                         property point pos: Qt.point(0,0)
                         from: image_wrapper.scale
                         to: loader_top.imageScale
-                        duration: loader_top.dontAnimateNextZoom ? 0 : 200
+                        duration: (loader_top.dontAnimateNextZoom||PQCSettings.generalDisableAllAnimations) ? 0 : 200
 
                         onFinished: {
                             loader_top.dontAnimateNextZoom = false

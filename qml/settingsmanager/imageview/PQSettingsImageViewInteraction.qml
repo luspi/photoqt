@@ -44,8 +44,15 @@ PQSetting {
 
             spacing: 5
 
+            PQText {
+                visible: PQCSettings.generalDisableAllAnimations
+                font.weight: PQCLook.fontWeightBold
+                text: qsTranslate("settingsmanager", "All animations are currently disabled globally.")
+            }
+
             PQAdvancedSlider {
                 id: zoomspeed
+                enabled: !PQCSettings.generalDisableAllAnimations
                 width: set_inte.contentWidth
                 minval: 1
                 maxval: 100
@@ -56,14 +63,17 @@ PQSetting {
             }
 
             Flow {
+                spacing: 5
                 PQRadioButton {
                     id: zoom_rel
+                    enabled: !PQCSettings.generalDisableAllAnimations
                     text: qsTranslate("settingsmanager", "relative zoom speed")
                     checked: PQCSettings.imageviewZoomSpeedRelative
                     onCheckedChanged: set_inte.checkForChanges()
                 }
                 PQRadioButton {
                     id: zoom_abs
+                    enabled: !PQCSettings.generalDisableAllAnimations
                     text: qsTranslate("settingsmanager", "absolute zoom speed")
                     checked: !zoom_rel.checked
                     onCheckedChanged: set_inte.checkForChanges()
@@ -80,6 +90,7 @@ PQSetting {
                 width: set_inte.contentWidth
                 PQCheckBox {
                     id: minzoom_check
+                    height: minzoom_slider.height
                     text: qsTranslate("settingsmanager", "minimum zoom") + (checked ? ": " : "  ")
                     onCheckedChanged: set_inte.checkForChanges()
                 }
@@ -104,6 +115,7 @@ PQSetting {
 
                 PQCheckBox {
                     id: maxzoom_check
+                    height: maxzoom_slider.height
                     text: qsTranslate("settingsmanager", "maximum zoom") + (checked ? ": " : "  ")
                     onCheckedChanged: set_inte.checkForChanges()
                 }
@@ -127,6 +139,7 @@ PQSetting {
         Flow {
 
             width: set_inte.contentWidth
+            spacing: 5
 
             PQText {
                 height: zoom_mousepos.height
