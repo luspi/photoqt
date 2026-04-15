@@ -407,8 +407,29 @@ Loader {
             if(!PQCSettings.imageviewZoomToCenter)
                 scaleAnimation.pos = pos
 
-            // update scale factor
-            loader_top.imageScale *= zoomfactor
+            // compute the new scaling factor
+            var newval = loader_top.imageScale*zoomfactor
+
+            // we do some checks and for that we need the adjusted ratios
+            var oldval_adjusted = loader_top.imageScale*PQCConstants.devicePixelRatio;
+            var newval_adjusted = newval*PQCConstants.devicePixelRatio;
+            var default_adjusted = loader_top.defaultScale*PQCConstants.devicePixelRatio;
+
+            // if we are either passing by 100% zoom or end up very close to it, then we 'snap into place' at 100%
+            // the third condition checks if we end up close to 100% as long as we didn't start close to 100% (otherwise we might get stuck there)
+            // the slightly less/more than 1 are due to possible inaccuracies in the floating point calculations when dividing by the device/pixel ratio
+            if((oldval_adjusted < 0.99999 && newval_adjusted > 1.00001) ||
+               (oldval_adjusted > 1.00001 && newval_adjusted < 0.99999) ||
+                (Math.abs(default_adjusted-oldval_adjusted) > 0.05 && Math.abs(1.0-newval_adjusted) < 0.05))
+                loader_top.imageScale = 1/PQCConstants.devicePixelRatio
+            // this is the same checks as above but with the default scaling ratio
+            else if((oldval_adjusted < default_adjusted-0.00001 && newval_adjusted > default_adjusted+0.00001) ||
+                    (oldval_adjusted > default_adjusted+0.00001 && newval_adjusted < default_adjusted-0.00001) ||
+                    (Math.abs(default_adjusted-oldval_adjusted) > 0.05 && Math.abs(default_adjusted-newval_adjusted) < 0.05))
+                loader_top.imageScale = loader_top.defaultScale
+            // if either condition is not met we simply set the new scaling factor unaltered
+            else
+                loader_top.imageScale = newval
 
         }
 
