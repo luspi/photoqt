@@ -190,17 +190,10 @@ Item {
             }
 
             PQMouseArea {
-                anchors.fill: parent
-                drag.target: PQCSettings.interfaceStatusInfoManageWindow ? undefined : statusinfo_top
-                drag.onActiveChanged: {
-                    if(drag.active)
-                        PQCConstants.statusInfoMovedManually = true
-                }
-
+                anchors.fill: enabled ? parent : undefined
+                enabled: PQCSettings.interfaceStatusInfoManageWindow
                 hoverEnabled: true
-                text: PQCSettings.interfaceStatusInfoManageWindow ?
-                          qsTranslate("statusinfo", "Click and drag to move window around") :
-                          qsTranslate("statusinfo", "Click and drag to move status info around")
+                text: qsTranslate("statusinfo", "Click and drag to move window around")
                 onWheel: (wheel) => {
                     wheel.accepted = true
                 }
@@ -428,6 +421,11 @@ Item {
         anchors.topMargin: (maincontainer.height-height)/2
         PQMouseArea {
             anchors.fill: parent
+            drag.target: statusinfo_top
+            drag.onActiveChanged: {
+                if(drag.active)
+                    PQCConstants.statusInfoMovedManually = true
+            }
             hoverEnabled: true
             cursorShape: Qt.PointingHandCursor
             //: Used in tooltip for the chromecast icon
@@ -442,6 +440,7 @@ Item {
         PQText {
             text: qsTranslate("statusinfo", "Click anywhere to open a file")
             font.pointSize: PQCSettings.interfaceStatusInfoFontSize
+            PQStatusInfoMouseAreaModern {}
         }
     }
 
@@ -450,6 +449,7 @@ Item {
         PQText {
             text: (PQCFileFolderModel.currentIndexNoDelay+1) + "/" + PQCFileFolderModel.countMainView
             font.pointSize: PQCSettings.interfaceStatusInfoFontSize
+            PQStatusInfoMouseAreaModern {}
         }
     }
 
@@ -458,6 +458,7 @@ Item {
         PQText {
             text: PQCScriptsFilesPaths.getFilename(PQCFileFolderModel.currentFileNoDelay)
             font.pointSize: PQCSettings.interfaceStatusInfoFontSize
+            PQStatusInfoMouseAreaModern {}
         }
     }
 
@@ -468,6 +469,7 @@ Item {
                         ? PQCScriptsFilesPaths.getFullArchivePath(PQCFileFolderModel.currentFileNoDelay)
                         : PQCFileFolderModel.currentFileNoDelay
             font.pointSize: PQCSettings.interfaceStatusInfoFontSize
+            PQStatusInfoMouseAreaModern {}
         }
     }
 
@@ -484,6 +486,7 @@ Item {
         PQText {
             text: (Math.round(PQCConstants.currentImageRotation)%360+360)%360 + "°"
             font.pointSize: PQCSettings.interfaceStatusInfoFontSize
+            PQStatusInfoMouseAreaModern {}
         }
     }
 
@@ -494,15 +497,18 @@ Item {
             PQText {
                 text: PQCConstants.currentImageResolution.width
                 font.pointSize: PQCSettings.interfaceStatusInfoFontSize
+                PQStatusInfoMouseAreaModern {}
             }
             PQText {
                 opacity: 0.7
                 text: "x"
                 font.pointSize: PQCSettings.interfaceStatusInfoFontSize
+                PQStatusInfoMouseAreaModern {}
             }
             PQText {
                 text: PQCConstants.currentImageResolution.height
                 font.pointSize: PQCSettings.interfaceStatusInfoFontSize
+                PQStatusInfoMouseAreaModern {}
             }
         }
     }
@@ -512,6 +518,7 @@ Item {
         PQText {
             text: PQCScriptsFilesPaths.getFileSizeHumanReadable(PQCFileFolderModel.currentFileNoDelay)
             font.pointSize: PQCSettings.interfaceStatusInfoFontSize
+            PQStatusInfoMouseAreaModern {}
         }
     }
 
@@ -579,6 +586,7 @@ Item {
                     csptxt.text = val
                 }
             }
+            PQStatusInfoMouseAreaModern {}
         }
     }
 
@@ -631,6 +639,7 @@ Item {
                     }
                 }
             }
+            PQStatusInfoMouseAreaModern {}
 
         }
     }

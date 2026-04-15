@@ -105,6 +105,8 @@ SET(photoqt_QML qml/PQMainWindow.qml
                 qml/ongoing/modern/PQMetaDataModernPopout.qml
                 qml/ongoing/modern/PQSlideshowControlsModernPopout.qml
 
+                qml/ongoing/modern/elements/PQStatusInfoMouseAreaModern.qml
+
                 qml/other/PQShortcuts.qml
                 qml/other/PQMultiEffect.qml
                 qml/other/PQShadowEffect.qml

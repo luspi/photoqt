@@ -40,8 +40,10 @@ ToolBar {
         color: palette.window
     }
 
+    property list<string> elements: []
+
     PQMenu {
-        id: statusinfoMouse
+        id: statusinfoMenu
         PQMenuItem {
             enabled: false
             font.italic: true
@@ -70,19 +72,49 @@ ToolBar {
             text: qsTranslate("other", "Select a file")
         }
 
-        PQText {
-            id: statusinfo
-            visible: PQCFileFolderModel.countMainView>0 && !PQCConstants.modalFileDialogOpen
-            elide: Text.ElideMiddle
-            horizontalAlignment: Qt.AlignHCenter
-            verticalAlignment: Qt.AlignVCenter
-            PQMouseArea {
-                anchors.fill: parent
-                acceptedButtons: Qt.RightButton
-                onClicked: {
-                    statusinfoMouse.popup()
+        Row {
+
+            spacing: 10
+
+            Repeater {
+                model: ftr.elements.length
+
+                Row {
+
+                    id: deleg
+
+                    spacing: 10
+
+                    required property string modelData
+
+                    Text {
+
+                        text: ftr.elements[deleg.modelData]
+
+                        PQMouseArea {
+                            property bool isZoom: PQCSettings.interfaceStatusInfoList[deleg.modelData]==="zoom"
+                            anchors.fill: parent
+                            acceptedButtons: Qt.LeftButton|Qt.RightButton
+                            cursorShape: isZoom ? Qt.PointingHandCursor : Qt.ArrowCursor
+                            hoverEnabled: true
+                            tooltip: isZoom ? qsTranslate("other", "Specify zoom level") : ""
+                            onClicked: (mouse) => {
+                                if(mouse.button === Qt.RightButton)
+                                    statusinfoMenu.popup()
+                                else if(isZoom)
+                                    PQCNotify.loaderShow("EnterZoom")
+                            }
+                        }
+
+                    }
+
+                    Text {
+                        text: "|"
+                    }
+
                 }
             }
+
         }
 
         Item {
@@ -242,7 +274,7 @@ ToolBar {
         if(!isIntegrated) return
 
         if(PQCFileFolderModel.countMainView === 0) {
-            statusinfo.text = ""
+            ftr.elements = []
             return
         }
 
@@ -273,7 +305,7 @@ ToolBar {
                 if(isNaN(PQCConstants.currentImageScale))
                     str.push("---")
                 else
-                    str.push(Math.round((PQCConstants.showingPhotoSphere ? 1 : PQCConstants.devicePixelRatio) * PQCConstants.currentImageScale*100)+"%" )
+                    str.push(Math.round((PQCConstants.showingPhotoSphere ? 1 : PQCConstants.devicePixelRatio) * PQCConstants.currentImageScale*100)+"%")
             }
 
             else if(cur === "rotation")
@@ -310,7 +342,7 @@ ToolBar {
 
         }
 
-        statusinfo.text = str.join("&nbsp;&nbsp;<font color='"+palette.disabled.text+"'><b>|</b></font>&nbsp;&nbsp;")
+        ftr.elements = str
 
     }
 
