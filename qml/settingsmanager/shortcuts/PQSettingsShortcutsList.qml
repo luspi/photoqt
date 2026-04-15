@@ -77,6 +77,8 @@ PQSetting {
                                  //: Name of shortcut action
         ["__zoomActual",         qsTranslate("settingsmanager", "Zoom to Actual Size (toggle)"), "Zoom to Actual Size (toggle)", 0],
                                  //: Name of shortcut action
+        ["__zoomEnter",          qsTranslate("settingsmanager", "Specify desired zoom level"), "Specify desired zoom level", 0],
+                                 //: Name of shortcut action
         ["__fitInWindow",        qsTranslate("settingsmanager", "Zoom to Fit Window (toggle)"), "Zoom to Fit Window (toggle)", 0],
                                  //: Name of shortcut action
         ["__zoomReset",          qsTranslate("settingsmanager", "Reset Zoom"), "Reset Zoom", 0],

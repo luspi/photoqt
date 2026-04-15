@@ -88,6 +88,7 @@ public:
         m_modalChromecastManagerOpen = false;
         m_modalFindOpen = false;
         m_modalFaceTaggerOpen = false;
+        m_modalEnterZoomLevel = false;
 
         m_slideshowRunning = false;
         m_slideshowRunningAndPlaying = false;
@@ -214,6 +215,7 @@ public:
         connect(this, &PQCConstants::modalChromecastManagerOpenChanged, this, &PQCConstants::recheckModalOpenStates);
         connect(this, &PQCConstants::modalFindOpenChanged, this, &PQCConstants::recheckModalOpenStates);
         connect(this, &PQCConstants::modalFaceTaggerOpenChanged, this, &PQCConstants::recheckModalOpenStates);
+        connect(this, &PQCConstants::modalEnterZoomLevelChanged, this, &PQCConstants::recheckModalOpenStates);
 
         /****************************************/
 
@@ -370,6 +372,7 @@ public:
     Q_PROPERTY(bool modalChromecastManagerOpen MEMBER m_modalChromecastManagerOpen NOTIFY modalChromecastManagerOpenChanged)
     Q_PROPERTY(bool modalFindOpen              MEMBER m_modalFindOpen              NOTIFY modalFindOpenChanged)
     Q_PROPERTY(bool modalFaceTaggerOpen        MEMBER m_modalFaceTaggerOpen        NOTIFY modalFaceTaggerOpenChanged)
+    Q_PROPERTY(bool modalEnterZoomLevel        MEMBER m_modalEnterZoomLevel        NOTIFY modalEnterZoomLevelChanged)
 
     /******************************************************/
     // some generic global properties
@@ -528,6 +531,7 @@ public:
         if(mdl == "ChromecastManager") return m_modalChromecastManagerOpen;
         if(mdl == "Find") return m_modalFindOpen;
         if(mdl == "facetagger") return m_modalFaceTaggerOpen;
+        if(mdl == "EnterZoom") return m_modalEnterZoomLevel;
         qWarning() << "ERROR: Unknown modal window passed on:" << mdl;
         return false;
     }
@@ -559,6 +563,7 @@ private:
     bool m_modalChromecastManagerOpen;
     bool m_modalFindOpen;
     bool m_modalFaceTaggerOpen;
+    bool m_modalEnterZoomLevel;
 
     int m_availableWidth;
     int m_availableHeight;
@@ -683,7 +688,7 @@ private Q_SLOTS:
                          m_modalFileDeleteOpen || m_modalFilterOpen || m_modalAboutOpen ||
                          m_modalSlideshowSetupOpen || m_modalAdvancedSortOpen || m_modalChromecastManagerOpen ||
                          m_modalFindOpen || m_modalFileRenameOpen || m_modalElementOpen ||
-                         m_modalFaceTaggerOpen || m_modalSlideshowControlsOpen);
+                         m_modalFaceTaggerOpen || m_modalSlideshowControlsOpen || m_modalEnterZoomLevel);
 
         Q_EMIT isModalOpenChanged();
 
@@ -713,6 +718,7 @@ Q_SIGNALS:
     void modalChromecastManagerOpenChanged();
     void modalFindOpenChanged();
     void modalFaceTaggerOpenChanged();
+    void modalEnterZoomLevelChanged();
 
     void availableWidthChanged();
     void availableHeightChanged();

@@ -67,6 +67,10 @@ Item {
 
     /*********************************************************************/
 
+    PQLoaderEnterZoomLevel { id: loader_zoom }
+
+    /*********************************************************************/
+
     PQLoaderFind { id: loader_find }
 
     /*********************************************************************/
@@ -141,6 +145,7 @@ Item {
                 "FileMove" : loader_move,
                 "MapExplorer" : loader_mapexplorer,
                 "Filter" : loader_filter,
+                "EnterZoom" : loader_zoom,
                 "SlideshowSetup" : loader_slideshowsetup,
                 "SlideshowControls" : loader_slideshowcontrols,
                 "SlideshowHandler" : loader_slideshowhandler,

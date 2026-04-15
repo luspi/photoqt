@@ -143,6 +143,7 @@ Q_SIGNALS:
     void currentAnimatedSaveFrame();
     void currentFaceTagsReload();
     void stopFaceTagging();
+    void applyZoomLevel(double fact);
     void newImageHasBeenDisplayed();
 
     // context menu properties

@@ -478,6 +478,12 @@ Item {
         PQText {
             text: Math.round((PQCConstants.showingPhotoSphere ? 1 : PQCConstants.devicePixelRatio) * PQCConstants.currentImageScale*100)+"%"
             font.pointSize: PQCSettings.interfaceStatusInfoFontSize
+            PQStatusInfoMouseAreaModern {
+                cursorShape: Qt.PointingHandCursor
+                onClicked: {
+                    PQCNotify.loaderShow("EnterZoom")
+                }
+            }
         }
     }
 

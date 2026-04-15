@@ -672,6 +672,9 @@ Item {
             case "__zoomActual":
                 PQCScriptsShortcuts.sendShortcutZoomActual()
                 break
+            case "__zoomEnter":
+                PQCNotify.loaderShow("EnterZoom")
+                break
             case "__rotateL":
                 PQCScriptsShortcuts.sendShortcutRotateAntiClock()
                 break

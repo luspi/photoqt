@@ -274,6 +274,10 @@ Loader {
                     loader_top.reloadTheImage()
             }
 
+            function onApplyZoomLevel(fact: double) {
+                loader_top.imageScale = fact
+            }
+
         }
 
         function setGlobalProperties() {

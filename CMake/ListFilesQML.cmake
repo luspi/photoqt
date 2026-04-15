@@ -87,6 +87,7 @@ SET(photoqt_QML qml/PQMainWindow.qml
                 qml/actions/PQRename.qml
                 qml/actions/PQDelete.qml
                 qml/actions/PQFind.qml
+                qml/actions/PQEnterZoomLevel.qml
 
                 qml/ongoing/PQThumbnails.qml
                 qml/ongoing/PQTrayIcon.qml
@@ -177,6 +178,7 @@ SET(photoqt_QML qml/PQMainWindow.qml
                 qml/loaders/PQLoaderShortcuts.qml
                 qml/loaders/PQLoaderLoader.qml
                 qml/loaders/PQLoaderFind.qml
+                qml/loaders/PQLoaderEnterZoomLevel.qml
 
                 qml/loaders/modern/PQLoaderWindowButtons.qml
                 qml/loaders/modern/PQLoaderWindowButtonsOnTop.qml
