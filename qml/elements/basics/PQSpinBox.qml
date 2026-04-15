@@ -32,6 +32,69 @@ SpinBox {
     property string tooltip: liveValue + tooltipSuffix
     property string tooltipSuffix: ""
 
+    background: Rectangle {
+        implicitWidth: 140
+        implicitHeight: 30
+        color: palette.alternateBase
+        border.color: palette.text
+    }
+
+    contentItem: TextInput {
+
+        z: 2
+        text: control.textFromValue(control.value, control.locale)
+
+        font: control.font
+        color: palette.text
+        selectionColor: palette.highlight
+        selectedTextColor: palette.highlightedText
+        horizontalAlignment: Qt.AlignHCenter
+        verticalAlignment: Qt.AlignVCenter
+
+        validator: control.validator
+        inputMethodHints: Qt.ImhFormattedNumbersOnly
+    }
+
+    up.indicator: Rectangle {
+
+        x: parent.width - width
+        height: parent.height/2
+        implicitWidth: 40
+        implicitHeight: 20
+        color: control.up.pressed ? palette.highlight : palette.base
+        border.color: palette.highlight
+
+        Text {
+            text: "+"
+            font.pixelSize: control.font.pixelSize * 2
+            color: palette.text
+            anchors.fill: parent
+            fontSizeMode: Text.Fit
+            horizontalAlignment: Text.AlignHCenter
+            verticalAlignment: Text.AlignVCenter
+        }
+    }
+
+    down.indicator: Rectangle {
+        x: parent.width - width
+        y: height
+        height: parent.height/2
+        implicitWidth: 40
+        implicitHeight: 20
+        color: control.down.pressed ? palette.highlight : palette.base
+        border.color: palette.highlight
+
+        Text {
+            text: "-"
+            font.pixelSize: control.font.pixelSize * 2
+            color: palette.text
+            anchors.fill: parent
+            fontSizeMode: Text.Fit
+            horizontalAlignment: Text.AlignHCenter
+            verticalAlignment: Text.AlignVCenter
+        }
+    }
+
     PQToolTip {
         id: ttip
         delay: 500
