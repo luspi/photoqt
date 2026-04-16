@@ -269,13 +269,13 @@ Loader {
                     x: (parent.width-width)/2
                     spacing: 10
 
-                    Button {
+                    PQButton {
                         id: but_save
                         text: "Save"
                         onClicked: whoisthis.save()
                     }
 
-                    Button {
+                    PQButton {
                         id: save_cancel
                         text: "Cancel"
                         onClicked: whoisthis.hide()
@@ -315,17 +315,6 @@ Loader {
 
         property bool mouseDown: false
         property point mousePressed: Qt.point(-1,-1)
-
-        Connections {
-
-            target: PQCFileFolderModel
-
-            function onCurrentFileChanged() {
-                whoisthis.hide()
-                facetagger_top.hide()
-            }
-
-        }
 
         Connections {
 
@@ -409,9 +398,6 @@ Loader {
                             else
                                 facetagger_top.hide()
 
-                        } else if(param[0] === Qt.Key_Return || param[0] === Qt.Key_Enter) {
-                            whoisthis.save()
-                            whoisthis.hide()
                         }
 
                     }
