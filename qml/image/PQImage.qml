@@ -457,7 +457,7 @@ Item {
 
         function onCurrentIndexChanged() {
 
-            if(PQCConstants.ignoreFileFolderChangesTemporary) {
+            if(PQCConstants.ignoreFileFolderChangesTemporary || PQCConstants.faceTaggingMode) {
                 console.debug("Ignoring new currentIndex:", PQCFileFolderModel.currentIndex)
                 return
             }
