@@ -969,6 +969,25 @@ if(UNIX)
         DESTINATION ${CMAKE_INSTALL_DATADIR}/metainfo/
     )
 
+else()
+
+    # automatically install all dependencies
+    install(TARGETS photoqt
+        RUNTIME_DEPENDENCIES
+        DIRECTORIES "${IMAGEMAGICK_ROOT_DIR}" "${QT_ROOT_DIR}/bin"
+        PRE_EXCLUDE_REGEXES "api-ms-" "ext-ms-"
+        POST_EXCLUDE_REGEXES ".*system32/.*\\.dll"
+        BUNDLE  DESTINATION .
+        RUNTIME DESTINATION ${CMAKE_INSTALL_PREFIX}
+    )
+
+    # call windeployqt
+    if(DEFINED WINDEPLOYQT_EXECUTABLE AND DEFINED EXTENSIONS_ROOT_DIR)
+        install(CODE "execute_process(COMMAND \"${WINDEPLOYQT_EXECUTABLE}\" --qmldir ${CMAKE_SOURCE_DIR}/qml/  --qmldir \"${EXTENSIONS_ROOT_DIR}\" --release ${CMAKE_INSTALL_PREFIX}/photoqt.exe)")
+    else()
+        message(" ** Need variables WINDEPLOYQT_EXECUTABLE and EXTENSIONS_ROOT_DIR to call windeployqt directly")
+    endif()
+
 endif()
 
 
