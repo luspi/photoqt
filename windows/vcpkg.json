@@ -1,14 +1,46 @@
 {
-    "$schema": "https://raw.githubusercontent.com/microsoft/vcpkg-tool/main/docs/vcpkg.schema.json",
-    "name": "photoqt",
-    "version-string": "4.8.1",
-    "dependencies": [
-        "exiv2",
-        "libarchive",
-        "libraw",
-        "pugixml",
-        "devil",
-        "nu-book-zxing-cpp",
-        "yaml-cpp"
-    ]
+  "$schema": "https://raw.githubusercontent.com/microsoft/vcpkg-tool/main/docs/vcpkg.schema.json",
+  "name": "photoqt",
+  "version-string": "4.8.1",
+  "dependencies": [
+    {
+      "name": "devil",
+      "features": [
+        "jasper",
+        "lcms",
+        "openexr",
+        "tiff"
+      ]
+    },
+    {
+      "name": "exiv2",
+      "features": [
+        "bmff",
+        "png",
+        "xmp"
+      ]
+    },
+    "freeimage",
+    {
+      "name": "libarchive",
+      "features": [
+        "bzip2",
+        "crypto",
+        "lz4",
+        "lzma",
+        "lzo",
+        "xar",
+        "zstd"
+      ]
+    },
+    {
+      "name": "libraw",
+      "features": [
+        "dng-lossy",
+        "openmp"
+      ]
+    },
+    "nu-book-zxing-cpp",
+    "yaml-cpp"
+  ]
 }
