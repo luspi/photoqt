@@ -288,7 +288,9 @@ Loader {
             function show() {
                 opacity = 1
                 whoisthis_name.text = ""
+                whoisthis_name.focus = true
                 whoisthis_name.forceActiveFocus()
+                whoisthis_name.selectAll()
             }
 
             function hide() {
