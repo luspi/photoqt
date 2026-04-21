@@ -41,7 +41,11 @@ PQCProviderTheme::PQCProviderTheme() : QQuickImageProvider(QQuickImageProvider::
             QIcon::setThemeName(QString("%1-dark").arg(origTheme));
         QIcon::setFallbackThemeName(origTheme);
     }
+#if __cplusplus >= 202002L
+    connect(&PQCSettingsCPP::get(), &PQCSettingsCPP::interfaceAccentColorChanged, this, [=, this]() {
+#else
     connect(&PQCSettingsCPP::get(), &PQCSettingsCPP::interfaceAccentColorChanged, this, [=]() {
+#endif
         if(PQCSettingsCPP::get().getGeneralInterfaceVariant() == "modern") {
             if(QColor(PQCSettingsCPP::get().getInterfaceAccentColor()).lightness() > 96)
                 QIcon::setThemeName(QString("%1-light").arg(origTheme));

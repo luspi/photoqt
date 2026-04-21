@@ -53,8 +53,13 @@ PQCWizard::PQCWizard(bool freshInstall, QWidget *parent) : m_freshInstall(freshI
 
     m_ui->radioModern->setChecked(!m_freshInstall);
     m_ui->radioIntegrated->setChecked(m_freshInstall);
+#if __cplusplus >= 202002L
+    connect(m_ui->radioModern, &QRadioButton::toggled, [=, this](bool checked) { storeCurrentInterface("modern"); });
+    connect(m_ui->radioIntegrated, &QRadioButton::toggled, [=, this](bool checked) { storeCurrentInterface("integrated"); });
+#else
     connect(m_ui->radioModern, &QRadioButton::toggled, [=](bool checked) { storeCurrentInterface("modern"); });
     connect(m_ui->radioIntegrated, &QRadioButton::toggled, [=](bool checked) { storeCurrentInterface("integrated"); });
+#endif
     storeCurrentInterface(freshInstall ? "integrated" : "modern");
 
     m_ui->buttonWebsite->setFixedHeight(25);

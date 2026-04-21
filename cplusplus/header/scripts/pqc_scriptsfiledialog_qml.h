@@ -68,7 +68,11 @@ public:
 
     // count folder files
     Q_INVOKABLE void getNumberOfFilesInFolder(QString path) {
+#if __cplusplus >= 202002L
+        QThreadPool::globalInstance()->start([=, this]() {
+#else
         QThreadPool::globalInstance()->start([=]() {
+#endif
             unsigned int ret = PQCScriptsFileDialog::get().getNumberOfFilesInFolder(path);
             Q_EMIT figuredOutNumberOfFilesInFolder(path, ret);
         });

@@ -97,15 +97,13 @@ PQCScriptsImages &PQCScriptsImages::get() {
 }
 
 PQCScriptsImages::PQCScriptsImages() {
-    // importedICCLastMod = 0;
-    // colorlastlocation = new QFile(QString("%1/%2").arg(PQCConfigFiles::get().CACHE_DIR(), "colorlastlocation"));
 
     // if the formats changed then we can't rely on the archive cache anymore
+#if __cplusplus >= 202002L
+    connect(&PQCImageFormats::get(), &PQCImageFormats::formatsUpdated, this, [=, this]() {archiveContentCache.clear();});
+#else
     connect(&PQCImageFormats::get(), &PQCImageFormats::formatsUpdated, this, [=]() {archiveContentCache.clear();});
-
-    // loadColorProfileInfo();
-
-    // lcms2CountFailedApplications = 0;
+#endif
 
     devicePixelRatioCachedWhen = 0;
 
@@ -213,13 +211,21 @@ void PQCScriptsImages::listArchiveContent(QString path) {
 
     if(inProcesOfLoadingTheseArchives.contains(cacheKey)) {
         qDebug() << "Archive is currently being loaded. Waiting...";
+#if __cplusplus >= 202002L
+        QTimer::singleShot(500, [=, this]() { listArchiveContent(path); } );
+#else
         QTimer::singleShot(500, [=]() { listArchiveContent(path); } );
+#endif
         return;
     }
 
     inProcesOfLoadingTheseArchives.append(cacheKey);
 
+#if __cplusplus >= 202002L
+    QFuture<void> f = QtConcurrent::run([=, this]() {
+#else
     QFuture<void> f = QtConcurrent::run([=]() {
+#endif
         const QStringList ret = PQCScriptsImages::listArchiveContentWithoutThread(path, cacheKey);
         Q_EMIT haveArchiveContentFor(path, ret);
         inProcesOfLoadingTheseArchives.removeAt(inProcesOfLoadingTheseArchives.indexOf(cacheKey));

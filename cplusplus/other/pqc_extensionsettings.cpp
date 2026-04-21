@@ -101,7 +101,11 @@ void ExtensionSettings::setup() {
 
     watcher = new QFileSystemWatcher;
     watcher->addPath(m_setPath);
+#if __cplusplus >= 202002L
+    connect(watcher, &QFileSystemWatcher::fileChanged, this, [=, this]() { readFile(); });
+#else
     connect(watcher, &QFileSystemWatcher::fileChanged, this, [=]() { readFile(); });
+#endif
 
     this->insert("ExtShow", 0);
     this->insert("ExtPosition", QPoint(-1,-1));

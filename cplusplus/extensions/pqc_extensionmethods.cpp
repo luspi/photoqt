@@ -35,7 +35,11 @@ PQCExtensionMethods::PQCExtensionMethods(QObject *parent) : QObject(parent) {
 
     connect(this, &PQCExtensionMethods::resetGeometry, &PQCExtensionsHandler::get(), &PQCExtensionsHandler::resetGeometry);
 
+#if __cplusplus >= 202002L
+    connect(&PQCNotifyCPP::get(), &PQCNotifyCPP::keyPress, this, [=, this](int key, int modifiers) {
+#else
     connect(&PQCNotifyCPP::get(), &PQCNotifyCPP::keyPress, this, [=](int key, int modifiers) {
+#endif
         QString combo = PQCScriptsShortcuts::get().analyzeModifier(static_cast<Qt::KeyboardModifiers>(modifiers)).join("+");
         if(combo != "") combo += "+";
         combo += PQCScriptsShortcuts::get().analyzeKeyPress(static_cast<Qt::Key>(key));

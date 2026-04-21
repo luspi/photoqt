@@ -287,7 +287,11 @@ PQCSingleInstance::PQCSingleInstance(int &argc, char *argv[]) : QApplication(arg
 
         handleMessage(msg);
         m_startupMessageForProcessing = msg;
+#if __cplusplus >= 202002L
+        connect(&PQCNotifyCPP::get(), &PQCNotifyCPP::reprocessStartupMessage, this, [=, this]() { handleMessage(m_startupMessageForProcessing, false); });
+#else
         connect(&PQCNotifyCPP::get(), &PQCNotifyCPP::reprocessStartupMessage, this, [=]() { handleMessage(m_startupMessageForProcessing, false); });
+#endif
 
     }
 

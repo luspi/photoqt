@@ -58,7 +58,11 @@ PQCScriptsFileManagement::PQCScriptsFileManagement() {
     undoCurFolder = PQCScriptsFilesPaths::get().getDir(PQCFileFolderModelCPP::get().getCurrentFile());
     undoTrash.clear();
 
+#if __cplusplus >= 202002L
+    connect(&PQCFileFolderModelCPP::get(), &PQCFileFolderModelCPP::currentFileChanged, this, [=, this]() {
+#else
     connect(&PQCFileFolderModelCPP::get(), &PQCFileFolderModelCPP::currentFileChanged, this, [=]() {
+#endif
         QString newFolder = PQCScriptsFilesPaths::get().getDir(PQCFileFolderModelCPP::get().getCurrentFile());
         if(undoCurFolder != newFolder) {
             undoCurFolder = newFolder;
