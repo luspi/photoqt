@@ -65,7 +65,11 @@ PQCExtensionsHandler::PQCExtensionsHandler() {
     resetNumExtensionsAll = new QTimer;
     resetNumExtensionsAll->setInterval(250);
     resetNumExtensionsAll->setSingleShot(false);
+#if __cplusplus >= 202002L
+    connect(resetNumExtensionsAll, &QTimer::timeout, this, [=, this]() {
+#else
     connect(resetNumExtensionsAll, &QTimer::timeout, this, [=]() {
+#endif
         m_numExtensionsEnabled = m_extensions.length();
         m_numExtensionsAll = m_extensions.length()+m_extensionsDisabled.length();
         m_numExtensionsFailed = m_extensionsFailed.length();
@@ -97,7 +101,11 @@ PQCExtensionsHandler::PQCExtensionsHandler() {
 
 void PQCExtensionsHandler::setup() {
 
+#if __cplusplus >= 202002L
+    QFuture<void> future = QtConcurrent::run([=, this] {
+#else
     QFuture<void> future = QtConcurrent::run([=] {
+#endif
 
 #ifdef PQMEXTENSIONS
 
@@ -614,7 +622,11 @@ bool PQCExtensionsHandler::loadExtension(PQCExtensionInfo *extinfo, QString name
                     PQCExtensionActions *actions = qobject_cast<PQCExtensionActions*>(plugin);
 
                     if(actions) {
+#if __cplusplus >= 202002L
+                        connect(actions, &PQCExtensionActions::sendMessage, this, [=, this](QVariant val) { Q_EMIT receivedMessage(hashId, val); });
+#else
                         connect(actions, &PQCExtensionActions::sendMessage, this, [=](QVariant val) { Q_EMIT receivedMessage(hashId, val); });
+#endif
                         m_actions.insert(hashId, actions);
                     }
                 }
@@ -1000,7 +1012,11 @@ void PQCExtensionsHandler::callActionNonBlocking(const QString &id, QVariant add
 
     qDebug() << "args: id =" << id;
 
+#if __cplusplus >= 202002L
+    QFuture<void> future = QtConcurrent::run([=, this] {
+#else
     QFuture<void> future = QtConcurrent::run([=] {
+#endif
         if(m_actions.contains(id)) {
             QVariant ret = m_actions[id]->action(PQCFileFolderModelCPP::get().getCurrentFile(), additional);
             Q_EMIT replyForAction(id, ret);
@@ -1016,7 +1032,11 @@ void PQCExtensionsHandler::callActionWithImageNonBlocking(const QString &id, QVa
 
     qDebug() << "args: id =" << id;
 
+#if __cplusplus >= 202002L
+    QFuture<void> future = QtConcurrent::run([=, this] {
+#else
     QFuture<void> future = QtConcurrent::run([=] {
+#endif
         QImage img;
         QSize sze;
         PQCLoadImage::get().load(PQCFileFolderModelCPP::get().getCurrentFile(), QSize(-1,-1), sze, img);
