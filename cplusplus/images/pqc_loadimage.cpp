@@ -34,7 +34,7 @@
 #include <pqc_loadimage_libsai.h>
 
 #include <pqc_loadimage.h>
-#include <pqc_settings.h>
+#include <pqc_settingscpp.h>
 #include <pqc_imageformats.h>
 #include <scripts/pqc_scriptsimages.h>
 #include <scripts/pqc_scriptscolorprofiles.h>
@@ -234,7 +234,9 @@ QString PQCLoadImage::load(QString filename, QSize requestedSize, QSize &origSiz
     if(PQCImageCache::get().getCachedImage(filename, PQCScriptsColorProfiles::get().getColorProfileFor(filename), img)) {
         origSize = img.size();
         if(requestedSize.width() > 2 && requestedSize.height() > 2 && origSize.width() > requestedSize.width() && origSize.height() > requestedSize.height())
-            img = img.scaled(requestedSize, Qt::KeepAspectRatio, Qt::SmoothTransformation);
+            img = img.scaled(requestedSize,
+                             Qt::KeepAspectRatio,
+                             (PQCSettingsCPP::get().getImageviewSmoothRescaling() ? Qt::SmoothTransformation : Qt::FastTransformation));
         return "";
     }
 

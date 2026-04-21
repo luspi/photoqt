@@ -191,15 +191,13 @@ QString PQCLoadImageDevil::load(QString filename, QSize maxSize, QSize &origSize
     // Create reader for temporary image
     QImageReader reader(tempimage);
 
+    bool imageIsScaled = false;
+
     // If image needs to be scaled down, do so now
     if(maxSize.width() > 5 && maxSize.height() > 5) {
-
-        QSize dispSize = QSize(width, height);
-
-        if(dispSize.width() > maxSize.width() || dispSize.height() > maxSize.height())
-            dispSize = dispSize.scaled(maxSize, Qt::KeepAspectRatio);
-
-        reader.setScaledSize(dispSize);
+        imageIsScaled = true;
+        const QSize dispSize = QSize(width, height);
+        reader.setScaledSize(dispSize.scaled(maxSize, Qt::KeepAspectRatio));
     }
 
     // Clear the DevIL memory
@@ -221,7 +219,7 @@ QString PQCLoadImageDevil::load(QString filename, QSize maxSize, QSize &origSize
         PQCScriptsImages::get().applyExifOrientation(filename, img);
     }
 
-    if(img.size() == origSize) {
+    if(!imageIsScaled) {
         PQCScriptsColorProfiles::get().applyColorProfile(filename, img);
         PQCImageCache::get().saveImageToCache(filename, PQCScriptsColorProfiles::get().getColorProfileFor(filename), &img);
     }

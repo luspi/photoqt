@@ -21,6 +21,7 @@
  **************************************************************************/
 
 import QtQuick
+import QtQuick.Controls
 import PhotoQt
 
 PQSetting {
@@ -155,23 +156,65 @@ PQSetting {
         PQSettingSubtitle {
 
             //: A settings title
-            title: qsTranslate("settingsmanager", "Interpolation")
+            title: qsTranslate("settingsmanager", "Rescaling Mode")
 
-            helptext: qsTranslate("settingsmanager",  "PhotoQt makes use of interpolation algorithms to show smooth lines and avoid potential artefacts to be shown. However, for small images this can lead to blurry images when no interpolation is necessary. Thus, for images smaller than the window size, PhotoQt can skip the use of interpolation algorithms.")
+            helptext: qsTranslate("settingsmanager", "Images that are requested that have a different size than their original size need to be rescaled accordingly. Many image plugins support two types of rescaling: Using bilinear smoothing for best quality, or without any smoothing for faster rescaling but potentially resulting in minor artifacts.")
 
         },
 
-        PQCheckBox {
-            id: interp_check
-            enforceMaxWidth: set_look.contentWidth
-            text: qsTranslate("settingsmanager", "disable interpolation for small images")
-            onCheckedChanged: set_look.checkForChanges()
+        PQComboBox {
+            id: rescalemode
+            width: 300
+            model: [qsTranslate("settingsmanager", "no smoothing (fast)"),
+                    qsTranslate("settingsmanager", "bilinear filtering (better quality)")]
         },
 
         PQSettingsResetButton {
             onResetToDefaults: {
 
-                interp_check.checked = PQCSettings.getDefaultForImageviewInterpolationDisableForSmallImages()
+                rescalemode.currentIndex = PQCSettings.getDefaultForImageviewSmoothRescaling() ? 1 : 0
+
+                set_look.checkForChanges()
+
+            }
+        },
+
+        /***********************************************/
+
+        PQSettingSubtitle {
+
+            //: A settings title
+            title: qsTranslate("settingsmanager", "Interpolation")
+
+            helptext: qsTranslate("settingsmanager", "Whenever an image is shown at a size that is not its original size, PhotoQt employs various techniques to make the image look right. By default, after a transformation (for example zooming) has finished, it loads and displays a properly rescaled version of the image. In certain cases it can be desirable to not do any rescaling for small images (that is, images that are smaller than the window size). It is also possible to disable this behavior altogether for all images (not recommended).")
+
+        },
+
+        PQRadioButton {
+            id: interp_all
+            ButtonGroup { id: interp_grp }
+            text: qsTranslate("settingsmanager", "Interpolate all images")
+            ButtonGroup.group: interp_grp
+        },
+
+        PQRadioButton {
+            id: interp_nosmall
+            text: qsTranslate("settingsmanager", "Interpolate all images except for small ones")
+            ButtonGroup.group: interp_grp
+        },
+
+        PQRadioButton {
+            id: interp_none
+            text: qsTranslate("settingsmanager", "Do not interpolate any images")
+            ButtonGroup.group: interp_grp
+        },
+
+        PQSettingsResetButton {
+            onResetToDefaults: {
+
+                interp_all.checked = PQCSettings.getDefaultForImageviewInterpolationDisableForImages()===0
+                interp_nosmall.checked = PQCSettings.getDefaultForImageviewInterpolationDisableForImages()===1
+                interp_none.checked = PQCSettings.getDefaultForImageviewInterpolationDisableForImages()===2
 
                 set_look.checkForChanges()
 
@@ -195,7 +238,8 @@ PQSetting {
 
         PQCConstants.settingsManagerSettingChanged = (marginslider.hasChanged() || large_fit.hasChanged() || large_full.hasChanged() ||
                                                       small_fit.hasChanged() || small_asis.hasChanged() || scale_check.hasChanged() ||
-                                                      interp_check.hasChanged())
+                                                      interp_all.hasChanged() || interp_nosmall.hasChanged() || interp_none.hasChanged() ||
+                                                      rescalemode.hasChanged())
 
     }
 
@@ -211,7 +255,11 @@ PQSetting {
         small_asis.loadAndSetDefault(!PQCSettings.imageviewFitInWindow)
         scale_check.loadAndSetDefault(PQCSettings.imageviewRespectDevicePixelRatio)
 
-        interp_check.loadAndSetDefault(PQCSettings.imageviewInterpolationDisableForSmallImages)
+        interp_all.loadAndSetDefault(PQCSettings.imageviewInterpolationDisableForImages===0)
+        interp_nosmall.loadAndSetDefault(PQCSettings.imageviewInterpolationDisableForImages===1)
+        interp_none.loadAndSetDefault(PQCSettings.imageviewInterpolationDisableForImages===2)
+
+        rescalemode.loadAndSetDefault(PQCSettings.imageviewSmoothRescaling ? 1 : 0)
 
         PQCConstants.settingsManagerSettingChanged = false
         settingsLoaded = true
@@ -232,8 +280,13 @@ PQSetting {
         small_asis.saveDefault()
         scale_check.saveDefault()
 
-        PQCSettings.imageviewInterpolationDisableForSmallImages = interp_check.checked
-        interp_check.saveDefault()
+        PQCSettings.imageviewInterpolationDisableForImages = (interp_all.checked ? 0 : (interp_nosmall.checked ? 1 : 2))
+        PQCSettings.imageviewSmoothRescaling = rescalemode.currentIndex
+
+        interp_all.saveDefault()
+        interp_nosmall.saveDefault()
+        interp_none.saveDefault()
+        rescalemode.saveDefault()
 
         PQCConstants.settingsManagerSettingChanged = false
 

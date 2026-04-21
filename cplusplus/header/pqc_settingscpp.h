@@ -82,6 +82,7 @@ public:
     bool getImageviewColorSpaceLoadEmbedded() { return m_imageviewColorSpaceLoadEmbedded; }
     bool getImageviewFitInWindow() { return m_imageviewFitInWindow; }
     bool getImageviewRespectDevicePixelRatio() { return m_imageviewRespectDevicePixelRatio; }
+    bool getImageviewSmoothRescaling() { return m_imageviewSmoothRescaling; }
     bool getImageviewSortImagesAscending() { return m_imageviewSortImagesAscending; }
     QString getImageviewSortImagesBy() { return m_imageviewSortImagesBy; }
     QString getInterfaceAccentColor() { return m_interfaceAccentColor; }
@@ -341,6 +342,12 @@ public:
                         m_imageviewRespectDevicePixelRatio = value.toInt();
                         Q_EMIT imageviewRespectDevicePixelRatioChanged();
                     }
+                } else if(table == "imageview" && name == "SmoothRescaling") {
+                    const bool val = value.toInt();
+                    if(m_imageviewSmoothRescaling != val) {
+                        m_imageviewSmoothRescaling = value.toInt();
+                        Q_EMIT imageviewSmoothRescalingChanged();
+                    }
                 } else if(table == "imageview" && name == "SortImagesAscending") {
                     const bool val = value.toInt();
                     if(m_imageviewSortImagesAscending != val) {
@@ -513,6 +520,7 @@ private:
         m_imageviewColorSpaceLoadEmbedded = true;
         m_imageviewFitInWindow = false;
         m_imageviewRespectDevicePixelRatio = true;
+        m_imageviewSmoothRescaling = true;
         m_imageviewSortImagesAscending = true;
         m_imageviewSortImagesBy = "naturalname";
         m_interfaceAccentColor = "#222222";
@@ -573,6 +581,7 @@ private:
     bool m_imageviewColorSpaceLoadEmbedded;
     bool m_imageviewFitInWindow;
     bool m_imageviewRespectDevicePixelRatio;
+    bool m_imageviewSmoothRescaling;
     bool m_imageviewSortImagesAscending;
     QString m_imageviewSortImagesBy;
     QString m_interfaceAccentColor;
@@ -612,6 +621,7 @@ Q_SIGNALS:
     void imageviewAdvancedSortQualityChanged();
     void imageviewAdvancedSortDateCriteriaChanged();
     void imageviewRespectDevicePixelRatioChanged();
+    void imageviewSmoothRescalingChanged();
     void filedialogDevicesShowTmpfsChanged();
     void filedialogShowHiddenFilesFoldersChanged();
     void filedialogFolderContentThumbnailsSortByChanged();

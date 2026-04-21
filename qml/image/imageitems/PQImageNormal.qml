@@ -220,7 +220,7 @@ Item {
         width: image.paintedWidth
         height: image.paintedHeight
         property bool manualHidden: false
-        active: (!image.initialLoad || image.status===Image.Ready) && (!PQCSettings.imageviewInterpolationDisableForSmallImages || image.interpThresholdMet) && !xTransform.running && !yTransform.running
+        active: (!image.initialLoad || image.status===Image.Ready) && (PQCSettings.imageviewInterpolationDisableForImages === 0 || (PQCSettings.imageviewInterpolationDisableForImages === 1 && image.interpThresholdMet)) && !xTransform.running && !yTransform.running
         asynchronous: true
         sourceComponent:
         Image {
@@ -230,8 +230,8 @@ Item {
             source: imgtop.source
             visible: image.status == Image.Ready && !scaledloader.manualHidden
             cache: false
-            smooth: true
-            mipmap: true
+            smooth: false
+            mipmap: false
             z: parent.z+1
             asynchronous: false
             rotation: image.rotation

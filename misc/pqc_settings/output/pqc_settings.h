@@ -667,11 +667,11 @@ public:
     Q_INVOKABLE const int getDefaultForImageviewHideCursorTimeout();
     Q_INVOKABLE void setDefaultForImageviewHideCursorTimeout();
 
-    Q_PROPERTY(bool imageviewInterpolationDisableForSmallImages READ getImageviewInterpolationDisableForSmallImages WRITE setImageviewInterpolationDisableForSmallImages NOTIFY imageviewInterpolationDisableForSmallImagesChanged)
-    bool getImageviewInterpolationDisableForSmallImages();
-    void setImageviewInterpolationDisableForSmallImages(bool val);
-    Q_INVOKABLE const bool getDefaultForImageviewInterpolationDisableForSmallImages();
-    Q_INVOKABLE void setDefaultForImageviewInterpolationDisableForSmallImages();
+    Q_PROPERTY(int imageviewInterpolationDisableForImages READ getImageviewInterpolationDisableForImages WRITE setImageviewInterpolationDisableForImages NOTIFY imageviewInterpolationDisableForImagesChanged)
+    int getImageviewInterpolationDisableForImages();
+    void setImageviewInterpolationDisableForImages(int val);
+    Q_INVOKABLE const int getDefaultForImageviewInterpolationDisableForImages();
+    Q_INVOKABLE void setDefaultForImageviewInterpolationDisableForImages();
 
     Q_PROPERTY(bool imageviewLoopThroughFolder READ getImageviewLoopThroughFolder WRITE setImageviewLoopThroughFolder NOTIFY imageviewLoopThroughFolderChanged)
     bool getImageviewLoopThroughFolder();
@@ -774,6 +774,12 @@ public:
     void setImageviewSiblingFilemaxLevelDown(int val);
     Q_INVOKABLE const int getDefaultForImageviewSiblingFilemaxLevelDown();
     Q_INVOKABLE void setDefaultForImageviewSiblingFilemaxLevelDown();
+
+    Q_PROPERTY(bool imageviewSmoothRescaling READ getImageviewSmoothRescaling WRITE setImageviewSmoothRescaling NOTIFY imageviewSmoothRescalingChanged)
+    bool getImageviewSmoothRescaling();
+    void setImageviewSmoothRescaling(bool val);
+    Q_INVOKABLE const bool getDefaultForImageviewSmoothRescaling();
+    Q_INVOKABLE void setDefaultForImageviewSmoothRescaling();
 
     Q_PROPERTY(bool imageviewSortImagesAscending READ getImageviewSortImagesAscending WRITE setImageviewSortImagesAscending NOTIFY imageviewSortImagesAscendingChanged)
     bool getImageviewSortImagesAscending();
@@ -1979,7 +1985,7 @@ private:
     bool m_imageviewEscapeExitSphere;
     bool m_imageviewFitInWindow;
     int m_imageviewHideCursorTimeout;
-    bool m_imageviewInterpolationDisableForSmallImages;
+    int m_imageviewInterpolationDisableForImages;
     bool m_imageviewLoopThroughFolder;
     int m_imageviewMargin;
     int m_imageviewMinimapSizeLevel;
@@ -1997,6 +2003,7 @@ private:
     int m_imageviewSiblingFileMaxIterations;
     int m_imageviewSiblingFileMaxLevelUp;
     int m_imageviewSiblingFilemaxLevelDown;
+    bool m_imageviewSmoothRescaling;
     bool m_imageviewSortImagesAscending;
     QString m_imageviewSortImagesBy;
     bool m_imageviewTransparencyMarker;
@@ -2303,7 +2310,7 @@ Q_SIGNALS:
     void imageviewEscapeExitSphereChanged();
     void imageviewFitInWindowChanged();
     void imageviewHideCursorTimeoutChanged();
-    void imageviewInterpolationDisableForSmallImagesChanged();
+    void imageviewInterpolationDisableForImagesChanged();
     void imageviewLoopThroughFolderChanged();
     void imageviewMarginChanged();
     void imageviewMinimapSizeLevelChanged();
@@ -2321,6 +2328,7 @@ Q_SIGNALS:
     void imageviewSiblingFileMaxIterationsChanged();
     void imageviewSiblingFileMaxLevelUpChanged();
     void imageviewSiblingFilemaxLevelDownChanged();
+    void imageviewSmoothRescalingChanged();
     void imageviewSortImagesAscendingChanged();
     void imageviewSortImagesByChanged();
     void imageviewTransparencyMarkerChanged();

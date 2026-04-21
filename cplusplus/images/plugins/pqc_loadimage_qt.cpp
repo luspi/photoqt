@@ -218,24 +218,28 @@ QString PQCLoadImageQt::load(QString filename, QSize maxSize, QSize &origSize, Q
             }
         }
 
+        bool imageIsScaled = false;
+
         // check if we need to scale the image
         if(maxSize.isValid() && origSize.isValid() && !maxSize.isNull() && !origSize.isNull()) {
 
-            QSize dispSize = origSize;
-            if(dispSize.width() > maxSize.width() || dispSize.height() > maxSize.height())
-                dispSize = dispSize.scaled(maxSize, Qt::KeepAspectRatio);
+            imageIsScaled = true;
+
+            const QSize dispSize = origSize.scaled(maxSize, Qt::KeepAspectRatio);
 
             // scaling
-            if(imgAlreadyLoaded)
-                img = img.scaled(dispSize, Qt::IgnoreAspectRatio, Qt::SmoothTransformation);
-            else
+            if(imgAlreadyLoaded) {
+                img = img.scaled(dispSize,
+                                 Qt::IgnoreAspectRatio,
+                                 (PQCSettingsCPP::get().getImageviewSmoothRescaling() ? Qt::SmoothTransformation : Qt::FastTransformation));
+            } else
                 reader.setScaledSize(dispSize);
 
         }
 
         if(!imgAlreadyLoaded && reader.canRead() && suffix != "jxl") {
             reader.read(&img);
-            if(!img.isNull() && img.size() == origSize) {
+            if(!img.isNull() && !imageIsScaled) {
                 colorProfileAlreadyApplied = true;
                 PQCScriptsColorProfiles::get().applyColorProfile(filename, img);
                 PQCImageCache::get().saveImageToCache(filename, PQCScriptsColorProfiles::get().getColorProfileFor(filename), &img);

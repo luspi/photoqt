@@ -175,11 +175,14 @@ QString PQCLoadImageMagick::load(QString filename, QSize maxSize, QSize &origSiz
         finalSize = QSize(image.columns(), image.rows());
         origSize = finalSize;
 
+        bool imageIsScaled = false;
+
         // Scale image if necessary
         if(maxSize.width() != -1) {
 
-            if(finalSize.width() > maxSize.width() || finalSize.height() > maxSize.height())
-                finalSize = finalSize.scaled(maxSize, Qt::KeepAspectRatio);
+            imageIsScaled = true;
+
+            finalSize = finalSize.scaled(maxSize, Qt::KeepAspectRatio);
 
             // For small images we can use the faster algorithm, as the quality is good enough for that
             if(finalSize.width() < 300 && finalSize.height() < 300)
@@ -204,7 +207,7 @@ QString PQCLoadImageMagick::load(QString filename, QSize maxSize, QSize &origSiz
             PQCScriptsImages::get().applyExifOrientation(filename, img);
         }
 
-        if(!img.isNull() && img.size() == origSize) {
+        if(!img.isNull() && !imageIsScaled) {
             PQCScriptsColorProfiles::get().applyColorProfile(filename, img);
             PQCImageCache::get().saveImageToCache(filename, PQCScriptsColorProfiles::get().getColorProfileFor(filename), &img);
         }

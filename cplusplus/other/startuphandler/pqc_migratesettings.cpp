@@ -109,6 +109,10 @@ void PQCMigrateSettings::migrate530() {
     const int oldThumbSize = migrationHelperGetOldValue("filedialog", "FiledialogZoom").toInt();
     migrationHelperSetNewValue("filedialog", "FiledialogZoom", oldThumbSize*40);
 
+    const bool oldDisableInterpSmall = migrationHelperGetOldValue("imageview", "InterpolationDisableForSmallImages").toBool();
+    migrationHelperRemoveValue("imageview", "InterpolationDisableForImages");
+    migrationHelperInsertValue("imageview", "InterpolationDisableForImages", {(oldDisableInterpSmall ? 1 : 0), "", "int"});
+
 }
 
 /******************************************************/

@@ -89,14 +89,12 @@ QString PQCLoadImageXCF::load(QString filename, QSize maxSize, QSize &origSize, 
 
     origSize = reader.size();
 
+    bool imageIsScaled = false;
+
     // Make sure image fits into size specified by maxSize
     if(maxSize.width() > 5 && maxSize.height() > 5) {
-        QSize dispSize = reader.size();
-
-        if(dispSize.width() > maxSize.width() || dispSize.height() > maxSize.height())
-            dispSize = dispSize.scaled(maxSize, Qt::KeepAspectRatio);
-
-        reader.setScaledSize(dispSize);
+        imageIsScaled = true;
+        reader.setScaledSize(reader.size().scaled(maxSize, Qt::KeepAspectRatio));
     }
 
     img = reader.read();
@@ -107,7 +105,7 @@ QString PQCLoadImageXCF::load(QString filename, QSize maxSize, QSize &origSize, 
         return errormsg;
     }
 
-    if(img.size() == origSize) {
+    if(!imageIsScaled) {
         PQCScriptsColorProfiles::get().applyColorProfile(filename, img);
         PQCImageCache::get().saveImageToCache(filename, PQCScriptsColorProfiles::get().getColorProfileFor(filename), &img);
     }

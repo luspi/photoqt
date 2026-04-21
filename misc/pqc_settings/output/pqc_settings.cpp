@@ -242,7 +242,7 @@ PQCSettings::PQCSettings() {
     connect(this, &PQCSettings::imageviewEscapeExitSphereChanged, this, [=]() { saveChangedValue("imageviewEscapeExitSphere", m_imageviewEscapeExitSphere); });
     connect(this, &PQCSettings::imageviewFitInWindowChanged, this, [=]() { saveChangedValue("imageviewFitInWindow", m_imageviewFitInWindow); });
     connect(this, &PQCSettings::imageviewHideCursorTimeoutChanged, this, [=]() { saveChangedValue("imageviewHideCursorTimeout", m_imageviewHideCursorTimeout); });
-    connect(this, &PQCSettings::imageviewInterpolationDisableForSmallImagesChanged, this, [=]() { saveChangedValue("imageviewInterpolationDisableForSmallImages", m_imageviewInterpolationDisableForSmallImages); });
+    connect(this, &PQCSettings::imageviewInterpolationDisableForImagesChanged, this, [=]() { saveChangedValue("imageviewInterpolationDisableForImages", m_imageviewInterpolationDisableForImages); });
     connect(this, &PQCSettings::imageviewLoopThroughFolderChanged, this, [=]() { saveChangedValue("imageviewLoopThroughFolder", m_imageviewLoopThroughFolder); });
     connect(this, &PQCSettings::imageviewMarginChanged, this, [=]() { saveChangedValue("imageviewMargin", m_imageviewMargin); });
     connect(this, &PQCSettings::imageviewMinimapSizeLevelChanged, this, [=]() { saveChangedValue("imageviewMinimapSizeLevel", m_imageviewMinimapSizeLevel); });
@@ -260,6 +260,7 @@ PQCSettings::PQCSettings() {
     connect(this, &PQCSettings::imageviewSiblingFileMaxIterationsChanged, this, [=]() { saveChangedValue("imageviewSiblingFileMaxIterations", m_imageviewSiblingFileMaxIterations); });
     connect(this, &PQCSettings::imageviewSiblingFileMaxLevelUpChanged, this, [=]() { saveChangedValue("imageviewSiblingFileMaxLevelUp", m_imageviewSiblingFileMaxLevelUp); });
     connect(this, &PQCSettings::imageviewSiblingFilemaxLevelDownChanged, this, [=]() { saveChangedValue("imageviewSiblingFilemaxLevelDown", m_imageviewSiblingFilemaxLevelDown); });
+    connect(this, &PQCSettings::imageviewSmoothRescalingChanged, this, [=]() { saveChangedValue("imageviewSmoothRescaling", m_imageviewSmoothRescaling); });
     connect(this, &PQCSettings::imageviewSortImagesAscendingChanged, this, [=]() { saveChangedValue("imageviewSortImagesAscending", m_imageviewSortImagesAscending); });
     connect(this, &PQCSettings::imageviewSortImagesByChanged, this, [=]() { saveChangedValue("imageviewSortImagesBy", m_imageviewSortImagesBy); });
     connect(this, &PQCSettings::imageviewTransparencyMarkerChanged, this, [=]() { saveChangedValue("imageviewTransparencyMarker", m_imageviewTransparencyMarker); });
@@ -2673,25 +2674,24 @@ void PQCSettings::setDefaultForImageviewHideCursorTimeout() {
     }
 }
 
-bool PQCSettings::getImageviewInterpolationDisableForSmallImages() {
-    return m_imageviewInterpolationDisableForSmallImages;
+int PQCSettings::getImageviewInterpolationDisableForImages() {
+    return m_imageviewInterpolationDisableForImages;
 }
 
-void PQCSettings::setImageviewInterpolationDisableForSmallImages(bool val) {
-    if(val != m_imageviewInterpolationDisableForSmallImages) {
-        m_imageviewInterpolationDisableForSmallImages = val;
-        Q_EMIT imageviewInterpolationDisableForSmallImagesChanged();
+void PQCSettings::setImageviewInterpolationDisableForImages(int val) {
+    if(val != m_imageviewInterpolationDisableForImages) {
+        m_imageviewInterpolationDisableForImages = val;
+        Q_EMIT imageviewInterpolationDisableForImagesChanged();
     }
 }
 
-const bool PQCSettings::getDefaultForImageviewInterpolationDisableForSmallImages() {
-        return false;
+const int PQCSettings::getDefaultForImageviewInterpolationDisableForImages() {
+        return 0;
 }
 
-void PQCSettings::setDefaultForImageviewInterpolationDisableForSmallImages() {
-    if(false != m_imageviewInterpolationDisableForSmallImages) {
-        m_imageviewInterpolationDisableForSmallImages = false;
-        Q_EMIT imageviewInterpolationDisableForSmallImagesChanged();
+void PQCSettings::setDefaultForImageviewInterpolationDisableForImages() {
+    if(0 != m_imageviewInterpolationDisableForImages) {
+        m_imageviewInterpolationDisableForImages = 0;
     }
 }
 
@@ -3058,6 +3058,28 @@ const int PQCSettings::getDefaultForImageviewSiblingFilemaxLevelDown() {
 void PQCSettings::setDefaultForImageviewSiblingFilemaxLevelDown() {
     if(2 != m_imageviewSiblingFilemaxLevelDown) {
         m_imageviewSiblingFilemaxLevelDown = 2;
+    }
+}
+
+bool PQCSettings::getImageviewSmoothRescaling() {
+    return m_imageviewSmoothRescaling;
+}
+
+void PQCSettings::setImageviewSmoothRescaling(bool val) {
+    if(val != m_imageviewSmoothRescaling) {
+        m_imageviewSmoothRescaling = val;
+        Q_EMIT imageviewSmoothRescalingChanged();
+    }
+}
+
+const bool PQCSettings::getDefaultForImageviewSmoothRescaling() {
+        return true;
+}
+
+void PQCSettings::setDefaultForImageviewSmoothRescaling() {
+    if(true != m_imageviewSmoothRescaling) {
+        m_imageviewSmoothRescaling = true;
+        Q_EMIT imageviewSmoothRescalingChanged();
     }
 }
 
@@ -7178,8 +7200,8 @@ void PQCSettings::readDB() {
                     m_imageviewFitInWindow = value.toInt();
                 } else if(name == "HideCursorTimeout") {
                     m_imageviewHideCursorTimeout = value.toInt();
-                } else if(name == "InterpolationDisableForSmallImages") {
-                    m_imageviewInterpolationDisableForSmallImages = value.toInt();
+                } else if(name == "InterpolationDisableForImages") {
+                    m_imageviewInterpolationDisableForImages = value.toInt();
                 } else if(name == "LoopThroughFolder") {
                     m_imageviewLoopThroughFolder = value.toInt();
                 } else if(name == "Margin") {
@@ -7214,6 +7236,8 @@ void PQCSettings::readDB() {
                     m_imageviewSiblingFileMaxLevelUp = value.toInt();
                 } else if(name == "SiblingFilemaxLevelDown") {
                     m_imageviewSiblingFilemaxLevelDown = value.toInt();
+                } else if(name == "SmoothRescaling") {
+                    m_imageviewSmoothRescaling = value.toInt();
                 } else if(name == "SortImagesAscending") {
                     m_imageviewSortImagesAscending = value.toInt();
                 } else if(name == "SortImagesBy") {
@@ -8010,7 +8034,7 @@ void PQCSettings::setupFresh() {
     m_imageviewEscapeExitSphere = true;
     m_imageviewFitInWindow = false;
     m_imageviewHideCursorTimeout = 1;
-    m_imageviewInterpolationDisableForSmallImages = false;
+    m_imageviewInterpolationDisableForImages = 0;
     m_imageviewLoopThroughFolder = true;
     m_imageviewMargin = 5;
     m_imageviewMinimapSizeLevel = 0;
@@ -8028,6 +8052,7 @@ void PQCSettings::setupFresh() {
     m_imageviewSiblingFileMaxIterations = 100;
     m_imageviewSiblingFileMaxLevelUp = 8;
     m_imageviewSiblingFilemaxLevelDown = 2;
+    m_imageviewSmoothRescaling = true;
     m_imageviewSortImagesAscending = true;
     m_imageviewSortImagesBy = "naturalname";
     m_imageviewTransparencyMarker = false;
@@ -8340,7 +8365,7 @@ void PQCSettings::resetToDefault() {
     setDefaultForImageviewEscapeExitSphere();
     setDefaultForImageviewFitInWindow();
     setDefaultForImageviewHideCursorTimeout();
-    setDefaultForImageviewInterpolationDisableForSmallImages();
+    setDefaultForImageviewInterpolationDisableForImages();
     setDefaultForImageviewLoopThroughFolder();
     setDefaultForImageviewMargin();
     setDefaultForImageviewMinimapSizeLevel();
@@ -8358,6 +8383,7 @@ void PQCSettings::resetToDefault() {
     setDefaultForImageviewSiblingFileMaxIterations();
     setDefaultForImageviewSiblingFileMaxLevelUp();
     setDefaultForImageviewSiblingFilemaxLevelDown();
+    setDefaultForImageviewSmoothRescaling();
     setDefaultForImageviewSortImagesAscending();
     setDefaultForImageviewSortImagesBy();
     setDefaultForImageviewTransparencyMarker();
@@ -8967,9 +8993,9 @@ QStringList PQCSettings::updateFromCommandLine() {
         m_imageviewHideCursorTimeout = val.toInt();
         Q_EMIT imageviewHideCursorTimeoutChanged();
     }
-    if(key == "imageviewInterpolationDisableForSmallImages") {
-        m_imageviewInterpolationDisableForSmallImages = (val.toInt()==1);
-        Q_EMIT imageviewInterpolationDisableForSmallImagesChanged();
+    if(key == "imageviewInterpolationDisableForImages") {
+        m_imageviewInterpolationDisableForImages = val.toInt();
+        Q_EMIT imageviewInterpolationDisableForImagesChanged();
     }
     if(key == "imageviewLoopThroughFolder") {
         m_imageviewLoopThroughFolder = (val.toInt()==1);
@@ -9038,6 +9064,10 @@ QStringList PQCSettings::updateFromCommandLine() {
     if(key == "imageviewSiblingFilemaxLevelDown") {
         m_imageviewSiblingFilemaxLevelDown = val.toInt();
         Q_EMIT imageviewSiblingFilemaxLevelDownChanged();
+    }
+    if(key == "imageviewSmoothRescaling") {
+        m_imageviewSmoothRescaling = (val.toInt()==1);
+        Q_EMIT imageviewSmoothRescalingChanged();
     }
     if(key == "imageviewSortImagesAscending") {
         m_imageviewSortImagesAscending = (val.toInt()==1);

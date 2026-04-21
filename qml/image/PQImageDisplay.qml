@@ -667,12 +667,12 @@ Loader {
 
                     id: image_wrapper
 
-                    y: (loader_top.rotatedUpright ?
-                            (height*scale-height)/2 :
-                            (-(image_wrapper.height - image_wrapper.width)/2 + (width*scale-width)/2))
-                    x: (loader_top.rotatedUpright ?
-                            (width*scale-width)/2 :
-                            (-(image_wrapper.width - image_wrapper.height)/2 + (height*scale-height)/2))
+                    y: Math.round(loader_top.rotatedUpright ?
+                                    (height*scale-height)/2 :
+                                    (-(image_wrapper.height - image_wrapper.width)/2 + (width*scale-width)/2))
+                    x: Math.round(loader_top.rotatedUpright ?
+                                    (width*scale-width)/2 :
+                                    (-(image_wrapper.width - image_wrapper.height)/2 + (height*scale-height)/2))
 
                     // some properties
                     property real prevW: loader_top.defaultWidth
