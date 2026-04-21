@@ -231,7 +231,7 @@ QString PQCLoadImageQt::load(QString filename, QSize maxSize, QSize &origSize, Q
             if(imgAlreadyLoaded) {
                 img = img.scaled(dispSize,
                                  Qt::IgnoreAspectRatio,
-                                 (PQCSettingsCPP::get().getImageviewSmoothRescaling() ? Qt::SmoothTransformation : Qt::FastTransformation));
+                                 (PQCSettingsCPP::get().getImageviewRescalingSmooth() ? Qt::SmoothTransformation : Qt::FastTransformation));
             } else
                 reader.setScaledSize(dispSize);
 

@@ -81,8 +81,8 @@ public:
     bool getImageviewColorSpaceEnable() { return m_imageviewColorSpaceEnable; }
     bool getImageviewColorSpaceLoadEmbedded() { return m_imageviewColorSpaceLoadEmbedded; }
     bool getImageviewFitInWindow() { return m_imageviewFitInWindow; }
+    bool getImageviewRescalingSmooth() { return m_imageviewRescalingSmooth; }
     bool getImageviewRespectDevicePixelRatio() { return m_imageviewRespectDevicePixelRatio; }
-    bool getImageviewSmoothRescaling() { return m_imageviewSmoothRescaling; }
     bool getImageviewSortImagesAscending() { return m_imageviewSortImagesAscending; }
     QString getImageviewSortImagesBy() { return m_imageviewSortImagesBy; }
     QString getInterfaceAccentColor() { return m_interfaceAccentColor; }
@@ -336,17 +336,17 @@ public:
                         m_imageviewFitInWindow = value.toInt();
                         Q_EMIT imageviewFitInWindowChanged();
                     }
+                } else if(table == "imageview" && name == "RescalingSmooth") {
+                    const bool val = value.toInt();
+                    if(m_imageviewRescalingSmooth != val) {
+                        m_imageviewRescalingSmooth = value.toInt();
+                        Q_EMIT imageviewRescalingSmoothChanged();
+                    }
                 } else if(table == "imageview" && name == "RespectDevicePixelRatio") {
                     const bool val = value.toInt();
                     if(m_imageviewRespectDevicePixelRatio != val) {
                         m_imageviewRespectDevicePixelRatio = value.toInt();
                         Q_EMIT imageviewRespectDevicePixelRatioChanged();
-                    }
-                } else if(table == "imageview" && name == "SmoothRescaling") {
-                    const bool val = value.toInt();
-                    if(m_imageviewSmoothRescaling != val) {
-                        m_imageviewSmoothRescaling = value.toInt();
-                        Q_EMIT imageviewSmoothRescalingChanged();
                     }
                 } else if(table == "imageview" && name == "SortImagesAscending") {
                     const bool val = value.toInt();
@@ -519,8 +519,8 @@ private:
         m_imageviewColorSpaceEnable = true;
         m_imageviewColorSpaceLoadEmbedded = true;
         m_imageviewFitInWindow = false;
+        m_imageviewRescalingSmooth = true;
         m_imageviewRespectDevicePixelRatio = true;
-        m_imageviewSmoothRescaling = true;
         m_imageviewSortImagesAscending = true;
         m_imageviewSortImagesBy = "naturalname";
         m_interfaceAccentColor = "#222222";
@@ -580,8 +580,8 @@ private:
     bool m_imageviewColorSpaceEnable;
     bool m_imageviewColorSpaceLoadEmbedded;
     bool m_imageviewFitInWindow;
+    bool m_imageviewRescalingSmooth;
     bool m_imageviewRespectDevicePixelRatio;
-    bool m_imageviewSmoothRescaling;
     bool m_imageviewSortImagesAscending;
     QString m_imageviewSortImagesBy;
     QString m_interfaceAccentColor;
@@ -621,7 +621,7 @@ Q_SIGNALS:
     void imageviewAdvancedSortQualityChanged();
     void imageviewAdvancedSortDateCriteriaChanged();
     void imageviewRespectDevicePixelRatioChanged();
-    void imageviewSmoothRescalingChanged();
+    void imageviewRescalingSmoothChanged();
     void filedialogDevicesShowTmpfsChanged();
     void filedialogShowHiddenFilesFoldersChanged();
     void filedialogFolderContentThumbnailsSortByChanged();

@@ -122,7 +122,7 @@ QString PQCLoadImagePoppler::load(QString filename, QSize maxSize, QSize &origSi
     if(maxSize.width() != -1) {
         img = img.scaled(origSize.scaled(maxSize, Qt::KeepAspectRatio),
                          Qt::IgnoreAspectRatio,
-                         (PQCSettingsCPP::get().getImageviewSmoothRescaling() ? Qt::SmoothTransformation : Qt::FastTransformation));
+                         (PQCSettingsCPP::get().getImageviewRescalingSmooth() ? Qt::SmoothTransformation : Qt::FastTransformation));
     }
 
     // return render image

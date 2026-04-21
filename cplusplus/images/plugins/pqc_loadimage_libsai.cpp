@@ -99,7 +99,7 @@ QString PQCLoadImageLibsai::load(QString filename, QSize maxSize, QSize &origSiz
 
             img = img.scaled(finalSize,
                              Qt::IgnoreAspectRatio,
-                             (PQCSettingsCPP::get().getImageviewSmoothRescaling() ? Qt::SmoothTransformation : Qt::FastTransformation));
+                             (PQCSettingsCPP::get().getImageviewRescalingSmooth() ? Qt::SmoothTransformation : Qt::FastTransformation));
 
             return "";
 
@@ -203,7 +203,7 @@ QString PQCLoadImageLibsai::load(QString filename, QSize maxSize, QSize &origSiz
     if(maxSize.width() != -1) {
         img = img.scaled(origSize.scaled(maxSize, Qt::KeepAspectRatio),
                          Qt::IgnoreAspectRatio,
-                         (PQCSettingsCPP::get().getImageviewSmoothRescaling() ? Qt::SmoothTransformation : Qt::FastTransformation));
+                         (PQCSettingsCPP::get().getImageviewRescalingSmooth() ? Qt::SmoothTransformation : Qt::FastTransformation));
     }
 
     return "";
