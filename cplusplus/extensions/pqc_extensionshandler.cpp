@@ -1528,7 +1528,7 @@ bool PQCExtensionsHandler::verifyExtension(QString extensionDir, QString nameId)
 
     int counter = 0;
 
-    QStringList ignoreFiles = {QString("lib%2.so").arg(nameId), "verification.txt", "verification.txt.sig"};
+    QStringList ignoreFiles = {QString("lib%1.so").arg(nameId), "verification.txt", "verification.txt.sig"};
     QStringList considerFileEndings = {"qml", "txt", "yml"};
 
     const QStringList lst = listFilesIn(extensionDir);
