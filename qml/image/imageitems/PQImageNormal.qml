@@ -103,8 +103,8 @@ Item {
 
         property bool interpThresholdMet: sourceSize.width > PQCConstants.availableWidth || sourceSize.height > PQCConstants.availableHeight
 
-        smooth: PQCSettings.imageviewRescalingDisableForImages>0 && (PQCSettings.imageviewInterpolationFullImage===1 || PQCSettings.imageviewInterpolationFullImage===3)
-        mipmap: PQCSettings.imageviewRescalingDisableForImages>0 && (PQCSettings.imageviewInterpolationFullImage===2 || PQCSettings.imageviewInterpolationFullImage===3)
+        smooth: PQCSettings.imageviewRescalingWhichImages>0 && (PQCSettings.imageviewInterpolationFullImage===1 || PQCSettings.imageviewInterpolationFullImage===3)
+        mipmap: PQCSettings.imageviewRescalingWhichImages>0 && (PQCSettings.imageviewInterpolationFullImage===2 || PQCSettings.imageviewInterpolationFullImage===3)
 
         Component.onCompleted: {
             // this is necessary, otherwise the interpThresholdMet property is not properly updated
@@ -220,7 +220,12 @@ Item {
         width: image.paintedWidth
         height: image.paintedHeight
         property bool manualHidden: false
-        active: (!image.initialLoad || image.status===Image.Ready) && (PQCSettings.imageviewRescalingDisableForImages === 0 || (PQCSettings.imageviewRescalingDisableForImages === 1 && image.interpThresholdMet)) && !xTransform.running && !yTransform.running
+        property int rescWhich: PQCSettings.imageviewRescalingWhichImages
+        active: (!image.initialLoad || image.status===Image.Ready) &&
+                (rescWhich===0 ||
+                 ((rescWhich===1||rescWhich===3) && image.interpThresholdMet) ||
+                 ((rescWhich===2||rescWhich===3) && PQCConstants.devicePixelRatio*PQCConstants.currentImageScale<1)) &&
+                !xTransform.running && !yTransform.running
         asynchronous: true
         sourceComponent:
         Image {

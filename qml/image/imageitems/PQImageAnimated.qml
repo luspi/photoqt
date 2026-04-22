@@ -66,11 +66,8 @@ AnimatedImage {
     // This property, initialLoad, ensures the 'true by default' value of mipmap and is set to false once we know the actual sourceSize.
     property bool initialLoad: true
 
-    smooth: !PQCSettings.imageviewInterpolationDisableForSmallImages ||
-            (sourceSize.width > PQCConstants.availableWidth && sourceSize.height > PQCConstants.availableHeight) ||
-            currentScale > 1.01 || currentScale < 0.95*defaultScale
-    mipmap: initialLoad || !PQCSettings.imageviewInterpolationDisableForSmallImages ||
-            (sourceSize.width > PQCConstants.availableWidth && sourceSize.height > PQCConstants.availableHeight)
+    smooth: (PQCSettings.imageviewInterpolationFullImage===1 || PQCSettings.imageviewInterpolationFullImage===3)
+    mipmap: (PQCSettings.imageviewInterpolationFullImage===2 || PQCSettings.imageviewInterpolationFullImage===3)
 
     onStatusChanged: {
         if(status == Image.Ready) {

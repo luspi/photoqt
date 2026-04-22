@@ -68,6 +68,8 @@ Image {
     asynchronous: true
     cache: false
 
+    property bool interpThresholdMet: sourceSize.width > PQCConstants.availableWidth || sourceSize.height > PQCConstants.availableHeight
+
     // IMPORTANT NOTE REGARDING MIPMAP !!!
     //
     // Whenever the mipmap property changes, then the image is fully reloaded.
@@ -83,11 +85,8 @@ Image {
     // This property, initialLoad, ensures the 'true by default' value of mipmap and is set to false once we know the actual sourceSize.
     property bool initialLoad: true
 
-    smooth: !PQCSettings.imageviewInterpolationDisableForSmallImages ||
-            (sourceSize.width > PQCConstants.availableWidth && sourceSize.height > PQCConstants.availableHeight) ||
-            currentScale > 1.01 || currentScale < 0.95*defaultScale
-    mipmap: initialLoad || !PQCSettings.imageviewInterpolationDisableForSmallImages ||
-            (sourceSize.width > PQCConstants.availableWidth && sourceSize.height > PQCConstants.availableHeight)
+    smooth: PQCSettings.imageviewRescalingWhichImages>0 && (PQCSettings.imageviewInterpolationFullImage===1 || PQCSettings.imageviewInterpolationFullImage===3)
+    mipmap: PQCSettings.imageviewRescalingWhichImages>0 && (PQCSettings.imageviewInterpolationFullImage===2 || PQCSettings.imageviewInterpolationFullImage===3)
 
     onVisibleChanged: {
         if(!image.visible) {
@@ -139,45 +138,79 @@ Image {
             origin.y: image.height / 2
             axis { x: 0; y: 1; z: 0 }
             angle: image.myMirrorH ? 180 : 0
-            Behavior on angle { enabled: !PQCSettings.generalDisableAllAnimations; NumberAnimation { duration: PQCSettings.imageviewMirrorAnimate ? 200 : 0 } }
+            Behavior on angle {
+                enabled: !PQCSettings.generalDisableAllAnimations
+                NumberAnimation {
+                    id: yTransform;
+                    duration: PQCSettings.imageviewMirrorAnimate ? 200 : 0
+                }
+            }
         },
         Rotation {
             origin.x: image.width / 2
             origin.y: image.height / 2
             axis { x: 1; y: 0; z: 0 }
             angle: image.myMirrorV ? -180 : 0
-            Behavior on angle { enabled: !PQCSettings.generalDisableAllAnimations; NumberAnimation { duration: PQCSettings.imageviewMirrorAnimate ? 200 : 0 } }
+            Behavior on angle {
+                enabled: !PQCSettings.generalDisableAllAnimations
+                NumberAnimation {
+                    id: xTransform
+                    duration: PQCSettings.imageviewMirrorAnimate ? 200 : 0
+                }
+            }
         }
     ]
 
-    // with a short delay we load a version of the image scaled to screen dimensions
+    onCurrentScaleChanged: {
+        if(delayCurrentScale == 0) {
+            delaySetCurrentScale.stop()
+            delaySetCurrentScale.triggered()
+        } else
+            delaySetCurrentScale.restart()
+    }
+
+    property real delayCurrentScale: 0
     Timer {
-        id: loadScaledDown
-        // this ensures it happens after the animation has stopped
-        interval: (PQCSettings.imageviewAnimationDuration+1)*100
+        id: delaySetCurrentScale
+        interval: 200
+        triggeredOnStart: true
         onTriggered: {
-            if(image.isMainImage) {
-                ldl.active = true
+            if(delaySetCurrentScale.running) {
+                scaledloader.manualHidden = true
+            } else {
+                scaledloader.manualHidden = false
+                image.delayCurrentScale = image.currentScale
             }
         }
     }
 
-    // image scaled to screen dimensions
     Loader {
-        id: ldl
+        id: scaledloader
+        width: image.paintedWidth
+        height: image.paintedHeight
+        property bool manualHidden: false
+        property int rescWhich: PQCSettings.imageviewRescalingWhichImages
+        active: (!image.initialLoad || image.status===Image.Ready) &&
+                (rescWhich===0 ||
+                 ((rescWhich===1||rescWhich===3) && image.interpThresholdMet) ||
+                 ((rescWhich===2||rescWhich===3) && PQCConstants.devicePixelRatio*PQCConstants.currentImageScale<1)) &&
+                !xTransform.running && !yTransform.running
         asynchronous: true
-        active: false
         sourceComponent:
         Image {
-            width: image.width
-            height: image.height
+            id: scaledimage
+            width: image.paintedWidth
+            height: image.paintedHeight
             source: image.source
-            smooth: image.currentScale < 0.95*image.defaultScale
-            mipmap: smooth
+            visible: image.status == Image.Ready && !scaledloader.manualHidden
             cache: false
-            visible: image.defaultScale >= image.currentScale
-            asynchronous: true
-            sourceSize: Qt.size(PQCConstants.availableWidth, PQCConstants.availableHeight)
+            smooth: false
+            mipmap: false
+            z: parent.z+1
+            asynchronous: false
+            rotation: image.rotation
+            sourceSize: Qt.size(Math.min(image.sourceSize.width, width*(image.delayCurrentScale/image.defaultScale)),
+                                Math.min(image.sourceSize.height, height*(image.delayCurrentScale/image.defaultScale)))
         }
     }
 
@@ -211,10 +244,6 @@ Image {
     onStatusChanged: {
         if(status == Image.Error)
             source = "image://svg/:/other/errorimage.svg"
-        else if(status == Image.Ready) {
-            if(image.defaultScale < 0.95)
-                loadScaledDown.restart()
-        }
     }
 
     Connections {
@@ -224,21 +253,6 @@ Image {
         function onCurrentDocumentJump(leftright : int) {
             loadNewPage.interval = 0
             image.currentPage = (image.currentPage+leftright+image.pageCount)%image.pageCount
-        }
-
-    }
-
-    Connections {
-
-        target: PQCConstants
-
-        function onAvailableWidthChanged() {
-            if(image.defaultScale < 0.95)
-                loadScaledDown.restart()
-        }
-        function onAvailableHeightChanged() {
-            if(image.defaultScale < 0.95)
-                loadScaledDown.restart()
         }
 
     }

@@ -733,17 +733,17 @@ public:
     Q_INVOKABLE const bool getDefaultForImageviewRememberZoomRotationMirror();
     Q_INVOKABLE void setDefaultForImageviewRememberZoomRotationMirror();
 
-    Q_PROPERTY(int imageviewRescalingDisableForImages READ getImageviewRescalingDisableForImages WRITE setImageviewRescalingDisableForImages NOTIFY imageviewRescalingDisableForImagesChanged)
-    int getImageviewRescalingDisableForImages();
-    void setImageviewRescalingDisableForImages(int val);
-    Q_INVOKABLE const int getDefaultForImageviewRescalingDisableForImages();
-    Q_INVOKABLE void setDefaultForImageviewRescalingDisableForImages();
-
     Q_PROPERTY(bool imageviewRescalingSmooth READ getImageviewRescalingSmooth WRITE setImageviewRescalingSmooth NOTIFY imageviewRescalingSmoothChanged)
     bool getImageviewRescalingSmooth();
     void setImageviewRescalingSmooth(bool val);
     Q_INVOKABLE const bool getDefaultForImageviewRescalingSmooth();
     Q_INVOKABLE void setDefaultForImageviewRescalingSmooth();
+
+    Q_PROPERTY(int imageviewRescalingWhichImages READ getImageviewRescalingWhichImages WRITE setImageviewRescalingWhichImages NOTIFY imageviewRescalingWhichImagesChanged)
+    int getImageviewRescalingWhichImages();
+    void setImageviewRescalingWhichImages(int val);
+    Q_INVOKABLE const int getDefaultForImageviewRescalingWhichImages();
+    Q_INVOKABLE void setDefaultForImageviewRescalingWhichImages();
 
     Q_PROPERTY(int imageviewResetViewAutoHideTimeout READ getImageviewResetViewAutoHideTimeout WRITE setImageviewResetViewAutoHideTimeout NOTIFY imageviewResetViewAutoHideTimeoutChanged)
     int getImageviewResetViewAutoHideTimeout();
@@ -2002,8 +2002,8 @@ private:
     bool m_imageviewPreserveRotation;
     bool m_imageviewPreserveZoom;
     bool m_imageviewRememberZoomRotationMirror;
-    int m_imageviewRescalingDisableForImages;
     bool m_imageviewRescalingSmooth;
+    int m_imageviewRescalingWhichImages;
     int m_imageviewResetViewAutoHideTimeout;
     bool m_imageviewResetViewShow;
     bool m_imageviewRespectDevicePixelRatio;
@@ -2328,8 +2328,8 @@ Q_SIGNALS:
     void imageviewPreserveRotationChanged();
     void imageviewPreserveZoomChanged();
     void imageviewRememberZoomRotationMirrorChanged();
-    void imageviewRescalingDisableForImagesChanged();
     void imageviewRescalingSmoothChanged();
+    void imageviewRescalingWhichImagesChanged();
     void imageviewResetViewAutoHideTimeoutChanged();
     void imageviewResetViewShowChanged();
     void imageviewRespectDevicePixelRatioChanged();

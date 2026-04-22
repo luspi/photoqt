@@ -158,7 +158,7 @@ PQSetting {
             //: A settings title
             title: qsTranslate("settingsmanager", "Rescaling and Interpolation")
 
-            helptext: qsTranslate("settingsmanager", "Whenever an image is shown at a size that is not its original size, PhotoQt employs various techniques to make the image look right. By default, after a transformation (for example zooming) has completed, it loads and displays a properly rescaled version of the image. In certain cases it can be desirable to not do any rescaling for small images (that is, images that are smaller than the window size). It is also possible to disable this behavior altogether for all images (not recommended). When an image is not to be rescaled, then some real-time interpolation can be applied to the displayed image.")
+            helptext: qsTranslate("settingsmanager", "Whenever an image is shown at a size that is not its original size, PhotoQt employs various techniques to make the image look right. By default, after a transformation (for example zooming) has completed, it loads and displays a properly rescaled version of the image. In certain cases it can be desirable to not do any rescaling for small images (that is, images that are smaller than the window size) or rescale images beyond their original size. It is also possible to disable this behavior altogether for all images (not recommended). When an image is not to be rescaled, then some real-time interpolation can be applied to the displayed image.")
 
         },
 
@@ -167,43 +167,66 @@ PQSetting {
             ButtonGroup { id: interp_grp }
             text: qsTranslate("settingsmanager", "Rescale all images")
             ButtonGroup.group: interp_grp
+            onCheckedChanged: set_look.checkForChanges()
         },
 
-        PQRadioButton {
-            id: interp_nosmall
-            text: qsTranslate("settingsmanager", "Rescale all images except for small ones")
-            ButtonGroup.group: interp_grp
+        Row {
+
+            enabled: interp_all.checked
+
+            Item {
+                width: 20
+                height: 1
+            }
+
+            Column {
+                PQCheckBox {
+                    id: interp_exceptsmall
+                    text: qsTranslate("settingsmanager", "Don't rescale small images")
+                    onCheckedChanged: set_look.checkForChanges()
+                }
+                PQCheckBox {
+                    id: interp_noupscale
+                    text: qsTranslate("settingsmanager", "Don't rescale images beyond original size")
+                    onCheckedChanged: set_look.checkForChanges()
+                }
+            }
+
         },
 
         PQRadioButton {
             id: interp_none
             text: qsTranslate("settingsmanager", "Do not rescale any images")
             ButtonGroup.group: interp_grp
+            onCheckedChanged: set_look.checkForChanges()
         },
 
         Flow {
             spacing: 10
             width: set_look.contentWidth
-            enabled: !interp_all.checked
             PQText {
-                text: qsTranslate("settingsmanager", "real-time interpolation instead of rescaling:")
+                text: qsTranslate("settingsmanager", "real-time interpolation:")
             }
             PQCheckBox {
                 id: interp_smooth
                 text: "smooth"
+                onCheckedChanged: set_look.checkForChanges()
             }
             PQCheckBox {
                 id: interp_mipmap
                 text: "mipmap"
+                onCheckedChanged: set_look.checkForChanges()
             }
         },
 
         PQSettingsResetButton {
             onResetToDefaults: {
 
-                interp_all.checked = PQCSettings.getDefaultForImageviewRescalingDisableForImages()===0
-                interp_nosmall.checked = PQCSettings.getDefaultForImageviewRescalingDisableForImages()===1
-                interp_none.checked = PQCSettings.getDefaultForImageviewRescalingDisableForImages()===2
+                var val = PQCSettings.getDefaultForImageviewRescalingWhichImages()
+                interp_all.checked = (val<4)
+                interp_exceptsmall.checked = (val===1||val===3)
+                interp_noupscale.checked = (val===2||val===3)
+                interp_none.checked = (val===4)
 
                 interp_smooth.checked = (PQCSettings.getDefaultForImageviewInterpolationFullImage()===1||PQCSettings.getDefaultForImageviewInterpolationFullImage()===3)
                 interp_mipmap.checked = (PQCSettings.getDefaultForImageviewInterpolationFullImage()===2||PQCSettings.getDefaultForImageviewInterpolationFullImage()===3)
@@ -229,6 +252,7 @@ PQSetting {
             width: 300
             model: [qsTranslate("settingsmanager", "no smoothing (faster)"),
                     qsTranslate("settingsmanager", "bilinear filtering (better quality)")]
+            onCurrentIndexChanged: set_look.checkForChanges()
         },
 
         PQSettingsResetButton {
@@ -258,8 +282,9 @@ PQSetting {
 
         PQCConstants.settingsManagerSettingChanged = (marginslider.hasChanged() || large_fit.hasChanged() || large_full.hasChanged() ||
                                                       small_fit.hasChanged() || small_asis.hasChanged() || scale_check.hasChanged() ||
-                                                      interp_all.hasChanged() || interp_nosmall.hasChanged() || interp_none.hasChanged() ||
-                                                      rescalemode.hasChanged() || interp_smooth.hasChanged() || interp_mipmap.hasChanged())
+                                                      interp_all.hasChanged() || interp_exceptsmall.hasChanged() || interp_noupscale.hasChanged() ||
+                                                      interp_none.hasChanged() || rescalemode.hasChanged() || interp_smooth.hasChanged() ||
+                                                      interp_mipmap.hasChanged())
 
     }
 
@@ -275,19 +300,26 @@ PQSetting {
         small_asis.loadAndSetDefault(!PQCSettings.imageviewFitInWindow)
         scale_check.loadAndSetDefault(PQCSettings.imageviewRespectDevicePixelRatio)
 
-        interp_all.loadAndSetDefault(PQCSettings.imageviewRescalingDisableForImages===0)
-        interp_nosmall.loadAndSetDefault(PQCSettings.imageviewRescalingDisableForImages===1)
-        interp_none.loadAndSetDefault(PQCSettings.imageviewRescalingDisableForImages===2)
+        // PQCSettings.imageviewRescalingWhichImages values:
+        // 0 := rescale all
+        // 1 := rescale all except small
+        // 2 := rescale except beyond original size
+        // 3 := rescale except small or beyond original size
+        // 4 := do not rescale anything
+        interp_all.loadAndSetDefault(PQCSettings.imageviewRescalingWhichImages < 4)
+        interp_exceptsmall.loadAndSetDefault(PQCSettings.imageviewRescalingWhichImages===1||PQCSettings.imageviewRescalingWhichImages===3)
+        interp_noupscale.loadAndSetDefault(PQCSettings.imageviewRescalingWhichImages===2||PQCSettings.imageviewRescalingWhichImages===3)
+        interp_none.loadAndSetDefault(PQCSettings.imageviewRescalingWhichImages===4)
 
-        rescalemode.loadAndSetDefault(PQCSettings.imageviewRescalingSmooth ? 1 : 0)
-
-        // PQCSettings.getDefaultForImageviewInterpolationFullImage values:
+        // PQCSettings.imageviewInterpolationFullImage values:
         // 0 := none
         // 1 := smooth only
         // 2 := mipmap only
         // 3 := smooth and mipmap
-        interp_smooth.loadAndSetDefault(PQCSettings.getDefaultForImageviewInterpolationFullImage()===1||PQCSettings.getDefaultForImageviewInterpolationFullImage()===3)
-        interp_mipmap.loadAndSetDefault(PQCSettings.getDefaultForImageviewInterpolationFullImage()===2||PQCSettings.getDefaultForImageviewInterpolationFullImage()===3)
+        interp_smooth.loadAndSetDefault(PQCSettings.imageviewInterpolationFullImage===1||PQCSettings.imageviewInterpolationFullImage===3)
+        interp_mipmap.loadAndSetDefault(PQCSettings.imageviewInterpolationFullImage===2||PQCSettings.imageviewInterpolationFullImage===3)
+
+        rescalemode.loadAndSetDefault(PQCSettings.imageviewRescalingSmooth ? 1 : 0)
 
         PQCConstants.settingsManagerSettingChanged = false
         settingsLoaded = true
@@ -308,7 +340,18 @@ PQSetting {
         small_asis.saveDefault()
         scale_check.saveDefault()
 
-        PQCSettings.imageviewRescalingDisableForImages = (interp_all.checked ? 0 : (interp_nosmall.checked ? 1 : 2))
+        if(interp_all.checked) {
+            if(interp_exceptsmall.checked && interp_noupscale.checked)
+                PQCSettings.imageviewRescalingWhichImages = 3
+            else if(interp_noupscale.checked)
+                PQCSettings.imageviewRescalingWhichImages = 2
+            else if(interp_exceptsmall.checked)
+                PQCSettings.imageviewRescalingWhichImages = 1
+            else
+                PQCSettings.imageviewRescalingWhichImages = 0
+        } else
+            PQCSettings.imageviewRescalingWhichImages = 4
+
         PQCSettings.imageviewRescalingSmooth = rescalemode.currentIndex
         PQCSettings.imageviewInterpolationFullImage = (interp_smooth.checked&&interp_mipmap.checked ?
                                                            3 :
@@ -316,8 +359,11 @@ PQSetting {
                                                                 2 :
                                                                 (interp_smooth.checked ? 1 : 0)))
 
+        console.warn(">>> PQCSettings.imageviewInterpolationFullImage =", PQCSettings.imageviewInterpolationFullImage)
+
         interp_all.saveDefault()
-        interp_nosmall.saveDefault()
+        interp_exceptsmall.saveDefault()
+        interp_noupscale.saveDefault()
         interp_none.saveDefault()
         rescalemode.saveDefault()
         interp_smooth.saveDefault()

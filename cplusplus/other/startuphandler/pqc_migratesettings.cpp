@@ -111,7 +111,7 @@ void PQCMigrateSettings::migrate530() {
 
     const bool oldDisableInterpSmall = migrationHelperGetOldValue("imageview", "InterpolationDisableForSmallImages").toBool();
     migrationHelperRemoveValue("imageview", "InterpolationDisableForSmallImages");
-    migrationHelperInsertValue("imageview", "RescalingDisableForImages", {(oldDisableInterpSmall ? 1 : 0), "", "int"});
+    migrationHelperInsertValue("imageview", "RescalingWhichImages", {(oldDisableInterpSmall ? 1 : 2), "", "int"});
 
 }
 

@@ -259,8 +259,8 @@ PQCSettings::PQCSettings() {
     connect(this, &PQCSettings::imageviewPreserveRotationChanged, this, [=, this]() { saveChangedValue("imageviewPreserveRotation", m_imageviewPreserveRotation); });
     connect(this, &PQCSettings::imageviewPreserveZoomChanged, this, [=, this]() { saveChangedValue("imageviewPreserveZoom", m_imageviewPreserveZoom); });
     connect(this, &PQCSettings::imageviewRememberZoomRotationMirrorChanged, this, [=, this]() { saveChangedValue("imageviewRememberZoomRotationMirror", m_imageviewRememberZoomRotationMirror); });
-    connect(this, &PQCSettings::imageviewRescalingDisableForImagesChanged, this, [=, this]() { saveChangedValue("imageviewRescalingDisableForImages", m_imageviewRescalingDisableForImages); });
     connect(this, &PQCSettings::imageviewRescalingSmoothChanged, this, [=, this]() { saveChangedValue("imageviewRescalingSmooth", m_imageviewRescalingSmooth); });
+    connect(this, &PQCSettings::imageviewRescalingWhichImagesChanged, this, [=, this]() { saveChangedValue("imageviewRescalingWhichImages", m_imageviewRescalingWhichImages); });
     connect(this, &PQCSettings::imageviewResetViewAutoHideTimeoutChanged, this, [=, this]() { saveChangedValue("imageviewResetViewAutoHideTimeout", m_imageviewResetViewAutoHideTimeout); });
     connect(this, &PQCSettings::imageviewResetViewShowChanged, this, [=, this]() { saveChangedValue("imageviewResetViewShow", m_imageviewResetViewShow); });
     connect(this, &PQCSettings::imageviewRespectDevicePixelRatioChanged, this, [=, this]() { saveChangedValue("imageviewRespectDevicePixelRatio", m_imageviewRespectDevicePixelRatio); });
@@ -569,8 +569,8 @@ PQCSettings::PQCSettings() {
     connect(this, &PQCSettings::imageviewPreserveRotationChanged, this, [=]() { saveChangedValue("imageviewPreserveRotation", m_imageviewPreserveRotation); });
     connect(this, &PQCSettings::imageviewPreserveZoomChanged, this, [=]() { saveChangedValue("imageviewPreserveZoom", m_imageviewPreserveZoom); });
     connect(this, &PQCSettings::imageviewRememberZoomRotationMirrorChanged, this, [=]() { saveChangedValue("imageviewRememberZoomRotationMirror", m_imageviewRememberZoomRotationMirror); });
-    connect(this, &PQCSettings::imageviewRescalingDisableForImagesChanged, this, [=]() { saveChangedValue("imageviewRescalingDisableForImages", m_imageviewRescalingDisableForImages); });
     connect(this, &PQCSettings::imageviewRescalingSmoothChanged, this, [=]() { saveChangedValue("imageviewRescalingSmooth", m_imageviewRescalingSmooth); });
+    connect(this, &PQCSettings::imageviewRescalingWhichImagesChanged, this, [=]() { saveChangedValue("imageviewRescalingWhichImages", m_imageviewRescalingWhichImages); });
     connect(this, &PQCSettings::imageviewResetViewAutoHideTimeoutChanged, this, [=]() { saveChangedValue("imageviewResetViewAutoHideTimeout", m_imageviewResetViewAutoHideTimeout); });
     connect(this, &PQCSettings::imageviewResetViewShowChanged, this, [=]() { saveChangedValue("imageviewResetViewShow", m_imageviewResetViewShow); });
     connect(this, &PQCSettings::imageviewRespectDevicePixelRatioChanged, this, [=]() { saveChangedValue("imageviewRespectDevicePixelRatio", m_imageviewRespectDevicePixelRatio); });
@@ -3009,12 +3009,12 @@ void PQCSettings::setImageviewInterpolationFullImage(int val) {
 }
 
 const int PQCSettings::getDefaultForImageviewInterpolationFullImage() {
-        return 3;
+        return 1;
 }
 
 void PQCSettings::setDefaultForImageviewInterpolationFullImage() {
-    if(3 != m_imageviewInterpolationFullImage) {
-        m_imageviewInterpolationFullImage = 3;
+    if(1 != m_imageviewInterpolationFullImage) {
+        m_imageviewInterpolationFullImage = 1;
     }
 }
 
@@ -3234,27 +3234,6 @@ void PQCSettings::setDefaultForImageviewRememberZoomRotationMirror() {
     }
 }
 
-int PQCSettings::getImageviewRescalingDisableForImages() {
-    return m_imageviewRescalingDisableForImages;
-}
-
-void PQCSettings::setImageviewRescalingDisableForImages(int val) {
-    if(val != m_imageviewRescalingDisableForImages) {
-        m_imageviewRescalingDisableForImages = val;
-        Q_EMIT imageviewRescalingDisableForImagesChanged();
-    }
-}
-
-const int PQCSettings::getDefaultForImageviewRescalingDisableForImages() {
-        return 0;
-}
-
-void PQCSettings::setDefaultForImageviewRescalingDisableForImages() {
-    if(0 != m_imageviewRescalingDisableForImages) {
-        m_imageviewRescalingDisableForImages = 0;
-    }
-}
-
 bool PQCSettings::getImageviewRescalingSmooth() {
     return m_imageviewRescalingSmooth;
 }
@@ -3274,6 +3253,27 @@ void PQCSettings::setDefaultForImageviewRescalingSmooth() {
     if(true != m_imageviewRescalingSmooth) {
         m_imageviewRescalingSmooth = true;
         Q_EMIT imageviewRescalingSmoothChanged();
+    }
+}
+
+int PQCSettings::getImageviewRescalingWhichImages() {
+    return m_imageviewRescalingWhichImages;
+}
+
+void PQCSettings::setImageviewRescalingWhichImages(int val) {
+    if(val != m_imageviewRescalingWhichImages) {
+        m_imageviewRescalingWhichImages = val;
+        Q_EMIT imageviewRescalingWhichImagesChanged();
+    }
+}
+
+const int PQCSettings::getDefaultForImageviewRescalingWhichImages() {
+        return 2;
+}
+
+void PQCSettings::setDefaultForImageviewRescalingWhichImages() {
+    if(2 != m_imageviewRescalingWhichImages) {
+        m_imageviewRescalingWhichImages = 2;
     }
 }
 
@@ -7566,10 +7566,10 @@ void PQCSettings::readDB() {
                     m_imageviewPreserveZoom = value.toInt();
                 } else if(name == "RememberZoomRotationMirror") {
                     m_imageviewRememberZoomRotationMirror = value.toInt();
-                } else if(name == "RescalingDisableForImages") {
-                    m_imageviewRescalingDisableForImages = value.toInt();
                 } else if(name == "RescalingSmooth") {
                     m_imageviewRescalingSmooth = value.toInt();
+                } else if(name == "RescalingWhichImages") {
+                    m_imageviewRescalingWhichImages = value.toInt();
                 } else if(name == "ResetViewAutoHideTimeout") {
                     m_imageviewResetViewAutoHideTimeout = value.toInt();
                 } else if(name == "ResetViewShow") {
@@ -8380,7 +8380,7 @@ void PQCSettings::setupFresh() {
     m_imageviewEscapeExitSphere = true;
     m_imageviewFitInWindow = false;
     m_imageviewHideCursorTimeout = 1;
-    m_imageviewInterpolationFullImage = 3;
+    m_imageviewInterpolationFullImage = 1;
     m_imageviewLoopThroughFolder = true;
     m_imageviewMargin = 5;
     m_imageviewMinimapSizeLevel = 0;
@@ -8391,8 +8391,8 @@ void PQCSettings::setupFresh() {
     m_imageviewPreserveRotation = false;
     m_imageviewPreserveZoom = false;
     m_imageviewRememberZoomRotationMirror = false;
-    m_imageviewRescalingDisableForImages = 0;
     m_imageviewRescalingSmooth = true;
+    m_imageviewRescalingWhichImages = 2;
     m_imageviewResetViewAutoHideTimeout = 1000;
     m_imageviewResetViewShow = false;
     m_imageviewRespectDevicePixelRatio = true;
@@ -8723,8 +8723,8 @@ void PQCSettings::resetToDefault() {
     setDefaultForImageviewPreserveRotation();
     setDefaultForImageviewPreserveZoom();
     setDefaultForImageviewRememberZoomRotationMirror();
-    setDefaultForImageviewRescalingDisableForImages();
     setDefaultForImageviewRescalingSmooth();
+    setDefaultForImageviewRescalingWhichImages();
     setDefaultForImageviewResetViewAutoHideTimeout();
     setDefaultForImageviewResetViewShow();
     setDefaultForImageviewRespectDevicePixelRatio();
@@ -9385,13 +9385,13 @@ QStringList PQCSettings::updateFromCommandLine() {
         m_imageviewRememberZoomRotationMirror = (val.toInt()==1);
         Q_EMIT imageviewRememberZoomRotationMirrorChanged();
     }
-    if(key == "imageviewRescalingDisableForImages") {
-        m_imageviewRescalingDisableForImages = val.toInt();
-        Q_EMIT imageviewRescalingDisableForImagesChanged();
-    }
     if(key == "imageviewRescalingSmooth") {
         m_imageviewRescalingSmooth = (val.toInt()==1);
         Q_EMIT imageviewRescalingSmoothChanged();
+    }
+    if(key == "imageviewRescalingWhichImages") {
+        m_imageviewRescalingWhichImages = val.toInt();
+        Q_EMIT imageviewRescalingWhichImagesChanged();
     }
     if(key == "imageviewResetViewAutoHideTimeout") {
         m_imageviewResetViewAutoHideTimeout = val.toInt();
