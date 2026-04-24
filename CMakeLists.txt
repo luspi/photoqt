@@ -66,6 +66,7 @@ option(WITH_RESVG                 "Configure with support for the resvg library 
 option(WITH_LIBSAI                "Configure with support for the libsai library (requires C++20 support)" OFF)
 
 option(WITH_EXTENSIONS_SUPPORT    "Enable support for extensions (requires yaml-cpp and qca)" ON)
+option(WITH_EXTENSIONS_LIBRARY_VERIFICATION "Include the shared library (.so/.dll) in the verification check" ON)
 option(WITH_EXIV2                 "Configure with support for the Exiv2 library" ON)
 option(WITH_EXIV2_ENABLE_BMFF     "Configure with BMFF format support in Exiv2 (if available) - only needed for Exiv2 0.27.x and before" ON)
 option(WITH_ZXING                 "Configure with support for the ZXing library (QR and barcodes detection)" ON)
@@ -86,6 +87,8 @@ option(WITH_APPIMAGEBUILD         "Enable this option if this is an AppImage bui
 option(WITH_ADAPTSOURCE           "Adapt and change the source files for the current Qt version (if necessary)" OFF)
 option(WITHOUT_ICU                "Enable this option if your Qt6 setup has no ICU support" OFF)
 option(WITH_PORTABLETWEAKS        "Apply tweaks for a build of a portable version" OFF)
+
+set(EXTENSIONS_PUBLIC_KEY "" CACHE STRING "A custom public key to be used for extension verification.")
 
 #####################################
 #### RESOLVE CONFLICTING OPTIONS ####
@@ -130,6 +133,7 @@ set(_WITH_RESVG                 ${WITH_RESVG})
 set(_WITH_LIBSAI                ${WITH_LIBSAI})
 
 set(_WITH_EXTENSIONS_SUPPORT    ${WITH_EXTENSIONS_SUPPORT})
+set(_WITH_EXTENSIONS_LIBRARY_VERIFICATION ${WITH_EXTENSIONS_LIBRARY_VERIFICATION})
 set(_WITH_EXIV2                 ${WITH_EXIV2})
 set(_WITH_EXIV2_ENABLE_BMFF     ${WITH_EXIV2_ENABLE_BMFF})
 set(_WITH_ZXING                 ${WITH_ZXING})
@@ -402,6 +406,24 @@ endif()
 # Any additional sources are added to the full list.
 SET(photoqt_QML ${photoqt_QML} ${photoqt_QML_ADDITIONAL})
 
+#################################
+#### EXTENSIONS KEY HANDLING ####
+#################################
+
+if(EXTENSIONS_PUBLIC_KEY STREQUAL "")
+    message(" ** Use built-in public key for extension verification.")
+    file(COPY misc/extensions.key DESTINATION "${CMAKE_BINARY_DIR}")
+else()
+    message(" ** Use custom ed25519 public key for extension verification.")
+    message(" ** MAKE SURE TO SIGN THE EXTENSION VERIFICATION FILES WITH YOUR PRIVATE KEY!")
+    message(" ** See the README of the extensions for more details on how to do this.")
+    get_filename_component(keyfn "${EXTENSIONS_PUBLIC_KEY}" NAME)
+    file(COPY "${EXTENSIONS_PUBLIC_KEY}" DESTINATION "${CMAKE_BINARY_DIR}")
+    file(RENAME "${CMAKE_BINARY_DIR}/${keyfn}" "${CMAKE_BINARY_DIR}/extensions.key")
+    execute_process(COMMAND ${CMAKE_COMMAND} -E touch "${CMAKE_BINARY_DIR}/extensions.key")
+endif()
+file(COPY misc/extensions.qrc DESTINATION ${CMAKE_BINARY_DIR})
+
 ######################
 #### RUN CPPCHECK ####
 ######################
@@ -555,7 +577,7 @@ endif()
 
 qt_standard_project_setup(REQUIRES 6.4)
 
-qt_add_resources(photoqt_SOURCES misc/misc.qrc img/img.qrc img/filetypes.qrc python/python.qrc)
+qt_add_resources(photoqt_SOURCES misc/misc.qrc img/img.qrc img/filetypes.qrc python/python.qrc ${CMAKE_BINARY_DIR}/extensions.qrc)
 
 # Add Qt Designer files (currently only one, not likely to change anytime soon)
 qt_wrap_ui(photoqt_HEADER_ui cplusplus/other/startuphandler/pqc_wizard.ui)
@@ -833,6 +855,9 @@ if(_WITH_EXTENSIONS_SUPPORT)
     target_compile_definitions(photoqt PRIVATE PQMINSTALLPREFIX="${CMAKE_INSTALL_PREFIX}")
     target_compile_definitions(photoqt PRIVATE PQMBUILDDIR="${CMAKE_BINARY_DIR}")
     target_compile_definitions(photoqt PRIVATE PQMEXTENSIONS)
+    if(_WITH_EXTENSIONS_LIBRARY_VERIFICATION)
+        target_compile_definitions(photoqt PRIVATE PQMEXTENSIONSLIBRARYVERIFICATION)
+    endif()
 
     # This avoids hardcoding 'lib' as subdir for the shared libraries
     include(GNUInstallDirs)

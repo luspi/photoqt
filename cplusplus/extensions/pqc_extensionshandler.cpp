@@ -1486,7 +1486,7 @@ bool PQCExtensionsHandler::verifyExtension(QString extensionDir, QString nameId)
         return false;
     }
 
-    QFile pemfile(":/extensions/public_rsa.pem");
+    QFile pemfile(":/extensions.key");
     if(!pemfile.open(QIODevice::ReadOnly)) {
         qWarning() << "Unable to open public key for checking extension signature";
         return false;
@@ -1548,7 +1548,13 @@ bool PQCExtensionsHandler::verifyExtension(QString extensionDir, QString nameId)
 
     int counter = 0;
 
-    QStringList ignoreFiles = {QString("lib%1.so").arg(nameId), "verification.txt", "verification.txt.sig"};
+    QStringList ignoreFiles = {"verification.txt", "verification.txt.sig",
+#ifndef PQMEXTENSIONSLIBRARYVERIFICATION
+                               QString("lib%1.so").arg(nameId),
+                               QString("lib%1.dll").arg(nameId),
+                               QString("lib%1.lib").arg(nameId)
+#endif
+                                };
     QStringList considerFileEndings = {"qml", "txt", "yml"};
 
     const QStringList lst = listFilesIn(extensionDir);
