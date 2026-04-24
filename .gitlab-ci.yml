@@ -14,7 +14,7 @@ localization:
     - /usr/lib/qt6/bin/lupdate -no-obsolete ../qml/ ../cplusplus/ -ts photoqt-qt6.ts
     - git add photoqt-qt6.ts
     - git diff-index --quiet HEAD || git commit -m "updating translation source files from CI - Qt6 version"
-    - git push
+    - git push origin master
 
 appimage:
 
