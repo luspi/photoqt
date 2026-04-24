@@ -10,7 +10,7 @@ localization:
     - apt-get update && apt-get install -y qt6-base-dev qt6-l10n-tools git wget
     - git config --global user.email "Lukas@photoqt.org"
     - git config --global user.name "Lukas Spies"
-    - git clone https://luspi:"$LANG_ACCESS_TOKEN"@gitlab.com/lspies/photoqt-lang.git && cd photoqt-lang
+    - git clone https://luspi:$LANG_ACCESS_TOKEN@gitlab.com/lspies/photoqt-lang.git && cd photoqt-lang
     - /usr/lib/qt6/bin/lupdate -no-obsolete ../qml/ ../cplusplus/ -ts photoqt-qt6.ts
     - git add photoqt-qt6.ts
     - git diff-index --quiet HEAD || git commit -m "updating translation source files from CI - Qt6 version"
