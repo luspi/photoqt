@@ -192,6 +192,8 @@ private:
 
     QString m_systemExtensionDir;
 
+    bool m_isSetup;
+
 private Q_SLOTS:
     void updateTranslationLanguage();
 

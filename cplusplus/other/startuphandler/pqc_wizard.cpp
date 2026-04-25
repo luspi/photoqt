@@ -1,8 +1,8 @@
 #include <pqc_wizard.h>
 #include <scripts/pqc_scriptslocalization.h>
 #include <pqc_configfiles.h>
-#include <pqc_settingscpp.h>
 #include <ui_pqc_wizard.h>
+#include <pqc_settingscpp.h>
 #include <QSqlQuery>
 #include <QSqlDatabase>
 #include <QSqlError>

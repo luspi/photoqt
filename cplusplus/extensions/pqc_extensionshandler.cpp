@@ -59,6 +59,7 @@
 /****************************************************************/
 
 PQCExtensionsHandler::PQCExtensionsHandler() {
+    m_isSetup = false;
     m_numExtensionsEnabled = 0;
     m_numExtensionsAll = 0;
     m_numExtensionsFailed = 0;
@@ -100,6 +101,9 @@ PQCExtensionsHandler::PQCExtensionsHandler() {
 }
 
 void PQCExtensionsHandler::setup() {
+
+    if(m_isSetup) return;
+    m_isSetup = true;
 
 #if __cplusplus >= 202002L
     QFuture<void> future = QtConcurrent::run([=, this] {
@@ -204,6 +208,7 @@ void PQCExtensionsHandler::setup() {
                 extinfo->nameId = nameId;
 
                 if(!loadExtension(extinfo, nameId, hashId, extensionDir, definition, extEnabled)) {
+                    qWarning() << identifyName << "- failed to load";
                     delete extinfo;
                     continue;
                 }

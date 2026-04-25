@@ -17,7 +17,7 @@
    <enum>QWizard::WizardStyle::ModernStyle</enum>
   </property>
   <property name="options">
-   <set>QWizard::WizardOption::NoBackButtonOnStartPage</set>
+   <set>QWizard::WizardOption::NoBackButtonOnStartPage|QWizard::WizardOption::NoCancelButton</set>
   </property>
   <widget class="QWizardPage" name="page1_welcome">
    <property name="title">
@@ -52,12 +52,12 @@
        <widget class="QLabel" name="label">
         <property name="font">
          <font>
-          <pointsize>11</pointsize>
+          <pointsize>14</pointsize>
           <bold>true</bold>
          </font>
         </property>
         <property name="text">
-         <string comment="wizard">Welcome to PhotoQt. This wizard will guide you through some initial setup.</string>
+         <string comment="wizard">Welcome to PhotoQt.</string>
         </property>
         <property name="wordWrap">
          <bool>true</bool>
@@ -67,7 +67,7 @@
       <item>
        <widget class="QLabel" name="label_2">
         <property name="text">
-         <string comment="wizard">If you don't know what to do, don't worry. Anything and everything in PhotoQt can be adjusted from its powerful settings manager.</string>
+         <string comment="wizard">PhotoQt is a highly customizable media viewer. It aims to come with good defaults that should work for most people, but don't hesitate to check out its powerful settings manager.</string>
         </property>
         <property name="wordWrap">
          <bool>true</bool>
@@ -160,7 +160,7 @@
           <property name="font">
            <font>
             <pointsize>9</pointsize>
-            <bold>false</bold>
+            <bold>true</bold>
            </font>
           </property>
           <property name="styleSheet">
@@ -204,7 +204,7 @@
           <property name="font">
            <font>
             <pointsize>9</pointsize>
-            <bold>false</bold>
+            <bold>true</bold>
            </font>
           </property>
           <property name="styleSheet">
@@ -242,7 +242,7 @@
           <property name="font">
            <font>
             <pointsize>9</pointsize>
-            <bold>false</bold>
+            <bold>true</bold>
            </font>
           </property>
           <property name="styleSheet">
@@ -436,7 +436,7 @@
           <property name="font">
            <font>
             <pointsize>9</pointsize>
-            <bold>false</bold>
+            <bold>true</bold>
            </font>
           </property>
           <property name="styleSheet">
@@ -480,7 +480,7 @@
           <property name="font">
            <font>
             <pointsize>9</pointsize>
-            <bold>false</bold>
+            <bold>true</bold>
            </font>
           </property>
           <property name="styleSheet">
@@ -518,7 +518,7 @@
           <property name="font">
            <font>
             <pointsize>9</pointsize>
-            <bold>false</bold>
+            <bold>true</bold>
            </font>
           </property>
           <property name="styleSheet">
@@ -535,77 +535,6 @@
        </layout>
       </item>
      </layout>
-    </item>
-   </layout>
-  </widget>
-  <widget class="QWizardPage" name="page2_extensions">
-   <property name="title">
-    <string>Extensions</string>
-   </property>
-   <property name="subTitle">
-    <string>Here you can enable/disable any available extension.</string>
-   </property>
-   <layout class="QVBoxLayout" name="verticalLayout_7">
-    <item>
-     <widget class="QLabel" name="label_5">
-      <property name="text">
-       <string>Below you find a list of extensions that were found. Only extensions that have been verified are listed here. You can also manage the extensions at any point from the settings manager.</string>
-      </property>
-      <property name="wordWrap">
-       <bool>true</bool>
-      </property>
-     </widget>
-    </item>
-    <item>
-     <widget class="QScrollArea" name="extensionsList">
-      <property name="widgetResizable">
-       <bool>true</bool>
-      </property>
-      <widget class="QWidget" name="scrollAreaWidgetContents">
-       <property name="geometry">
-        <rect>
-         <x>0</x>
-         <y>0</y>
-         <width>182</width>
-         <height>34</height>
-        </rect>
-       </property>
-       <layout class="QVBoxLayout" name="verticalLayout">
-        <item>
-         <widget class="QLabel" name="noExtensions">
-          <property name="font">
-           <font>
-            <pointsize>12</pointsize>
-            <bold>true</bold>
-           </font>
-          </property>
-          <property name="text">
-           <string>No extensions found.</string>
-          </property>
-          <property name="alignment">
-           <set>Qt::AlignmentFlag::AlignCenter</set>
-          </property>
-         </widget>
-        </item>
-       </layout>
-      </widget>
-     </widget>
-    </item>
-    <item>
-     <widget class="QLabel" name="label_9">
-      <property name="text">
-       <string>You can find out more about extensions in PhotoQt and where to download additional extensions on the PhotoQt website: &lt;a href=&quot;https://photoqt.org/extensions&quot;&gt;https://photoqt.org/extensions&lt;/a&gt;</string>
-      </property>
-      <property name="textFormat">
-       <enum>Qt::TextFormat::AutoText</enum>
-      </property>
-      <property name="wordWrap">
-       <bool>true</bool>
-      </property>
-      <property name="openExternalLinks">
-       <bool>true</bool>
-      </property>
-     </widget>
     </item>
    </layout>
   </widget>
