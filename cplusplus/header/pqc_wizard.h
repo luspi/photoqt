@@ -47,4 +47,7 @@ private Q_SLOTS:
     void storeCurrentInterface(QString variant);
     void applyCurrentLanguage(int index);
 
+    void resetShortcut();
+    void resetSettings();
+
 };
