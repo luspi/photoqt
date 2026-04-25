@@ -603,6 +603,13 @@ bool PQCScriptsConfig::isJasperWorkaroundsEnabled() {
     return false;
 }
 
+bool PQCScriptsConfig::isExtensionLibraryVerificationEnabled() {
+#ifdef PQMEXTENSIONSLIBRARYVERIFICATION
+    return true;
+#endif
+    return false;
+}
+
 void PQCScriptsConfig::callStartupSetupFresh() {
 
 #ifndef PQMTESTING

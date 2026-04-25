@@ -132,6 +132,9 @@ public:
     Q_INVOKABLE bool isJasperWorkaroundsEnabled() {
         return PQCScriptsConfig::get().isJasperWorkaroundsEnabled();
     }
+    Q_INVOKABLE bool isExtensionLibraryVerificationEnabled() {
+        return PQCScriptsConfig::get().isExtensionLibraryVerificationEnabled();
+    }
 
     // other methods
     Q_INVOKABLE QString getLastLoadedImage() {
