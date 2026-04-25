@@ -69,19 +69,19 @@ public:
             Q_EMIT connectedChanged();
         });
 #else
-        connect(&PQCScriptsChromeCast::get(), &PQCScriptsChromeCast::availableDevicesChanged, this, [=, this]() {
+        connect(&PQCScriptsChromeCast::get(), &PQCScriptsChromeCast::availableDevicesChanged, this, [=]() {
             m_availableDevices = PQCScriptsChromeCast::get().getAvailableDevices();
             Q_EMIT availableDevicesChanged();
         });
-        connect(&PQCScriptsChromeCast::get(), &PQCScriptsChromeCast::curDeviceNameChanged, this, [=, this]() {
+        connect(&PQCScriptsChromeCast::get(), &PQCScriptsChromeCast::curDeviceNameChanged, this, [=]() {
             m_curDeviceName = PQCScriptsChromeCast::get().getCurDeviceName();
             Q_EMIT curDeviceNameChanged();
         });
-        connect(&PQCScriptsChromeCast::get(), &PQCScriptsChromeCast::inDiscoveryChanged, this, [=, this]() {
+        connect(&PQCScriptsChromeCast::get(), &PQCScriptsChromeCast::inDiscoveryChanged, this, [=]() {
             m_inDiscovery = PQCScriptsChromeCast::get().getInDiscovery();
             Q_EMIT inDiscoveryChanged();
         });
-        connect(&PQCScriptsChromeCast::get(), &PQCScriptsChromeCast::connectedChanged, this, [=, this]() {
+        connect(&PQCScriptsChromeCast::get(), &PQCScriptsChromeCast::connectedChanged, this, [=]() {
             m_connected = PQCScriptsChromeCast::get().getConnected();
             Q_EMIT connectedChanged();
         });
