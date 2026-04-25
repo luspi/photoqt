@@ -8,6 +8,5 @@
         <file>imgurhistory.db</file>
         <file>defaultsettings.db</file>
         <file>usersettings.db</file>
-        <file>extensions.key</file>
     </qresource>
 </RCC>

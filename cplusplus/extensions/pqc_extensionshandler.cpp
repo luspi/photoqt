@@ -1486,25 +1486,6 @@ bool PQCExtensionsHandler::verifyExtension(QString extensionDir, QString nameId)
         return false;
     }
 
-    QFile pemfile(":/extensions.key");
-    if(!pemfile.open(QIODevice::ReadOnly)) {
-        qWarning() << "Unable to open public key for checking extension signature";
-        return false;
-    }
-
-    QCA::ConvertResult res;
-    QCA::PublicKey pubkey = QCA::PublicKey::fromPEM(pemfile.readAll(), &res);
-
-    if(res != QCA::ConvertGood) {
-        qWarning() << "Importing public key for signature verification failed.";
-        return false;
-    }
-
-    if(!pubkey.canVerify()) {
-        qWarning() << "Public key cannot verify signatures";
-        return false;
-    }
-
     QFile fmanifest(QString("%1/verification.txt").arg(extensionDir));
     if(!fmanifest.open(QIODevice::ReadOnly)) {
         qWarning() << identifyName << "- unable to read verification.txt:" << QString("%1/verification.txt").arg(extensionDir);
@@ -1519,8 +1500,49 @@ bool PQCExtensionsHandler::verifyExtension(QString extensionDir, QString nameId)
     }
     QByteArray manifestsig = fmanifestsig.readAll();
 
-    if(!pubkey.verifyMessage(manifest, manifestsig, QCA::EMSA3_SHA256)) {
-        qWarning() << identifyName << "- Signature of verification.txt is wrong";
+#ifdef PQMHAVECUSTOMKEY
+    const QStringList possibleKeys = {":/extensions.key", ":/custom_extensions.key"};
+#else
+    const QStringList possibleKeys = {":/extensions.key"};
+#endif
+
+    bool signaturePassed = false;
+
+    for(const QString keyfn : possibleKeys) {
+
+        qDebug() << "Testing key file" << keyfn;
+
+        QFile keyfile(keyfn);
+        if(!keyfile.open(QIODevice::ReadOnly)) {
+            qWarning() << "Unable to open public key for checking extension signature";
+            continue;
+        }
+
+        QCA::ConvertResult res;
+        QCA::PublicKey pubkey = QCA::PublicKey::fromPEM(keyfile.readAll(), &res);
+
+        if(res != QCA::ConvertGood) {
+            qWarning() << "Importing public key for signature verification failed.";
+            continue;
+        }
+
+        if(!pubkey.canVerify()) {
+            qWarning() << "Public key cannot verify signatures";
+            continue;
+        }
+
+        if(!pubkey.verifyMessage(manifest, manifestsig, QCA::EMSA3_SHA256)) {
+            qDebug() << identifyName << "- Signature of verification.txt is wrong";
+            continue;
+        } else {
+            signaturePassed = true;
+            break;
+        }
+
+    }
+
+    if(!signaturePassed) {
+        qWarning() << identifyName << "- signature verification failed!";
         return false;
     }
 
@@ -1548,14 +1570,12 @@ bool PQCExtensionsHandler::verifyExtension(QString extensionDir, QString nameId)
 
     int counter = 0;
 
-    QStringList ignoreFiles = {"verification.txt", "verification.txt.sig",
-#ifndef PQMEXTENSIONSLIBRARYVERIFICATION
-                               QString("lib%1.so").arg(nameId),
-                               QString("lib%1.dll").arg(nameId),
-                               QString("lib%1.lib").arg(nameId)
+    QStringList ignoreFiles = {"verification.txt", "verification.txt.sig"};
+    QStringList considerFileEndings = {"qml", "txt", "yml",
+#ifdef PQMEXTENSIONSLIBRARYVERIFICATION
+                                       "so", "dll"
 #endif
-                                };
-    QStringList considerFileEndings = {"qml", "txt", "yml"};
+    };
 
     const QStringList lst = listFilesIn(extensionDir);
     for(QString _f : lst) {
@@ -1683,7 +1703,7 @@ bool PQCExtensionsHandler::verifyExtension(QString extensionDir, QString nameId)
 
     /******************************************/
 
-    qDebug() << identifyName << "- signature verified.";
+    qDebug() << identifyName << "- verification passed.";
     return true;
 
 #endif

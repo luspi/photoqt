@@ -1,5 +1,5 @@
 <RCC>
     <qresource prefix="/">
-        <file>extensions_public_rsa.pem</file>
+        <file>extensions.key</file>
     </qresource>
 </RCC>

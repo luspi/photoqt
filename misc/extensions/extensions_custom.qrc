@@ -1,0 +1,6 @@
+<RCC>
+    <qresource prefix="/">
+        <file>extensions.key</file>
+        <file>custom_extensions.key</file>
+    </qresource>
+</RCC>

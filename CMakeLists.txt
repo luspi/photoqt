@@ -88,7 +88,7 @@ option(WITH_ADAPTSOURCE           "Adapt and change the source files for the cur
 option(WITHOUT_ICU                "Enable this option if your Qt6 setup has no ICU support" OFF)
 option(WITH_PORTABLETWEAKS        "Apply tweaks for a build of a portable version" OFF)
 
-set(EXTENSIONS_PUBLIC_KEY "" CACHE STRING "A custom public key to be used for extension verification.")
+set(EXTENSIONS_CUSTOM_PUBLIC_KEY "" CACHE STRING "Add a custom public key to be used for extension verification.")
 
 #####################################
 #### RESOLVE CONFLICTING OPTIONS ####
@@ -410,19 +410,32 @@ SET(photoqt_QML ${photoqt_QML} ${photoqt_QML_ADDITIONAL})
 #### EXTENSIONS KEY HANDLING ####
 #################################
 
-if(EXTENSIONS_PUBLIC_KEY STREQUAL "")
-    message(" ** Use built-in public key for extension verification.")
-    file(COPY misc/extensions.key DESTINATION "${CMAKE_BINARY_DIR}")
+file(COPY misc/extensions/extensions.key DESTINATION "${CMAKE_BINARY_DIR}")
+if(EXTENSIONS_CUSTOM_PUBLIC_KEY STREQUAL "")
+    message(" ** Using only built-in public key for extension verification.")
+    file(COPY misc/extensions/extensions_nocustom.qrc DESTINATION "${CMAKE_BINARY_DIR}")
+    file(RENAME "${CMAKE_BINARY_DIR}/extensions_nocustom.qrc" "${CMAKE_BINARY_DIR}/extensions.qrc")
 else()
-    message(" ** Use custom ed25519 public key for extension verification.")
-    message(" ** MAKE SURE TO SIGN THE EXTENSION VERIFICATION FILES WITH YOUR PRIVATE KEY!")
-    message(" ** See the README of the extensions for more details on how to do this.")
-    get_filename_component(keyfn "${EXTENSIONS_PUBLIC_KEY}" NAME)
-    file(COPY "${EXTENSIONS_PUBLIC_KEY}" DESTINATION "${CMAKE_BINARY_DIR}")
-    file(RENAME "${CMAKE_BINARY_DIR}/${keyfn}" "${CMAKE_BINARY_DIR}/extensions.key")
-    execute_process(COMMAND ${CMAKE_COMMAND} -E touch "${CMAKE_BINARY_DIR}/extensions.key")
+    message(" ** Adding custom RSA public key for extension verification.")
+    message(" ** This allows signing the extensions with the corresponding private key for verification.")
+    # get filename
+    get_filename_component(keyfn "${EXTENSIONS_CUSTOM_PUBLIC_KEY}" NAME)
+    # copy custom key to tmp directory
+    file(MAKE_DIRECTORY "${CMAKE_BINARY_DIR}/extensionstmp")
+    file(COPY "${EXTENSIONS_CUSTOM_PUBLIC_KEY}" DESTINATION "${CMAKE_BINARY_DIR}/extensionstmp/")
+    # rename to standard filename
+    file(RENAME "${CMAKE_BINARY_DIR}/extensionstmp/${keyfn}" "${CMAKE_BINARY_DIR}/extensionstmp/custom_extensions.key")
+    # copy to bin dir
+    file(COPY "${CMAKE_BINARY_DIR}/extensionstmp/custom_extensions.key" DESTINATION "${CMAKE_BINARY_DIR}")
+    execute_process(COMMAND ${CMAKE_COMMAND} -E touch "${CMAKE_BINARY_DIR}/extensionstmp/custom_extensions.key")
+    # and remove tmp directory
+    file(REMOVE_RECURSE "${CMAKE_BINARY_DIR}/extensionstmp/")
+    # copy over matching qrc file
+    file(COPY misc/extensions/extensions_custom.qrc DESTINATION "${CMAKE_BINARY_DIR}/")
+    file(RENAME "${CMAKE_BINARY_DIR}/extensions_custom.qrc" "${CMAKE_BINARY_DIR}/extensions.qrc")
+    # add macro
+    target_compile_definitions(photoqt PRIVATE PQMHAVECUSTOMKEY)
 endif()
-file(COPY misc/extensions.qrc DESTINATION ${CMAKE_BINARY_DIR})
 
 ######################
 #### RUN CPPCHECK ####
