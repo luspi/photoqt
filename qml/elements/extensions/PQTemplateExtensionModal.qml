@@ -102,11 +102,17 @@ Rectangle {
         color: palette.base
 
         Rectangle {
+            anchors.fill: parent
+            color: palette.text
+            opacity: 0.05
+        }
+
+        Rectangle {
             x: 0
             y: 0
             width: parent.width
             height: 1
-            color: palette.alternateBase
+            color: PQCLook.baseBorder
         }
 
         Item {
@@ -127,6 +133,7 @@ Rectangle {
             PQButtonElement {
                 id: firstbutton
                 text: fullscreen_loader.status===Loader.Ready ? fullscreen_loader.item.modalButton1Text : genericStringClose
+                enabled: fullscreen_loader.status===Loader.Ready ? fullscreen_loader.item.modalButton1Enabled : true
                 fontWeight: PQCLook.fontWeightBold
                 y: 1
                 height: parent.height-1
@@ -141,6 +148,7 @@ Rectangle {
             PQButtonElement {
                 id: secondbutton
                 text: fullscreen_loader.status===Loader.Ready ? fullscreen_loader.item.modalButton2Text : ""
+                enabled: fullscreen_loader.status===Loader.Ready ? fullscreen_loader.item.modalButton2Enabled : true
                 visible: text!==""
                 y: 1
                 height: parent.height-1
@@ -155,6 +163,7 @@ Rectangle {
             PQButtonElement {
                 id: thirdbutton
                 text: fullscreen_loader.status===Loader.Ready ? fullscreen_loader.item.modalButton3Text : ""
+                enabled: fullscreen_loader.status===Loader.Ready ? fullscreen_loader.item.modalButton3Enabled : true
                 visible: text!==""
                 y: 1
                 height: parent.height-1

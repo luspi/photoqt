@@ -68,23 +68,23 @@ Item {
 
         var itg = PQCExtensionsHandler.getExtensionIntegratedAllow(extensionId)
         var ppt = PQCExtensionsHandler.getExtensionPopoutAllow(extensionId)
-        var mdl = PQCExtensionsHandler.getExtensionModal(extensionId)
+        var flt = PQCExtensionsHandler.getExtensionFloating(extensionId)
 
-        if(mdl && PQCSettings.generalInterfaceVariant === "integrated") {
+        if(!flt && PQCSettings.generalInterfaceVariant === "integrated") {
             val = true
             extsettings["ExtPopout"] = true
         }
 
-        if(mdl) {
-            ldr_floating.active = false
-            ldr_floating_popout.active = false
-            ldr_fullscreen.active = ((!val || !ppt) && itg)
-            ldr_fullscreen_popout.active = (val && ppt)
-        } else {
+        if(flt) {
             ldr_fullscreen.active = false
             ldr_fullscreen_popout.active = false
             ldr_floating.active = ((!val || !ppt) && itg)
             ldr_floating_popout.active = (val && ppt)
+        } else {
+            ldr_floating.active = false
+            ldr_floating_popout.active = false
+            ldr_fullscreen.active = ((!val || !ppt) && itg)
+            ldr_fullscreen_popout.active = (val && ppt)
         }
 
     }

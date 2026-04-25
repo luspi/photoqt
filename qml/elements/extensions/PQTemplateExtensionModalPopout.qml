@@ -45,24 +45,34 @@ Window {
 
     ///////////////////
 
-    width: 100
-    height: 100
+    width: 300
+    height: 200
 
     Component.onCompleted: {
 
         var pos = settings["ExtPopoutPosition"]
         var sze = settings["ExtPopoutSize"]
 
-        if(pos === undefined || pos.x === -1) pos = defaultPopoutPosition
+        var setDefault = false
+        if(pos === undefined || pos.x === -1) {
+            setDefault = true
+            pos = defaultPopoutPosition
+        }
 
-        if(sze === undefined || sze.width < 1)
+        if(sze === undefined || sze.width < 1) {
+            setDefault = true
             sze = PQCExtensionsHandler.getExtensionPopoutDefaultSize(element_top.extensionId)
+        }
 
-        element_top.setX(pos.x)
-        element_top.setY(pos.y)
+        if(PQCExtensionsHandler.getExtensionRememberGeometry(element_top.extensionId) || setDefault) {
 
-        element_top.setWidth(sze.width)
-        element_top.setHeight(sze.height)
+            element_top.setX(pos.x)
+            element_top.setY(pos.y)
+
+            element_top.setWidth(sze.width)
+            element_top.setHeight(sze.height)
+
+        }
 
         element_top._show()
 
@@ -83,7 +93,7 @@ Window {
     }
 
     minimumWidth: 300
-    minimumHeight: 500
+    minimumHeight: 200
 
     modality: PQCExtensionsHandler.getExtensionModal(extensionId) ? Qt.ApplicationModal : Qt.NonModal
 
@@ -160,11 +170,17 @@ Window {
         color: palette.base
 
         Rectangle {
+            anchors.fill: parent
+            color: palette.text
+            opacity: 0.05
+        }
+
+        Rectangle {
             x: 0
             y: 0
             width: parent.width
             height: 1
-            color: palette.alternateBase
+            color: PQCLook.baseBorder
         }
 
         Item {
@@ -185,6 +201,7 @@ Window {
             PQButtonElement {
                 id: firstbutton
                 text: popout_loader.status===Loader.Ready ? popout_loader.item.modalButton1Text : genericStringClose
+                enabled: popout_loader.status===Loader.Ready ? popout_loader.item.modalButton1Enabled : true
                 fontWeight: PQCLook.fontWeightBold
                 y: 8
                 height: parent.height-14
@@ -199,6 +216,7 @@ Window {
             PQButtonElement {
                 id: secondbutton
                 text: popout_loader.status===Loader.Ready ? popout_loader.item.modalButton2Text : ""
+                enabled: popout_loader.status===Loader.Ready ? popout_loader.item.modalButton2Enabled : true
                 visible: text!==""
                 y: 8
                 height: parent.height-14
@@ -213,6 +231,7 @@ Window {
             PQButtonElement {
                 id: thirdbutton
                 text: popout_loader.status===Loader.Ready ? popout_loader.item.modalButton3Text : ""
+                enabled: popout_loader.status===Loader.Ready ? popout_loader.item.modalButton3Enabled : true
                 visible: text!==""
                 y: 8
                 height: parent.height-14
@@ -233,7 +252,7 @@ Window {
         interval: 200
         repeat: false
         onTriggered: {
-            if(element_top.visibility !== Window.Maximized) {
+            if(element_top.visibility !== Window.Maximized && PQCExtensionsHandler.getExtensionRememberGeometry(element_top.extensionId)) {
                 element_top.settings["ExtPopoutPosition"] = Qt.point(element_top.x, element_top.y)
                 element_top.settings["ExtPopoutSize"] = Qt.size(element_top.width, element_top.height)
             }
@@ -330,7 +349,8 @@ Window {
             return
         }
 
-        PQCConstants.modalElementOpen = true
+        if(modality != Qt.NonModal)
+            PQCConstants.modalElementOpen = true
         settings["ExtShow"] = true
 
         if(settings["ExtForcePopout"]) {
@@ -351,14 +371,16 @@ Window {
         var ret = popout_loader.item.hiding()
         if(ret !== undefined && !ret)
             return
-        PQCConstants.modalElementOpen = false
+        if(modality != Qt.NonModal)
+            PQCConstants.modalElementOpen = false
         settings["ExtShow"] = false
         element_top.close()
     }
 
     function hideNoCheck() {
         fullscreen_loader.item.hiding()
-        PQCConstants.modalElementOpen = false
+        if(modality != Qt.NonModal)
+            PQCConstants.modalElementOpen = false
         settings["ExtShow"] = false
         element_top.close()
     }

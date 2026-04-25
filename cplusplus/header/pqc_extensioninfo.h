@@ -64,6 +64,7 @@ public:
         popoutFixSizeToContent = false;
 
         // setup
+        floating = false;
         modal = false;
         mainmenu = false;
         defaultShortcut = "";
@@ -111,6 +112,7 @@ public:
     bool  popoutFixSizeToContent;
 
     // setup
+    bool    floating;
     bool    modal;
     bool    mainmenu;
     QString defaultShortcut;

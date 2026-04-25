@@ -54,7 +54,7 @@
 /****************************************************************/
 /****************************************************************/
 // This is the current/latest version supported by this build!
-#define CURRENTAPIVERSION 1
+#define CURRENTAPIVERSION 2
 /****************************************************************/
 /****************************************************************/
 
@@ -267,6 +267,8 @@ bool PQCExtensionsHandler::loadExtension(PQCExtensionInfo *extinfo, QString name
 
 #ifdef PQMEXTENSIONS
 
+    bool oldExtension_v1 = false;
+
     YAML::Node config;
 
     const QString identifyName = QString("%1 (%2)").arg(nameId, extensionDir);
@@ -351,6 +353,12 @@ bool PQCExtensionsHandler::loadExtension(PQCExtensionInfo *extinfo, QString name
             qWarning() << "Required API version -" << extinfo->targetAPI << "- newer than what's supported:" << CURRENTAPIVERSION;
             qWarning() << "Extension" << identifyName << "not enabled.";
             return false;
+        }
+
+        if(extinfo->targetAPI < CURRENTAPIVERSION) {
+            qDebug() << identifyName << "- outdated target API, consider updating extension!";
+            if(extinfo->targetAPI == 1)
+                oldExtension_v1 = true;
         }
 
     } catch(YAML::Exception &e) {
@@ -519,6 +527,13 @@ bool PQCExtensionsHandler::loadExtension(PQCExtensionInfo *extinfo, QString name
     //////////////////////
     // setup
 
+    // this is a floating element
+    try {
+        extinfo->floating = config["setup"]["floating"].as<bool>();
+    } catch(YAML::Exception &e) {
+        qDebug() << "Extension:" << identifyName << "- Optional value for 'floating' invalid or not found, skipping:" << e.what();
+    }
+
     // make element modal
     try {
         extinfo->modal = config["setup"]["modal"].as<bool>();
@@ -637,6 +652,14 @@ bool PQCExtensionsHandler::loadExtension(PQCExtensionInfo *extinfo, QString name
 
     } catch(YAML::Exception &e) {
         qDebug() << "Optional value for 'haveCPPActions' invalid or not found, skipping:" << e.what();
+    }
+
+    // adapt old APIs
+    if(oldExtension_v1) {
+
+        // floating is a new element, before not modal meant floating
+        extinfo->floating = !extinfo->modal;
+
     }
 
     return true;
@@ -852,6 +875,13 @@ QSize PQCExtensionsHandler::getExtensionIntegratedMinimumRequiredWindowSize(QStr
         return m_allextensions[id]->integratedMinimumRequiredWindowSize;
     qWarning() << "Unknown extension id:" << id;
     return QSize(0,0);
+}
+
+bool PQCExtensionsHandler::getExtensionFloating(QString id) {
+    if(m_allextensions.contains(id))
+        return m_allextensions[id]->floating;
+    qWarning() << "Unknown extension id:" << id;
+    return false;
 }
 
 bool PQCExtensionsHandler::getExtensionModal(QString id) {

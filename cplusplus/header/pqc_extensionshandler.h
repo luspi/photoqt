@@ -101,6 +101,7 @@ public:
     Q_INVOKABLE bool    getExtensionPopoutAllow(QString id);
     Q_INVOKABLE bool    getExtensionPopoutFixSizeToContent(QString id);
 
+    Q_INVOKABLE bool    getExtensionFloating(QString id);
     Q_INVOKABLE bool    getExtensionModal(QString id);
     Q_INVOKABLE bool    getExtensionMainMenu(QString id);
     Q_INVOKABLE QString getExtensionDefaultShortcut(QString id);

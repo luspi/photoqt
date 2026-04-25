@@ -47,25 +47,36 @@ Window {
 
     ///////////////////
 
-    width: 100
-    height: 100
+    width: 300
+    height: 200
 
     Component.onCompleted: {
 
         var pos = settings["ExtPopoutPosition"]
         var sze = settings["ExtPopoutSize"]
 
-        if(pos === undefined || pos.x === -1) pos = defaultPopoutPosition
+        var setDefault = false
 
-        if(sze === undefined || sze.width < 1)
+        if(pos === undefined || pos.x === -1) {
+            setDefault = true
+            pos = defaultPopoutPosition
+        }
+
+        if(sze === undefined || sze.width < 1) {
+            setDefault = true
             sze = PQCExtensionsHandler.getExtensionPopoutDefaultSize(element_top.extensionId)
+        }
 
-        element_top.setX(pos.x)
-        element_top.setY(pos.y)
+        if(PQCExtensionsHandler.getExtensionRememberGeometry(element_top.extensionId) || setDefault) {
 
-        if(!_fixSizeToContent) {
-            element_top.setWidth(sze.width)
-            element_top.setHeight(sze.height)
+            element_top.setX(pos.x)
+            element_top.setY(pos.y)
+
+            if(!_fixSizeToContent) {
+                element_top.setWidth(sze.width)
+                element_top.setHeight(sze.height)
+            }
+
         }
 
         if(settings["ExtShow"]) {
@@ -137,7 +148,7 @@ Window {
         anchors.fill: parent
         hoverEnabled: true
         acceptedButtons: Qt.LeftButton|Qt.RightButton
-        enabled: !PQCExtensionsHandler.getExtensionLetMeHandleMouseEvents(element_top.extensionId)
+        enabled: !PQCExtensionsHandler.getExtensionCustomMouseHandling(element_top.extensionId)
         onWheel: (wheel) => {
             wheel.accepted = true
         }
@@ -155,7 +166,7 @@ Window {
         interval: 200
         repeat: false
         onTriggered: {
-            if(element_top.visibility !== Window.Maximized) {
+            if(element_top.visibility !== Window.Maximized && PQCExtensionsHandler.getExtensionRememberGeometry(element_top.extensionId)) {
                 element_top.settings["ExtPopoutPosition"] = Qt.point(element_top.x, element_top.y)
                 element_top.settings["ExtPopoutSize"] = Qt.size(element_top.width, element_top.height)
             }

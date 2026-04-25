@@ -45,6 +45,10 @@ Flickable {
     property string modalButton2Text: ""
     property string modalButton3Text: ""
 
+    property bool modalButton1Enabled: true
+    property bool modalButton2Enabled: true
+    property bool modalButton3Enabled: true
+
     ///////////////////
 
     signal updateModalTexts()
