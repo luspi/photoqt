@@ -40,6 +40,12 @@ PhotoQt is available in the repositories of an increasing number of Linux distri
 
 Instructions of how to build PhotoQt from source can be found in the [INSTALL.md](INSTALL.md) file in the root of the source directory.
 
+## Extensions
+
+There are many extensions that can be installed to expand the capabilities of PhotoQt. For some packages/installers, the extensions are automatically included. For others, you might have to install a separate package that provide the necessary files.
+
+You can find more information in the corresponding section of PhotoQt's website: https://photoqt.org/extensions
+
 
 ## Contributing to PhotoQt
 
@@ -49,6 +55,8 @@ There are **two easy ways** you can contribute directly to PhotoQt:
 2. **Give feedback** of what you like/don't like, or what you think is missing from PhotoQt. To give feedback, simply [open an issue on GitLab](https://gitlab.com/luspi/photoqt/-/issues/new).
 
 If you want to support PhotoQt financially, please **consider donating to the humanitarian relief in Ukraine** instead, for example to the [Ukrainian Red Cross](https://go.luspi.de/ukraine).
+
+Otherwise you can donate directly to PhotoQt through [PayPal](https://paypal.me/lspies) or [Wise](https://wise.com/pay/me/lukass2323).
 
 
 ## Screenshots
