@@ -81,7 +81,7 @@ Item {
             else if(key === Qt.Key_Control && modifiers === Qt.ControlModifier)
                 PQCConstants.ctrlKeyPressed = true
 
-            if(PQCConstants.modalWindowOpen || PQCConstants.isModalOpen || PQCConstants.slideshowRunning || PQCConstants.modalElementOpen) {
+            if(PQCConstants.modalWindowOpen || PQCConstants.isModalOpen || PQCConstants.slideshowRunning || PQCConstants.modalElementOpen || toplevel.activeFocusItem === null) {
 
                 // make sure contextmenu is closed on key press
                 PQCScriptsShortcuts.sendShortcutDismissGlobalContextMenu()

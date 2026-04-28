@@ -332,7 +332,7 @@ Window {
                 } else {
                     element_top._show()
                 }
-            } else if(element_top.visible) {
+            } else if(element_top.visible && element_top.activeFocusItem !== null) {
                 if(what === "keyEvent") {
                     if(args[0] === Qt.Key_Escape) {
                         element_top.hide()
