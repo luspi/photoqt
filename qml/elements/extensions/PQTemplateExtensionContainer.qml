@@ -70,7 +70,9 @@ Item {
         var ppt = PQCExtensionsHandler.getExtensionPopoutAllow(extensionId)
         var flt = PQCExtensionsHandler.getExtensionFloating(extensionId)
 
-        if(!flt && PQCSettings.generalInterfaceVariant === "integrated") {
+
+        if((!flt && PQCSettings.generalInterfaceVariant === "integrated") ||
+                (ppt && !itg && !flt)) {
             val = true
             extsettings["ExtPopout"] = true
         }
