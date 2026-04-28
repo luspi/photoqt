@@ -3,6 +3,7 @@
 #include <pqc_configfiles.h>
 #include <ui_pqc_wizard.h>
 #include <pqc_settingscpp.h>
+#include <pqc_extensionshandler.h>
 #include <QSqlQuery>
 #include <QSqlDatabase>
 #include <QSqlError>
@@ -19,6 +20,10 @@
 PQCWizard::PQCWizard(bool freshInstall, QWidget *parent) : m_freshInstall(freshInstall), QWizard(parent), m_ui(new Ui::Wizard) {
 
     m_ui->setupUi(this);
+
+    m_selfTestPerformed = false;
+    m_showReset = false;
+    m_showExtensions = false;
 
     QPixmap pix(":/other/logo.svg");
     setPixmap(QWizard::LogoPixmap, pix.scaledToWidth(50));
@@ -59,38 +64,16 @@ PQCWizard::PQCWizard(bool freshInstall, QWidget *parent) : m_freshInstall(freshI
     else {
         this->removePage(0);
 
-        bool showReset = false;
+        m_ui->resetLine->setVisible(false);
+        m_ui->resetTitle->setVisible(false);
+        m_ui->resetSubtitle->setVisible(false);
+        m_ui->butResetShortcuts->setVisible(false);
+        m_ui->butResetSettings->setVisible(false);
 
-        // here we check if something went wrong with the shortcuts
-        // this can happen with older versions of PhotoQt
-        // apparently particular on Windows
-        QSqlDatabase db = QSqlDatabase::database("shortcuts");
-        const QStringList checkFor = {"__next", "__prev", "__zoomIn", "__zoomOut"};
-        for(const QString &cmd : checkFor) {
-            QSqlQuery query(db);
-            query.prepare("SELECT COUNT(commands) FROM shortcuts WHERE commands=:cmd");
-            query.bindValue(":cmd", cmd);
-            if(query.exec()) {
-                query.next();
-                if(query.value(0).toInt() < 1) {
-                    showReset = true;
-                    break;
-                }
-            } else {
-                qWarning() << "Unable to check for missing cmd:" << query.lastError().text().trimmed();
-                showReset = true;
-                break;
-            }
-        }
-
-        m_ui->lineUpdateReset1->setVisible(showReset);
-        m_ui->resetTitle->setVisible(showReset);
-        m_ui->resetSubtitle->setVisible(showReset);
-        m_ui->butResetShortcuts->setVisible(showReset);
-        m_ui->butResetSettings->setVisible(showReset);
-
-        connect(m_ui->butResetShortcuts, &QPushButton::clicked, this, &PQCWizard::resetShortcut);
-        connect(m_ui->butResetSettings, &QPushButton::clicked, this, &PQCWizard::resetSettings);
+        m_ui->extensionsLine->setVisible(false);
+        m_ui->extensionsTitle->setVisible(false);
+        m_ui->extensionsSubtitle->setVisible(false);
+        m_ui->butExtensions->setVisible(false);
 
     }
 
@@ -104,25 +87,105 @@ PQCWizard::PQCWizard(bool freshInstall, QWidget *parent) : m_freshInstall(freshI
     setButtonText(QWizard::CancelButton, QApplication::translate("wizard", "Skip wizard"));
     setButtonText(QWizard::FinishButton, QApplication::translate("wizard", "Start PhotoQt"));
 
+    connect(this, &QWizard::currentIdChanged, this, &PQCWizard::newPageShown);
+
 }
 
 PQCWizard::~PQCWizard() {}
 
-void PQCWizard::storeCurrentInterface(QString variant) {
+void PQCWizard::newPageShown(int id) {
 
-    QSqlQuery query(QSqlDatabase::database("settings"));
-    query.prepare("INSERT OR REPLACE INTO `general` (`name`, `value`, `datatype`) VALUES ('InterfaceVariant', :val, 'string')");
-    query.bindValue(":val", variant);
+    qWarning() << ">>>>> id =" << id;
+    if(id == 2) {
 
-    if(!query.exec()) {
-        qWarning() << "Unable to store interface selection:" << query.lastError().text();
-        QMessageBox::warning(this,
-                             QApplication::translate("wizard", "Unable to store interface selection"),
-                             QApplication::translate("wizard", "PhotoQt was unable to store your interface selection. If this issue persists, try changing it later from the settings manager.")+"<br><br>"+QApplication::translate("wizard", "Error:")+QString(" %1").arg(query.lastError().text()));
-        return;
+        m_ui->testTitle->setVisible(false);
+        m_ui->notice->setVisible(false);
+        m_ui->noticeLine->setVisible(false);
+
+#if __cplusplus >= 202002L
+        connect(&PQCExtensionsHandler::get(), &PQCExtensionsHandler::numExtensionsAllChanged, this, [=, this]() { if(!m_selfTestPerformed) performSelftest(); });
+#else
+        connect(&PQCExtensionsHandler::get(), &PQCExtensionsHandler::numExtensionsAllChanged, this, [=]() { if(!m_selfTestPerformed) performSelftest(); });
+#endif
+        PQCExtensionsHandler::get().setup();
     }
 
-    query.clear();
+}
+
+void PQCWizard::performSelftest() {
+
+    m_ui->testTitle->setVisible(true);
+
+    /****************************************************************/
+    // check shortcuts
+
+    // here we check if something went wrong with the shortcuts
+    // this can happen with older versions of PhotoQt
+    // apparently particular on Windows
+    QSqlDatabase db = QSqlDatabase::database("shortcuts");
+    const QStringList checkFor = {"__next", "__prev", "__zoomIn", "__zoomOut"};
+    for(const QString &cmd : checkFor) {
+        QSqlQuery query(db);
+        query.prepare("SELECT COUNT(commands) FROM shortcuts WHERE commands=:cmd");
+        query.bindValue(":cmd", cmd);
+        if(query.exec()) {
+            query.next();
+            if(query.value(0).toInt() < 1) {
+                m_showReset = true;
+                break;
+            }
+        } else {
+            qWarning() << "Unable to check for missing cmd:" << query.lastError().text().trimmed();
+            m_showReset = true;
+            break;
+        }
+    }
+
+    if(!m_selfTestPerformed) {
+        m_ui->resetLine->setVisible(m_showReset);
+        m_ui->resetTitle->setVisible(m_showReset);
+        m_ui->resetSubtitle->setVisible(m_showReset);
+        m_ui->butResetShortcuts->setVisible(m_showReset);
+        m_ui->butResetSettings->setVisible(m_showReset);
+
+        connect(m_ui->butResetShortcuts, &QPushButton::clicked, this, &PQCWizard::resetShortcut);
+        connect(m_ui->butResetSettings, &QPushButton::clicked, this, &PQCWizard::resetSettings);
+    }
+
+    /****************************************************************/
+    // check extensions
+
+    // here we check if and how many extensions are disabled.
+    // if any are disabled, we offer the user to enable them all.
+    const QStringList extDisabled = PQCExtensionsHandler::get().getDisabledExtensions();
+    const QStringList extAll = PQCExtensionsHandler::get().getExtensionsEnabledAndDisabld();
+    qWarning() << ">>>" << extDisabled << "/" << extAll;
+    if(extDisabled.length() > 0 || (m_selfTestPerformed && m_showExtensions)) {
+        m_showExtensions = true;
+        m_ui->extensionsTitle->setText(QString("%1 out of %2 extensions are enabled.").arg(extAll.length()-extDisabled.length()).arg(extAll.length()));
+    }
+
+    if(!m_selfTestPerformed) {
+        m_ui->extensionsLine->setVisible(m_showExtensions);
+        m_ui->extensionsTitle->setVisible(m_showExtensions);
+        m_ui->extensionsSubtitle->setVisible(m_showExtensions);
+        m_ui->butExtensions->setVisible(m_showExtensions);
+
+        connect(m_ui->butExtensions, &QPushButton::clicked, this, &PQCWizard::enableAllExtensions);
+    }
+
+    /****************************************************************/
+
+    if(!m_selfTestPerformed) {
+        if(m_showReset || m_showExtensions) {
+            m_ui->resultsText->setVisible(false);
+            m_ui->notice->setVisible(true);
+            m_ui->noticeLine->setVisible(true);
+        } else
+            m_ui->resultsText->setText(QApplication::translate("wizard", "No issues were found."));
+    }
+
+    m_selfTestPerformed = true;
 
 }
 
@@ -152,6 +215,8 @@ void PQCWizard::applyCurrentLanguage(int index) {
 }
 
 void PQCWizard::resetShortcut() {
+
+    qDebug() << "";
 
     if(QMessageBox::question(this, QApplication::translate("wizard", "Reset shortcuts?"), QApplication::translate("wizard", "This will replace the current shortcuts with the default set. Continue?")) == QMessageBox::No) {
         qDebug() << "Cancelled resetting shortcuts.";
@@ -193,10 +258,13 @@ void PQCWizard::resetShortcut() {
     }
 
     QMessageBox::information(this, QApplication::translate("wizard", "Reset successful"), QApplication::translate("wizard", "The shortcuts were reset successfully."));
+    performSelftest();
 
 }
 
 void PQCWizard::resetSettings() {
+
+    qDebug() << "";
 
     if(QMessageBox::question(this, QApplication::translate("wizard", "Reset settings?"), QApplication::translate("wizard", "This will replace the current settings with their defaults. Continue?")) == QMessageBox::No) {
         qDebug() << "Cancelled resetting settings.";
@@ -223,5 +291,28 @@ void PQCWizard::resetSettings() {
     PQCSettingsCPP::get().readDB();
 
     QMessageBox::information(this, QApplication::translate("wizard", "Reset successful"), QApplication::translate("wizard", "The settings were reset successfully."));
+    performSelftest();
+
+}
+
+void PQCWizard::enableAllExtensions() {
+
+    qDebug() << "";
+
+    for(const QString &id : PQCExtensionsHandler::get().getDisabledExtensions())
+        PQCExtensionsHandler::get().enableExtension(id);
+
+    QSqlDatabase db = QSqlDatabase::database("settings");
+    QSqlQuery query(db);
+    query.prepare(QString("INSERT OR REPLACE INTO `general` (`name`,`value`,`datatype`) VALUES('ExtensionsEnabled','%1','list')").arg(PQCExtensionsHandler::get().getExtensionsEnabledAndDisabld().join(":://::")));
+    if(!query.exec()) {
+        QMessageBox::information(this, QApplication::translate("wizard", "Error"), QApplication::translate("wizard", "Failed to enable all extensions. Please try to enable them manually from the settings manager."));
+        return;
+    } else {
+        PQCSettingsCPP::get().readDB();
+    }
+
+    QMessageBox::information(this, QApplication::translate("wizard", "Success"), QApplication::translate("wizard", "All extensions have been enabled."));
+    performSelftest();
 
 }

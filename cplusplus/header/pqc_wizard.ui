@@ -7,11 +7,14 @@
     <x>0</x>
     <y>0</y>
     <width>600</width>
-    <height>500</height>
+    <height>513</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string comment="wizard">PhotoQt startup wizard</string>
+  </property>
+  <property name="sizeGripEnabled">
+   <bool>false</bool>
   </property>
   <property name="wizardStyle">
    <enum>QWizard::WizardStyle::ModernStyle</enum>
@@ -312,14 +315,7 @@
        </widget>
       </item>
       <item>
-       <widget class="Line" name="lineUpdateReset1">
-        <property name="orientation">
-         <enum>Qt::Orientation::Horizontal</enum>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <spacer name="verticalSpacer_5">
+       <spacer name="verticalSpacer_2">
         <property name="orientation">
          <enum>Qt::Orientation::Vertical</enum>
         </property>
@@ -329,96 +325,42 @@
         <property name="sizeHint" stdset="0">
          <size>
           <width>20</width>
-          <height>20</height>
+          <height>30</height>
          </size>
         </property>
        </spacer>
       </item>
       <item>
-       <layout class="QVBoxLayout" name="layoutUpdateReset_2">
-        <item>
-         <widget class="QLabel" name="resetTitle">
-          <property name="font">
-           <font>
-            <pointsize>12</pointsize>
-            <bold>true</bold>
-           </font>
-          </property>
-          <property name="text">
-           <string>It seems like there are no shortcuts configured for navigating between images or for basic image interactions.</string>
-          </property>
-          <property name="wordWrap">
-           <bool>true</bool>
-          </property>
-         </widget>
-        </item>
-        <item>
-         <spacer name="verticalSpacer_7">
-          <property name="orientation">
-           <enum>Qt::Orientation::Vertical</enum>
-          </property>
-          <property name="sizeType">
-           <enum>QSizePolicy::Policy::Minimum</enum>
-          </property>
-          <property name="sizeHint" stdset="0">
-           <size>
-            <width>20</width>
-            <height>10</height>
-           </size>
-          </property>
-         </spacer>
-        </item>
-        <item>
-         <widget class="QLabel" name="resetSubtitle">
-          <property name="font">
-           <font>
-            <bold>false</bold>
-           </font>
-          </property>
-          <property name="text">
-           <string>Do you want to reset your shortcuts and/or settings?</string>
-          </property>
-         </widget>
-        </item>
-        <item>
-         <layout class="QHBoxLayout" name="horizontalLayout_5">
-          <item>
-           <widget class="QPushButton" name="butResetShortcuts">
-            <property name="text">
-             <string>Reset shorcuts</string>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="QPushButton" name="butResetSettings">
-            <property name="text">
-             <string>Reset settings</string>
-            </property>
-           </widget>
-          </item>
-         </layout>
-        </item>
-       </layout>
+       <widget class="QLabel" name="label_5">
+        <property name="font">
+         <font>
+          <pointsize>12</pointsize>
+          <bold>true</bold>
+         </font>
+        </property>
+        <property name="text">
+         <string>Continue for a quick self-test.</string>
+        </property>
+        <property name="wordWrap">
+         <bool>true</bool>
+        </property>
+       </widget>
       </item>
       <item>
-       <spacer name="verticalSpacer_6">
+       <spacer name="verticalSpacer_5">
         <property name="orientation">
          <enum>Qt::Orientation::Vertical</enum>
+        </property>
+        <property name="sizeType">
+         <enum>QSizePolicy::Policy::Expanding</enum>
         </property>
         <property name="sizeHint" stdset="0">
          <size>
           <width>20</width>
-          <height>40</height>
+          <height>20</height>
          </size>
         </property>
        </spacer>
-      </item>
-      <item>
-       <widget class="Line" name="lineUpdateReset2_2">
-        <property name="orientation">
-         <enum>Qt::Orientation::Horizontal</enum>
-        </property>
-       </widget>
       </item>
       <item>
        <layout class="QHBoxLayout" name="horizontalLayout_6">
@@ -533,6 +475,193 @@
          </widget>
         </item>
        </layout>
+      </item>
+     </layout>
+    </item>
+   </layout>
+  </widget>
+  <widget class="QWizardPage" name="page2_selftest">
+   <property name="title">
+    <string>Self tests</string>
+   </property>
+   <property name="subTitle">
+    <string>Performing some quick self test.</string>
+   </property>
+   <layout class="QGridLayout" name="gridLayout_2">
+    <item row="0" column="0">
+     <layout class="QVBoxLayout" name="verticalLayout_7">
+      <property name="spacing">
+       <number>10</number>
+      </property>
+      <item>
+       <spacer name="verticalSpacer_8">
+        <property name="orientation">
+         <enum>Qt::Orientation::Vertical</enum>
+        </property>
+        <property name="sizeType">
+         <enum>QSizePolicy::Policy::Fixed</enum>
+        </property>
+        <property name="sizeHint" stdset="0">
+         <size>
+          <width>20</width>
+          <height>10</height>
+         </size>
+        </property>
+       </spacer>
+      </item>
+      <item>
+       <widget class="QLabel" name="testTitle">
+        <property name="font">
+         <font>
+          <pointsize>11</pointsize>
+          <bold>true</bold>
+         </font>
+        </property>
+        <property name="text">
+         <string>Self-test performed.</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QLabel" name="resultsText">
+        <property name="text">
+         <string>Running tests...</string>
+        </property>
+        <property name="wordWrap">
+         <bool>true</bool>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="Line" name="resetLine">
+        <property name="orientation">
+         <enum>Qt::Orientation::Horizontal</enum>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <layout class="QVBoxLayout" name="layoutUpdateReset_3">
+        <item>
+         <widget class="QLabel" name="resetTitle">
+          <property name="font">
+           <font>
+            <pointsize>10</pointsize>
+            <bold>true</bold>
+           </font>
+          </property>
+          <property name="text">
+           <string>It seems like there are no shortcuts configured for navigating between images or for basic image interactions.</string>
+          </property>
+          <property name="wordWrap">
+           <bool>true</bool>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QLabel" name="resetSubtitle">
+          <property name="font">
+           <font>
+            <bold>false</bold>
+           </font>
+          </property>
+          <property name="text">
+           <string>Do you want to reset your shortcuts and/or settings?</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <layout class="QHBoxLayout" name="horizontalLayout_8">
+          <item>
+           <widget class="QPushButton" name="butResetShortcuts">
+            <property name="text">
+             <string>Reset shorcuts</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QPushButton" name="butResetSettings">
+            <property name="text">
+             <string>Reset settings</string>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </item>
+       </layout>
+      </item>
+      <item>
+       <layout class="QVBoxLayout" name="layoutUpdateReset_4">
+        <item>
+         <widget class="Line" name="extensionsLine">
+          <property name="orientation">
+           <enum>Qt::Orientation::Horizontal</enum>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QLabel" name="extensionsTitle">
+          <property name="font">
+           <font>
+            <bold>true</bold>
+           </font>
+          </property>
+          <property name="text">
+           <string notr="true">Only %1 out of %2 extensions are enabled.</string>
+          </property>
+          <property name="wordWrap">
+           <bool>true</bool>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QLabel" name="extensionsSubtitle">
+          <property name="text">
+           <string>Do you want to enable all verified extensions?</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <layout class="QHBoxLayout" name="horizontalLayout_10">
+          <item>
+           <widget class="QPushButton" name="butExtensions">
+            <property name="text">
+             <string>Enable all extensions</string>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </item>
+       </layout>
+      </item>
+      <item>
+       <spacer name="verticalSpacer_11">
+        <property name="orientation">
+         <enum>Qt::Orientation::Vertical</enum>
+        </property>
+        <property name="sizeHint" stdset="0">
+         <size>
+          <width>20</width>
+          <height>40</height>
+         </size>
+        </property>
+       </spacer>
+      </item>
+      <item>
+       <widget class="Line" name="noticeLine">
+        <property name="orientation">
+         <enum>Qt::Orientation::Horizontal</enum>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QLabel" name="notice">
+        <property name="text">
+         <string>It is always possible to reset parts of PhotoQt from the settings manager, or to do a complete factory reset using the key combo Ctrl+Alt+Shift+R.</string>
+        </property>
+        <property name="wordWrap">
+         <bool>true</bool>
+        </property>
+       </widget>
       </item>
      </layout>
     </item>

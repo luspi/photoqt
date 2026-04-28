@@ -43,11 +43,20 @@ private:
 
     bool m_freshInstall;
 
+    bool m_selfTestPerformed;
+
+    bool m_showExtensions;
+    bool m_showReset;
+
 private Q_SLOTS:
-    void storeCurrentInterface(QString variant);
+    void newPageShown(int id);
+
     void applyCurrentLanguage(int index);
 
     void resetShortcut();
     void resetSettings();
+    void enableAllExtensions();
+
+    void performSelftest();
 
 };
