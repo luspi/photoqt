@@ -1048,9 +1048,9 @@ void PQCExtensionsHandler::callActionNonBlocking(const QString &id, QVariant add
     qDebug() << "args: id =" << id;
 
 #if __cplusplus >= 202002L
-    QFuture<void> future = QtConcurrent::run([=, this] {
+    QThreadPool::globalInstance()->start([=, this]() {
 #else
-    QFuture<void> future = QtConcurrent::run([=] {
+    QThreadPool::globalInstance()->start([=]() {
 #endif
         if(m_actions.contains(id)) {
             QVariant ret = m_actions[id]->action(PQCFileFolderModelCPP::get().getCurrentFile(), additional);
@@ -1068,9 +1068,9 @@ void PQCExtensionsHandler::callActionWithImageNonBlocking(const QString &id, QVa
     qDebug() << "args: id =" << id;
 
 #if __cplusplus >= 202002L
-    QFuture<void> future = QtConcurrent::run([=, this] {
+    QThreadPool::globalInstance()->start([=, this]() {
 #else
-    QFuture<void> future = QtConcurrent::run([=] {
+    QThreadPool::globalInstance()->start([=]() {
 #endif
         QImage img;
         QSize sze;
