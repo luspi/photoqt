@@ -42,6 +42,13 @@ PQCWizard::PQCWizard(bool freshInstall, QWidget *parent) : m_freshInstall(freshI
             m_ui->langCombo->addItem(PQCScriptsLocalization::get().getNameForLocalizationCode(m_allAvailableLanguages.at(i)));
         }
         m_ui->langCombo->setCurrentIndex(m_allAvailableLanguages.indexOf("en"));
+
+        m_ui->interfaceIntegrated->setChecked(true);
+        storeInterfaceSelection();
+
+        connect(m_ui->interfaceIntegrated, &QRadioButton::clicked, this, &PQCWizard::storeInterfaceSelection);
+        connect(m_ui->interfaceModern, &QRadioButton::clicked, this, &PQCWizard::storeInterfaceSelection);
+
     // otherwise we try to load the current language and apply it.
     } else {
         int selectedIndex = -1;
@@ -59,9 +66,10 @@ PQCWizard::PQCWizard(bool freshInstall, QWidget *parent) : m_freshInstall(freshI
     PQCScriptsLocalization::get().updateTranslation(m_selectedLanguage);
     m_ui->retranslateUi(this);
 
-    if(freshInstall)
+    if(freshInstall) {
         this->removePage(1);
-    else {
+        this->removePage(2);
+    } else {
         this->removePage(0);
 
         m_ui->resetLine->setVisible(false);
@@ -95,7 +103,7 @@ PQCWizard::~PQCWizard() {}
 
 void PQCWizard::newPageShown(int id) {
 
-    qWarning() << ">>>>> id =" << id;
+    // the self-test page id
     if(id == 2) {
 
         m_ui->testTitle->setVisible(false);
@@ -112,6 +120,25 @@ void PQCWizard::newPageShown(int id) {
 
 }
 
+void PQCWizard::storeInterfaceSelection() {
+
+    QSqlQuery query(QSqlDatabase::database("settings"));
+    query.prepare("INSERT OR REPLACE INTO `general` (`name`, `value`, `datatype`) VALUES ('InterfaceVariant', :val, 'string')");
+    query.bindValue(":val", (m_ui->interfaceIntegrated->isChecked() ? "integrated" : "modern"));
+
+    if(!query.exec()) {
+        qWarning() << "Unable to store interface selection:" << query.lastError().text();
+        QMessageBox::warning(this,
+                             QApplication::translate("wizard", "Unable to store interface selection"),
+                             QApplication::translate("wizard", "PhotoQt was unable to store your interface selection. If this issue persists, try changing it later from the settings manager.")+"<br><br>"+QApplication::translate("wizard", "Error:")+QString(" %1").arg(query.lastError().text()));
+        return;
+    }
+
+    query.clear();
+
+}
+
+
 void PQCWizard::performSelftest() {
 
     m_ui->testTitle->setVisible(true);
@@ -122,10 +149,9 @@ void PQCWizard::performSelftest() {
     // here we check if something went wrong with the shortcuts
     // this can happen with older versions of PhotoQt
     // apparently particular on Windows
-    QSqlDatabase db = QSqlDatabase::database("shortcuts");
     const QStringList checkFor = {"__next", "__prev", "__zoomIn", "__zoomOut"};
     for(const QString &cmd : checkFor) {
-        QSqlQuery query(db);
+        QSqlQuery query(QSqlDatabase::database("shortcuts"));
         query.prepare("SELECT COUNT(commands) FROM shortcuts WHERE commands=:cmd");
         query.bindValue(":cmd", cmd);
         if(query.exec()) {
@@ -227,10 +253,7 @@ void PQCWizard::resetShortcut() {
     QFile::remove(QString("%1.bak").arg(PQCConfigFiles::get().SHORTCUTS_DB()));
     QFile::copy(PQCConfigFiles::get().SHORTCUTS_DB(), QString("%1.bak").arg(PQCConfigFiles::get().SHORTCUTS_DB()));
 
-    QSqlDatabase db = QSqlDatabase::database("shortcuts");
-    QSqlDatabase dbDefault = QSqlDatabase::database("shortcuts");
-
-    QSqlQuery queryDel(db);
+    QSqlQuery queryDel(QSqlDatabase::database("shortcuts"));
     queryDel.exec("DELETE FROM shortcuts");
 
     if(QFile(PQCConfigFiles::get().CACHE_DIR() + "/shortcutstmp.db").exists())
@@ -275,14 +298,12 @@ void PQCWizard::resetSettings() {
     QFile::remove(QString("%1.bak").arg(PQCConfigFiles::get().USERSETTINGS_DB()));
     QFile::copy(PQCConfigFiles::get().USERSETTINGS_DB(), QString("%1.bak").arg(PQCConfigFiles::get().USERSETTINGS_DB()));
 
-    QSqlDatabase db = QSqlDatabase::database("settings");
-
     const QStringList tbls = {"filedialog", "filetypes", "general", "imageview", "interface",
                               "mainmenu", "mapview", "metadata", "slideshow", "thumbnails"};
 
     for(const QString &tb : tbls) {
 
-        QSqlQuery queryDel(db);
+        QSqlQuery queryDel(QSqlDatabase::database("settings"));
         queryDel.exec(QString("DELETE FROM `%1`").arg(tb));
         queryDel.clear();
 
@@ -302,8 +323,7 @@ void PQCWizard::enableAllExtensions() {
     for(const QString &id : PQCExtensionsHandler::get().getDisabledExtensions())
         PQCExtensionsHandler::get().enableExtension(id);
 
-    QSqlDatabase db = QSqlDatabase::database("settings");
-    QSqlQuery query(db);
+    QSqlQuery query(QSqlDatabase::database("settings"));
     query.prepare(QString("INSERT OR REPLACE INTO `general` (`name`,`value`,`datatype`) VALUES('ExtensionsEnabled','%1','list')").arg(PQCExtensionsHandler::get().getExtensionsEnabledAndDisabld().join(":://::")));
     if(!query.exec()) {
         QMessageBox::information(this, QApplication::translate("wizard", "Error"), QApplication::translate("wizard", "Failed to enable all extensions. Please try to enable them manually from the settings manager."));

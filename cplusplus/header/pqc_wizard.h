@@ -52,6 +52,7 @@ private Q_SLOTS:
     void newPageShown(int id);
 
     void applyCurrentLanguage(int index);
+    void storeInterfaceSelection();
 
     void resetShortcut();
     void resetSettings();
