@@ -333,7 +333,6 @@ QStringList PQCScriptsImages::listArchiveContentWithoutThread(QString path, QStr
 
         // Loop over entries in archive
         struct archive_entry *entry;
-        QStringList allfiles;
         while(archive_read_next_header(a, &entry) == ARCHIVE_OK) {
 
             ++counter;
@@ -345,18 +344,13 @@ QStringList PQCScriptsImages::listArchiveContentWithoutThread(QString path, QStr
             // If supported file format, append to temporary list
             const QFileInfo info(filenameinside);
             if(!isArchive(filenameinside, true) && (PQCImageFormats::get().getEnabledFormats().contains(info.suffix().toLower()) || PQCImageFormats::get().getEnabledFormats().contains(info.completeSuffix().toLower())))
-                allfiles.append(filenameinside);
+                ret.append(filenameinside);
 
             // limit how many files to load
             if(limitArchiveFileCount && counter > limitArchiveFileCountNumber)
                 break;
 
         }
-
-        // Sort the temporary list and add to global list
-        allfiles.sort();
-
-        ret = allfiles;
 
         // Close archive
         r = archive_read_free(a);
