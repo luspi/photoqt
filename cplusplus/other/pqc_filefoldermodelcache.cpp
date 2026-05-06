@@ -25,14 +25,15 @@
 #include <QFileInfo>
 #include <QSize>
 #include <QCryptographicHash>
+#include <QDir>
 
 PQCFileFolderModelCache::PQCFileFolderModelCache() {
     cacheFiles.clear();
     cacheFolders.clear();
 }
 
-bool PQCFileFolderModelCache::loadFilesFromCache(QString foldername, bool showHidden, bool sortReversed, QString sortBy, QStringList defaultNameFilters, QStringList nameFilters, QStringList filenameFileters, QStringList mimeTypeFilters, QSize imageResolutionFilter, int fileSizeFilter, int ratingFilter, bool ignoreFiltersExceptDefault, int numberFormatsEnabled, QStringList &entriesFiles) {
-    const QString key = getUniqueCacheKey(foldername, showHidden, sortReversed, sortBy, defaultNameFilters, nameFilters, filenameFileters, mimeTypeFilters, imageResolutionFilter, fileSizeFilter, ratingFilter, ignoreFiltersExceptDefault, numberFormatsEnabled);
+bool PQCFileFolderModelCache::loadFilesFromCache(QString foldername, bool showHidden, bool sortReversed, QString sortBy, QStringList defaultNameFilters, QStringList nameFilters, QStringList filenameFileters, QStringList mimeTypeFilters, QSize imageResolutionFilter, int fileSizeFilter, bool ignoreFiltersExceptDefault, int numberFormatsEnabled, QStringList &entriesFiles) {
+    const QString key = getUniqueCacheKey(getLastModified(foldername, true, false), foldername, showHidden, sortReversed, sortBy, defaultNameFilters, nameFilters, filenameFileters, mimeTypeFilters, imageResolutionFilter, fileSizeFilter, ignoreFiltersExceptDefault, numberFormatsEnabled);
     if(cacheFiles.contains(key)) {
         entriesFiles = cacheFiles.value(key);
         return true;
@@ -40,8 +41,8 @@ bool PQCFileFolderModelCache::loadFilesFromCache(QString foldername, bool showHi
     return false;
 }
 
-bool PQCFileFolderModelCache::loadFoldersFromCache(QString foldername, bool showHidden, bool sortReversed, QString sortBy, QStringList defaultNameFilters, QStringList nameFilters, QStringList filenameFileters, QStringList mimeTypeFilters, QSize imageResolutionFilter, int fileSizeFilter, int ratingFilter, bool ignoreFiltersExceptDefault, QStringList &entriesFolders) {
-    const QString key = getUniqueCacheKey(foldername, showHidden, sortReversed, sortBy, defaultNameFilters, nameFilters, filenameFileters, mimeTypeFilters, imageResolutionFilter, fileSizeFilter, ratingFilter, ignoreFiltersExceptDefault);
+bool PQCFileFolderModelCache::loadFoldersFromCache(QString foldername, bool showHidden, bool sortReversed, QString sortBy, QStringList defaultNameFilters, QStringList nameFilters, QStringList filenameFileters, QStringList mimeTypeFilters, QSize imageResolutionFilter, int fileSizeFilter, bool ignoreFiltersExceptDefault, QStringList &entriesFolders) {
+    const QString key = getUniqueCacheKey(getLastModified(foldername, false, true), foldername, showHidden, sortReversed, sortBy, defaultNameFilters, nameFilters, filenameFileters, mimeTypeFilters, imageResolutionFilter, fileSizeFilter, ignoreFiltersExceptDefault);
     if(cacheFolders.contains(key)) {
         entriesFolders = cacheFolders.value(key);
         return true;
@@ -49,21 +50,23 @@ bool PQCFileFolderModelCache::loadFoldersFromCache(QString foldername, bool show
     return false;
 }
 
-void PQCFileFolderModelCache::saveFilesToCache(QString foldername, bool showHidden, bool sortReversed, QString sortBy, QStringList defaultNameFilters, QStringList nameFilters, QStringList filenameFileters, QStringList mimeTypeFilters, QSize imageResolutionFilter, int fileSizeFilter, int ratingFilter, bool ignoreFiltersExceptDefault, int numberFormatsEnabled, QStringList &entriesFiles) {
-    const QString key = getUniqueCacheKey(foldername, showHidden, sortReversed, sortBy, defaultNameFilters, nameFilters, filenameFileters, mimeTypeFilters, imageResolutionFilter, fileSizeFilter, ratingFilter, ignoreFiltersExceptDefault, numberFormatsEnabled);
+void PQCFileFolderModelCache::saveFilesToCache(QString foldername, bool showHidden, bool sortReversed, QString sortBy, QStringList defaultNameFilters, QStringList nameFilters, QStringList filenameFileters, QStringList mimeTypeFilters, QSize imageResolutionFilter, int fileSizeFilter, bool ignoreFiltersExceptDefault, int numberFormatsEnabled, QStringList &entriesFiles) {
+    const QString key = getUniqueCacheKey(getLastModified(foldername, true, false), foldername, showHidden, sortReversed, sortBy, defaultNameFilters, nameFilters, filenameFileters, mimeTypeFilters, imageResolutionFilter, fileSizeFilter, ignoreFiltersExceptDefault, numberFormatsEnabled);
     cacheFiles.insert(key, entriesFiles);
 }
 
-void PQCFileFolderModelCache::saveFoldersToCache(QString foldername, bool showHidden, bool sortReversed, QString sortBy, QStringList defaultNameFilters, QStringList nameFilters, QStringList filenameFileters, QStringList mimeTypeFilters, QSize imageResolutionFilter, int fileSizeFilter, int ratingFilter, bool ignoreFiltersExceptDefault, QStringList &entriesFolders) {
-    const QString key = getUniqueCacheKey(foldername, showHidden, sortReversed, sortBy, defaultNameFilters, nameFilters, filenameFileters, mimeTypeFilters, imageResolutionFilter, fileSizeFilter, ratingFilter, ignoreFiltersExceptDefault);
+void PQCFileFolderModelCache::saveFoldersToCache(QString foldername, bool showHidden, bool sortReversed, QString sortBy, QStringList defaultNameFilters, QStringList nameFilters, QStringList filenameFileters, QStringList mimeTypeFilters, QSize imageResolutionFilter, int fileSizeFilter, bool ignoreFiltersExceptDefault, QStringList &entriesFolders) {
+    const QString key = getUniqueCacheKey(getLastModified(foldername, false, true), foldername, showHidden, sortReversed, sortBy, defaultNameFilters, nameFilters, filenameFileters, mimeTypeFilters, imageResolutionFilter, fileSizeFilter, ignoreFiltersExceptDefault);
     cacheFolders.insert(key, entriesFolders);
 }
 
-QString PQCFileFolderModelCache::getUniqueCacheKey(QString foldername, bool showHidden, bool sortReversed, QString sortBy, QStringList defaultNameFilters, QStringList nameFilters, QStringList filenameFilters, QStringList mimeTypeFilters, QSize imageResolutionFilter, int fileSizeFilter, int ratingFilter, bool ignoreFiltersExceptDefault, int numberFormatsEnabled) {
+QString PQCFileFolderModelCache::getUniqueCacheKey(qint64 lastModified, QString foldername, bool showHidden, bool sortReversed, QString sortBy,
+                              QStringList defaultNameFilters, QStringList nameFilters, QStringList filenameFilters, QStringList mimeTypeFilters, QSize imageResolutionFilter, int fileSizeFilter,
+                              bool ignoreFiltersExceptDefault, int numberFormatsEnabled) {
     QString key;
-    QTextStream(&key) << foldername
+    QTextStream(&key) << lastModified
+                      << foldername
                       << showHidden
-                      << QFileInfo(foldername).lastModified().toMSecsSinceEpoch()
                       << (sortReversed ? 1 : 0)
                       << sortBy
                       << nameFilters.join("")
@@ -72,7 +75,6 @@ QString PQCFileFolderModelCache::getUniqueCacheKey(QString foldername, bool show
                       << mimeTypeFilters.join("")
                       << imageResolutionFilter.width() << imageResolutionFilter.height()
                       << fileSizeFilter
-                      << ratingFilter
                       << ignoreFiltersExceptDefault
                       << numberFormatsEnabled;
     return QCryptographicHash::hash(key.toUtf8(),QCryptographicHash::Md5).toHex();
@@ -82,4 +84,33 @@ void PQCFileFolderModelCache::resetData() {
     qDebug() << "";
     cacheFiles.clear();
     cacheFolders.clear();
+}
+
+qint64 PQCFileFolderModelCache::getLastModified(QString dirPath, bool files, bool folders) {
+
+    QFileInfo info(dirPath);
+    if(!info.exists())
+        return 0;
+
+    QDateTime latest = info.lastModified();
+
+    QFileInfoList entries;
+    if(files && folders)
+        entries = info.dir().entryInfoList(QDir::NoDotAndDotDot | QDir::AllEntries);
+    else if(files)
+        entries = info.dir().entryInfoList(QDir::NoDotAndDotDot | QDir::Files);
+    else if(folders)
+        entries = info.dir().entryInfoList(QDir::NoDotAndDotDot | QDir::Dirs);
+    else {
+        qWarning() << "Need to specify files and/or folders!";
+        return 0;
+    }
+
+    for (const QFileInfo &entry : entries) {
+        if(entry.lastModified() > latest)
+            latest = entry.lastModified();
+    }
+
+    return latest.toSecsSinceEpoch();
+
 }

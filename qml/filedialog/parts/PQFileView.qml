@@ -915,6 +915,7 @@ Item {
         if(index < PQCFileFolderModel.countFoldersFileDialog)
             filedialog_top.loadNewPath(PQCFileFolderModel.entriesFileDialog[index])
         else {
+            PQCFileFolderModel.ratingsFilter = 0
             PQCFileFolderModel.loadVirtualFolderMainView = PQCFileFolderModel.loadVirtualFolderFileDialog
             PQCFileFolderModel.fileInFolderMainView = PQCFileFolderModel.entriesFileDialog[index]
             if(!PQCSettings.interfacePopoutFileDialog || !PQCSettings.interfacePopoutFileDialogNonModal)
