@@ -144,7 +144,10 @@ void PQCAsyncImageResponseFolderThumb::run() {
 
         if(sortBy == "naturalname") {
             QCollator collator;
+            collator.setLocale(QLocale::system());
 #ifndef PQMWITHOUTICU
+            collator.setCaseSensitivity(Qt::CaseInsensitive);
+            collator.setIgnorePunctuation(true);
             collator.setNumericMode(true);
 #endif
             if(!sortAscending)

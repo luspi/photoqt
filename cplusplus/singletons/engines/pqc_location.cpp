@@ -316,7 +316,10 @@ void PQCLocation::processSummary(QString folder) {
     query.clear();
 
     QCollator collator;
+    collator.setLocale(QLocale::system());
 #ifndef PQMWITHOUTICU
+    collator.setCaseSensitivity(Qt::CaseInsensitive);
+    collator.setIgnorePunctuation(true);
     collator.setNumericMode(true);
 #endif
     std::sort(images.begin(), images.end(), [&collator](const QVariant &file1, const QVariant &file2) { return collator.compare(file1.toList()[0].toString(), file2.toList()[0].toString()) < 0; });

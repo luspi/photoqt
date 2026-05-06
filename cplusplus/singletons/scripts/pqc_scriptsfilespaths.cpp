@@ -323,10 +323,13 @@ QStringList PQCScriptsFilesPaths::getFoldersIn(QString path) {
     QStringList ret = dir.entryList();
 
     QCollator collator;
+    collator.setLocale(QLocale::system());
 #ifndef PQMWITHOUTICU
+    collator.setCaseSensitivity(Qt::CaseInsensitive);
+    collator.setIgnorePunctuation(true);
     collator.setNumericMode(true);
 #endif
-    std::sort(ret.begin(), ret.end(), [&collator](const QString &file1, const QString &file2) { return collator.compare(file1, file2) < 0; });
+    std::sort(ret.begin(), ret.end(), collator);
 
     return ret;
 
@@ -972,7 +975,12 @@ QString PQCScriptsFilesPaths::_findFirstFileinFolderAndSubFolder(const QString f
 
 void PQCScriptsFilesPaths::_sortList(QStringList &lst, const bool ascending) {
     QCollator collator;
+    collator.setLocale(QLocale::system());
+#ifndef PQMWITHOUTICU
+    collator.setCaseSensitivity(Qt::CaseInsensitive);
+    collator.setIgnorePunctuation(true);
     collator.setNumericMode(true);
+#endif
     if(ascending)
         std::sort(lst.begin(), lst.end(), [&collator](const QString &file1, const QString &file2) { return collator.compare(file1, file2) < 0; });
     else

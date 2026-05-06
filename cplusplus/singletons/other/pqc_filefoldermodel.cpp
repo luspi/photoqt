@@ -1321,7 +1321,10 @@ QStringList PQCFileFolderModel::getAllFolders(QString folder, bool forceShowHidd
 
         if(sortBy == "naturalname") {
             QCollator collator;
+            collator.setLocale(QLocale::system());
 #ifndef PQMWITHOUTICU
+            collator.setCaseSensitivity(Qt::CaseInsensitive);
+            collator.setIgnorePunctuation(true);
             collator.setNumericMode(true);
 #endif
             if(sortReversed)
@@ -1545,7 +1548,12 @@ QStringList PQCFileFolderModel::getAllFiles(QString folder, bool ignoreFiltersEx
 
             if(sortBy == "naturalname") {
                 QCollator collator;
+                collator.setLocale(QLocale::system());
+#ifndef PQMWITHOUTICU
+                collator.setCaseSensitivity(Qt::CaseInsensitive);
+                collator.setIgnorePunctuation(true);
                 collator.setNumericMode(true);
+#endif
                 if(sortReversed)
                     std::sort(ret_cur.begin(), ret_cur.end(), [&collator](const QString &file1, const QString &file2) { return collator.compare(file2, file1) < 0; });
                 else

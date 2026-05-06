@@ -370,6 +370,7 @@ QStringList PQCScriptsImages::listArchiveContentWithoutThread(QString path, QStr
 #endif
 
     QCollator collator;
+    collator.setLocale(QLocale::system());
 #ifndef PQMWITHOUTICU
     collator.setCaseSensitivity(Qt::CaseInsensitive);
     collator.setIgnorePunctuation(true);
