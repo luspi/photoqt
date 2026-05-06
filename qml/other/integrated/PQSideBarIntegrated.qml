@@ -111,6 +111,8 @@ Rectangle {
                 width: parent.width
                 height: 30
 
+                visible: PQCFileFolderModel.countMainView>0
+
                 Row {
                     id: starrow
                     x: (parent.width-width)/2
