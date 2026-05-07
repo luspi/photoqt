@@ -1,79 +1,135 @@
-/**************************************************************************
- **                                                                      **
- ** Copyright (C) 2011-2026 Lukas Spies                                  **
- ** Contact: https://photoqt.org                                         **
- **                                                                      **
- ** This file is part of PhotoQt.                                        **
- **                                                                      **
- ** PhotoQt is free software: you can redistribute it and/or modify      **
- ** it under the terms of the GNU General Public License as published by **
- ** the Free Software Foundation, either version 2 of the License, or    **
- ** (at your option) any later version.                                  **
- **                                                                      **
- ** PhotoQt is distributed in the hope that it will be useful,           **
- ** but WITHOUT ANY WARRANTY; without even the implied warranty of       **
- ** MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the        **
- ** GNU General Public License for more details.                         **
- **                                                                      **
- ** You should have received a copy of the GNU General Public License    **
- ** along with PhotoQt. If not, see <http://www.gnu.org/licenses/>.      **
- **                                                                      **
- **************************************************************************/
-
 import QtQuick
+import QtQuick3D
 import PhotoQt
 
-PQCPhotoSphere {
+Item {
 
-    id: thesphere
+    id: sphere_top
 
     /*******************************************/
     // these values are READONLY
 
     property string imageSource: ""
-    property Item loaderTop
+    property bool isMainImage
 
     /*******************************************/
 
+    property real azimuth: 180
+    property real elevation: 0
+    property real fieldOfView: 90
+
     // these need to have a small duration as otherwise touchpad handling is awkward
     // key events are handled with their own animations below
-    Behavior on fieldOfView { enabled: !PQCSettings.generalDisableAllAnimations; NumberAnimation { id: behavior_fov; duration: thesphere.aniDuration } }
-    Behavior on azimuth { enabled: !PQCSettings.generalDisableAllAnimations; NumberAnimation { id: behavior_az; duration: thesphere.aniDuration } }
-    Behavior on elevation { enabled: !PQCSettings.generalDisableAllAnimations; NumberAnimation { id: behavior_ele; duration: thesphere.aniDuration } }
-
-    property int aniDuration: 0
-
-    // if this changes (to false), then we show a notification,
-    // set a global variable to false and reload the current image
-    onIsSupportedChanged: {
-        if(!isSupported) {
-            PQCNotify.showNotificationMessage("Spheres unsupported", "The available OpenGL features are not sufficient for photo spheres")
-            PQCConstants.openGLAvailableForSpheres = false
-            loader_top.finishSetup()
+    Behavior on fieldOfView {
+        enabled: !PQCSettings.generalDisableAllAnimations;
+        NumberAnimation {
+            id: behavior_fov
+            duration: sphere_top.aniDuration
+        }
+    }
+    Behavior on azimuth {
+        enabled: !PQCSettings.generalDisableAllAnimations
+        NumberAnimation {
+            id: behavior_az
+            duration: sphere_top.aniDuration
+        }
+    }
+    Behavior on elevation {
+        enabled: !PQCSettings.generalDisableAllAnimations
+        NumberAnimation {
+            id: behavior_ele
+            duration: sphere_top.aniDuration
         }
     }
 
-    Component.onCompleted: {
+    property int aniDuration: 0
+    property int aniSpeed: Math.max(15-PQCSettings.slideshowImageTransition,1)*30
+    property bool animationRunning: false
+    property int aniDirection: -1
 
-        thesphere.aniDuration = 50
+    View3D {
 
-        if(!panOnCompleted.running && !PQCConstants.slideshowRunning && PQCSettings.filetypesPhotoSpherePanOnLoad)
-            panOnCompleted.start()
+        anchors.fill: parent
+
+        environment: SceneEnvironment {
+            backgroundMode: SceneEnvironment.Color
+            clearColor: "black"
+        }
+
+        Node {
+            id: cameraRig
+
+            eulerRotation.x: sphere_top.elevation
+            eulerRotation.y: sphere_top.azimuth
+
+            PerspectiveCamera {
+                id: camera
+                position: Qt.vector3d(0, 0, 0)
+                fieldOfView: sphere_top.fieldOfView
+            }
+        }
+
+        Model {
+
+            source: "#Sphere"
+
+            scale: Qt.vector3d(-100, 100, 100)
+
+            materials: PrincipledMaterial {
+                lighting: PrincipledMaterial.NoLighting
+                cullMode: Material.NoCulling
+
+                baseColorMap: Texture {
+                    source: "file:/" + sphere_top.imageSource
+                }
+            }
+        }
+
     }
 
-    source: thesphere.imageSource
-    azimuth: 180
-    elevation: 0
-    fieldOfView: 90
+    MouseArea {
+
+        id: mousearea
+
+        anchors.fill: parent
+
+        property point startPos
+        property real startAz
+        property real startEl
+
+        onPressed: mouse => {
+            startPos = Qt.point(mouse.x, mouse.y)
+            startAz = sphere_top.azimuth
+            startEl = sphere_top.elevation
+        }
+
+        onPositionChanged: mouse => {
+            sphere_top.azimuth = startAz + (mouse.x - startPos.x) * 0.1
+            sphere_top.elevation = Math.max(-90, Math.min(90, startEl + (mouse.y - startPos.y) * 0.1))
+        }
+    }
+
+    PinchArea {
+
+        anchors.fill: parent
+
+        property real startFov
+
+        onPinchStarted: startFov = sphere_top.fieldOfView
+
+        onPinchUpdated: pinch => {
+            sphere_top.fieldOfView = Math.max(3, Math.min(150, startFov / pinch.scale))
+        }
+    }
 
     onVisibleChanged: {
 
-        if(!thesphere.visible) {
+        if(!visible) {
             zoom("reset")
             moveView("reset")
         }
 
-        if(!loader_top.isMainImage)
+        if(!isMainImage)
             return
 
         if(!panOnCompleted.running && !PQCConstants.slideshowRunning && PQCSettings.filetypesPhotoSpherePanOnLoad)
@@ -81,63 +137,19 @@ PQCPhotoSphere {
 
     }
 
-    PinchArea {
 
-        id: pincharea
+    Component.onCompleted: {
 
-        anchors.fill: parent
+        sphere_top.aniDuration = 50
 
-        z: PQCConstants.currentZValue+1
-
-        property real storeFieldOfView
-
-        onPinchStarted: {
-            leftrightani.stop()
-            storeFieldOfView = thesphere.fieldOfView
-        }
-
-        onPinchUpdated: (pinch) => {
-            // compute the rate of change initiated by this pinch
-            var startLength = Math.sqrt(Math.pow(pinch.startPoint1.x-pinch.startPoint2.x, 2) + Math.pow(pinch.startPoint1.y-pinch.startPoint2.y, 2))
-            var curLength = Math.sqrt(Math.pow(pinch.point1.x-pinch.point2.x, 2) + Math.pow(pinch.point1.y-pinch.point2.y, 2))
-            // avoid division by zero. Can sometimes happen at the end of a pinch.
-            if(Math.abs(curLength) > 1e-12)
-                thesphere.fieldOfView = storeFieldOfView * (startLength / curLength)
-        }
-
-        MouseArea {
-
-            id: mousearea
-
-            anchors.fill: parent
-
-            property var clickedPos
-            property var clickedAzimuth
-            property var clickedElevation
-
-            onPressed: (mouse) => {
-                leftrightani.stop()
-                thesphere.aniDuration = 0
-                clickedPos = Qt.point(mouse.x, mouse.y)
-                clickedAzimuth = thesphere.azimuth
-                clickedElevation = thesphere.elevation
-            }
-            onPositionChanged: (mouse) => {
-                var posDiff = Qt.point(mouse.x-mousearea.clickedPos.x , mouse.y-mousearea.clickedPos.y)
-                var curTan = Math.tan(thesphere.fieldOfView * ((0.5*Math.PI)/180));
-                thesphere.azimuth = clickedAzimuth - (((3*256)/PQCConstants.availableHeight) * posDiff.x/6) * curTan
-                thesphere.elevation = clickedElevation + (((3*256)/PQCConstants.availableHeight) * posDiff.y/6) * curTan
-            }
-            onReleased: {
-                thesphere.aniDuration = 50
-            }
-        }
+        if(!panOnCompleted.running && !PQCConstants.slideshowRunning && PQCSettings.filetypesPhotoSpherePanOnLoad)
+            panOnCompleted.start()
     }
 
     // these are not handled with the behavior above because key events are handled smoother than mouse events
     NumberAnimation {
         id: animatedAzimuth
-        target: thesphere
+        target: sphere_top
         property: "azimuth"
         duration: PQCSettings.generalDisableAllAnimations ? 0 : 200
         onRunningChanged: {
@@ -149,7 +161,7 @@ PQCPhotoSphere {
     }
     NumberAnimation {
         id: animatedElevation
-        target: thesphere
+        target: sphere_top
         property: "elevation"
         duration: PQCSettings.generalDisableAllAnimations ? 0 : 200
         onRunningChanged: {
@@ -161,7 +173,7 @@ PQCPhotoSphere {
     }
     NumberAnimation {
         id: animatedFieldOfView
-        target: thesphere
+        target: sphere_top
         property: "fieldOfView"
         duration: PQCSettings.generalDisableAllAnimations ? 0 : 200
     }
@@ -171,17 +183,17 @@ PQCPhotoSphere {
         target: PQCScriptsShortcuts
 
         function onSendShortcutZoomIn(mousePos: point, wheelDelta : point) {
-            if(loader_top.isMainImage)
-                thesphere.zoom("in")
+            if(sphere_top.isMainImage)
+                sphere_top.zoom("in")
         }
         function onSendShortcutZoomOut(wheelDelta : point) {
-            if(loader_top.isMainImage)
-                thesphere.zoom("out")
+            if(sphere_top.isMainImage)
+                sphere_top.zoom("out")
         }
         function onSendShortcutZoomReset() {
-            if(loader_top.isMainImage) {
-                thesphere.zoom("reset")
-                thesphere.moveView("reset")
+            if(sphere_top.isMainImage) {
+                sphere_top.zoom("reset")
+                sphere_top.moveView("reset")
             }
         }
 
@@ -193,17 +205,17 @@ PQCPhotoSphere {
 
         function onCurrentViewMove(direction : string) {
 
-            if(!loader_top.isMainImage)
+            if(!sphere_top.isMainImage)
                 return
 
             if(direction === "left")
-                thesphere.moveView("left")
+                sphere_top.moveView("left")
             else if(direction === "right")
-                thesphere.moveView("right")
+                sphere_top.moveView("right")
             else if(direction === "up")
-                thesphere.moveView("up")
+                sphere_top.moveView("up")
             else if(direction === "down")
-                thesphere.moveView("down")
+                sphere_top.moveView("down")
 
         }
 
@@ -217,13 +229,13 @@ PQCPhotoSphere {
         animatedFieldOfView.stop()
 
         if(dir === "in") {
-            animatedFieldOfView.from = thesphere.fieldOfView
-            animatedFieldOfView.to = thesphere.fieldOfView-10
+            animatedFieldOfView.from = sphere_top.fieldOfView
+            animatedFieldOfView.to = Math.max(3, Math.min(150, sphere_top.fieldOfView-20))
         } else if(dir === "out") {
-            animatedFieldOfView.from = thesphere.fieldOfView
-            animatedFieldOfView.to = thesphere.fieldOfView+10
+            animatedFieldOfView.from = sphere_top.fieldOfView
+            animatedFieldOfView.to = Math.max(3, Math.min(150, sphere_top.fieldOfView+20))
         } else if(dir === "reset") {
-            animatedFieldOfView.from = thesphere.fieldOfView
+            animatedFieldOfView.from = sphere_top.fieldOfView
             animatedFieldOfView.to = 90
         }
 
@@ -242,23 +254,23 @@ PQCPhotoSphere {
             animatedAzimuth.stop()
 
         if(dir === "up") {
-            animatedElevation.from = thesphere.elevation
-            animatedElevation.to = thesphere.elevation + thesphere.fieldOfView/5
+            animatedElevation.from = sphere_top.elevation
+            animatedElevation.to = Math.max(-90, Math.min(90, sphere_top.elevation + sphere_top.fieldOfView/5))
         } else if(dir === "down") {
-            animatedElevation.from = thesphere.elevation
-            animatedElevation.to = thesphere.elevation - thesphere.fieldOfView/5
+            animatedElevation.from = sphere_top.elevation
+            animatedElevation.to = Math.max(-90, Math.min(90, sphere_top.elevation - sphere_top.fieldOfView/5))
         } else if(dir === "left") {
-            animatedAzimuth.from = thesphere.azimuth
-            animatedAzimuth.to = thesphere.azimuth - thesphere.fieldOfView/3
+            animatedAzimuth.from = sphere_top.azimuth
+            animatedAzimuth.to = sphere_top.azimuth + sphere_top.fieldOfView/3
         } else if(dir === "right") {
-            animatedAzimuth.from = thesphere.azimuth
-            animatedAzimuth.to = thesphere.azimuth + thesphere.fieldOfView/3
+            animatedAzimuth.from = sphere_top.azimuth
+            animatedAzimuth.to = sphere_top.azimuth - sphere_top.fieldOfView/3
         } else if(dir === "reset") {
-            animatedElevation.from = thesphere.elevation
+            animatedElevation.from = sphere_top.elevation
             animatedElevation.to = 0
             animatedElevation.easing.type = Easing.OutBack
             animatedElevation.duration = 500
-            animatedAzimuth.from = thesphere.azimuth
+            animatedAzimuth.from = sphere_top.azimuth
             animatedAzimuth.to = 180
             animatedAzimuth.easing.type = Easing.OutBack
             animatedAzimuth.duration = 500
@@ -271,19 +283,16 @@ PQCPhotoSphere {
 
     }
 
-    property int aniSpeed: Math.max(15-PQCSettings.slideshowImageTransition,1)*30
-    property bool animationRunning: false
-    property int aniDirection: -1
-
     Connections {
+
         target: image_top
 
         function onAnimatePhotoSpheres(direction : int) {
 
-            if(!loader_top.isMainImage)
+            if(!sphere_top.isMainImage)
                 return
 
-            thesphere.aniDirection = direction
+            sphere_top.aniDirection = direction
 
             if(direction === 0) {
                 kb_right.stop()
@@ -314,7 +323,7 @@ PQCPhotoSphere {
 
         function onCurrentImageSourceChanged() {
 
-            if(!loader_top.isMainImage) {
+            if(!sphere_top.isMainImage) {
                 if(kb_left.running)
                     kb_left.pause()
                 if(kb_right.running)
@@ -325,13 +334,13 @@ PQCPhotoSphere {
 
         function onSlideshowRunningAndPlayingChanged() {
             if(PQCConstants.slideshowRunningAndPlaying) {
-                if(aniDirection === 0) {
+                if(sphere_top.aniDirection === 0) {
                     kb_right.stop()
                     if(kb_left.paused)
                         kb_left.resume()
                     else
                         kb_left.start()
-                } else if(aniDirection === 1) {
+                } else if(sphere_top.aniDirection === 1) {
                     kb_left.stop()
                     if(kb_right.paused)
                         kb_right.resume()
@@ -359,33 +368,33 @@ PQCPhotoSphere {
         id: kb_left
 
         loops: Animation.Infinite
-        running: thesphere.animationRunning
+        running: sphere_top.animationRunning
 
         // animate from middle to the left
         NumberAnimation {
-            target: thesphere
+            target: sphere_top
             property: "azimuth"
             from: 180
             to: 0
-            duration: Math.abs(from-to)*thesphere.aniSpeed
+            duration: Math.abs(from-to)*sphere_top.aniSpeed
         }
 
         // animate to the right
         NumberAnimation {
-            target: thesphere
+            target: sphere_top
             property: "azimuth"
             from: 0
             to: 360
-            duration: Math.abs(from-to)*thesphere.aniSpeed
+            duration: Math.abs(from-to)*sphere_top.aniSpeed
         }
 
         // animate to the middle
         NumberAnimation {
-            target: thesphere
+            target: sphere_top
             property: "azimuth"
             from: 360
             to: 180
-            duration: Math.abs(from-to)*thesphere.aniSpeed
+            duration: Math.abs(from-to)*sphere_top.aniSpeed
         }
 
     }
@@ -400,29 +409,29 @@ PQCPhotoSphere {
 
         // animate from middle to the right
         NumberAnimation {
-            target: thesphere
+            target: sphere_top
             property: "azimuth"
             from: 180
             to: 360
-            duration: Math.abs(from-to)*thesphere.aniSpeed
+            duration: Math.abs(from-to)*sphere_top.aniSpeed
         }
 
         // animate to the left
         NumberAnimation {
-            target: thesphere
+            target: sphere_top
             property: "azimuth"
             from: 360
             to: 0
-            duration: Math.abs(from-to)*thesphere.aniSpeed
+            duration: Math.abs(from-to)*sphere_top.aniSpeed
         }
 
         // animate to the middle
         NumberAnimation {
-            target: thesphere
+            target: sphere_top
             property: "azimuth"
             from: 0
             to: 180
-            duration: Math.abs(from-to)*thesphere.aniSpeed
+            duration: Math.abs(from-to)*sphere_top.aniSpeed
         }
 
     }
@@ -438,7 +447,7 @@ PQCPhotoSphere {
         loops: 1
 
         NumberAnimation {
-            target: thesphere
+            target: sphere_top
             property: "azimuth"
             from: 180
             to: 190
@@ -447,7 +456,7 @@ PQCPhotoSphere {
         }
 
         NumberAnimation {
-            target: thesphere
+            target: sphere_top
             property: "azimuth"
             from: 190
             to: 180

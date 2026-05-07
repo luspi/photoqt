@@ -9,8 +9,6 @@ SET(photoqt_SOURCES cplusplus/main.cpp
                     cplusplus/other/pqc_printtabimageoptions.cpp
                     cplusplus/other/pqc_printtabimagepositiontile.cpp
                     cplusplus/other/pqc_localhttpserver.cpp
-                    cplusplus/other/pqc_photosphereitem.cpp
-                    cplusplus/other/pqc_photosphererenderer.cpp
                     cplusplus/other/pqc_filefoldermodelcache.cpp
                     cplusplus/other/pqc_extensionsettings.cpp
                     cplusplus/other/pqc_startuphandler.cpp
@@ -40,8 +38,6 @@ SET(photoqt_SOURCES cplusplus/main.cpp
                     cplusplus/header/pqc_localhttpserver.h
                     cplusplus/header/pqc_filefoldermodelCPP.h
                     cplusplus/header/pqc_imageformats.h
-                    cplusplus/header/pqc_photosphereitem.h
-                    cplusplus/header/pqc_photosphererenderer.h
                     cplusplus/header/pqc_resolutioncache.h
                     cplusplus/header/pqc_extensionshandler.h
                     cplusplus/header/pqc_extensioninfo.h
@@ -117,9 +113,6 @@ SET(photoqt_SOURCES cplusplus/main.cpp
 
 ########################################################################
 ########################################################################
-
-                    cplusplus/other/pqc_photosphere.cpp
-                    cplusplus/header/pqc_photosphere.h
 
                     cplusplus/header/pqc_imageformats_qml.h
                     cplusplus/header/pqc_filefoldermodel.h

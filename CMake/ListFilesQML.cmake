@@ -135,7 +135,6 @@ SET(photoqt_QML qml/PQMainWindow.qml
                 qml/image/imageitems/PQImageNormal.qml
                 qml/image/imageitems/PQImageAnimated.qml
                 qml/image/imageitems/PQArchive.qml
-                qml/image/imageitems/PQPhotoSphere.qml
                 qml/image/imageitems/PQDocument.qml
                 qml/image/imageitems/PQSVG.qml
 
@@ -272,5 +271,7 @@ SET(photoqt_QML_LOCATION qml/loaders/PQLoaderMapExplorer.qml
                          qml/mapexplorer/parts/PQMapExplorerMap.qml
                          qml/mapexplorer/parts/PQMapExplorerMapTweaks.qml
 )
-
 SET(photoqt_QML_NOLOCATION qml/loaders/dummies/PQLoaderMapExplorer.qml)
+
+set(photoqt_QML_PHOTOSPHERE qml/image/imageitems/PQPhotoSphere.qml)
+set(photoqt_QML_NOPHOTOSPHERE qml/image/imageitems/dummy/PQPhotoSphere.qml)

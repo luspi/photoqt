@@ -1245,7 +1245,7 @@ Loader {
                                 id: sphitem
 
                                 imageSource: imageloaderitem.imageSource
-                                loaderTop: loader_top
+                                isMainImage: loader_top.isMainImage
 
                                 width: loader_top.width
                                 height: loader_top.height

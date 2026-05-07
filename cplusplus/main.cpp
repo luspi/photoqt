@@ -29,6 +29,7 @@
 #include <clocale>
 #include <QSqlError>
 #include <QSqlQuery>
+#include <QImageReader>
 
 #ifdef PQMEXIV2
 #ifdef PQMEXIV2_ENABLE_BMFF
@@ -168,9 +169,14 @@ int main(int argc, char **argv) {
     PQCSingleInstance app(argc, argv);
 
     /******************************************/
-    // we take care of any startup checks and potential migrations
 
+    // we take care of any startup checks and potential migrations
     PQCStartupHandler startupHandler(app.getForceShowWizard(), app.getForceSkipWizard());
+
+    /******************************************/
+
+    // we need to disable this limit early on to avoid any failures when loading images later-on
+    QImageReader::setAllocationLimit(0);
 
     /******************************************/
 

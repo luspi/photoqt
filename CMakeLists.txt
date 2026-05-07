@@ -403,6 +403,12 @@ else()
     SET(photoqt_QML_ADDITIONAL ${photoqt_QML_ADDITIONAL} ${photoqt_QML_NOLIBMPV})
 endif()
 
+if(_WITH_PHOTOSPHERE)
+    SET(photoqt_QML_ADDITIONAL ${photoqt_QML_ADDITIONAL} ${photoqt_QML_PHOTOSPHERE})
+else()
+    SET(photoqt_QML_ADDITIONAL ${photoqt_QML_ADDITIONAL} ${photoqt_QML_NOPHOTOSPHERE})
+endif()
+
 # Any additional sources are added to the full list.
 SET(photoqt_QML ${photoqt_QML} ${photoqt_QML_ADDITIONAL})
 

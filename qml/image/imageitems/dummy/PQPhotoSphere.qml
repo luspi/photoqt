@@ -1,5 +1,5 @@
 /**************************************************************************
- **                                                                      **
+ * *                                                                      **
  ** Copyright (C) 2011-2026 Lukas Spies                                  **
  ** Contact: https://photoqt.org                                         **
  **                                                                      **
@@ -19,32 +19,13 @@
  ** along with PhotoQt. If not, see <http://www.gnu.org/licenses/>.      **
  **                                                                      **
  **************************************************************************/
-#pragma once
 
-#ifdef PQMPHOTOSPHERE
+import QtQuick
 
-#include <QVector3D>
-#include <QOpenGLBuffer>
-#include <QOpenGLVertexArrayObject>
+Item {
 
-class PQCPhotoSphereItem {
+    property string imageSource
+    property bool isMainImage
+    property Item loaderTop
 
-public:
-
-    PQCPhotoSphereItem();
-
-    void setup();
-    void drawSphere();
-
-    QOpenGLVertexArrayObject vertexArrowObject;
-    QOpenGLBuffer vertexDataBuffer;
-    QOpenGLBuffer textureCoordinateBuffer;
-    QVector<QVector3D> sphereVertices;
-    QVector<QVector2D> textureCoords;
-
-private:
-    bool isSetup = false;
-
-};
-
-#endif
+}
