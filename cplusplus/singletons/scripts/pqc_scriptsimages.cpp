@@ -668,9 +668,6 @@ QString PQCScriptsImages::extractMotionPhoto(QString path) {
     // at this point we assume that the check for google motion photo has already been done
     // and we won't need to check again
 
-    // the approach taken in this function is inspired by the analysis found at:
-    // https://linuxreviews.org/Google_Pixel_%22Motion_Photo%22
-
     QFileInfo info(path);
     if(!info.exists())
         return "";
@@ -680,66 +677,109 @@ QString PQCScriptsImages::extractMotionPhoto(QString path) {
         return videofilename;
     }
 
-    // we assume header for type==2
-    QStringList headerbytes = {"00000018667479706d703432",
-                               "0000001c6674797069736f6d"};
-
-    char *data = new char[info.size()]{};
-
     QFile file(path);
     if(!file.open(QIODevice::ReadOnly)) {
         qWarning() << "Unable to open file for reading";
-        delete[] data;
         return "";
     }
 
-    QDataStream in(&file);
-    in.readRawData(data, info.size());
+    const qint64 fileSize = file.size();
 
-    // we look for the offset of the header of size 12
-    // it looks like this: 00000018667479706d703432
-    for(int i = 0; i < info.size()-12; ++i) {
+    if(fileSize < 16) {
+        qWarning() << "File too small to contain embedded video";
+        return "";
+    }
 
-        // we inspect the current 3
-        QByteArray firstthree(&data[i], 3);
+    uchar *data = file.map(0, fileSize);
 
-        if(firstthree.toHex() == "000000") {
+    if(!data) {
+        qWarning() << "Failed to memory-map file";
+        return "";
+    }
 
-            // read the full 12 bytes
-            QByteArray array(&data[i], 12);
+    // some common MP4 tags found in motion photos
+    static const QList<QByteArray> validTags = {"mp42", "mp41", "isom", "iso2", "avc1", "M4V "};
 
-            // if it matches we found the video
-            if(headerbytes.contains(array.toHex())) {
+    qint64 videoOffset = -1;
 
-                // get the video data
-                QByteArray videodata(&data[i], info.size()-i);
+    // scan for MP4 ftyp atom
+    for(qint64 i = 0; i < fileSize - 12; ++i) {
 
-                // make sure cache folder exists
-                QDir dir;
-                dir.mkpath(QFileInfo(videofilename).absolutePath());
+        // we are checking for:
+        // [size:4]["ftyp":4][tag:4]
 
-                // write video to temporary file
-                QFile outfile(videofilename);
-                if(!outfile.open(QIODevice::WriteOnly)) {
-                    delete[] data;
-                    qWarning() << "ERROR extracting motion photo.";
-                    return "";
-                }
-                QDataStream out(&outfile);
-                out.writeRawData(videodata, info.size()-i);
-                outfile.close();
+        if(data[i + 4] == 'f' && data[i + 5] == 't' &&
+           data[i + 6] == 'y' && data[i + 7] == 'p') {
 
-                delete[] data;
+            // read atom size (big endian)
+            quint32 atomSize = (quint32(data[i]) << 24) | (quint32(data[i + 1]) << 16) |
+                               (quint32(data[i + 2]) << 8) | quint32(data[i + 3]);
 
-                return outfile.fileName();
+            // some basic validation
+            if(atomSize < 8 || atomSize > (fileSize - i))
+                continue;
 
-            }
+            QByteArray tag(reinterpret_cast<const char*>(data + i + 8), 4);
+
+            if(!validTags.contains(tag))
+                continue;
+
+            videoOffset = i;
+
+            break;
         }
     }
 
-    delete[] data;
+    file.unmap(data);
 
-    return "";
+    if(videoOffset < 0) {
+        qWarning() << "no embedded MP4 video found";
+        return "";
+    }
+
+    // Ensure output directory exists
+    QDir dir;
+    dir.mkpath(QFileInfo(videofilename).absolutePath());
+
+    if(!file.seek(videoOffset)) {
+        qWarning() << "failed to seek to video offset";
+        return "";
+    }
+
+    QFile outFile(videofilename);
+
+    if(!outFile.open(QIODevice::WriteOnly)) {
+        qWarning() << "failed to create output video file:" << videofilename;
+        return "";
+    }
+
+    // use a buffer of 1MB
+    constexpr qint64 bufferSize = 1024 * 1024;
+
+    while(!file.atEnd()) {
+
+        QByteArray chunk = file.read(bufferSize);
+
+        if(chunk.isEmpty() && file.error() != QFile::NoError) {
+            qWarning() << "error reading input file";
+            outFile.close();
+            outFile.remove();
+            return "";
+        }
+
+        if(outFile.write(chunk) != chunk.size()) {
+            qWarning() << "error writing output file";
+            outFile.close();
+            outFile.remove();
+            return "";
+        }
+    }
+
+    outFile.close();
+
+    qDebug() << "extracted motion video to:" << videofilename;
+
+    return outFile.fileName();
 
 }
 
