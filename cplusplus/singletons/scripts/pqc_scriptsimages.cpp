@@ -270,40 +270,32 @@ QStringList PQCScriptsImages::listArchiveContentWithoutThread(QString path, QStr
         return archiveContentCache[cacheKey];
     }
 
+    const QStringList enabledFormats = PQCImageFormats::get().getEnabledFormats();
+
 #ifndef Q_OS_WIN
 
     if(PQCSettingsCPP::get().getFiletypesExternalUnrar() && (info.suffix() == "cbr" || info.suffix() == "rar")) {
 
-        QProcess which;
-        which.setStandardOutputFile(QProcess::nullDevice());
-        which.start("which", QStringList() << "unrar");
-        which.waitForFinished();
+        QProcess p;
+        p.setProcessChannelMode(QProcess::MergedChannels);
+        p.start("unrar", QStringList() << "lb" << info.absoluteFilePath());
 
-        if(!which.exitCode()) {
+        if(p.waitForStarted()) {
 
-            QProcess p;
-            p.start("unrar", QStringList() << "lb" << info.absoluteFilePath());
+            p.waitForFinished();
 
-            if(p.waitForStarted()) {
+            if(p.exitStatus() == QProcess::NormalExit && p.exitCode() == 0) {
 
-                QByteArray outdata = "";
+                ret = QString::fromLocal8Bit(p.readAllStandardOutput()).split('\n', Qt::SkipEmptyParts);
 
-                while(p.waitForReadyRead())
-                    outdata.append(p.readAll());
-
-                auto toUtf16 = QStringDecoder(QStringDecoder::Utf8);
-                QStringList allfiles = QString(toUtf16(outdata)).split('\n', Qt::SkipEmptyParts);
-
-                allfiles.sort();
+                // remove archives and unsupported files
+                ret.erase(std::remove_if(ret.begin(), ret.end(), [&](const QString &f) {
+                              return (isArchive(f, true) || !enabledFormats.contains(QFileInfo(f).suffix().toLower()));
+                          }), ret.end());
 
                 // limit how many files to load
                 if(limitArchiveFileCount)
-                    allfiles = allfiles.mid(0, limitArchiveFileCountNumber);
-
-                for(const QString &f : std::as_const(allfiles)) {
-                    if(!isArchive(f, true) && PQCImageFormats::get().getEnabledFormats().contains(QFileInfo(f).suffix().toLower()))
-                        ret.append(f);
-                }
+                    ret = ret.mid(0, limitArchiveFileCountNumber);
 
             }
 
@@ -330,13 +322,15 @@ QStringList PQCScriptsImages::listArchiveContentWithoutThread(QString path, QStr
 #ifdef Q_OS_WIN
         int r = archive_read_open_filename_w(a, reinterpret_cast<const wchar_t*>(info.absoluteFilePath().utf16()), 10240);
 #else
-        int r = archive_read_open_filename(a, info.absoluteFilePath().toLocal8Bit().data(), 10240);
+        QByteArray tmpPath = QFile::encodeName(info.absoluteFilePath());
+        int r = archive_read_open_filename(a, tmpPath.constData(), 10240);
 #endif
 
         // If something went wrong, output error message and stop here
         if(r != ARCHIVE_OK) {
             qWarning() << "ERROR: archive_read_open_filename() returned code of" << r;
             qWarning() << "Archive:" << info.absoluteFilePath();
+            archive_read_free(a);
             return ret;
         }
 
@@ -350,11 +344,15 @@ QStringList PQCScriptsImages::listArchiveContentWithoutThread(QString path, QStr
 
             // Read the current file entry
             // We use the '_w' variant here, as otherwise on Windows this call causes a segfault when a file in an archive contains non-latin characters
-            QString filenameinside = QString::fromWCharArray(archive_entry_pathname_w(entry));
+            // Also, if the archives is malformed or there is an encoding issue then it is possible that this may return a nullptr
+            // and PhotoQt might crash if not handled properly -> check before converting to QString
+            const wchar_t *wpath = archive_entry_pathname_w(entry);
+            if(!wpath) continue;
+            QString filenameinside = QString::fromWCharArray(wpath);
 
             // If supported file format, append to temporary list
             const QFileInfo info(filenameinside);
-            if(!isArchive(filenameinside, true) && (PQCImageFormats::get().getEnabledFormats().contains(info.suffix().toLower()) || PQCImageFormats::get().getEnabledFormats().contains(info.completeSuffix().toLower())))
+            if(!isArchive(filenameinside, true) && enabledFormats.contains(info.suffix().toLower()) || enabledFormats.contains(info.completeSuffix().toLower()))
                 ret.append(filenameinside);
 
             // limit how many files to load
