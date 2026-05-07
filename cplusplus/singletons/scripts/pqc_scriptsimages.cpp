@@ -176,14 +176,25 @@ QString PQCScriptsImages::loadImageAndConvertToBase64(QString filename) {
     filename = PQCScriptsFilesPaths::get().cleanPath(filename);
 
     QPixmap pix;
-    pix.load(filename);
+
+    if(!pix.load(filename))
+        return "";
+
     if(pix.width() > 64 || pix.height() > 64)
-        pix = pix.scaled(64,64,Qt::KeepAspectRatio);
+        pix = pix.scaled(64, 64,
+                         Qt::KeepAspectRatio,
+                         Qt::SmoothTransformation);
+
     QByteArray bytes;
     QBuffer buffer(&bytes);
-    buffer.open(QIODevice::WriteOnly);
-    pix.save(&buffer, "PNG");
-    return bytes.toBase64();
+
+    if(!buffer.open(QIODevice::WriteOnly))
+        return "";
+
+    if(!pix.save(&buffer, "PNG"))
+        return "";
+
+    return QString::fromLatin1(bytes.toBase64());
 
 }
 
