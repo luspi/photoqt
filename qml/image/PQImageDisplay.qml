@@ -781,7 +781,7 @@ Loader {
                         id: timer_busyloading
                         interval: 500
                         onTriggered: {
-                            if(!PQCConstants.slideshowRunning)
+                            if(!PQCConstants.slideshowRunning && image_wrapper.status != Image.Ready)
                                 busyloading.showBusy()
                         }
                     }
