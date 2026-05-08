@@ -141,14 +141,21 @@ QString PQCLoadImageQt::load(QString filename, QSize maxSize, QSize &origSize, Q
 
         // Store the width/height for later use
         origSize = svg.defaultSize();
+        // some svg's might not have a default size
+        // in that case we fall back to the a default size
+        if(!origSize.isValid())
+            origSize = QSize(512,512);
 
         // Render SVG into pixmap
-        if(maxSize.width() > 5 || maxSize.height() > 5)
-            img = QImage(svg.defaultSize().scaled(maxSize, Qt::KeepAspectRatio), QImage::Format_ARGB32);
+        if(maxSize.isValid())
+            img = QImage(origSize.scaled(maxSize, Qt::KeepAspectRatio), QImage::Format_ARGB32);
         else
-            img = QImage(svg.defaultSize(), QImage::Format_ARGB32);
+            img = QImage(origSize, QImage::Format_ARGB32_Premultiplied);
         img.fill(::Qt::transparent);
         QPainter painter(&img);
+        painter.setRenderHint(QPainter::Antialiasing);
+        painter.setRenderHint(QPainter::SmoothPixmapTransform);
+        painter.setRenderHint(QPainter::TextAntialiasing);
         svg.render(&painter);
 
         return "";
@@ -221,19 +228,17 @@ QString PQCLoadImageQt::load(QString filename, QSize maxSize, QSize &origSize, Q
         bool imageIsScaled = false;
 
         // check if we need to scale the image
-        if(maxSize.isValid() && origSize.isValid() && !maxSize.isNull() && !origSize.isNull()) {
+        if(maxSize.isValid() && origSize.isValid()) {
 
             imageIsScaled = true;
 
-            const QSize dispSize = origSize.scaled(maxSize, Qt::KeepAspectRatio);
-
             // scaling
             if(imgAlreadyLoaded) {
-                img = img.scaled(dispSize,
-                                 Qt::IgnoreAspectRatio,
+                img = img.scaled(maxSize,
+                                 Qt::KeepAspectRatio,
                                  (PQCSettingsCPP::get().getImageviewRescalingSmooth() ? Qt::SmoothTransformation : Qt::FastTransformation));
             } else
-                reader.setScaledSize(dispSize);
+                reader.setScaledSize(origSize.scaled(maxSize, Qt::KeepAspectRatio));
 
         }
 
