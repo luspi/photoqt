@@ -60,7 +60,7 @@ QSize PQCLoadImagePoppler::loadSize(QString filename) {
         return QSize();
     }
 
-    return p->pageSize()*(PQCSettingsCPP::get().getFiletypesPDFQuality()/72.0);
+    return (p->pageSizeF()*(PQCSettingsCPP::get().getFiletypesPDFQuality()/72.0)).toSize();
 
 #endif
 
@@ -93,6 +93,7 @@ QString PQCLoadImagePoppler::load(QString filename, QSize maxSize, QSize &origSi
     }
     document->setRenderHint(Poppler::Document::TextAntialiasing);
     document->setRenderHint(Poppler::Document::Antialiasing);
+    document->setRenderHint(Poppler::Document::ThinLineShape);
     std::unique_ptr<Poppler::Page> p = document->page(page);
     if(p == nullptr) {
         errormsg = QString("Unable to read page %1").arg(page);
@@ -102,9 +103,9 @@ QString PQCLoadImagePoppler::load(QString filename, QSize maxSize, QSize &origSi
 
     const double quality = PQCSettingsCPP::get().getFiletypesPDFQuality();
     double useQuality = quality;
-    if(maxSize.width() != -1 && maxSize.height() != -1) {
-        double factor1 = maxSize.width()/p->pageSizeF().width();
-        double factor2 = maxSize.height()/p->pageSizeF().height();
+    if(maxSize.isValid()) {
+        double factor1 = static_cast<qreal>(maxSize.width())/p->pageSizeF().width();
+        double factor2 = static_cast<qreal>(maxSize.height())/p->pageSizeF().height();
         double factor = qMin(factor1, factor2);
         useQuality = 72.0*factor;
     }
@@ -113,17 +114,11 @@ QString PQCLoadImagePoppler::load(QString filename, QSize maxSize, QSize &origSi
 
     if(!img.isNull()) {
         PQCScriptsColorProfiles::get().applyColorProfile(filename, img);
-        PQCImageCache::get().saveImageToCache(filename, PQCScriptsColorProfiles::get().getColorProfileFor(filename), &img);
+        if(!maxSize.isValid())
+            PQCImageCache::get().saveImageToCache(filename, PQCScriptsColorProfiles::get().getColorProfileFor(filename), &img);
     }
 
     origSize = p->pageSize()*(quality/72.0);
-
-    // Scale image if necessary
-    if(maxSize.width() != -1) {
-        img = img.scaled(origSize.scaled(maxSize, Qt::KeepAspectRatio),
-                         Qt::IgnoreAspectRatio,
-                         (PQCSettingsCPP::get().getImageviewRescalingSmooth() ? Qt::SmoothTransformation : Qt::FastTransformation));
-    }
 
     // return render image
     return "";

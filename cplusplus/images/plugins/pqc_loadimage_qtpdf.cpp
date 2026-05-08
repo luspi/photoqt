@@ -84,7 +84,12 @@ QString PQCLoadImageQtPDF::load(QString filename, QSize maxSize, QSize &origSize
     }
 
     QPdfDocument doc;
-    doc.load(realFileName);
+    QPdfDocument::Error ret = doc.load(realFileName);
+    if(ret != QPdfDocument::Error::None) {
+        errormsg = QString("Unable to load pdf using QtPDF: %1").arg(static_cast<int>(ret));
+        qWarning() << errormsg;
+        return errormsg;
+    }
 
     QPdfDocument::Error err = doc.error();
     if(err != QPdfDocument::Error::None) {
@@ -93,10 +98,12 @@ QString PQCLoadImageQtPDF::load(QString filename, QSize maxSize, QSize &origSize
         return errormsg;
     }
 
-    QSizeF _pageSize = (doc.pagePointSize(page)/72.0*qApp->primaryScreen()->physicalDotsPerInch())*(PQCSettingsCPP::get().getFiletypesPDFQuality()/72.0);
-    origSize = QSize(_pageSize.width(), _pageSize.height());
+    QSizeF _pageSize = doc.pagePointSize(page)*(PQCSettingsCPP::get().getFiletypesPDFQuality()/72.0);
+    origSize = _pageSize.toSize();
 
-    QImage p = doc.render(page, origSize);
+    QImage p = doc.render(page, (maxSize.isValid() ?
+                                     origSize.scaled(maxSize, Qt::KeepAspectRatio) :
+                                     origSize));
 
     if(p.isNull()) {
         errormsg = QString("Unable to read page %1").arg(page);
@@ -110,19 +117,13 @@ QString PQCLoadImageQtPDF::load(QString filename, QSize maxSize, QSize &origSize
     img = QImage(p.size(), p.format());
     img.fill(Qt::white);
     QPainter paint(&img);
-    paint.drawImage(QRect(QPoint(0,0), img.size()), p);
+    paint.drawImage(0, 0, p);
     paint.end();
 
     if(!img.isNull()) {
         PQCScriptsColorProfiles::get().applyColorProfile(filename, img);
-        PQCImageCache::get().saveImageToCache(filename, PQCScriptsColorProfiles::get().getColorProfileFor(filename), &img);
-    }
-
-    // Scale image if necessary
-    if(maxSize.width() != -1) {
-        img = img.scaled(origSize.scaled(maxSize, Qt::KeepAspectRatio),
-                         Qt::IgnoreAspectRatio,
-                         (PQCSettingsCPP::get().getImageviewRescalingSmooth() ? Qt::SmoothTransformation : Qt::FastTransformation));
+        if(!maxSize.isValid())
+            PQCImageCache::get().saveImageToCache(filename, PQCScriptsColorProfiles::get().getColorProfileFor(filename), &img);
     }
 
     return "";

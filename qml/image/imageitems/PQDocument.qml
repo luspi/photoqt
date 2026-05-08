@@ -190,11 +190,25 @@ Image {
         height: image.paintedHeight
         property bool manualHidden: false
         property int rescWhich: PQCSettings.imageviewRescalingWhichImages
-        active: (!image.initialLoad || image.status===Image.Ready) &&
-                (rescWhich===0 ||
-                 ((rescWhich===1||rescWhich===3) && image.interpThresholdMet) ||
-                 ((rescWhich===2||rescWhich===3) && PQCConstants.devicePixelRatio*PQCConstants.currentImageScale<1)) &&
-                !xTransform.running && !yTransform.running
+        property bool setActive: (!image.initialLoad || image.status===Image.Ready) &&
+                                 (rescWhich===0 ||
+                                  ((rescWhich===1||rescWhich===3) && image.interpThresholdMet) ||
+                                  ((rescWhich===2||rescWhich===3) && PQCConstants.devicePixelRatio*PQCConstants.currentImageScale<1)) &&
+                                 !xTransform.running && !yTransform.running
+        onSetActiveChanged: {
+            if(!setActive)
+                active = false
+            else
+                timerActive.restart()
+        }
+        Timer {
+            id: timerActive
+            interval: 500
+            onTriggered: {
+                scaledloader.active = scaledloader.setActive
+            }
+        }
+
         asynchronous: true
         sourceComponent:
         Image {
