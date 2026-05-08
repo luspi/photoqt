@@ -132,7 +132,7 @@ QString PQCLoadImageLibVips::load(QString filename, QSize maxSize, QSize &origSi
     g_object_unref(vimg);
 
     // scale image if necessary
-    if(maxSize.width() != -1) {
+    if(maxSize.isValid() && !maxSize.isNull()) {
         img = img.scaled(origSize.scaled(maxSize, Qt::KeepAspectRatio),
                          Qt::IgnoreAspectRatio,
                          (PQCSettingsCPP::get().getImageviewRescalingSmooth() ? Qt::SmoothTransformation : Qt::FastTransformation));

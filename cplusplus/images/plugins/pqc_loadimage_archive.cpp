@@ -225,7 +225,7 @@ QString PQCLoadImageArchive::load(QString filename, QSize maxSize, QSize &origSi
                 }
 
                 // Scale image if necessary
-                if(maxSize.width() != -1) {
+                if(maxSize.isValid() && !maxSize.isNull()) {
 
                     QSize finalSize = origSize;
 
@@ -374,7 +374,7 @@ QString PQCLoadImageArchive::load(QString filename, QSize maxSize, QSize &origSi
     }
 
     // Scale image if necessary
-    if(maxSize.width() != -1) {
+    if(maxSize.isValid() && !maxSize.isNull()) {
         img = img.scaled(origSize.scaled(maxSize, Qt::KeepAspectRatio),
                          Qt::IgnoreAspectRatio,
                          (PQCSettingsCPP::get().getImageviewRescalingSmooth() ? Qt::SmoothTransformation : Qt::FastTransformation));

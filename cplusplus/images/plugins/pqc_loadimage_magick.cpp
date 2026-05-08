@@ -178,7 +178,7 @@ QString PQCLoadImageMagick::load(QString filename, QSize maxSize, QSize &origSiz
         bool imageIsScaled = false;
 
         // Scale image if necessary
-        if(maxSize.isValid()) {
+        if(maxSize.isValid() && !maxSize.isNull()) {
 
             imageIsScaled = true;
 

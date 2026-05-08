@@ -147,7 +147,7 @@ QString PQCLoadImageQt::load(QString filename, QSize maxSize, QSize &origSize, Q
             origSize = QSize(512,512);
 
         // Render SVG into pixmap
-        if(maxSize.isValid())
+        if(maxSize.isValid() && !maxSize.isNull())
             img = QImage(origSize.scaled(maxSize, Qt::KeepAspectRatio), QImage::Format_ARGB32);
         else
             img = QImage(origSize, QImage::Format_ARGB32_Premultiplied);
@@ -228,7 +228,7 @@ QString PQCLoadImageQt::load(QString filename, QSize maxSize, QSize &origSize, Q
         bool imageIsScaled = false;
 
         // check if we need to scale the image
-        if(maxSize.isValid() && origSize.isValid()) {
+        if(maxSize.isValid() && !maxSize.isNull() && origSize.isValid()) {
 
             imageIsScaled = true;
 

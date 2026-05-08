@@ -103,7 +103,7 @@ QString PQCLoadImagePoppler::load(QString filename, QSize maxSize, QSize &origSi
 
     const double quality = PQCSettingsCPP::get().getFiletypesPDFQuality();
     double useQuality = quality;
-    if(maxSize.isValid()) {
+    if(maxSize.isValid() && !maxSize.isNull()) {
         double factor1 = static_cast<qreal>(maxSize.width())/p->pageSizeF().width();
         double factor2 = static_cast<qreal>(maxSize.height())/p->pageSizeF().height();
         double factor = qMin(factor1, factor2);
@@ -114,7 +114,7 @@ QString PQCLoadImagePoppler::load(QString filename, QSize maxSize, QSize &origSi
 
     if(!img.isNull()) {
         PQCScriptsColorProfiles::get().applyColorProfile(filename, img);
-        if(!maxSize.isValid())
+        if(!maxSize.isValid() || maxSize.isNull())
             PQCImageCache::get().saveImageToCache(filename, PQCScriptsColorProfiles::get().getColorProfileFor(filename), &img);
     }
 
