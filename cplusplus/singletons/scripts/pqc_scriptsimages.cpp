@@ -352,7 +352,7 @@ QStringList PQCScriptsImages::listArchiveContentWithoutThread(QString path, QStr
 
             // If supported file format, append to temporary list
             const QFileInfo info(filenameinside);
-            if(!isArchive(filenameinside, true) && enabledFormats.contains(info.suffix().toLower()) || enabledFormats.contains(info.completeSuffix().toLower()))
+            if(!isArchive(filenameinside, true) && (enabledFormats.contains(info.suffix().toLower()) || enabledFormats.contains(info.completeSuffix().toLower())))
                 ret.append(filenameinside);
 
             // limit how many files to load
