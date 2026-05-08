@@ -51,7 +51,7 @@ public:
     bool isMpvVideo(QString path);
     bool isQtVideo(QString path);
     bool isPDFDocument(QString path);
-    bool isArchive(QString path, bool silent = false);
+    bool isArchive(QString path, bool silent = false, bool insideArchive = false);
     int isMotionPhoto(QString path);
     bool isPhotoSphere(QString path);
     bool isComicBook(QString path);

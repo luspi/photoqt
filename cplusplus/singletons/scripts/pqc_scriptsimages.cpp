@@ -352,7 +352,7 @@ QStringList PQCScriptsImages::listArchiveContentWithoutThread(QString path, QStr
 
             // If supported file format, append to temporary list
             const QFileInfo info(filenameinside);
-            if(!isArchive(filenameinside, true) && (enabledFormats.contains(info.suffix().toLower()) || enabledFormats.contains(info.completeSuffix().toLower())))
+            if(!isArchive(filenameinside, true, true) && (enabledFormats.contains(info.suffix().toLower()) || enabledFormats.contains(info.completeSuffix().toLower())))
                 ret.append(filenameinside);
 
             // limit how many files to load
@@ -502,7 +502,7 @@ bool PQCScriptsImages::isPDFDocument(QString path) {
 
 }
 
-bool PQCScriptsImages::isArchive(QString path, bool silent) {
+bool PQCScriptsImages::isArchive(QString path, bool silent, bool insideArchive) {
 
     // each entry in an archive is checked for whether it is an archive or not
     // for archives with many files, this generates a LOT of output
@@ -513,9 +513,11 @@ bool PQCScriptsImages::isArchive(QString path, bool silent) {
        PQCImageFormats::get().getEnabledFormatsLibArchive().contains(QFileInfo(path).completeSuffix().toLower()))
         return true;
 
-    QMimeDatabase db;
-    if(PQCImageFormats::get().getEnabledMimeTypesLibArchive().contains(db.mimeTypeForFile(path).name()))
-        return true;
+    if(!insideArchive) {
+        QMimeDatabase db;
+        if(PQCImageFormats::get().getEnabledMimeTypesLibArchive().contains(db.mimeTypeForFile(path).name()))
+            return true;
+    }
 
     return false;
 
