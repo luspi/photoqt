@@ -186,6 +186,7 @@ Q_SIGNALS:
 
 private:
     PQCImageFormats();
+    ~PQCImageFormats();
 
     int checkForUpdateOrNew();
 

@@ -40,18 +40,23 @@ QSize PQCLoadImageLibVips::loadSize(QString filename) {
 
 #ifdef PQMLIBVIPS
 
-    // The vips image object
-    VipsImage *in;
+    // we only need the metadata here, never the full image
+    VipsImage *in = vips_image_new_from_file(filename.toStdString().c_str(),
+                                             "access", VIPS_ACCESS_RANDOM,
+                                             "fail_on", VIPS_FAIL_ON_TRUNCATED,
+                                             NULL);
 
-    // attempt to the load the image
-    if(!(in = vips_image_new_from_file(filename.toStdString().c_str(), NULL))) {
-        g_object_unref(in);
-        qDebug() << "vips_image_new_from_file: failed to load image from file";
+    if(!in) {
+        qDebug() << "vips_image_new_from_file: failed to load image from file)";
+        return QSize();
         return QSize();
     }
 
-    // store original size
-    return QSize(vips_image_get_width(in), vips_image_get_height(in));
+    const QSize size(vips_image_get_width(in), vips_image_get_height(in));
+
+    g_object_unref(in);
+
+    return size;
 
 #else
 
@@ -73,8 +78,8 @@ QString PQCLoadImageLibVips::load(QString filename, QSize maxSize, QSize &origSi
     // we use the C API as the equivalent C++ API calls led to crash on subsequent call
 
     // attempt to the load the image
-    VipsImage *vimg = vips_image_new_from_file(filename.toStdString().c_str(), "memory", true, NULL);
-    if(vimg == NULL) {
+    VipsImage *vimg = vips_image_new_from_file(filename.toStdString().c_str(), "access", VIPS_ACCESS_SEQUENTIAL, NULL);
+    if(!vimg) {
         errormsg = "vips_image_new_from_file: failed to load image from file";
         qDebug() << errormsg;
         return errormsg;
@@ -83,31 +88,50 @@ QString PQCLoadImageLibVips::load(QString filename, QSize maxSize, QSize &origSi
     // store original size
     origSize = QSize(vimg->Xsize, vimg->Ysize);
 
-    void *buf = nullptr;
-    size_t len = 0;
-    vips_image_write_to_buffer(vimg, ".png", &buf, &len, NULL);
+    // ensure a Qt-friendly format
+    if(vips_image_hasalpha(vimg) == 0) {
+        VipsImage *tmp;
+        if(vips_addalpha(vimg, &tmp, NULL)) {
+            errormsg = "vips_image_hasalpha failed";
+            qDebug() << errormsg;
+            return errormsg;
+        }
+        g_object_unref(vimg);
+        vimg = tmp;
+    }
 
-    // Convert VipsImage to raw data
-    img.loadFromData(reinterpret_cast<const uchar *>(buf), len);
-    if(img.isNull()) {
-        errormsg = "converting VipsImage to QImage failed";
+    // convert to uchar RGBA
+    VipsImage *memImg = vips_image_copy_memory(vimg);
+    if(!memImg) {
+        g_object_unref(vimg);
+        errormsg = "vips_image_copy_memory failed";
         qDebug() << errormsg;
         return errormsg;
     }
 
+    // construct qimage with clean-up function
+    img = QImage(memImg->data,
+                 origSize.width(), origSize.height(), origSize.width()*memImg->Bands,
+                 QImage::Format_RGBA8888,
+                 [](void *p) { g_object_unref(VIPS_IMAGE(p)); },
+                 memImg);
+
+    // apply transformations if any
     const QString suf = QFileInfo(filename).suffix().toLower();
     if(PQCSettingsCPP::get().getMetadataAutoRotation() && suf != "heif" && suf != "heic") {
-        // apply transformations if any
         PQCScriptsImages::get().applyExifOrientation(filename, img);
     }
 
+    // apply color profile if any
     PQCScriptsColorProfiles::get().applyColorProfile(filename, img);
+
+    // cache the image
     PQCImageCache::get().saveImageToCache(filename, PQCScriptsColorProfiles::get().getColorProfileFor(filename), &img);
 
+    // clean up memory
     g_object_unref(vimg);
-    g_free(buf);
 
-    // Scale image if necessary
+    // scale image if necessary
     if(maxSize.width() != -1) {
         img = img.scaled(origSize.scaled(maxSize, Qt::KeepAspectRatio),
                          Qt::IgnoreAspectRatio,

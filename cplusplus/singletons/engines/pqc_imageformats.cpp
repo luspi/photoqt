@@ -108,6 +108,8 @@ PQCImageFormats::PQCImageFormats() {
 
 }
 
+PQCImageFormats::~PQCImageFormats() {}
+
 int PQCImageFormats::checkForUpdateOrNew() {
 
     // 0 := no update
