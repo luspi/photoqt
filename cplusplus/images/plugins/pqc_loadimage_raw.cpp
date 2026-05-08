@@ -44,30 +44,15 @@ QSize PQCLoadImageRAW::loadSize(QString filename) {
 
     LibRaw raw;
 
-    // The LibRaw instance
-    raw.recycle();
-
-    // Some settings to improve speed
-    // Since we don't care about manipulating RAW images but only want to display
-    // them, we can optimise for speed
-    raw.imgdata.params.user_qual = 2;
-    raw.imgdata.params.use_camera_wb = 1;
-
-    // We apply EXIF orientation ourselves.
-    raw.imgdata.params.user_flip = 0;
-
     // Open the RAW image
-    int ret = raw.open_file((const char*)(QFile::encodeName(filename)).constData());
+    int ret = raw.open_file(QFile::encodeName(filename));
     if(ret != LIBRAW_SUCCESS) {
         raw.recycle();
         qWarning() << "Failed to run open_file:" << libraw_strerror(ret);
         return QSize();
     }
 
-    QSize orig(raw.imgdata.sizes.width, raw.imgdata.sizes.height);
-    // Clean up memory
-    raw.recycle();
-    return orig;
+    return QSize(raw.imgdata.sizes.width, raw.imgdata.sizes.height);
 
 #else
     return QSize();
@@ -84,14 +69,11 @@ QString PQCLoadImageRAW::load(QString filename, QSize maxSize, QSize &origSize, 
 
 #ifdef PQMRAW
 
-    bool thumb = false;
-    bool half = false;
+    bool useThumb = false;
+    bool useHalf = false;
 
     LibRaw raw;
     libraw_processed_image_t *rawimg;
-
-    // The LibRaw instance
-    raw.recycle();
 
     // Some settings to improve speed
     // Since we don't care about manipulating RAW images but only want to display
@@ -112,13 +94,13 @@ QString PQCLoadImageRAW::load(QString filename, QSize maxSize, QSize &origSize, 
     }
 
     // If either dimension is set to 0 (or actually -1), then the full image is supposed to be loaded
-    if(maxSize.width() > 0 && maxSize.height() > 0) {
+    if(maxSize.isValid() && !maxSize.isNull()) {
 
         // Depending on the RAW image anf the requested image size, we can opt for the thumbnail or half size if that's enough
         if(raw.imgdata.thumbnail.twidth >= maxSize.width() && raw.imgdata.thumbnail.theight >= maxSize.height())
-            thumb = true;
-        else if(raw.imgdata.sizes.iwidth >= maxSize.width()*2 && raw.imgdata.sizes.iheight >= maxSize.height()) {
-            half = true;
+            useThumb = true;
+        else if(raw.imgdata.sizes.iwidth >= maxSize.width()*2 && raw.imgdata.sizes.iheight >= maxSize.height()*2) {
+            useHalf = true;
             raw.imgdata.params.half_size = 1;
         }
 
@@ -127,7 +109,7 @@ QString PQCLoadImageRAW::load(QString filename, QSize maxSize, QSize &origSize, 
     // sometimes the embedded thumb is as large as the actual raw image
     // if that's the case we can simply load the embedded thumbnail
     // we only do this if the raw image is larger than 1000x1000 pixels
-    if(!thumb && PQCSettingsCPP::get().getFiletypesRAWUseEmbeddedIfAvailable() &&
+    if(!useThumb && PQCSettingsCPP::get().getFiletypesRAWUseEmbeddedIfAvailable() &&
         raw.imgdata.sizes.width > 1000 && raw.imgdata.sizes.height > 1000 &&
         raw.imgdata.thumbnail.twidth > 0 && raw.imgdata.thumbnail.theight > 0) {
 
@@ -137,27 +119,27 @@ QString PQCLoadImageRAW::load(QString filename, QSize maxSize, QSize &origSize, 
 
         // we allow a size margin of 2.5%
         if(diff <= 0.025)
-            thumb = true;
+            useThumb = true;
 
     }
 
     // Unpack the RAW thumbnail if thumbnail requested
-    if(thumb)
+    if(useThumb)
         ret = raw.unpack_thumb();
 
     // If thumbnail failed or full image wanted, unpack full
-    if(!thumb || ret != LIBRAW_SUCCESS)
+    if(!useThumb || ret != LIBRAW_SUCCESS)
         ret = raw.unpack();
 
     if(ret != LIBRAW_SUCCESS) {
         raw.recycle();
-        errormsg = QString("Failed to run %1: %2").arg((thumb ? "unpack_thumb" : "unpack"), libraw_strerror(ret));
+        errormsg = QString("Failed to run %1: %2").arg((useThumb ? "unpack_thumb" : "unpack"), libraw_strerror(ret));
         qWarning() << errormsg;
         return errormsg;
     }
 
     // Post-process image. Not necessary for embedded preview...
-    if(!thumb) ret = raw.dcraw_process();
+    if(!useThumb) ret = raw.dcraw_process();
 
     if(ret != LIBRAW_SUCCESS) {
         raw.recycle();
@@ -167,9 +149,16 @@ QString PQCLoadImageRAW::load(QString filename, QSize maxSize, QSize &origSize, 
     }
 
     // Create processed image
-    if(thumb) rawimg = raw.dcraw_make_mem_thumb(&ret);
+    if(useThumb) rawimg = raw.dcraw_make_mem_thumb(&ret);
     else rawimg = raw.dcraw_make_mem_image(&ret);
 
+    // check for success
+    if(!rawimg || ret != LIBRAW_SUCCESS) {
+        raw.recycle();
+        errormsg = QString("Failed to create memory image: %1").arg(libraw_strerror(ret));
+        qWarning() << errormsg;
+        return errormsg;
+    }
 
     // This will hold the loaded image data
     QByteArray imgData;
@@ -179,7 +168,8 @@ QString PQCLoadImageRAW::load(QString filename, QSize maxSize, QSize &origSize, 
     if(rawimg->type == LIBRAW_IMAGE_JPEG) {
 
         // The return image is loaded from the QByteArray above
-        if(!img.loadFromData(rawimg->data, rawimg->data_size, "JPEG")) {
+        if(!img.loadFromData(reinterpret_cast<const uchar*>(rawimg->data),
+                             static_cast<int>(rawimg->data_size))) {
             raw.dcraw_clear_mem(rawimg);
             raw.recycle();
             errormsg = "Failed to load JPEG data!";
@@ -189,41 +179,98 @@ QString PQCLoadImageRAW::load(QString filename, QSize maxSize, QSize &origSize, 
 
     } else {
 
-        // Create a header and load the image data into QByteArray
-        QString header = QString::fromUtf8("P%1\n%2 %3\n%4\n")
-                         .arg(rawimg->colors == 3 ? QLatin1String("6") : QLatin1String("5"))
-                         .arg(rawimg->width)
-                         .arg(rawimg->height)
-                         .arg((1 << rawimg->bits)-1);
-        imgData.append(header.toLatin1());
+        const int width  = rawimg->width;
+        const int height = rawimg->height;
+        const int colors = rawimg->colors;
+        const int bits   = rawimg->bits;
 
-        if(rawimg->colors == 3)
-            imgData.append(QByteArray((const char*)rawimg->data, (int)rawimg->data_size));
-        else {
-            QByteArray imgData_tmp;
-           // img->colors == 1 (Grayscale) : convert to RGB
-            for(int i = 0 ; i < (int)rawimg->data_size ; ++i) {
-                for(int j = 0 ; j < 3 ; ++j)
-                    imgData_tmp.append(rawimg->data[i]);
+        // 8-bit RGB image
+        if(colors == 3 && bits == 8) {
+
+            img = QImage(width, height, QImage::Format_RGB888);
+
+            if(img.isNull()) {
+                raw.dcraw_clear_mem(rawimg);
+                raw.recycle();
+                errormsg = QString("Failed to allocate QImage.");
+                qWarning() << errormsg;
+                return errormsg;
             }
-            imgData.append(imgData_tmp);
-        }
 
-        if(imgData.isEmpty()) {
+            const int stride = width * 3;
+
+            for(int y = 0; y < height; ++y)
+                memcpy(img.scanLine(y), rawimg->data + y*stride, stride);
+
+        // 16-bit RGB image
+        } else if(colors == 3 && bits == 16) {
+
+            img = QImage(width, height, QImage::Format_RGBX64);
+
+            if(img.isNull()) {
+                raw.dcraw_clear_mem(rawimg);
+                raw.recycle();
+                errormsg = QString("Failed to allocate QImage.");
+                qWarning() << errormsg;
+                return errormsg;
+            }
+
+            const uint16_t* src = reinterpret_cast<uint16_t*>(rawimg->data);
+
+            for(int y = 0; y < height; ++y) {
+                QRgba64* dst = reinterpret_cast<QRgba64*>(img.scanLine(y));
+                for(int x = 0; x < width; ++x) {
+                    const int idx = (y * width + x) * 3;
+                    dst[x] = qRgba64(src[idx + 0], src[idx + 1], src[idx + 2], 65535);
+                }
+            }
+
+        // 8-bit grayscale
+        } else if(colors == 1 && bits == 8) {
+
+            img = QImage(width, height, QImage::Format_Grayscale8);
+
+            if(img.isNull()) {
+                raw.dcraw_clear_mem(rawimg);
+                raw.recycle();
+                errormsg = QString("Failed to allocate QImage.");
+                qWarning() << errormsg;
+                return errormsg;
+            }
+
+            for(int y = 0; y < height; ++y)
+                memcpy(img.scanLine(y), rawimg->data + y*width, width);
+
+        // 16-bit grayscale
+        } else if(colors == 1 && bits == 16) {
+
+            img = QImage(width, height, QImage::Format_Grayscale16);
+
+            if(img.isNull()) {
+                raw.dcraw_clear_mem(rawimg);
+                raw.recycle();
+                errormsg = QString("Failed to allocate QImage.");
+                qWarning() << errormsg;
+                return errormsg;
+            }
+
+            const uint16_t* src = reinterpret_cast<uint16_t*>(rawimg->data);
+
+            for(int y = 0; y < height; ++y) {
+                uint16_t* dst = reinterpret_cast<uint16_t*>(img.scanLine(y));
+                memcpy(dst, src + y*width, width*sizeof(uint16_t));
+            }
+
+        // unsupported image format
+        } else {
+
             raw.dcraw_clear_mem(rawimg);
             raw.recycle();
-            errormsg = "Failed to load " + QString(half ? "half preview" : (thumb ? "thumbnail" : "image")) + "!";
-            qWarning() << errormsg;
-            return errormsg;
-        }
 
-        // The return image is loaded from the QByteArray above
-        if(!img.loadFromData(imgData)) {
-            raw.dcraw_clear_mem(rawimg);
-            raw.recycle();
-            errormsg = "Failed to load image from data!";
+            errormsg = QString("Unsupported RAW output format (colors=%1 bits=%2)").arg(colors).arg(bits);
             qWarning() << errormsg;
             return errormsg;
+
         }
 
     }
@@ -231,7 +278,6 @@ QString PQCLoadImageRAW::load(QString filename, QSize maxSize, QSize &origSize, 
     // Clean up memory
     raw.dcraw_clear_mem(rawimg);
     raw.recycle();
-    raw.free_image();
 
     if(!img.isNull() && PQCSettingsCPP::get().getMetadataAutoRotation()) {
         // apply transformations if any
@@ -240,7 +286,7 @@ QString PQCLoadImageRAW::load(QString filename, QSize maxSize, QSize &origSize, 
 
     origSize = img.size();
 
-    if(!thumb && !half) {
+    if(!useThumb && !useHalf) {
 
         if(!img.isNull()) {
             PQCScriptsColorProfiles::get().applyColorProfile(filename, img);
@@ -248,10 +294,12 @@ QString PQCLoadImageRAW::load(QString filename, QSize maxSize, QSize &origSize, 
         }
 
         // Scale image if necessary
-        if(maxSize.width() != -1) {
-            img = img.scaled(origSize.scaled(maxSize, Qt::KeepAspectRatio),
-                             Qt::IgnoreAspectRatio,
-                             (PQCSettingsCPP::get().getImageviewRescalingSmooth() ? Qt::SmoothTransformation : Qt::FastTransformation));
+        if(maxSize.isValid() && !maxSize.isNull()) {
+            img = img.scaled(maxSize,
+                             Qt::KeepAspectRatio,
+                             (PQCSettingsCPP::get().getImageviewRescalingSmooth() ?
+                                  Qt::SmoothTransformation :
+                                  Qt::FastTransformation));
         }
 
     }
