@@ -178,7 +178,7 @@ QString PQCLoadImageMagick::load(QString filename, QSize maxSize, QSize &origSiz
         bool imageIsScaled = false;
 
         // Scale image if necessary
-        if(maxSize.width() != -1) {
+        if(maxSize.isValid()) {
 
             imageIsScaled = true;
 
@@ -188,18 +188,19 @@ QString PQCLoadImageMagick::load(QString filename, QSize maxSize, QSize &origSiz
             if(finalSize.width() < 300 && finalSize.height() < 300)
                 image.thumbnail(Magick::Geometry(finalSize.width(),finalSize.height()));
             else
-                image.scale(Magick::Geometry(finalSize.width(),finalSize.height()));
+                image.resize(Magick::Geometry(finalSize.width(),finalSize.height()));
 
         }
 
-        // Write Magick as PPM to memory
-        Magick::Blob ob;
-        image.magick("PPM");
-        image.write(&ob);
+        // force RGBA output
+        image.magick("RGBA");
 
-        // And load image from memory into QImage
-        const QByteArray imgData((char*)(ob.data()),ob.length());
-        img = QImage::fromData(imgData);
+        // prepare image output
+        img = QImage(image.columns(), image.rows(), QImage::Format_RGBA8888);
+
+        // convert Magick Image to QImage
+        image.write(0, 0, image.columns(), image.rows(),
+                    "RGBA", Magick::CharPixel, img.bits());
 
         // heif/heic images always will be loaded already transformed, even if we attempt to disable it explicitely
         if(!img.isNull() && PQCSettingsCPP::get().getMetadataAutoRotation() && suf != "HEIF" && suf != "HEIC") {
