@@ -94,7 +94,7 @@ QString PQCLoadImageRAW::load(QString filename, QSize maxSize, QSize &origSize, 
     }
 
     // If either dimension is set to 0 (or actually -1), then the full image is supposed to be loaded
-    if(maxSize.isValid() && !maxSize.isNull()) {
+    if(!maxSize.isEmpty()) {
 
         // Depending on the RAW image anf the requested image size, we can opt for the thumbnail or half size if that's enough
         if(raw.imgdata.thumbnail.twidth >= maxSize.width() && raw.imgdata.thumbnail.theight >= maxSize.height())

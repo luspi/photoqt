@@ -101,7 +101,7 @@ QString PQCLoadImageQtPDF::load(QString filename, QSize maxSize, QSize &origSize
     QSizeF _pageSize = doc.pagePointSize(page)*(PQCSettingsCPP::get().getFiletypesPDFQuality()/72.0);
     origSize = _pageSize.toSize();
 
-    QImage p = doc.render(page, (maxSize.isValid()&&!maxSize.isNull() ?
+    QImage p = doc.render(page, (!maxSize.isEmpty() ?
                                      origSize.scaled(maxSize, Qt::KeepAspectRatio) :
                                      origSize));
 
@@ -122,7 +122,7 @@ QString PQCLoadImageQtPDF::load(QString filename, QSize maxSize, QSize &origSize
 
     if(!img.isNull()) {
         PQCScriptsColorProfiles::get().applyColorProfile(filename, img);
-        if(!maxSize.isValid() || maxSize.isNull())
+        if(maxSize.isEmpty())
             PQCImageCache::get().saveImageToCache(filename, PQCScriptsColorProfiles::get().getColorProfileFor(filename), &img);
     }
 

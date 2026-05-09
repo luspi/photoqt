@@ -157,7 +157,7 @@ QString PQCLoadImageDevil::load(QString filename, QSize maxSize, QSize &origSize
 
     bool imageIsScaled = false;
 
-    if(maxSize.isValid() && !maxSize.isNull()) {
+    if(!maxSize.isEmpty()) {
         imageIsScaled = true;
         img = img.scaled(maxSize, Qt::KeepAspectRatio, Qt::SmoothTransformation);
     }
