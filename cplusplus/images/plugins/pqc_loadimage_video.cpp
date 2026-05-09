@@ -26,6 +26,12 @@
 #include <QImageReader>
 #include <QProcess>
 #include <QDir>
+#ifdef PQMFFMPEGTHUMBNAILER
+#include <pqc_loadimage.h>
+#include <QTemporaryFile>
+#include <libffmpegthumbnailer/videothumbnailer.h>
+#include <libffmpegthumbnailer/filmstripfilter.h>
+#endif
 
 PQCLoadImageVideo::PQCLoadImageVideo() {}
 
@@ -33,9 +39,57 @@ PQCLoadImageVideo::~PQCLoadImageVideo() {}
 
 QSize PQCLoadImageVideo::loadSize(QString filename) {
 
-#ifdef Q_OS_LINUX
-
     if(PQCSettingsCPP::get().getFiletypesVideoThumbnailer() == "ffmpegthumbnailer") {
+
+#ifdef PQMFFMPEGTHUMBNAILER
+
+        ffmpegthumbnailer::VideoThumbnailer thumbnailer;
+
+        thumbnailer.setThumbnailSize(0);
+        thumbnailer.setMaintainAspectRatio(true);
+        thumbnailer.setSmartFrameSelection(true);
+        thumbnailer.setWorkAroundIssues(true);
+
+        // we use a temporary file that is automatically removed afterwards
+        QTemporaryFile tempFile;
+        tempFile.setAutoRemove(true);
+
+        // we need to open it in order for it to be created and have a filename
+        if(!tempFile.open()) {
+
+            qWarning() << "Unable to open temporary file from thumbnail generation.";
+
+        } else {
+
+            // release the file
+            tempFile.close();
+
+            thumbnailer.generateThumbnail(filename.toStdString(), ThumbnailerImageType::Jpeg, tempFile.fileName().toStdString());
+
+            // reopening the file is safe
+            if(!tempFile.open()) {
+
+                qWarning() << "Unable to open temporary file from thumbnail generation.";
+
+            } else {
+
+                // attempt to load file
+                QImage img;
+                QSize origSize;
+                QString err = PQCLoadImage::get().load(tempFile.fileName(), QSize(-1,-1), origSize, img);
+
+                if(err != "")
+                    qWarning() << "Failed to load video thumbnail from temporary file";
+                else
+                    return img.size();
+
+            }
+
+        }
+
+#endif
+
+#ifdef Q_OS_LINUX
 
         // the temp image thumbnail path (incl random int)
         QString tmp_path = QString("%1/photoqt_videothumb_%2.jpg").arg(QDir::tempPath()).arg(rand());
@@ -58,20 +112,14 @@ QSize PQCLoadImageVideo::loadSize(QString filename) {
         // store in return variable
         return orig;
 
-    } else if(PQCSettingsCPP::get().getFiletypesVideoThumbnailer() == "") {
-
 #endif
 
+    } else {
+
+        qWarning() << "Unknown video thumbnailer used:" << PQCSettingsCPP::get().getFiletypesVideoThumbnailer();;
         return QSize();
 
-#ifdef Q_OS_LINUX
-
     }
-
-    qWarning() << "Unknown video thumbnailer used:" << PQCSettingsCPP::get().getFiletypesVideoThumbnailer();;
-    return QSize();
-
-#endif
 
 }
 
@@ -82,9 +130,55 @@ QString PQCLoadImageVideo::load(QString filename, QSize maxSize, QSize &origSize
 
     QString errormsg = "";
 
+    if(PQCSettingsCPP::get().getFiletypesVideoThumbnailer() == "ffmpegthumbnailer") {
+
+#ifdef PQMFFMPEGTHUMBNAILER
+
+        ffmpegthumbnailer::VideoThumbnailer thumbnailer;
+
+        thumbnailer.setThumbnailSize(maxSize.width(), maxSize.height());
+        thumbnailer.setMaintainAspectRatio(true);
+        thumbnailer.setSmartFrameSelection(true);
+        thumbnailer.setWorkAroundIssues(true);
+
+        // add movie-strip overlay
+        ffmpegthumbnailer::FilmStripFilter filmStrip;
+        thumbnailer.addFilter(&filmStrip);
+
+        // we use a temporary file that is automatically removed afterwards
+        QTemporaryFile tempFile;
+        tempFile.setAutoRemove(true);
+
+        // we need to open it in order for it to be created and have a filename
+        if(!tempFile.open()) {
+            const QString err = "Unable to open temporary file from thumbnail generation.";
+            qWarning() << err;
+            return err;
+        }
+        // release the file
+        tempFile.close();
+
+        thumbnailer.generateThumbnail(filename.toStdString(), ThumbnailerImageType::Jpeg, tempFile.fileName().toStdString());
+
+        // reopening the file is safe
+        if(!tempFile.open()) {
+            const QString err = "Unable to open temporary file from thumbnail generation.";
+            qWarning() << err;
+            return err;
+        }
+
+        // attempt to load file
+        QString err = PQCLoadImage::get().load(tempFile.fileName(), QSize(-1,-1), origSize, img);
+
+        if(err != "")
+            qWarning() << "Failed to load video thumbnail from temporary file";
+        else
+            return "";
+
+#endif
+
 #ifdef Q_OS_LINUX
 
-    if(PQCSettingsCPP::get().getFiletypesVideoThumbnailer() == "ffmpegthumbnailer") {
 
         // the temp image thumbnail path (incl random int)
         QString tmp_path = QString("%1/photoqt_videothumb_%2.jpg").arg(QDir::tempPath()).arg(rand());
@@ -119,22 +213,20 @@ QString PQCLoadImageVideo::load(QString filename, QSize maxSize, QSize &origSize
         // store in return variable
         return "";
 
-    } else if(PQCSettingsCPP::get().getFiletypesVideoThumbnailer() == "") {
-
 #endif
 
-        errormsg = "Video thumbnail creation currently only supported on Linux";
+    } else if(PQCSettingsCPP::get().getFiletypesVideoThumbnailer() == "") {
+
+        errormsg = "No video thumbnailer selected";
         qWarning() << errormsg;
         return errormsg;
 
-#ifdef Q_OS_LINUX
+    } else {
+
+        errormsg = "Unknown video thumbnailer used: " + PQCSettingsCPP::get().getFiletypesVideoThumbnailer();
+        qWarning() << errormsg;
+        return errormsg;
 
     }
-
-    errormsg = "Unknown video thumbnailer used: " + PQCSettingsCPP::get().getFiletypesVideoThumbnailer();
-    qWarning() << errormsg;
-    return errormsg;
-
-#endif
 
 }
