@@ -68,7 +68,6 @@ SET(photoqt_SOURCES cplusplus/main.cpp
                     cplusplus/images/plugins/pqc_loadimage_qt.cpp
                     cplusplus/images/plugins/pqc_loadimage_qtpdf.cpp
                     cplusplus/images/plugins/pqc_loadimage_raw.cpp
-                    cplusplus/images/plugins/pqc_loadimage_unrar.cpp
                     cplusplus/images/plugins/pqc_loadimage_video.cpp
                     cplusplus/images/plugins/pqc_loadimage_xcf.cpp
                     cplusplus/images/plugins/pqc_loadimage_resvg.cpp
