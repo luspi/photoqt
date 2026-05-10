@@ -271,13 +271,13 @@ Loader {
 
                     PQButton {
                         id: but_save
-                        text: "Save"
+                        text: genericStringSave
                         onClicked: whoisthis.save()
                     }
 
                     PQButton {
                         id: save_cancel
-                        text: "Cancel"
+                        text: genericStringCancel
                         onClicked: whoisthis.hide()
                     }
 
