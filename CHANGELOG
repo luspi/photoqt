@@ -1,6 +1,43 @@
 Changelog PhotoQt - Copyright (C) 2011-2026, Lukas Spies (Lukas@photoqt.org), License: GPLv2 (or later)
 ----------------------------------------------------------------------------------------------------------
 
+Release 5.3 - 2026-05-11
+----------------------------
+- add: new photo sphere renderer
+- add: ratings feature for files
+- add: enter exact zoom level
+- add: filedialog thumbnail size follows global thumbnail size
+- add: wizard on update performs simple self-test
+- add: compile time option to use ffmpegthumbnail API directly for video thumbnails
+- add: extensions: add custom public key for extension verification
+- add: extensions: also verify built shared library with compile-time option to exclude libraries
+- add: extensions: extend extensions API
+- improve: better performance of all image plugins
+- improve: motion photo respects video backend selection
+- improve: during video playback fully hide controls when not needed
+- improve: better performance of loading archives
+- improve: faster extraction of motion photo video
+- improve: new spin box for numeric input
+- improve: better interpolation handling with more user facing controls
+- improve: zoom 'snaps in' at 100% and at the default scale
+- improve: catching shortcut for active window
+- improve: CMake now also informs explicitly exactly which options failed to be found
+- fix: localize all user facing parts of extensions
+- fix: don't force-hide thumbnails when changing images
+- fix: check for whether 'delete' window is visible could fail
+- fix: rotation handling for motion photo
+- fix: don't restrict precision of default scale factor
+- fix: reverse slider for setting slideshow animation speed
+- fix: context menu: fix height of dynamic entries
+- fix: broken mirror/rotation handling for normal images
+- fix: disabling global animation did not disable zoom animation
+- fix: tagging faces no longer reloads image immediately each time
+- fix: disable icns format for DevIL backend to avoid potential crash
+- fix: natural sorting on systems with certain locales
+- fix: properly exclude archives within archives
+- fix: potential erroneous 'loading' indicator when switching archives
+
+
 Release 5.2 - 2026-02-20
 ----------------------------
 - add: controls for ignoring/limiting large archives
