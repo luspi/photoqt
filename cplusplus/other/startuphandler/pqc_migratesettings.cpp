@@ -113,6 +113,12 @@ void PQCMigrateSettings::migrate530() {
     migrationHelperRemoveValue("imageview", "InterpolationDisableForSmallImages");
     migrationHelperInsertValue("imageview", "RescalingWhichImages", {(oldDisableInterpSmall ? 1 : 2), "", "int"});
 
+    QStringList extList = migrationHelperGetOldValue("general", "ExtensionsEnabled").toStringList();
+    if(!extList.contains("ThumbnailGenerator")) {
+        extList.append("ThumbnailGenerator");
+        migrationHelperSetNewValue("general", "ExtensionsEnabled", extList);
+    }
+
 }
 
 /******************************************************/
