@@ -13,8 +13,6 @@ SET(photoqt_testscripts_SOURCES
                     ../../cplusplus/other/pqc_printtabimageoptions.cpp
                     ../../cplusplus/other/pqc_printtabimagepositiontile.cpp
                     ../../cplusplus/other/pqc_localhttpserver.cpp
-                    ../../cplusplus/other/pqc_photosphereitem.cpp
-                    ../../cplusplus/other/pqc_photosphererenderer.cpp
                     ../../cplusplus/other/pqc_filefoldermodelcache.cpp
                     # ../../cplusplus/other/pqc_extensionsettings.cpp
                     # ../../cplusplus/other/pqc_startuphandler.cpp
@@ -44,8 +42,6 @@ SET(photoqt_testscripts_SOURCES
                     ../../cplusplus/header/pqc_localhttpserver.h
                     ../../cplusplus/header/pqc_filefoldermodelCPP.h
                     ../../cplusplus/header/pqc_imageformats.h
-                    ../../cplusplus/header/pqc_photosphereitem.h
-                    ../../cplusplus/header/pqc_photosphererenderer.h
                     ../../cplusplus/header/pqc_resolutioncache.h
                     # ../../cplusplus/header/pqc_extensionshandler.h
                     # ../../cplusplus/header/pqc_extensioninfo.h
@@ -76,7 +72,6 @@ SET(photoqt_testscripts_SOURCES
                     ../../cplusplus/images/plugins/pqc_loadimage_qt.cpp
                     ../../cplusplus/images/plugins/pqc_loadimage_qtpdf.cpp
                     ../../cplusplus/images/plugins/pqc_loadimage_raw.cpp
-                    ../../cplusplus/images/plugins/pqc_loadimage_unrar.cpp
                     ../../cplusplus/images/plugins/pqc_loadimage_video.cpp
                     ../../cplusplus/images/plugins/pqc_loadimage_xcf.cpp
                     ../../cplusplus/images/plugins/pqc_loadimage_resvg.cpp
@@ -122,10 +117,8 @@ SET(photoqt_testscripts_SOURCES
 ########################################################################
 ########################################################################
 
-                    ../../cplusplus/other/pqc_photosphere.cpp
                     ../../cplusplus/other/pqc_mpvobject.cpp
 
-                    ../../cplusplus/header/pqc_photosphere.h
                     ../../cplusplus/header/pqc_mpvobject.h
                     ../../cplusplus/header/pqc_imageformats_qml.h
                     ../../cplusplus/header/pqc_filefoldermodel.h
