@@ -77,7 +77,7 @@ option(WITH_LCMS2                 "Configure with support for the Little CMS lib
 option(WITH_MOTIONPHOTO           "Configure with support for Google Motion Photos and Apple Live Photos" ON)
 option(WITH_PHOTOSPHERE           "Configure with support for photo spheres and 360 degree panoramic views" ON)
 option(WITH_PUGIXML               "Configure with support for the pugixml library (in place of Qt's XML support)" OFF)
-option(WITH_FFMPEGTHUMBNAILER     "Use ffmpegthumbnailer's C++ API instead of calling the executable" ON)
+option(WITH_FFMPEGTHUMBNAILER     "Use ffmpegthumbnailer's C++ API instead of calling the executable" OFF)
 
 option(WITH_WAYLANDSPECIFIC       "Enable optional Wayland-specific code to allow for further optimizations." ON)
 option(WITH_JASPER_WORKAROUNDS    "Enable workarounds for jasper (needed on systems roughly older than Ubuntu 25.10)" OFF)
