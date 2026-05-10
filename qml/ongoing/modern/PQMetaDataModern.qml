@@ -279,11 +279,19 @@ Rectangle {
             spacing: 8
 
             Item {
+                visible: !starcontainer.visible
+                width: 1
+                height: 30
+            }
+
+            Item {
+
+                id: starcontainer
 
                 width: parent.width
                 height: 30
 
-                visible: PQCFileFolderModel.countMainView>0
+                visible: PQCFileFolderModel.countMainView>0 && PQCScriptsImages.canHaveStarRating(PQCFileFolderModel.currentFile)
 
                 Row {
                     id: starrow

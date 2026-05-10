@@ -64,6 +64,7 @@ public:
     Q_INVOKABLE QString      extractMotionPhoto(QString path)                   { return PQCScriptsImages::get().extractMotionPhoto(path); }
     Q_INVOKABLE QVariantList getZXingData(QString path)                         { return PQCScriptsImages::get().getZXingData(path); }
     Q_INVOKABLE bool         extractFrameAndSave(QString path, int frameNumber) { return PQCScriptsImages::get().extractFrameAndSave(path, frameNumber); }
+    Q_INVOKABLE bool canHaveStarRating(const QString path)                      { return PQCScriptsImages::get().canHaveStarRating(path); }
     Q_INVOKABLE void setStarRating(const int star, const QString path)          {        PQCScriptsImages::get().setStarRating(star, path); }
     Q_INVOKABLE int getStarRating(const QString path)                           { return PQCScriptsImages::get().getStarRating(path); }
 

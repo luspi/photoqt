@@ -1578,6 +1578,59 @@ void PQCScriptsImages::applyExifOrientation(const QString filename, QImage &img)
 
 }
 
+bool PQCScriptsImages::canHaveStarRating(const QString path) {
+
+    qDebug() << "args: path =" << path;
+
+#ifdef Q_OS_WIN
+
+    // this can be done if the file is supported by
+    // Exiv2 and/or Windows property store
+    HRESULT hr = CoInitializeEx(nullptr, COINIT_APARTMENTTHREADED);
+    if(SUCCEEDED(hr)) {
+
+        IPropertyStore* store = nullptr;
+
+        hr = SHGetPropertyStoreFromParsingName((LPCWSTR)QDir::toNativeSeparators(path).utf16(),
+                                               nullptr, GPS_READWRITE,
+                                               IID_PPV_ARGS(&store));
+
+        if(SUCCEEDED(hr)) {
+            CoUninitialize();
+            return true;
+        }
+    }
+
+#ifdef PQMEXIV2
+
+#if EXIV2_TEST_VERSION(0, 28, 0)
+    Exiv2::Image::UniquePtr image;
+#else
+    Exiv2::Image::AutoPtr image;
+#endif
+
+    bool canUseExiv2 = true;
+
+    try {
+        image = Exiv2::ImageFactory::open(path.toStdString());
+        image->readMetadata();
+    } catch (Exiv2::Error& e) {
+        canUseExiv2 = false;
+    }
+
+    return canUseExiv2;
+
+#endif
+
+    return false;
+
+#endif
+
+    // on Linux we can always fall back to xattr
+    return true;
+
+}
+
 void PQCScriptsImages::setStarRating(const int star, const QString path) {
 
     qDebug() << "args: star =" << star;
@@ -1671,7 +1724,7 @@ void PQCScriptsImages::setStarRating(const int star, const QString path) {
 #endif
 
     /******************************************/
-    // 2) Store KDE rating
+    // 2) Store xattr rating (used, e.g., by KDE)
 #ifdef Q_OS_UNIX
 
     qDebug() << "Setting star rating for KDE...";
@@ -1754,7 +1807,7 @@ int PQCScriptsImages::getStarRating(const QString path) {
     int kdeStarRating = -1;
     int exifStarRating = -1;
 
-    // 1) check system specific data first: KDE
+    // 1) check system specific data first: xattr (KDE/...)
 #ifdef Q_OS_UNIX
 
     qDebug() << "Getting star rating from KDE...";
