@@ -51,6 +51,12 @@
 #include <sys/xattr.h>
 #endif
 
+#ifdef Q_OS_WIN
+#include <shobjidl_core.h>
+#include <propvarutil.h>
+#include <propkey.h>
+#endif
+
 #ifdef PQMWAYLANDSPECIFIC
 #include <pqc_wayland.h>
 #endif
@@ -1694,6 +1700,51 @@ void PQCScriptsImages::setStarRating(const int star, const QString path) {
 
 #endif
 
+    /******************************************/
+    // 3) Store WINDOWS rating
+#ifdef Q_OS_WIN
+
+    HRESULT hr = CoInitializeEx(nullptr, COINIT_APARTMENTTHREADED);
+    if(FAILED(hr)) {
+        qWarning() << "CoInitialize failed.";
+    } else {
+
+        IPropertyStore* store = nullptr;
+
+        hr = SHGetPropertyStoreFromParsingName((LPCWSTR)QDir::toNativeSeparators(path).utf16(),
+                                               nullptr, GPS_READWRITE,
+                                               IID_PPV_ARGS(&store));
+
+        if(FAILED(hr)) {
+            qWarning() << "SHGetPropertyStoreFromParsingName failed";
+            CoUninitialize();
+        } else {
+
+            PROPVARIANT var;
+            InitPropVariantFromUInt32(percentage, &var);
+
+            hr = store->SetValue(PKEY_Rating, var);
+
+            if(SUCCEEDED(hr)) {
+                qDebug() << "SetValue succeeded";
+                hr = store->Commit();
+            } else
+                qWarning() << "SetValue failed";
+
+            PropVariantClear(&var);
+            store->Release();
+
+            CoUninitialize();
+
+            if(!SUCCEEDED(hr))
+                qWarning() << "Failure when finishing up storing rating value";
+
+        }
+
+    }
+
+#endif
+
 }
 
 int PQCScriptsImages::getStarRating(const QString path) {
@@ -1760,6 +1811,60 @@ int PQCScriptsImages::getStarRating(const QString path) {
             qDebug() << "Found KDE star rating, returning that.";
             return kdeStarRating;
         }
+    }
+
+#endif
+
+    // look in the windows property store for a rating
+#ifdef Q_OS_WIN
+
+    HRESULT hr = CoInitializeEx(nullptr, COINIT_APARTMENTTHREADED);
+    if(FAILED(hr)) {
+        qWarning() << "CoInitialize failed.";
+    } else {
+
+        IPropertyStore* store = nullptr;
+
+        int winRating = -1;
+
+        hr = SHGetPropertyStoreFromParsingName((LPCWSTR)QDir::toNativeSeparators(path).utf16(),
+                                               nullptr, GPS_READWRITE,
+                                               IID_PPV_ARGS(&store));
+
+        // this fails, for example, for unsupported file types
+        if(FAILED(hr)) {
+            qDebug() << "SHGetPropertyStoreFromParsingName failed";
+            CoUninitialize();
+        } else {
+
+            PROPVARIANT var;
+            PropVariantInit(&var);
+
+            hr = store->GetValue(PKEY_Rating, &var);
+
+            if(SUCCEEDED(hr)) {
+
+                // PKEY_Rating is stored as UInt32
+                if(var.vt == VT_UI4)
+                    winRating = var.ulVal;
+                else if(var.vt != VT_EMPTY)
+                    qWarning() << "Unexpected variant type:" << var.vt;
+
+            } else
+                qWarning() << "GetValue failed";
+
+            PropVariantClear(&var);
+            store->Release();
+
+            CoUninitialize();
+
+            if(winRating != -1) {
+                qDebug() << "Found Window file rating of:" << winRating;
+                return winRating;
+            }
+
+        }
+
     }
 
 #endif
