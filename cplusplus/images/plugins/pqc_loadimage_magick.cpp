@@ -111,38 +111,40 @@ QString PQCLoadImageMagick::load(QString filename, QSize maxSize, QSize &origSiz
 
     QSize finalSize;
 
-    // Prepare Magick
     QString suf = QFileInfo(filename).suffix().toUpper();
-    Magick::Image image;
-
-    QMimeDatabase db;
-    QString mimetype = db.mimeTypeForFile(filename).name();
-
-    QStringList mgs;
-    if(suf != "") {
-        mgs = QStringList() << suf.toUpper();
-        if(PQCImageFormats::get().getMagick().keys().contains(suf.toLower()))
-            mgs = PQCImageFormats::get().getMagick().value(suf.toLower()).toStringList();
-    }
-    if(mimetype != "") {
-        if(PQCImageFormats::get().getMagickMimeType().keys().contains(mimetype)) {
-            const QStringList lst = PQCImageFormats::get().getMagickMimeType().value(mimetype).toStringList();
-            for(const QString &mt : lst)
-                if(!mgs.contains(mt))
-                    mgs << mt;
-        }
-    }
-
-    // if nothing else worked try without any magick, maybe this will help...
-    mgs << "";
-
     int howOftenFailed = 0;
-    for(int i = 0; i < mgs.length(); ++i) {
+    bool imageIsScaled = false;
 
-        try {
+    try {
+
+        // Prepare Magick
+        Magick::Image image;
+
+        QMimeDatabase db;
+        QString mimetype = db.mimeTypeForFile(filename).name();
+
+        QStringList mgs;
+        if(suf != "") {
+            mgs = QStringList() << suf.toUpper();
+            if(PQCImageFormats::get().getMagick().keys().contains(suf.toLower()))
+                mgs = PQCImageFormats::get().getMagick().value(suf.toLower()).toStringList();
+        }
+        if(mimetype != "") {
+            if(PQCImageFormats::get().getMagickMimeType().keys().contains(mimetype)) {
+                const QStringList lst = PQCImageFormats::get().getMagickMimeType().value(mimetype).toStringList();
+                for(const QString &mt : lst)
+                    if(!mgs.contains(mt))
+                        mgs << mt;
+            }
+        }
+
+        // if nothing else worked try without any magick, maybe this will help...
+        mgs << "";
+
+        for(int i = 0; i < mgs.length(); ++i) {
 
             // set current magick
-            image.magick(mgs.at(i).toUpper().toStdString());
+            // image.magick(mgs.at(i).toUpper().toStdString());
 
             // Read image into Magick
             image.read(filename.toStdString());
@@ -153,29 +155,17 @@ QString PQCLoadImageMagick::load(QString filename, QSize maxSize, QSize &origSiz
             // done with the loop if we manage to get here.
             break;
 
-        } catch(Magick::Exception &e) {
-
-            ++howOftenFailed;
-            qWarning() << e.what();
-            errormsg += QString("<div style='margin-bottom: 5px'>%1</div>").arg(e.what());
-
         }
 
-    }
-
-    // no attempt was successful -> stop here
-    if(howOftenFailed == mgs.length()) {
-        // no need to add anything to the errormsg variable here, it already contains the errors from the loop above
-        qWarning() << "Failed to read image";
-        return "Failed to read image";
-    }
-
-    try {
+        // no attempt was successful -> stop here
+        if(howOftenFailed == mgs.length()) {
+            // no need to add anything to the errormsg variable here, it already contains the errors from the loop above
+            qWarning() << "Failed to read image";
+            return "Failed to read image";
+        }
 
         finalSize = QSize(image.columns(), image.rows());
         origSize = finalSize;
-
-        bool imageIsScaled = false;
 
         // Scale image if necessary
         if(!maxSize.isEmpty()) {
@@ -202,25 +192,28 @@ QString PQCLoadImageMagick::load(QString filename, QSize maxSize, QSize &origSiz
         image.write(0, 0, image.columns(), image.rows(),
                     "RGBA", Magick::CharPixel, img.bits());
 
-        // heif/heic images always will be loaded already transformed, even if we attempt to disable it explicitely
-        if(!img.isNull() && PQCSettingsCPP::get().getMetadataAutoRotation() && suf != "HEIF" && suf != "HEIC") {
-            // apply transformations if any
-            PQCScriptsImages::get().applyExifOrientation(filename, img);
-        }
-
-        if(!img.isNull() && !imageIsScaled) {
-            PQCScriptsColorProfiles::get().applyColorProfile(filename, img);
-            PQCImageCache::get().saveImageToCache(filename, PQCScriptsColorProfiles::get().getColorProfileFor(filename), &img);
-        }
-
-        // And we're done!
-        return "";
-
     } catch(Magick::Exception &e) {
-        errormsg = e.what();
-        qWarning() << errormsg;
-        return errormsg;
+
+        ++howOftenFailed;
+        qWarning() << e.what();
+        errormsg += QString("<div style='margin-bottom: 5px'>%1</div>").arg(e.what());
+
     }
+
+    // heif/heic images always will be loaded already transformed, even if we attempt to disable it explicitely
+    if(!img.isNull() && PQCSettingsCPP::get().getMetadataAutoRotation() && suf != "HEIF" && suf != "HEIC") {
+        // apply transformations if any
+        PQCScriptsImages::get().applyExifOrientation(filename, img);
+    }
+
+    if(!img.isNull() && !imageIsScaled) {
+        PQCScriptsColorProfiles::get().applyColorProfile(filename, img);
+        PQCImageCache::get().saveImageToCache(filename, PQCScriptsColorProfiles::get().getColorProfileFor(filename), &img);
+    }
+
+    // And we're done!
+    return "";
+
 
 #endif
 
