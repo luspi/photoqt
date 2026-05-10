@@ -87,28 +87,6 @@ Item {
 
     }
 
-    MouseArea {
-
-        id: mousearea
-
-        anchors.fill: parent
-
-        property point startPos
-        property real startAz
-        property real startEl
-
-        onPressed: mouse => {
-            startPos = Qt.point(mouse.x, mouse.y)
-            startAz = sphere_top.azimuth
-            startEl = sphere_top.elevation
-        }
-
-        onPositionChanged: mouse => {
-            sphere_top.azimuth = startAz + (mouse.x - startPos.x) * 0.1
-            sphere_top.elevation = Math.max(-90, Math.min(90, startEl + (mouse.y - startPos.y) * 0.1))
-        }
-    }
-
     PinchArea {
 
         anchors.fill: parent
@@ -120,6 +98,29 @@ Item {
         onPinchUpdated: pinch => {
             sphere_top.fieldOfView = Math.max(3, Math.min(150, startFov / pinch.scale))
         }
+
+        MouseArea {
+
+            id: mousearea
+
+            anchors.fill: parent
+
+            property point startPos
+            property real startAz
+            property real startEl
+
+            onPressed: mouse => {
+                startPos = Qt.point(mouse.x, mouse.y)
+                startAz = sphere_top.azimuth
+                startEl = sphere_top.elevation
+            }
+
+            onPositionChanged: mouse => {
+                sphere_top.azimuth = startAz + (mouse.x - startPos.x) * 0.1
+                sphere_top.elevation = Math.max(-90, Math.min(90, startEl + (mouse.y - startPos.y) * 0.1))
+            }
+        }
+
     }
 
     onVisibleChanged: {

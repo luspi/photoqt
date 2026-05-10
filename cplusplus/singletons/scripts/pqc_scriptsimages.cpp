@@ -725,6 +725,7 @@ QString PQCScriptsImages::extractMotionPhoto(QString path) {
         // we are checking for:
         // [size:4]["ftyp":4][tag:4]
 
+        // this is much faster than converting the four characters to a single string and comparing that
         if(data[i + 4] == 'f' && data[i + 5] == 't' &&
            data[i + 6] == 'y' && data[i + 7] == 'p') {
 

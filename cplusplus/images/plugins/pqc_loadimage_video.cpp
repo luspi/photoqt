@@ -114,12 +114,10 @@ QSize PQCLoadImageVideo::loadSize(QString filename) {
 
 #endif
 
-    } else {
-
-        qWarning() << "Unknown video thumbnailer used:" << PQCSettingsCPP::get().getFiletypesVideoThumbnailer();;
-        return QSize();
-
     }
+
+    qWarning() << "Unknown video thumbnailer used:" << PQCSettingsCPP::get().getFiletypesVideoThumbnailer();;
+    return QSize();
 
 }
 
@@ -221,12 +219,10 @@ QString PQCLoadImageVideo::load(QString filename, QSize maxSize, QSize &origSize
         qWarning() << errormsg;
         return errormsg;
 
-    } else {
-
-        errormsg = "Unknown video thumbnailer used: " + PQCSettingsCPP::get().getFiletypesVideoThumbnailer();
-        qWarning() << errormsg;
-        return errormsg;
-
     }
+
+    errormsg = "Unknown video thumbnailer used: " + PQCSettingsCPP::get().getFiletypesVideoThumbnailer();
+    qWarning() << errormsg;
+    return errormsg;
 
 }
