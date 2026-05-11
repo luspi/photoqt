@@ -147,7 +147,7 @@ ComboBox {
         }
 
         background: Rectangle {
-            color: palette.alternateBase
+            color: PQCScriptsConfig.amIOnWindows() ? palette.base : palette.alternateBase
             border.color: PQCLook.baseBorder
             border.width: 1
             radius: 2
