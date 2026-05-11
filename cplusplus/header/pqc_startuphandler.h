@@ -36,7 +36,7 @@ class PQCStartupHandler : public QObject {
 public:
     PQCStartupHandler(bool forceShowWizard, bool forceSkipWizard, QObject *parent = 0);
 
-    void performChecksAndUpdates();
+    int performChecksAndUpdates();
     QString getInterfaceVariant();
 
     void exportData(QString path);

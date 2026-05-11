@@ -63,6 +63,7 @@
 #include <pqc_look.h>
 #include <pqc_startuphandler.h>
 #include <pqc_settingscpp.h>
+#include <scripts/pqc_scriptslocalization.h>
 
 #if defined(PQMIMAGEMAGICK) || defined(PQMGRAPHICSMAGICK)
 #include <Magick++.h>
@@ -227,7 +228,7 @@ int main(int argc, char **argv) {
 
     // setting up databases needs to happen here for the Release build
     startupHandler.setupDatabases();
-    startupHandler.performChecksAndUpdates();
+    int updateStatus = startupHandler.performChecksAndUpdates();
 
     /***************************************/
     // figure out modern vs integrated without use of PQCSettings
@@ -277,6 +278,10 @@ int main(int argc, char **argv) {
 #ifdef PQMLIBVIPS
     VIPS_INIT(argv[0]);
 #endif
+
+    // on a fresh install this function is called from the wizard
+    if(updateStatus != PQEUpdateCheck::FreshInstall)
+        PQCScriptsLocalization::get().updateTranslation(PQCSettingsCPP::get().getInterfaceLanguage());
 
     /***************************************/
 

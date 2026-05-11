@@ -93,7 +93,7 @@ void PQCStartupHandler::setupDatabases() {
 
 }
 
-void PQCStartupHandler::performChecksAndUpdates() {
+int PQCStartupHandler::performChecksAndUpdates() {
 
     qDebug() << "";
 
@@ -167,7 +167,7 @@ void PQCStartupHandler::performChecksAndUpdates() {
             showStartupWizard(true);
 
         // WE CAN STOP HERE!
-        return;
+        return PQEUpdateCheck::FreshInstall;
 
     } else if(settingsChecker == PQEUpdateCheck::Update) {
 
@@ -288,6 +288,9 @@ void PQCStartupHandler::performChecksAndUpdates() {
             qWarning() << "Interface variant will be re-set again next time";
         }
     }
+
+    // we base the update/fresh install/nothing status on the state of the setting db
+    return settingsChecker;
 
 }
 
