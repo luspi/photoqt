@@ -189,6 +189,11 @@ void PQCWizard::performSelftest() {
     if(extDisabled.length() > 0 || (m_selfTestPerformed && m_showExtensions)) {
         m_showExtensions = true;
         m_ui->extensionsTitle->setText(QString("%1 out of %2 extensions are enabled.").arg(extAll.length()-extDisabled.length()).arg(extAll.length()));
+    } else if(extAll.length() == 0) {
+        m_showExtensions = true;
+        m_ui->extensionsTitle->setText("No extensions were found. You can find out more about them here:");
+        m_ui->extensionsSubtitle->setText("https://photoqt.org/extensions");
+        m_ui->butExtensions->setText("Open website");
     }
 
     if(!m_selfTestPerformed) {
@@ -197,7 +202,10 @@ void PQCWizard::performSelftest() {
         m_ui->extensionsSubtitle->setVisible(m_showExtensions);
         m_ui->butExtensions->setVisible(m_showExtensions);
 
-        connect(m_ui->butExtensions, &QPushButton::clicked, this, &PQCWizard::enableAllExtensions);
+        if(extAll.length() == 0)
+            connect(m_ui->butExtensions, &QPushButton::clicked, this, [=]() { QDesktopServices::openUrl(QUrl("https://photoqt.org/extensions")); });
+        else
+            connect(m_ui->butExtensions, &QPushButton::clicked, this, &PQCWizard::enableAllExtensions);
     }
 
     /****************************************************************/

@@ -176,7 +176,7 @@ int PQCStartupHandler::performChecksAndUpdates() {
         validate.validateSettingsDatabase();
         validate.validateSettingsValues();
 
-        if((!m_forceSkipWizard || m_forceShowWizard) && (oldSettingsVersion.startsWith("4") || oldSettingsVersion.startsWith("3")))
+        if(!m_forceSkipWizard || m_forceShowWizard)
             showStartupWizard(false);
 
     } else if(m_forceShowWizard)
