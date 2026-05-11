@@ -2502,11 +2502,11 @@ void PQCSettings::setGeneralExtensionsEnabled(QStringList val) {
 }
 
 const QStringList PQCSettings::getDefaultForGeneralExtensionsEnabled() {
-        return QStringList() << "CropImage" << "ExportImage" << "FloatingNavigation" << "Histogram" << "ImgurCom" << "MapCurrent" << "QuickActions" << "ScaleImage" << "Wallpaper";
+        return QStringList() << "CropImage" << "ExportImage" << "FloatingNavigation" << "Histogram" << "ImgurCom" << "MapCurrent" << "QuickActions" << "ScaleImage" << "Wallpaper" << "ThumbnailGenerator";
 }
 
 void PQCSettings::setDefaultForGeneralExtensionsEnabled() {
-    QStringList tmp = QStringList() << "CropImage" << "ExportImage" << "FloatingNavigation" << "Histogram" << "ImgurCom" << "MapCurrent" << "QuickActions" << "ScaleImage" << "Wallpaper";
+    QStringList tmp = QStringList() << "CropImage" << "ExportImage" << "FloatingNavigation" << "Histogram" << "ImgurCom" << "MapCurrent" << "QuickActions" << "ScaleImage" << "Wallpaper" << "ThumbnailGenerator";
     if(tmp != m_generalExtensionsEnabled) {
         m_generalExtensionsEnabled = tmp;
         Q_EMIT generalExtensionsEnabledChanged();
@@ -8355,7 +8355,7 @@ void PQCSettings::setupFresh() {
     m_generalCompactSettings = false;
     m_generalDisableAllAnimations = false;
     m_generalExtensionsAllowUntrusted = QStringList();
-    m_generalExtensionsEnabled = QStringList() << "CropImage" << "ExportImage" << "FloatingNavigation" << "Histogram" << "ImgurCom" << "MapCurrent" << "QuickActions" << "ScaleImage" << "Wallpaper";
+    m_generalExtensionsEnabled = QStringList() << "CropImage" << "ExportImage" << "FloatingNavigation" << "Histogram" << "ImgurCom" << "MapCurrent" << "QuickActions" << "ScaleImage" << "Wallpaper" << "ThumbnailGenerator";
     m_generalExtensionsFloatingSetup = QStringList();
     m_generalInterfaceVariant = "modern";
     m_generalVersion = PQMVERSION;

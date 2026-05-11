@@ -508,7 +508,7 @@ private:
         m_filetypesVideoBackend = QStringList() << "qt" << "mpv";
         m_filetypesVideoThumbnailer = "ffmpegthumbnailer";
         m_generalExtensionsAllowUntrusted = QStringList();
-        m_generalExtensionsEnabled = QStringList() << "CropImage" << "ExportImage" << "FloatingNavigation" << "Histogram" << "ImgurCom" << "MapCurrent" << "QuickActions" << "ScaleImage" << "Wallpaper";
+        m_generalExtensionsEnabled = QStringList() << "CropImage" << "ExportImage" << "FloatingNavigation" << "Histogram" << "ImgurCom" << "MapCurrent" << "QuickActions" << "ScaleImage" << "Wallpaper" << "ThumbnailGenerator";
         m_generalInterfaceVariant = "modern";
         m_imageviewAdvancedSortAscending = true;
         m_imageviewAdvancedSortCriteria = "resolution";
