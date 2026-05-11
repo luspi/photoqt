@@ -67,7 +67,7 @@ ScrollView {
             implicitWidth: 200
             implicitHeight: 40
             radius: 5
-            color: palette.alternateBase
+            color: PQCScriptsConfig.amIOnWindows() ? palette.base : palette.alternateBase
             border.color: palette.disabled.text
         }
 
