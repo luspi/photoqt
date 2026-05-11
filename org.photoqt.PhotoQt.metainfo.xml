@@ -118,7 +118,7 @@
                 <p>Almost three months have passed, time for another update of PhotoQt with many improvements, bug fixes, and a few additions. One major focus of this release (and also the next one) is improving the overall performance of the various parts of PhotoQt, starting with the image plugins.</p>
             </description>
             <url>
-                https://photoqt.org/news/photoqt-5.2
+                https://photoqt.org/news/photoqt-5.3
             </url>
         </release>
         <release version="5.2" date="2026-02-20">
