@@ -442,7 +442,8 @@ bool PQCScriptsColorProfiles::applyColorProfile(QString filename, QImage &img) {
                 cmsCloseProfile(targetProfile);
                 return true;
             } else {
-                cmsCloseProfile(targetProfile);
+                if(targetProfile)
+                    cmsCloseProfile(targetProfile);
                 manualSelectionCausedError = true;
             }
 
@@ -602,7 +603,6 @@ bool PQCScriptsColorProfiles::_applyColorSpaceLCMS2(QImage &img, QString filenam
     cmsHTRANSFORM transform = cmsCreateTransform(targetProfile, lcms2SourceFormat, cmsCreate_sRGBProfile(), lcms2targetFormat, INTENT_PERCEPTUAL, 0);
     if (!transform) {
         // Handle error, maybe close profile and return original image or null image
-        cmsCloseProfile(targetProfile);
         qWarning() << "Error creating transform for external color profile";
         return false;
     } else {
@@ -610,6 +610,7 @@ bool PQCScriptsColorProfiles::_applyColorSpaceLCMS2(QImage &img, QString filenam
         // since the target format might not support alpha channels we use black instead of transparent to fill the initial image.
         // we don't have to fill the image for cmsDoTransform but it allows for additional checking whether cmsDoTransform succeeded.
         QImage ret(img.size(), targetFormat);
+        ret.fill(Qt::black);
 
         // Perform color space conversion
         cmsDoTransform(transform, img.constBits(), ret.bits(), img.width() * img.height());
@@ -654,7 +655,6 @@ bool PQCScriptsColorProfiles::_applyColorSpaceLCMS2(QImage &img, QString filenam
 
         // Release resources
         cmsDeleteTransform(transform);
-        cmsCloseProfile(targetProfile);
 
         qDebug() << "Applying external color profile:" << buf;
 
