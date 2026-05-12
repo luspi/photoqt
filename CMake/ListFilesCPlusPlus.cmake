@@ -84,7 +84,6 @@ SET(photoqt_SOURCES cplusplus/main.cpp
                     cplusplus/singletons/scripts/pqc_scriptsfilespaths.cpp
                     cplusplus/singletons/scripts/pqc_scriptsimages.cpp
                     cplusplus/singletons/scripts/pqc_scriptsmetadata.cpp
-                    cplusplus/singletons/scripts/pqc_scriptscrypt.cpp
                     cplusplus/singletons/scripts/pqc_scriptslocalization.cpp
                     cplusplus/singletons/scripts/pqc_scriptsother.cpp
                     cplusplus/singletons/scripts/pqc_scriptsshortcuts.cpp
@@ -99,7 +98,6 @@ SET(photoqt_SOURCES cplusplus/main.cpp
                     cplusplus/header/scripts/pqc_scriptsfilespaths.h
                     cplusplus/header/scripts/pqc_scriptsimages.h
                     cplusplus/header/scripts/pqc_scriptsmetadata.h
-                    cplusplus/header/scripts/pqc_scriptscrypt.h
                     cplusplus/header/scripts/pqc_scriptslocalization.h
                     cplusplus/header/scripts/pqc_scriptsother.h
                     cplusplus/header/scripts/pqc_scriptsshortcuts.h
