@@ -1597,9 +1597,11 @@ bool PQCScriptsImages::canHaveStarRating(const QString path) {
                                                IID_PPV_ARGS(&store));
 
         if(SUCCEEDED(hr)) {
+            store->Release();
             CoUninitialize();
             return true;
         }
+
     }
 
 #ifdef PQMEXIV2
