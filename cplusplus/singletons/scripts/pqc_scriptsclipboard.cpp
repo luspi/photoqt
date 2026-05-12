@@ -37,6 +37,9 @@ PQCScriptsClipboard::PQCScriptsClipboard() {
 
 bool PQCScriptsClipboard::areFilesInClipboard() {
 
+    if(clipboard == nullptr)
+        return false;
+
     const QMimeData *mimeData = clipboard->mimeData();
 
     if(mimeData == nullptr)
@@ -52,7 +55,7 @@ void PQCScriptsClipboard::copyFilesToClipboard(QStringList files) {
 
     qDebug() << "args: files =" << files;
 
-    if(files.length() == 0)
+    if(clipboard == nullptr || files.length() == 0)
         return;
 
     QMimeData* mimeData = new QMimeData();
@@ -92,19 +95,20 @@ QStringList PQCScriptsClipboard::getListOfFilesInClipboard() {
 
     qDebug() << "";
 
+    if(clipboard == nullptr)
+        return {};
+
     const QMimeData *mimeData = clipboard->mimeData();
 
-    if(mimeData == nullptr)
+    if(mimeData == nullptr || !mimeData->hasUrls())
         return QStringList();
-
-    if(!mimeData->hasUrls())
-        return QStringList();
-
-    QList<QUrl> allurls = mimeData->urls();
 
     QStringList ret;
-    for(auto &u : std::as_const(allurls))
-        ret << u.toLocalFile();
+
+    for(const QUrl &u : mimeData->urls()) {
+        if(u.isLocalFile())
+            ret << u.toLocalFile();
+    }
 
     return ret;
 
