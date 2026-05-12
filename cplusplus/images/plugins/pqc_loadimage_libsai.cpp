@@ -74,12 +74,12 @@ QString PQCLoadImageLibsai::load(QString filename, QSize maxSize, QSize &origSiz
         return err;
     }
 
-    int w = 0, h = 0;
+    std::uint32_t w = 0, h = 0;
     std::tie(w, h) = saidoc.GetCanvasSize();
     origSize = QSize(w, h);
 
     // Load thumbnail only
-    if(maxSize.width() > 0 && maxSize.height() > 0 && maxSize.width() <= 512 && maxSize.height() <= 512) {
+    if(!maxSize.isEmpty() && qMax(maxSize.width(), maxSize.height()) <= 512) {
 
         // Get the thumbnail data
         uint32_t tw = 0, th = 0;
@@ -87,7 +87,8 @@ QString PQCLoadImageLibsai::load(QString filename, QSize maxSize, QSize &origSiz
         std::tie(pixels, tw, th) = saidoc.GetThumbnail();
 
         // construct thumbnail image
-        img = QImage(reinterpret_cast<uchar*>(pixels.get()), tw, th, 4*tw, QImage::Format_ARGB32_Premultiplied);
+        // we have to call copy() as QImage does not take ownership of the data and the buffer will be freed while the image is still in use
+        img = QImage(reinterpret_cast<uchar*>(pixels.get()), tw, th, 4*tw, QImage::Format_ARGB32_Premultiplied).copy();
 
         if(!img.isNull()) {
 
@@ -107,16 +108,14 @@ QString PQCLoadImageLibsai::load(QString filename, QSize maxSize, QSize &origSiz
 
     }
 
-    composedImage = QImage(w, h, QImage::Format_ARGB32_Premultiplied);
-    composedImage.fill(Qt::transparent);
+    QList<QImage*> allImageLayers;
 
-    saidoc.IterateLayerFiles([=](sai::VirtualFileEntry& LayerFile) {
+    saidoc.IterateLayerFiles([&](sai::VirtualFileEntry& LayerFile) {
+
+        QImage *curImage = new QImage(w, h, QImage::Format_ARGB32_Premultiplied);
+        curImage->fill(Qt::transparent);
 
         const sai::LayerHeader LayerHeader = LayerFile.Read<sai::LayerHeader>();
-
-        // If the current layer or the full current set is not visible, stop.
-        if(LayerHeader.Visible == 0)
-            return true;
 
         // Read serialization stream
         std::uint32_t CurTag;
@@ -130,61 +129,96 @@ QString PQCLoadImageLibsai::load(QString filename, QSize maxSize, QSize &origSiz
         if(static_cast<sai::LayerType>(LayerHeader.Type) == sai::LayerType::Layer ||
            static_cast<sai::LayerType>(LayerHeader.Type) == sai::LayerType::RootLayer) {
 
+            // If the current layer or the full current set is not visible, stop.
+            if(LayerHeader.Visible == 0)
+                return true;
+
             if(auto LayerPixels = ReadRasterLayer(LayerHeader, LayerFile); LayerPixels) {
 
                 // Load image from data
-                QImage i(reinterpret_cast<uchar*>(LayerPixels.get()),
-                         LayerHeader.Bounds.Width, LayerHeader.Bounds.Height,
-                         4*LayerHeader.Bounds.Width, QImage::Format_ARGB32_Premultiplied);
-
-                /********************/
-                // Blending
-                //
-                // TODO?
-                //
-                /********************/
+                // we have to call copy() as QImage does not take ownership of the data and the buffer will be freed while the image is still in use
+                QImage i = QImage(reinterpret_cast<uchar*>(LayerPixels.get()),
+                                  LayerHeader.Bounds.Width, LayerHeader.Bounds.Height,
+                                  4*LayerHeader.Bounds.Width, QImage::Format_ARGB32_Premultiplied).copy();
 
                 // Both PreserveOpacity and Clipping only apply the color if there is a non-transparent color below already
                 // The difference lies in that the former happens in the same layer whereas the latter happens in a seperate layer
                 // Since we are only interested in a flat rendered image we can treat them the same way.
                 if(LayerHeader.PreserveOpacity || LayerHeader.Clipping) {
 
-                    // value between 0 and 255
-                    int alpha = 2.55*LayerHeader.Opacity;
+                    // TODO: This does not work as expected at the moment
 
-                    for(int x = LayerHeader.Bounds.X; x < LayerHeader.Bounds.Width; ++x) {
+                    // const std::int32_t startX = std::max(0, LayerHeader.Bounds.X);
+                    // const std::int32_t startY = std::max(0, LayerHeader.Bounds.Y);
 
-                        for(int y = LayerHeader.Bounds.Y; y < LayerHeader.Bounds.Height; ++y) {
+                    // const std::int32_t endX = std::min(w, LayerHeader.Bounds.X+LayerHeader.Bounds.Width);
+                    // const std::int32_t endY = std::min(h, LayerHeader.Bounds.Y+LayerHeader.Bounds.Height);
 
-                            if(x < 0 || x > w-1 || y < 0 || y > h-1)
-                                continue;
+                    // // value between 0 and 255
+                    // int alpha = 2.55*LayerHeader.Opacity;
 
-                            // not transparent -> set new pixel
-                            if(composedImage.pixelColor(x, y).alpha() != 0) {
-                                QColor col = i.pixelColor(x, y);
-                                col.setAlpha(alpha);
-                                composedImage.setPixelColor(x, y, col);
-                            }
+                    // for(int y = startY; y < endY; ++y) {
 
-                        }
+                    //     for(int x = startX; x < endX; ++x) {
 
-                    }
+                    //         // previous layer not transparent -> set new pixel
+                    //         const bool haveCol = (allImageLayers.last()->pixelColor(x, y).alpha() > 0);
+
+                    //         // if(allImageLayers.last()->pixelColor(x, y).alpha() != 0) {
+                    //         if(haveCol) {
+                    //             QColor col = i.pixelColor(x, y);
+                    //             col.setAlpha(alpha);
+                    //             curImage->setPixelColor(x, y, col);
+                    //         }
+
+                    //     }
+
+                    // }
 
                 } else {
 
                     // simply draw image on top
-                    QPainter p(&composedImage);
-                    p.setOpacity(100./static_cast<double>(LayerHeader.Opacity));
-                    p.drawImage(QRect(LayerHeader.Bounds.X, LayerHeader.Bounds.Y, LayerHeader.Bounds.Width, LayerHeader.Bounds.Height), i);
-                    p.end();
+                    QPainter curPainter(curImage);
+                    curPainter.setOpacity(static_cast<double>(LayerHeader.Opacity)/100.);
+                    curPainter.drawImage(QRect(LayerHeader.Bounds.X, LayerHeader.Bounds.Y, LayerHeader.Bounds.Width, LayerHeader.Bounds.Height), i);
+                    curPainter.end();
 
                 }
 
             }
+        } else if(static_cast<sai::LayerType>(LayerHeader.Type) == sai::LayerType::Set) {
+
+            if(static_cast<sai::BlendingModes>(LayerHeader.Blending) == sai::BlendingModes::Multiply)
+                qWarning() << "Multiply blending not yet implemented";
+            else if(static_cast<sai::BlendingModes>(LayerHeader.Blending) == sai::BlendingModes::PassThrough)
+                qWarning() << "PassThrough blending not yet implemented";
+            else if(static_cast<sai::BlendingModes>(LayerHeader.Blending) == sai::BlendingModes::Screen)
+                qWarning() << "Screen blending not yet implemented";
+            else if(static_cast<sai::BlendingModes>(LayerHeader.Blending) == sai::BlendingModes::Overlay)
+                qWarning() << "Overlay blending not yet implemented";
+            else if(static_cast<sai::BlendingModes>(LayerHeader.Blending) == sai::BlendingModes::Luminosity)
+                qWarning() << "Luminosity blending not yet implemented";
+            else if(static_cast<sai::BlendingModes>(LayerHeader.Blending) == sai::BlendingModes::Shade)
+                qWarning() << "Shade blending not yet implemented";
+            else if(static_cast<sai::BlendingModes>(LayerHeader.Blending) == sai::BlendingModes::LumiShade)
+                qWarning() << "LumiShade blending not yet implemented";
+            else if(static_cast<sai::BlendingModes>(LayerHeader.Blending) == sai::BlendingModes::Binary)
+                qWarning() << "Binary blending not yet implemented";
+
         }
+
+        allImageLayers.append(curImage);
 
         return true;
     });
+
+    composedImage = QImage(w, h, QImage::Format_ARGB32_Premultiplied);
+    composedImage.fill(Qt::transparent);
+    QPainter composedPainter(&composedImage);
+    for(const QImage *img : std::as_const(allImageLayers)) {
+        composedPainter.drawImage(QRect(0,0,w,h),*img);
+    }
+    composedPainter.end();
 
     // make sure the background is all white
     // we can't do it on the composedImage at the start as it would mess up the PreserveOpacity/Clipping option
