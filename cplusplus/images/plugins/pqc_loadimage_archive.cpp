@@ -81,7 +81,8 @@ QSize PQCLoadImageArchive::loadSize(QString filename) {
 #ifdef Q_OS_WIN
     int r = archive_read_open_filename_w(a, reinterpret_cast<const wchar_t*>(archivefile.utf16()), 10240);
 #else
-    int r = archive_read_open_filename(a, archivefile.toLocal8Bit().data(), 10240);
+    QByteArray tmpPath = QFile::encodeName(archivefile);
+    int r = archive_read_open_filename(a, tmpPath.constData(), 10240);
 #endif
 
     // If something went wrong, output error message and stop here
@@ -96,7 +97,11 @@ QSize PQCLoadImageArchive::loadSize(QString filename) {
 
         // Read the current file entry
         // We use the '_w' variant here, as otherwise on Windows this call causes a segfault when a file in an archive contains non-latin characters
-        QString filenameinside = QString::fromWCharArray(archive_entry_pathname_w(entry));
+        // Also, if the archives is malformed or there is an encoding issue then it is possible that this may return a nullptr
+        // and PhotoQt might crash if not handled properly -> check before converting to QString
+        const wchar_t *wpath = archive_entry_pathname_w(entry);
+        if(!wpath) continue;
+        QString filenameinside = QString::fromWCharArray(wpath);
 
         // If this is the file we are looking for:
         if(filenameinside == compressedFilename || (compressedFilename == "" && QFileInfo(filenameinside).suffix() != "")) {
@@ -104,57 +109,82 @@ QSize PQCLoadImageArchive::loadSize(QString filename) {
             // Find out the size of the data
             int64_t size = archive_entry_size(entry);
 
-            // Create a uchar buffer of that size to hold the image data
-            uchar *buff = new uchar[size];
+            if(size <= 0) {
+                qWarning() << QString("Invalid image size of file in archive: %1").arg(size);
+                archive_read_close(a);
+                archive_read_free(a);
+                return QSize();
+            }
 
-            // And finally read the file into the buffer
-            la_ssize_t r = archive_read_data(a, (void*)buff, size);
+            // Create a buffer of that size to hold the image data
+            QByteArray data;
+            data.resize(size);
 
-            if(r != size || size == 0) {
-                qWarning() << QString("Failed to read image data, read size (%1) doesn't match expected size (%2)...").arg(r).arg(size);
+            // And finally read the file into the buffer in chunks
+            char* ptr = data.data();
+            qint64 total = 0;
+            while (total < size) {
+                la_ssize_t chunk = archive_read_data(a, ptr + total, size - total);
+                if(chunk < 0) {
+                    qWarning() << QString("Invalid chunk read: %1").arg(archive_error_string(a));
+                    archive_read_close(a);
+                    archive_read_free(a);
+                    return QSize();
+                }
+
+                if (chunk == 0) {
+                    break;
+                }
+
+                total += chunk;
+            }
+
+            if(total != size) {
+                qWarning() << QString("Failed to read image data, read size (%1) doesn't match expected size (%2)...").arg(total).arg(size);
+                archive_read_close(a);
+                archive_read_free(a);
                 return QSize();
             }
 
             // and finish off by turning it into an image
 
-            // we extract it to a temp location from where we can load it then
-            const QString temppath = PQCConfigFiles::get().CACHE_DIR() + "/archive/" + filenameinside;
-
-            // file handles
-            QFile file(temppath);
-            QFileInfo info(file);
-
-            // remove it if it exists, there is no way to know if it's the same file or not
-            if(file.exists()) file.remove();
-
-            // make sure the path exists
-            QDir dir(info.absolutePath());
-            if(!dir.exists())
-                dir.mkpath(info.absolutePath());
+            // we use a temporary file that is automatically removed afterwards
+            QTemporaryFile tempFile;
+            tempFile.setAutoRemove(true);
 
             // write buffer to file
-            if(!file.open(QIODevice::WriteOnly)) {
-                qWarning() << "Unable to load archive file to buffer.";
+            if(!tempFile.open()) {
+                qWarning() << "Unable to load archive file to temporary file.";
+                archive_read_close(a);
+                archive_read_free(a);
                 return QSize();
             }
-            QDataStream out(&file);   // we will serialize the data into the file
-            out.writeRawData((const char*) buff,size);
-            file.close();
-            delete[] buff;
 
-            QSize origSize = PQCLoadImage::get().load(temppath);
+            if(tempFile.write(data) != data.size()) {
+                qWarning() << "Failed to write image to temporary file.";
+                archive_read_close(a);
+                archive_read_free(a);
+                return QSize();
+            }
 
-            // finally remove file again
-            file.remove();
+            tempFile.flush();
+
+            QSize origSize = PQCLoadImage::get().load(tempFile.fileName());
 
             r = archive_read_free(a);
             if(r != ARCHIVE_OK)
                 qWarning() << "PQLoadImage::Archive::load(): ERROR: archive_read_free() returned code of" << r;
 
+            archive_read_close(a);
+            archive_read_free(a);
             return origSize;
         }
 
     }
+
+    archive_read_close(a);
+    archive_read_free(a);
+
 #endif
 
     return QSize();
