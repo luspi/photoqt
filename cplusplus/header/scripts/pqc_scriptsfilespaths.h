@@ -47,7 +47,6 @@ public:
 
     // path methods
     QString cleanPath(QString path);
-    QString cleanPath_windows(QString path);
     QString pathWithNativeSeparators(QString path);
     QString pathFromNativeSeparators(QString path);
     QString toPercentEncoding(QString str);

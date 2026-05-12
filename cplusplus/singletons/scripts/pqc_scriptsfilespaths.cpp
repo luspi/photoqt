@@ -72,7 +72,7 @@ void PQCScriptsFilesPaths::detectNetworkShares() {
         QString line;
         while(in.readLineInto(&line)) {
             QStringList parts = line.split(" ");
-            if(parts[2] == "fuse.sshfs")
+            if(parts.length() > 2 && parts[2] == "fuse.sshfs")
                 networkshares.push_back(parts[1]);
         }
     }
@@ -82,59 +82,29 @@ void PQCScriptsFilesPaths::detectNetworkShares() {
 
 QString PQCScriptsFilesPaths::cleanPath(QString path) {
 
+    QUrl url(path);
+    if(url.isLocalFile())
+        path = url.toLocalFile();
+    else if(path.startsWith("image://full/"))
+        path = path.remove(0, 13);
+    else if(path.startsWith("image://thumb/"))
+        path = path.remove(0, 14);
+
+    QFileInfo info(path);
+    if(info.isSymLink() && info.exists())
+        path = info.symLinkTarget();
+
 #ifdef Q_OS_WIN
-    return cleanPath_windows(path);
-#else
-    if(path.startsWith("file:////"))
-        path = path.remove(0, 8);
-    else if(path.startsWith("file:///"))
-        path = path.remove(0, 7);
-    else if(path.startsWith("file://"))
-        path = path.remove(0, 6);
-    else if(path.startsWith("file:/"))
-        path = path.remove(0, 5);
-    else if(path.startsWith("image://full/"))
-        path = path.remove(0, 13);
-    else if(path.startsWith("image://thumb/"))
-        path = path.remove(0, 14);
-
-    QFileInfo info(path);
-    if(info.isSymLink() && info.exists())
-        path = info.symLinkTarget();
-
-    return QDir::cleanPath(path);
-#endif
-
-}
-
-QString PQCScriptsFilesPaths::cleanPath_windows(QString path) {
-
-    if(path.startsWith("file:///"))
-        path = path.remove(0, 8);
-    else if(path.startsWith("file://"))
-        path = path.remove(0, 7);
-    else if(path.startsWith("file:/"))
-        path = path.remove(0, 6);
-    else if(path.startsWith("file:"))
-        path = path.remove(0, 5);
-    else if(path.startsWith("image://full/"))
-        path = path.remove(0, 13);
-    else if(path.startsWith("image://thumb/"))
-        path = path.remove(0, 14);
-
-    QFileInfo info(path);
-    if(info.isSymLink() && info.exists())
-        path = info.symLinkTarget();
-
     bool addslash = false;
     if(path.startsWith("//"))
         addslash = true;
-
     path = QDir::cleanPath(path);
     if(addslash)
-        path = "/"+path;
-
+        return ("/"+path);
     return path;
+#else
+    return QDir::cleanPath(path);
+#endif
 
 }
 
@@ -267,19 +237,40 @@ QString PQCScriptsFilesPaths::getFileSizeHumanReadable(QString path) {
     if(path == "")
         return "";
 
-    const qint64 bytes = QFileInfo(path).size();
-
-    if(bytes <= 1024)
+    // get the bytes
+    double bytes = static_cast<double>(QFileInfo(path).size());
+    if(bytes < 1024)
         return QString("%1 B").arg(bytes);
-    else if(bytes <= 1024*1024)
-        return QString("%1 KB").arg(qRound(10.0*(bytes/1024.0))/10.0);
 
-    return QString("%1 MB").arg(qRound(100.0*(bytes/(1024.0*1024.0)))/100.0);
+    // the possible units
+    const QStringList units = {"B", "KB", "MB", "GB", "TB"};
+    int unitIndex = 0;
+
+    // we keep going until we have les than 1024 of some unit
+    while(bytes >= 1024 && unitIndex < units.length()-1) {
+        bytes /= 1024;
+        unitIndex++;
+    }
+
+    QString sizeAsStr = QString::number(bytes, 'f', 2);
+    // remove trailing .00
+    if(sizeAsStr.endsWith(".00"))
+        sizeAsStr.chop(3);
+    // and remove second zero of decimal digits if any
+    // we don't need to worry about the decimal marker here
+    // for example, a size of 100 will trigger the 100.00 case above first
+    // only cases like 100.20 trigger this second case
+    else if(sizeAsStr.endsWith("0"))
+        sizeAsStr.chop(1);
+
+    // compose final string
+    return QString("%1 %2").arg(sizeAsStr).arg(units[unitIndex]);
 
 }
 
 double PQCScriptsFilesPaths::convertBytesToGB(const qint64 bytes) {
-    return qRound(100.0*(bytes/(1024.0*1024.0*1024.0)))/100.0;
+    // 1073741824 := 1024*1024*1024
+    return qRound(100.0*(bytes/(1073741824.0)))/100.0;
 }
 
 QString PQCScriptsFilesPaths::toPercentEncoding(QString str) {

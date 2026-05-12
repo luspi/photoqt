@@ -40,7 +40,6 @@ public:
 
     // path methods
     Q_INVOKABLE static QString cleanPath(QString path)                        { return PQCScriptsFilesPaths::get().cleanPath(path); }
-    Q_INVOKABLE static QString cleanPath_windows(QString path)                { return PQCScriptsFilesPaths::get().cleanPath_windows(path); }
     Q_INVOKABLE QString        pathWithNativeSeparators(QString path)         { return PQCScriptsFilesPaths::get().pathWithNativeSeparators(path); }
     Q_INVOKABLE QString        pathFromNativeSeparators(QString path)         { return PQCScriptsFilesPaths::get().pathFromNativeSeparators(path); }
     Q_INVOKABLE QString        toPercentEncoding(QString str)                 { return PQCScriptsFilesPaths::get().toPercentEncoding(str); }
