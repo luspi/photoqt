@@ -84,8 +84,6 @@ private:
     mutable QMutex iccMmutex;
     QHash<QString, QString> m_iccColorProfiles;
 
-    qint64 m_importedICCLastMod;
-
     QFile *m_colorlastlocation;
 
     bool _applyColorSpaceQt(QImage &img, QString filename, QColorSpace sp);
