@@ -485,6 +485,12 @@ QPointF PQCScriptsMetaData::convertGPSToPoint(QString gps) {
 
 QString PQCScriptsMetaData::convertGPSDecimalToDegree(double lat, double lon) {
 
+    qDebug() << "args: lat =" << lat;
+    qDebug() << "args: lon =" << lon;
+
+    if(std::isnan(lat) || std::isnan(lon))
+        return "NaN";
+
     QString ret = "";
 
     // find N/S/E/W labels
