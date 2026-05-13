@@ -173,11 +173,13 @@ AnimatedImage {
         }
 
         function onCurrentAnimatedJump(leftright : int) {
-            image.currentFrame = (image.currentFrame+leftright+image.frameCount)%image.frameCount
+            if(image.isMainImage)
+                image.currentFrame = (image.currentFrame+leftright+image.frameCount)%image.frameCount
         }
 
         function onCurrentAnimatedSaveFrame() {
-            PQCScriptsImages.extractFrameAndSave(image.imageSource, image.currentFrame)
+            if(image.isMainImage)
+                PQCScriptsImages.extractFrameAndSave(image.imageSource, image.currentFrame)
         }
 
     }
