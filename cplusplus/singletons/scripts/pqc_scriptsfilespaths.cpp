@@ -831,8 +831,6 @@ QString PQCScriptsFilesPaths::getSiblingFile(const QString currentFile, const in
         // our position in the directory
         const int currentIndex = parentSiblings.indexOf(origDirName);
 
-        qDebug() << "currentIndex =" << currentIndex;
-
         /////////////////////////////////////////////////////////////////////////
         // check previous/next folders for content
 
@@ -874,6 +872,8 @@ QString PQCScriptsFilesPaths::_findFirstFileinFolderAndSubFolder(const QString f
 
     QString ret = "";
 
+    QMimeDatabase db;
+
     QDir dir(folder);
 
     QStringList fileList = dir.entryList(QDir::Files);
@@ -893,7 +893,6 @@ QString PQCScriptsFilesPaths::_findFirstFileinFolderAndSubFolder(const QString f
                 ret = fullPath;
                 break;
             } else {
-                QMimeDatabase db;
                 QString mimetype = db.mimeTypeForFile(fullPath).name();
                 if(PQCImageFormats::get().getEnabledMimeTypes().contains(mimetype)) {
                     ret = fullPath;
@@ -905,9 +904,9 @@ QString PQCScriptsFilesPaths::_findFirstFileinFolderAndSubFolder(const QString f
 
     }
 
-    if(ret == "" && remainingDescending > 0) {
+    if(ret.isEmpty() && remainingDescending > 0) {
 
-        QStringList folderList = dir.entryList(QDir::Dirs|QDir::NoDotAndDotDot);
+        QStringList folderList = dir.entryList(QDir::Dirs|QDir::NoDotAndDotDot|QDir::NoSymLinks);
 
         if(folderList.length() > 0) {
 
@@ -918,7 +917,7 @@ QString PQCScriptsFilesPaths::_findFirstFileinFolderAndSubFolder(const QString f
             for(const QString &f : std::as_const(folderList)) {
 
                 remainingDescending -= 1;
-                ret = _findFirstFileinFolderAndSubFolder(dir.absolutePath() + "/" + f, ascendingFolder, remainingIteration, remainingDescending);
+                ret = _findFirstFileinFolderAndSubFolder(dir.filePath(f), ascendingFolder, remainingIteration, remainingDescending);
 
                 if(ret != "")
                     break;
