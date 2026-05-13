@@ -75,7 +75,7 @@ public:
     QString   getFileType(QString path);
     QString   getFileSizeHumanReadable(QString path);
     double    convertBytesToGB(const qint64 bytes);
-    QString   createTooltipFilename(QString fname);
+    QString   createTooltipFilename(const QString fname);
     void      openInDefaultFileManager(QString filename);
 
     // folder and file methods
