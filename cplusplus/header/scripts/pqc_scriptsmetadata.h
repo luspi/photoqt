@@ -69,4 +69,8 @@ public:
 private:
     PQCScriptsMetaData();
 
+    QString _analyzeGPSHelper(QString pos);
+    double _convertGPSToDecimalHelper(QString pos);
+
+
 };
