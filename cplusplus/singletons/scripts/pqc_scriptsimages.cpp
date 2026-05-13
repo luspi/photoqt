@@ -288,20 +288,22 @@ QStringList PQCScriptsImages::listArchiveContentWithoutThread(QString path, QStr
 
         if(p.waitForStarted()) {
 
-            p.waitForFinished();
+            if(p.waitForFinished()) {
 
-            if(p.exitStatus() == QProcess::NormalExit && p.exitCode() == 0) {
+                if(p.exitStatus() == QProcess::NormalExit && p.exitCode() == 0) {
 
-                ret = QString::fromLocal8Bit(p.readAllStandardOutput()).split('\n', Qt::SkipEmptyParts);
+                    ret = QString::fromLocal8Bit(p.readAllStandardOutput()).split('\n', Qt::SkipEmptyParts);
 
-                // remove archives and unsupported files
-                ret.erase(std::remove_if(ret.begin(), ret.end(), [&](const QString &f) {
-                              return (isArchive(f, true) || !enabledFormats.contains(QFileInfo(f).suffix().toLower()));
-                          }), ret.end());
+                    // remove archives and unsupported files
+                    ret.erase(std::remove_if(ret.begin(), ret.end(), [&](const QString &f) {
+                                  return (isArchive(f, true) || !enabledFormats.contains(QFileInfo(f).suffix().toLower()));
+                              }), ret.end());
 
-                // limit how many files to load
-                if(limitArchiveFileCount)
-                    ret = ret.mid(0, limitArchiveFileCountNumber);
+                    // limit how many files to load
+                    if(limitArchiveFileCount)
+                        ret = ret.mid(0, limitArchiveFileCountNumber);
+
+                }
 
             }
 
@@ -402,23 +404,7 @@ QStringList PQCScriptsImages::listArchiveContentWithoutThread(QString path, QStr
 
 QString PQCScriptsImages::convertSecondsToPosition(int t) {
 
-    int m = t/60;
-    int s = t%60;
-
-    QString minutes;
-    QString seconds;
-
-    if(m < 10)
-        minutes = QString("0%1").arg(m);
-    else
-        minutes = QString("%1").arg(m);
-
-    if(s < 10)
-        seconds = QString("0%1").arg(s);
-    else
-        seconds = QString("%1").arg(s);
-
-    return QString("%1:%2").arg(minutes, seconds);
+    return QString("%1:%2").arg(t/60, 2, 10, '0').arg(t%60, 2, 10, '0');
 
 }
 
@@ -546,9 +532,7 @@ int PQCScriptsImages::getNumberDocumentPages(QString path) {
 #endif
 #ifdef PQMQTPDF
     QPdfDocument doc;
-    doc.load(path);
-    QPdfDocument::Error err = doc.error();
-    if(err == QPdfDocument::Error::None)
+    if(doc.load(path) == QPdfDocument::Error::None)
         return doc.pageCount();
 #endif
     return 0;
@@ -993,35 +977,30 @@ QString PQCScriptsImages::extractArchiveFileToTempLocation(QString path) {
 #ifndef Q_OS_WIN
     if(PQCSettingsCPP::get().getFiletypesExternalUnrar() && (suffix == "cbr" || suffix == "rar")) {
 
-        QProcess which;
-        which.setStandardOutputFile(QProcess::nullDevice());
-        which.start("which", QStringList() << "unrar");
-        which.waitForFinished();
+        qDebug() << "attempting to load archive with unrar";
 
-        if(!which.exitCode()) {
+        // we extract it to a temp location from where we can load it then
+        const QString tempdir = PQCConfigFiles::get().CACHE_DIR() + "/clipboard/";
 
-            qDebug() << "loading archive with unrar";
+        QDir td;
+        if(!td.exists(tempdir))
+            td.mkpath(tempdir);
 
-            // we extract it to a temp location from where we can load it then
-            const QString tempdir = PQCConfigFiles::get().CACHE_DIR() + "/clipboard/";
-
-            QDir td;
-            if(!td.exists(tempdir))
-                td.mkpath(tempdir);
-
-            QProcess p;
-            p.start("unrar", QStringList() << "x" << "-y" << archivefile << compressedFilename << tempdir);
-            p.waitForFinished(15000);
-
-            return tempdir+compressedFilename;
-
-        } else
-            qWarning() << "unrar was not found in system path";
+        QProcess p;
+        p.start("unrar", QStringList() << "x" << "-y" << archivefile << compressedFilename << tempdir);
+        if(p.waitForStarted()) {
+            if(p.waitForFinished(15000)) {
+                qDebug() << "temporary file:" << tempdir+compressedFilename;
+                return tempdir+compressedFilename;
+            }
+        }
 
     }
 #endif
 
 #ifdef PQMLIBARCHIVE
+
+    qDebug() << "attempting to load archive with libarchive";
 
     // Create new archive handler
     struct archive *a = archive_read_new();
@@ -1034,13 +1013,14 @@ QString PQCScriptsImages::extractArchiveFileToTempLocation(QString path) {
 #ifdef Q_OS_WIN
     int r = archive_read_open_filename_w(a, reinterpret_cast<const wchar_t*>(archivefile.utf16()), 10240);
 #else
-    int r = archive_read_open_filename(a, archivefile.toLocal8Bit().data(), 10240);
+    QByteArray tmpPath = QFile::encodeName(archivefile);
+    int r = archive_read_open_filename(a, tmpPath.constData(), 10240);
 #endif
 
     // If something went wrong, output error message and stop here
     if(r != ARCHIVE_OK) {
         qWarning() << QString("archive_read_open_filename() returned code of %1").arg(r);
-        return "";
+        return QString();
     }
 
     // Loop over entries in archive
@@ -1049,23 +1029,48 @@ QString PQCScriptsImages::extractArchiveFileToTempLocation(QString path) {
 
         // Read the current file entry
         // We use the '_w' variant here, as otherwise on Windows this call causes a segfault when a file in an archive contains non-latin characters
-        QString filenameinside = QString::fromWCharArray(archive_entry_pathname_w(entry));
+        // Also, if the archives is malformed or there is an encoding issue then it is possible that this may return a nullptr
+        // and PhotoQt might crash if not handled properly -> check before converting to QString
+        const wchar_t *wpath = archive_entry_pathname_w(entry);
+        if(!wpath) continue;
+        QString filenameinside = QString::fromWCharArray(wpath);
 
         // If this is the file we are looking for:
-        if(filenameinside == compressedFilename || (compressedFilename == "" && QFileInfo(filenameinside).suffix() != "")) {
+        if(filenameinside == compressedFilename || (compressedFilename.isEmpty() && !QFileInfo(filenameinside).suffix().isEmpty())) {
 
             // Find out the size of the data
             int64_t size = archive_entry_size(entry);
 
-            // Create a uchar buffer of that size to hold the image data
-            uchar *buff = new uchar[size];
+            if(size <= 0) {
+                qWarning() << QString("Invalid image size of file in archive: %1").arg(size);
+                return QString();
+            }
 
-            // And finally read the file into the buffer
-            la_ssize_t r = archive_read_data(a, (void*)buff, size);
+            // Create a buffer of that size to hold the image data
+            QByteArray data;
+            data.resize(size);
 
-            if(r != size || size == 0) {
-                qWarning() << QString("Failed to read image data, read size (%1) doesn't match expected size (%2)...").arg(r).arg(size);
-                return "";
+            // And finally read the file into the buffer in chunks
+            char* ptr = data.data();
+            qint64 total = 0;
+            while (total < size) {
+                la_ssize_t chunk = archive_read_data(a, ptr + total, size - total);
+                if(chunk < 0) {
+                    const QString err = QString("Invalid chunk read: %1").arg(archive_error_string(a));
+                    qWarning() << err;
+                    return err;
+                }
+
+                if (chunk == 0) {
+                    break;
+                }
+
+                total += chunk;
+            }
+
+            if(total != size) {
+                qWarning() << QString("Failed to read image data, read size (%1) doesn't match expected size (%2)...").arg(total).arg(size);
+                return QString();
             }
 
             // we extract it to a temp location from where we can load it then
@@ -1091,12 +1096,11 @@ QString PQCScriptsImages::extractArchiveFileToTempLocation(QString path) {
             // write buffer to file
             if(!file.open(QIODevice::WriteOnly)) {
                 qWarning() << "Unable to extract file to temporary location.";
-                return "";
+                return QString();
             }
             QDataStream out(&file);   // we will serialize the data into the file
-            out.writeRawData((const char*) buff,size);
+            out.writeRawData(data, data.size());
             file.close();
-            delete[] buff;
 
             ret = temppath;
 
@@ -1113,6 +1117,9 @@ QString PQCScriptsImages::extractArchiveFileToTempLocation(QString path) {
     r = archive_read_free(a);
     if(r != ARCHIVE_OK)
         qWarning() << "ERROR: archive_read_free() returned code of" << r;
+
+    if(!ret.isEmpty())
+        qDebug() << "temporary file:" << ret;
 
 #endif
 
@@ -1136,10 +1143,8 @@ QString PQCScriptsImages::extractDocumentPageToTempLocation(QString path) {
     QString realFileName = path.split("::PDF::").at(1);
 
     QPdfDocument doc;
-    doc.load(realFileName);
 
-    QPdfDocument::Error err = doc.error();
-    if(err != QPdfDocument::Error::None) {
+    if(doc.load(realFileName) != QPdfDocument::Error::None) {
         qWarning() << "Error occurred loading PDF";
         return "";
     }
@@ -1265,10 +1270,8 @@ int PQCScriptsImages::getDocumentPageCount(QString path) {
         path = path.split("::PDF::").at(1);
 
     QPdfDocument doc;
-    doc.load(path);
 
-    QPdfDocument::Error err = doc.error();
-    if(err != QPdfDocument::Error::None) {
+    if(doc.load(path) != QPdfDocument::Error::None) {
         qWarning() << "Error occurred loading PDF";
         return 0;
     }
@@ -1307,8 +1310,6 @@ bool PQCScriptsImages::isNormalImage(QString path) {
     return !isMpvVideo(path) && !isQtVideo(path) && !isPDFDocument(path) && !isArchive(path) && !isItAnimated(path) && !isSVG(path);
 
 }
-
-
 
 void PQCScriptsImages::removeThumbnailFor(QString path) {
 
