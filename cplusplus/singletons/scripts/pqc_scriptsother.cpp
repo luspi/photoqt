@@ -104,29 +104,26 @@ void PQCScriptsOther::printFile(QString filename) {
     // scale the image to fit into the page
     if(imageoptions->getScalingFitToPage()) {
 
-        bool imageBiggerThanPaper = imgsize.width() > viewport.width() || imgsize.height() > viewport.height();
-
-        if (imageBiggerThanPaper || imageoptions->getScalingEnlargeSmaller())
+        // if image is bigger than paper
+        if(imgsize.width() > viewport.width() || imgsize.height() > viewport.height() || imageoptions->getScalingEnlargeSmaller())
             imgsize.scale(viewport.size(), Qt::KeepAspectRatio);
 
-        // scale the image to a certain width/height
+    // scale the image to a certain width/height
     } else if(imageoptions->getScalingScaleTo()) {
 
-        double wImg = imageoptions->getScalingScaleToSize().width();
-        double hImg = imageoptions->getScalingScaleToSize().height();
-        imgsize.setWidth(int(wImg * printer.resolution()));
-        imgsize.setHeight(int(hImg * printer.resolution()));
+        imgsize.setWidth(int(imageoptions->getScalingScaleToSize().width() * printer.resolution()));
+        imgsize.setHeight(int(imageoptions->getScalingScaleToSize().height() * printer.resolution()));
 
-        // do not scale the image
+    // do not scale the image
     } else {
 
         const double INCHES_PER_METER = 100. / 2.54;
         const int dpmX = img.dotsPerMeterX();
         const int dpmY = img.dotsPerMeterY();
 
-        if (dpmX > 0 && dpmY > 0) {
-            double wImg = double(imgsize.width()) / double(dpmX) * INCHES_PER_METER;
-            double hImg = double(imgsize.height()) / double(dpmY) * INCHES_PER_METER;
+        if(dpmX > 0 && dpmY > 0) {
+            const double wImg = static_cast<double>(imgsize.width()) / static_cast<double>(dpmX) * INCHES_PER_METER;
+            const double hImg = static_cast<double>(imgsize.height()) / static_cast<double>(dpmY) * INCHES_PER_METER;
             imgsize.setWidth(int(wImg * printer.resolution()));
             imgsize.setHeight(int(hImg * printer.resolution()));
         }
@@ -197,26 +194,12 @@ QVariantList PQCScriptsOther::convertHexToRgba(QString hex) {
 
     qDebug() << "args: hex =" << hex;
 
-    int r,g,b,a;
+    QColor col(hex);
 
-    // no transparency
-    if(hex.length() == 7) {
+    if(!col.isValid())
+        return {};
 
-        a = 255;
-        r = hex.sliced(1, 2).toUInt(nullptr, 16);
-        g = hex.sliced(3, 2).toUInt(nullptr, 16);
-        b = hex.sliced(5, 2).toUInt(nullptr, 16);
-
-    } else {
-
-        a = hex.sliced(1, 2).toUInt(nullptr, 16);
-        r = hex.sliced(3, 2).toUInt(nullptr, 16);
-        g = hex.sliced(5, 2).toUInt(nullptr, 16);
-        b = hex.sliced(7, 2).toUInt(nullptr, 16);
-
-    }
-
-    return QVariantList() << r << g << b << a;
+    return { col.red(), col.green(), col.blue(), col.alpha() };
 
 }
 
