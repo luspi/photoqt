@@ -22,7 +22,7 @@
 #pragma once
 
 #include <QObject>
-#include <QMap>
+#include <QHash>
 
 /*************************************************************/
 /*************************************************************/
@@ -57,6 +57,6 @@ private:
 
     QTranslator *trans;
     QString currentTranslation;
-    QMap<QString,QString> langNames;
+    QHash<QString,QString> langNames;
 
 };
