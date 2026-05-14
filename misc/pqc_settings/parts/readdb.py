@@ -94,27 +94,27 @@ void PQCSettings::readDB() {
 
             if datatype == "string":
                 cont_SOURCE += f"""
-                {prefx}if(name == \"{name}\") {{
+                {prefx}if(name == QStringLiteral(\"{name}\")) {{
                     m_{tab}{name} = value.toString();"""
 
             elif datatype == "int":
                 cont_SOURCE += f"""
-                {prefx}if(name == \"{name}\") {{
+                {prefx}if(name == QStringLiteral(\"{name}\")) {{
                     m_{tab}{name} = value.toInt();"""
 
             elif datatype == "double":
                 cont_SOURCE += f"""
-                {prefx}if(name == \"{name}\") {{
+                {prefx}if(name == QStringLiteral(\"{name}\")) {{
                     m_{tab}{name} = value.toDouble();"""
 
             elif datatype == "bool":
                 cont_SOURCE += f"""
-                {prefx}if(name == \"{name}\") {{
+                {prefx}if(name == QStringLiteral(\"{name}\")) {{
                     m_{tab}{name} = value.toInt();"""
 
             elif datatype == "list":
                 cont_SOURCE += f"""
-                {prefx}if(name == \"{name}\") {{
+                {prefx}if(name == QStringLiteral(\"{name}\")) {{
                     QString val = value.toString();
                     if(val.contains(":://::"))
                         m_{tab}{name} = val.split(":://::");
@@ -125,7 +125,7 @@ void PQCSettings::readDB() {
 
             elif datatype == "point":
                 cont_SOURCE += f"""
-                {prefx}if(name == \"{name}\") {{
+                {prefx}if(name == QStringLiteral(\"{name}\")) {{
                     const QStringList parts = value.toString().split(",");
                     if(parts.length() == 2)
                         m_{tab}{name} = QPoint(parts[0].toDouble(), parts[1].toDouble());
@@ -134,7 +134,7 @@ void PQCSettings::readDB() {
 
             elif datatype == "size":
                 cont_SOURCE += f"""
-                {prefx}if(name == \"{name}\") {{
+                {prefx}if(name == QStringLiteral(\"{name}\")) {{
                     const QStringList parts = value.toString().split(",");
                     if(parts.length() == 2)
                         m_{tab}{name} = QSize(parts[0].toDouble(), parts[1].toDouble());
@@ -151,19 +151,19 @@ void PQCSettings::readDB() {
     }
 
     // make sure in the integrated interface the thumbnails are either shown top or bottom and not the sides
-    if(m_generalInterfaceVariant == "integrated") {
-        if(m_interfaceEdgeLeftAction == "thumbnails") {
+    if(m_generalInterfaceVariant == QStringLiteral("integrated")) {
+        if(m_interfaceEdgeLeftAction == QStringLiteral("thumbnails")) {
             if(m_interfaceEdgeBottomAction == "")
-                m_interfaceEdgeBottomAction = "thumbnails";
+                m_interfaceEdgeBottomAction = QStringLiteral("thumbnails");
             else if(m_interfaceEdgeTopAction == "")
-                m_interfaceEdgeTopAction = "thumbnails";
+                m_interfaceEdgeTopAction = QStringLiteral("thumbnails");
             m_interfaceEdgeLeftAction = "";
         }
-        if(m_interfaceEdgeRightAction == "thumbnails") {
+        if(m_interfaceEdgeRightAction == QStringLiteral("thumbnails")) {
             if(m_interfaceEdgeBottomAction == "")
-                m_interfaceEdgeBottomAction = "thumbnails";
+                m_interfaceEdgeBottomAction = QStringLiteral("thumbnails");
             else if(m_interfaceEdgeTopAction == "")
-                m_interfaceEdgeTopAction = "thumbnails";
+                m_interfaceEdgeTopAction = QStringLiteral("thumbnails");
             m_interfaceEdgeRightAction = "";
         }
     }

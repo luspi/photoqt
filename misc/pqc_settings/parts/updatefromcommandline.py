@@ -98,7 +98,7 @@ QStringList PQCSettings::updateFromCommandLine() {
                 valconversion = "QSize(parts[0].toInt(), parts[1].toInt())"
 
             cont += f"""
-    if(key == \"{tab}{name}\") {{
+    if(key == QStringLiteral(\"{tab}{name}\")) {{
         {prefixcont}m_{tab}{name} = {valconversion};
         Q_EMIT {tab}{name}Changed();"""
 
