@@ -417,7 +417,7 @@ bool PQCScriptsImages::isMpvVideo(QString path) {
 #ifdef PQMVIDEOMPV
 
     QString suf = QFileInfo(path).suffix().toLower();
-    if(PQCImageFormats::get().getEnabledFormatsLibmpv().contains(suf)) {
+    if(PQCImageFormats::get().getEnabledFormatsLibmpvSet().contains(suf)) {
 
         supported = true;
 
@@ -425,7 +425,7 @@ bool PQCScriptsImages::isMpvVideo(QString path) {
 
         QMimeDatabase db;
         QString mimetype = db.mimeTypeForFile(path).name();
-        if(PQCImageFormats::get().getEnabledMimeTypesLibmpv().contains(mimetype))
+        if(PQCImageFormats::get().getEnabledMimeTypesLibmpvSet().contains(mimetype))
             supported = true;
 
     }
@@ -452,7 +452,7 @@ bool PQCScriptsImages::isQtVideo(QString path) {
 #ifdef PQMVIDEOQT
 
     QString suf = QFileInfo(path).suffix().toLower();
-    if(PQCImageFormats::get().getEnabledFormatsVideo().contains(suf)) {
+    if(PQCImageFormats::get().getEnabledFormatsVideoSet().contains(suf)) {
 
         supported = true;
 
@@ -460,7 +460,7 @@ bool PQCScriptsImages::isQtVideo(QString path) {
 
         QMimeDatabase db;
         QString mimetype = db.mimeTypeForFile(path).name();
-        if(PQCImageFormats::get().getEnabledMimeTypesVideo().contains(mimetype))
+        if(PQCImageFormats::get().getEnabledMimeTypesVideoSet().contains(mimetype))
             supported = true;
 
     }
@@ -482,13 +482,15 @@ bool PQCScriptsImages::isPDFDocument(QString path) {
 
     qDebug() << "args: path =" << path;
 
-    if(PQCImageFormats::get().getEnabledFormatsPoppler().contains(QFileInfo(path).suffix().toLower()) ||
-       PQCImageFormats::get().getEnabledFormatsPoppler().contains(QFileInfo(path).completeSuffix().toLower()))
+#if defined(PQMPOPPLER) || defined(PQMQTPDF)
+    if(PQCImageFormats::get().getEnabledFormatsPopplerSet().contains(QFileInfo(path).suffix().toLower()) ||
+       PQCImageFormats::get().getEnabledFormatsPopplerSet().contains(QFileInfo(path).completeSuffix().toLower()))
         return true;
 
     QMimeDatabase db;
-    if(PQCImageFormats::get().getEnabledMimeTypesPoppler().contains(db.mimeTypeForFile(path).name()))
+    if(PQCImageFormats::get().getEnabledMimeTypesPopplerSet().contains(db.mimeTypeForFile(path).name()))
         return true;
+#endif
 
     return false;
 
@@ -501,13 +503,13 @@ bool PQCScriptsImages::isArchive(QString path, bool silent, bool insideArchive) 
     // thus for that check we set the 'silent' flat
     if(!silent) qDebug() << "args: path =" << path;
 
-    if(PQCImageFormats::get().getEnabledFormatsLibArchive().contains(QFileInfo(path).suffix().toLower()) ||
-       PQCImageFormats::get().getEnabledFormatsLibArchive().contains(QFileInfo(path).completeSuffix().toLower()))
+    if(PQCImageFormats::get().getEnabledFormatsLibArchiveSet().contains(QFileInfo(path).suffix().toLower()) ||
+       PQCImageFormats::get().getEnabledFormatsLibArchiveSet().contains(QFileInfo(path).completeSuffix().toLower()))
         return true;
 
     if(!insideArchive) {
         QMimeDatabase db;
-        if(PQCImageFormats::get().getEnabledMimeTypesLibArchive().contains(db.mimeTypeForFile(path).name()))
+        if(PQCImageFormats::get().getEnabledMimeTypesLibArchiveSet().contains(db.mimeTypeForFile(path).name()))
             return true;
     }
 

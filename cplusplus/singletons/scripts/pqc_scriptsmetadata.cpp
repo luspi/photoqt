@@ -807,8 +807,8 @@ bool PQCScriptsMetaData::areFaceTagsSupported(QString filename) {
         return false;
 
     const QString suffix = QFileInfo(filename).suffix().toLower();
-    if(!PQCImageFormats::get().getEnabledFormatsQt().contains(suffix) &&
-        !PQCImageFormats::get().getEnabledFormatsMagick().contains(suffix)) {
+    if(!PQCImageFormats::get().getEnabledFormatsQtSet().contains(suffix) &&
+        !PQCImageFormats::get().getEnabledFormatsMagickSet().contains(suffix)) {
         return false;
     }
 

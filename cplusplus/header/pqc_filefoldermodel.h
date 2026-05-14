@@ -238,7 +238,7 @@ private:
     QStringList m_entriesFileDialog;
 
     QStringList m_nameFilters;
-    QStringList m_restrictToSuffixes;
+    QSet<QString> m_restrictToSuffixes;
     QStringList m_restrictToMimeTypes;
     QStringList m_filenameFilters;
     int m_ratingsFilter;

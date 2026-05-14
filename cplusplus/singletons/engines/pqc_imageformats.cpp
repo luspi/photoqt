@@ -408,6 +408,58 @@ void PQCImageFormats::readFromDatabase() {
         }
     }
 
+    // we also store all lists as sets as we very often need to check whether they contain a string
+    // and QSet has a lookup speed of O(1) versus O(n) for QList
+    // QML can only work with QList, so we store both
+
+    formats_enabled_set = QSet<QString>(formats_enabled.begin(), formats_enabled.end());
+    mimetypes_enabled_set = QSet<QString>(mimetypes_enabled.begin(), mimetypes_enabled.end());
+
+    formats_qt_set = QSet<QString>(formats_qt.begin(), formats_qt.end());
+    mimetypes_qt_set = QSet<QString>(mimetypes_qt.begin(), mimetypes_qt.begin());
+#ifdef PQMRESVG
+    formats_resvg_set = QSet<QString>(formats_resvg.begin(), formats_resvg.end());
+    mimetypes_resvg_set = QSet<QString>(mimetypes_resvg.begin(), mimetypes_resvg.end());
+#endif
+#ifdef PQMLIBVIPS
+    formats_libvips_set = QSet<QString>(formats_libvips.begin(), formats_libvips.end());
+    mimetypes_libvips_set = QSet<QString>(mimetypes_libvips.begin(), mimetypes_libvips.end());
+#endif
+#if defined(PQMIMAGEMAGICK) || defined(PQMGRAPHICSMAGICK)
+    formats_magick_set = QSet<QString>(formats_magick.begin(), formats_magick.end());
+    mimetypes_magick_set = QSet<QString>(mimetypes_magick.begin(), mimetypes_magick.end());
+#endif
+#ifdef PQMRAW
+    formats_libraw_set = QSet<QString>(formats_libraw.begin(), formats_libraw.end());
+    mimetypes_libraw_set = QSet<QString>(mimetypes_libraw.begin(), mimetypes_libraw.end());
+#endif
+#if defined(PQMPOPPLER) || defined(PQMQTPDF)
+    formats_poppler_set = QSet<QString>(formats_poppler.begin(), formats_poppler.end());
+    mimetypes_poppler_set = QSet<QString>(mimetypes_poppler.begin(), mimetypes_poppler.end());
+#endif
+    formats_xcftools_set = QSet<QString>(formats_xcftools.begin(), formats_xcftools.end());
+    mimetypes_xcftools_set = QSet<QString>(mimetypes_xcftools.begin(), mimetypes_xcftools.end());
+#ifdef PQMDEVIL
+    formats_devil_set = QSet<QString>(formats_devil.begin(), formats_devil.end());
+    mimetypes_devil_set = QSet<QString>(mimetypes_devil.begin(), mimetypes_devil.end());
+#endif
+#ifdef PQMLIBARCHIVE
+    formats_archive_set = QSet<QString>(formats_archive.begin(), formats_archive.end());
+    mimetypes_archive_set = QSet<QString>(mimetypes_archive.begin(), mimetypes_archive.end());
+#endif
+#ifdef PQMVIDEOQT
+    formats_video_set = QSet<QString>(formats_video.begin(), formats_video.end());
+    mimetypes_video_set = QSet<QString>(mimetypes_video.begin(), mimetypes_video.end());
+#endif
+#ifdef PQMVIDEOMPV
+    formats_libmpv_set = QSet<QString>(formats_libmpv.begin(), formats_libmpv.end());
+    mimetypes_libmpv_set = QSet<QString>(mimetypes_libmpv.begin(), mimetypes_libmpv.end());
+#endif
+#ifdef PQMLIBSAI
+    formats_libsai_set = QSet<QString>(formats_libsai.begin(), formats_libsai.end());
+    mimetypes_libsai_set = QSet<QString>(mimetypes_libsai.begin(), mimetypes_libsai.end());
+#endif
+
     Q_EMIT formatsUpdated();
 
 }

@@ -110,7 +110,7 @@ void PQCAsyncImageResponseFolderThumb::run() {
         QDir dir(m_folder);
 
         QStringList checkForTheseFormats;
-        const QStringList lst = PQCImageFormats::get().getEnabledFormats();
+        const QSet<QString> lst = PQCImageFormats::get().getEnabledFormatsSet();
         for(const QString &c : lst)
             checkForTheseFormats << QString("*.%1").arg(c);
 

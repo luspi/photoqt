@@ -80,7 +80,7 @@ PQCFileFolderModel::PQCFileFolderModel(QObject *parent) : QObject(parent) {
     m_entriesFileDialog.clear();
 
     m_nameFilters = QStringList();
-    m_restrictToSuffixes = PQCImageFormats::get().getEnabledFormats();
+    m_restrictToSuffixes = PQCImageFormats::get().getEnabledFormatsSet();
     m_filenameFilters = QStringList();
     m_restrictToMimeTypes = PQCImageFormats::get().getEnabledMimeTypes();
     m_imageResolutionFilter = QSize(0,0);
@@ -416,12 +416,13 @@ void PQCFileFolderModel::setLoadVirtualFolderMainView(bool val) {
 /********************************************/
 
 QStringList PQCFileFolderModel::getRestrictToSuffixes() {
-    return m_restrictToSuffixes;
+    return QStringList(m_restrictToSuffixes.begin(), m_restrictToSuffixes.end());
 }
 void PQCFileFolderModel::setRestrictToSuffixes(QStringList val) {
-    if(m_restrictToSuffixes == val)
+    QSet<QString> _val(val.begin(), val.end());
+    if(m_restrictToSuffixes == _val)
         return;
-    m_restrictToSuffixes = val;
+    m_restrictToSuffixes = _val;
     Q_EMIT restrictToSuffixesChanged();
     loadDelayMainView->start();
     loadDelayFileDialog->start();
@@ -1109,7 +1110,7 @@ void PQCFileFolderModel::loadDataMainView() {
         // and set the current one
         watcherMainView->addPath(isFolder ? m_fileInFolderMainView : QFileInfo(m_fileInFolderMainView).absolutePath());
 
-        if(m_readDocumentOnly) {// && PQCImageFormats::get().getEnabledFormatsPoppler().contains(QFileInfo(m_fileInFolderMainView).suffix().toLower())) {
+        if(m_readDocumentOnly) {
 
             m_entriesMainView = listPDFPages(m_fileInFolderMainView);
             PQCFileFolderModelCPP::get().setEntriesMainView(m_entriesMainView);
@@ -1119,7 +1120,7 @@ void PQCFileFolderModel::loadDataMainView() {
 
             qDebug() << "Found" << m_entriesMainView.length() << "pages in document";
 
-        } else if(m_readArchiveOnly) {// && PQCImageFormats::get().getEnabledFormatsLibArchive().contains(QFileInfo(m_fileInFolderMainView).suffix().toLower())) {
+        } else if(m_readArchiveOnly) {
 
             if(archiveContentPreloaded.length() > 0) {
                 m_entriesMainView.clear();
