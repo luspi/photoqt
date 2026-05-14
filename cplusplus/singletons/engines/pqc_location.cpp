@@ -322,7 +322,11 @@ void PQCLocation::processSummary(QString folder) {
     collator.setIgnorePunctuation(true);
     collator.setNumericMode(true);
 #endif
-    std::sort(images.begin(), images.end(), [&collator](const QVariant &file1, const QVariant &file2) { return collator.compare(file1.toList()[0].toString(), file2.toList()[0].toString()) < 0; });
+    std::sort(images.begin(), images.end(), [&collator](const QVariant &file1, const QVariant &file2) {
+        const QVariantList &l1 = file1.toList();
+        const QVariantList &l2 = file2.toList();
+        return collator.compare(l1[0].toString(), l2[0].toString()) < 0;
+    });
 
     m_imageList = items;
     m_labelList = labels;
