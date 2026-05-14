@@ -12,6 +12,7 @@ SET(photoqt_SOURCES cplusplus/main.cpp
                     cplusplus/other/pqc_filefoldermodelcache.cpp
                     cplusplus/other/pqc_extensionsettings.cpp
                     cplusplus/other/pqc_startuphandler.cpp
+                    cplusplus/other/pqc_helper.cpp
 
                     cplusplus/other/startuphandler/pqc_migratesettings.cpp
                     cplusplus/other/startuphandler/pqc_migrateshortcuts.cpp
@@ -45,6 +46,7 @@ SET(photoqt_SOURCES cplusplus/main.cpp
                     cplusplus/header/pqc_extensionmethods.h
                     cplusplus/header/pqc_extensionproperties.h
                     cplusplus/header/pqc_notify_cpp.h
+                    cplusplus/header/pqc_helper.h
 
                     cplusplus/images/pqc_loadimage.cpp
                     cplusplus/images/pqc_imagecache.cpp
