@@ -1739,7 +1739,7 @@ void PQCFileFolderModel::loadNextMatchOfSearch(const QString search) {
     qDebug() << "args: search =" << search;
 
     if(search == "") {
-        PQCNotifyCPP::get().showNotificationMessage("Nothing to search", "No search term to search for yet.");
+        Q_EMIT PQCNotifyCPP::get().showNotificationMessage("Nothing to search", "No search term to search for yet.");
         return;
     }
 
@@ -1759,12 +1759,12 @@ void PQCFileFolderModel::loadNextMatchOfSearch(const QString search) {
         QFileInfo info(cur);
         if(info.fileName().toLower().contains(search.toLower())) {
             setFileInFolderMainView(cur);
-            PQCNotifyCPP::get().showNotificationMessage("Wrapped around", "Search wrapped around from the beginning.");
+            Q_EMIT PQCNotifyCPP::get().showNotificationMessage("Wrapped around", "Search wrapped around from the beginning.");
             return;
         }
     }
 
-    PQCNotifyCPP::get().showNotificationMessage("Nothing found", "The current search term returned no results.");
+    Q_EMIT PQCNotifyCPP::get().showNotificationMessage("Nothing found", "The current search term returned no results.");
 
 }
 

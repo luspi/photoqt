@@ -239,7 +239,7 @@ void PQCMetaData::updateMetadata() {
     }
 
     if(gpsLatRef != "" && gpsLat != "" && gpsLonRef != "" && gpsLon != "") {
-        PQCNotifyCPP::get().storeLocationToDatabase(path, PQCScriptsMetaData::get().convertGPSToDecimal(gpsLatRef, gpsLat, gpsLonRef, gpsLon));
+        Q_EMIT PQCNotifyCPP::get().storeLocationToDatabase(path, PQCScriptsMetaData::get().convertGPSToDecimal(gpsLatRef, gpsLat, gpsLonRef, gpsLon));
         setExifGPS(PQCScriptsMetaData::get().analyzeGPS(gpsLatRef, gpsLat, gpsLonRef, gpsLon));
     }
 
