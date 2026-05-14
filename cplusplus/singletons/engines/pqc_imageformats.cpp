@@ -472,12 +472,14 @@ void PQCImageFormats::writeToDatabase(QVariantList f) {
 
     db.transaction();
 
-    for(QVariant entry : f) {
+    for(const QVariant &entry : std::as_const(f)) {
+
+        const QVariantList cur = entry.toList();
 
         QSqlQuery query(db);
         query.prepare("UPDATE imageformats SET enabled=:enabled WHERE endings=:endings");
-        query.bindValue(":enabled", entry.toList()[1].toInt());
-        query.bindValue(":endings", entry.toList()[0].toString());
+        query.bindValue(":enabled", cur[1].toInt());
+        query.bindValue(":endings", cur[0].toString());
         if(!query.exec())
             qWarning() << "SQL Query error:" << query.lastError().text();
 
