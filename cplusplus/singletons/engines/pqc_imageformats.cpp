@@ -258,12 +258,12 @@ void PQCImageFormats::readFromDatabase() {
         const QStringList endingsList = endings.split(",");
         const QStringList mimetypesList = mimetypes.split(",");
 
-        if(query.record().value("qt").toInt()) {
+        if(query.record().value(QStringLiteral("qt")).toInt()) {
             // we check the formats against the list of supported image formats
             // this list can vary depending on which plugins are installed
-            if(qtSupported.contains(query.record().value("qt_formatname").toString().toUtf8())) {
+            if(qtSupported.contains(query.record().value(QStringLiteral("qt_formatname")).toString().toUtf8())) {
                 supportedByAnyLibrary = true;
-                all << "Qt";
+                all << QStringLiteral("Qt");
                 formats_qt << endingsList;
                 if(mimetypes != "")
                     mimetypes_qt << mimetypesList;
@@ -271,9 +271,9 @@ void PQCImageFormats::readFromDatabase() {
         }
 
 #ifdef PQMRESVG
-        if(query.record().value("resvg").toInt()) {
+        if(query.record().value(QStringLiteral("resvg")).toInt()) {
             supportedByAnyLibrary = true;
-            all << "resvg";
+            all << QStringLiteral("resvg");
             formats_resvg << endingsList;
             if(mimetypes != "")
                 mimetypes_resvg << mimetypesList;
@@ -281,9 +281,9 @@ void PQCImageFormats::readFromDatabase() {
 #endif
 
 #ifdef PQMLIBVIPS
-        if(query.record().value("libvips").toInt()) {
+        if(query.record().value(QStringLiteral("libvips")).toInt()) {
             supportedByAnyLibrary = true;
-            all << "libvips";
+            all << QStringLiteral("libvips");
             formats_libvips << endingsList;
             if(mimetypes != "")
                 mimetypes_libvips << mimetypesList;
@@ -293,16 +293,16 @@ void PQCImageFormats::readFromDatabase() {
 #if defined(PQMIMAGEMAGICK) || defined(PQMGRAPHICSMAGICK)
 
 #ifdef PQMIMAGEMAGICK
-        if(query.record().value("imagemagick").toInt()) {
+        if(query.record().value(QStringLiteral("imagemagick")).toInt()) {
 #elif defined(PQMGRAPHICSMAGICK)
-        if(query.record().value("graphicsmagick").toInt()) {
+        if(query.record().value(QStringLiteral("graphicsmagick")).toInt()) {
 #endif
             supportedByAnyLibrary = true;
             magickToBeAdded = true;
 #ifdef PQMIMAGEMAGICK
-            all << "ImageMagick";
+            all << QStringLiteral("ImageMagick");
 #elif defined(PQMGRAPHICSMAGICK)
-            all << "GraphicsMagick";
+            all << QStringLiteral("GraphicsMagick");
 #endif
             formats_magick << endingsList;
             if(mimetypes != "")
@@ -310,70 +310,70 @@ void PQCImageFormats::readFromDatabase() {
         }
 #endif
 #ifdef PQMRAW
-        if(query.record().value("libraw").toInt()) {
+        if(query.record().value(QStringLiteral("libraw")).toInt()) {
             supportedByAnyLibrary = true;
-            all << "libraw";
+            all << QStringLiteral("libraw");
             formats_libraw << endingsList;
             if(mimetypes != "")
                 mimetypes_libraw << mimetypesList;
         }
 #endif
 #if defined(PQMPOPPLER) || defined(PQMQTPDF)
-        if(query.record().value("poppler").toInt()) {
+        if(query.record().value(QStringLiteral("poppler")).toInt()) {
             supportedByAnyLibrary = true;
-            all << "Poppler";
+            all << QStringLiteral("Poppler");
             formats_poppler << endingsList;
             if(mimetypes != "")
                 mimetypes_poppler << mimetypesList;
         }
 #endif
-        if(query.record().value("xcftools").toInt()) {
+        if(query.record().value(QStringLiteral("xcftools")).toInt()) {
             supportedByAnyLibrary = true;
-            all << "XCFTools";
+            all << QStringLiteral("XCFTools");
             formats_xcftools << endingsList;
             if(mimetypes != "")
                 mimetypes_xcftools << mimetypesList;
         }
 #ifdef PQMDEVIL
-        if(query.record().value("devil").toInt()) {
+        if(query.record().value(QStringLiteral("devil")).toInt()) {
             supportedByAnyLibrary = true;
-            all << "DevIL";
+            all << QStringLiteral("DevIL");
             formats_devil << endingsList;
             if(mimetypes != "")
                 mimetypes_devil << mimetypesList;
         }
 #endif
 #ifdef PQMLIBARCHIVE
-        if(query.record().value("archive").toInt()) {
+        if(query.record().value(QStringLiteral("archive")).toInt()) {
             supportedByAnyLibrary = true;
-            all << "LibArchive";
+            all << QStringLiteral("LibArchive");
             formats_archive << endingsList;
             if(mimetypes != "")
                 mimetypes_archive << mimetypesList;
         }
 #endif
 #ifdef PQMVIDEOQT
-        if(query.record().value("video").toInt()) {
+        if(query.record().value(QStringLiteral("video")).toInt()) {
             supportedByAnyLibrary = true;
-            all << "Video";
+            all << QStringLiteral("Video");
             formats_video << endingsList;
             if(mimetypes != "")
                 mimetypes_video << mimetypesList;
         }
 #endif
 #ifdef PQMVIDEOMPV
-        if(query.record().value("libmpv").toInt()) {
+        if(query.record().value(QStringLiteral("libmpv")).toInt()) {
             supportedByAnyLibrary = true;
-            all << "libmpv";
+            all << QStringLiteral("libmpv");
             formats_libmpv << endingsList;
             if(mimetypes != "")
                 mimetypes_libmpv << mimetypesList;
         }
 #endif
 #ifdef PQMLIBSAI
-        if(query.record().value("libsai").toInt()) {
+        if(query.record().value(QStringLiteral("libsai")).toInt()) {
             supportedByAnyLibrary = true;
-            all << "libsai";
+            all << QStringLiteral("libsai");
             formats_libsai << endingsList;
             if(mimetypes != "")
                 mimetypes_libsai << mimetypesList;
@@ -389,7 +389,7 @@ void PQCImageFormats::readFromDatabase() {
                 if(mimetypes != "")
                     mimetypes_enabled << mimetypesList;
             }
-            const QStringList imGmMagick = query.record().value("im_gm_magick").toString().split(",", Qt::SkipEmptyParts);
+            const QStringList imGmMagick = query.record().value(QStringLiteral("im_gm_magick")).toString().split(",", Qt::SkipEmptyParts);
             if(magickToBeAdded && imGmMagick.length() > 0) {
                 for(const QString &e : endingsList) {
                     if(magick.contains(e))
@@ -528,7 +528,7 @@ QVariantList PQCImageFormats::getWriteableFormats() {
         if(qt || imgm) {
 
             QVariantList entry;
-            entry << (qt&&imgm ? "qt/magick" : (qt ? "qt" : "magick"));
+            entry << (qt&&imgm ? QStringLiteral("qt/magick") : (qt ? QStringLiteral("qt") : QStringLiteral("magick")));
             entry << uniqueid << endings << description << magick;
 
             ret << QVariant::fromValue(entry);
@@ -600,27 +600,27 @@ QVariantMap PQCImageFormats::getFormatsInfo(int uniqueid) {
         return ret;
     }
 
-    ret.insert("uniqueid", uniqueid);
-    ret.insert("endings", query.record().value("endings"));
-    ret.insert("mimetypes", query.record().value("mimetypes"));
-    ret.insert("description", query.record().value("description"));
-    ret.insert("category", query.record().value("category"));
-    ret.insert("enabled", query.record().value("enabled"));
-    ret.insert("qt", query.record().value("qt"));
-    ret.insert("resvg", query.record().value("resvg"));
-    ret.insert("libvips", query.record().value("libvips"));
-    ret.insert("imagemagick", query.record().value("imagemagick"));
-    ret.insert("graphicsmagick", query.record().value("graphicsmagick"));
-    ret.insert("libraw", query.record().value("libraw"));
-    ret.insert("poppler", query.record().value("poppler"));
-    ret.insert("xcftools", query.record().value("xcftools"));
-    ret.insert("devil", query.record().value("devil"));
-    ret.insert("archive", query.record().value("archive"));
-    ret.insert("video", query.record().value("video"));
-    ret.insert("libmpv", query.record().value("libmpv"));
-    ret.insert("libsai", query.record().value("libsai"));
-    ret.insert("im_gm_magick", query.record().value("im_gm_magick"));
-    ret.insert("qt_formatname", query.record().value("qt_formatname"));
+    ret.insert(QStringLiteral("uniqueid"), uniqueid);
+    ret.insert(QStringLiteral("endings"), query.record().value(QStringLiteral("endings")));
+    ret.insert(QStringLiteral("mimetypes"), query.record().value(QStringLiteral("mimetypes")));
+    ret.insert(QStringLiteral("description"), query.record().value(QStringLiteral("description")));
+    ret.insert(QStringLiteral("category"), query.record().value(QStringLiteral("category")));
+    ret.insert(QStringLiteral("enabled"), query.record().value(QStringLiteral("enabled")));
+    ret.insert(QStringLiteral("qt"), query.record().value(QStringLiteral("qt")));
+    ret.insert(QStringLiteral("resvg"), query.record().value(QStringLiteral("resvg")));
+    ret.insert(QStringLiteral("libvips"), query.record().value(QStringLiteral("libvips")));
+    ret.insert(QStringLiteral("imagemagick"), query.record().value(QStringLiteral("imagemagick")));
+    ret.insert(QStringLiteral("graphicsmagick"), query.record().value(QStringLiteral("graphicsmagick")));
+    ret.insert(QStringLiteral("libraw"), query.record().value(QStringLiteral("libraw")));
+    ret.insert(QStringLiteral("poppler"), query.record().value(QStringLiteral("poppler")));
+    ret.insert(QStringLiteral("xcftools"), query.record().value(QStringLiteral("xcftools")));
+    ret.insert(QStringLiteral("devil"), query.record().value(QStringLiteral("devil")));
+    ret.insert(QStringLiteral("archive"), query.record().value(QStringLiteral("archive")));
+    ret.insert(QStringLiteral("video"), query.record().value(QStringLiteral("video")));
+    ret.insert(QStringLiteral("libmpv"), query.record().value(QStringLiteral("libmpv")));
+    ret.insert(QStringLiteral("libsai"), query.record().value(QStringLiteral("libsai")));
+    ret.insert(QStringLiteral("im_gm_magick"), query.record().value(QStringLiteral("im_gm_magick")));
+    ret.insert(QStringLiteral("qt_formatname"), query.record().value(QStringLiteral("qt_formatname")));
 
     return ret;
 

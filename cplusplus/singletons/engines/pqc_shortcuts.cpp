@@ -438,7 +438,9 @@ int PQCShortcuts::getNumberInternalCommandsForShortcut(QString combo) {
     if(lst.length() == 0)
         return num;
 
-    for(const QString &c : lst.toList()[0].toStringList()) {
+    const QVariantList &ll = lst.toList();
+    const QStringList &l = ll.value(0).toStringList();
+    for(const QString &c : l) {
         if(c.startsWith("__"))
             num += 1;
     }
@@ -453,7 +455,8 @@ int PQCShortcuts::getNumberExternalCommandsForShortcut(QString combo) {
     if(lst.length() == 0)
         return num;
 
-    for(const QString &c : lst[0].toStringList()) {
+    const QStringList &l = lst[0].toStringList();
+    for(const QString &c : l) {
         if(!c.startsWith("__"))
             num += 1;
     }
@@ -493,13 +496,13 @@ void PQCShortcuts::saveInternalShortcutCombos(const QVariantList lst) {
 
         iter.next();
 
-        QString combo = iter.key();
-        QStringList cmds = iter.value();
+        const QString combo = iter.key();
+        const QStringList cmds = iter.value();
 
         // case 1: shortcut exists in old map
         if(shortcuts.contains(combo)) {
 
-            QStringList oldcmds = shortcuts[combo][0].toStringList();
+            const QStringList oldcmds = shortcuts[combo][0].toStringList();
 
             // case a: commands are unchanged
             if(oldcmds == cmds) {
@@ -550,7 +553,7 @@ void PQCShortcuts::saveInternalShortcutCombos(const QVariantList lst) {
         // combo not in new map
         if(!new_shortcuts.contains(combo)) {
 
-            QStringList oldcmds = shortcuts[combo][0].toStringList();
+            const QStringList oldcmds = shortcuts[combo][0].toStringList();
 
             for(const QString &c : oldcmds) {
 
@@ -558,7 +561,7 @@ void PQCShortcuts::saveInternalShortcutCombos(const QVariantList lst) {
 
                     if(new_shortcuts.contains(combo)) {
 
-                        QStringList oldcombos = new_shortcuts.value(combo)[0].toStringList();
+                        QStringList oldcombos = new_shortcuts.value(combo).at(0).toStringList();
                         oldcombos.append(c);
                         new_shortcuts.insert(combo, QVariantList() << oldcombos << shortcuts[combo][1] << shortcuts[combo][2] << shortcuts[combo][3]);
 
@@ -619,13 +622,13 @@ void PQCShortcuts::saveExternalShortcutCombos(const QVariantList lst) {
 
         iter.next();
 
-        QString combo = iter.key();
-        QStringList cmds = iter.value();
+        const QString combo = iter.key();
+        const QStringList cmds = iter.value();
 
         // case 1: shortcut exists in old map
         if(shortcuts.contains(combo)) {
 
-            QStringList oldcmds = shortcuts[combo][0].toStringList();
+            const QStringList oldcmds = shortcuts[combo][0].toStringList();
 
             // case a: commands are unchanged
             if(oldcmds == cmds) {
@@ -671,20 +674,20 @@ void PQCShortcuts::saveExternalShortcutCombos(const QVariantList lst) {
 
         iterInt.next();
 
-        QString combo = iterInt.key();
+        const QString combo = iterInt.key();
 
         // combo not in new map
         if(!new_shortcuts.contains(combo)) {
 
-            QStringList oldcmds = shortcuts[combo][0].toStringList();
+            const QStringList oldcmds = shortcuts[combo][0].toStringList();
 
             for(const QString &c : oldcmds) {
 
-                if(c.startsWith("__")) {
+                if(c.startsWith(QStringLiteral("__"))) {
 
                     if(new_shortcuts.contains(combo)) {
 
-                        QStringList oldcombos = new_shortcuts.value(combo)[0].toStringList();
+                        QStringList oldcombos = new_shortcuts.value(combo).at(0).toStringList();
                         oldcombos.append(c);
                         new_shortcuts.insert(combo, QVariantList() << oldcombos << shortcuts[combo][1] << shortcuts[combo][2] << shortcuts[combo][3]);
 
@@ -718,7 +721,7 @@ void PQCShortcuts::saveDuplicateShortcutsCommandOrder(const QVariantList lst) {
 
     for(const QVariant &entry : lst) {
 
-        QVariantList dat = entry.toList();
+        const QVariantList dat = entry.toList();
 
         const QString combo = dat[0].toString();
         const QStringList cmds = dat[1].toStringList();
