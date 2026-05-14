@@ -110,7 +110,8 @@ void PQCMetaData::updateMetadata() {
     if(PQCFileFolderModelCPP::get().getCurrentIndex() == -1)
         return;
 
-    QString path = PQCFileFolderModelCPP::get().getEntriesMainView()[PQCFileFolderModelCPP::get().getCurrentIndex()];
+    const QStringList &entries = PQCFileFolderModelCPP::get().getEntriesMainView();
+    QString path = entries[PQCFileFolderModelCPP::get().getCurrentIndex()];
 
     if(path == "") {
         setValidFile(true);
@@ -176,69 +177,68 @@ void PQCMetaData::updateMetadata() {
     QString gpsLatRef = "", gpsLat = "", gpsLonRef = "", gpsLon = "";
     QString dateTime = "", offsetTime = "";
 
-    Exiv2::ExifData::const_iterator end = exifData.end();
-    for (Exiv2::ExifData::const_iterator i = exifData.begin(); i != end; ++i) {
+    for(const Exiv2::Exifdatum &i : std::as_const(exifData)) {
 
-        const QString key = QString::fromStdString(i->key());
-        const QString val = QString::fromStdString(Exiv2::toString(i->value()));
+        const QString key = QString::fromStdString(i.key());
+        const QString val = QString::fromStdString(Exiv2::toString(i.value()));
 
-        if(key == "Exif.Image.Make")
+        if(key == QStringLiteral("Exif.Image.Make"))
             setExifMake(val);
 
-        else if(key == "Exif.Image.Model")
+        else if(key == QStringLiteral("Exif.Image.Model"))
             setExifModel(val);
 
-        else if(key == "Exif.Image.Software")
+        else if(key == QStringLiteral("Exif.Image.Software"))
             setExifSoftware(val);
 
-        else if(key == "Exif.Photo.DateTimeOriginal")
+        else if(key == QStringLiteral("Exif.Photo.DateTimeOriginal"))
             dateTime = val;
 
-        else if(key == "Exif.Photo.OffsetTimeOriginal")
+        else if(key == QStringLiteral("Exif.Photo.OffsetTimeOriginal"))
             offsetTime = val;
 
-        else if(key == "Exif.Photo.ExposureTime")
+        else if(key == QStringLiteral("Exif.Photo.ExposureTime"))
             setExifExposureTime(PQCScriptsMetaData::get().analyzeExposureTime(val));
 
-        else if(key == "Exif.Photo.Flash")
+        else if(key == QStringLiteral("Exif.Photo.Flash"))
             setExifFlash(PQCScriptsMetaData::get().analyzeFlash(val));
 
-        else if(key == "Exif.Photo.ISOSpeedRatings")
+        else if(key == QStringLiteral("Exif.Photo.ISOSpeedRatings"))
             setExifISOSpeedRatings(val);
 
-        else if(key == "Exif.Photo.SceneCaptureType")
+        else if(key == QStringLiteral("Exif.Photo.SceneCaptureType"))
             setExifSceneCaptureType(PQCScriptsMetaData::get().analyzeSceneCaptureType(val));
 
-        else if(key == "Exif.Photo.FocalLength")
+        else if(key == QStringLiteral("Exif.Photo.FocalLength"))
             setExifFocalLength(PQCScriptsMetaData::get().analyzeFocalLength(val));
 
-        else if(key == "Exif.Photo.FNumber")
+        else if(key == QStringLiteral("Exif.Photo.FNumber"))
             setExifFNumber(PQCScriptsMetaData::get().analyzeFNumber(val));
 
-        else if(key == "Exif.Photo.LightSource")
+        else if(key == QStringLiteral("Exif.Photo.LightSource"))
             setExifLightSource(PQCScriptsMetaData::get().analyzeLightSource(val));
 
-        else if(key == "Exif.Photo.PixelXDimension")
+        else if(key == QStringLiteral("Exif.Photo.PixelXDimension"))
             setExifPixelXDimension(val);
 
-        else if(key == "Exif.Photo.PixelYDimension")
+        else if(key == QStringLiteral("Exif.Photo.PixelYDimension"))
             setExifPixelYDimension(val);
 
-        else if(key == "Exif.GPSInfo.GPSLatitudeRef")
+        else if(key == QStringLiteral("Exif.GPSInfo.GPSLatitudeRef"))
             gpsLatRef = val;
 
-        else if(key == "Exif.GPSInfo.GPSLatitude")
+        else if(key == QStringLiteral("Exif.GPSInfo.GPSLatitude"))
             gpsLat = val;
 
-        else if(key == "Exif.GPSInfo.GPSLongitudeRef")
+        else if(key == QStringLiteral("Exif.GPSInfo.GPSLongitudeRef"))
             gpsLonRef = val;
 
-        else if(key == "Exif.GPSInfo.GPSLongitude")
+        else if(key == QStringLiteral("Exif.GPSInfo.GPSLongitude"))
             gpsLon = val;
 
     }
 
-    if(gpsLatRef != "" && gpsLat != "" && gpsLonRef != "" && gpsLon != "") {
+    if(!gpsLat.isEmpty() && !gpsLon.isEmpty()) {
         Q_EMIT PQCNotifyCPP::get().storeLocationToDatabase(path, PQCScriptsMetaData::get().convertGPSToDecimal(gpsLatRef, gpsLat, gpsLonRef, gpsLon));
         setExifGPS(PQCScriptsMetaData::get().analyzeGPS(gpsLatRef, gpsLat, gpsLonRef, gpsLon));
     }
@@ -259,32 +259,28 @@ void PQCMetaData::updateMetadata() {
 
     QString city = "", country = "";
 
-    Exiv2::IptcData::const_iterator iptcEnd = iptcData.end();
-    for (Exiv2::IptcData::const_iterator i = iptcData.begin(); i != iptcEnd; ++i) {
+    for(const Exiv2::Iptcdatum &i : std::as_const(iptcData)) {
 
-        const QString key = QString::fromStdString(i->key());
-        const QString val = QString::fromStdString(Exiv2::toString(i->value()));
+        const QString key = QString::fromStdString(i.key());
+        const QString val = QString::fromStdString(Exiv2::toString(i.value()));
 
-        if(key == "Iptc.Application2.Keywords")
+        if(key == QStringLiteral("Iptc.Application2.Keywords"))
             setIptcKeywords(val);
 
-        else if(key == "Iptc.Application2.City")
+        else if(key == QStringLiteral("Iptc.Application2.City"))
             city = val;
 
-        else if(key == "Iptc.Application2.CountryName")
+        else if(key == QStringLiteral("Iptc.Application2.CountryName"))
             country = val;
 
-        else if(key == "Iptc.Application2.Copyright")
+        else if(key == QStringLiteral("Iptc.Application2.Copyright"))
             setIptcCopyright(val);
 
     }
 
-    if(city != "" && country != "")
-        setIptcLocation(city + ", " + country);
-    else if(city != "")
-        setIptcLocation(city);
-    else
-        setIptcLocation(country);
+    setIptcLocation((!city.isEmpty()&&!country.isEmpty())
+                        ? (city + ", " + country)
+                        : (!city.isEmpty() ? city : country));
 
     /*********************/
     // assemble data to emit it for extensions use
