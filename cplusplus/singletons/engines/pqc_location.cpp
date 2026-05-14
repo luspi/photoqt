@@ -76,19 +76,19 @@ PQCLocation::PQCLocation(QObject *parent) : QObject(parent) {
             qCritical() << "ERROR committing database:" << db.lastError().text();
     });
 
-    steps.append(QList<double>() << 0.001 << 16.5);
-    steps.append(QList<double>() << 0.005 << 14);
-    steps.append(QList<double>() << 0.01 << 13);
-    steps.append(QList<double>() << 0.02 << 12);
-    steps.append(QList<double>() << 0.05 << 11);
-    steps.append(QList<double>() << 0.1 << 10);
-    steps.append(QList<double>() << 0.2 << 9);
-    steps.append(QList<double>() << 0.5 << 7.5);
-    steps.append(QList<double>() << 1 << 6.5);
-    steps.append(QList<double>() << 2 << 5.5);
-    steps.append(QList<double>() << 4 << 4.5);
-    steps.append(QList<double>() << 8 << 3.5);
-    steps.append(QList<double>() << 12 << 1);
+    steps.append(QPair<double, double>(0.001, 16.5));
+    steps.append(QPair<double, double>(0.005, 14));
+    steps.append(QPair<double, double>(0.01, 13));
+    steps.append(QPair<double, double>(0.02, 12));
+    steps.append(QPair<double, double>(0.05, 11));
+    steps.append(QPair<double, double>(0.1, 10));
+    steps.append(QPair<double, double>(0.2, 9));
+    steps.append(QPair<double, double>(0.5, 7.5));
+    steps.append(QPair<double, double>(1, 6.5));
+    steps.append(QPair<double, double>(2, 5.5));
+    steps.append(QPair<double, double>(4, 4.5));
+    steps.append(QPair<double, double>(8, 3.5));
+    steps.append(QPair<double, double>(12, 1));
 
 }
 
@@ -278,7 +278,7 @@ void PQCLocation::processSummary(QString folder) {
 
         for(int det = 0; det < steps.length(); ++det) {
 
-            const double step = steps[det][0];
+            const double step = steps[det].first;
             const double key_lat = qRound64(latitude/step)*step;
             const double key_lon = qRound64(longitude/step)*step;
 

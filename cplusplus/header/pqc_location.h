@@ -26,6 +26,7 @@
 #include <QPointF>
 #include <QVariantMap>
 #include <QQmlEngine>
+#include <QPair>
 
 class QTimer;
 
@@ -98,7 +99,7 @@ private:
     QPointF m_minimumLocation;
     QPointF m_maximumLocation;
 
-    QList<QList<double> > steps;
+    QList<QPair<double, double> > steps;
 
 Q_SIGNALS:
     void imageListChanged();
