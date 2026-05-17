@@ -62,7 +62,7 @@ QVariantList PQCSettings::getDefaultFor(QString key) {
     }
 
     // invalid table name
-    if(tablename == "") {
+    if(tablename.isEmpty()) {
         qWarning() << "tablename not found";
         return {"", ""};
     }

@@ -129,7 +129,7 @@ void PQCScriptsShortcuts::executeExternal(QString exe, QString args, QString cur
     qDebug() << "args: args = " << args;
     qDebug() << "args: currentfile = " << currentfile;
 
-    if(exe == "")
+    if(exe.isEmpty())
         return;
 
     QFileInfo info(currentfile);
@@ -493,7 +493,7 @@ QString PQCScriptsShortcuts::analyzeKeyPress(Qt::Key key) {
             break;
         default: {
             const QString k = QKeySequence(key).toString();
-            if(k != "")
+            if(!k.isEmpty())
                 return k;
         }
 
@@ -513,7 +513,7 @@ int PQCScriptsShortcuts::getCurrentTimestampDiffLessThan(int threshold) {
 
 QString PQCScriptsShortcuts::translateShortcut(QString combo) {
 
-    if(combo == "")
+    if(combo.isEmpty())
         return "";
 
     combo = combo.replace("++","+PLUS");
@@ -539,12 +539,12 @@ QString PQCScriptsShortcuts::translateShortcut(QString combo) {
 
     QString ret = "";
     for(const QString &ele : std::as_const(parts)) {
-        if(ret != "")
-            ret += " + ";
-        if(ele == "")
+        if(!ret.isEmpty())
+            ret.append(" + ");
+        if(ele.isEmpty())
             continue;
         if(ele == "PLUS")
-            ret += "+";
+            ret.append("+");
         else {
             QString key_check = ele.toLower();
             if(m_keyStrings.contains(key_check))
@@ -556,9 +556,9 @@ QString PQCScriptsShortcuts::translateShortcut(QString combo) {
         }
     }
 
-    if(dir != "") {
-        if(ret != "")
-            ret += "  ";
+    if(!dir.isEmpty()) {
+        if(!ret.isEmpty())
+            ret.append("  ");
         ret += translateMouseDirection(dir.split(""));
     }
 

@@ -62,7 +62,7 @@ QVariantList PQCScriptsFileDialog::getDevices() {
                 continue;
 
             QString name = s.name();
-            if(name == "")
+            if(name.isEmpty())
                 name = QDir::toNativeSeparators(s.rootPath());
 
             QString p = s.rootPath();
@@ -452,22 +452,22 @@ QVariantList PQCScriptsFileDialog::getPlaces(bool performEmptyCheck) {
 
         addPlacesEntry(QStandardPaths::writableLocation(QStandardPaths::HomeLocation),
                        0,
-                       (QStandardPaths::displayName(QStandardPaths::HomeLocation)=="" ? "Home" : QStandardPaths::displayName(QStandardPaths::HomeLocation)),
+                       (QStandardPaths::displayName(QStandardPaths::HomeLocation).isEmpty() ? "Home" : QStandardPaths::displayName(QStandardPaths::HomeLocation)),
                        "user-home",
                        true);
         addPlacesEntry(QStandardPaths::writableLocation(QStandardPaths::DesktopLocation),
                        0,
-                       (QStandardPaths::displayName(QStandardPaths::DesktopLocation)=="" ? "Desktop" : QStandardPaths::displayName(QStandardPaths::DesktopLocation)),
+                       (QStandardPaths::displayName(QStandardPaths::DesktopLocation).isEmpty() ? "Desktop" : QStandardPaths::displayName(QStandardPaths::DesktopLocation)),
                        "user-desktop",
                        true);
         addPlacesEntry(QStandardPaths::writableLocation(QStandardPaths::PicturesLocation),
                        0,
-                       (QStandardPaths::displayName(QStandardPaths::PicturesLocation)=="" ? "Pictures" : QStandardPaths::displayName(QStandardPaths::PicturesLocation)),
+                       (QStandardPaths::displayName(QStandardPaths::PicturesLocation).isEmpty() ? "Pictures" : QStandardPaths::displayName(QStandardPaths::PicturesLocation)),
                        "folder-documents",
                        true);
         addPlacesEntry(QStandardPaths::writableLocation(QStandardPaths::DownloadLocation),
                        0,
-                       (QStandardPaths::displayName(QStandardPaths::DownloadLocation)=="" ? "Downloads" : QStandardPaths::displayName(QStandardPaths::DownloadLocation)),
+                       (QStandardPaths::displayName(QStandardPaths::DownloadLocation).isEmpty() ? "Downloads" : QStandardPaths::displayName(QStandardPaths::DownloadLocation)),
                        "folder-downloads",
                        true);
 
@@ -845,7 +845,7 @@ void PQCScriptsFileDialog::addPlacesEntry(QString path, int pos, QString titlest
 
         // <title>
         pugi::xml_node title = newnode.append_child("title");
-        title.text().set(titlestring=="" ? QFileInfo(path).fileName().toStdString().c_str() : titlestring.toStdString().c_str());
+        title.text().set(titlestring.isEmpty() ? QFileInfo(path).fileName().toStdString().c_str() : titlestring.toStdString().c_str());
 
         // <info>
         pugi::xml_node info = newnode.append_child("info");
@@ -885,7 +885,7 @@ void PQCScriptsFileDialog::addPlacesEntry(QString path, int pos, QString titlest
 
             pugi::xml_node cur = node.node();
 
-            if(insertAfterId == "" || cur.select_node("info/metadata/ID").node().child_value() == insertAfterId) {
+            if(insertAfterId.isEmpty() || cur.select_node("info/metadata/ID").node().child_value() == insertAfterId) {
 
                 pugi::xml_node newnode = cur.parent().insert_child_after(pugi::node_element, cur);
                 if(newnode == nullptr)
@@ -1006,7 +1006,7 @@ void PQCScriptsFileDialog::addPlacesEntry(QString path, int pos, QString titlest
 
         // <title>
         QDomElement titleEle = doc.createElement("title");
-        QDomText titleText = doc.createTextNode(titlestring=="" ? QFileInfo(path).fileName() : titlestring);
+        QDomText titleText = doc.createTextNode(titlestring.isEmpty() ? QFileInfo(path).fileName() : titlestring);
         titleEle.appendChild(titleText);
 
         // <info>
@@ -1080,10 +1080,10 @@ void PQCScriptsFileDialog::addPlacesEntry(QString path, int pos, QString titlest
             QDomElement ele = node.toElement();
 
             QDomNodeList idList = ele.elementsByTagName("ID");
-            if(insertAfterId != "" && idList.length() == 0) continue;
+            if(!insertAfterId.isEmpty() && idList.length() == 0) continue;
             QString curId = idList.at(0).toElement().text();
 
-            if(insertAfterId == "" || curId == insertAfterId) {
+            if(insertAfterId.isEmpty() || curId == insertAfterId) {
 
                 QDomElement newNode = doc.createElement("bookmark");
 
@@ -1181,7 +1181,7 @@ void PQCScriptsFileDialog::hidePlacesEntry(QString id, bool hidden) {
         QString curId = cur.select_node("info/metadata/ID").node().child_value();
 
         if(curId == id) {
-            if(QString(cur.select_node("info/metadata/IsHidden").node().child_value()) == "") {
+            if(QString(cur.select_node("info/metadata/IsHidden").node().child_value()).isEmpty()) {
                 pugi::xml_node metadata = cur.select_node("info/metadata").node();
                 pugi::xml_node isHidden = metadata.append_child("IsHidden");
                 isHidden.text().set(hidden ? "true" : "false");

@@ -113,7 +113,7 @@ void PQCMetaData::updateMetadata() {
     const QStringList &entries = PQCFileFolderModelCPP::get().getEntriesMainView();
     QString path = entries[PQCFileFolderModelCPP::get().getCurrentIndex()];
 
-    if(path == "") {
+    if(path.isEmpty()) {
         setValidFile(true);
         setFileSize(0);
         return;
@@ -243,7 +243,7 @@ void PQCMetaData::updateMetadata() {
         setExifGPS(PQCScriptsMetaData::get().analyzeGPS(gpsLatRef, gpsLat, gpsLonRef, gpsLon));
     }
 
-    if(dateTime != "") {
+    if(!dateTime.isEmpty()) {
         // The time zone offset is intentionally optional.
         setExifDateTimeOriginal(PQCScriptsMetaData::get().analyzeDateTimeOriginal(dateTime, offsetTime));
     }

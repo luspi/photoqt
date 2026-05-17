@@ -276,7 +276,7 @@ bool PQCScriptsColorProfiles::importColorProfile() {
     if(m_colorlastlocation->open(QIODevice::ReadOnly)) {
         QTextStream in(m_colorlastlocation);
         QString tmp = in.readAll();
-        if(tmp != "" && QFileInfo::exists(tmp))
+        if(!tmp.isEmpty() && QFileInfo::exists(tmp))
             loc = tmp;
         m_colorlastlocation->close();
     }
@@ -380,7 +380,7 @@ bool PQCScriptsColorProfiles::applyColorProfile(QString filename, QImage &img) {
     // if no color space is set we set the default one
     // without this some conversion below might fail
     bool colorSpaceManuallySet = false;
-    if(profileName != "" && !img.colorSpace().isValid()) {
+    if(!profileName.isEmpty() && !img.colorSpace().isValid()) {
         colorSpaceManuallySet = true;
         img.setColorSpace(QColorSpace(QColorSpace::SRgb));
     }
@@ -399,7 +399,7 @@ bool PQCScriptsColorProfiles::applyColorProfile(QString filename, QImage &img) {
 
 #ifndef PQMLCMS2
 
-    } else if(profileName != "") {
+    } else if(!profileName.isEmpty()) {
 
         // basic handling of external color profiles
 
@@ -425,7 +425,7 @@ bool PQCScriptsColorProfiles::applyColorProfile(QString filename, QImage &img) {
     lcmsProfileList << m_externalColorProfiles;
 
     // if external profile is manually selected
-    if(profileName != "" && !profileName.startsWith("::")) {
+    if(!profileName.isEmpty() && !profileName.startsWith("::")) {
 
         qDebug() << "Loading external color profile:" << profileName;
 
@@ -475,7 +475,7 @@ bool PQCScriptsColorProfiles::applyColorProfile(QString filename, QImage &img) {
 
     // no profile (successfully) applied, set default one (if selected)
     QString def = PQCSettingsCPP::get().getImageviewColorSpaceDefault();
-    if(def != "") {
+    if(!def.isEmpty()) {
 
         qDebug() << "Applying color profile selected as default:" << def;
 
@@ -536,7 +536,7 @@ bool PQCScriptsColorProfiles::applyColorProfile(QString filename, QImage &img) {
     // if a profile was attempted to be set with LCMS2 but failed (i.e., we ended up here)
     // then we increment a counter and show a notification message.
     // If the counter passes 5 then we disable support for color spaces.
-    if(attemptedToSetLCMS2Profile && profileName == "") {
+    if(attemptedToSetLCMS2Profile && profileName.isEmpty()) {
 
         m_lcms2CountFailedApplications += 1;
 

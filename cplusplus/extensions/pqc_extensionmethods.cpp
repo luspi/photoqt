@@ -41,7 +41,7 @@ PQCExtensionMethods::PQCExtensionMethods(QObject *parent) : QObject(parent) {
     connect(&PQCNotifyCPP::get(), &PQCNotifyCPP::keyPress, this, [=](int key, int modifiers) {
 #endif
         QString combo = PQCScriptsShortcuts::get().analyzeModifier(static_cast<Qt::KeyboardModifiers>(modifiers)).join("+");
-        if(combo != "") combo += "+";
+        if(!combo.isEmpty()) combo.append("+");
         combo += PQCScriptsShortcuts::get().analyzeKeyPress(static_cast<Qt::Key>(key));
         Q_EMIT receivedShortcut(combo);
     });

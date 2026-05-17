@@ -188,7 +188,7 @@ public:
 #endif
             double bak = m_devicePixelRatio;
             m_devicePixelRatio = 1.0;
-            if(PQCSettingsCPP::get().getImageviewRespectDevicePixelRatio() && m_currentScreenModelName != "")
+            if(PQCSettingsCPP::get().getImageviewRespectDevicePixelRatio() && !m_currentScreenModelName.isEmpty())
                 m_devicePixelRatio = PQCScriptsImages::get().getPixelDensity(m_currentScreenModelName);
             if(bak != m_devicePixelRatio)
                 Q_EMIT devicePixelRatioChanged();
@@ -202,7 +202,7 @@ public:
 #endif
             double bak = m_devicePixelRatio;
             m_devicePixelRatio = 1.0;
-            if(PQCSettingsCPP::get().getImageviewRespectDevicePixelRatio() && m_currentScreenModelName != "")
+            if(PQCSettingsCPP::get().getImageviewRespectDevicePixelRatio() && !m_currentScreenModelName.isEmpty())
                 m_devicePixelRatio = PQCScriptsImages::get().getPixelDensity(m_currentScreenModelName);
             if(bak != m_devicePixelRatio)
                 Q_EMIT devicePixelRatioChanged();
@@ -249,7 +249,7 @@ public:
         m_debugMode = PQCNotifyCPP::get().getDebug();
         m_debugLogMessages = "";
         m_startupFilePath = PQCNotifyCPP::get().getFilePath();
-        if(m_startupFilePath != "") {
+        if(!m_startupFilePath.isEmpty()) {
             QFileInfo info(m_startupFilePath);
             m_startupFileIsFolder = info.isDir();
         } else
@@ -264,7 +264,7 @@ public:
         connect(&PQCNotifyCPP::get(), &PQCNotifyCPP::filePathChanged, this, [=](QString val) {
 #endif
             m_startupFilePath = val;
-            if(m_startupFilePath != "") {
+            if(!m_startupFilePath.isEmpty()) {
                 QFileInfo info(m_startupFilePath);
                 m_startupFileIsFolder = info.isDir();
             } else

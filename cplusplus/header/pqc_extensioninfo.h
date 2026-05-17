@@ -129,7 +129,7 @@ public:
 
     // convert string to int
     int getIntegerForPosition(std::string val) {
-        if(val == "TopLeft" || val == "")
+        if(val == "TopLeft" || val.empty())
             return 0;
         else if(val == "Top")
             return 1;

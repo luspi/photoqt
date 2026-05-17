@@ -265,7 +265,7 @@ void PQCImageFormats::readFromDatabase() {
                 supportedByAnyLibrary = true;
                 all << QStringLiteral("Qt");
                 formats_qt << endingsList;
-                if(mimetypes != "")
+                if(!mimetypes.isEmpty())
                     mimetypes_qt << mimetypesList;
             }
         }
@@ -275,7 +275,7 @@ void PQCImageFormats::readFromDatabase() {
             supportedByAnyLibrary = true;
             all << QStringLiteral("resvg");
             formats_resvg << endingsList;
-            if(mimetypes != "")
+            if(!mimetypes.isEmpty())
                 mimetypes_resvg << mimetypesList;
         }
 #endif
@@ -285,7 +285,7 @@ void PQCImageFormats::readFromDatabase() {
             supportedByAnyLibrary = true;
             all << QStringLiteral("libvips");
             formats_libvips << endingsList;
-            if(mimetypes != "")
+            if(!mimetypes.isEmpty())
                 mimetypes_libvips << mimetypesList;
         }
 #endif
@@ -305,7 +305,7 @@ void PQCImageFormats::readFromDatabase() {
             all << QStringLiteral("GraphicsMagick");
 #endif
             formats_magick << endingsList;
-            if(mimetypes != "")
+            if(!mimetypes.isEmpty())
                 mimetypes_magick << mimetypesList;
         }
 #endif
@@ -314,7 +314,7 @@ void PQCImageFormats::readFromDatabase() {
             supportedByAnyLibrary = true;
             all << QStringLiteral("libraw");
             formats_libraw << endingsList;
-            if(mimetypes != "")
+            if(!mimetypes.isEmpty())
                 mimetypes_libraw << mimetypesList;
         }
 #endif
@@ -323,7 +323,7 @@ void PQCImageFormats::readFromDatabase() {
             supportedByAnyLibrary = true;
             all << QStringLiteral("Poppler");
             formats_poppler << endingsList;
-            if(mimetypes != "")
+            if(!mimetypes.isEmpty())
                 mimetypes_poppler << mimetypesList;
         }
 #endif
@@ -331,7 +331,7 @@ void PQCImageFormats::readFromDatabase() {
             supportedByAnyLibrary = true;
             all << QStringLiteral("XCFTools");
             formats_xcftools << endingsList;
-            if(mimetypes != "")
+            if(!mimetypes.isEmpty())
                 mimetypes_xcftools << mimetypesList;
         }
 #ifdef PQMDEVIL
@@ -339,7 +339,7 @@ void PQCImageFormats::readFromDatabase() {
             supportedByAnyLibrary = true;
             all << QStringLiteral("DevIL");
             formats_devil << endingsList;
-            if(mimetypes != "")
+            if(!mimetypes.isEmpty())
                 mimetypes_devil << mimetypesList;
         }
 #endif
@@ -348,7 +348,7 @@ void PQCImageFormats::readFromDatabase() {
             supportedByAnyLibrary = true;
             all << QStringLiteral("LibArchive");
             formats_archive << endingsList;
-            if(mimetypes != "")
+            if(!mimetypes.isEmpty())
                 mimetypes_archive << mimetypesList;
         }
 #endif
@@ -357,7 +357,7 @@ void PQCImageFormats::readFromDatabase() {
             supportedByAnyLibrary = true;
             all << QStringLiteral("Video");
             formats_video << endingsList;
-            if(mimetypes != "")
+            if(!mimetypes.isEmpty())
                 mimetypes_video << mimetypesList;
         }
 #endif
@@ -366,7 +366,7 @@ void PQCImageFormats::readFromDatabase() {
             supportedByAnyLibrary = true;
             all << QStringLiteral("libmpv");
             formats_libmpv << endingsList;
-            if(mimetypes != "")
+            if(!mimetypes.isEmpty())
                 mimetypes_libmpv << mimetypesList;
         }
 #endif
@@ -375,7 +375,7 @@ void PQCImageFormats::readFromDatabase() {
             supportedByAnyLibrary = true;
             all << QStringLiteral("libsai");
             formats_libsai << endingsList;
-            if(mimetypes != "")
+            if(!mimetypes.isEmpty())
                 mimetypes_libsai << mimetypesList;
         }
 #endif
@@ -386,7 +386,7 @@ void PQCImageFormats::readFromDatabase() {
 
             if(enabled) {
                 formats_enabled << endingsList;
-                if(mimetypes != "")
+                if(!mimetypes.isEmpty())
                     mimetypes_enabled << mimetypesList;
             }
             const QStringList imGmMagick = query.record().value(QStringLiteral("im_gm_magick")).toString().split(",", Qt::SkipEmptyParts);
@@ -511,10 +511,10 @@ QVariantList PQCImageFormats::getWriteableFormats() {
 
         bool qt = false;
         bool imgm = false;
-        if(qt_formatname != "" && writer.supportedImageFormats().contains(qt_formatname.toUtf8()))
+        if(!qt_formatname.isEmpty() && writer.supportedImageFormats().contains(qt_formatname.toUtf8()))
             qt = true;
 #if defined(PQMIMAGEMAGICK) || defined(PQMGRAPHICSMAGICK)
-        else if(magick != "") {
+        else if(!magick.isEmpty()) {
             try {
                 Magick::CoderInfo magickCoderInfo(magick.toStdString());
                 if(magickCoderInfo.isReadable() && magickCoderInfo.isWritable())
@@ -634,7 +634,7 @@ int PQCImageFormats::detectFormatId(QString filename) {
     QMimeDatabase mimedb;
     QString mimetype = mimedb.mimeTypeForFile(filename).name();
 
-    if(mimetype != "") {
+    if(!mimetype.isEmpty()) {
 
         QSqlQuery query(db);
         query.prepare("SELECT uniqueid FROM imageformats WHERE mimetypes LIKE :mimetype");
@@ -684,10 +684,10 @@ int PQCImageFormats::getWriteStatus(int uniqueid) {
 
     bool qt = false;
     bool imgm = false;
-    if(qt_formatname != "" && writer.supportedImageFormats().contains(qt_formatname.toUtf8()))
+    if(!qt_formatname.isEmpty() && writer.supportedImageFormats().contains(qt_formatname.toUtf8()))
         qt = true;
 #if defined(PQMIMAGEMAGICK) || defined(PQMGRAPHICSMAGICK)
-    else if(magick != "") {
+    else if(!magick.isEmpty()) {
         try {
             Magick::CoderInfo magickCoderInfo(magick.toStdString());
             if(magickCoderInfo.isReadable() && magickCoderInfo.isWritable())

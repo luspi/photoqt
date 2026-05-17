@@ -68,7 +68,7 @@ void PQCScriptsClipboard::copyFilesToClipboard(QStringList files) {
 
             QString fname = PQCScriptsImages::get().extractArchiveFileToTempLocation(f);
 
-            if(fname != "")
+            if(!fname.isEmpty())
                 allurls.push_back(QUrl::fromLocalFile(fname));
             else
                 allurls.push_back(QUrl::fromLocalFile(f));
@@ -77,7 +77,7 @@ void PQCScriptsClipboard::copyFilesToClipboard(QStringList files) {
 
             QString fname = PQCScriptsImages::get().extractDocumentPageToTempLocation(f);
 
-            if(fname != "")
+            if(!fname.isEmpty())
                 allurls.push_back(QUrl::fromLocalFile(fname));
             else
                 allurls.push_back(QUrl::fromLocalFile(f));

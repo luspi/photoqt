@@ -333,8 +333,8 @@ QString PQCScriptsMetaData::analyzeGPS(QString latRef, QString lat, QString lonR
     qDebug() << "args: lonRef =" << lonRef;
     qDebug() << "args: lon =" << lon;
 
-    if(latRef == "") latRef = "N";
-    if(lonRef == "") lonRef = "E";
+    if(latRef.isEmpty()) latRef = "N";
+    if(lonRef.isEmpty()) lonRef = "E";
 
     return _analyzeGPSHelper(lat) + " " + latRef + ", " + _analyzeGPSHelper(lon) + " " + lonRef;
 
@@ -363,7 +363,7 @@ QString PQCScriptsMetaData::_analyzeGPSHelper(QString pos) {
                 }
                 split.replace(i, QString::number(static_cast<int>(division)));
             }
-        } else if(split.at(i) == "")
+        } else if(split.at(i).isEmpty())
             split.replace(i, "0");
 
     }

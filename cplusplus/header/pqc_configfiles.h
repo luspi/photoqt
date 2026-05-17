@@ -127,7 +127,7 @@ public:
 #ifdef PQMPORTABLETWEAKS
         basedir = QString("%1/thumbnails/").arg(qgetenv("PHOTOQT_PORTABLE_DATA_LOCATION"));
 #else
-        if(basedir == "")
+        if(basedir.isEmpty())
             basedir = QString("%1/thumbnails").arg(QStandardPaths::writableLocation(QStandardPaths::GenericCacheLocation));
 #endif
 

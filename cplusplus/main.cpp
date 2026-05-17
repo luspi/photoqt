@@ -205,10 +205,10 @@ int main(int argc, char **argv) {
 #endif
 
     // handle export/import commands
-    if(app.exportAndQuit != "") {
+    if(!app.exportAndQuit.isEmpty()) {
         startupHandler.exportData(app.exportAndQuit);
         return 0;
-    } else if(app.importAndQuit != "") {
+    } else if(!app.importAndQuit.isEmpty()) {
         startupHandler.importData(app.importAndQuit);
         return 0;
     } else if(app.checkConfig) {
@@ -222,7 +222,7 @@ int main(int argc, char **argv) {
     } else if(app.showInfo) {
         startupHandler.showInfo();
         return 0;
-    } else if(app.installExtensionFileName != "") {
+    } else if(!app.installExtensionFileName.isEmpty()) {
         PQCExtensionsHandler::get().installExtension(app.installExtensionFileName);
     }
 

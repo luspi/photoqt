@@ -242,7 +242,7 @@ void PQCFileFolderModel::setFileInFolderMainView(QString val) {
         return;
     QFileInfo oldfile(m_fileInFolderMainView);
     QFileInfo newfile(val);
-    if(oldfile.dir() == newfile.dir() && m_fileInFolderMainView != "") {
+    if(oldfile.dir() == newfile.dir() && !m_fileInFolderMainView.isEmpty()) {
         m_currentFile = val;
         PQCFileFolderModelCPP::get().setCurrentFile(m_currentFile);
         m_currentFileNoDelay = m_currentFile;
@@ -271,7 +271,7 @@ void PQCFileFolderModel::setFolderFileDialog(QString val) {
     Q_EMIT folderFileDialogChanged();
     loadDelayFileDialog->start();
 
-    if(val != "") {
+    if(!val.isEmpty()) {
         QFile file(PQCConfigFiles::get().FILEDIALOG_LAST_LOCATION());
         if(file.open(QIODevice::WriteOnly | QIODevice::Truncate)) {
             QTextStream out(&file);
@@ -598,7 +598,7 @@ void PQCFileFolderModel::advancedSortMainView(QString advSortCriteria, bool advS
                 QSize origSize;
                 QImage img;
                 QString err = PQCLoadImage::get().load(fn, requestedSize, origSize, img);
-                if(err != "") {
+                if(!err.isEmpty()) {
                     qWarning() << "Error loading image:" << err;
                     continue;
                 }
@@ -748,7 +748,7 @@ void PQCFileFolderModel::advancedSortMainView(QString advSortCriteria, bool advS
                 QSize origSize;
                 QImage img;
                 QString err = PQCLoadImage::get().load(fn, requestedSize, origSize, img);
-                if(err != "") {
+                if(!err.isEmpty()) {
                     qWarning() << "Error loading image:" << err;
                     continue;
                 }
@@ -1738,7 +1738,7 @@ void PQCFileFolderModel::loadNextMatchOfSearch(const QString search) {
 
     qDebug() << "args: search =" << search;
 
-    if(search == "") {
+    if(search.isEmpty()) {
         Q_EMIT PQCNotifyCPP::get().showNotificationMessage("Nothing to search", "No search term to search for yet.");
         return;
     }

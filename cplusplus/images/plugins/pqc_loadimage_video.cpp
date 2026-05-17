@@ -78,7 +78,7 @@ QSize PQCLoadImageVideo::loadSize(QString filename) {
                 QSize origSize;
                 QString err = PQCLoadImage::get().load(tempFile.fileName(), QSize(-1,-1), origSize, img);
 
-                if(err != "")
+                if(!err.isEmpty())
                     qWarning() << "Failed to load video thumbnail from temporary file";
                 else
                     return img.size();
@@ -168,7 +168,7 @@ QString PQCLoadImageVideo::load(QString filename, QSize maxSize, QSize &origSize
         // attempt to load file
         QString err = PQCLoadImage::get().load(tempFile.fileName(), QSize(-1,-1), origSize, img);
 
-        if(err != "")
+        if(!err.isEmpty())
             qWarning() << "Failed to load video thumbnail from temporary file";
         else
             return "";
@@ -213,7 +213,7 @@ QString PQCLoadImageVideo::load(QString filename, QSize maxSize, QSize &origSize
 
 #endif
 
-    } else if(PQCSettingsCPP::get().getFiletypesVideoThumbnailer() == "") {
+    } else if(PQCSettingsCPP::get().getFiletypesVideoThumbnailer().isEmpty()) {
 
         errormsg = "No video thumbnailer selected";
         qWarning() << errormsg;

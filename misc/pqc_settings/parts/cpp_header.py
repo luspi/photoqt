@@ -226,7 +226,7 @@ public:
                     QStringList valToSet = QStringList();
                     if(val.contains(":://::"))
                         valToSet = val.split(":://::");
-                    else if(val != "")
+                    else if(!val.isEmpty())
                         valToSet = QStringList() << val;
                     if(m_{tab}{name} != valToSet) {{
                         m_{tab}{name} = valToSet;

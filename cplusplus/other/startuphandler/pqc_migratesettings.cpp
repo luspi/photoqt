@@ -44,7 +44,7 @@ void PQCMigrateSettings::migrate(const QString &oldVersion, const QStringList al
     int iVersion = 0;
     if(oldVersion == "dev")
         iVersion = allVersions.length()-1;
-    else if(oldVersion != "" && allVersions.contains(oldVersion))
+    else if(!oldVersion.isEmpty() && allVersions.contains(oldVersion))
         // we do a +1 as we are on the found version and don't need to migrate to it
         iVersion = allVersions.indexOf(oldVersion)+1;
 
@@ -421,7 +421,7 @@ void PQCMigrateSettings::migrationHelperChangeSettingsName(const QList<QStringLi
         }
 
         // special case: delete table
-        if(entry[0] == "" && entry[2] == "" && entry[3] == "") {
+        if(entry[0].isEmpty() && entry[2].isEmpty() && entry[3].isEmpty()) {
             QSqlQuery query(db);
             query.prepare(QString("DROP TABLE IF EXISTS `%1`").arg(entry[1]));
             if(!query.exec()) {
@@ -470,7 +470,7 @@ void PQCMigrateSettings::migrationHelperChangeSettingsName(const QList<QStringLi
         if(foundEntry) {
 
             // If there is a new entry to be added
-            if(entry[2] != "") {
+            if(!entry[2].isEmpty()) {
 
                 QSqlQuery query2(db);
                 // enter new values if they don't exist already

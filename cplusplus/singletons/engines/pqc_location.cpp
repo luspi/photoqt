@@ -211,7 +211,7 @@ void PQCLocation::scanForLocations(QStringList files) {
                 // ignore exception -> most likely thrown as key does not exist
             }
 
-            if(gpsLatRef != "" && gpsLat != "" && gpsLonRef != "" && gpsLon != "") {
+            if(!gpsLat.isEmpty() && !gpsLon.isEmpty()) {
                 QPointF gps = PQCScriptsMetaData::get().convertGPSToDecimal(gpsLatRef, gpsLat, gpsLonRef, gpsLon);
 
                 QSqlQuery querynew(db);

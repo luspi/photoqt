@@ -65,7 +65,7 @@ void PQCSettings::saveChangedValue(const QString &_key, const QVariant &value) {
         }
     }
 
-    if(category == "") {
+    if(category.isEmpty()) {
         qWarning() << "ERROR: invalid category received:" << key;
         return;
     }

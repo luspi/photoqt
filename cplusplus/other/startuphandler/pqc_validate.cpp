@@ -103,7 +103,7 @@ bool PQCValidate::validateDirectories(const QString &thumb_cache_basedir) {
     dir.mkpath(PQCConfigFiles::get().CACHE_DIR());
     dir.mkpath(PQCConfigFiles::get().DATA_DIR());
     dir.mkpath(userplaces_info.absolutePath());
-    if(thumb_cache_basedir != "") {
+    if(!thumb_cache_basedir.isEmpty()) {
         dir.mkpath(thumb_cache_basedir);
         dir.mkpath(QString("%1/normal/").arg(thumb_cache_basedir));
         dir.mkpath(QString("%1/large/").arg(thumb_cache_basedir));
@@ -218,7 +218,7 @@ bool PQCValidate::validateContextMenuDatabase() {
                     const QString args = parts.join(" ");
 
                     QString icn = PQCScriptsImages::get().getIconPathFromTheme(cmd);
-                    if(icn != "")
+                    if(!icn.isEmpty())
                         icn = PQCScriptsImages::get().loadImageAndConvertToBase64(icn);
 
                     const QStringList cur = {cmd,

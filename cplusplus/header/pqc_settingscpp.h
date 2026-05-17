@@ -237,7 +237,7 @@ public:
                     QStringList valToSet = QStringList();
                     if(val.contains(":://::"))
                         valToSet = val.split(":://::");
-                    else if(val != "")
+                    else if(!val.isEmpty())
                         valToSet = QStringList() << val;
                     if(m_filetypesVideoBackend != valToSet) {
                         m_filetypesVideoBackend = valToSet;
@@ -254,7 +254,7 @@ public:
                     QStringList valToSet = QStringList();
                     if(val.contains(":://::"))
                         valToSet = val.split(":://::");
-                    else if(val != "")
+                    else if(!val.isEmpty())
                         valToSet = QStringList() << val;
                     if(m_generalExtensionsAllowUntrusted != valToSet) {
                         m_generalExtensionsAllowUntrusted = valToSet;
@@ -265,7 +265,7 @@ public:
                     QStringList valToSet = QStringList();
                     if(val.contains(":://::"))
                         valToSet = val.split(":://::");
-                    else if(val != "")
+                    else if(!val.isEmpty())
                         valToSet = QStringList() << val;
                     if(m_generalExtensionsEnabled != valToSet) {
                         m_generalExtensionsEnabled = valToSet;
@@ -294,7 +294,7 @@ public:
                     QStringList valToSet = QStringList();
                     if(val.contains(":://::"))
                         valToSet = val.split(":://::");
-                    else if(val != "")
+                    else if(!val.isEmpty())
                         valToSet = QStringList() << val;
                     if(m_imageviewAdvancedSortDateCriteria != valToSet) {
                         m_imageviewAdvancedSortDateCriteria = valToSet;
@@ -443,7 +443,7 @@ public:
                     QStringList valToSet = QStringList();
                     if(val.contains(":://::"))
                         valToSet = val.split(":://::");
-                    else if(val != "")
+                    else if(!val.isEmpty())
                         valToSet = QStringList() << val;
                     if(m_thumbnailsExcludeFolders != valToSet) {
                         m_thumbnailsExcludeFolders = valToSet;

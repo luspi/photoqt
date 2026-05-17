@@ -162,7 +162,7 @@ PQCCommandLineResult PQCCommandLineParser::getResult() {
         ret = ret|PQCCommandLineDisableTray;
 
     shortcutSequence = value("send-shortcut");
-    if(shortcutSequence != "")
+    if(!shortcutSequence.isEmpty())
         ret = ret|PQShortcutSequence;
 
     if(isSet("debug"))
@@ -172,11 +172,11 @@ PQCCommandLineResult PQCCommandLineParser::getResult() {
         ret = ret|PQCCommandLineNoDebug;
 
     exportFileName = value("export");
-    if(exportFileName != "")
+    if(!exportFileName.isEmpty())
         ret = ret|PQCCommandLineExport;
 
     importFileName = value("import");
-    if(importFileName != "")
+    if(!importFileName.isEmpty())
         ret = ret|PQCCommandLineImport;
 
     if(isSet("check-config"))
@@ -210,7 +210,7 @@ PQCCommandLineResult PQCCommandLineParser::getResult() {
         ret = ret|PQCCommandLineDontShowStartupWizard;
 
     extensionFileName = value("install-extension");
-    if(extensionFileName != "")
+    if(!extensionFileName.isEmpty())
         ret = ret|PQCCommandLineInstallExtension;
 
     return ret;

@@ -136,7 +136,7 @@ void PQCScriptsLocalization::updateTranslation(QString code) {
     }
 
     // no translation found -> store selected code
-    if(currentTranslation == "")
+    if(currentTranslation.isEmpty())
         currentTranslation = code;
 
     if(QQmlEngine::contextForObject(this) != nullptr)

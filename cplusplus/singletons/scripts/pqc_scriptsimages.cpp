@@ -262,7 +262,7 @@ QStringList PQCScriptsImages::listArchiveContentWithoutThread(QString path, QStr
 
     const QFileInfo info(path);
 
-    if(cacheKey == "") {
+    if(cacheKey.isEmpty()) {
         cacheKey = QString("%1::%2::%3::%4").arg(info.lastModified().toMSecsSinceEpoch())
                                             .arg(path)
                                             .arg(PQCSettingsCPP::get().getImageviewSortImagesAscending())
@@ -1254,7 +1254,7 @@ bool PQCScriptsImages::extractFrameAndSave(QString path, int frameNumber) {
     targetfile = PQCScriptsFilesPaths::get().selectFileFromDialog("Save", targetfile, PQCImageFormats::get().detectFormatId(targetfile), true);
 
     // no file selected/dialog cancelled
-    if(targetfile == "")
+    if(targetfile.isEmpty())
         return false;
 
     // save to new file
@@ -1501,7 +1501,7 @@ QString PQCScriptsImages::getNameFromMimetype(QString mimetype, QString filename
     QMimeDatabase db;
 
     QString val = db.mimeTypeForName(mimetype).comment();
-    if(val == "")
+    if(val.isEmpty())
         val = PQCImageFormats::get().getFormatName(PQCImageFormats::get().detectFormatId(filename));
 
     return val;

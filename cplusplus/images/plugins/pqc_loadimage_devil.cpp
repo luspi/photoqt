@@ -53,7 +53,7 @@ QSize PQCLoadImageDevil::loadSize(QString filename) {
     ilBindImage(imageID);
 
     errormsg = checkForError();
-    if(errormsg != "") {
+    if(!errormsg.isEmpty()) {
         qWarning() << errormsg;
         return QSize();
     }
@@ -66,7 +66,7 @@ QSize PQCLoadImageDevil::loadSize(QString filename) {
 #endif
 
     errormsg = checkForError();
-    if(errormsg != "") {
+    if(!errormsg.isEmpty()) {
         qWarning() << errormsg;
         return QSize();
     }
@@ -100,7 +100,7 @@ QString PQCLoadImageDevil::load(QString filename, QSize maxSize, QSize &origSize
     ilBindImage(imageID);
 
     errormsg = checkForError();
-    if(errormsg != "") {
+    if(!errormsg.isEmpty()) {
         qWarning() << errormsg;
         return errormsg;
     }
@@ -126,7 +126,7 @@ QString PQCLoadImageDevil::load(QString filename, QSize maxSize, QSize &origSize
     }
 
     errormsg = checkForError();
-    if(errormsg != "") {
+    if(!errormsg.isEmpty()) {
         qWarning() << errormsg;
         return errormsg;
     }
@@ -137,7 +137,7 @@ QString PQCLoadImageDevil::load(QString filename, QSize maxSize, QSize &origSize
     origSize = QSize(width, height);
 
     errormsg = checkForError();
-    if(errormsg != "") {
+    if(!errormsg.isEmpty()) {
         qWarning() << errormsg;
         return errormsg;
     }
@@ -188,7 +188,7 @@ QString PQCLoadImageDevil::checkForError() {
     ILenum err_enum = ilGetError();
     QString errormsg = "";
     while(err_enum != IL_NO_ERROR) {
-        if(errormsg == "") errormsg = "Error: ";
+        if(errormsg.isEmpty()) errormsg = "Error: ";
         else errormsg += ", ";
         errormsg += QString::number(err_enum);
         err_enum = ilGetError();

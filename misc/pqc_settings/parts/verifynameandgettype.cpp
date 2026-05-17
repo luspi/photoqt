@@ -13,7 +13,7 @@ QString PQCSettings::verifyNameAndGetType(QString name) {
     }
 
     // invalid table name
-    if(tablename == "")
+    if(tablename.isEmpty())
         return "";
 
     settingname = name.last(name.size()-tablename.size());

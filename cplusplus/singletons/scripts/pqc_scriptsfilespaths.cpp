@@ -160,7 +160,7 @@ QString PQCScriptsFilesPaths::getCompleteSuffixLowerCase(QString path) {
 
 QString PQCScriptsFilesPaths::getBasename(QString fullpath) {
 
-    if(fullpath == "")
+    if(fullpath.isEmpty())
         return "";
 
     return QFileInfo(fullpath).baseName();
@@ -169,7 +169,7 @@ QString PQCScriptsFilesPaths::getBasename(QString fullpath) {
 
 QString PQCScriptsFilesPaths::getFilename(QString fullpath) {
 
-    if(fullpath == "")
+    if(fullpath.isEmpty())
         return "";
 
     if(fullpath.contains("::ARC::"))
@@ -181,7 +181,7 @@ QString PQCScriptsFilesPaths::getFilename(QString fullpath) {
 
 QString PQCScriptsFilesPaths::getDir(QString fullpath) {
 
-    if(fullpath == "")
+    if(fullpath.isEmpty())
         return "";
 
     if(fullpath.contains("::ARC::"))
@@ -195,7 +195,7 @@ QString PQCScriptsFilesPaths::getDir(QString fullpath) {
 
 QString PQCScriptsFilesPaths::getDirname(const QString fullpath) {
 
-    if(fullpath == "")
+    if(fullpath.isEmpty())
         return "";
 
     QDir dir(fullpath);
@@ -224,7 +224,7 @@ QDateTime PQCScriptsFilesPaths::getFileModified(QString path) {
 
 QString PQCScriptsFilesPaths::getFileType(QString path) {
 
-    if(path == "")
+    if(path.isEmpty())
         return "";
 
     QMimeDatabase db;
@@ -234,7 +234,7 @@ QString PQCScriptsFilesPaths::getFileType(QString path) {
 
 QString PQCScriptsFilesPaths::getFileSizeHumanReadable(QString path) {
 
-    if(path == "")
+    if(path.isEmpty())
         return "";
 
     // get the bytes
@@ -298,7 +298,7 @@ QStringList PQCScriptsFilesPaths::getFoldersIn(QString path) {
 
     qDebug() << "args: path =" << path;
 
-    if(path == "")
+    if(path.isEmpty())
         return QStringList();
 
 #ifdef Q_OS_WIN
@@ -346,24 +346,24 @@ bool PQCScriptsFilesPaths::isExcludeDirFromCaching(QString filename) {
 
     qDebug() << "args: filename =" << filename;
 
-    if(PQCSettingsCPP::get().getThumbnailsExcludeDropBox() != "") {
+    if(!PQCSettingsCPP::get().getThumbnailsExcludeDropBox().isEmpty()) {
         if(filename.indexOf(PQCSettingsCPP::get().getThumbnailsExcludeDropBox())== 0)
             return true;
     }
 
-    if(PQCSettingsCPP::get().getThumbnailsExcludeNextcloud() != "") {
+    if(!PQCSettingsCPP::get().getThumbnailsExcludeNextcloud().isEmpty()) {
         if(filename.indexOf(PQCSettingsCPP::get().getThumbnailsExcludeNextcloud())== 0)
             return true;
     }
 
-    if(PQCSettingsCPP::get().getThumbnailsExcludeOwnCloud() != "") {
+    if(!PQCSettingsCPP::get().getThumbnailsExcludeOwnCloud().isEmpty()) {
         if(filename.indexOf(PQCSettingsCPP::get().getThumbnailsExcludeOwnCloud())== 0)
             return true;
     }
 
     const QStringList str = PQCSettingsCPP::get().getThumbnailsExcludeFolders();
     for(const QString &dir: str) {
-        if(dir != "" && filename.indexOf(dir) == 0)
+        if(!dir.isEmpty() && filename.indexOf(dir) == 0)
             return true;
     }
 
@@ -380,7 +380,7 @@ bool PQCScriptsFilesPaths::isOnNetwork(QString filename) {
     qDebug() << "args: filename =" << filename;
 
     for(const QString &dir: std::as_const(networkshares)) {
-        if(dir != "" && filename.indexOf(dir) == 0)
+        if(!dir.isEmpty() && filename.indexOf(dir) == 0)
             return true;
     }
     return false;
@@ -437,7 +437,7 @@ void PQCScriptsFilesPaths::openInDefaultFileManager(QString filename) {
     }
 
     // found a supported one
-    if(exe != "") {
+    if(!exe.isEmpty()) {
 
         QProcess proc;
         proc.setProgram(exe);
@@ -487,7 +487,7 @@ QString PQCScriptsFilesPaths::selectFileFromDialog(QString buttonlabel, QString 
         if(fileNames.length() > 0) {
             QString fn = fileNames[0];
             QFileInfo newinfo(fn);
-            if(newinfo.suffix() == "")
+            if(newinfo.suffix().isEmpty())
                 return fn+"."+endings[0];
             return fn;
         }
@@ -530,7 +530,7 @@ void PQCScriptsFilesPaths::saveLogToFile(QString txt) {
 
     QString newfile = QFileDialog::getSaveFileName(nullptr, QString(), QString("%1/photoqt-%2.log").arg(QDir::homePath(), QDateTime::currentDateTime().toString("yyyy-MM-dd_hh-mm")));
 
-    if(newfile == "") {
+    if(newfile.isEmpty()) {
         return;
     }
 
@@ -801,7 +801,7 @@ QString PQCScriptsFilesPaths::getSiblingFile(const QString currentFile, const in
     /////////////////////////////////////////////////////////////////////////
     // Loop until we found a file or exceeded maximum counter
 
-    while(siblingFile == "" && remainingIteration > 0 && remainingLevelUp > 0) {
+    while(siblingFile.isEmpty() && remainingIteration > 0 && remainingLevelUp > 0) {
 
         /////////////////////////////////////////////////////////////////////////
         /// // Go up a folder to find siblings
@@ -841,7 +841,7 @@ QString PQCScriptsFilesPaths::getSiblingFile(const QString currentFile, const in
             for(int i = currentIndex-1; i >= 0; --i) {
                 siblingFile = _findFirstFileinFolderAndSubFolder(prefixDir.absolutePath() + "/" + parentSiblings.at(i), false, remainingIteration, remainingLevelDown);
                 // if we found a file or reached maximum iteration level: stop
-                if(siblingFile != "" || remainingIteration <= 0) break;
+                if(!siblingFile.isEmpty() || remainingIteration <= 0) break;
             }
 
         // go forwards
@@ -851,7 +851,7 @@ QString PQCScriptsFilesPaths::getSiblingFile(const QString currentFile, const in
             for(int i = currentIndex+1; i < parentSiblings.length(); ++i) {
                 siblingFile = _findFirstFileinFolderAndSubFolder(prefixDir.absolutePath() + "/" + parentSiblings.at(i), true, remainingIteration, remainingLevelDown);
                 // if we found a file or reached maximum iteration level: stop
-                if(siblingFile != "" || remainingIteration <= 0) break;
+                if(!siblingFile.isEmpty() || remainingIteration <= 0) break;
             }
 
         }
@@ -919,7 +919,7 @@ QString PQCScriptsFilesPaths::_findFirstFileinFolderAndSubFolder(const QString f
                 remainingDescending -= 1;
                 ret = _findFirstFileinFolderAndSubFolder(dir.filePath(f), ascendingFolder, remainingIteration, remainingDescending);
 
-                if(ret != "")
+                if(!ret.isEmpty())
                     break;
 
             }

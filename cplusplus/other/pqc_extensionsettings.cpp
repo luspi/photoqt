@@ -85,7 +85,7 @@ void ExtensionSettings::saveExtensionValue(const QString &key, const QVariant &v
 
         if(key == "ExtShortcut") {
             PQCExtensionsHandler::get().removeShortcut(key);
-            if(value.toString() != "")
+            if(!value.toString().isEmpty())
                 PQCExtensionsHandler::get().addShortcut(m_extensionId, value.toString());
         }
 
@@ -140,7 +140,7 @@ void ExtensionSettings::setup() {
                 const QStringList val = s[2].split(":://::");
                 this->insert(s[0], val);
                 defaultValues.insert(s[0], val);
-            } else if(s[2] != "") {
+            } else if(!s[2].isEmpty()) {
                 this->insert(s[0], QStringList() << s[2]);
                 defaultValues.insert(s[0], QStringList() << s[2]);
             } else {
@@ -172,7 +172,7 @@ void ExtensionSettings::setup() {
         } else if(s[1] == "string") {
             this->insert(s[0], s[2]);
             defaultValues.insert(s[0], s[2]);
-        } else if(s[1] != "")
+        } else if(!s[1].isEmpty())
             qCritical() << QString("ERROR: datatype not handled for setting '%1':").arg(s[0]) << s[1];
         else
             qDebug() << QString("empty datatype found for setting '%1' -> ignoring").arg(s[0]);
@@ -190,7 +190,7 @@ void ExtensionSettings::setup() {
     if(PQCExtensionsHandler::get().getExtensionModal(m_extensionId))
         this->insert("ExtShow", false);
 
-    if(this->value("ExtShortcut").toString() != "")
+    if(!this->value("ExtShortcut").toString().isEmpty())
         PQCExtensionsHandler::get().addShortcut(m_extensionId, this->value("ExtShortcut").toString());
 
     m_status = getReady();

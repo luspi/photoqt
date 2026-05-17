@@ -50,7 +50,7 @@ PQCLoadImage::~PQCLoadImage() {}
 
 QSize PQCLoadImage::load(QString filename) {
 
-    if(filename.trimmed() == "")
+    if(filename.trimmed().isEmpty())
         return QSize();
 
     QFileInfo info(filename);
@@ -139,7 +139,7 @@ QSize PQCLoadImage::load(QString filename) {
         QMimeDatabase db;
         QString mimetype = db.mimeTypeForFile(filename).name();
 
-        if(mimetype != "" && mimetype != "application/octet-stream") {
+        if(!mimetype.isEmpty() && mimetype != "application/octet-stream") {
 
             // resvg trumps Qt's SVG engine
 #ifdef PQMRESVG
@@ -222,7 +222,7 @@ QString PQCLoadImage::load(QString filename, QSize requestedSize, QSize &origSiz
     qDebug() << "args: origSize =" << origSize;
     qDebug() << "args: img";
 
-    if(filename.trimmed() == "")
+    if(filename.trimmed().isEmpty())
         return "";
 
     QFileInfo info(filename);
@@ -293,7 +293,7 @@ QString PQCLoadImage::load(QString filename, QSize requestedSize, QSize &origSiz
 #endif
 
 #ifdef PQMLIBVIPS
-    if((err != "" || img.isNull()) && (PQCImageFormats::get().getEnabledFormatsLibVipsSet().contains(suffix1) || PQCImageFormats::get().getEnabledFormatsLibVipsSet().contains(suffix2)))
+    if((!err.isEmpty() || img.isNull()) && (PQCImageFormats::get().getEnabledFormatsLibVipsSet().contains(suffix1) || PQCImageFormats::get().getEnabledFormatsLibVipsSet().contains(suffix2)))
         err = PQCLoadImageLibVips::load(filename, requestedSize, origSize, img);
 #endif
 
@@ -315,7 +315,7 @@ QString PQCLoadImage::load(QString filename, QSize requestedSize, QSize &origSiz
         QMimeDatabase db;
         QString mimetype = db.mimeTypeForFile(filename).name();
 
-        if(mimetype != "" && mimetype != "application/octet-stream") {
+        if(!mimetype.isEmpty() && mimetype != "application/octet-stream") {
 
             // resvg trumps Qt's SVG engine
 #ifdef PQMRESVG

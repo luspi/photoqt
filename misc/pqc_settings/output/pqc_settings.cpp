@@ -7440,7 +7440,7 @@ void PQCSettings::readDB() {
                     QString val = value.toString();
                     if(val.contains(":://::"))
                         m_filetypesVideoBackend = val.split(":://::");
-                    else if(val != "")
+                    else if(!val.isEmpty())
                         m_filetypesVideoBackend = QStringList() << val;
                     else
                         m_filetypesVideoBackend = QStringList();
@@ -7467,7 +7467,7 @@ void PQCSettings::readDB() {
                     QString val = value.toString();
                     if(val.contains(":://::"))
                         m_generalExtensionsAllowUntrusted = val.split(":://::");
-                    else if(val != "")
+                    else if(!val.isEmpty())
                         m_generalExtensionsAllowUntrusted = QStringList() << val;
                     else
                         m_generalExtensionsAllowUntrusted = QStringList();
@@ -7475,7 +7475,7 @@ void PQCSettings::readDB() {
                     QString val = value.toString();
                     if(val.contains(":://::"))
                         m_generalExtensionsEnabled = val.split(":://::");
-                    else if(val != "")
+                    else if(!val.isEmpty())
                         m_generalExtensionsEnabled = QStringList() << val;
                     else
                         m_generalExtensionsEnabled = QStringList();
@@ -7483,7 +7483,7 @@ void PQCSettings::readDB() {
                     QString val = value.toString();
                     if(val.contains(":://::"))
                         m_generalExtensionsFloatingSetup = val.split(":://::");
-                    else if(val != "")
+                    else if(!val.isEmpty())
                         m_generalExtensionsFloatingSetup = QStringList() << val;
                     else
                         m_generalExtensionsFloatingSetup = QStringList();
@@ -7502,7 +7502,7 @@ void PQCSettings::readDB() {
                     QString val = value.toString();
                     if(val.contains(":://::"))
                         m_imageviewAdvancedSortDateCriteria = val.split(":://::");
-                    else if(val != "")
+                    else if(!val.isEmpty())
                         m_imageviewAdvancedSortDateCriteria = QStringList() << val;
                     else
                         m_imageviewAdvancedSortDateCriteria = QStringList();
@@ -7520,7 +7520,7 @@ void PQCSettings::readDB() {
                     QString val = value.toString();
                     if(val.contains(":://::"))
                         m_imageviewColorSpaceContextMenu = val.split(":://::");
-                    else if(val != "")
+                    else if(!val.isEmpty())
                         m_imageviewColorSpaceContextMenu = QStringList() << val;
                     else
                         m_imageviewColorSpaceContextMenu = QStringList();
@@ -7727,7 +7727,7 @@ void PQCSettings::readDB() {
                     QString val = value.toString();
                     if(val.contains(":://::"))
                         m_interfaceQuickActionsItems = val.split(":://::");
-                    else if(val != "")
+                    else if(!val.isEmpty())
                         m_interfaceQuickActionsItems = QStringList() << val;
                     else
                         m_interfaceQuickActionsItems = QStringList();
@@ -7747,7 +7747,7 @@ void PQCSettings::readDB() {
                     QString val = value.toString();
                     if(val.contains(":://::"))
                         m_interfaceStatusInfoList = val.split(":://::");
-                    else if(val != "")
+                    else if(!val.isEmpty())
                         m_interfaceStatusInfoList = QStringList() << val;
                     else
                         m_interfaceStatusInfoList = QStringList();
@@ -7777,7 +7777,7 @@ void PQCSettings::readDB() {
                     QString val = value.toString();
                     if(val.contains(":://::"))
                         m_interfaceWindowButtonsItems = val.split(":://::");
-                    else if(val != "")
+                    else if(!val.isEmpty())
                         m_interfaceWindowButtonsItems = QStringList() << val;
                     else
                         m_interfaceWindowButtonsItems = QStringList();
@@ -7937,7 +7937,7 @@ void PQCSettings::readDB() {
                     QString val = value.toString();
                     if(val.contains(":://::"))
                         m_slideshowMusicFiles = val.split(":://::");
-                    else if(val != "")
+                    else if(!val.isEmpty())
                         m_slideshowMusicFiles = QStringList() << val;
                     else
                         m_slideshowMusicFiles = QStringList();
@@ -7972,7 +7972,7 @@ void PQCSettings::readDB() {
                     QString val = value.toString();
                     if(val.contains(":://::"))
                         m_thumbnailsExcludeFolders = val.split(":://::");
-                    else if(val != "")
+                    else if(!val.isEmpty())
                         m_thumbnailsExcludeFolders = QStringList() << val;
                     else
                         m_thumbnailsExcludeFolders = QStringList();
@@ -7990,7 +7990,7 @@ void PQCSettings::readDB() {
                     QString val = value.toString();
                     if(val.contains(":://::"))
                         m_thumbnailsHighlightAnimation = val.split(":://::");
-                    else if(val != "")
+                    else if(!val.isEmpty())
                         m_thumbnailsHighlightAnimation = QStringList() << val;
                     else
                         m_thumbnailsHighlightAnimation = QStringList();
@@ -8023,16 +8023,16 @@ void PQCSettings::readDB() {
     // make sure in the integrated interface the thumbnails are either shown top or bottom and not the sides
     if(m_generalInterfaceVariant == QStringLiteral("integrated")) {
         if(m_interfaceEdgeLeftAction == QStringLiteral("thumbnails")) {
-            if(m_interfaceEdgeBottomAction == "")
+            if(m_interfaceEdgeBottomAction.isEmpty())
                 m_interfaceEdgeBottomAction = QStringLiteral("thumbnails");
-            else if(m_interfaceEdgeTopAction == "")
+            else if(m_interfaceEdgeTopAction.isEmpty())
                 m_interfaceEdgeTopAction = QStringLiteral("thumbnails");
             m_interfaceEdgeLeftAction = "";
         }
         if(m_interfaceEdgeRightAction == QStringLiteral("thumbnails")) {
-            if(m_interfaceEdgeBottomAction == "")
+            if(m_interfaceEdgeBottomAction.isEmpty())
                 m_interfaceEdgeBottomAction = QStringLiteral("thumbnails");
-            else if(m_interfaceEdgeTopAction == "")
+            else if(m_interfaceEdgeTopAction.isEmpty())
                 m_interfaceEdgeTopAction = QStringLiteral("thumbnails");
             m_interfaceEdgeRightAction = "";
         }
@@ -8102,7 +8102,7 @@ void PQCSettings::saveChangedValue(const QString &_key, const QVariant &value) {
         }
     }
 
-    if(category == "") {
+    if(category.isEmpty()) {
         qWarning() << "ERROR: invalid category received:" << key;
         return;
     }
@@ -8244,7 +8244,7 @@ QString PQCSettings::verifyNameAndGetType(QString name) {
     }
 
     // invalid table name
-    if(tablename == "")
+    if(tablename.isEmpty())
         return "";
 
     settingname = name.last(name.size()-tablename.size());

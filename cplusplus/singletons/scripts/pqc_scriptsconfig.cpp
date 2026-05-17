@@ -209,12 +209,12 @@ bool PQCScriptsConfig::exportConfigTo(QString path) {
 #ifdef PQMLIBARCHIVE
     // Obtain a filename from the user or used passed on filename
     QString archiveFile;
-    if(path == "") {
+    if(path.isEmpty()) {
         archiveFile = QFileDialog::getSaveFileName(0,
                                                    "Select Location",
                                                    QDir::homePath() + "/photoqtconfig.pqt",
                                                    "PhotoQt Config File (*.pqt);;All Files (*.*)");
-        if(archiveFile.trimmed() == "")
+        if(archiveFile.trimmed().isEmpty())
             return false;
     } else
         archiveFile = path;
@@ -307,12 +307,12 @@ bool PQCScriptsConfig::importConfigFrom(QString path) {
 
     // Obtain a filename from the user or used passed on filename
     QString archiveFile;
-    if(path == "") {
+    if(path.isEmpty()) {
         archiveFile = QFileDialog::getOpenFileName(0,
                                                    "Select Location",
                                                    QDir::homePath(),
                                                    "PhotoQt Config File (*.pqt);;All Files (*.*)");
-        if(archiveFile.trimmed() == "")
+        if(archiveFile.trimmed().isEmpty())
             return false;
     } else
         archiveFile = path;

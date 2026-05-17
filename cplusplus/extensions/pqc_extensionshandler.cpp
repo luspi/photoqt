@@ -313,7 +313,7 @@ bool PQCExtensionsHandler::loadExtension(PQCExtensionInfo *extinfo, QString name
         haveProperLongName = false;
         qDebug() << "Extension:" << identifyName << "- Optional value for 'longName' not found, adopting value of 'name':" << e.what();
     }
-    if(extinfo->longName == "") {
+    if(extinfo->longName.isEmpty()) {
         haveProperLongName = false;
         extinfo->longName = extinfo->name;
     }
@@ -1224,7 +1224,7 @@ int PQCExtensionsHandler::installExtension(QString filepath) {
         QString fullpath = PQCConfigFiles::get().DATA_DIR() + "/extensions/" + filenameinside;
 
         if(fullpath.endsWith("/")) {
-            if(nameId == "")
+            if(nameId.isEmpty())
                 nameId = filenameinside.replace("/", "").trimmed();
             QDir dir;
             if(!dir.mkpath(fullpath))
@@ -1376,7 +1376,7 @@ QHash<QString,QVariant> PQCExtensionsHandler::getExtensionZipMetadata(QString fi
 
     bool err = false;
 
-    if(definitionyml != "") {
+    if(!definitionyml.isEmpty()) {
 
         YAML::Node config;
 
@@ -1587,7 +1587,7 @@ bool PQCExtensionsHandler::verifyExtension(QString extensionDir, QString nameId)
     QHash<QString,QString> hashMap;
     for(const QString &l : manifest.split('\n')) {
 
-        if(l.trimmed() == "")
+        if(l.trimmed().isEmpty())
             continue;
 
         const QStringList parts = l.split(":");

@@ -201,9 +201,9 @@ PQCSingleInstance::PQCSingleInstance(int &argc, char *argv[]) : QApplication(arg
                 if(query.next()) {
                     if(query.value(0).toBool()) {
                         m_receivedFiles = receivedFiles;
-                        if(receivedShortcut != "")
+                        if(!receivedShortcut.isEmpty())
                             m_receivedShortcut = receivedShortcut;
-                        if(receivedSetting[0] != "") {
+                        if(!receivedSetting[0].isEmpty()) {
                             m_receivedSetting[0] = receivedSetting[0];
                             m_receivedSetting[1] = receivedSetting[1];
                         }
@@ -256,9 +256,9 @@ PQCSingleInstance::PQCSingleInstance(int &argc, char *argv[]) : QApplication(arg
         // Send composed message string
         if(receivedFiles.length())
             writeMessage.append(QStringLiteral("_F_I_L_E_%1\n").arg(receivedFiles.join(":://:://::")).toUtf8());
-        if(receivedShortcut != "")
+        if(!receivedShortcut.isEmpty())
             writeMessage.append(QStringLiteral("_S_H_O_R_T_C_U_T_%1\n").arg(receivedShortcut).toUtf8());
-        if(receivedSetting[0] != "")
+        if(!receivedSetting[0].isEmpty())
             writeMessage.append(QStringLiteral("_S_E_T_T_I_N_G_%1:%2\n").arg(receivedSetting[0], receivedSetting[1]).toUtf8());
 
         socket->write(writeMessage.join('\n'));

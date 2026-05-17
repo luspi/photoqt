@@ -118,7 +118,7 @@ void PQCSettings::readDB() {
                     QString val = value.toString();
                     if(val.contains(":://::"))
                         m_{tab}{name} = val.split(":://::");
-                    else if(val != "")
+                    else if(!val.isEmpty())
                         m_{tab}{name} = QStringList() << val;
                     else
                         m_{tab}{name} = QStringList();"""
@@ -153,16 +153,16 @@ void PQCSettings::readDB() {
     // make sure in the integrated interface the thumbnails are either shown top or bottom and not the sides
     if(m_generalInterfaceVariant == QStringLiteral("integrated")) {
         if(m_interfaceEdgeLeftAction == QStringLiteral("thumbnails")) {
-            if(m_interfaceEdgeBottomAction == "")
+            if(m_interfaceEdgeBottomAction.isEmpty())
                 m_interfaceEdgeBottomAction = QStringLiteral("thumbnails");
-            else if(m_interfaceEdgeTopAction == "")
+            else if(m_interfaceEdgeTopAction.isEmpty())
                 m_interfaceEdgeTopAction = QStringLiteral("thumbnails");
             m_interfaceEdgeLeftAction = "";
         }
         if(m_interfaceEdgeRightAction == QStringLiteral("thumbnails")) {
-            if(m_interfaceEdgeBottomAction == "")
+            if(m_interfaceEdgeBottomAction.isEmpty())
                 m_interfaceEdgeBottomAction = QStringLiteral("thumbnails");
-            else if(m_interfaceEdgeTopAction == "")
+            else if(m_interfaceEdgeTopAction.isEmpty())
                 m_interfaceEdgeTopAction = QStringLiteral("thumbnails");
             m_interfaceEdgeRightAction = "";
         }

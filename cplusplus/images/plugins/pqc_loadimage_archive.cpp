@@ -104,7 +104,7 @@ QSize PQCLoadImageArchive::loadSize(QString filename) {
         QString filenameinside = QString::fromWCharArray(wpath);
 
         // If this is the file we are looking for:
-        if(filenameinside == compressedFilename || (compressedFilename == "" && QFileInfo(filenameinside).suffix() != "")) {
+        if(filenameinside == compressedFilename || (compressedFilename.isEmpty() && !QFileInfo(filenameinside).suffix().isEmpty())) {
 
             // Find out the size of the data
             int64_t size = archive_entry_size(entry);
@@ -312,7 +312,7 @@ QString PQCLoadImageArchive::load(QString filename, QSize maxSize, QSize &origSi
         QString filenameinside = QString::fromWCharArray(wpath);
 
         // If this is the file we are looking for:
-        if(filenameinside == compressedFilename || (compressedFilename == "" && QFileInfo(filenameinside).suffix() != "")) {
+        if(filenameinside == compressedFilename || (compressedFilename.isEmpty() && !QFileInfo(filenameinside).suffix().isEmpty())) {
 
             // Find out the size of the data
             int64_t size = archive_entry_size(entry);
@@ -374,7 +374,7 @@ QString PQCLoadImageArchive::load(QString filename, QSize maxSize, QSize &origSi
 
             // attempt to load file
             QString err = PQCLoadImage::get().load(tempFile.fileName(), QSize(-1,-1), origSize, img);
-            if(err != "")
+            if(!err.isEmpty())
                 qWarning() << "Failed to load image inside archive:" << filenameinside;
 
             // Nothing more to do except some cleaning up below

@@ -130,7 +130,7 @@ void PQCScriptsContextMenu::setEntries(QVariantList entries) {
         const QString dsc = entrylist.at(2).toString();
         const QString close = entrylist.at(3).toString();
 
-        if(cmd != "" && dsc != "") {
+        if(!cmd.isEmpty() && !dsc.isEmpty()) {
 
             QSqlQuery query(db);
             query.prepare("INSERT INTO entries (icon,command,arguments,desc,close) VALUES(:icn,:cmd,:arg,:dsc,:cls)");
@@ -192,7 +192,7 @@ QVariantList PQCScriptsContextMenu::detectSystemEntries() {
             QStringList thisentry;
 
             QString icn = PQCScriptsImages::get().getIconPathFromTheme(m[2*i+1]);
-            if(icn != "")
+            if(!icn.isEmpty())
                 icn = PQCScriptsImages::get().loadImageAndConvertToBase64(icn);
 
             thisentry << icn

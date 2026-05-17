@@ -111,7 +111,7 @@ PQCLook::PQCLook() : QObject() {
 
 void PQCLook::testColor(QString color) {
 
-    if(color == "") {
+    if(color.isEmpty()) {
 
         Q_EMIT PQCSettingsCPP::get().interfaceAccentColorChanged();
 

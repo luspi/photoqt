@@ -52,12 +52,12 @@ QSize PQCLoadImageMagick::loadSize(QString filename) {
     QString mimetype = db.mimeTypeForFile(filename).name();
 
     QStringList mgs;
-    if(suf != "") {
+    if(!suf.isEmpty()) {
         mgs = QStringList() << suf.toUpper();
         if(PQCImageFormats::get().getMagick().keys().contains(suf.toLower()))
             mgs = PQCImageFormats::get().getMagick().value(suf.toLower()).toStringList();
     }
-    if(mimetype != "") {
+    if(!mimetype.isEmpty()) {
         if(PQCImageFormats::get().getMagickMimeType().keys().contains(mimetype)) {
             const QStringList lst = PQCImageFormats::get().getMagickMimeType().value(mimetype).toStringList();
             for(const QString &mt : lst)
@@ -124,12 +124,12 @@ QString PQCLoadImageMagick::load(QString filename, QSize maxSize, QSize &origSiz
         QString mimetype = db.mimeTypeForFile(filename).name();
 
         QStringList mgs;
-        if(suf != "") {
+        if(!suf.isEmpty()) {
             mgs = QStringList() << suf.toUpper();
             if(PQCImageFormats::get().getMagick().keys().contains(suf.toLower()))
                 mgs = PQCImageFormats::get().getMagick().value(suf.toLower()).toStringList();
         }
-        if(mimetype != "") {
+        if(!mimetype.isEmpty()) {
             if(PQCImageFormats::get().getMagickMimeType().keys().contains(mimetype)) {
                 const QStringList lst = PQCImageFormats::get().getMagickMimeType().value(mimetype).toStringList();
                 for(const QString &mt : lst)

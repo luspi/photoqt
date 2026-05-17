@@ -142,7 +142,7 @@ bool PQCScriptsChromeCast::castImage(QString filename) {
 
     qDebug() << "args: filename =" << filename;
 
-    if(m_curDeviceName == "") {
+    if(m_curDeviceName.isEmpty()) {
         qDebug() << "Not connected to chromecast device.";
         return false;
     }
@@ -172,7 +172,7 @@ bool PQCScriptsChromeCast::castImage(QString filename) {
     // request image
 
     // PhotoQt logo
-    if(filename.isNull() || filename == "") {
+    if(filename.isEmpty()) {
 
         QImage img(":/other/logo_chromecast.jpg");
         if(!img.save(QString("%1/photoqtchromecast.jpg").arg(QDir::tempPath()), nullptr, 100)) {
