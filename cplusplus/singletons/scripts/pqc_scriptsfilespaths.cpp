@@ -60,7 +60,7 @@ void PQCScriptsFilesPaths::detectNetworkShares() {
 #ifdef Q_OS_WIN
         // on windows network shares often have a fileSystemType of FAT or NTFS or therelike
         // This check excludes known physical devices assuming everything else to be remote
-        if (!QString::fromLatin1(s.device()).startsWith(QLatin1String("\\\\?\\Volume")))
+        if(!QString::fromUtf8(s.device()).startsWith("\\\\?\\Volume"))
             networkshares.push_back(s.rootPath());
 #endif
     }

@@ -182,58 +182,58 @@ void PQCMetaData::updateMetadata() {
         const QString key = QString::fromStdString(i.key());
         const QString val = QString::fromStdString(Exiv2::toString(i.value()));
 
-        if(key == QStringLiteral("Exif.Image.Make"))
+        if(key == "Exif.Image.Make")
             setExifMake(val);
 
-        else if(key == QStringLiteral("Exif.Image.Model"))
+        else if(key == "Exif.Image.Model")
             setExifModel(val);
 
-        else if(key == QStringLiteral("Exif.Image.Software"))
+        else if(key == "Exif.Image.Software")
             setExifSoftware(val);
 
-        else if(key == QStringLiteral("Exif.Photo.DateTimeOriginal"))
+        else if(key == "Exif.Photo.DateTimeOriginal")
             dateTime = val;
 
-        else if(key == QStringLiteral("Exif.Photo.OffsetTimeOriginal"))
+        else if(key == "Exif.Photo.OffsetTimeOriginal")
             offsetTime = val;
 
-        else if(key == QStringLiteral("Exif.Photo.ExposureTime"))
+        else if(key == "Exif.Photo.ExposureTime")
             setExifExposureTime(PQCScriptsMetaData::get().analyzeExposureTime(val));
 
-        else if(key == QStringLiteral("Exif.Photo.Flash"))
+        else if(key == "Exif.Photo.Flash")
             setExifFlash(PQCScriptsMetaData::get().analyzeFlash(val));
 
-        else if(key == QStringLiteral("Exif.Photo.ISOSpeedRatings"))
+        else if(key == "Exif.Photo.ISOSpeedRatings")
             setExifISOSpeedRatings(val);
 
-        else if(key == QStringLiteral("Exif.Photo.SceneCaptureType"))
+        else if(key == "Exif.Photo.SceneCaptureType")
             setExifSceneCaptureType(PQCScriptsMetaData::get().analyzeSceneCaptureType(val));
 
-        else if(key == QStringLiteral("Exif.Photo.FocalLength"))
+        else if(key == "Exif.Photo.FocalLength")
             setExifFocalLength(PQCScriptsMetaData::get().analyzeFocalLength(val));
 
-        else if(key == QStringLiteral("Exif.Photo.FNumber"))
+        else if(key == "Exif.Photo.FNumber")
             setExifFNumber(PQCScriptsMetaData::get().analyzeFNumber(val));
 
-        else if(key == QStringLiteral("Exif.Photo.LightSource"))
+        else if(key == "Exif.Photo.LightSource")
             setExifLightSource(PQCScriptsMetaData::get().analyzeLightSource(val));
 
-        else if(key == QStringLiteral("Exif.Photo.PixelXDimension"))
+        else if(key == "Exif.Photo.PixelXDimension")
             setExifPixelXDimension(val);
 
-        else if(key == QStringLiteral("Exif.Photo.PixelYDimension"))
+        else if(key == "Exif.Photo.PixelYDimension")
             setExifPixelYDimension(val);
 
-        else if(key == QStringLiteral("Exif.GPSInfo.GPSLatitudeRef"))
+        else if(key == "Exif.GPSInfo.GPSLatitudeRef")
             gpsLatRef = val;
 
-        else if(key == QStringLiteral("Exif.GPSInfo.GPSLatitude"))
+        else if(key == "Exif.GPSInfo.GPSLatitude")
             gpsLat = val;
 
-        else if(key == QStringLiteral("Exif.GPSInfo.GPSLongitudeRef"))
+        else if(key == "Exif.GPSInfo.GPSLongitudeRef")
             gpsLonRef = val;
 
-        else if(key == QStringLiteral("Exif.GPSInfo.GPSLongitude"))
+        else if(key == "Exif.GPSInfo.GPSLongitude")
             gpsLon = val;
 
     }
@@ -264,16 +264,16 @@ void PQCMetaData::updateMetadata() {
         const QString key = QString::fromStdString(i.key());
         const QString val = QString::fromStdString(Exiv2::toString(i.value()));
 
-        if(key == QStringLiteral("Iptc.Application2.Keywords"))
+        if(key == "Iptc.Application2.Keywords")
             setIptcKeywords(val);
 
-        else if(key == QStringLiteral("Iptc.Application2.City"))
+        else if(key == "Iptc.Application2.City")
             city = val;
 
-        else if(key == QStringLiteral("Iptc.Application2.CountryName"))
+        else if(key == "Iptc.Application2.CountryName")
             country = val;
 
-        else if(key == QStringLiteral("Iptc.Application2.Copyright"))
+        else if(key == "Iptc.Application2.Copyright")
             setIptcCopyright(val);
 
     }

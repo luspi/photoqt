@@ -7297,146 +7297,146 @@ void PQCSettings::readDB() {
         
             // table: filedialog
             if(table == "filedialog") {
-                if(name == QStringLiteral("DetailsTooltip")) {
+                if(name == "DetailsTooltip") {
                     m_filedialogDetailsTooltip = value.toInt();
-                } else if(name == QStringLiteral("Devices")) {
+                } else if(name == "Devices") {
                     m_filedialogDevices = value.toInt();
-                } else if(name == QStringLiteral("DevicesShowTmpfs")) {
+                } else if(name == "DevicesShowTmpfs") {
                     m_filedialogDevicesShowTmpfs = value.toInt();
-                } else if(name == QStringLiteral("DragDropFileviewGrid")) {
+                } else if(name == "DragDropFileviewGrid") {
                     m_filedialogDragDropFileviewGrid = value.toInt();
-                } else if(name == QStringLiteral("DragDropFileviewList")) {
+                } else if(name == "DragDropFileviewList") {
                     m_filedialogDragDropFileviewList = value.toInt();
-                } else if(name == QStringLiteral("DragDropFileviewMasonry")) {
+                } else if(name == "DragDropFileviewMasonry") {
                     m_filedialogDragDropFileviewMasonry = value.toInt();
-                } else if(name == QStringLiteral("DragDropPlaces")) {
+                } else if(name == "DragDropPlaces") {
                     m_filedialogDragDropPlaces = value.toInt();
-                } else if(name == QStringLiteral("ElementPadding")) {
+                } else if(name == "ElementPadding") {
                     m_filedialogElementPadding = value.toInt();
-                } else if(name == QStringLiteral("FolderContentThumbnails")) {
+                } else if(name == "FolderContentThumbnails") {
                     m_filedialogFolderContentThumbnails = value.toInt();
-                } else if(name == QStringLiteral("FolderContentThumbnailsAutoload")) {
+                } else if(name == "FolderContentThumbnailsAutoload") {
                     m_filedialogFolderContentThumbnailsAutoload = value.toInt();
-                } else if(name == QStringLiteral("FolderContentThumbnailsLoop")) {
+                } else if(name == "FolderContentThumbnailsLoop") {
                     m_filedialogFolderContentThumbnailsLoop = value.toInt();
-                } else if(name == QStringLiteral("FolderContentThumbnailsScaleCrop")) {
+                } else if(name == "FolderContentThumbnailsScaleCrop") {
                     m_filedialogFolderContentThumbnailsScaleCrop = value.toInt();
-                } else if(name == QStringLiteral("FolderContentThumbnailsSortAscending")) {
+                } else if(name == "FolderContentThumbnailsSortAscending") {
                     m_filedialogFolderContentThumbnailsSortAscending = value.toInt();
-                } else if(name == QStringLiteral("FolderContentThumbnailsSortBy")) {
+                } else if(name == "FolderContentThumbnailsSortBy") {
                     m_filedialogFolderContentThumbnailsSortBy = value.toString();
-                } else if(name == QStringLiteral("FolderContentThumbnailsSpeed")) {
+                } else if(name == "FolderContentThumbnailsSpeed") {
                     m_filedialogFolderContentThumbnailsSpeed = value.toInt();
-                } else if(name == QStringLiteral("LabelsShowGrid")) {
+                } else if(name == "LabelsShowGrid") {
                     m_filedialogLabelsShowGrid = value.toInt();
-                } else if(name == QStringLiteral("LabelsShowMasonry")) {
+                } else if(name == "LabelsShowMasonry") {
                     m_filedialogLabelsShowMasonry = value.toInt();
-                } else if(name == QStringLiteral("Layout")) {
+                } else if(name == "Layout") {
                     m_filedialogLayout = value.toString();
-                } else if(name == QStringLiteral("Places")) {
+                } else if(name == "Places") {
                     m_filedialogPlaces = value.toInt();
-                } else if(name == QStringLiteral("PlacesWidth")) {
+                } else if(name == "PlacesWidth") {
                     m_filedialogPlacesWidth = value.toInt();
-                } else if(name == QStringLiteral("Preview")) {
+                } else if(name == "Preview") {
                     m_filedialogPreview = value.toInt();
-                } else if(name == QStringLiteral("PreviewBlur")) {
+                } else if(name == "PreviewBlur") {
                     m_filedialogPreviewBlur = value.toInt();
-                } else if(name == QStringLiteral("PreviewColorIntensity")) {
+                } else if(name == "PreviewColorIntensity") {
                     m_filedialogPreviewColorIntensity = value.toInt();
-                } else if(name == QStringLiteral("PreviewCropToFit")) {
+                } else if(name == "PreviewCropToFit") {
                     m_filedialogPreviewCropToFit = value.toInt();
-                } else if(name == QStringLiteral("PreviewHigherResolution")) {
+                } else if(name == "PreviewHigherResolution") {
                     m_filedialogPreviewHigherResolution = value.toInt();
-                } else if(name == QStringLiteral("PreviewMuted")) {
+                } else if(name == "PreviewMuted") {
                     m_filedialogPreviewMuted = value.toInt();
-                } else if(name == QStringLiteral("RememberSelection")) {
+                } else if(name == "RememberSelection") {
                     m_filedialogRememberSelection = value.toInt();
-                } else if(name == QStringLiteral("ShowHiddenFilesFolders")) {
+                } else if(name == "ShowHiddenFilesFolders") {
                     m_filedialogShowHiddenFilesFolders = value.toInt();
-                } else if(name == QStringLiteral("SingleClickSelect")) {
+                } else if(name == "SingleClickSelect") {
                     m_filedialogSingleClickSelect = value.toInt();
-                } else if(name == QStringLiteral("StartupRestoreCustom")) {
+                } else if(name == "StartupRestoreCustom") {
                     m_filedialogStartupRestoreCustom = value.toInt();
-                } else if(name == QStringLiteral("StartupRestoreCustomFolder")) {
+                } else if(name == "StartupRestoreCustomFolder") {
                     m_filedialogStartupRestoreCustomFolder = value.toString();
-                } else if(name == QStringLiteral("StartupRestoreHome")) {
+                } else if(name == "StartupRestoreHome") {
                     m_filedialogStartupRestoreHome = value.toInt();
-                } else if(name == QStringLiteral("StartupRestorePrevious")) {
+                } else if(name == "StartupRestorePrevious") {
                     m_filedialogStartupRestorePrevious = value.toInt();
-                } else if(name == QStringLiteral("ThumbnailSizeFollowsGlobalThumbnails")) {
+                } else if(name == "ThumbnailSizeFollowsGlobalThumbnails") {
                     m_filedialogThumbnailSizeFollowsGlobalThumbnails = value.toInt();
-                } else if(name == QStringLiteral("Thumbnails")) {
+                } else if(name == "Thumbnails") {
                     m_filedialogThumbnails = value.toInt();
-                } else if(name == QStringLiteral("ThumbnailsScaleCrop")) {
+                } else if(name == "ThumbnailsScaleCrop") {
                     m_filedialogThumbnailsScaleCrop = value.toInt();
-                } else if(name == QStringLiteral("UseNativeFileDialog")) {
+                } else if(name == "UseNativeFileDialog") {
                     m_filedialogUseNativeFileDialog = value.toInt();
-                } else if(name == QStringLiteral("Zoom")) {
+                } else if(name == "Zoom") {
                     m_filedialogZoom = value.toInt();
                 }
             // table: filetypes
             } else if(table == "filetypes") {
-                if(name == QStringLiteral("AnimatedControls")) {
+                if(name == "AnimatedControls") {
                     m_filetypesAnimatedControls = value.toInt();
-                } else if(name == QStringLiteral("AnimatedLeftRight")) {
+                } else if(name == "AnimatedLeftRight") {
                     m_filetypesAnimatedLeftRight = value.toInt();
-                } else if(name == QStringLiteral("AnimatedSpacePause")) {
+                } else if(name == "AnimatedSpacePause") {
                     m_filetypesAnimatedSpacePause = value.toInt();
-                } else if(name == QStringLiteral("ArchiveAlwaysEnterAutomatically")) {
+                } else if(name == "ArchiveAlwaysEnterAutomatically") {
                     m_filetypesArchiveAlwaysEnterAutomatically = value.toInt();
-                } else if(name == QStringLiteral("ArchiveControls")) {
+                } else if(name == "ArchiveControls") {
                     m_filetypesArchiveControls = value.toInt();
-                } else if(name == QStringLiteral("ArchiveDontLoadMoreFilesThan")) {
+                } else if(name == "ArchiveDontLoadMoreFilesThan") {
                     m_filetypesArchiveDontLoadMoreFilesThan = value.toInt();
-                } else if(name == QStringLiteral("ArchiveDontLoadMoreFilesThanCount")) {
+                } else if(name == "ArchiveDontLoadMoreFilesThanCount") {
                     m_filetypesArchiveDontLoadMoreFilesThanCount = value.toInt();
-                } else if(name == QStringLiteral("ArchiveIgnoreLargerThan")) {
+                } else if(name == "ArchiveIgnoreLargerThan") {
                     m_filetypesArchiveIgnoreLargerThan = value.toInt();
-                } else if(name == QStringLiteral("ArchiveIgnoreLargerThanSize")) {
+                } else if(name == "ArchiveIgnoreLargerThanSize") {
                     m_filetypesArchiveIgnoreLargerThanSize = value.toInt();
-                } else if(name == QStringLiteral("ArchiveLeftRight")) {
+                } else if(name == "ArchiveLeftRight") {
                     m_filetypesArchiveLeftRight = value.toInt();
-                } else if(name == QStringLiteral("ArchiveViewerModeExitButton")) {
+                } else if(name == "ArchiveViewerModeExitButton") {
                     m_filetypesArchiveViewerModeExitButton = value.toInt();
-                } else if(name == QStringLiteral("ComicBookAlwaysEnterAutomatically")) {
+                } else if(name == "ComicBookAlwaysEnterAutomatically") {
                     m_filetypesComicBookAlwaysEnterAutomatically = value.toInt();
-                } else if(name == QStringLiteral("DocumentAlwaysEnterAutomatically")) {
+                } else if(name == "DocumentAlwaysEnterAutomatically") {
                     m_filetypesDocumentAlwaysEnterAutomatically = value.toInt();
-                } else if(name == QStringLiteral("DocumentControls")) {
+                } else if(name == "DocumentControls") {
                     m_filetypesDocumentControls = value.toInt();
-                } else if(name == QStringLiteral("DocumentLeftRight")) {
+                } else if(name == "DocumentLeftRight") {
                     m_filetypesDocumentLeftRight = value.toInt();
-                } else if(name == QStringLiteral("DocumentViewerModeExitButton")) {
+                } else if(name == "DocumentViewerModeExitButton") {
                     m_filetypesDocumentViewerModeExitButton = value.toInt();
-                } else if(name == QStringLiteral("ExternalUnrar")) {
+                } else if(name == "ExternalUnrar") {
                     m_filetypesExternalUnrar = value.toInt();
-                } else if(name == QStringLiteral("LoadAppleLivePhotos")) {
+                } else if(name == "LoadAppleLivePhotos") {
                     m_filetypesLoadAppleLivePhotos = value.toInt();
-                } else if(name == QStringLiteral("LoadMotionPhotos")) {
+                } else if(name == "LoadMotionPhotos") {
                     m_filetypesLoadMotionPhotos = value.toInt();
-                } else if(name == QStringLiteral("MotionAutoPlay")) {
+                } else if(name == "MotionAutoPlay") {
                     m_filetypesMotionAutoPlay = value.toInt();
-                } else if(name == QStringLiteral("MotionPhotoPlayPause")) {
+                } else if(name == "MotionPhotoPlayPause") {
                     m_filetypesMotionPhotoPlayPause = value.toInt();
-                } else if(name == QStringLiteral("MotionSpacePause")) {
+                } else if(name == "MotionSpacePause") {
                     m_filetypesMotionSpacePause = value.toInt();
-                } else if(name == QStringLiteral("PDFQuality")) {
+                } else if(name == "PDFQuality") {
                     m_filetypesPDFQuality = value.toInt();
-                } else if(name == QStringLiteral("PhotoSphereArrowKeys")) {
+                } else if(name == "PhotoSphereArrowKeys") {
                     m_filetypesPhotoSphereArrowKeys = value.toInt();
-                } else if(name == QStringLiteral("PhotoSphereAutoLoad")) {
+                } else if(name == "PhotoSphereAutoLoad") {
                     m_filetypesPhotoSphereAutoLoad = value.toInt();
-                } else if(name == QStringLiteral("PhotoSphereBigButton")) {
+                } else if(name == "PhotoSphereBigButton") {
                     m_filetypesPhotoSphereBigButton = value.toInt();
-                } else if(name == QStringLiteral("PhotoSphereControls")) {
+                } else if(name == "PhotoSphereControls") {
                     m_filetypesPhotoSphereControls = value.toInt();
-                } else if(name == QStringLiteral("PhotoSpherePanOnLoad")) {
+                } else if(name == "PhotoSpherePanOnLoad") {
                     m_filetypesPhotoSpherePanOnLoad = value.toInt();
-                } else if(name == QStringLiteral("RAWUseEmbeddedIfAvailable")) {
+                } else if(name == "RAWUseEmbeddedIfAvailable") {
                     m_filetypesRAWUseEmbeddedIfAvailable = value.toInt();
-                } else if(name == QStringLiteral("VideoAutoplay")) {
+                } else if(name == "VideoAutoplay") {
                     m_filetypesVideoAutoplay = value.toInt();
-                } else if(name == QStringLiteral("VideoBackend")) {
+                } else if(name == "VideoBackend") {
                     QString val = value.toString();
                     if(val.contains(":://::"))
                         m_filetypesVideoBackend = val.split(":://::");
@@ -7444,26 +7444,26 @@ void PQCSettings::readDB() {
                         m_filetypesVideoBackend = QStringList() << val;
                     else
                         m_filetypesVideoBackend = QStringList();
-                } else if(name == QStringLiteral("VideoLeftRightJumpVideo")) {
+                } else if(name == "VideoLeftRightJumpVideo") {
                     m_filetypesVideoLeftRightJumpVideo = value.toInt();
-                } else if(name == QStringLiteral("VideoLoop")) {
+                } else if(name == "VideoLoop") {
                     m_filetypesVideoLoop = value.toInt();
-                } else if(name == QStringLiteral("VideoSpacePause")) {
+                } else if(name == "VideoSpacePause") {
                     m_filetypesVideoSpacePause = value.toInt();
-                } else if(name == QStringLiteral("VideoThumbnailer")) {
+                } else if(name == "VideoThumbnailer") {
                     m_filetypesVideoThumbnailer = value.toString();
-                } else if(name == QStringLiteral("VideoVolume")) {
+                } else if(name == "VideoVolume") {
                     m_filetypesVideoVolume = value.toInt();
                 }
             // table: general
             } else if(table == "general") {
-                if(name == QStringLiteral("AutoSaveSettings")) {
+                if(name == "AutoSaveSettings") {
                     m_generalAutoSaveSettings = value.toInt();
-                } else if(name == QStringLiteral("CompactSettings")) {
+                } else if(name == "CompactSettings") {
                     m_generalCompactSettings = value.toInt();
-                } else if(name == QStringLiteral("DisableAllAnimations")) {
+                } else if(name == "DisableAllAnimations") {
                     m_generalDisableAllAnimations = value.toInt();
-                } else if(name == QStringLiteral("ExtensionsAllowUntrusted")) {
+                } else if(name == "ExtensionsAllowUntrusted") {
                     QString val = value.toString();
                     if(val.contains(":://::"))
                         m_generalExtensionsAllowUntrusted = val.split(":://::");
@@ -7471,7 +7471,7 @@ void PQCSettings::readDB() {
                         m_generalExtensionsAllowUntrusted = QStringList() << val;
                     else
                         m_generalExtensionsAllowUntrusted = QStringList();
-                } else if(name == QStringLiteral("ExtensionsEnabled")) {
+                } else if(name == "ExtensionsEnabled") {
                     QString val = value.toString();
                     if(val.contains(":://::"))
                         m_generalExtensionsEnabled = val.split(":://::");
@@ -7479,7 +7479,7 @@ void PQCSettings::readDB() {
                         m_generalExtensionsEnabled = QStringList() << val;
                     else
                         m_generalExtensionsEnabled = QStringList();
-                } else if(name == QStringLiteral("ExtensionsFloatingSetup")) {
+                } else if(name == "ExtensionsFloatingSetup") {
                     QString val = value.toString();
                     if(val.contains(":://::"))
                         m_generalExtensionsFloatingSetup = val.split(":://::");
@@ -7487,18 +7487,18 @@ void PQCSettings::readDB() {
                         m_generalExtensionsFloatingSetup = QStringList() << val;
                     else
                         m_generalExtensionsFloatingSetup = QStringList();
-                } else if(name == QStringLiteral("InterfaceVariant")) {
+                } else if(name == "InterfaceVariant") {
                     m_generalInterfaceVariant = value.toString();
-                } else if(name == QStringLiteral("Version")) {
+                } else if(name == "Version") {
                     m_generalVersion = value.toString();
                 }
             // table: imageview
             } else if(table == "imageview") {
-                if(name == QStringLiteral("AdvancedSortAscending")) {
+                if(name == "AdvancedSortAscending") {
                     m_imageviewAdvancedSortAscending = value.toInt();
-                } else if(name == QStringLiteral("AdvancedSortCriteria")) {
+                } else if(name == "AdvancedSortCriteria") {
                     m_imageviewAdvancedSortCriteria = value.toString();
-                } else if(name == QStringLiteral("AdvancedSortDateCriteria")) {
+                } else if(name == "AdvancedSortDateCriteria") {
                     QString val = value.toString();
                     if(val.contains(":://::"))
                         m_imageviewAdvancedSortDateCriteria = val.split(":://::");
@@ -7506,17 +7506,17 @@ void PQCSettings::readDB() {
                         m_imageviewAdvancedSortDateCriteria = QStringList() << val;
                     else
                         m_imageviewAdvancedSortDateCriteria = QStringList();
-                } else if(name == QStringLiteral("AdvancedSortQuality")) {
+                } else if(name == "AdvancedSortQuality") {
                     m_imageviewAdvancedSortQuality = value.toString();
-                } else if(name == QStringLiteral("AlwaysActualSize")) {
+                } else if(name == "AlwaysActualSize") {
                     m_imageviewAlwaysActualSize = value.toInt();
-                } else if(name == QStringLiteral("AnimationDuration")) {
+                } else if(name == "AnimationDuration") {
                     m_imageviewAnimationDuration = value.toInt();
-                } else if(name == QStringLiteral("AnimationType")) {
+                } else if(name == "AnimationType") {
                     m_imageviewAnimationType = value.toString();
-                } else if(name == QStringLiteral("Cache")) {
+                } else if(name == "Cache") {
                     m_imageviewCache = value.toInt();
-                } else if(name == QStringLiteral("ColorSpaceContextMenu")) {
+                } else if(name == "ColorSpaceContextMenu") {
                     QString val = value.toString();
                     if(val.contains(":://::"))
                         m_imageviewColorSpaceContextMenu = val.split(":://::");
@@ -7524,206 +7524,206 @@ void PQCSettings::readDB() {
                         m_imageviewColorSpaceContextMenu = QStringList() << val;
                     else
                         m_imageviewColorSpaceContextMenu = QStringList();
-                } else if(name == QStringLiteral("ColorSpaceDefault")) {
+                } else if(name == "ColorSpaceDefault") {
                     m_imageviewColorSpaceDefault = value.toString();
-                } else if(name == QStringLiteral("ColorSpaceEnable")) {
+                } else if(name == "ColorSpaceEnable") {
                     m_imageviewColorSpaceEnable = value.toInt();
-                } else if(name == QStringLiteral("ColorSpaceLoadEmbedded")) {
+                } else if(name == "ColorSpaceLoadEmbedded") {
                     m_imageviewColorSpaceLoadEmbedded = value.toInt();
-                } else if(name == QStringLiteral("EscapeExitArchive")) {
+                } else if(name == "EscapeExitArchive") {
                     m_imageviewEscapeExitArchive = value.toInt();
-                } else if(name == QStringLiteral("EscapeExitBarcodes")) {
+                } else if(name == "EscapeExitBarcodes") {
                     m_imageviewEscapeExitBarcodes = value.toInt();
-                } else if(name == QStringLiteral("EscapeExitDocument")) {
+                } else if(name == "EscapeExitDocument") {
                     m_imageviewEscapeExitDocument = value.toInt();
-                } else if(name == QStringLiteral("EscapeExitFilter")) {
+                } else if(name == "EscapeExitFilter") {
                     m_imageviewEscapeExitFilter = value.toInt();
-                } else if(name == QStringLiteral("EscapeExitSphere")) {
+                } else if(name == "EscapeExitSphere") {
                     m_imageviewEscapeExitSphere = value.toInt();
-                } else if(name == QStringLiteral("FitInWindow")) {
+                } else if(name == "FitInWindow") {
                     m_imageviewFitInWindow = value.toInt();
-                } else if(name == QStringLiteral("HideCursorTimeout")) {
+                } else if(name == "HideCursorTimeout") {
                     m_imageviewHideCursorTimeout = value.toInt();
-                } else if(name == QStringLiteral("InterpolationFullImage")) {
+                } else if(name == "InterpolationFullImage") {
                     m_imageviewInterpolationFullImage = value.toInt();
-                } else if(name == QStringLiteral("LoopThroughFolder")) {
+                } else if(name == "LoopThroughFolder") {
                     m_imageviewLoopThroughFolder = value.toInt();
-                } else if(name == QStringLiteral("Margin")) {
+                } else if(name == "Margin") {
                     m_imageviewMargin = value.toInt();
-                } else if(name == QStringLiteral("MinimapSizeLevel")) {
+                } else if(name == "MinimapSizeLevel") {
                     m_imageviewMinimapSizeLevel = value.toInt();
-                } else if(name == QStringLiteral("MirrorAnimate")) {
+                } else if(name == "MirrorAnimate") {
                     m_imageviewMirrorAnimate = value.toInt();
-                } else if(name == QStringLiteral("MouseWheelRepeatDelay")) {
+                } else if(name == "MouseWheelRepeatDelay") {
                     m_imageviewMouseWheelRepeatDelay = value.toInt();
-                } else if(name == QStringLiteral("PreloadInBackground")) {
+                } else if(name == "PreloadInBackground") {
                     m_imageviewPreloadInBackground = value.toInt();
-                } else if(name == QStringLiteral("PreserveMirror")) {
+                } else if(name == "PreserveMirror") {
                     m_imageviewPreserveMirror = value.toInt();
-                } else if(name == QStringLiteral("PreserveRotation")) {
+                } else if(name == "PreserveRotation") {
                     m_imageviewPreserveRotation = value.toInt();
-                } else if(name == QStringLiteral("PreserveZoom")) {
+                } else if(name == "PreserveZoom") {
                     m_imageviewPreserveZoom = value.toInt();
-                } else if(name == QStringLiteral("RememberZoomRotationMirror")) {
+                } else if(name == "RememberZoomRotationMirror") {
                     m_imageviewRememberZoomRotationMirror = value.toInt();
-                } else if(name == QStringLiteral("RescalingSmooth")) {
+                } else if(name == "RescalingSmooth") {
                     m_imageviewRescalingSmooth = value.toInt();
-                } else if(name == QStringLiteral("RescalingWhichImages")) {
+                } else if(name == "RescalingWhichImages") {
                     m_imageviewRescalingWhichImages = value.toInt();
-                } else if(name == QStringLiteral("ResetViewAutoHideTimeout")) {
+                } else if(name == "ResetViewAutoHideTimeout") {
                     m_imageviewResetViewAutoHideTimeout = value.toInt();
-                } else if(name == QStringLiteral("ResetViewShow")) {
+                } else if(name == "ResetViewShow") {
                     m_imageviewResetViewShow = value.toInt();
-                } else if(name == QStringLiteral("RespectDevicePixelRatio")) {
+                } else if(name == "RespectDevicePixelRatio") {
                     m_imageviewRespectDevicePixelRatio = value.toInt();
-                } else if(name == QStringLiteral("ShowMinimap")) {
+                } else if(name == "ShowMinimap") {
                     m_imageviewShowMinimap = value.toInt();
-                } else if(name == QStringLiteral("SiblingFileMaxIterations")) {
+                } else if(name == "SiblingFileMaxIterations") {
                     m_imageviewSiblingFileMaxIterations = value.toInt();
-                } else if(name == QStringLiteral("SiblingFileMaxLevelUp")) {
+                } else if(name == "SiblingFileMaxLevelUp") {
                     m_imageviewSiblingFileMaxLevelUp = value.toInt();
-                } else if(name == QStringLiteral("SiblingFilemaxLevelDown")) {
+                } else if(name == "SiblingFilemaxLevelDown") {
                     m_imageviewSiblingFilemaxLevelDown = value.toInt();
-                } else if(name == QStringLiteral("SortImagesAscending")) {
+                } else if(name == "SortImagesAscending") {
                     m_imageviewSortImagesAscending = value.toInt();
-                } else if(name == QStringLiteral("SortImagesBy")) {
+                } else if(name == "SortImagesBy") {
                     m_imageviewSortImagesBy = value.toString();
-                } else if(name == QStringLiteral("TransparencyMarker")) {
+                } else if(name == "TransparencyMarker") {
                     m_imageviewTransparencyMarker = value.toInt();
-                } else if(name == QStringLiteral("UseMouseLeftButtonForImageMove")) {
+                } else if(name == "UseMouseLeftButtonForImageMove") {
                     m_imageviewUseMouseLeftButtonForImageMove = value.toInt();
-                } else if(name == QStringLiteral("UseMouseWheelForImageMove")) {
+                } else if(name == "UseMouseWheelForImageMove") {
                     m_imageviewUseMouseWheelForImageMove = value.toInt();
-                } else if(name == QStringLiteral("ZoomMax")) {
+                } else if(name == "ZoomMax") {
                     m_imageviewZoomMax = value.toInt();
-                } else if(name == QStringLiteral("ZoomMaxEnabled")) {
+                } else if(name == "ZoomMaxEnabled") {
                     m_imageviewZoomMaxEnabled = value.toInt();
-                } else if(name == QStringLiteral("ZoomMin")) {
+                } else if(name == "ZoomMin") {
                     m_imageviewZoomMin = value.toInt();
-                } else if(name == QStringLiteral("ZoomMinEnabled")) {
+                } else if(name == "ZoomMinEnabled") {
                     m_imageviewZoomMinEnabled = value.toInt();
-                } else if(name == QStringLiteral("ZoomSpeed")) {
+                } else if(name == "ZoomSpeed") {
                     m_imageviewZoomSpeed = value.toInt();
-                } else if(name == QStringLiteral("ZoomSpeedRelative")) {
+                } else if(name == "ZoomSpeedRelative") {
                     m_imageviewZoomSpeedRelative = value.toInt();
-                } else if(name == QStringLiteral("ZoomToCenter")) {
+                } else if(name == "ZoomToCenter") {
                     m_imageviewZoomToCenter = value.toInt();
                 }
             // table: interface
             } else if(table == "interface") {
-                if(name == QStringLiteral("AccentColor")) {
+                if(name == "AccentColor") {
                     m_interfaceAccentColor = value.toString();
-                } else if(name == QStringLiteral("AllowMultipleInstances")) {
+                } else if(name == "AllowMultipleInstances") {
                     m_interfaceAllowMultipleInstances = value.toInt();
-                } else if(name == QStringLiteral("BackgroundCustomOverlay")) {
+                } else if(name == "BackgroundCustomOverlay") {
                     m_interfaceBackgroundCustomOverlay = value.toInt();
-                } else if(name == QStringLiteral("BackgroundCustomOverlayColor")) {
+                } else if(name == "BackgroundCustomOverlayColor") {
                     m_interfaceBackgroundCustomOverlayColor = value.toString();
-                } else if(name == QStringLiteral("BackgroundFullyTransparent")) {
+                } else if(name == "BackgroundFullyTransparent") {
                     m_interfaceBackgroundFullyTransparent = value.toInt();
-                } else if(name == QStringLiteral("BackgroundImageCenter")) {
+                } else if(name == "BackgroundImageCenter") {
                     m_interfaceBackgroundImageCenter = value.toInt();
-                } else if(name == QStringLiteral("BackgroundImagePath")) {
+                } else if(name == "BackgroundImagePath") {
                     m_interfaceBackgroundImagePath = value.toString();
-                } else if(name == QStringLiteral("BackgroundImageScale")) {
+                } else if(name == "BackgroundImageScale") {
                     m_interfaceBackgroundImageScale = value.toInt();
-                } else if(name == QStringLiteral("BackgroundImageScaleCrop")) {
+                } else if(name == "BackgroundImageScaleCrop") {
                     m_interfaceBackgroundImageScaleCrop = value.toInt();
-                } else if(name == QStringLiteral("BackgroundImageScreenshot")) {
+                } else if(name == "BackgroundImageScreenshot") {
                     m_interfaceBackgroundImageScreenshot = value.toInt();
-                } else if(name == QStringLiteral("BackgroundImageStretch")) {
+                } else if(name == "BackgroundImageStretch") {
                     m_interfaceBackgroundImageStretch = value.toInt();
-                } else if(name == QStringLiteral("BackgroundImageTile")) {
+                } else if(name == "BackgroundImageTile") {
                     m_interfaceBackgroundImageTile = value.toInt();
-                } else if(name == QStringLiteral("BackgroundImageUse")) {
+                } else if(name == "BackgroundImageUse") {
                     m_interfaceBackgroundImageUse = value.toInt();
-                } else if(name == QStringLiteral("BackgroundSolid")) {
+                } else if(name == "BackgroundSolid") {
                     m_interfaceBackgroundSolid = value.toInt();
-                } else if(name == QStringLiteral("BlurElementsInBackground")) {
+                } else if(name == "BlurElementsInBackground") {
                     m_interfaceBlurElementsInBackground = value.toInt();
-                } else if(name == QStringLiteral("CloseOnEmptyBackground")) {
+                } else if(name == "CloseOnEmptyBackground") {
                     m_interfaceCloseOnEmptyBackground = value.toInt();
-                } else if(name == QStringLiteral("DoubleClickThreshold")) {
+                } else if(name == "DoubleClickThreshold") {
                     m_interfaceDoubleClickThreshold = value.toInt();
-                } else if(name == QStringLiteral("EdgeBottomAction")) {
+                } else if(name == "EdgeBottomAction") {
                     m_interfaceEdgeBottomAction = value.toString();
-                } else if(name == QStringLiteral("EdgeLeftAction")) {
+                } else if(name == "EdgeLeftAction") {
                     m_interfaceEdgeLeftAction = value.toString();
-                } else if(name == QStringLiteral("EdgeRightAction")) {
+                } else if(name == "EdgeRightAction") {
                     m_interfaceEdgeRightAction = value.toString();
-                } else if(name == QStringLiteral("EdgeTopAction")) {
+                } else if(name == "EdgeTopAction") {
                     m_interfaceEdgeTopAction = value.toString();
-                } else if(name == QStringLiteral("FlickAdjustSpeed")) {
+                } else if(name == "FlickAdjustSpeed") {
                     m_interfaceFlickAdjustSpeed = value.toInt();
-                } else if(name == QStringLiteral("FlickAdjustSpeedSpeedup")) {
+                } else if(name == "FlickAdjustSpeedSpeedup") {
                     m_interfaceFlickAdjustSpeedSpeedup = value.toInt();
-                } else if(name == QStringLiteral("FontBoldWeight")) {
+                } else if(name == "FontBoldWeight") {
                     m_interfaceFontBoldWeight = value.toInt();
-                } else if(name == QStringLiteral("FontNormalWeight")) {
+                } else if(name == "FontNormalWeight") {
                     m_interfaceFontNormalWeight = value.toInt();
-                } else if(name == QStringLiteral("HotEdgeSize")) {
+                } else if(name == "HotEdgeSize") {
                     m_interfaceHotEdgeSize = value.toInt();
-                } else if(name == QStringLiteral("KeepWindowOnTop")) {
+                } else if(name == "KeepWindowOnTop") {
                     m_interfaceKeepWindowOnTop = value.toInt();
-                } else if(name == QStringLiteral("Language")) {
+                } else if(name == "Language") {
                     m_interfaceLanguage = value.toString();
-                } else if(name == QStringLiteral("MinimapPopout")) {
+                } else if(name == "MinimapPopout") {
                     m_interfaceMinimapPopout = value.toInt();
-                } else if(name == QStringLiteral("NavigateOnEmptyBackground")) {
+                } else if(name == "NavigateOnEmptyBackground") {
                     m_interfaceNavigateOnEmptyBackground = value.toInt();
-                } else if(name == QStringLiteral("NavigationFloating")) {
+                } else if(name == "NavigationFloating") {
                     m_interfaceNavigationFloating = value.toInt();
-                } else if(name == QStringLiteral("NotificationDistanceFromEdge")) {
+                } else if(name == "NotificationDistanceFromEdge") {
                     m_interfaceNotificationDistanceFromEdge = value.toInt();
-                } else if(name == QStringLiteral("NotificationLocation")) {
+                } else if(name == "NotificationLocation") {
                     m_interfaceNotificationLocation = value.toString();
-                } else if(name == QStringLiteral("NotificationTryNative")) {
+                } else if(name == "NotificationTryNative") {
                     m_interfaceNotificationTryNative = value.toInt();
-                } else if(name == QStringLiteral("PopoutAbout")) {
+                } else if(name == "PopoutAbout") {
                     m_interfacePopoutAbout = value.toInt();
-                } else if(name == QStringLiteral("PopoutAdvancedSort")) {
+                } else if(name == "PopoutAdvancedSort") {
                     m_interfacePopoutAdvancedSort = value.toInt();
-                } else if(name == QStringLiteral("PopoutChromecast")) {
+                } else if(name == "PopoutChromecast") {
                     m_interfacePopoutChromecast = value.toInt();
-                } else if(name == QStringLiteral("PopoutExport")) {
+                } else if(name == "PopoutExport") {
                     m_interfacePopoutExport = value.toInt();
-                } else if(name == QStringLiteral("PopoutFileDelete")) {
+                } else if(name == "PopoutFileDelete") {
                     m_interfacePopoutFileDelete = value.toInt();
-                } else if(name == QStringLiteral("PopoutFileDialog")) {
+                } else if(name == "PopoutFileDialog") {
                     m_interfacePopoutFileDialog = value.toInt();
-                } else if(name == QStringLiteral("PopoutFileDialogNonModal")) {
+                } else if(name == "PopoutFileDialogNonModal") {
                     m_interfacePopoutFileDialogNonModal = value.toInt();
-                } else if(name == QStringLiteral("PopoutFileRename")) {
+                } else if(name == "PopoutFileRename") {
                     m_interfacePopoutFileRename = value.toInt();
-                } else if(name == QStringLiteral("PopoutFilter")) {
+                } else if(name == "PopoutFilter") {
                     m_interfacePopoutFilter = value.toInt();
-                } else if(name == QStringLiteral("PopoutFind")) {
+                } else if(name == "PopoutFind") {
                     m_interfacePopoutFind = value.toInt();
-                } else if(name == QStringLiteral("PopoutImgur")) {
+                } else if(name == "PopoutImgur") {
                     m_interfacePopoutImgur = value.toInt();
-                } else if(name == QStringLiteral("PopoutMainMenu")) {
+                } else if(name == "PopoutMainMenu") {
                     m_interfacePopoutMainMenu = value.toInt();
-                } else if(name == QStringLiteral("PopoutMapExplorer")) {
+                } else if(name == "PopoutMapExplorer") {
                     m_interfacePopoutMapExplorer = value.toInt();
-                } else if(name == QStringLiteral("PopoutMapExplorerNonModal")) {
+                } else if(name == "PopoutMapExplorerNonModal") {
                     m_interfacePopoutMapExplorerNonModal = value.toInt();
-                } else if(name == QStringLiteral("PopoutMetadata")) {
+                } else if(name == "PopoutMetadata") {
                     m_interfacePopoutMetadata = value.toInt();
-                } else if(name == QStringLiteral("PopoutSettingsManager")) {
+                } else if(name == "PopoutSettingsManager") {
                     m_interfacePopoutSettingsManager = value.toInt();
-                } else if(name == QStringLiteral("PopoutSettingsManagerNonModal")) {
+                } else if(name == "PopoutSettingsManagerNonModal") {
                     m_interfacePopoutSettingsManagerNonModal = value.toInt();
-                } else if(name == QStringLiteral("PopoutSlideshowControls")) {
+                } else if(name == "PopoutSlideshowControls") {
                     m_interfacePopoutSlideshowControls = value.toInt();
-                } else if(name == QStringLiteral("PopoutSlideshowSetup")) {
+                } else if(name == "PopoutSlideshowSetup") {
                     m_interfacePopoutSlideshowSetup = value.toInt();
-                } else if(name == QStringLiteral("PopoutWhenWindowIsSmall")) {
+                } else if(name == "PopoutWhenWindowIsSmall") {
                     m_interfacePopoutWhenWindowIsSmall = value.toInt();
-                } else if(name == QStringLiteral("QuickActions")) {
+                } else if(name == "QuickActions") {
                     m_interfaceQuickActions = value.toInt();
-                } else if(name == QStringLiteral("QuickActionsHeight")) {
+                } else if(name == "QuickActionsHeight") {
                     m_interfaceQuickActionsHeight = value.toInt();
-                } else if(name == QStringLiteral("QuickActionsItems")) {
+                } else if(name == "QuickActionsItems") {
                     QString val = value.toString();
                     if(val.contains(":://::"))
                         m_interfaceQuickActionsItems = val.split(":://::");
@@ -7731,19 +7731,19 @@ void PQCSettings::readDB() {
                         m_interfaceQuickActionsItems = QStringList() << val;
                     else
                         m_interfaceQuickActionsItems = QStringList();
-                } else if(name == QStringLiteral("RememberLastImage")) {
+                } else if(name == "RememberLastImage") {
                     m_interfaceRememberLastImage = value.toInt();
-                } else if(name == QStringLiteral("SaveWindowGeometry")) {
+                } else if(name == "SaveWindowGeometry") {
                     m_interfaceSaveWindowGeometry = value.toInt();
-                } else if(name == QStringLiteral("StatusInfoAutoHide")) {
+                } else if(name == "StatusInfoAutoHide") {
                     m_interfaceStatusInfoAutoHide = value.toInt();
-                } else if(name == QStringLiteral("StatusInfoAutoHideTimeout")) {
+                } else if(name == "StatusInfoAutoHideTimeout") {
                     m_interfaceStatusInfoAutoHideTimeout = value.toInt();
-                } else if(name == QStringLiteral("StatusInfoAutoHideTopEdge")) {
+                } else if(name == "StatusInfoAutoHideTopEdge") {
                     m_interfaceStatusInfoAutoHideTopEdge = value.toInt();
-                } else if(name == QStringLiteral("StatusInfoFontSize")) {
+                } else if(name == "StatusInfoFontSize") {
                     m_interfaceStatusInfoFontSize = value.toInt();
-                } else if(name == QStringLiteral("StatusInfoList")) {
+                } else if(name == "StatusInfoList") {
                     QString val = value.toString();
                     if(val.contains(":://::"))
                         m_interfaceStatusInfoList = val.split(":://::");
@@ -7751,29 +7751,29 @@ void PQCSettings::readDB() {
                         m_interfaceStatusInfoList = QStringList() << val;
                     else
                         m_interfaceStatusInfoList = QStringList();
-                } else if(name == QStringLiteral("StatusInfoManageWindow")) {
+                } else if(name == "StatusInfoManageWindow") {
                     m_interfaceStatusInfoManageWindow = value.toInt();
-                } else if(name == QStringLiteral("StatusInfoPosition")) {
+                } else if(name == "StatusInfoPosition") {
                     m_interfaceStatusInfoPosition = value.toString();
-                } else if(name == QStringLiteral("StatusInfoShow")) {
+                } else if(name == "StatusInfoShow") {
                     m_interfaceStatusInfoShow = value.toInt();
-                } else if(name == QStringLiteral("StatusInfoShowImageChange")) {
+                } else if(name == "StatusInfoShowImageChange") {
                     m_interfaceStatusInfoShowImageChange = value.toInt();
-                } else if(name == QStringLiteral("TrayIcon")) {
+                } else if(name == "TrayIcon") {
                     m_interfaceTrayIcon = value.toInt();
-                } else if(name == QStringLiteral("TrayIconHideReset")) {
+                } else if(name == "TrayIconHideReset") {
                     m_interfaceTrayIconHideReset = value.toInt();
-                } else if(name == QStringLiteral("TrayIconMonochrome")) {
+                } else if(name == "TrayIconMonochrome") {
                     m_interfaceTrayIconMonochrome = value.toInt();
-                } else if(name == QStringLiteral("WindowButtonsAutoHide")) {
+                } else if(name == "WindowButtonsAutoHide") {
                     m_interfaceWindowButtonsAutoHide = value.toInt();
-                } else if(name == QStringLiteral("WindowButtonsAutoHideTimeout")) {
+                } else if(name == "WindowButtonsAutoHideTimeout") {
                     m_interfaceWindowButtonsAutoHideTimeout = value.toInt();
-                } else if(name == QStringLiteral("WindowButtonsAutoHideTopEdge")) {
+                } else if(name == "WindowButtonsAutoHideTopEdge") {
                     m_interfaceWindowButtonsAutoHideTopEdge = value.toInt();
-                } else if(name == QStringLiteral("WindowButtonsFollowAccentColor")) {
+                } else if(name == "WindowButtonsFollowAccentColor") {
                     m_interfaceWindowButtonsFollowAccentColor = value.toInt();
-                } else if(name == QStringLiteral("WindowButtonsItems")) {
+                } else if(name == "WindowButtonsItems") {
                     QString val = value.toString();
                     if(val.contains(":://::"))
                         m_interfaceWindowButtonsItems = val.split(":://::");
@@ -7781,159 +7781,159 @@ void PQCSettings::readDB() {
                         m_interfaceWindowButtonsItems = QStringList() << val;
                     else
                         m_interfaceWindowButtonsItems = QStringList();
-                } else if(name == QStringLiteral("WindowButtonsShow")) {
+                } else if(name == "WindowButtonsShow") {
                     m_interfaceWindowButtonsShow = value.toInt();
-                } else if(name == QStringLiteral("WindowButtonsSize")) {
+                } else if(name == "WindowButtonsSize") {
                     m_interfaceWindowButtonsSize = value.toInt();
-                } else if(name == QStringLiteral("WindowDecoration")) {
+                } else if(name == "WindowDecoration") {
                     m_interfaceWindowDecoration = value.toInt();
-                } else if(name == QStringLiteral("WindowDecorationOnEmptyBackground")) {
+                } else if(name == "WindowDecorationOnEmptyBackground") {
                     m_interfaceWindowDecorationOnEmptyBackground = value.toInt();
-                } else if(name == QStringLiteral("WindowMode")) {
+                } else if(name == "WindowMode") {
                     m_interfaceWindowMode = value.toInt();
                 }
             // table: mainmenu
             } else if(table == "mainmenu") {
-                if(name == QStringLiteral("ElementHeightDynamic")) {
+                if(name == "ElementHeightDynamic") {
                     m_mainmenuElementHeightDynamic = value.toInt();
-                } else if(name == QStringLiteral("ElementPosition")) {
+                } else if(name == "ElementPosition") {
                     const QStringList parts = value.toString().split(",");
                     if(parts.length() == 2)
                         m_mainmenuElementPosition = QPoint(parts[0].toDouble(), parts[1].toDouble());
                     else
                         m_mainmenuElementPosition = QPoint(0,0);
-                } else if(name == QStringLiteral("ElementSize")) {
+                } else if(name == "ElementSize") {
                     const QStringList parts = value.toString().split(",");
                     if(parts.length() == 2)
                         m_mainmenuElementSize = QSize(parts[0].toDouble(), parts[1].toDouble());
                     else
                         m_mainmenuElementSize = QSize(0,0);
-                } else if(name == QStringLiteral("ElementWidth")) {
+                } else if(name == "ElementWidth") {
                     m_mainmenuElementWidth = value.toInt();
-                } else if(name == QStringLiteral("ShowExternal")) {
+                } else if(name == "ShowExternal") {
                     m_mainmenuShowExternal = value.toInt();
                 }
             // table: mapview
             } else if(table == "mapview") {
-                if(name == QStringLiteral("CurrentPosition")) {
+                if(name == "CurrentPosition") {
                     const QStringList parts = value.toString().split(",");
                     if(parts.length() == 2)
                         m_mapviewCurrentPosition = QPoint(parts[0].toDouble(), parts[1].toDouble());
                     else
                         m_mapviewCurrentPosition = QPoint(0,0);
-                } else if(name == QStringLiteral("CurrentSize")) {
+                } else if(name == "CurrentSize") {
                     const QStringList parts = value.toString().split(",");
                     if(parts.length() == 2)
                         m_mapviewCurrentSize = QSize(parts[0].toDouble(), parts[1].toDouble());
                     else
                         m_mapviewCurrentSize = QSize(0,0);
-                } else if(name == QStringLiteral("CurrentVisible")) {
+                } else if(name == "CurrentVisible") {
                     m_mapviewCurrentVisible = value.toInt();
-                } else if(name == QStringLiteral("ExplorerThumbnailsScaleCrop")) {
+                } else if(name == "ExplorerThumbnailsScaleCrop") {
                     m_mapviewExplorerThumbnailsScaleCrop = value.toInt();
-                } else if(name == QStringLiteral("ExplorerThumbnailsZoomLevel")) {
+                } else if(name == "ExplorerThumbnailsZoomLevel") {
                     m_mapviewExplorerThumbnailsZoomLevel = value.toInt();
                 }
             // table: metadata
             } else if(table == "metadata") {
-                if(name == QStringLiteral("AutoRotation")) {
+                if(name == "AutoRotation") {
                     m_metadataAutoRotation = value.toInt();
-                } else if(name == QStringLiteral("Copyright")) {
+                } else if(name == "Copyright") {
                     m_metadataCopyright = value.toInt();
-                } else if(name == QStringLiteral("Dimensions")) {
+                } else if(name == "Dimensions") {
                     m_metadataDimensions = value.toInt();
-                } else if(name == QStringLiteral("ElementFloating")) {
+                } else if(name == "ElementFloating") {
                     m_metadataElementFloating = value.toInt();
-                } else if(name == QStringLiteral("ElementHeightDynamic")) {
+                } else if(name == "ElementHeightDynamic") {
                     m_metadataElementHeightDynamic = value.toInt();
-                } else if(name == QStringLiteral("ElementPosition")) {
+                } else if(name == "ElementPosition") {
                     const QStringList parts = value.toString().split(",");
                     if(parts.length() == 2)
                         m_metadataElementPosition = QPoint(parts[0].toDouble(), parts[1].toDouble());
                     else
                         m_metadataElementPosition = QPoint(0,0);
-                } else if(name == QStringLiteral("ElementSize")) {
+                } else if(name == "ElementSize") {
                     const QStringList parts = value.toString().split(",");
                     if(parts.length() == 2)
                         m_metadataElementSize = QSize(parts[0].toDouble(), parts[1].toDouble());
                     else
                         m_metadataElementSize = QSize(0,0);
-                } else if(name == QStringLiteral("ElementVisible")) {
+                } else if(name == "ElementVisible") {
                     m_metadataElementVisible = value.toInt();
-                } else if(name == QStringLiteral("ExposureTime")) {
+                } else if(name == "ExposureTime") {
                     m_metadataExposureTime = value.toInt();
-                } else if(name == QStringLiteral("FLength")) {
+                } else if(name == "FLength") {
                     m_metadataFLength = value.toInt();
-                } else if(name == QStringLiteral("FNumber")) {
+                } else if(name == "FNumber") {
                     m_metadataFNumber = value.toInt();
-                } else if(name == QStringLiteral("FaceTagsBorder")) {
+                } else if(name == "FaceTagsBorder") {
                     m_metadataFaceTagsBorder = value.toInt();
-                } else if(name == QStringLiteral("FaceTagsBorderColor")) {
+                } else if(name == "FaceTagsBorderColor") {
                     m_metadataFaceTagsBorderColor = value.toString();
-                } else if(name == QStringLiteral("FaceTagsBorderWidth")) {
+                } else if(name == "FaceTagsBorderWidth") {
                     m_metadataFaceTagsBorderWidth = value.toInt();
-                } else if(name == QStringLiteral("FaceTagsEnabled")) {
+                } else if(name == "FaceTagsEnabled") {
                     m_metadataFaceTagsEnabled = value.toInt();
-                } else if(name == QStringLiteral("FaceTagsFontSize")) {
+                } else if(name == "FaceTagsFontSize") {
                     m_metadataFaceTagsFontSize = value.toInt();
-                } else if(name == QStringLiteral("FaceTagsVisibility")) {
+                } else if(name == "FaceTagsVisibility") {
                     m_metadataFaceTagsVisibility = value.toInt();
-                } else if(name == QStringLiteral("FileSize")) {
+                } else if(name == "FileSize") {
                     m_metadataFileSize = value.toInt();
-                } else if(name == QStringLiteral("FileType")) {
+                } else if(name == "FileType") {
                     m_metadataFileType = value.toInt();
-                } else if(name == QStringLiteral("Filename")) {
+                } else if(name == "Filename") {
                     m_metadataFilename = value.toInt();
-                } else if(name == QStringLiteral("Flash")) {
+                } else if(name == "Flash") {
                     m_metadataFlash = value.toInt();
-                } else if(name == QStringLiteral("Gps")) {
+                } else if(name == "Gps") {
                     m_metadataGps = value.toInt();
-                } else if(name == QStringLiteral("GpsMap")) {
+                } else if(name == "GpsMap") {
                     m_metadataGpsMap = value.toString();
-                } else if(name == QStringLiteral("ImageNumber")) {
+                } else if(name == "ImageNumber") {
                     m_metadataImageNumber = value.toInt();
-                } else if(name == QStringLiteral("Iso")) {
+                } else if(name == "Iso") {
                     m_metadataIso = value.toInt();
-                } else if(name == QStringLiteral("Keywords")) {
+                } else if(name == "Keywords") {
                     m_metadataKeywords = value.toInt();
-                } else if(name == QStringLiteral("LightSource")) {
+                } else if(name == "LightSource") {
                     m_metadataLightSource = value.toInt();
-                } else if(name == QStringLiteral("Location")) {
+                } else if(name == "Location") {
                     m_metadataLocation = value.toInt();
-                } else if(name == QStringLiteral("Make")) {
+                } else if(name == "Make") {
                     m_metadataMake = value.toInt();
-                } else if(name == QStringLiteral("Model")) {
+                } else if(name == "Model") {
                     m_metadataModel = value.toInt();
-                } else if(name == QStringLiteral("SceneType")) {
+                } else if(name == "SceneType") {
                     m_metadataSceneType = value.toInt();
-                } else if(name == QStringLiteral("SideBar")) {
+                } else if(name == "SideBar") {
                     m_metadataSideBar = value.toInt();
-                } else if(name == QStringLiteral("SideBarLocation")) {
+                } else if(name == "SideBarLocation") {
                     m_metadataSideBarLocation = value.toString();
-                } else if(name == QStringLiteral("SideBarWidth")) {
+                } else if(name == "SideBarWidth") {
                     m_metadataSideBarWidth = value.toInt();
-                } else if(name == QStringLiteral("Software")) {
+                } else if(name == "Software") {
                     m_metadataSoftware = value.toInt();
-                } else if(name == QStringLiteral("Time")) {
+                } else if(name == "Time") {
                     m_metadataTime = value.toInt();
                 }
             // table: slideshow
             } else if(table == "slideshow") {
-                if(name == QStringLiteral("HideLabels")) {
+                if(name == "HideLabels") {
                     m_slideshowHideLabels = value.toInt();
-                } else if(name == QStringLiteral("HideWindowButtons")) {
+                } else if(name == "HideWindowButtons") {
                     m_slideshowHideWindowButtons = value.toInt();
-                } else if(name == QStringLiteral("ImageTransition")) {
+                } else if(name == "ImageTransition") {
                     m_slideshowImageTransition = value.toInt();
-                } else if(name == QStringLiteral("IncludeSubFolders")) {
+                } else if(name == "IncludeSubFolders") {
                     m_slideshowIncludeSubFolders = value.toInt();
-                } else if(name == QStringLiteral("Loop")) {
+                } else if(name == "Loop") {
                     m_slideshowLoop = value.toInt();
-                } else if(name == QStringLiteral("Music")) {
+                } else if(name == "Music") {
                     m_slideshowMusic = value.toInt();
-                } else if(name == QStringLiteral("MusicFile")) {
+                } else if(name == "MusicFile") {
                     m_slideshowMusicFile = value.toString();
-                } else if(name == QStringLiteral("MusicFiles")) {
+                } else if(name == "MusicFiles") {
                     QString val = value.toString();
                     if(val.contains(":://::"))
                         m_slideshowMusicFiles = val.split(":://::");
@@ -7941,34 +7941,34 @@ void PQCSettings::readDB() {
                         m_slideshowMusicFiles = QStringList() << val;
                     else
                         m_slideshowMusicFiles = QStringList();
-                } else if(name == QStringLiteral("MusicShuffle")) {
+                } else if(name == "MusicShuffle") {
                     m_slideshowMusicShuffle = value.toInt();
-                } else if(name == QStringLiteral("MusicVolumeVideos")) {
+                } else if(name == "MusicVolumeVideos") {
                     m_slideshowMusicVolumeVideos = value.toInt();
-                } else if(name == QStringLiteral("Shuffle")) {
+                } else if(name == "Shuffle") {
                     m_slideshowShuffle = value.toInt();
-                } else if(name == QStringLiteral("Time")) {
+                } else if(name == "Time") {
                     m_slideshowTime = value.toInt();
-                } else if(name == QStringLiteral("TypeAnimation")) {
+                } else if(name == "TypeAnimation") {
                     m_slideshowTypeAnimation = value.toString();
                 }
             // table: thumbnails
             } else if(table == "thumbnails") {
-                if(name == QStringLiteral("Cache")) {
+                if(name == "Cache") {
                     m_thumbnailsCache = value.toInt();
-                } else if(name == QStringLiteral("CacheBaseDirDefault")) {
+                } else if(name == "CacheBaseDirDefault") {
                     m_thumbnailsCacheBaseDirDefault = value.toInt();
-                } else if(name == QStringLiteral("CacheBaseDirLocation")) {
+                } else if(name == "CacheBaseDirLocation") {
                     m_thumbnailsCacheBaseDirLocation = value.toString();
-                } else if(name == QStringLiteral("CenterOnActive")) {
+                } else if(name == "CenterOnActive") {
                     m_thumbnailsCenterOnActive = value.toInt();
-                } else if(name == QStringLiteral("CropToFit")) {
+                } else if(name == "CropToFit") {
                     m_thumbnailsCropToFit = value.toInt();
-                } else if(name == QStringLiteral("Disable")) {
+                } else if(name == "Disable") {
                     m_thumbnailsDisable = value.toInt();
-                } else if(name == QStringLiteral("ExcludeDropBox")) {
+                } else if(name == "ExcludeDropBox") {
                     m_thumbnailsExcludeDropBox = value.toString();
-                } else if(name == QStringLiteral("ExcludeFolders")) {
+                } else if(name == "ExcludeFolders") {
                     QString val = value.toString();
                     if(val.contains(":://::"))
                         m_thumbnailsExcludeFolders = val.split(":://::");
@@ -7976,17 +7976,17 @@ void PQCSettings::readDB() {
                         m_thumbnailsExcludeFolders = QStringList() << val;
                     else
                         m_thumbnailsExcludeFolders = QStringList();
-                } else if(name == QStringLiteral("ExcludeNetworkShares")) {
+                } else if(name == "ExcludeNetworkShares") {
                     m_thumbnailsExcludeNetworkShares = value.toInt();
-                } else if(name == QStringLiteral("ExcludeNextcloud")) {
+                } else if(name == "ExcludeNextcloud") {
                     m_thumbnailsExcludeNextcloud = value.toString();
-                } else if(name == QStringLiteral("ExcludeOwnCloud")) {
+                } else if(name == "ExcludeOwnCloud") {
                     m_thumbnailsExcludeOwnCloud = value.toString();
-                } else if(name == QStringLiteral("Filename")) {
+                } else if(name == "Filename") {
                     m_thumbnailsFilename = value.toInt();
-                } else if(name == QStringLiteral("FontSize")) {
+                } else if(name == "FontSize") {
                     m_thumbnailsFontSize = value.toInt();
-                } else if(name == QStringLiteral("HighlightAnimation")) {
+                } else if(name == "HighlightAnimation") {
                     QString val = value.toString();
                     if(val.contains(":://::"))
                         m_thumbnailsHighlightAnimation = val.split(":://::");
@@ -7994,25 +7994,25 @@ void PQCSettings::readDB() {
                         m_thumbnailsHighlightAnimation = QStringList() << val;
                     else
                         m_thumbnailsHighlightAnimation = QStringList();
-                } else if(name == QStringLiteral("HighlightAnimationLiftUp")) {
+                } else if(name == "HighlightAnimationLiftUp") {
                     m_thumbnailsHighlightAnimationLiftUp = value.toInt();
-                } else if(name == QStringLiteral("IconsOnly")) {
+                } else if(name == "IconsOnly") {
                     m_thumbnailsIconsOnly = value.toInt();
-                } else if(name == QStringLiteral("InactiveTransparent")) {
+                } else if(name == "InactiveTransparent") {
                     m_thumbnailsInactiveTransparent = value.toInt();
-                } else if(name == QStringLiteral("MaxNumberThreads")) {
+                } else if(name == "MaxNumberThreads") {
                     m_thumbnailsMaxNumberThreads = value.toInt();
-                } else if(name == QStringLiteral("SameHeightVaryWidth")) {
+                } else if(name == "SameHeightVaryWidth") {
                     m_thumbnailsSameHeightVaryWidth = value.toInt();
-                } else if(name == QStringLiteral("Size")) {
+                } else if(name == "Size") {
                     m_thumbnailsSize = value.toInt();
-                } else if(name == QStringLiteral("SmallThumbnailsKeepSmall")) {
+                } else if(name == "SmallThumbnailsKeepSmall") {
                     m_thumbnailsSmallThumbnailsKeepSmall = value.toInt();
-                } else if(name == QStringLiteral("Spacing")) {
+                } else if(name == "Spacing") {
                     m_thumbnailsSpacing = value.toInt();
-                } else if(name == QStringLiteral("Tooltip")) {
+                } else if(name == "Tooltip") {
                     m_thumbnailsTooltip = value.toInt();
-                } else if(name == QStringLiteral("Visibility")) {
+                } else if(name == "Visibility") {
                     m_thumbnailsVisibility = value.toInt();
                 }
             }
@@ -8021,19 +8021,19 @@ void PQCSettings::readDB() {
     }
 
     // make sure in the integrated interface the thumbnails are either shown top or bottom and not the sides
-    if(m_generalInterfaceVariant == QStringLiteral("integrated")) {
-        if(m_interfaceEdgeLeftAction == QStringLiteral("thumbnails")) {
+    if(m_generalInterfaceVariant == "integrated") {
+        if(m_interfaceEdgeLeftAction == "thumbnails") {
             if(m_interfaceEdgeBottomAction.isEmpty())
-                m_interfaceEdgeBottomAction = QStringLiteral("thumbnails");
+                m_interfaceEdgeBottomAction = "thumbnails";
             else if(m_interfaceEdgeTopAction.isEmpty())
-                m_interfaceEdgeTopAction = QStringLiteral("thumbnails");
+                m_interfaceEdgeTopAction = "thumbnails";
             m_interfaceEdgeLeftAction = "";
         }
-        if(m_interfaceEdgeRightAction == QStringLiteral("thumbnails")) {
+        if(m_interfaceEdgeRightAction == "thumbnails") {
             if(m_interfaceEdgeBottomAction.isEmpty())
-                m_interfaceEdgeBottomAction = QStringLiteral("thumbnails");
+                m_interfaceEdgeBottomAction = "thumbnails";
             else if(m_interfaceEdgeTopAction.isEmpty())
-                m_interfaceEdgeTopAction = QStringLiteral("thumbnails");
+                m_interfaceEdgeTopAction = "thumbnails";
             m_interfaceEdgeRightAction = "";
         }
     }
@@ -8937,1210 +8937,1210 @@ QStringList PQCSettings::updateFromCommandLine() {
     const QString key = update[0];
     const QString val = update[1];
 
-    if(key == QStringLiteral("filedialogDetailsTooltip")) {
+    if(key == "filedialogDetailsTooltip") {
         m_filedialogDetailsTooltip = (val.toInt()==1);
         Q_EMIT filedialogDetailsTooltipChanged();
     }
-    if(key == QStringLiteral("filedialogDevices")) {
+    if(key == "filedialogDevices") {
         m_filedialogDevices = (val.toInt()==1);
         Q_EMIT filedialogDevicesChanged();
     }
-    if(key == QStringLiteral("filedialogDevicesShowTmpfs")) {
+    if(key == "filedialogDevicesShowTmpfs") {
         m_filedialogDevicesShowTmpfs = (val.toInt()==1);
         Q_EMIT filedialogDevicesShowTmpfsChanged();
     }
-    if(key == QStringLiteral("filedialogDragDropFileviewGrid")) {
+    if(key == "filedialogDragDropFileviewGrid") {
         m_filedialogDragDropFileviewGrid = (val.toInt()==1);
         Q_EMIT filedialogDragDropFileviewGridChanged();
     }
-    if(key == QStringLiteral("filedialogDragDropFileviewList")) {
+    if(key == "filedialogDragDropFileviewList") {
         m_filedialogDragDropFileviewList = (val.toInt()==1);
         Q_EMIT filedialogDragDropFileviewListChanged();
     }
-    if(key == QStringLiteral("filedialogDragDropFileviewMasonry")) {
+    if(key == "filedialogDragDropFileviewMasonry") {
         m_filedialogDragDropFileviewMasonry = (val.toInt()==1);
         Q_EMIT filedialogDragDropFileviewMasonryChanged();
     }
-    if(key == QStringLiteral("filedialogDragDropPlaces")) {
+    if(key == "filedialogDragDropPlaces") {
         m_filedialogDragDropPlaces = (val.toInt()==1);
         Q_EMIT filedialogDragDropPlacesChanged();
     }
-    if(key == QStringLiteral("filedialogElementPadding")) {
+    if(key == "filedialogElementPadding") {
         m_filedialogElementPadding = val.toInt();
         Q_EMIT filedialogElementPaddingChanged();
     }
-    if(key == QStringLiteral("filedialogFolderContentThumbnails")) {
+    if(key == "filedialogFolderContentThumbnails") {
         m_filedialogFolderContentThumbnails = (val.toInt()==1);
         Q_EMIT filedialogFolderContentThumbnailsChanged();
     }
-    if(key == QStringLiteral("filedialogFolderContentThumbnailsAutoload")) {
+    if(key == "filedialogFolderContentThumbnailsAutoload") {
         m_filedialogFolderContentThumbnailsAutoload = (val.toInt()==1);
         Q_EMIT filedialogFolderContentThumbnailsAutoloadChanged();
     }
-    if(key == QStringLiteral("filedialogFolderContentThumbnailsLoop")) {
+    if(key == "filedialogFolderContentThumbnailsLoop") {
         m_filedialogFolderContentThumbnailsLoop = (val.toInt()==1);
         Q_EMIT filedialogFolderContentThumbnailsLoopChanged();
     }
-    if(key == QStringLiteral("filedialogFolderContentThumbnailsScaleCrop")) {
+    if(key == "filedialogFolderContentThumbnailsScaleCrop") {
         m_filedialogFolderContentThumbnailsScaleCrop = (val.toInt()==1);
         Q_EMIT filedialogFolderContentThumbnailsScaleCropChanged();
     }
-    if(key == QStringLiteral("filedialogFolderContentThumbnailsSortAscending")) {
+    if(key == "filedialogFolderContentThumbnailsSortAscending") {
         m_filedialogFolderContentThumbnailsSortAscending = (val.toInt()==1);
         Q_EMIT filedialogFolderContentThumbnailsSortAscendingChanged();
     }
-    if(key == QStringLiteral("filedialogFolderContentThumbnailsSortBy")) {
+    if(key == "filedialogFolderContentThumbnailsSortBy") {
         m_filedialogFolderContentThumbnailsSortBy = val;
         Q_EMIT filedialogFolderContentThumbnailsSortByChanged();
     }
-    if(key == QStringLiteral("filedialogFolderContentThumbnailsSpeed")) {
+    if(key == "filedialogFolderContentThumbnailsSpeed") {
         m_filedialogFolderContentThumbnailsSpeed = val.toInt();
         Q_EMIT filedialogFolderContentThumbnailsSpeedChanged();
     }
-    if(key == QStringLiteral("filedialogLabelsShowGrid")) {
+    if(key == "filedialogLabelsShowGrid") {
         m_filedialogLabelsShowGrid = (val.toInt()==1);
         Q_EMIT filedialogLabelsShowGridChanged();
     }
-    if(key == QStringLiteral("filedialogLabelsShowMasonry")) {
+    if(key == "filedialogLabelsShowMasonry") {
         m_filedialogLabelsShowMasonry = (val.toInt()==1);
         Q_EMIT filedialogLabelsShowMasonryChanged();
     }
-    if(key == QStringLiteral("filedialogLayout")) {
+    if(key == "filedialogLayout") {
         m_filedialogLayout = val;
         Q_EMIT filedialogLayoutChanged();
     }
-    if(key == QStringLiteral("filedialogPlaces")) {
+    if(key == "filedialogPlaces") {
         m_filedialogPlaces = (val.toInt()==1);
         Q_EMIT filedialogPlacesChanged();
     }
-    if(key == QStringLiteral("filedialogPlacesWidth")) {
+    if(key == "filedialogPlacesWidth") {
         m_filedialogPlacesWidth = val.toInt();
         Q_EMIT filedialogPlacesWidthChanged();
     }
-    if(key == QStringLiteral("filedialogPreview")) {
+    if(key == "filedialogPreview") {
         m_filedialogPreview = (val.toInt()==1);
         Q_EMIT filedialogPreviewChanged();
     }
-    if(key == QStringLiteral("filedialogPreviewBlur")) {
+    if(key == "filedialogPreviewBlur") {
         m_filedialogPreviewBlur = (val.toInt()==1);
         Q_EMIT filedialogPreviewBlurChanged();
     }
-    if(key == QStringLiteral("filedialogPreviewColorIntensity")) {
+    if(key == "filedialogPreviewColorIntensity") {
         m_filedialogPreviewColorIntensity = val.toInt();
         Q_EMIT filedialogPreviewColorIntensityChanged();
     }
-    if(key == QStringLiteral("filedialogPreviewCropToFit")) {
+    if(key == "filedialogPreviewCropToFit") {
         m_filedialogPreviewCropToFit = (val.toInt()==1);
         Q_EMIT filedialogPreviewCropToFitChanged();
     }
-    if(key == QStringLiteral("filedialogPreviewHigherResolution")) {
+    if(key == "filedialogPreviewHigherResolution") {
         m_filedialogPreviewHigherResolution = (val.toInt()==1);
         Q_EMIT filedialogPreviewHigherResolutionChanged();
     }
-    if(key == QStringLiteral("filedialogPreviewMuted")) {
+    if(key == "filedialogPreviewMuted") {
         m_filedialogPreviewMuted = (val.toInt()==1);
         Q_EMIT filedialogPreviewMutedChanged();
     }
-    if(key == QStringLiteral("filedialogRememberSelection")) {
+    if(key == "filedialogRememberSelection") {
         m_filedialogRememberSelection = (val.toInt()==1);
         Q_EMIT filedialogRememberSelectionChanged();
     }
-    if(key == QStringLiteral("filedialogShowHiddenFilesFolders")) {
+    if(key == "filedialogShowHiddenFilesFolders") {
         m_filedialogShowHiddenFilesFolders = (val.toInt()==1);
         Q_EMIT filedialogShowHiddenFilesFoldersChanged();
     }
-    if(key == QStringLiteral("filedialogSingleClickSelect")) {
+    if(key == "filedialogSingleClickSelect") {
         m_filedialogSingleClickSelect = (val.toInt()==1);
         Q_EMIT filedialogSingleClickSelectChanged();
     }
-    if(key == QStringLiteral("filedialogStartupRestoreCustom")) {
+    if(key == "filedialogStartupRestoreCustom") {
         m_filedialogStartupRestoreCustom = (val.toInt()==1);
         Q_EMIT filedialogStartupRestoreCustomChanged();
     }
-    if(key == QStringLiteral("filedialogStartupRestoreCustomFolder")) {
+    if(key == "filedialogStartupRestoreCustomFolder") {
         m_filedialogStartupRestoreCustomFolder = val;
         Q_EMIT filedialogStartupRestoreCustomFolderChanged();
     }
-    if(key == QStringLiteral("filedialogStartupRestoreHome")) {
+    if(key == "filedialogStartupRestoreHome") {
         m_filedialogStartupRestoreHome = (val.toInt()==1);
         Q_EMIT filedialogStartupRestoreHomeChanged();
     }
-    if(key == QStringLiteral("filedialogStartupRestorePrevious")) {
+    if(key == "filedialogStartupRestorePrevious") {
         m_filedialogStartupRestorePrevious = (val.toInt()==1);
         Q_EMIT filedialogStartupRestorePreviousChanged();
     }
-    if(key == QStringLiteral("filedialogThumbnailSizeFollowsGlobalThumbnails")) {
+    if(key == "filedialogThumbnailSizeFollowsGlobalThumbnails") {
         m_filedialogThumbnailSizeFollowsGlobalThumbnails = (val.toInt()==1);
         Q_EMIT filedialogThumbnailSizeFollowsGlobalThumbnailsChanged();
     }
-    if(key == QStringLiteral("filedialogThumbnails")) {
+    if(key == "filedialogThumbnails") {
         m_filedialogThumbnails = (val.toInt()==1);
         Q_EMIT filedialogThumbnailsChanged();
     }
-    if(key == QStringLiteral("filedialogThumbnailsScaleCrop")) {
+    if(key == "filedialogThumbnailsScaleCrop") {
         m_filedialogThumbnailsScaleCrop = (val.toInt()==1);
         Q_EMIT filedialogThumbnailsScaleCropChanged();
     }
-    if(key == QStringLiteral("filedialogUseNativeFileDialog")) {
+    if(key == "filedialogUseNativeFileDialog") {
         m_filedialogUseNativeFileDialog = (val.toInt()==1);
         Q_EMIT filedialogUseNativeFileDialogChanged();
     }
-    if(key == QStringLiteral("filedialogZoom")) {
+    if(key == "filedialogZoom") {
         m_filedialogZoom = val.toInt();
         Q_EMIT filedialogZoomChanged();
     }
-    if(key == QStringLiteral("filetypesAnimatedControls")) {
+    if(key == "filetypesAnimatedControls") {
         m_filetypesAnimatedControls = (val.toInt()==1);
         Q_EMIT filetypesAnimatedControlsChanged();
     }
-    if(key == QStringLiteral("filetypesAnimatedLeftRight")) {
+    if(key == "filetypesAnimatedLeftRight") {
         m_filetypesAnimatedLeftRight = (val.toInt()==1);
         Q_EMIT filetypesAnimatedLeftRightChanged();
     }
-    if(key == QStringLiteral("filetypesAnimatedSpacePause")) {
+    if(key == "filetypesAnimatedSpacePause") {
         m_filetypesAnimatedSpacePause = (val.toInt()==1);
         Q_EMIT filetypesAnimatedSpacePauseChanged();
     }
-    if(key == QStringLiteral("filetypesArchiveAlwaysEnterAutomatically")) {
+    if(key == "filetypesArchiveAlwaysEnterAutomatically") {
         m_filetypesArchiveAlwaysEnterAutomatically = (val.toInt()==1);
         Q_EMIT filetypesArchiveAlwaysEnterAutomaticallyChanged();
     }
-    if(key == QStringLiteral("filetypesArchiveControls")) {
+    if(key == "filetypesArchiveControls") {
         m_filetypesArchiveControls = (val.toInt()==1);
         Q_EMIT filetypesArchiveControlsChanged();
     }
-    if(key == QStringLiteral("filetypesArchiveDontLoadMoreFilesThan")) {
+    if(key == "filetypesArchiveDontLoadMoreFilesThan") {
         m_filetypesArchiveDontLoadMoreFilesThan = (val.toInt()==1);
         Q_EMIT filetypesArchiveDontLoadMoreFilesThanChanged();
     }
-    if(key == QStringLiteral("filetypesArchiveDontLoadMoreFilesThanCount")) {
+    if(key == "filetypesArchiveDontLoadMoreFilesThanCount") {
         m_filetypesArchiveDontLoadMoreFilesThanCount = val.toInt();
         Q_EMIT filetypesArchiveDontLoadMoreFilesThanCountChanged();
     }
-    if(key == QStringLiteral("filetypesArchiveIgnoreLargerThan")) {
+    if(key == "filetypesArchiveIgnoreLargerThan") {
         m_filetypesArchiveIgnoreLargerThan = (val.toInt()==1);
         Q_EMIT filetypesArchiveIgnoreLargerThanChanged();
     }
-    if(key == QStringLiteral("filetypesArchiveIgnoreLargerThanSize")) {
+    if(key == "filetypesArchiveIgnoreLargerThanSize") {
         m_filetypesArchiveIgnoreLargerThanSize = val.toInt();
         Q_EMIT filetypesArchiveIgnoreLargerThanSizeChanged();
     }
-    if(key == QStringLiteral("filetypesArchiveLeftRight")) {
+    if(key == "filetypesArchiveLeftRight") {
         m_filetypesArchiveLeftRight = (val.toInt()==1);
         Q_EMIT filetypesArchiveLeftRightChanged();
     }
-    if(key == QStringLiteral("filetypesArchiveViewerModeExitButton")) {
+    if(key == "filetypesArchiveViewerModeExitButton") {
         m_filetypesArchiveViewerModeExitButton = (val.toInt()==1);
         Q_EMIT filetypesArchiveViewerModeExitButtonChanged();
     }
-    if(key == QStringLiteral("filetypesComicBookAlwaysEnterAutomatically")) {
+    if(key == "filetypesComicBookAlwaysEnterAutomatically") {
         m_filetypesComicBookAlwaysEnterAutomatically = (val.toInt()==1);
         Q_EMIT filetypesComicBookAlwaysEnterAutomaticallyChanged();
     }
-    if(key == QStringLiteral("filetypesDocumentAlwaysEnterAutomatically")) {
+    if(key == "filetypesDocumentAlwaysEnterAutomatically") {
         m_filetypesDocumentAlwaysEnterAutomatically = (val.toInt()==1);
         Q_EMIT filetypesDocumentAlwaysEnterAutomaticallyChanged();
     }
-    if(key == QStringLiteral("filetypesDocumentControls")) {
+    if(key == "filetypesDocumentControls") {
         m_filetypesDocumentControls = (val.toInt()==1);
         Q_EMIT filetypesDocumentControlsChanged();
     }
-    if(key == QStringLiteral("filetypesDocumentLeftRight")) {
+    if(key == "filetypesDocumentLeftRight") {
         m_filetypesDocumentLeftRight = (val.toInt()==1);
         Q_EMIT filetypesDocumentLeftRightChanged();
     }
-    if(key == QStringLiteral("filetypesDocumentViewerModeExitButton")) {
+    if(key == "filetypesDocumentViewerModeExitButton") {
         m_filetypesDocumentViewerModeExitButton = (val.toInt()==1);
         Q_EMIT filetypesDocumentViewerModeExitButtonChanged();
     }
-    if(key == QStringLiteral("filetypesExternalUnrar")) {
+    if(key == "filetypesExternalUnrar") {
         m_filetypesExternalUnrar = (val.toInt()==1);
         Q_EMIT filetypesExternalUnrarChanged();
     }
-    if(key == QStringLiteral("filetypesLoadAppleLivePhotos")) {
+    if(key == "filetypesLoadAppleLivePhotos") {
         m_filetypesLoadAppleLivePhotos = (val.toInt()==1);
         Q_EMIT filetypesLoadAppleLivePhotosChanged();
     }
-    if(key == QStringLiteral("filetypesLoadMotionPhotos")) {
+    if(key == "filetypesLoadMotionPhotos") {
         m_filetypesLoadMotionPhotos = (val.toInt()==1);
         Q_EMIT filetypesLoadMotionPhotosChanged();
     }
-    if(key == QStringLiteral("filetypesMotionAutoPlay")) {
+    if(key == "filetypesMotionAutoPlay") {
         m_filetypesMotionAutoPlay = (val.toInt()==1);
         Q_EMIT filetypesMotionAutoPlayChanged();
     }
-    if(key == QStringLiteral("filetypesMotionPhotoPlayPause")) {
+    if(key == "filetypesMotionPhotoPlayPause") {
         m_filetypesMotionPhotoPlayPause = (val.toInt()==1);
         Q_EMIT filetypesMotionPhotoPlayPauseChanged();
     }
-    if(key == QStringLiteral("filetypesMotionSpacePause")) {
+    if(key == "filetypesMotionSpacePause") {
         m_filetypesMotionSpacePause = (val.toInt()==1);
         Q_EMIT filetypesMotionSpacePauseChanged();
     }
-    if(key == QStringLiteral("filetypesPDFQuality")) {
+    if(key == "filetypesPDFQuality") {
         m_filetypesPDFQuality = val.toInt();
         Q_EMIT filetypesPDFQualityChanged();
     }
-    if(key == QStringLiteral("filetypesPhotoSphereArrowKeys")) {
+    if(key == "filetypesPhotoSphereArrowKeys") {
         m_filetypesPhotoSphereArrowKeys = (val.toInt()==1);
         Q_EMIT filetypesPhotoSphereArrowKeysChanged();
     }
-    if(key == QStringLiteral("filetypesPhotoSphereAutoLoad")) {
+    if(key == "filetypesPhotoSphereAutoLoad") {
         m_filetypesPhotoSphereAutoLoad = (val.toInt()==1);
         Q_EMIT filetypesPhotoSphereAutoLoadChanged();
     }
-    if(key == QStringLiteral("filetypesPhotoSphereBigButton")) {
+    if(key == "filetypesPhotoSphereBigButton") {
         m_filetypesPhotoSphereBigButton = (val.toInt()==1);
         Q_EMIT filetypesPhotoSphereBigButtonChanged();
     }
-    if(key == QStringLiteral("filetypesPhotoSphereControls")) {
+    if(key == "filetypesPhotoSphereControls") {
         m_filetypesPhotoSphereControls = (val.toInt()==1);
         Q_EMIT filetypesPhotoSphereControlsChanged();
     }
-    if(key == QStringLiteral("filetypesPhotoSpherePanOnLoad")) {
+    if(key == "filetypesPhotoSpherePanOnLoad") {
         m_filetypesPhotoSpherePanOnLoad = (val.toInt()==1);
         Q_EMIT filetypesPhotoSpherePanOnLoadChanged();
     }
-    if(key == QStringLiteral("filetypesRAWUseEmbeddedIfAvailable")) {
+    if(key == "filetypesRAWUseEmbeddedIfAvailable") {
         m_filetypesRAWUseEmbeddedIfAvailable = (val.toInt()==1);
         Q_EMIT filetypesRAWUseEmbeddedIfAvailableChanged();
     }
-    if(key == QStringLiteral("filetypesVideoAutoplay")) {
+    if(key == "filetypesVideoAutoplay") {
         m_filetypesVideoAutoplay = (val.toInt()==1);
         Q_EMIT filetypesVideoAutoplayChanged();
     }
-    if(key == QStringLiteral("filetypesVideoBackend")) {
+    if(key == "filetypesVideoBackend") {
         m_filetypesVideoBackend = val.split(":://::");
         Q_EMIT filetypesVideoBackendChanged();
     }
-    if(key == QStringLiteral("filetypesVideoLeftRightJumpVideo")) {
+    if(key == "filetypesVideoLeftRightJumpVideo") {
         m_filetypesVideoLeftRightJumpVideo = (val.toInt()==1);
         Q_EMIT filetypesVideoLeftRightJumpVideoChanged();
     }
-    if(key == QStringLiteral("filetypesVideoLoop")) {
+    if(key == "filetypesVideoLoop") {
         m_filetypesVideoLoop = (val.toInt()==1);
         Q_EMIT filetypesVideoLoopChanged();
     }
-    if(key == QStringLiteral("filetypesVideoSpacePause")) {
+    if(key == "filetypesVideoSpacePause") {
         m_filetypesVideoSpacePause = (val.toInt()==1);
         Q_EMIT filetypesVideoSpacePauseChanged();
     }
-    if(key == QStringLiteral("filetypesVideoThumbnailer")) {
+    if(key == "filetypesVideoThumbnailer") {
         m_filetypesVideoThumbnailer = val;
         Q_EMIT filetypesVideoThumbnailerChanged();
     }
-    if(key == QStringLiteral("filetypesVideoVolume")) {
+    if(key == "filetypesVideoVolume") {
         m_filetypesVideoVolume = val.toInt();
         Q_EMIT filetypesVideoVolumeChanged();
     }
-    if(key == QStringLiteral("generalAutoSaveSettings")) {
+    if(key == "generalAutoSaveSettings") {
         m_generalAutoSaveSettings = (val.toInt()==1);
         Q_EMIT generalAutoSaveSettingsChanged();
     }
-    if(key == QStringLiteral("generalCompactSettings")) {
+    if(key == "generalCompactSettings") {
         m_generalCompactSettings = (val.toInt()==1);
         Q_EMIT generalCompactSettingsChanged();
     }
-    if(key == QStringLiteral("generalDisableAllAnimations")) {
+    if(key == "generalDisableAllAnimations") {
         m_generalDisableAllAnimations = (val.toInt()==1);
         Q_EMIT generalDisableAllAnimationsChanged();
     }
-    if(key == QStringLiteral("generalExtensionsAllowUntrusted")) {
+    if(key == "generalExtensionsAllowUntrusted") {
         m_generalExtensionsAllowUntrusted = val.split(":://::");
         Q_EMIT generalExtensionsAllowUntrustedChanged();
     }
-    if(key == QStringLiteral("generalExtensionsEnabled")) {
+    if(key == "generalExtensionsEnabled") {
         m_generalExtensionsEnabled = val.split(":://::");
         Q_EMIT generalExtensionsEnabledChanged();
     }
-    if(key == QStringLiteral("generalExtensionsFloatingSetup")) {
+    if(key == "generalExtensionsFloatingSetup") {
         m_generalExtensionsFloatingSetup = val.split(":://::");
         Q_EMIT generalExtensionsFloatingSetupChanged();
     }
-    if(key == QStringLiteral("generalInterfaceVariant")) {
+    if(key == "generalInterfaceVariant") {
         m_generalInterfaceVariant = val;
         Q_EMIT generalInterfaceVariantChanged();
     }
-    if(key == QStringLiteral("generalVersion")) {
+    if(key == "generalVersion") {
         m_generalVersion = val;
         Q_EMIT generalVersionChanged();
     }
-    if(key == QStringLiteral("imageviewAdvancedSortAscending")) {
+    if(key == "imageviewAdvancedSortAscending") {
         m_imageviewAdvancedSortAscending = (val.toInt()==1);
         Q_EMIT imageviewAdvancedSortAscendingChanged();
     }
-    if(key == QStringLiteral("imageviewAdvancedSortCriteria")) {
+    if(key == "imageviewAdvancedSortCriteria") {
         m_imageviewAdvancedSortCriteria = val;
         Q_EMIT imageviewAdvancedSortCriteriaChanged();
     }
-    if(key == QStringLiteral("imageviewAdvancedSortDateCriteria")) {
+    if(key == "imageviewAdvancedSortDateCriteria") {
         m_imageviewAdvancedSortDateCriteria = val.split(":://::");
         Q_EMIT imageviewAdvancedSortDateCriteriaChanged();
     }
-    if(key == QStringLiteral("imageviewAdvancedSortQuality")) {
+    if(key == "imageviewAdvancedSortQuality") {
         m_imageviewAdvancedSortQuality = val;
         Q_EMIT imageviewAdvancedSortQualityChanged();
     }
-    if(key == QStringLiteral("imageviewAlwaysActualSize")) {
+    if(key == "imageviewAlwaysActualSize") {
         m_imageviewAlwaysActualSize = (val.toInt()==1);
         Q_EMIT imageviewAlwaysActualSizeChanged();
     }
-    if(key == QStringLiteral("imageviewAnimationDuration")) {
+    if(key == "imageviewAnimationDuration") {
         m_imageviewAnimationDuration = val.toInt();
         Q_EMIT imageviewAnimationDurationChanged();
     }
-    if(key == QStringLiteral("imageviewAnimationType")) {
+    if(key == "imageviewAnimationType") {
         m_imageviewAnimationType = val;
         Q_EMIT imageviewAnimationTypeChanged();
     }
-    if(key == QStringLiteral("imageviewCache")) {
+    if(key == "imageviewCache") {
         m_imageviewCache = val.toInt();
         Q_EMIT imageviewCacheChanged();
     }
-    if(key == QStringLiteral("imageviewColorSpaceContextMenu")) {
+    if(key == "imageviewColorSpaceContextMenu") {
         m_imageviewColorSpaceContextMenu = val.split(":://::");
         Q_EMIT imageviewColorSpaceContextMenuChanged();
     }
-    if(key == QStringLiteral("imageviewColorSpaceDefault")) {
+    if(key == "imageviewColorSpaceDefault") {
         m_imageviewColorSpaceDefault = val;
         Q_EMIT imageviewColorSpaceDefaultChanged();
     }
-    if(key == QStringLiteral("imageviewColorSpaceEnable")) {
+    if(key == "imageviewColorSpaceEnable") {
         m_imageviewColorSpaceEnable = (val.toInt()==1);
         Q_EMIT imageviewColorSpaceEnableChanged();
     }
-    if(key == QStringLiteral("imageviewColorSpaceLoadEmbedded")) {
+    if(key == "imageviewColorSpaceLoadEmbedded") {
         m_imageviewColorSpaceLoadEmbedded = (val.toInt()==1);
         Q_EMIT imageviewColorSpaceLoadEmbeddedChanged();
     }
-    if(key == QStringLiteral("imageviewEscapeExitArchive")) {
+    if(key == "imageviewEscapeExitArchive") {
         m_imageviewEscapeExitArchive = (val.toInt()==1);
         Q_EMIT imageviewEscapeExitArchiveChanged();
     }
-    if(key == QStringLiteral("imageviewEscapeExitBarcodes")) {
+    if(key == "imageviewEscapeExitBarcodes") {
         m_imageviewEscapeExitBarcodes = (val.toInt()==1);
         Q_EMIT imageviewEscapeExitBarcodesChanged();
     }
-    if(key == QStringLiteral("imageviewEscapeExitDocument")) {
+    if(key == "imageviewEscapeExitDocument") {
         m_imageviewEscapeExitDocument = (val.toInt()==1);
         Q_EMIT imageviewEscapeExitDocumentChanged();
     }
-    if(key == QStringLiteral("imageviewEscapeExitFilter")) {
+    if(key == "imageviewEscapeExitFilter") {
         m_imageviewEscapeExitFilter = (val.toInt()==1);
         Q_EMIT imageviewEscapeExitFilterChanged();
     }
-    if(key == QStringLiteral("imageviewEscapeExitSphere")) {
+    if(key == "imageviewEscapeExitSphere") {
         m_imageviewEscapeExitSphere = (val.toInt()==1);
         Q_EMIT imageviewEscapeExitSphereChanged();
     }
-    if(key == QStringLiteral("imageviewFitInWindow")) {
+    if(key == "imageviewFitInWindow") {
         m_imageviewFitInWindow = (val.toInt()==1);
         Q_EMIT imageviewFitInWindowChanged();
     }
-    if(key == QStringLiteral("imageviewHideCursorTimeout")) {
+    if(key == "imageviewHideCursorTimeout") {
         m_imageviewHideCursorTimeout = val.toInt();
         Q_EMIT imageviewHideCursorTimeoutChanged();
     }
-    if(key == QStringLiteral("imageviewInterpolationFullImage")) {
+    if(key == "imageviewInterpolationFullImage") {
         m_imageviewInterpolationFullImage = val.toInt();
         Q_EMIT imageviewInterpolationFullImageChanged();
     }
-    if(key == QStringLiteral("imageviewLoopThroughFolder")) {
+    if(key == "imageviewLoopThroughFolder") {
         m_imageviewLoopThroughFolder = (val.toInt()==1);
         Q_EMIT imageviewLoopThroughFolderChanged();
     }
-    if(key == QStringLiteral("imageviewMargin")) {
+    if(key == "imageviewMargin") {
         m_imageviewMargin = val.toInt();
         Q_EMIT imageviewMarginChanged();
     }
-    if(key == QStringLiteral("imageviewMinimapSizeLevel")) {
+    if(key == "imageviewMinimapSizeLevel") {
         m_imageviewMinimapSizeLevel = val.toInt();
         Q_EMIT imageviewMinimapSizeLevelChanged();
     }
-    if(key == QStringLiteral("imageviewMirrorAnimate")) {
+    if(key == "imageviewMirrorAnimate") {
         m_imageviewMirrorAnimate = (val.toInt()==1);
         Q_EMIT imageviewMirrorAnimateChanged();
     }
-    if(key == QStringLiteral("imageviewMouseWheelRepeatDelay")) {
+    if(key == "imageviewMouseWheelRepeatDelay") {
         m_imageviewMouseWheelRepeatDelay = val.toInt();
         Q_EMIT imageviewMouseWheelRepeatDelayChanged();
     }
-    if(key == QStringLiteral("imageviewPreloadInBackground")) {
+    if(key == "imageviewPreloadInBackground") {
         m_imageviewPreloadInBackground = val.toInt();
         Q_EMIT imageviewPreloadInBackgroundChanged();
     }
-    if(key == QStringLiteral("imageviewPreserveMirror")) {
+    if(key == "imageviewPreserveMirror") {
         m_imageviewPreserveMirror = (val.toInt()==1);
         Q_EMIT imageviewPreserveMirrorChanged();
     }
-    if(key == QStringLiteral("imageviewPreserveRotation")) {
+    if(key == "imageviewPreserveRotation") {
         m_imageviewPreserveRotation = (val.toInt()==1);
         Q_EMIT imageviewPreserveRotationChanged();
     }
-    if(key == QStringLiteral("imageviewPreserveZoom")) {
+    if(key == "imageviewPreserveZoom") {
         m_imageviewPreserveZoom = (val.toInt()==1);
         Q_EMIT imageviewPreserveZoomChanged();
     }
-    if(key == QStringLiteral("imageviewRememberZoomRotationMirror")) {
+    if(key == "imageviewRememberZoomRotationMirror") {
         m_imageviewRememberZoomRotationMirror = (val.toInt()==1);
         Q_EMIT imageviewRememberZoomRotationMirrorChanged();
     }
-    if(key == QStringLiteral("imageviewRescalingSmooth")) {
+    if(key == "imageviewRescalingSmooth") {
         m_imageviewRescalingSmooth = (val.toInt()==1);
         Q_EMIT imageviewRescalingSmoothChanged();
     }
-    if(key == QStringLiteral("imageviewRescalingWhichImages")) {
+    if(key == "imageviewRescalingWhichImages") {
         m_imageviewRescalingWhichImages = val.toInt();
         Q_EMIT imageviewRescalingWhichImagesChanged();
     }
-    if(key == QStringLiteral("imageviewResetViewAutoHideTimeout")) {
+    if(key == "imageviewResetViewAutoHideTimeout") {
         m_imageviewResetViewAutoHideTimeout = val.toInt();
         Q_EMIT imageviewResetViewAutoHideTimeoutChanged();
     }
-    if(key == QStringLiteral("imageviewResetViewShow")) {
+    if(key == "imageviewResetViewShow") {
         m_imageviewResetViewShow = (val.toInt()==1);
         Q_EMIT imageviewResetViewShowChanged();
     }
-    if(key == QStringLiteral("imageviewRespectDevicePixelRatio")) {
+    if(key == "imageviewRespectDevicePixelRatio") {
         m_imageviewRespectDevicePixelRatio = (val.toInt()==1);
         Q_EMIT imageviewRespectDevicePixelRatioChanged();
     }
-    if(key == QStringLiteral("imageviewShowMinimap")) {
+    if(key == "imageviewShowMinimap") {
         m_imageviewShowMinimap = (val.toInt()==1);
         Q_EMIT imageviewShowMinimapChanged();
     }
-    if(key == QStringLiteral("imageviewSiblingFileMaxIterations")) {
+    if(key == "imageviewSiblingFileMaxIterations") {
         m_imageviewSiblingFileMaxIterations = val.toInt();
         Q_EMIT imageviewSiblingFileMaxIterationsChanged();
     }
-    if(key == QStringLiteral("imageviewSiblingFileMaxLevelUp")) {
+    if(key == "imageviewSiblingFileMaxLevelUp") {
         m_imageviewSiblingFileMaxLevelUp = val.toInt();
         Q_EMIT imageviewSiblingFileMaxLevelUpChanged();
     }
-    if(key == QStringLiteral("imageviewSiblingFilemaxLevelDown")) {
+    if(key == "imageviewSiblingFilemaxLevelDown") {
         m_imageviewSiblingFilemaxLevelDown = val.toInt();
         Q_EMIT imageviewSiblingFilemaxLevelDownChanged();
     }
-    if(key == QStringLiteral("imageviewSortImagesAscending")) {
+    if(key == "imageviewSortImagesAscending") {
         m_imageviewSortImagesAscending = (val.toInt()==1);
         Q_EMIT imageviewSortImagesAscendingChanged();
     }
-    if(key == QStringLiteral("imageviewSortImagesBy")) {
+    if(key == "imageviewSortImagesBy") {
         m_imageviewSortImagesBy = val;
         Q_EMIT imageviewSortImagesByChanged();
     }
-    if(key == QStringLiteral("imageviewTransparencyMarker")) {
+    if(key == "imageviewTransparencyMarker") {
         m_imageviewTransparencyMarker = (val.toInt()==1);
         Q_EMIT imageviewTransparencyMarkerChanged();
     }
-    if(key == QStringLiteral("imageviewUseMouseLeftButtonForImageMove")) {
+    if(key == "imageviewUseMouseLeftButtonForImageMove") {
         m_imageviewUseMouseLeftButtonForImageMove = (val.toInt()==1);
         Q_EMIT imageviewUseMouseLeftButtonForImageMoveChanged();
     }
-    if(key == QStringLiteral("imageviewUseMouseWheelForImageMove")) {
+    if(key == "imageviewUseMouseWheelForImageMove") {
         m_imageviewUseMouseWheelForImageMove = (val.toInt()==1);
         Q_EMIT imageviewUseMouseWheelForImageMoveChanged();
     }
-    if(key == QStringLiteral("imageviewZoomMax")) {
+    if(key == "imageviewZoomMax") {
         m_imageviewZoomMax = val.toInt();
         Q_EMIT imageviewZoomMaxChanged();
     }
-    if(key == QStringLiteral("imageviewZoomMaxEnabled")) {
+    if(key == "imageviewZoomMaxEnabled") {
         m_imageviewZoomMaxEnabled = (val.toInt()==1);
         Q_EMIT imageviewZoomMaxEnabledChanged();
     }
-    if(key == QStringLiteral("imageviewZoomMin")) {
+    if(key == "imageviewZoomMin") {
         m_imageviewZoomMin = val.toInt();
         Q_EMIT imageviewZoomMinChanged();
     }
-    if(key == QStringLiteral("imageviewZoomMinEnabled")) {
+    if(key == "imageviewZoomMinEnabled") {
         m_imageviewZoomMinEnabled = (val.toInt()==1);
         Q_EMIT imageviewZoomMinEnabledChanged();
     }
-    if(key == QStringLiteral("imageviewZoomSpeed")) {
+    if(key == "imageviewZoomSpeed") {
         m_imageviewZoomSpeed = val.toInt();
         Q_EMIT imageviewZoomSpeedChanged();
     }
-    if(key == QStringLiteral("imageviewZoomSpeedRelative")) {
+    if(key == "imageviewZoomSpeedRelative") {
         m_imageviewZoomSpeedRelative = (val.toInt()==1);
         Q_EMIT imageviewZoomSpeedRelativeChanged();
     }
-    if(key == QStringLiteral("imageviewZoomToCenter")) {
+    if(key == "imageviewZoomToCenter") {
         m_imageviewZoomToCenter = (val.toInt()==1);
         Q_EMIT imageviewZoomToCenterChanged();
     }
-    if(key == QStringLiteral("interfaceAccentColor")) {
+    if(key == "interfaceAccentColor") {
         m_interfaceAccentColor = val;
         Q_EMIT interfaceAccentColorChanged();
     }
-    if(key == QStringLiteral("interfaceAllowMultipleInstances")) {
+    if(key == "interfaceAllowMultipleInstances") {
         m_interfaceAllowMultipleInstances = (val.toInt()==1);
         Q_EMIT interfaceAllowMultipleInstancesChanged();
     }
-    if(key == QStringLiteral("interfaceBackgroundCustomOverlay")) {
+    if(key == "interfaceBackgroundCustomOverlay") {
         m_interfaceBackgroundCustomOverlay = (val.toInt()==1);
         Q_EMIT interfaceBackgroundCustomOverlayChanged();
     }
-    if(key == QStringLiteral("interfaceBackgroundCustomOverlayColor")) {
+    if(key == "interfaceBackgroundCustomOverlayColor") {
         m_interfaceBackgroundCustomOverlayColor = val;
         Q_EMIT interfaceBackgroundCustomOverlayColorChanged();
     }
-    if(key == QStringLiteral("interfaceBackgroundFullyTransparent")) {
+    if(key == "interfaceBackgroundFullyTransparent") {
         m_interfaceBackgroundFullyTransparent = (val.toInt()==1);
         Q_EMIT interfaceBackgroundFullyTransparentChanged();
     }
-    if(key == QStringLiteral("interfaceBackgroundImageCenter")) {
+    if(key == "interfaceBackgroundImageCenter") {
         m_interfaceBackgroundImageCenter = (val.toInt()==1);
         Q_EMIT interfaceBackgroundImageCenterChanged();
     }
-    if(key == QStringLiteral("interfaceBackgroundImagePath")) {
+    if(key == "interfaceBackgroundImagePath") {
         m_interfaceBackgroundImagePath = val;
         Q_EMIT interfaceBackgroundImagePathChanged();
     }
-    if(key == QStringLiteral("interfaceBackgroundImageScale")) {
+    if(key == "interfaceBackgroundImageScale") {
         m_interfaceBackgroundImageScale = (val.toInt()==1);
         Q_EMIT interfaceBackgroundImageScaleChanged();
     }
-    if(key == QStringLiteral("interfaceBackgroundImageScaleCrop")) {
+    if(key == "interfaceBackgroundImageScaleCrop") {
         m_interfaceBackgroundImageScaleCrop = (val.toInt()==1);
         Q_EMIT interfaceBackgroundImageScaleCropChanged();
     }
-    if(key == QStringLiteral("interfaceBackgroundImageScreenshot")) {
+    if(key == "interfaceBackgroundImageScreenshot") {
         m_interfaceBackgroundImageScreenshot = (val.toInt()==1);
         Q_EMIT interfaceBackgroundImageScreenshotChanged();
     }
-    if(key == QStringLiteral("interfaceBackgroundImageStretch")) {
+    if(key == "interfaceBackgroundImageStretch") {
         m_interfaceBackgroundImageStretch = (val.toInt()==1);
         Q_EMIT interfaceBackgroundImageStretchChanged();
     }
-    if(key == QStringLiteral("interfaceBackgroundImageTile")) {
+    if(key == "interfaceBackgroundImageTile") {
         m_interfaceBackgroundImageTile = (val.toInt()==1);
         Q_EMIT interfaceBackgroundImageTileChanged();
     }
-    if(key == QStringLiteral("interfaceBackgroundImageUse")) {
+    if(key == "interfaceBackgroundImageUse") {
         m_interfaceBackgroundImageUse = (val.toInt()==1);
         Q_EMIT interfaceBackgroundImageUseChanged();
     }
-    if(key == QStringLiteral("interfaceBackgroundSolid")) {
+    if(key == "interfaceBackgroundSolid") {
         m_interfaceBackgroundSolid = (val.toInt()==1);
         Q_EMIT interfaceBackgroundSolidChanged();
     }
-    if(key == QStringLiteral("interfaceBlurElementsInBackground")) {
+    if(key == "interfaceBlurElementsInBackground") {
         m_interfaceBlurElementsInBackground = (val.toInt()==1);
         Q_EMIT interfaceBlurElementsInBackgroundChanged();
     }
-    if(key == QStringLiteral("interfaceCloseOnEmptyBackground")) {
+    if(key == "interfaceCloseOnEmptyBackground") {
         m_interfaceCloseOnEmptyBackground = (val.toInt()==1);
         Q_EMIT interfaceCloseOnEmptyBackgroundChanged();
     }
-    if(key == QStringLiteral("interfaceDoubleClickThreshold")) {
+    if(key == "interfaceDoubleClickThreshold") {
         m_interfaceDoubleClickThreshold = val.toInt();
         Q_EMIT interfaceDoubleClickThresholdChanged();
     }
-    if(key == QStringLiteral("interfaceEdgeBottomAction")) {
+    if(key == "interfaceEdgeBottomAction") {
         m_interfaceEdgeBottomAction = val;
         Q_EMIT interfaceEdgeBottomActionChanged();
     }
-    if(key == QStringLiteral("interfaceEdgeLeftAction")) {
+    if(key == "interfaceEdgeLeftAction") {
         m_interfaceEdgeLeftAction = val;
         Q_EMIT interfaceEdgeLeftActionChanged();
     }
-    if(key == QStringLiteral("interfaceEdgeRightAction")) {
+    if(key == "interfaceEdgeRightAction") {
         m_interfaceEdgeRightAction = val;
         Q_EMIT interfaceEdgeRightActionChanged();
     }
-    if(key == QStringLiteral("interfaceEdgeTopAction")) {
+    if(key == "interfaceEdgeTopAction") {
         m_interfaceEdgeTopAction = val;
         Q_EMIT interfaceEdgeTopActionChanged();
     }
-    if(key == QStringLiteral("interfaceFlickAdjustSpeed")) {
+    if(key == "interfaceFlickAdjustSpeed") {
         m_interfaceFlickAdjustSpeed = (val.toInt()==1);
         Q_EMIT interfaceFlickAdjustSpeedChanged();
     }
-    if(key == QStringLiteral("interfaceFlickAdjustSpeedSpeedup")) {
+    if(key == "interfaceFlickAdjustSpeedSpeedup") {
         m_interfaceFlickAdjustSpeedSpeedup = val.toInt();
         Q_EMIT interfaceFlickAdjustSpeedSpeedupChanged();
     }
-    if(key == QStringLiteral("interfaceFontBoldWeight")) {
+    if(key == "interfaceFontBoldWeight") {
         m_interfaceFontBoldWeight = val.toInt();
         Q_EMIT interfaceFontBoldWeightChanged();
     }
-    if(key == QStringLiteral("interfaceFontNormalWeight")) {
+    if(key == "interfaceFontNormalWeight") {
         m_interfaceFontNormalWeight = val.toInt();
         Q_EMIT interfaceFontNormalWeightChanged();
     }
-    if(key == QStringLiteral("interfaceHotEdgeSize")) {
+    if(key == "interfaceHotEdgeSize") {
         m_interfaceHotEdgeSize = val.toInt();
         Q_EMIT interfaceHotEdgeSizeChanged();
     }
-    if(key == QStringLiteral("interfaceKeepWindowOnTop")) {
+    if(key == "interfaceKeepWindowOnTop") {
         m_interfaceKeepWindowOnTop = (val.toInt()==1);
         Q_EMIT interfaceKeepWindowOnTopChanged();
     }
-    if(key == QStringLiteral("interfaceLanguage")) {
+    if(key == "interfaceLanguage") {
         m_interfaceLanguage = val;
         Q_EMIT interfaceLanguageChanged();
         ret.append("interfaceLanguage");
     }
-    if(key == QStringLiteral("interfaceMinimapPopout")) {
+    if(key == "interfaceMinimapPopout") {
         m_interfaceMinimapPopout = (val.toInt()==1);
         Q_EMIT interfaceMinimapPopoutChanged();
     }
-    if(key == QStringLiteral("interfaceNavigateOnEmptyBackground")) {
+    if(key == "interfaceNavigateOnEmptyBackground") {
         m_interfaceNavigateOnEmptyBackground = (val.toInt()==1);
         Q_EMIT interfaceNavigateOnEmptyBackgroundChanged();
     }
-    if(key == QStringLiteral("interfaceNavigationFloating")) {
+    if(key == "interfaceNavigationFloating") {
         m_interfaceNavigationFloating = (val.toInt()==1);
         Q_EMIT interfaceNavigationFloatingChanged();
     }
-    if(key == QStringLiteral("interfaceNotificationDistanceFromEdge")) {
+    if(key == "interfaceNotificationDistanceFromEdge") {
         m_interfaceNotificationDistanceFromEdge = val.toInt();
         Q_EMIT interfaceNotificationDistanceFromEdgeChanged();
     }
-    if(key == QStringLiteral("interfaceNotificationLocation")) {
+    if(key == "interfaceNotificationLocation") {
         m_interfaceNotificationLocation = val;
         Q_EMIT interfaceNotificationLocationChanged();
     }
-    if(key == QStringLiteral("interfaceNotificationTryNative")) {
+    if(key == "interfaceNotificationTryNative") {
         m_interfaceNotificationTryNative = (val.toInt()==1);
         Q_EMIT interfaceNotificationTryNativeChanged();
     }
-    if(key == QStringLiteral("interfacePopoutAbout")) {
+    if(key == "interfacePopoutAbout") {
         m_interfacePopoutAbout = (val.toInt()==1);
         Q_EMIT interfacePopoutAboutChanged();
     }
-    if(key == QStringLiteral("interfacePopoutAdvancedSort")) {
+    if(key == "interfacePopoutAdvancedSort") {
         m_interfacePopoutAdvancedSort = (val.toInt()==1);
         Q_EMIT interfacePopoutAdvancedSortChanged();
     }
-    if(key == QStringLiteral("interfacePopoutChromecast")) {
+    if(key == "interfacePopoutChromecast") {
         m_interfacePopoutChromecast = (val.toInt()==1);
         Q_EMIT interfacePopoutChromecastChanged();
     }
-    if(key == QStringLiteral("interfacePopoutExport")) {
+    if(key == "interfacePopoutExport") {
         m_interfacePopoutExport = (val.toInt()==1);
         Q_EMIT interfacePopoutExportChanged();
     }
-    if(key == QStringLiteral("interfacePopoutFileDelete")) {
+    if(key == "interfacePopoutFileDelete") {
         m_interfacePopoutFileDelete = (val.toInt()==1);
         Q_EMIT interfacePopoutFileDeleteChanged();
     }
-    if(key == QStringLiteral("interfacePopoutFileDialog")) {
+    if(key == "interfacePopoutFileDialog") {
         m_interfacePopoutFileDialog = (val.toInt()==1);
         Q_EMIT interfacePopoutFileDialogChanged();
     }
-    if(key == QStringLiteral("interfacePopoutFileDialogNonModal")) {
+    if(key == "interfacePopoutFileDialogNonModal") {
         m_interfacePopoutFileDialogNonModal = (val.toInt()==1);
         Q_EMIT interfacePopoutFileDialogNonModalChanged();
     }
-    if(key == QStringLiteral("interfacePopoutFileRename")) {
+    if(key == "interfacePopoutFileRename") {
         m_interfacePopoutFileRename = (val.toInt()==1);
         Q_EMIT interfacePopoutFileRenameChanged();
     }
-    if(key == QStringLiteral("interfacePopoutFilter")) {
+    if(key == "interfacePopoutFilter") {
         m_interfacePopoutFilter = (val.toInt()==1);
         Q_EMIT interfacePopoutFilterChanged();
     }
-    if(key == QStringLiteral("interfacePopoutFind")) {
+    if(key == "interfacePopoutFind") {
         m_interfacePopoutFind = (val.toInt()==1);
         Q_EMIT interfacePopoutFindChanged();
     }
-    if(key == QStringLiteral("interfacePopoutImgur")) {
+    if(key == "interfacePopoutImgur") {
         m_interfacePopoutImgur = (val.toInt()==1);
         Q_EMIT interfacePopoutImgurChanged();
     }
-    if(key == QStringLiteral("interfacePopoutMainMenu")) {
+    if(key == "interfacePopoutMainMenu") {
         m_interfacePopoutMainMenu = (val.toInt()==1);
         Q_EMIT interfacePopoutMainMenuChanged();
     }
-    if(key == QStringLiteral("interfacePopoutMapExplorer")) {
+    if(key == "interfacePopoutMapExplorer") {
         m_interfacePopoutMapExplorer = (val.toInt()==1);
         Q_EMIT interfacePopoutMapExplorerChanged();
     }
-    if(key == QStringLiteral("interfacePopoutMapExplorerNonModal")) {
+    if(key == "interfacePopoutMapExplorerNonModal") {
         m_interfacePopoutMapExplorerNonModal = (val.toInt()==1);
         Q_EMIT interfacePopoutMapExplorerNonModalChanged();
     }
-    if(key == QStringLiteral("interfacePopoutMetadata")) {
+    if(key == "interfacePopoutMetadata") {
         m_interfacePopoutMetadata = (val.toInt()==1);
         Q_EMIT interfacePopoutMetadataChanged();
     }
-    if(key == QStringLiteral("interfacePopoutSettingsManager")) {
+    if(key == "interfacePopoutSettingsManager") {
         m_interfacePopoutSettingsManager = (val.toInt()==1);
         Q_EMIT interfacePopoutSettingsManagerChanged();
     }
-    if(key == QStringLiteral("interfacePopoutSettingsManagerNonModal")) {
+    if(key == "interfacePopoutSettingsManagerNonModal") {
         m_interfacePopoutSettingsManagerNonModal = (val.toInt()==1);
         Q_EMIT interfacePopoutSettingsManagerNonModalChanged();
     }
-    if(key == QStringLiteral("interfacePopoutSlideshowControls")) {
+    if(key == "interfacePopoutSlideshowControls") {
         m_interfacePopoutSlideshowControls = (val.toInt()==1);
         Q_EMIT interfacePopoutSlideshowControlsChanged();
     }
-    if(key == QStringLiteral("interfacePopoutSlideshowSetup")) {
+    if(key == "interfacePopoutSlideshowSetup") {
         m_interfacePopoutSlideshowSetup = (val.toInt()==1);
         Q_EMIT interfacePopoutSlideshowSetupChanged();
     }
-    if(key == QStringLiteral("interfacePopoutWhenWindowIsSmall")) {
+    if(key == "interfacePopoutWhenWindowIsSmall") {
         m_interfacePopoutWhenWindowIsSmall = (val.toInt()==1);
         Q_EMIT interfacePopoutWhenWindowIsSmallChanged();
     }
-    if(key == QStringLiteral("interfaceQuickActions")) {
+    if(key == "interfaceQuickActions") {
         m_interfaceQuickActions = (val.toInt()==1);
         Q_EMIT interfaceQuickActionsChanged();
     }
-    if(key == QStringLiteral("interfaceQuickActionsHeight")) {
+    if(key == "interfaceQuickActionsHeight") {
         m_interfaceQuickActionsHeight = val.toInt();
         Q_EMIT interfaceQuickActionsHeightChanged();
     }
-    if(key == QStringLiteral("interfaceQuickActionsItems")) {
+    if(key == "interfaceQuickActionsItems") {
         m_interfaceQuickActionsItems = val.split(":://::");
         Q_EMIT interfaceQuickActionsItemsChanged();
     }
-    if(key == QStringLiteral("interfaceRememberLastImage")) {
+    if(key == "interfaceRememberLastImage") {
         m_interfaceRememberLastImage = (val.toInt()==1);
         Q_EMIT interfaceRememberLastImageChanged();
     }
-    if(key == QStringLiteral("interfaceSaveWindowGeometry")) {
+    if(key == "interfaceSaveWindowGeometry") {
         m_interfaceSaveWindowGeometry = (val.toInt()==1);
         Q_EMIT interfaceSaveWindowGeometryChanged();
     }
-    if(key == QStringLiteral("interfaceStatusInfoAutoHide")) {
+    if(key == "interfaceStatusInfoAutoHide") {
         m_interfaceStatusInfoAutoHide = (val.toInt()==1);
         Q_EMIT interfaceStatusInfoAutoHideChanged();
     }
-    if(key == QStringLiteral("interfaceStatusInfoAutoHideTimeout")) {
+    if(key == "interfaceStatusInfoAutoHideTimeout") {
         m_interfaceStatusInfoAutoHideTimeout = val.toInt();
         Q_EMIT interfaceStatusInfoAutoHideTimeoutChanged();
     }
-    if(key == QStringLiteral("interfaceStatusInfoAutoHideTopEdge")) {
+    if(key == "interfaceStatusInfoAutoHideTopEdge") {
         m_interfaceStatusInfoAutoHideTopEdge = (val.toInt()==1);
         Q_EMIT interfaceStatusInfoAutoHideTopEdgeChanged();
     }
-    if(key == QStringLiteral("interfaceStatusInfoFontSize")) {
+    if(key == "interfaceStatusInfoFontSize") {
         m_interfaceStatusInfoFontSize = val.toInt();
         Q_EMIT interfaceStatusInfoFontSizeChanged();
     }
-    if(key == QStringLiteral("interfaceStatusInfoList")) {
+    if(key == "interfaceStatusInfoList") {
         m_interfaceStatusInfoList = val.split(":://::");
         Q_EMIT interfaceStatusInfoListChanged();
     }
-    if(key == QStringLiteral("interfaceStatusInfoManageWindow")) {
+    if(key == "interfaceStatusInfoManageWindow") {
         m_interfaceStatusInfoManageWindow = (val.toInt()==1);
         Q_EMIT interfaceStatusInfoManageWindowChanged();
     }
-    if(key == QStringLiteral("interfaceStatusInfoPosition")) {
+    if(key == "interfaceStatusInfoPosition") {
         m_interfaceStatusInfoPosition = val;
         Q_EMIT interfaceStatusInfoPositionChanged();
     }
-    if(key == QStringLiteral("interfaceStatusInfoShow")) {
+    if(key == "interfaceStatusInfoShow") {
         m_interfaceStatusInfoShow = (val.toInt()==1);
         Q_EMIT interfaceStatusInfoShowChanged();
     }
-    if(key == QStringLiteral("interfaceStatusInfoShowImageChange")) {
+    if(key == "interfaceStatusInfoShowImageChange") {
         m_interfaceStatusInfoShowImageChange = (val.toInt()==1);
         Q_EMIT interfaceStatusInfoShowImageChangeChanged();
     }
-    if(key == QStringLiteral("interfaceTrayIcon")) {
+    if(key == "interfaceTrayIcon") {
         m_interfaceTrayIcon = val.toInt();
         Q_EMIT interfaceTrayIconChanged();
     }
-    if(key == QStringLiteral("interfaceTrayIconHideReset")) {
+    if(key == "interfaceTrayIconHideReset") {
         m_interfaceTrayIconHideReset = (val.toInt()==1);
         Q_EMIT interfaceTrayIconHideResetChanged();
     }
-    if(key == QStringLiteral("interfaceTrayIconMonochrome")) {
+    if(key == "interfaceTrayIconMonochrome") {
         m_interfaceTrayIconMonochrome = (val.toInt()==1);
         Q_EMIT interfaceTrayIconMonochromeChanged();
     }
-    if(key == QStringLiteral("interfaceWindowButtonsAutoHide")) {
+    if(key == "interfaceWindowButtonsAutoHide") {
         m_interfaceWindowButtonsAutoHide = (val.toInt()==1);
         Q_EMIT interfaceWindowButtonsAutoHideChanged();
     }
-    if(key == QStringLiteral("interfaceWindowButtonsAutoHideTimeout")) {
+    if(key == "interfaceWindowButtonsAutoHideTimeout") {
         m_interfaceWindowButtonsAutoHideTimeout = val.toInt();
         Q_EMIT interfaceWindowButtonsAutoHideTimeoutChanged();
     }
-    if(key == QStringLiteral("interfaceWindowButtonsAutoHideTopEdge")) {
+    if(key == "interfaceWindowButtonsAutoHideTopEdge") {
         m_interfaceWindowButtonsAutoHideTopEdge = (val.toInt()==1);
         Q_EMIT interfaceWindowButtonsAutoHideTopEdgeChanged();
     }
-    if(key == QStringLiteral("interfaceWindowButtonsFollowAccentColor")) {
+    if(key == "interfaceWindowButtonsFollowAccentColor") {
         m_interfaceWindowButtonsFollowAccentColor = (val.toInt()==1);
         Q_EMIT interfaceWindowButtonsFollowAccentColorChanged();
     }
-    if(key == QStringLiteral("interfaceWindowButtonsItems")) {
+    if(key == "interfaceWindowButtonsItems") {
         m_interfaceWindowButtonsItems = val.split(":://::");
         Q_EMIT interfaceWindowButtonsItemsChanged();
     }
-    if(key == QStringLiteral("interfaceWindowButtonsShow")) {
+    if(key == "interfaceWindowButtonsShow") {
         m_interfaceWindowButtonsShow = (val.toInt()==1);
         Q_EMIT interfaceWindowButtonsShowChanged();
     }
-    if(key == QStringLiteral("interfaceWindowButtonsSize")) {
+    if(key == "interfaceWindowButtonsSize") {
         m_interfaceWindowButtonsSize = val.toInt();
         Q_EMIT interfaceWindowButtonsSizeChanged();
     }
-    if(key == QStringLiteral("interfaceWindowDecoration")) {
+    if(key == "interfaceWindowDecoration") {
         m_interfaceWindowDecoration = (val.toInt()==1);
         Q_EMIT interfaceWindowDecorationChanged();
     }
-    if(key == QStringLiteral("interfaceWindowDecorationOnEmptyBackground")) {
+    if(key == "interfaceWindowDecorationOnEmptyBackground") {
         m_interfaceWindowDecorationOnEmptyBackground = (val.toInt()==1);
         Q_EMIT interfaceWindowDecorationOnEmptyBackgroundChanged();
     }
-    if(key == QStringLiteral("interfaceWindowMode")) {
+    if(key == "interfaceWindowMode") {
         m_interfaceWindowMode = (val.toInt()==1);
         Q_EMIT interfaceWindowModeChanged();
     }
-    if(key == QStringLiteral("mainmenuElementHeightDynamic")) {
+    if(key == "mainmenuElementHeightDynamic") {
         m_mainmenuElementHeightDynamic = (val.toInt()==1);
         Q_EMIT mainmenuElementHeightDynamicChanged();
     }
-    if(key == QStringLiteral("mainmenuElementPosition")) {
+    if(key == "mainmenuElementPosition") {
         QStringList parts = val.split(",");
         if(parts.length() != 2)
             return ret;
         m_mainmenuElementPosition = QPoint(parts[0].toInt(), parts[1].toInt());
         Q_EMIT mainmenuElementPositionChanged();
     }
-    if(key == QStringLiteral("mainmenuElementSize")) {
+    if(key == "mainmenuElementSize") {
         QStringList parts = val.split(",");
         if(parts.length() != 2)
             return ret;
         m_mainmenuElementSize = QSize(parts[0].toInt(), parts[1].toInt());
         Q_EMIT mainmenuElementSizeChanged();
     }
-    if(key == QStringLiteral("mainmenuElementWidth")) {
+    if(key == "mainmenuElementWidth") {
         m_mainmenuElementWidth = val.toInt();
         Q_EMIT mainmenuElementWidthChanged();
     }
-    if(key == QStringLiteral("mainmenuShowExternal")) {
+    if(key == "mainmenuShowExternal") {
         m_mainmenuShowExternal = (val.toInt()==1);
         Q_EMIT mainmenuShowExternalChanged();
     }
-    if(key == QStringLiteral("mapviewCurrentPosition")) {
+    if(key == "mapviewCurrentPosition") {
         QStringList parts = val.split(",");
         if(parts.length() != 2)
             return ret;
         m_mapviewCurrentPosition = QPoint(parts[0].toInt(), parts[1].toInt());
         Q_EMIT mapviewCurrentPositionChanged();
     }
-    if(key == QStringLiteral("mapviewCurrentSize")) {
+    if(key == "mapviewCurrentSize") {
         QStringList parts = val.split(",");
         if(parts.length() != 2)
             return ret;
         m_mapviewCurrentSize = QSize(parts[0].toInt(), parts[1].toInt());
         Q_EMIT mapviewCurrentSizeChanged();
     }
-    if(key == QStringLiteral("mapviewCurrentVisible")) {
+    if(key == "mapviewCurrentVisible") {
         m_mapviewCurrentVisible = (val.toInt()==1);
         Q_EMIT mapviewCurrentVisibleChanged();
     }
-    if(key == QStringLiteral("mapviewExplorerThumbnailsScaleCrop")) {
+    if(key == "mapviewExplorerThumbnailsScaleCrop") {
         m_mapviewExplorerThumbnailsScaleCrop = (val.toInt()==1);
         Q_EMIT mapviewExplorerThumbnailsScaleCropChanged();
     }
-    if(key == QStringLiteral("mapviewExplorerThumbnailsZoomLevel")) {
+    if(key == "mapviewExplorerThumbnailsZoomLevel") {
         m_mapviewExplorerThumbnailsZoomLevel = val.toInt();
         Q_EMIT mapviewExplorerThumbnailsZoomLevelChanged();
     }
-    if(key == QStringLiteral("metadataAutoRotation")) {
+    if(key == "metadataAutoRotation") {
         m_metadataAutoRotation = (val.toInt()==1);
         Q_EMIT metadataAutoRotationChanged();
     }
-    if(key == QStringLiteral("metadataCopyright")) {
+    if(key == "metadataCopyright") {
         m_metadataCopyright = (val.toInt()==1);
         Q_EMIT metadataCopyrightChanged();
     }
-    if(key == QStringLiteral("metadataDimensions")) {
+    if(key == "metadataDimensions") {
         m_metadataDimensions = (val.toInt()==1);
         Q_EMIT metadataDimensionsChanged();
     }
-    if(key == QStringLiteral("metadataElementFloating")) {
+    if(key == "metadataElementFloating") {
         m_metadataElementFloating = (val.toInt()==1);
         Q_EMIT metadataElementFloatingChanged();
     }
-    if(key == QStringLiteral("metadataElementHeightDynamic")) {
+    if(key == "metadataElementHeightDynamic") {
         m_metadataElementHeightDynamic = (val.toInt()==1);
         Q_EMIT metadataElementHeightDynamicChanged();
     }
-    if(key == QStringLiteral("metadataElementPosition")) {
+    if(key == "metadataElementPosition") {
         QStringList parts = val.split(",");
         if(parts.length() != 2)
             return ret;
         m_metadataElementPosition = QPoint(parts[0].toInt(), parts[1].toInt());
         Q_EMIT metadataElementPositionChanged();
     }
-    if(key == QStringLiteral("metadataElementSize")) {
+    if(key == "metadataElementSize") {
         QStringList parts = val.split(",");
         if(parts.length() != 2)
             return ret;
         m_metadataElementSize = QSize(parts[0].toInt(), parts[1].toInt());
         Q_EMIT metadataElementSizeChanged();
     }
-    if(key == QStringLiteral("metadataElementVisible")) {
+    if(key == "metadataElementVisible") {
         m_metadataElementVisible = (val.toInt()==1);
         Q_EMIT metadataElementVisibleChanged();
     }
-    if(key == QStringLiteral("metadataExposureTime")) {
+    if(key == "metadataExposureTime") {
         m_metadataExposureTime = (val.toInt()==1);
         Q_EMIT metadataExposureTimeChanged();
     }
-    if(key == QStringLiteral("metadataFLength")) {
+    if(key == "metadataFLength") {
         m_metadataFLength = (val.toInt()==1);
         Q_EMIT metadataFLengthChanged();
     }
-    if(key == QStringLiteral("metadataFNumber")) {
+    if(key == "metadataFNumber") {
         m_metadataFNumber = (val.toInt()==1);
         Q_EMIT metadataFNumberChanged();
     }
-    if(key == QStringLiteral("metadataFaceTagsBorder")) {
+    if(key == "metadataFaceTagsBorder") {
         m_metadataFaceTagsBorder = (val.toInt()==1);
         Q_EMIT metadataFaceTagsBorderChanged();
     }
-    if(key == QStringLiteral("metadataFaceTagsBorderColor")) {
+    if(key == "metadataFaceTagsBorderColor") {
         m_metadataFaceTagsBorderColor = val;
         Q_EMIT metadataFaceTagsBorderColorChanged();
     }
-    if(key == QStringLiteral("metadataFaceTagsBorderWidth")) {
+    if(key == "metadataFaceTagsBorderWidth") {
         m_metadataFaceTagsBorderWidth = val.toInt();
         Q_EMIT metadataFaceTagsBorderWidthChanged();
     }
-    if(key == QStringLiteral("metadataFaceTagsEnabled")) {
+    if(key == "metadataFaceTagsEnabled") {
         m_metadataFaceTagsEnabled = (val.toInt()==1);
         Q_EMIT metadataFaceTagsEnabledChanged();
     }
-    if(key == QStringLiteral("metadataFaceTagsFontSize")) {
+    if(key == "metadataFaceTagsFontSize") {
         m_metadataFaceTagsFontSize = val.toInt();
         Q_EMIT metadataFaceTagsFontSizeChanged();
     }
-    if(key == QStringLiteral("metadataFaceTagsVisibility")) {
+    if(key == "metadataFaceTagsVisibility") {
         m_metadataFaceTagsVisibility = val.toInt();
         Q_EMIT metadataFaceTagsVisibilityChanged();
     }
-    if(key == QStringLiteral("metadataFileSize")) {
+    if(key == "metadataFileSize") {
         m_metadataFileSize = (val.toInt()==1);
         Q_EMIT metadataFileSizeChanged();
     }
-    if(key == QStringLiteral("metadataFileType")) {
+    if(key == "metadataFileType") {
         m_metadataFileType = (val.toInt()==1);
         Q_EMIT metadataFileTypeChanged();
     }
-    if(key == QStringLiteral("metadataFilename")) {
+    if(key == "metadataFilename") {
         m_metadataFilename = (val.toInt()==1);
         Q_EMIT metadataFilenameChanged();
     }
-    if(key == QStringLiteral("metadataFlash")) {
+    if(key == "metadataFlash") {
         m_metadataFlash = (val.toInt()==1);
         Q_EMIT metadataFlashChanged();
     }
-    if(key == QStringLiteral("metadataGps")) {
+    if(key == "metadataGps") {
         m_metadataGps = (val.toInt()==1);
         Q_EMIT metadataGpsChanged();
     }
-    if(key == QStringLiteral("metadataGpsMap")) {
+    if(key == "metadataGpsMap") {
         m_metadataGpsMap = val;
         Q_EMIT metadataGpsMapChanged();
     }
-    if(key == QStringLiteral("metadataImageNumber")) {
+    if(key == "metadataImageNumber") {
         m_metadataImageNumber = (val.toInt()==1);
         Q_EMIT metadataImageNumberChanged();
     }
-    if(key == QStringLiteral("metadataIso")) {
+    if(key == "metadataIso") {
         m_metadataIso = (val.toInt()==1);
         Q_EMIT metadataIsoChanged();
     }
-    if(key == QStringLiteral("metadataKeywords")) {
+    if(key == "metadataKeywords") {
         m_metadataKeywords = (val.toInt()==1);
         Q_EMIT metadataKeywordsChanged();
     }
-    if(key == QStringLiteral("metadataLightSource")) {
+    if(key == "metadataLightSource") {
         m_metadataLightSource = (val.toInt()==1);
         Q_EMIT metadataLightSourceChanged();
     }
-    if(key == QStringLiteral("metadataLocation")) {
+    if(key == "metadataLocation") {
         m_metadataLocation = (val.toInt()==1);
         Q_EMIT metadataLocationChanged();
     }
-    if(key == QStringLiteral("metadataMake")) {
+    if(key == "metadataMake") {
         m_metadataMake = (val.toInt()==1);
         Q_EMIT metadataMakeChanged();
     }
-    if(key == QStringLiteral("metadataModel")) {
+    if(key == "metadataModel") {
         m_metadataModel = (val.toInt()==1);
         Q_EMIT metadataModelChanged();
     }
-    if(key == QStringLiteral("metadataSceneType")) {
+    if(key == "metadataSceneType") {
         m_metadataSceneType = (val.toInt()==1);
         Q_EMIT metadataSceneTypeChanged();
     }
-    if(key == QStringLiteral("metadataSideBar")) {
+    if(key == "metadataSideBar") {
         m_metadataSideBar = (val.toInt()==1);
         Q_EMIT metadataSideBarChanged();
     }
-    if(key == QStringLiteral("metadataSideBarLocation")) {
+    if(key == "metadataSideBarLocation") {
         m_metadataSideBarLocation = val;
         Q_EMIT metadataSideBarLocationChanged();
     }
-    if(key == QStringLiteral("metadataSideBarWidth")) {
+    if(key == "metadataSideBarWidth") {
         m_metadataSideBarWidth = val.toInt();
         Q_EMIT metadataSideBarWidthChanged();
     }
-    if(key == QStringLiteral("metadataSoftware")) {
+    if(key == "metadataSoftware") {
         m_metadataSoftware = (val.toInt()==1);
         Q_EMIT metadataSoftwareChanged();
     }
-    if(key == QStringLiteral("metadataTime")) {
+    if(key == "metadataTime") {
         m_metadataTime = (val.toInt()==1);
         Q_EMIT metadataTimeChanged();
     }
-    if(key == QStringLiteral("slideshowHideLabels")) {
+    if(key == "slideshowHideLabels") {
         m_slideshowHideLabels = (val.toInt()==1);
         Q_EMIT slideshowHideLabelsChanged();
     }
-    if(key == QStringLiteral("slideshowHideWindowButtons")) {
+    if(key == "slideshowHideWindowButtons") {
         m_slideshowHideWindowButtons = (val.toInt()==1);
         Q_EMIT slideshowHideWindowButtonsChanged();
     }
-    if(key == QStringLiteral("slideshowImageTransition")) {
+    if(key == "slideshowImageTransition") {
         m_slideshowImageTransition = val.toInt();
         Q_EMIT slideshowImageTransitionChanged();
     }
-    if(key == QStringLiteral("slideshowIncludeSubFolders")) {
+    if(key == "slideshowIncludeSubFolders") {
         m_slideshowIncludeSubFolders = (val.toInt()==1);
         Q_EMIT slideshowIncludeSubFoldersChanged();
     }
-    if(key == QStringLiteral("slideshowLoop")) {
+    if(key == "slideshowLoop") {
         m_slideshowLoop = (val.toInt()==1);
         Q_EMIT slideshowLoopChanged();
     }
-    if(key == QStringLiteral("slideshowMusic")) {
+    if(key == "slideshowMusic") {
         m_slideshowMusic = (val.toInt()==1);
         Q_EMIT slideshowMusicChanged();
     }
-    if(key == QStringLiteral("slideshowMusicFile")) {
+    if(key == "slideshowMusicFile") {
         m_slideshowMusicFile = val;
         Q_EMIT slideshowMusicFileChanged();
     }
-    if(key == QStringLiteral("slideshowMusicFiles")) {
+    if(key == "slideshowMusicFiles") {
         m_slideshowMusicFiles = val.split(":://::");
         Q_EMIT slideshowMusicFilesChanged();
     }
-    if(key == QStringLiteral("slideshowMusicShuffle")) {
+    if(key == "slideshowMusicShuffle") {
         m_slideshowMusicShuffle = (val.toInt()==1);
         Q_EMIT slideshowMusicShuffleChanged();
     }
-    if(key == QStringLiteral("slideshowMusicVolumeVideos")) {
+    if(key == "slideshowMusicVolumeVideos") {
         m_slideshowMusicVolumeVideos = val.toInt();
         Q_EMIT slideshowMusicVolumeVideosChanged();
     }
-    if(key == QStringLiteral("slideshowShuffle")) {
+    if(key == "slideshowShuffle") {
         m_slideshowShuffle = (val.toInt()==1);
         Q_EMIT slideshowShuffleChanged();
     }
-    if(key == QStringLiteral("slideshowTime")) {
+    if(key == "slideshowTime") {
         m_slideshowTime = val.toInt();
         Q_EMIT slideshowTimeChanged();
     }
-    if(key == QStringLiteral("slideshowTypeAnimation")) {
+    if(key == "slideshowTypeAnimation") {
         m_slideshowTypeAnimation = val;
         Q_EMIT slideshowTypeAnimationChanged();
     }
-    if(key == QStringLiteral("thumbnailsCache")) {
+    if(key == "thumbnailsCache") {
         m_thumbnailsCache = (val.toInt()==1);
         Q_EMIT thumbnailsCacheChanged();
     }
-    if(key == QStringLiteral("thumbnailsCacheBaseDirDefault")) {
+    if(key == "thumbnailsCacheBaseDirDefault") {
         m_thumbnailsCacheBaseDirDefault = (val.toInt()==1);
         Q_EMIT thumbnailsCacheBaseDirDefaultChanged();
     }
-    if(key == QStringLiteral("thumbnailsCacheBaseDirLocation")) {
+    if(key == "thumbnailsCacheBaseDirLocation") {
         m_thumbnailsCacheBaseDirLocation = val;
         Q_EMIT thumbnailsCacheBaseDirLocationChanged();
     }
-    if(key == QStringLiteral("thumbnailsCenterOnActive")) {
+    if(key == "thumbnailsCenterOnActive") {
         m_thumbnailsCenterOnActive = (val.toInt()==1);
         Q_EMIT thumbnailsCenterOnActiveChanged();
     }
-    if(key == QStringLiteral("thumbnailsCropToFit")) {
+    if(key == "thumbnailsCropToFit") {
         m_thumbnailsCropToFit = (val.toInt()==1);
         Q_EMIT thumbnailsCropToFitChanged();
     }
-    if(key == QStringLiteral("thumbnailsDisable")) {
+    if(key == "thumbnailsDisable") {
         m_thumbnailsDisable = (val.toInt()==1);
         Q_EMIT thumbnailsDisableChanged();
     }
-    if(key == QStringLiteral("thumbnailsExcludeDropBox")) {
+    if(key == "thumbnailsExcludeDropBox") {
         m_thumbnailsExcludeDropBox = val;
         Q_EMIT thumbnailsExcludeDropBoxChanged();
     }
-    if(key == QStringLiteral("thumbnailsExcludeFolders")) {
+    if(key == "thumbnailsExcludeFolders") {
         m_thumbnailsExcludeFolders = val.split(":://::");
         Q_EMIT thumbnailsExcludeFoldersChanged();
     }
-    if(key == QStringLiteral("thumbnailsExcludeNetworkShares")) {
+    if(key == "thumbnailsExcludeNetworkShares") {
         m_thumbnailsExcludeNetworkShares = (val.toInt()==1);
         Q_EMIT thumbnailsExcludeNetworkSharesChanged();
     }
-    if(key == QStringLiteral("thumbnailsExcludeNextcloud")) {
+    if(key == "thumbnailsExcludeNextcloud") {
         m_thumbnailsExcludeNextcloud = val;
         Q_EMIT thumbnailsExcludeNextcloudChanged();
     }
-    if(key == QStringLiteral("thumbnailsExcludeOwnCloud")) {
+    if(key == "thumbnailsExcludeOwnCloud") {
         m_thumbnailsExcludeOwnCloud = val;
         Q_EMIT thumbnailsExcludeOwnCloudChanged();
     }
-    if(key == QStringLiteral("thumbnailsFilename")) {
+    if(key == "thumbnailsFilename") {
         m_thumbnailsFilename = (val.toInt()==1);
         Q_EMIT thumbnailsFilenameChanged();
     }
-    if(key == QStringLiteral("thumbnailsFontSize")) {
+    if(key == "thumbnailsFontSize") {
         m_thumbnailsFontSize = val.toInt();
         Q_EMIT thumbnailsFontSizeChanged();
     }
-    if(key == QStringLiteral("thumbnailsHighlightAnimation")) {
+    if(key == "thumbnailsHighlightAnimation") {
         m_thumbnailsHighlightAnimation = val.split(":://::");
         Q_EMIT thumbnailsHighlightAnimationChanged();
     }
-    if(key == QStringLiteral("thumbnailsHighlightAnimationLiftUp")) {
+    if(key == "thumbnailsHighlightAnimationLiftUp") {
         m_thumbnailsHighlightAnimationLiftUp = val.toInt();
         Q_EMIT thumbnailsHighlightAnimationLiftUpChanged();
     }
-    if(key == QStringLiteral("thumbnailsIconsOnly")) {
+    if(key == "thumbnailsIconsOnly") {
         m_thumbnailsIconsOnly = (val.toInt()==1);
         Q_EMIT thumbnailsIconsOnlyChanged();
     }
-    if(key == QStringLiteral("thumbnailsInactiveTransparent")) {
+    if(key == "thumbnailsInactiveTransparent") {
         m_thumbnailsInactiveTransparent = (val.toInt()==1);
         Q_EMIT thumbnailsInactiveTransparentChanged();
     }
-    if(key == QStringLiteral("thumbnailsMaxNumberThreads")) {
+    if(key == "thumbnailsMaxNumberThreads") {
         m_thumbnailsMaxNumberThreads = val.toInt();
         Q_EMIT thumbnailsMaxNumberThreadsChanged();
     }
-    if(key == QStringLiteral("thumbnailsSameHeightVaryWidth")) {
+    if(key == "thumbnailsSameHeightVaryWidth") {
         m_thumbnailsSameHeightVaryWidth = (val.toInt()==1);
         Q_EMIT thumbnailsSameHeightVaryWidthChanged();
     }
-    if(key == QStringLiteral("thumbnailsSize")) {
+    if(key == "thumbnailsSize") {
         m_thumbnailsSize = val.toInt();
         Q_EMIT thumbnailsSizeChanged();
     }
-    if(key == QStringLiteral("thumbnailsSmallThumbnailsKeepSmall")) {
+    if(key == "thumbnailsSmallThumbnailsKeepSmall") {
         m_thumbnailsSmallThumbnailsKeepSmall = (val.toInt()==1);
         Q_EMIT thumbnailsSmallThumbnailsKeepSmallChanged();
     }
-    if(key == QStringLiteral("thumbnailsSpacing")) {
+    if(key == "thumbnailsSpacing") {
         m_thumbnailsSpacing = val.toInt();
         Q_EMIT thumbnailsSpacingChanged();
     }
-    if(key == QStringLiteral("thumbnailsTooltip")) {
+    if(key == "thumbnailsTooltip") {
         m_thumbnailsTooltip = (val.toInt()==1);
         Q_EMIT thumbnailsTooltipChanged();
     }
-    if(key == QStringLiteral("thumbnailsVisibility")) {
+    if(key == "thumbnailsVisibility") {
         m_thumbnailsVisibility = val.toInt();
         Q_EMIT thumbnailsVisibilityChanged();
     }

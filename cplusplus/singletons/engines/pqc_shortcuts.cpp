@@ -683,7 +683,7 @@ void PQCShortcuts::saveExternalShortcutCombos(const QVariantList lst) {
 
             for(const QString &c : oldcmds) {
 
-                if(c.startsWith(QStringLiteral("__"))) {
+                if(c.startsWith("__")) {
 
                     if(new_shortcuts.contains(combo)) {
 
