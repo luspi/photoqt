@@ -32,6 +32,7 @@
 #include <QtDebug>
 #include <QPainter>
 #include <QCryptographicHash>
+#include <QRegion>
 #include <QtConcurrent/QtConcurrentMap>
 
 PQCLoadImageLibsai::PQCLoadImageLibsai() {}
@@ -107,14 +108,14 @@ const QString PQCLoadImageLibsai::load(QString filename, QSize maxSize, QSize &o
 
     }
 
-    QList<QImage*> allImageLayers;
+    QList<QImage> allImageLayers;
 
     saidoc.IterateLayerFiles([&](sai::VirtualFileEntry& LayerFile) {
 
         if(PQCNotifyCPP::get().isPhotoQtShuttingDown()) return true;
 
-        QImage *curImage = new QImage(w, h, QImage::Format_ARGB32);
-        curImage->fill(Qt::transparent);
+        QImage curImage(w, h, QImage::Format_ARGB32_Premultiplied);
+        curImage.fill(Qt::transparent);
 
         const sai::LayerHeader LayerHeader = LayerFile.Read<sai::LayerHeader>();
 
@@ -142,84 +143,21 @@ const QString PQCLoadImageLibsai::load(QString filename, QSize maxSize, QSize &o
                                   LayerHeader.Bounds.Width, LayerHeader.Bounds.Height,
                                   4*LayerHeader.Bounds.Width, QImage::Format_ARGB32).copy();
 
+                QPainter curPainter(&curImage);
+
                 // Both PreserveOpacity and Clipping only apply the color if there is a non-transparent color below already
                 // The difference lies in that the former happens in the same layer whereas the latter happens in a seperate layer
                 // Since we are only interested in a flat rendered image we can treat them the same way.
                 if(LayerHeader.PreserveOpacity || LayerHeader.Clipping) {
-
-                    // we need it for all scanlines, so we store the right pointer once instead
-                    // of finding it every time from scratch (-> faster)
-                    QImage* prev = allImageLayers.last();
-
-                    const std::int32_t startX = std::max(0, LayerHeader.Bounds.X);
-                    const std::int32_t startY = std::max(0, LayerHeader.Bounds.Y);
-
-                    const std::int32_t endX = std::min(w, LayerHeader.Bounds.X+LayerHeader.Bounds.Width);
-                    const std::int32_t endY = std::min(h, LayerHeader.Bounds.Y+LayerHeader.Bounds.Height);
-
-                    // value between 0 and 255
-                    int alpha = 255 - static_cast<int>(2.55*LayerHeader.Opacity);
-
-                    // the threaded approach is only faster for at least resonably large images (~1MP+)
-                    // for smaller images the overhead from threading is too expensive, so we stick to
-                    // a simple loop in that case
-                    if(static_cast<qint64>(origSize.width())*origSize.height() >= 1e6) {
-
-                        // prepare list of rows for processing
-                        QVector<int> rows;
-                        rows.reserve(endY - startY);
-                        for (int y = startY; y < endY; ++y)
-                            rows.push_back(y);
-
-                        QtConcurrent::blockingMap(rows, [&](int y) {
-
-                            if(PQCNotifyCPP::get().isPhotoQtShuttingDown()) return;
-
-                                  QRgb* dstLine  = reinterpret_cast<      QRgb*>(curImage->scanLine(y));
-                            const QRgb* srcLine  = reinterpret_cast<const QRgb*>(i.constScanLine(y));
-                            const QRgb* prevLine = reinterpret_cast<const QRgb*>(prev->constScanLine(y));
-
-                            for(int x = startX; x < endX; ++x) {
-
-                                // fastest way to apply new color IF previous image had non-transparent color here
-                                if(prevLine[x] & 0xFF000000)
-                                    dstLine[x] = (srcLine[x] & 0x00FFFFFF) | (alpha << 24);
-
-                            }
-
-                        });
-
-                    } else {
-
-                        for(int y = startY; y < endY; ++y) {
-
-                                  QRgb* dstLine  = reinterpret_cast<      QRgb*>(curImage->scanLine(y));
-                            const QRgb* srcLine  = reinterpret_cast<const QRgb*>(i.constScanLine(y));
-                            const QRgb* prevLine = reinterpret_cast<const QRgb*>(prev->constScanLine(y));
-
-                            for(int x = startX; x < endX; ++x) {
-
-                                // fastest way to apply new color IF previous image had non-transparent color here
-                                if(prevLine[x] & 0xFF000000)
-                                    dstLine[x] = (srcLine[x] & 0x00FFFFFF) | (alpha << 24);
-
-                            }
-
-                        }
-
-                    }
-
-                } else {
-
-                    // simply draw image on top
-                    QPainter curPainter(curImage);
-                    curPainter.setOpacity(static_cast<double>(LayerHeader.Opacity)/100.);
-                    curPainter.drawImage(QRect(LayerHeader.Bounds.X, LayerHeader.Bounds.Y, LayerHeader.Bounds.Width, LayerHeader.Bounds.Height), i);
-                    curPainter.end();
-
+                    curPainter.setClipRegion(QRegion(QBitmap::fromImage(allImageLayers.last().createAlphaMask())));
                 }
 
+                curPainter.setOpacity(static_cast<double>(LayerHeader.Opacity)/100.);
+                curPainter.drawImage(QPoint(LayerHeader.Bounds.X, LayerHeader.Bounds.Y), i);
+                curPainter.end();
+
             }
+
         } else if(static_cast<sai::LayerType>(LayerHeader.Type) == sai::LayerType::Set) {
 
             if(static_cast<sai::BlendingModes>(LayerHeader.Blending) == sai::BlendingModes::Multiply)
@@ -252,8 +190,8 @@ const QString PQCLoadImageLibsai::load(QString filename, QSize maxSize, QSize &o
     img = QImage(w, h, QImage::Format_ARGB32_Premultiplied);
     img.fill(Qt::white);
     QPainter composedPainter(&img);
-    for(const QImage *img : std::as_const(allImageLayers)) {
-        composedPainter.drawImage(QRect(0,0,w,h),*img);
+    for(const QImage &img : std::as_const(allImageLayers)) {
+        composedPainter.drawImage(QPoint(0,0), img);
     }
     composedPainter.end();
 
