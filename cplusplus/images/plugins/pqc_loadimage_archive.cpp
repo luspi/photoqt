@@ -45,7 +45,7 @@
 
 PQCLoadImageArchive::PQCLoadImageArchive() {}
 
-QSize PQCLoadImageArchive::loadSize(QString filename) {
+const QSize PQCLoadImageArchive::loadSize(QString filename) {
 
 #ifdef PQMLIBARCHIVE
 
@@ -191,7 +191,7 @@ QSize PQCLoadImageArchive::loadSize(QString filename) {
 
 }
 
-QString PQCLoadImageArchive::load(QString filename, QSize maxSize, QSize &origSize, QImage &img) {
+const QString PQCLoadImageArchive::load(QString filename, QSize maxSize, QSize &origSize, QImage &img) {
 
     qDebug() << "args: filename =" << filename;
     qDebug() << "args: maxSize =" << maxSize;

@@ -366,7 +366,7 @@ bool PQCScriptsColorProfiles::applyColorProfile(QString filename, QImage &img) {
     // If enabled we do some color profile management now
     if(!PQCSettingsCPP::get().getImageviewColorSpaceEnable()) {
         qDebug() << "Color space handling disabled";
-        PQCNotifyCPP::get().setColorProfileFor(filename, QColorSpace(QColorSpace::SRgb).description());
+        Q_EMIT PQCNotifyCPP::get().setColorProfileFor(filename, QColorSpace(QColorSpace::SRgb).description());
         return true;
     }
 
@@ -551,7 +551,7 @@ bool PQCScriptsColorProfiles::applyColorProfile(QString filename, QImage &img) {
     }
 
     // no profile (successfully) applied, set default name
-    PQCNotifyCPP::get().setColorProfileFor(filename, QColorSpace(QColorSpace::SRgb).description());
+    Q_EMIT PQCNotifyCPP::get().setColorProfileFor(filename, QColorSpace(QColorSpace::SRgb).description());
     qDebug() << "Using default color profile";
     return !manualSelectionCausedError;
 
@@ -567,7 +567,7 @@ bool PQCScriptsColorProfiles::_applyColorSpaceQt(QImage &img, QString filename, 
     } else {
         const QString desc = sp.description();
         qDebug() << "Applying integrated color profile:" << desc;
-        PQCNotifyCPP::get().setColorProfileFor(filename, desc);
+        Q_EMIT PQCNotifyCPP::get().setColorProfileFor(filename, desc);
         img = ret;
         return true;
     }
@@ -658,7 +658,7 @@ bool PQCScriptsColorProfiles::_applyColorSpaceLCMS2(QImage &img, QString filenam
 
         qDebug() << "Applying external color profile:" << buf;
 
-        PQCNotifyCPP::get().setColorProfileFor(filename, buf);
+        Q_EMIT PQCNotifyCPP::get().setColorProfileFor(filename, buf);
 
         img = ret;
 

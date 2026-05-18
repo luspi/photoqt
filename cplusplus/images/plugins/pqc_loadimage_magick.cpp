@@ -39,7 +39,7 @@
 
 PQCLoadImageMagick::PQCLoadImageMagick() {}
 
-QSize PQCLoadImageMagick::loadSize(QString filename) {
+const QSize PQCLoadImageMagick::loadSize(QString filename) {
 
     qDebug() << "args: filename =" << filename;
 
@@ -100,7 +100,7 @@ QSize PQCLoadImageMagick::loadSize(QString filename) {
 
 }
 
-QString PQCLoadImageMagick::load(QString filename, QSize maxSize, QSize &origSize, QImage &img) {
+const QString PQCLoadImageMagick::load(QString filename, QSize maxSize, QSize &origSize, QImage &img) {
 
     qDebug() << "args: filename =" << filename;
     qDebug() << "args: maxSize =" << maxSize;

@@ -328,7 +328,8 @@ void PQCWizard::enableAllExtensions() {
 
     qDebug() << "";
 
-    for(const QString &id : PQCExtensionsHandler::get().getDisabledExtensions())
+    const QStringList disabled = PQCExtensionsHandler::get().getDisabledExtensions();
+    for(const QString &id : disabled)
         PQCExtensionsHandler::get().enableExtension(id);
 
     QSqlQuery query(QSqlDatabase::database("settings"));

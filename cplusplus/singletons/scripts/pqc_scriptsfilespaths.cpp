@@ -264,7 +264,7 @@ QString PQCScriptsFilesPaths::getFileSizeHumanReadable(QString path) {
         sizeAsStr.chop(1);
 
     // compose final string
-    return QString("%1 %2").arg(sizeAsStr).arg(units[unitIndex]);
+    return QString("%1 %2").arg(sizeAsStr, units[unitIndex]);
 
 }
 

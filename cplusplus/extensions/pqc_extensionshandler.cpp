@@ -372,8 +372,9 @@ bool PQCExtensionsHandler::loadExtension(PQCExtensionInfo *extinfo, QString name
     }
 
     // OPTIONAL localizations
+    const QStringList langLst = PQCScriptsLocalization::get().getAvailableTranslations();
     // check localizations for name
-    for(const QString &lang : PQCScriptsLocalization::get().getAvailableTranslations()) {
+    for(const QString &lang : langLst) {
         try {
             if(config["about"][QString("name[%1]").arg(lang).toStdString()].IsDefined()) {
                 const QString val = QString::fromStdString(config["about"][QString("name[%1]").arg(lang).toStdString()].as<std::string>());
@@ -394,7 +395,7 @@ bool PQCExtensionsHandler::loadExtension(PQCExtensionInfo *extinfo, QString name
         }
     }
     // check localizations for longName
-    for(const QString &lang : PQCScriptsLocalization::get().getAvailableTranslations()) {
+    for(const QString &lang : langLst) {
         if(haveProperLongName) {
             try {
                 if(config["about"][QString("longName[%1]").arg(lang).toStdString()].IsDefined()) {
@@ -418,7 +419,7 @@ bool PQCExtensionsHandler::loadExtension(PQCExtensionInfo *extinfo, QString name
             extinfo->longNameLocalized = extinfo->nameLocalized;
     }
     // check localizations for description
-    for(const QString &lang : PQCScriptsLocalization::get().getAvailableTranslations()) {
+    for(const QString &lang : langLst) {
         try {
             if(config["about"][QString("description[%1]").arg(lang).toStdString()].IsDefined()) {
                 const QString val = QString::fromStdString(config["about"][QString("description[%1]").arg(lang).toStdString()].as<std::string>());
@@ -1206,8 +1207,6 @@ int PQCExtensionsHandler::installExtension(QString filepath) {
         return 0;
     }
 
-    QByteArray definitionyml = "";
-
     int numFilesSuccess = 0;
     int numFilesFailure = 0;
 
@@ -1349,8 +1348,6 @@ QHash<QString,QVariant> PQCExtensionsHandler::getExtensionZipMetadata(QString fi
         // Read the current file entry
         // We use the '_w' variant here, as otherwise on Windows this call causes a segfault when a file in an archive contains non-latin characters
         QString filenameinside = QString::fromWCharArray(archive_entry_pathname_w(entry));
-
-        QFileInfo info(filenameinside);
 
         if(filenameinside.endsWith("manifest.yml") && filenameinside.count("/") == 1) {
 
@@ -1543,7 +1540,7 @@ bool PQCExtensionsHandler::verifyExtension(QString extensionDir, QString nameId)
 
     bool signaturePassed = false;
 
-    for(const QString keyfn : possibleKeys) {
+    for(const QString &keyfn : possibleKeys) {
 
         qDebug() << "Testing key file" << keyfn;
 
@@ -1585,7 +1582,8 @@ bool PQCExtensionsHandler::verifyExtension(QString extensionDir, QString nameId)
     // next read manifest and compile map of all files and their hashes
 
     QHash<QString,QString> hashMap;
-    for(const QString &l : manifest.split('\n')) {
+    const QList<QByteArray> maniLines = manifest.split('\n');
+    for(const QString &l : maniLines) {
 
         if(l.trimmed().isEmpty())
             continue;

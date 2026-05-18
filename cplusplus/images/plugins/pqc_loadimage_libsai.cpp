@@ -37,7 +37,7 @@ static QImage composedImage;
 
 PQCLoadImageLibsai::PQCLoadImageLibsai() {}
 
-QSize PQCLoadImageLibsai::loadSize(QString filename) {
+const QSize PQCLoadImageLibsai::loadSize(QString filename) {
 
 #ifdef PQMLIBSAI
 
@@ -59,7 +59,7 @@ QSize PQCLoadImageLibsai::loadSize(QString filename) {
     return QSize();
 }
 
-QString PQCLoadImageLibsai::load(QString filename, QSize maxSize, QSize &origSize, QImage &img) {
+const QString PQCLoadImageLibsai::load(QString filename, QSize maxSize, QSize &origSize, QImage &img) {
 
     qDebug() << "args: filename = " << filename;
     qDebug() << "args: maxSize = " << maxSize;

@@ -107,7 +107,7 @@ qint64 PQCFileFolderModelCache::getLastModified(QString dirPath, bool files, boo
         return 0;
     }
 
-    for (const QFileInfo &entry : entries) {
+    for(const QFileInfo &entry : std::as_const(entries)) {
         if(entry.lastModified() > latest)
             latest = entry.lastModified();
     }

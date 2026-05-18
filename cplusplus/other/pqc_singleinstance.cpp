@@ -350,7 +350,7 @@ void PQCSingleInstance::handleMessage(const QList<Actions> msg, bool includeFile
 
             if(includeFileProcessing) {
 
-                for(const QString &f : m_receivedFiles) {
+                for(const QString &f : std::as_const(m_receivedFiles)) {
 
                     // sort by files and folders
                     // that way we can make sure to always load the first specified file as initial image
@@ -457,8 +457,8 @@ void PQCSingleInstance::handleMessage(const QList<Actions> msg, bool includeFile
         if(allfiles.length() > 0 || allfolders.length() > 0) {
 
             if(allfiles.length()+allfolders.length() > 1) {
-                Q_EMIT PQCNotifyCPP::get().setVirtualFiles(allfiles);
-                Q_EMIT PQCNotifyCPP::get().setVirtualFolders(allfolders);
+                PQCNotifyCPP::get().setVirtualFiles(allfiles);
+                PQCNotifyCPP::get().setVirtualFolders(allfolders);
             }
 
             PQCNotifyCPP::get().setFilePath(allfiles.length() ? allfiles[0] : allfolders[0]);

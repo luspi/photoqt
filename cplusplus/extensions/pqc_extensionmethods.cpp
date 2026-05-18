@@ -68,17 +68,17 @@ void PQCExtensionMethods::callActionWithImageNonBlocking(const QString &id, QVar
 
 // execute an internal command
 void PQCExtensionMethods::executeInternalCommand(QString cmd) {
-    PQCScriptsShortcuts::get().executeInternalCommand(cmd);
+    Q_EMIT PQCScriptsShortcuts::get().executeInternalCommand(cmd);
 }
 
 // show a notification
 void PQCExtensionMethods::showNotification(QString title, QString txt) {
-    PQCNotifyCPP::get().showNotificationMessage(title, txt);
+    Q_EMIT PQCNotifyCPP::get().showNotificationMessage(title, txt);
 }
 
 // run another extension
 void PQCExtensionMethods::runExtension(const QString &id) {
-    PQCNotifyCPP::get().showExtension(id);
+    Q_EMIT PQCNotifyCPP::get().showExtension(id);
 }
 
 QVariantMap PQCExtensionMethods::getImageFormatInfo(const int uniqueid) {
@@ -116,5 +116,5 @@ QStringList PQCExtensionMethods::getImageFormatsMimeTypesThatAreEnabled() {
 }
 
 void PQCExtensionMethods::showSettingsFor(const QString &id) {
-    PQCNotifyCPP::get().showSettingsForExtension(id);
+    Q_EMIT PQCNotifyCPP::get().showSettingsForExtension(id);
 }

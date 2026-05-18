@@ -88,7 +88,7 @@ void PQCScriptsChromeCast::readDiscoveryOutput() {
     }
 
     m_inDiscovery = false;
-    inDiscoveryChanged();
+    Q_EMIT inDiscoveryChanged();
     Q_EMIT availableDevicesChanged();
 
 }
@@ -98,7 +98,7 @@ bool PQCScriptsChromeCast::startDiscovery() {
     qDebug() << "";
 
     m_inDiscovery = true;
-    inDiscoveryChanged();
+    Q_EMIT inDiscoveryChanged();
 
     const QString tmpPath = QString("%1/chromecast_discovery.py").arg(QDir::tempPath());
 
@@ -106,7 +106,7 @@ bool PQCScriptsChromeCast::startDiscovery() {
     if(!QFile::copy(":/chromecast_discovery.py", tmpPath)) {
         qWarning() << "ERROR preparing discovery python script, chromecast not available";
         m_inDiscovery = false;
-        inDiscoveryChanged();
+        Q_EMIT inDiscoveryChanged();
         return false;
     }
 
@@ -125,11 +125,12 @@ bool PQCScriptsChromeCast::connectToDevice(int index) {
 
     m_selectedDevice = index;
 
-    m_curDeviceName = m_availableDevices[m_selectedDevice].toList()[0].toString();
-    curDeviceNameChanged();
+    const QVariantList lst = m_availableDevices[m_selectedDevice].toList();
+    m_curDeviceName = lst[0].toString();
+    Q_EMIT curDeviceNameChanged();
 
     m_connected = true;
-    connectedChanged();
+    Q_EMIT connectedChanged();
 
     if(PQCFileFolderModelCPP::get().getCountMainView() > 0 && PQCFileFolderModelCPP::get().getCurrentIndex() > -1)
         return castImage(PQCFileFolderModelCPP::get().getCurrentFile());
@@ -240,10 +241,10 @@ bool PQCScriptsChromeCast::disconnect() {
     procDisconnect->start("python", {pyPath, m_curDeviceName, localIP, QString::number(serverPort)});
 
     m_curDeviceName = "";
-    curDeviceNameChanged();
+    Q_EMIT curDeviceNameChanged();
 
     m_connected = false;
-    connectedChanged();
+    Q_EMIT connectedChanged();
 
     return true;
 

@@ -105,7 +105,8 @@ QStringList PQCScriptsClipboard::getListOfFilesInClipboard() {
 
     QStringList ret;
 
-    for(const QUrl &u : mimeData->urls()) {
+    const QList<QUrl> urls = mimeData->urls();
+    for(const QUrl &u : urls) {
         if(u.isLocalFile())
             ret << u.toLocalFile();
     }

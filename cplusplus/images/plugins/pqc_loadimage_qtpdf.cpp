@@ -35,7 +35,7 @@
 
 PQCLoadImageQtPDF::PQCLoadImageQtPDF() {}
 
-QSize PQCLoadImageQtPDF::loadSize(QString filename) {
+const QSize PQCLoadImageQtPDF::loadSize(QString filename) {
 
     qDebug() << "args: filename =" << filename;
 
@@ -66,7 +66,7 @@ QSize PQCLoadImageQtPDF::loadSize(QString filename) {
 
 }
 
-QString PQCLoadImageQtPDF::load(QString filename, QSize maxSize, QSize &origSize, QImage &img) {
+const QString PQCLoadImageQtPDF::load(QString filename, QSize maxSize, QSize &origSize, QImage &img) {
 
     qDebug() << "args: filename =" << filename;
     qDebug() << "args: maxSize =" << maxSize;

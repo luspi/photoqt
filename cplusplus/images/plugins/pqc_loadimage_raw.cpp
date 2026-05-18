@@ -38,7 +38,7 @@
 
 PQCLoadImageRAW::PQCLoadImageRAW() {}
 
-QSize PQCLoadImageRAW::loadSize(QString filename) {
+const QSize PQCLoadImageRAW::loadSize(QString filename) {
 
 #ifdef PQMRAW
 
@@ -60,7 +60,7 @@ QSize PQCLoadImageRAW::loadSize(QString filename) {
 
 }
 
-QString PQCLoadImageRAW::load(QString filename, QSize maxSize, QSize &origSize, QImage &img) {
+const QString PQCLoadImageRAW::load(QString filename, QSize maxSize, QSize &origSize, QImage &img) {
 
     qDebug() << "args: filename =" << filename;
     qDebug() << "args: maxSize =" << maxSize;
@@ -159,9 +159,6 @@ QString PQCLoadImageRAW::load(QString filename, QSize maxSize, QSize &origSize, 
         qWarning() << errormsg;
         return errormsg;
     }
-
-    // This will hold the loaded image data
-    QByteArray imgData;
 
     // This means, that the structure contains an in-memory image of JPEG file.
     // Only type, data_size and data fields are valid (and nonzero).

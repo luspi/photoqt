@@ -57,8 +57,9 @@ QVariantList PQCScriptsFileDialog::getDevices() {
         if(s.isValid()) {
 
             const QString tpe = QString(s.fileSystemType());
+            const QString tpeLower = tpe.toLower();
 
-            if((tpe.toLower() == "tmpfs" || tpe.toLower() == "squashfs" || (tpe.toLower().startsWith("fuse") && tpe.endsWith("AppImage"))) && !PQCSettingsCPP::get().getFiledialogDevicesShowTmpfs())
+            if((tpe.toLower() == "tmpfs" || tpeLower == "squashfs" || (tpeLower.startsWith("fuse") && tpe.endsWith("AppImage"))) && !PQCSettingsCPP::get().getFiledialogDevicesShowTmpfs())
                 continue;
 
             QString name = s.name();
@@ -295,8 +296,6 @@ QVariantList PQCScriptsFileDialog::getPlaces(bool performEmptyCheck) {
 
             // if we don't have an info tag, add everything
             if(ele.elementsByTagName("info").length() == 0) {
-
-                QDomNode newNode(node);
 
                 QDomElement infoEle = doc.createElement("info");
 
@@ -974,7 +973,7 @@ void PQCScriptsFileDialog::addPlacesEntry(QString path, int pos, QString titlest
             allIds.append(curId);
     }
 
-    QString newid_base = QString::number(QDateTime::currentDateTime().toMSecsSinceEpoch());
+    QString newid_base = QString::number(QDateTime::currentMSecsSinceEpoch());
 
     int counter = 0;
     while(allIds.contains(QString("%1/%2").arg(newid_base).arg(counter)))

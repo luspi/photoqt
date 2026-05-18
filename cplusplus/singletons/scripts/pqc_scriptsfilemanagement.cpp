@@ -289,7 +289,7 @@ QString PQCScriptsFileManagement::undoLastAction(QString action) {
 
             qDebug() << QString("Successfully restored file '%1' to '%2'").arg(act.at(1).toString(),act.at(0).toString());
 
-            PQCFileFolderModelCPP::get().setFileInFolderMainView(act.at(0).toString());
+            Q_EMIT PQCFileFolderModelCPP::get().setFileInFolderMainView(act.at(0).toString());
 
             if(!infoFile.remove()) {
                 qWarning() << "Failed to remove .trashinfo file";

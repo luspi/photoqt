@@ -38,7 +38,7 @@
 PQCLoadImageQt::PQCLoadImageQt() {
 }
 
-QSize PQCLoadImageQt::loadSize(QString filename) {
+const QSize PQCLoadImageQt::loadSize(QString filename) {
 
     // Suffix, for easier access later-on
     QString suffix = QFileInfo(filename).suffix().toLower();
@@ -114,7 +114,7 @@ QSize PQCLoadImageQt::loadSize(QString filename) {
 
 }
 
-QString PQCLoadImageQt::load(QString filename, QSize maxSize, QSize &origSize, QImage &img) {
+const QString PQCLoadImageQt::load(QString filename, QSize maxSize, QSize &origSize, QImage &img) {
 
     qDebug() << "args: filename =" << filename;
     qDebug() << "args: maxSize =" << maxSize;

@@ -31,7 +31,7 @@
 
 PQCLoadImageResvg::PQCLoadImageResvg() {}
 
-QSize PQCLoadImageResvg::loadSize(QString filename) {
+const QSize PQCLoadImageResvg::loadSize(QString filename) {
 
     qDebug() << "args: filename =" << filename;
 
@@ -47,7 +47,7 @@ QSize PQCLoadImageResvg::loadSize(QString filename) {
 
 }
 
-QString PQCLoadImageResvg::load(QString filename, QSize maxSize, QSize &origSize, QImage &img) {
+const QString PQCLoadImageResvg::load(QString filename, QSize maxSize, QSize &origSize, QImage &img) {
 
     qDebug() << "args: filename =" << filename;
     qDebug() << "args: maxSize =" << maxSize;

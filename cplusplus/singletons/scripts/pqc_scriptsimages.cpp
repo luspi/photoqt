@@ -229,9 +229,9 @@ void PQCScriptsImages::listArchiveContent(QString path) {
     if(inProcesOfLoadingTheseArchives.contains(cacheKey)) {
         qDebug() << "Archive is currently being loaded. Waiting...";
 #if __cplusplus >= 202002L
-        QTimer::singleShot(500, [=, this]() { listArchiveContent(path); } );
+        QTimer::singleShot(500, this, [=, this]() { listArchiveContent(path); } );
 #else
-        QTimer::singleShot(500, [=]() { listArchiveContent(path); } );
+        QTimer::singleShot(500, this, [=]() { listArchiveContent(path); } );
 #endif
         return;
     }
@@ -875,7 +875,8 @@ QVariantList PQCScriptsImages::getZXingData(QString path) {
     PQCLoadImage::get().load(path, QSize(-1,-1), origSize, img);
 
     // Read from QImage
-    for (const auto& barcode : ZXingQt::ReadBarcodes(img)) {
+    const QList<ZXingQt::Barcode> codes = ZXingQt::ReadBarcodes(img);
+    for(const auto& barcode : codes) {
 
         QVariantList vals;
         vals << barcode.text();

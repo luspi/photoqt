@@ -38,7 +38,7 @@
 
 PQCLoadImageDevil::PQCLoadImageDevil() {}
 
-QSize PQCLoadImageDevil::loadSize(QString filename) {
+const QSize PQCLoadImageDevil::loadSize(QString filename) {
 
 #ifdef PQMDEVIL
 
@@ -82,7 +82,7 @@ QSize PQCLoadImageDevil::loadSize(QString filename) {
 
 }
 
-QString PQCLoadImageDevil::load(QString filename, QSize maxSize, QSize &origSize, QImage &img) {
+const QString PQCLoadImageDevil::load(QString filename, QSize maxSize, QSize &origSize, QImage &img) {
 
     qDebug() << "args: filename = " << filename;
     qDebug() << "args: maxSize = " << maxSize;

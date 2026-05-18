@@ -37,7 +37,7 @@ PQCLoadImageVideo::PQCLoadImageVideo() {}
 
 PQCLoadImageVideo::~PQCLoadImageVideo() {}
 
-QSize PQCLoadImageVideo::loadSize(QString filename) {
+const QSize PQCLoadImageVideo::loadSize(QString filename) {
 
     if(PQCSettingsCPP::get().getFiletypesVideoThumbnailer() == "ffmpegthumbnailer") {
 
@@ -121,7 +121,7 @@ QSize PQCLoadImageVideo::loadSize(QString filename) {
 
 }
 
-QString PQCLoadImageVideo::load(QString filename, QSize maxSize, QSize &origSize, QImage &img) {
+const QString PQCLoadImageVideo::load(QString filename, QSize maxSize, QSize &origSize, QImage &img) {
 
     qDebug() << "** filename =" << filename;
     qDebug() << "** maxSize =" << maxSize;

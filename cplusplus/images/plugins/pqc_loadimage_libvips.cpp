@@ -36,7 +36,7 @@
 
 PQCLoadImageLibVips::PQCLoadImageLibVips() {}
 
-QSize PQCLoadImageLibVips::loadSize(QString filename) {
+const QSize PQCLoadImageLibVips::loadSize(QString filename) {
 
 #ifdef PQMLIBVIPS
 
@@ -66,7 +66,7 @@ QSize PQCLoadImageLibVips::loadSize(QString filename) {
 
 }
 
-QString PQCLoadImageLibVips::load(QString filename, QSize maxSize, QSize &origSize, QImage &img) {
+const QString PQCLoadImageLibVips::load(QString filename, QSize maxSize, QSize &origSize, QImage &img) {
 
     qDebug() << "args: filename = " << filename;
     qDebug() << "args: maxSize = " << maxSize;

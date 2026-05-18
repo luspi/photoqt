@@ -32,7 +32,7 @@
 PQCLoadImageXCF::PQCLoadImageXCF() {}
 
 // loads the png and returns the size
-QSize PQCLoadImageXCF::loadSize(QString filename) {
+const QSize PQCLoadImageXCF::loadSize(QString filename) {
 
     qDebug() << "args: filename =" << filename;
 
@@ -61,7 +61,7 @@ QSize PQCLoadImageXCF::loadSize(QString filename) {
 }
 
 // loads the png and returns it
-QString PQCLoadImageXCF::load(QString filename, QSize maxSize, QSize &origSize, QImage &img) {
+const QString PQCLoadImageXCF::load(QString filename, QSize maxSize, QSize &origSize, QImage &img) {
 
     qDebug() << "args: filename =" << filename;
     qDebug() << "args: maxSize =" << maxSize;

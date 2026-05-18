@@ -34,7 +34,7 @@
 
 PQCLoadImagePoppler::PQCLoadImagePoppler() {}
 
-QSize PQCLoadImagePoppler::loadSize(QString filename) {
+const QSize PQCLoadImagePoppler::loadSize(QString filename) {
 
     qDebug() << "args: filename =" << filename;
 
@@ -68,7 +68,7 @@ QSize PQCLoadImagePoppler::loadSize(QString filename) {
 
 }
 
-QString PQCLoadImagePoppler::load(QString filename, QSize maxSize, QSize &origSize, QImage &img) {
+const QString PQCLoadImagePoppler::load(QString filename, QSize maxSize, QSize &origSize, QImage &img) {
 
     qDebug() << "args: filename =" << filename;
     qDebug() << "args: maxSize =" << maxSize;

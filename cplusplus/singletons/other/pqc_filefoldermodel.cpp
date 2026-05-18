@@ -1124,7 +1124,7 @@ void PQCFileFolderModel::loadDataMainView() {
 
             if(archiveContentPreloaded.length() > 0) {
                 m_entriesMainView.clear();
-                for(const QString &f : archiveContentPreloaded)
+                for(const QString &f : std::as_const(archiveContentPreloaded))
                     m_entriesMainView.append(QString("%1::ARC::%2").arg(f, m_viewerModeBaseFile));
                 PQCFileFolderModelCPP::get().setEntriesMainView(m_entriesMainView);
                 archiveContentPreloaded.clear();

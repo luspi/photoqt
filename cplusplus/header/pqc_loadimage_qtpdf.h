@@ -30,7 +30,7 @@ class PQCLoadImageQtPDF {
 public:
     PQCLoadImageQtPDF();
 
-    static QSize loadSize(QString filename);
-    static QString load(QString filename, QSize maxSize, QSize &origSize, QImage &img);
+    static const QSize loadSize(QString filename);
+    static const QString load(QString filename, QSize maxSize, QSize &origSize, QImage &img);
 
 };
