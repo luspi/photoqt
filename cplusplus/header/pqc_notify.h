@@ -72,6 +72,7 @@ public:
 
         connect(this, &PQCNotify::resetSessionData, &PQCNotifyCPP::get(), &PQCNotifyCPP::resetSessionData);
         connect(this, &PQCNotify::reprocessStartupMessage, &PQCNotifyCPP::get(), &PQCNotifyCPP::reprocessStartupMessage);
+        connect(this, &PQCNotify::photoqtShuttingDown, &PQCNotifyCPP::get(), &PQCNotifyCPP::photoqtShuttingDown);
 
     }
 
@@ -83,6 +84,7 @@ Q_SIGNALS:
     // Calling these triggers the respective call in PQCNotifyCPP.
     void resetSessionData();
     void reprocessStartupMessage();
+    void photoqtShuttingDown();
 
     /**********************************************************/
     // These signals are received from C++ via PQCNotify

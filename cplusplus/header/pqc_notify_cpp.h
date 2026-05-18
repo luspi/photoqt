@@ -61,6 +61,8 @@ public:
     QStringList getVirtualFolders() { return m_virtualFolders; }
     QStringList getVirtualFiles() { return m_virtualFiles; }
 
+    bool isPhotoQtShuttingDown() { return m_shuttingDown; }
+
     /******************************************************/
 
 private:
@@ -70,6 +72,12 @@ private:
         m_startInTray = false;
         m_haveScreenshots = false;
         m_settingUpdate.clear();
+        m_shuttingDown = false;
+#if __cplusplus >= 202002L
+        connect(this, &PQCNotifyCPP::photoqtShuttingDown, this, [=, this]() { m_shuttingDown = true; });
+#else
+        connect(this, &PQCNotifyCPP::photoqtShuttingDown, this, [=]() { m_shuttingDown = true; });
+#endif
     }
 
     /******************************************************/
@@ -89,6 +97,8 @@ private:
 
     /******************************************************/
 
+    bool m_shuttingDown;
+
 Q_SIGNALS:
 
     /*************************************************************/
@@ -97,6 +107,7 @@ Q_SIGNALS:
     // reset current session to free up as much memory as possible
     void resetSessionData();
     void reprocessStartupMessage();
+    void photoqtShuttingDown();
 
     /*************************************************************/
     // these cached startup property signals are picked up in PQCConstants
