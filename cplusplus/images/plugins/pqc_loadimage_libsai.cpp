@@ -25,15 +25,13 @@
 #include <pqc_configfiles.h>
 #include <pqc_settingscpp.h>
 #include <scripts/pqc_scriptsimages.h>
+#include <pqc_imagecache.h>
 #include <QSize>
 #include <QImage>
 #include <QtDebug>
 #include <QPainter>
 #include <QCryptographicHash>
-
-// the iterator for the layers below treats all external variables as const
-// the only way to actually compose an image is to have it as a global static
-static QImage composedImage;
+#include <QtConcurrent>
 
 PQCLoadImageLibsai::PQCLoadImageLibsai() {}
 
@@ -112,7 +110,7 @@ const QString PQCLoadImageLibsai::load(QString filename, QSize maxSize, QSize &o
 
     saidoc.IterateLayerFiles([&](sai::VirtualFileEntry& LayerFile) {
 
-        QImage *curImage = new QImage(w, h, QImage::Format_ARGB32_Premultiplied);
+        QImage *curImage = new QImage(w, h, QImage::Format_ARGB32);
         curImage->fill(Qt::transparent);
 
         const sai::LayerHeader LayerHeader = LayerFile.Read<sai::LayerHeader>();
@@ -139,41 +137,72 @@ const QString PQCLoadImageLibsai::load(QString filename, QSize maxSize, QSize &o
                 // we have to call copy() as QImage does not take ownership of the data and the buffer will be freed while the image is still in use
                 QImage i = QImage(reinterpret_cast<uchar*>(LayerPixels.get()),
                                   LayerHeader.Bounds.Width, LayerHeader.Bounds.Height,
-                                  4*LayerHeader.Bounds.Width, QImage::Format_ARGB32_Premultiplied).copy();
+                                  4*LayerHeader.Bounds.Width, QImage::Format_ARGB32).copy();
 
                 // Both PreserveOpacity and Clipping only apply the color if there is a non-transparent color below already
                 // The difference lies in that the former happens in the same layer whereas the latter happens in a seperate layer
                 // Since we are only interested in a flat rendered image we can treat them the same way.
                 if(LayerHeader.PreserveOpacity || LayerHeader.Clipping) {
 
-                    // TODO: This does not work as expected at the moment
+                    // we need it for all scanlines, so we store the right pointer once instead
+                    // of finding it every time from scratch (-> faster)
+                    QImage* prev = allImageLayers.last();
 
-                    // const std::int32_t startX = std::max(0, LayerHeader.Bounds.X);
-                    // const std::int32_t startY = std::max(0, LayerHeader.Bounds.Y);
+                    const std::int32_t startX = std::max(0, LayerHeader.Bounds.X);
+                    const std::int32_t startY = std::max(0, LayerHeader.Bounds.Y);
 
-                    // const std::int32_t endX = std::min(w, LayerHeader.Bounds.X+LayerHeader.Bounds.Width);
-                    // const std::int32_t endY = std::min(h, LayerHeader.Bounds.Y+LayerHeader.Bounds.Height);
+                    const std::int32_t endX = std::min(w, LayerHeader.Bounds.X+LayerHeader.Bounds.Width);
+                    const std::int32_t endY = std::min(h, LayerHeader.Bounds.Y+LayerHeader.Bounds.Height);
 
-                    // // value between 0 and 255
-                    // int alpha = 2.55*LayerHeader.Opacity;
+                    // value between 0 and 255
+                    int alpha = 255 - static_cast<int>(2.55*LayerHeader.Opacity);
 
-                    // for(int y = startY; y < endY; ++y) {
+                    // the threaded approach is only faster for at least resonably large images (~1MP+)
+                    // for smaller images the overhead from threading is too expensive, so we stick to
+                    // a simple loop in that case
+                    if(static_cast<qint64>(origSize.width())*origSize.height() >= 1e6) {
 
-                    //     for(int x = startX; x < endX; ++x) {
+                        // prepare list of rows for processing
+                        QVector<int> rows;
+                        rows.reserve(endY - startY);
+                        for (int y = startY; y < endY; ++y)
+                            rows.push_back(y);
 
-                    //         // previous layer not transparent -> set new pixel
-                    //         const bool haveCol = (allImageLayers.last()->pixelColor(x, y).alpha() > 0);
+                        QtConcurrent::blockingMap(rows, [&](int y) {
 
-                    //         // if(allImageLayers.last()->pixelColor(x, y).alpha() != 0) {
-                    //         if(haveCol) {
-                    //             QColor col = i.pixelColor(x, y);
-                    //             col.setAlpha(alpha);
-                    //             curImage->setPixelColor(x, y, col);
-                    //         }
+                                  QRgb* dstLine  = reinterpret_cast<      QRgb*>(curImage->scanLine(y));
+                            const QRgb* srcLine  = reinterpret_cast<const QRgb*>(i.constScanLine(y));
+                            const QRgb* prevLine = reinterpret_cast<const QRgb*>(prev->constScanLine(y));
 
-                    //     }
+                            for(int x = startX; x < endX; ++x) {
 
-                    // }
+                                // fastest way to apply new color IF previous image had non-transparent color here
+                                if(prevLine[x] & 0xFF000000)
+                                    dstLine[x] = (srcLine[x] & 0x00FFFFFF) | (alpha << 24);
+
+                            }
+
+                        });
+
+                    } else {
+
+                        for(int y = startY; y < endY; ++y) {
+
+                                  QRgb* dstLine  = reinterpret_cast<      QRgb*>(curImage->scanLine(y));
+                            const QRgb* srcLine  = reinterpret_cast<const QRgb*>(i.constScanLine(y));
+                            const QRgb* prevLine = reinterpret_cast<const QRgb*>(prev->constScanLine(y));
+
+                            for(int x = startX; x < endX; ++x) {
+
+                                // fastest way to apply new color IF previous image had non-transparent color here
+                                if(prevLine[x] & 0xFF000000)
+                                    dstLine[x] = (srcLine[x] & 0x00FFFFFF) | (alpha << 24);
+
+                            }
+
+                        }
+
+                    }
 
                 } else {
 
@@ -212,26 +241,18 @@ const QString PQCLoadImageLibsai::load(QString filename, QSize maxSize, QSize &o
         return true;
     });
 
-    composedImage = QImage(w, h, QImage::Format_ARGB32_Premultiplied);
-    composedImage.fill(Qt::transparent);
-    QPainter composedPainter(&composedImage);
+    // compose final image
+    img = QImage(w, h, QImage::Format_ARGB32_Premultiplied);
+    img.fill(Qt::white);
+    QPainter composedPainter(&img);
     for(const QImage *img : std::as_const(allImageLayers)) {
         composedPainter.drawImage(QRect(0,0,w,h),*img);
     }
     composedPainter.end();
 
-    // make sure the background is all white
-    // we can't do it on the composedImage at the start as it would mess up the PreserveOpacity/Clipping option
-    img = QImage(w,h,QImage::Format_ARGB32);
-    img.fill(Qt::white);
-    QPainter p(&img);
-    p.drawImage(0, 0, composedImage);
-    p.end();
-
-    if(!img.isNull() && PQCSettingsCPP::get().getMetadataAutoRotation()) {
-        // apply transformations if any
-        PQCScriptsImages::get().applyExifOrientation(filename, img);
-    }
+    // if successful then we cache the image
+    if(!img.isNull())
+        PQCImageCache::get().saveImageToCache(filename, "", &img);
 
     // make sure we fit the requested size
     if(maxSize.width() != -1) {
