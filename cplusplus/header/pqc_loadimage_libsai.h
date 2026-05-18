@@ -25,7 +25,11 @@
 #include <memory>
 
 #ifdef PQMLIBSAI
+#if __has_include(<sai.hpp>)
 #include <sai.hpp>
+#elif __has_include(<libsai/sai.hpp>)
+#include <libsai/sai.hpp>
+#endif
 #endif
 
 class QSize;

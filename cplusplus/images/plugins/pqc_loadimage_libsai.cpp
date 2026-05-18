@@ -26,12 +26,13 @@
 #include <pqc_settingscpp.h>
 #include <scripts/pqc_scriptsimages.h>
 #include <pqc_imagecache.h>
+#include <pqc_notify_cpp.h>
 #include <QSize>
 #include <QImage>
 #include <QtDebug>
 #include <QPainter>
 #include <QCryptographicHash>
-#include <QtConcurrent>
+#include <QtConcurrent/QtConcurrentMap>
 
 PQCLoadImageLibsai::PQCLoadImageLibsai() {}
 
@@ -110,6 +111,8 @@ const QString PQCLoadImageLibsai::load(QString filename, QSize maxSize, QSize &o
 
     saidoc.IterateLayerFiles([&](sai::VirtualFileEntry& LayerFile) {
 
+        if(PQCNotifyCPP::get().isPhotoQtShuttingDown()) return true;
+
         QImage *curImage = new QImage(w, h, QImage::Format_ARGB32);
         curImage->fill(Qt::transparent);
 
@@ -169,6 +172,8 @@ const QString PQCLoadImageLibsai::load(QString filename, QSize maxSize, QSize &o
                             rows.push_back(y);
 
                         QtConcurrent::blockingMap(rows, [&](int y) {
+
+                            if(PQCNotifyCPP::get().isPhotoQtShuttingDown()) return;
 
                                   QRgb* dstLine  = reinterpret_cast<      QRgb*>(curImage->scanLine(y));
                             const QRgb* srcLine  = reinterpret_cast<const QRgb*>(i.constScanLine(y));
@@ -240,6 +245,8 @@ const QString PQCLoadImageLibsai::load(QString filename, QSize maxSize, QSize &o
 
         return true;
     });
+
+    if(PQCNotifyCPP::get().isPhotoQtShuttingDown()) return "";
 
     // compose final image
     img = QImage(w, h, QImage::Format_ARGB32_Premultiplied);
