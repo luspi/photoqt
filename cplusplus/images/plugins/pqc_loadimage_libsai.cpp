@@ -127,6 +127,8 @@ const QString PQCLoadImageLibsai::load(QString filename, QSize maxSize, QSize &o
             LayerFile.Seek(LayerFile.Tell() + CurTagSize);
         }
 
+        bool appendNextImage = true;
+
         // if this is a layer
         if(static_cast<sai::LayerType>(LayerHeader.Type) == sai::LayerType::Layer ||
            static_cast<sai::LayerType>(LayerHeader.Type) == sai::LayerType::RootLayer) {
@@ -143,22 +145,37 @@ const QString PQCLoadImageLibsai::load(QString filename, QSize maxSize, QSize &o
                                   LayerHeader.Bounds.Width, LayerHeader.Bounds.Height,
                                   4*LayerHeader.Bounds.Width, QImage::Format_ARGB32).copy();
 
-                QPainter curPainter(&curImage);
+                // this modifies the last layer and does not create a new one
+                if(LayerHeader.PreserveOpacity) {
 
-                // Both PreserveOpacity and Clipping only apply the color if there is a non-transparent color below already
-                // The difference lies in that the former happens in the same layer whereas the latter happens in a seperate layer
-                // Since we are only interested in a flat rendered image we can treat them the same way.
-                if(LayerHeader.PreserveOpacity || LayerHeader.Clipping) {
+                    appendNextImage = false;
+
+                    QPainter curPainter(&allImageLayers.last());
                     curPainter.setClipRegion(QRegion(QBitmap::fromImage(allImageLayers.last().createAlphaMask())));
-                }
+                    curPainter.setOpacity(static_cast<double>(LayerHeader.Opacity)/100.);
+                    curPainter.drawImage(QPoint(LayerHeader.Bounds.X, LayerHeader.Bounds.Y), i);
+                    curPainter.end();
 
-                curPainter.setOpacity(static_cast<double>(LayerHeader.Opacity)/100.);
-                curPainter.drawImage(QPoint(LayerHeader.Bounds.X, LayerHeader.Bounds.Y), i);
-                curPainter.end();
+                // create new layer image
+                } else {
+
+                    QPainter curPainter(&curImage);
+
+                    // the new layer is clipped to the alpha mask of the previous layer
+                    if(LayerHeader.Clipping)
+                        curPainter.setClipRegion(QRegion(QBitmap::fromImage(allImageLayers.last().createAlphaMask())));
+
+                    curPainter.setOpacity(static_cast<double>(LayerHeader.Opacity)/100.);
+                    curPainter.drawImage(QPoint(LayerHeader.Bounds.X, LayerHeader.Bounds.Y), i);
+                    curPainter.end();
+
+                }
 
             }
 
         } else if(static_cast<sai::LayerType>(LayerHeader.Type) == sai::LayerType::Set) {
+
+            appendNextImage = false;
 
             if(static_cast<sai::BlendingModes>(LayerHeader.Blending) == sai::BlendingModes::Multiply)
                 qWarning() << "Multiply blending not yet implemented";
@@ -179,7 +196,8 @@ const QString PQCLoadImageLibsai::load(QString filename, QSize maxSize, QSize &o
 
         }
 
-        allImageLayers.append(curImage);
+        if(appendNextImage)
+            allImageLayers.append(curImage);
 
         return true;
     });
