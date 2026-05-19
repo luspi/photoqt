@@ -44,7 +44,7 @@ QImage PQCProviderSVG::requestImage(const QString &url, QSize *origSize, const Q
 
     QImage ret;
 
-    if(requestedSize.isNull()) {
+    if(requestedSize.isEmpty()) {
         ret = QImage(1,1, QImage::Format_ARGB32);
         ret.fill(Qt::transparent);
         return ret;
@@ -70,17 +70,17 @@ QImage PQCProviderSVG::requestImage(const QString &url, QSize *origSize, const Q
     }
 
     // Store the width/height for later use
-    *origSize = svg.defaultSize();
+    const QSize defaultSize = svg.defaultSize();
 
-    QSize use = requestedSize;
-    if(requestedSize.width() < 2 || requestedSize.height() < 2)
-        use = svg.defaultSize();
+    *origSize = defaultSize;
 
-    QSize fitSize = origSize->scaled(use, Qt::KeepAspectRatio);
-    QRect fitRect(QPoint(0,0), fitSize);
+    const QSize use = (requestedSize.isEmpty() ? defaultSize : requestedSize);
+
+    const QSize fitSize = defaultSize.scaled(use, Qt::KeepAspectRatio);
+    const QRect fitRect(QPoint(0,0), fitSize);
 
     // Render SVG into pixmap
-    ret = QImage(fitSize, QImage::Format_ARGB32);
+    ret = QImage(fitSize, QImage::Format_ARGB32_Premultiplied);
     ret.fill(::Qt::transparent);
     QPainter painter(&ret);
     svg.render(&painter, fitRect);

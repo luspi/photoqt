@@ -39,7 +39,7 @@ QImage PQCProviderIcon::requestImage(const QString &icon, QSize *origSize, const
 
     QSize use = requestedSize;
 
-    if(use == QSize(-1,-1)) {
+    if(use.isEmpty()) {
         use.setWidth(512);
         use.setHeight(512);
         origSize->setWidth(512);
@@ -49,17 +49,17 @@ QImage PQCProviderIcon::requestImage(const QString &icon, QSize *origSize, const
         origSize->setHeight(requestedSize.width());
     }
 
-    const QString suf = const_cast<QString&>(icon);
+    const QString suf = icon.toLower();
 
     QString iconname = ":/filetypes/unknown.svg";
     if(suf.startsWith("network_"))
         iconname = ":/filetypes/network_unknown.svg";
-    if(QFile::exists(QString(":/filetypes/%1.svg").arg(suf.toLower())))
-        iconname = QString(":/filetypes/%1.svg").arg(suf.toLower());
+    if(QFile::exists(":/filetypes/" % suf % ".svg"))
+        iconname = ":/filetypes/" % suf % ".svg";
     else if(suf.contains(".")) {
-        const QString suf2 = (suf.startsWith("network_") ? "network_" : "") + suf.split(".").last();
-        if(QFile::exists(QString(":/filetypes/%1.svg").arg(suf2.toLower())))
-            iconname = QString(":/filetypes/%1.svg").arg(suf2.toLower());
+        const QString suf2 = (suf.startsWith("network_") ? "network_" : "") % suf.split(".").last();
+        if(QFile::exists(":/filetypes/" % suf2 % ".svg"))
+            iconname = ":/filetypes/" % suf2 % "1.svg";
     }
 
     return svg->requestImage(iconname, origSize, requestedSize);

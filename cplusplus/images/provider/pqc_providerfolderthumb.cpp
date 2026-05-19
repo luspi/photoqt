@@ -59,16 +59,23 @@ void PQCAsyncImageResponseFolderThumbCache::saveToCache(QString foldername, int 
 }
 
 const QString PQCAsyncImageResponseFolderThumbCache::generateCacheKey(QString foldername, int numEnabledFormats) {
-    return QString("%1::%2::%3::%4::%5")
-                .arg(foldername)
-                .arg(numEnabledFormats)
-                .arg(QFileInfo(foldername).lastModified().toMSecsSinceEpoch())
-                .arg(PQCSettingsCPP::get().getFiledialogFolderContentThumbnailsSortBy()=="default"
-                         ? PQCSettingsCPP::get().getImageviewSortImagesBy()
-                         : PQCSettingsCPP::get().getFiledialogFolderContentThumbnailsSortBy())
-                .arg(PQCSettingsCPP::get().getFiledialogFolderContentThumbnailsSortBy()=="default"
-                         ? (PQCSettingsCPP::get().getImageviewSortImagesAscending() ? 1 : 0)
-                         : (PQCSettingsCPP::get().getFiledialogFolderContentThumbnailsSortAscending()?1:0));
+
+    PQCSettingsCPP& settings = PQCSettingsCPP::get();
+
+    const bool useDefaultSort = (settings.getFiledialogFolderContentThumbnailsSortBy() == "default");
+    const QString sortBy = useDefaultSort ? settings.getImageviewSortImagesBy() : settings.getFiledialogFolderContentThumbnailsSortBy();
+    const int ascending = useDefaultSort ? settings.getImageviewSortImagesAscending() : settings.getFiledialogFolderContentThumbnailsSortAscending();
+
+    return foldername
+           % "::"
+           % QString::number(numEnabledFormats)
+           % "::"
+           % QString::number(QFileInfo(foldername).lastModified().toMSecsSinceEpoch())
+           % "::"
+           % sortBy
+           % "::"
+           % QString::number(ascending ? 1 : 0);
+
 }
 
 /***********************************************************/
@@ -109,7 +116,7 @@ void PQCAsyncImageResponseFolderThumb::run() {
 
         QDir dir(m_folder);
 
-        QStringList checkForTheseFormats;
+        QStringList checkForTheseFormats(checknum);
         const QSet<QString> lst = PQCImageFormats::get().getEnabledFormatsSet();
         for(const QString &c : lst)
             checkForTheseFormats << QString("*.%1").arg(c);
@@ -139,8 +146,8 @@ void PQCAsyncImageResponseFolderThumb::run() {
         if(sortBy != "naturalname")
             dir.setSorting(sortFlags);
 
-        count = dir.count();
         fileinfolist = dir.entryInfoList();
+        count = fileinfolist.size();
 
         if(sortBy == "naturalname") {
             QCollator collator;

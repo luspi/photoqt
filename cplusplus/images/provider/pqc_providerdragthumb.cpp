@@ -27,7 +27,6 @@
 #include <pqc_imageformats.h>
 #include <scripts/pqc_scriptsfilespaths.h>
 #include <QPainter>
-#include <QPainterPath>
 #include <QImage>
 
 QQuickImageResponse *PQCAsyncImageProviderDragThumb::requestImageResponse(const QString &url, const QSize &requestedSize) {
@@ -74,18 +73,20 @@ void PQCAsyncImageResponseDragThumb::run() {
     }
 
     if(m_howmany > 1) {
+
         QPainter painter(&m_image);
         painter.setRenderHint(QPainter::Antialiasing);
-        QPainterPath path;
-        QRectF cont(m_image.width()-50, 2, 48, 32);
-        path.addRoundedRect(cont, 2, 2);
-        QPen pen(Qt::black, 1);
-        painter.setPen(pen);
-        painter.fillPath(path, QColor::fromRgba(qRgba(0,0,0,160)));
-        painter.drawPath(path);
+
+        const QRect cont(m_image.width()-50, 2, 48, 32);
+
+        painter.setPen(QPen(Qt::black, 1));
+        painter.setBrush(QColor(0, 0, 0, 160));
+        painter.drawRoundedRect(cont, 2, 2);
+
         painter.setPen(Qt::white);
-        painter.drawText(cont, Qt::AlignCenter, QString("%1x").arg(m_howmany));
+        painter.drawText(cont, Qt::AlignCenter, QString::number(m_howmany));
         painter.end();
+
     }
 
     Q_EMIT finished();

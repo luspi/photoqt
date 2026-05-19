@@ -54,14 +54,19 @@ QImage PQCProviderSVGColor::requestImage(const QString &url, QSize *origSize, co
         PQCProviderSVG prov;
         QImage img = prov.requestImage(fn, origSize, requestedSize);
 
+        const QRgb white = qRgb(255, 255, 255);
+        const QRgb newColor = c.rgba();
+        const QRgb invColor = invc.rgba();
+
         // loop through image and adjust colors
-        for(int x = 0; x < img.width(); ++x) {
-            for(int y = 0; y < img.height(); ++y) {
-                const QColor oldc = img.pixelColor(x, y);
-                if(oldc.red() == 255 && oldc.green() == 255 && oldc.blue() == 255)
-                    img.setPixelColor(x, y, c);
-                else if(oldc.alpha() != 0)
-                    img.setPixelColor(x, y, invc);
+        for(int y = 0; y < img.height(); ++y) {
+            QRgb* line = reinterpret_cast<QRgb*>(img.scanLine(y));
+            for(int x = 0; x < img.width(); ++x) {
+                const QRgb px = line[x];
+                if((px & 0x00FFFFFF) == 0x00FFFFFF)
+                    line[x] = newColor;
+                else if(qAlpha(px) != 0)
+                    line[x] = invColor;
             }
         }
 

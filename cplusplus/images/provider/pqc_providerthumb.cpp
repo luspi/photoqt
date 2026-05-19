@@ -171,7 +171,7 @@ void PQCAsyncImageResponseThumb::loadImage() {
     }
 
 
-    const QString thumbcachepath = PQCConfigFiles::get().THUMBNAIL_CACHE_DIR() + "/" + cachedir + "/" + md5 + ".png";
+    const QString thumbcachepath = PQCConfigFiles::get().THUMBNAIL_CACHE_DIR() % "/" % cachedir % "/" % md5 % ".png";
 
     // If files in XDG_CACHE_HOME/thumbnails/ shall be used, then do use them
     if(PQCSettingsCPP::get().getThumbnailsCache()) {
@@ -218,8 +218,8 @@ void PQCAsyncImageResponseThumb::loadImage() {
 
         const QString suf = QFileInfo(filenameForChecking).suffix().toLower();
         QString iconname = ":/filetypes/unknown.svg";
-        if(QFile::exists(QString(":/filetypes/%1.svg").arg(suf)))
-            iconname = QString(":/filetypes/%1.svg").arg(suf);
+        if(QFile::exists(":/filetypes/"% suf % "1.svg"))
+            iconname = ":/filetypes/" % suf % ".svg";
 
         QSvgRenderer svg;
         if(!svg.load(iconname))
@@ -259,13 +259,13 @@ void PQCAsyncImageResponseThumb::loadImage() {
             dir.mkpath(info.absolutePath());
 
             // Set some required (and additional) meta information
-            p.setText("Thumb::URI", QString("file://%1").arg(QString(filename)));
-            p.setText("Thumb::MTime", QString("%1").arg(QFileInfo(filenameForChecking).lastModified().toSecsSinceEpoch()));
+            p.setText("Thumb::URI", "file://" % filename);
+            p.setText("Thumb::MTime", QString::number(QFileInfo(filenameForChecking).lastModified().toSecsSinceEpoch()));
             QString mime = mimedb.mimeTypeForFile(filenameForChecking, QMimeDatabase::MatchContent).name();
             // this is the default mime type if no mime type is available or file cannot be found
             if(mime != "application/octet-stream")
                 p.setText("Thumb::Mimetype", mime);
-            p.setText("Thumb::Size", QString("%1").arg(p.sizeInBytes()));
+            p.setText("Thumb::Size", QString::number(p.sizeInBytes()));
 
             // If the file does already exist, then the image has likely been updated -> delete old thumbnail image
             if(QFile(thumbcachepath).exists())
