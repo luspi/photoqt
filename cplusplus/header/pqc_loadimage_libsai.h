@@ -21,9 +21,6 @@
  **************************************************************************/
 #pragma once
 
-#include <cstdint>
-#include <memory>
-
 #ifdef PQMLIBSAI
 #if __has_include(<sai.hpp>)
 #include <sai.hpp>
@@ -33,8 +30,8 @@
 #endif
 
 class QSize;
-class QString;
 class QImage;
+class QString;
 
 class PQCLoadImageLibsai {
 
@@ -46,7 +43,7 @@ public:
 
 private:
 #ifdef PQMLIBSAI
-    static std::unique_ptr<std::uint32_t[]> ReadRasterLayer(const sai::LayerHeader& layerHeader, sai::VirtualFileEntry& layerFile);
+    static std::vector<uint32_t> ReadRasterLayer(const sai::LayerHeader& layerHeader, sai::VirtualFileEntry& layerFile);
     static void RLEDecompressStride(std::byte* destination, const std::byte* source, std::size_t stride, std::size_t strideCount, std::size_t channel);
 #endif
 

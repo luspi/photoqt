@@ -137,11 +137,12 @@ const QString PQCLoadImageLibsai::load(QString filename, QSize maxSize, QSize &o
             if(LayerHeader.Visible == 0)
                 return true;
 
-            if(auto LayerPixels = ReadRasterLayer(LayerHeader, LayerFile); LayerPixels) {
+            std::vector<std::uint32_t> LayerPixels = ReadRasterLayer(LayerHeader, LayerFile);
+            if(!LayerPixels.empty()) {
 
                 // Load image from data
                 // we have to call copy() as QImage does not take ownership of the data and the buffer will be freed while the image is still in use
-                QImage i = QImage(reinterpret_cast<uchar*>(LayerPixels.get()),
+                QImage i = QImage(reinterpret_cast<uchar*>(LayerPixels.data()),
                                   LayerHeader.Bounds.Width, LayerHeader.Bounds.Height,
                                   4*LayerHeader.Bounds.Width, QImage::Format_ARGB32).copy();
 
@@ -240,22 +241,23 @@ const QString PQCLoadImageLibsai::load(QString filename, QSize maxSize, QSize &o
 /*********************************************************************/
 // This function is based on ReadRasterLayer() function found in:
 // https://github.com/Wunkolo/libsai/blob/main/samples/Document.cpp
-std::unique_ptr<std::uint32_t[]> PQCLoadImageLibsai::ReadRasterLayer(const sai::LayerHeader& layerHeader, sai::VirtualFileEntry& layerFile) {
+std::vector<std::uint32_t> PQCLoadImageLibsai::ReadRasterLayer(const sai::LayerHeader& layerHeader, sai::VirtualFileEntry& layerFile) {
 
-    const std::size_t tileSize    = 32u;
+    const std::size_t tileSize   = 32u;
+    const std::size_t tilePixels = tileSize * tileSize;
+    const std::size_t pixelSize  = sizeof(std::uint32_t);
+    const std::size_t tileBytes  = tilePixels * pixelSize;
+
     const std::size_t layerTilesX = layerHeader.Bounds.Width / tileSize;
     const std::size_t layerTilesY = layerHeader.Bounds.Height / tileSize;
-    const auto index2D = [](std::size_t X, std::size_t Y, std::size_t Stride) -> std::size_t {
-        return X + (Y * Stride);
-    };
 
     // Do not use a std::vector<bool> as this is implemented as a specialized
     // type that does not implement individual bool values as bytes, but rather
     // as packed bits within a word.
 
     // Read TileMap
-    std::unique_ptr<std::byte[]> tileMap = std::make_unique<std::byte[]>(layerTilesX * layerTilesY);
-    layerFile.Read({tileMap.get(), layerTilesX * layerTilesY});
+    std::vector<std::byte> tileMap(layerTilesX * layerTilesY);
+    layerFile.Read({tileMap.data(), layerTilesX * layerTilesY});
 
     // The resulting raster image data for this layer, RGBA 32bpp interleaved
     // Use a vector to ensure that tiles with no data are still initialized
@@ -264,19 +266,18 @@ std::unique_ptr<std::uint32_t[]> PQCLoadImageLibsai::ReadRasterLayer(const sai::
     // depth may actually only be true at run-time. All raster data found in
     // files are stored at 8bpc while only some run-time color arithmetic
     // converts to 16-bit
-    std::unique_ptr<std::uint32_t[]> layerImage = std::make_unique<std::uint32_t[]>(layerHeader.Bounds.Width * layerHeader.Bounds.Height);
+    std::vector<std::uint32_t> layerImage(layerHeader.Bounds.Width * layerHeader.Bounds.Height);
 
     // 32 x 32 Tile of B8G8R8A8 pixels
-    std::array<std::byte, 0x1000> compressedTile   = {};
-    std::array<std::byte, 0x1000> decompressedTile = {};
+    std::array<std::byte, tileBytes> compressedTile = {};
+    std::array<std::byte, tileBytes> decompressedTile = {};
 
     // Iterate 32x32 tile chunks row by row
     for(std::size_t y = 0; y < layerTilesY; ++y) {
-
         for(std::size_t x = 0; x < layerTilesX; ++x) {
 
             // Process active Tiles
-            if(!std::to_integer<std::uint8_t>(tileMap[index2D(x, y, layerTilesX)]))
+            if(tileMap[x + y*layerTilesX] == std::byte{0})
                 continue;
 
             std::uint8_t  curChannel = 0;
@@ -294,7 +295,7 @@ std::unique_ptr<std::uint32_t[]> PQCLoadImageLibsai::ReadRasterLayer(const sai::
 
                 // Decompress and place into the appropriate interleaved channel
                 PQCLoadImageLibsai::RLEDecompressStride(decompressedTile.data(), compressedTile.data(),
-                                                        sizeof(std::uint32_t), 0x1000 / sizeof(std::uint32_t),
+                                                        sizeof(std::uint32_t), tilePixels,
                                                         curChannel);
                 ++curChannel;
 
@@ -309,20 +310,20 @@ std::unique_ptr<std::uint32_t[]> PQCLoadImageLibsai::ReadRasterLayer(const sai::
                     break;
 
                 }
+
             }
 
             // Write 32x32 tile into final image
             const std::uint32_t* imageSource = reinterpret_cast<const std::uint32_t*>(decompressedTile.data());
 
             // Current 32x32 tile within final image
-            std::uint32_t* imageDest = layerImage.get() + index2D(x * tileSize, y * layerHeader.Bounds.Width, tileSize);
+            std::uint32_t* imageDest = layerImage.data() + (y * tileSize * layerHeader.Bounds.Width) + (x * tileSize);
 
-            for(std::size_t i = 0; i < (tileSize * tileSize); i++) {
-
-                std::uint32_t CurPixel = imageSource[i];
-                imageDest[index2D(i % tileSize, i / tileSize, layerHeader.Bounds.Width)] = CurPixel;
-
+            const std::uint32_t ts = tileSize*sizeof(std::uint32_t);
+            for(std::size_t row = 0; row < tileSize; ++row) {
+                std::memcpy(imageDest + row*layerHeader.Bounds.Width, imageSource + row*tileSize, ts);
             }
+
         }
     }
 
@@ -350,25 +351,22 @@ void PQCLoadImageLibsai::RLEDecompressStride(std::byte* destination, const std::
             length++;
             writeCount += length;
 
-            while(length) {
+            do {
                 *destination = *source++;
                 destination += stride;
-                length--;
-            }
+            } while(--length);
 
         } else if(length > 128) { // Repeating byte
 
             // Repeat next byte exactly "-Length + 1" times
-            length ^= 0xFF;
-            length += 2;
+            length = 257 - length;
             writeCount += length;
             std::byte value = *source++;
 
-            while(length) {
+            do {
                 *destination = value;
                 destination += stride;
-                length--;
-            }
+            } while(--length);
 
         }
     }
