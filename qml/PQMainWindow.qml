@@ -494,6 +494,7 @@ ApplicationWindow {
     onClosing: (close) => {
 
         PQCConstants.photoQtShuttingDown = true
+        PQCNotify.photoqtShuttingDown()
 
         // We stop a running slideshow to make sure all settings are restored to their normal state
         if(PQCConstants.slideshowRunning)
