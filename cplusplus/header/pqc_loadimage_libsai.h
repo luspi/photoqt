@@ -24,8 +24,8 @@
 #ifdef PQMLIBSAI
 #if __has_include(<sai.hpp>)
 #include <sai.hpp>
-#elif __has_include(<libsai/sai.hpp>)
-#include <libsai/sai.hpp>
+#elif __has_include(<sai/sai.hpp>)
+#include <sai/sai.hpp>
 #endif
 #endif
 
