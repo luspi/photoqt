@@ -71,147 +71,183 @@ QSize PQCLoadImage::load(QString filename) {
     //////////////////////////////////////////////
     // first we check for filename suffix matches
 
-    // we need to explicitly set the initial size to be 0,0 otherwise the isNull check below will always fail
-    QSize sze(0,0);
-
     // resvg trumps Qt's SVG engine
 #ifdef PQMRESVG
-    if(PQCImageFormats::get().getEnabledFormatsResvgSet().contains(suffix1) || PQCImageFormats::get().getEnabledFormatsResvgSet().contains(suffix2))
-        sze = PQCLoadImageResvg::loadSize(filename);
+    if(PQCImageFormats::get().getEnabledFormatsResvgSet().contains(suffix1) || PQCImageFormats::get().getEnabledFormatsResvgSet().contains(suffix2)) {
+        const QSize sze = PQCLoadImageResvg::loadSize(filename);
+        if(!sze.isEmpty()) return sze;
+    }
 #endif
 
 #ifdef PQMPOPPLER
-    if(sze.isNull() && (PQCImageFormats::get().getEnabledFormatsPopplerSet().contains(suffix1) || PQCImageFormats::get().getEnabledFormatsPopplerSet().contains(suffix2)))
-        sze = PQCLoadImagePoppler::loadSize(filename);
+    if(PQCImageFormats::get().getEnabledFormatsPopplerSet().contains(suffix1) || PQCImageFormats::get().getEnabledFormatsPopplerSet().contains(suffix2)) {
+        const QSize sze = PQCLoadImagePoppler::loadSize(filename);
+        if(!sze.isEmpty()) return sze;
+    }
 #endif
 
 #ifdef PQMQTPDF
-    if(sze.isNull() && (PQCImageFormats::get().getEnabledFormatsPopplerSet().contains(suffix1) || PQCImageFormats::get().getEnabledFormatsPopplerSet().contains(suffix2)))
-        sze = PQCLoadImageQtPDF::loadSize(filename);
+    if(PQCImageFormats::get().getEnabledFormatsPopplerSet().contains(suffix1) || PQCImageFormats::get().getEnabledFormatsPopplerSet().contains(suffix2)) {
+        const QSize sze = PQCLoadImageQtPDF::loadSize(filename);
+        if(!sze.isEmpty()) return sze;
+    }
 #endif
 
-    if(sze.isNull() && (PQCImageFormats::get().getEnabledFormatsQtSet().contains(suffix1) || PQCImageFormats::get().getEnabledFormatsQtSet().contains(suffix2)))
-        sze = PQCLoadImageQt::loadSize(filename);
+    if(PQCImageFormats::get().getEnabledFormatsQtSet().contains(suffix1) || PQCImageFormats::get().getEnabledFormatsQtSet().contains(suffix2)) {
+        const QSize sze = PQCLoadImageQt::loadSize(filename);
+        if(!sze.isEmpty()) return sze;
+    }
 
 #ifdef PQMRAW
-    if(sze.isNull() && (PQCImageFormats::get().getEnabledFormatsLibRawSet().contains(suffix1) || PQCImageFormats::get().getEnabledFormatsLibRawSet().contains(suffix2)))
-        sze = PQCLoadImageRAW::loadSize(filename);
+    if(PQCImageFormats::get().getEnabledFormatsLibRawSet().contains(suffix1) || PQCImageFormats::get().getEnabledFormatsLibRawSet().contains(suffix2)) {
+        const QSize sze = PQCLoadImageRAW::loadSize(filename);
+        if(!sze.isEmpty()) return sze;
+    }
 #endif
 
 #ifdef PQMLIBARCHIVE
-    if(sze.isNull() && (PQCImageFormats::get().getEnabledFormatsLibArchiveSet().contains(suffix1) || PQCImageFormats::get().getEnabledFormatsLibArchiveSet().contains(suffix2)))
-        sze = PQCLoadImageArchive::loadSize(filename);
+    if(PQCImageFormats::get().getEnabledFormatsLibArchiveSet().contains(suffix1) || PQCImageFormats::get().getEnabledFormatsLibArchiveSet().contains(suffix2)) {
+        const QSize sze = PQCLoadImageArchive::loadSize(filename);
+        if(!sze.isEmpty()) return sze;
+    }
 #endif
 
 #ifdef PQMLIBSAI
-    if(sze.isNull() && (PQCImageFormats::get().getEnabledFormatsLibsaiSet().contains(suffix1) || PQCImageFormats::get().getEnabledFormatsLibsaiSet().contains(suffix2)))
-        sze = PQCLoadImageLibsai::loadSize(filename);
+    if(PQCImageFormats::get().getEnabledFormatsLibsaiSet().contains(suffix1) || PQCImageFormats::get().getEnabledFormatsLibsaiSet().contains(suffix2)) {
+        const QSize sze = PQCLoadImageLibsai::loadSize(filename);
+        if(!sze.isEmpty()) return sze;
+    }
 #endif
 
-    if(sze.isNull() && (PQCImageFormats::get().getEnabledFormatsXCFToolsSet().contains(suffix1) || PQCImageFormats::get().getEnabledFormatsXCFToolsSet().contains(suffix2)))
-        sze = PQCLoadImageXCF::loadSize(filename);
+    if(PQCImageFormats::get().getEnabledFormatsXCFToolsSet().contains(suffix1) || PQCImageFormats::get().getEnabledFormatsXCFToolsSet().contains(suffix2)) {
+        const QSize sze = PQCLoadImageXCF::loadSize(filename);
+        if(!sze.isEmpty()) return sze;
+    }
 
 #if defined(PQMIMAGEMAGICK) || defined(PQMGRAPHICSMAGICK)
-    if(sze.isNull() && (PQCImageFormats::get().getEnabledFormatsMagickSet().contains(suffix1) || PQCImageFormats::get().getEnabledFormatsMagickSet().contains(suffix2)))
-        sze = PQCLoadImageMagick::loadSize(filename);
+    if(PQCImageFormats::get().getEnabledFormatsMagickSet().contains(suffix1) || PQCImageFormats::get().getEnabledFormatsMagickSet().contains(suffix2)) {
+        const QSize sze = PQCLoadImageMagick::loadSize(filename);
+        if(!sze.isEmpty()) return sze;
+    }
 #endif
 
 #ifdef PQMLIBVIPS
-    if(sze.isNull() && (PQCImageFormats::get().getEnabledFormatsLibVipsSet().contains(suffix1) || PQCImageFormats::get().getEnabledFormatsLibVipsSet().contains(suffix2)))
-        sze = PQCLoadImageLibVips::loadSize(filename);
+    if(PQCImageFormats::get().getEnabledFormatsLibVipsSet().contains(suffix1) || PQCImageFormats::get().getEnabledFormatsLibVipsSet().contains(suffix2)) {
+        const QSize sze = PQCLoadImageLibVips::loadSize(filename);
+        if(!sze.isEmpty()) return sze;
+    }
 #endif
 
 #ifdef PQMDEVIL
-    if(sze.isNull() && (PQCImageFormats::get().getEnabledFormatsDevILSet().contains(suffix1) || PQCImageFormats::get().getEnabledFormatsDevILSet().contains(suffix2)))
-        sze = PQCLoadImageDevil::loadSize(filename);
+    if(PQCImageFormats::get().getEnabledFormatsDevILSet().contains(suffix1) || PQCImageFormats::get().getEnabledFormatsDevILSet().contains(suffix2)) {
+        const QSize sze = PQCLoadImageDevil::loadSize(filename);
+        if(!sze.isEmpty()) return sze;
+    }
 #endif
 
-    if(sze.isNull() && (PQCImageFormats::get().getEnabledFormatsVideoSet().contains(suffix1) || PQCImageFormats::get().getEnabledFormatsLibmpvSet().contains(suffix1) ||
-                        PQCImageFormats::get().getEnabledFormatsVideoSet().contains(suffix2) || PQCImageFormats::get().getEnabledFormatsLibmpvSet().contains(suffix2)))
-        sze = PQCLoadImageVideo::loadSize(filename);
+    if(PQCImageFormats::get().getEnabledFormatsVideoSet().contains(suffix1) || PQCImageFormats::get().getEnabledFormatsLibmpvSet().contains(suffix1) ||
+       PQCImageFormats::get().getEnabledFormatsVideoSet().contains(suffix2) || PQCImageFormats::get().getEnabledFormatsLibmpvSet().contains(suffix2)) {
+        const QSize sze = PQCLoadImageVideo::loadSize(filename);
+        if(!sze.isEmpty()) return sze;
+    }
 
 
     //////////////////////////////////////////////
     //////////////////////////////////////////////
-    // if that failed, then we check for mimetype matches
-    if(sze.isNull()) {
+    // if we got here then the above checks  failed and we check for mimetype matches
 
-        QMimeDatabase db;
-        QString mimetype = db.mimeTypeForFile(filename).name();
+    QMimeDatabase db;
+    QString mimetype = db.mimeTypeForFile(filename).name();
 
-        if(!mimetype.isEmpty() && mimetype != "application/octet-stream") {
+    if(!mimetype.isEmpty() && mimetype != "application/octet-stream") {
 
-            // resvg trumps Qt's SVG engine
+        // resvg trumps Qt's SVG engine
 #ifdef PQMRESVG
-            if(PQCImageFormats::get().getEnabledMimeTypesResvgSet().contains(mimetype))
-                sze = PQCLoadImageResvg::loadSize(filename);
+        if(PQCImageFormats::get().getEnabledMimeTypesResvgSet().contains(mimetype)) {
+            const QSize sze = PQCLoadImageResvg::loadSize(filename);
+            if(!sze.isEmpty()) return sze;
+        }
 #endif
 
 #ifdef PQMPOPPLER
-            if(sze.isNull() && PQCImageFormats::get().getEnabledMimeTypesPopplerSet().contains(mimetype))
-                sze = PQCLoadImagePoppler::loadSize(filename);
+        if(PQCImageFormats::get().getEnabledMimeTypesPopplerSet().contains(mimetype)) {
+            const QSize sze = PQCLoadImagePoppler::loadSize(filename);
+            if(!sze.isEmpty()) return sze;
+        }
 #endif
 
 #ifdef PQMQTPDF
-            if(sze.isNull() && PQCImageFormats::get().getEnabledMimeTypesPopplerSet().contains(mimetype))
-                sze = PQCLoadImageQtPDF::loadSize(filename);
+        if(PQCImageFormats::get().getEnabledMimeTypesPopplerSet().contains(mimetype)) {
+            const QSize sze = PQCLoadImageQtPDF::loadSize(filename);
+            if(!sze.isEmpty()) return sze;
+        }
 #endif
 
-            if(sze.isNull() && PQCImageFormats::get().getEnabledMimeTypesQtSet().contains(mimetype))
-                sze = PQCLoadImageQt::loadSize(filename);
+        if(PQCImageFormats::get().getEnabledMimeTypesQtSet().contains(mimetype)) {
+            const QSize sze = PQCLoadImageQt::loadSize(filename);
+            if(!sze.isEmpty()) return sze;
+        }
 
 #ifdef PQMRAW
-            if(sze.isNull() && PQCImageFormats::get().getEnabledMimeTypesLibRawSet().contains(mimetype))
-                sze = PQCLoadImageRAW::loadSize(filename);
+        if(PQCImageFormats::get().getEnabledMimeTypesLibRawSet().contains(mimetype)) {
+            const QSize sze = PQCLoadImageRAW::loadSize(filename);
+            if(!sze.isEmpty()) return sze;
+        }
 #endif
 
 #ifdef PQMLIBARCHIVE
-            if(sze.isNull() && PQCImageFormats::get().getEnabledMimeTypesLibArchiveSet().contains(mimetype))
-                sze = PQCLoadImageArchive::loadSize(filename);
+        if(PQCImageFormats::get().getEnabledMimeTypesLibArchiveSet().contains(mimetype)) {
+            const QSize sze = PQCLoadImageArchive::loadSize(filename);
+            if(!sze.isEmpty()) return sze;
+        }
 #endif
 
 #ifdef PQMLIBSAI
-            if(sze.isNull() && PQCImageFormats::get().getEnabledMimeTypesLibsaiSet().contains(mimetype))
-                sze = PQCLoadImageLibsai::loadSize(filename);
+        if(PQCImageFormats::get().getEnabledMimeTypesLibsaiSet().contains(mimetype)) {
+            const QSize sze = PQCLoadImageLibsai::loadSize(filename);
+            if(!sze.isEmpty()) return sze;
+        }
 #endif
 
-            if(sze.isNull() && PQCImageFormats::get().getEnabledMimeTypesXCFToolsSet().contains(mimetype))
-                sze = PQCLoadImageXCF::loadSize(filename);
+        if(PQCImageFormats::get().getEnabledMimeTypesXCFToolsSet().contains(mimetype)) {
+            const QSize sze = PQCLoadImageXCF::loadSize(filename);
+            if(!sze.isEmpty()) return sze;
+        }
 
 #if defined(PQMIMAGEMAGICK) || defined(PQMGRAPHICSMAGICK)
-            if(sze.isNull() && PQCImageFormats::get().getEnabledMimeTypesMagickSet().contains(mimetype))
-                sze = PQCLoadImageMagick::loadSize(filename);
+        if(PQCImageFormats::get().getEnabledMimeTypesMagickSet().contains(mimetype)) {
+            const QSize sze = PQCLoadImageMagick::loadSize(filename);
+            if(!sze.isEmpty()) return sze;
+        }
 #endif
 
 #ifdef PQMLIBVIPS
-            if(sze.isNull() && PQCImageFormats::get().getEnabledMimeTypesLibVipsSet().contains(mimetype))
-                sze = PQCLoadImageLibVips::loadSize(filename);
+        if(PQCImageFormats::get().getEnabledMimeTypesLibVipsSet().contains(mimetype)) {
+            const QSize sze = PQCLoadImageLibVips::loadSize(filename);
+            if(!sze.isEmpty()) return sze;
+        }
 #endif
 
 #ifdef PQMDEVIL
-            if(sze.isNull() && PQCImageFormats::get().getEnabledMimeTypesDevILSet().contains(mimetype))
-                sze = PQCLoadImageDevil::loadSize(filename);
+        if(PQCImageFormats::get().getEnabledMimeTypesDevILSet().contains(mimetype)) {
+            const QSize sze = PQCLoadImageDevil::loadSize(filename);
+            if(!sze.isEmpty()) return sze;
+        }
 #endif
 
-            if(sze.isNull() && (PQCImageFormats::get().getEnabledMimeTypesVideoSet().contains(mimetype) || PQCImageFormats::get().getEnabledMimeTypesLibmpvSet().contains(mimetype)))
-                sze = PQCLoadImageVideo::loadSize(filename);
-
+        if(PQCImageFormats::get().getEnabledMimeTypesVideoSet().contains(mimetype) || PQCImageFormats::get().getEnabledMimeTypesLibmpvSet().contains(mimetype)) {
+            const QSize sze = PQCLoadImageVideo::loadSize(filename);
+            if(!sze.isEmpty()) return sze;
         }
 
     }
 
-
 #if defined(PQMGRAPHICSMAGICK) || defined(PQMIMAGEMAGICK)
     // if everything failed, we make sure to try one more time with ImageMagick or GraphicsMagick to see what could be done
-    if(sze.isNull()) {
-
-        // we use two dummy variables to not override the old error image/message
-        sze = PQCLoadImageMagick::loadSize(filename);
-
-    }
+    return PQCLoadImageMagick::loadSize(filename);
 #endif
 
-    return sze;
+    return QSize(0,0);
 
 }
 
@@ -240,7 +276,7 @@ QString PQCLoadImage::load(QString filename, QSize requestedSize, QSize &origSiz
         return "";
     }
 
-    QString err = "";
+    QStringList err;
 
     // for easier access below
     QString suffix1 = info.suffix().toLower();
@@ -252,126 +288,243 @@ QString PQCLoadImage::load(QString filename, QSize requestedSize, QSize &origSiz
 
     // resvg trumps Qt's SVG engine
 #ifdef PQMRESVG
-    if(PQCImageFormats::get().getEnabledFormatsResvgSet().contains(suffix1) || PQCImageFormats::get().getEnabledFormatsResvgSet().contains(suffix2))
-        err = PQCLoadImageResvg::load(filename, requestedSize, origSize, img);
+    if(PQCImageFormats::get().getEnabledFormatsResvgSet().contains(suffix1) || PQCImageFormats::get().getEnabledFormatsResvgSet().contains(suffix2)) {
+        err.append(PQCLoadImageResvg::load(filename, requestedSize, origSize, img));
+        if(!img.isNull()) {
+            PQCScriptsImages::get().setSupportsTransparency(filename, img.hasAlphaChannel());
+            return "";
+        }
+    }
 #endif
 
 #ifdef PQMPOPPLER
-    if(img.isNull() && (PQCImageFormats::get().getEnabledFormatsPopplerSet().contains(suffix1) || PQCImageFormats::get().getEnabledFormatsPopplerSet().contains(suffix2)))
-        err = PQCLoadImagePoppler::load(filename, requestedSize, origSize, img);
+    if(PQCImageFormats::get().getEnabledFormatsPopplerSet().contains(suffix1) || PQCImageFormats::get().getEnabledFormatsPopplerSet().contains(suffix2)) {
+        err.append(PQCLoadImagePoppler::load(filename, requestedSize, origSize, img));
+        if(!img.isNull()) {
+            PQCScriptsImages::get().setSupportsTransparency(filename, img.hasAlphaChannel());
+            return "";
+        }
+    }
 #endif
 
 #ifdef PQMQTPDF
-    if(img.isNull() && (PQCImageFormats::get().getEnabledFormatsPopplerSet().contains(suffix1) || PQCImageFormats::get().getEnabledFormatsPopplerSet().contains(suffix2)))
-        err = PQCLoadImageQtPDF::load(filename, requestedSize, origSize, img);
+    if(PQCImageFormats::get().getEnabledFormatsPopplerSet().contains(suffix1) || PQCImageFormats::get().getEnabledFormatsPopplerSet().contains(suffix2)) {
+        err.append(PQCLoadImageQtPDF::load(filename, requestedSize, origSize, img));
+        if(!img.isNull()) {
+            PQCScriptsImages::get().setSupportsTransparency(filename, img.hasAlphaChannel());
+            return "";
+        }
+    }
 #endif
 
-    if(img.isNull() && (PQCImageFormats::get().getEnabledFormatsQtSet().contains(suffix1) || PQCImageFormats::get().getEnabledFormatsQtSet().contains(suffix2)))
-        err = PQCLoadImageQt::load(filename, requestedSize, origSize, img);
+    if(PQCImageFormats::get().getEnabledFormatsQtSet().contains(suffix1) || PQCImageFormats::get().getEnabledFormatsQtSet().contains(suffix2)) {
+        err.append(PQCLoadImageQt::load(filename, requestedSize, origSize, img));
+        if(!img.isNull()) {
+            PQCScriptsImages::get().setSupportsTransparency(filename, img.hasAlphaChannel());
+            return "";
+        }
+    }
 
 #ifdef PQMRAW
-    if(img.isNull() && (PQCImageFormats::get().getEnabledFormatsLibRawSet().contains(suffix1) || PQCImageFormats::get().getEnabledFormatsLibRawSet().contains(suffix2)))
-        err = PQCLoadImageRAW::load(filename, requestedSize, origSize, img);
+    if(PQCImageFormats::get().getEnabledFormatsLibRawSet().contains(suffix1) || PQCImageFormats::get().getEnabledFormatsLibRawSet().contains(suffix2)) {
+        err.append(PQCLoadImageRAW::load(filename, requestedSize, origSize, img));
+        if(!img.isNull()) {
+            PQCScriptsImages::get().setSupportsTransparency(filename, img.hasAlphaChannel());
+            return "";
+        }
+    }
 #endif
 
 #ifdef PQMLIBARCHIVE
-    if(img.isNull() && (PQCImageFormats::get().getEnabledFormatsLibArchiveSet().contains(suffix1) || PQCImageFormats::get().getEnabledFormatsLibArchiveSet().contains(suffix2)))
-        err = PQCLoadImageArchive::load(filename, requestedSize, origSize, img);
+    if(PQCImageFormats::get().getEnabledFormatsLibArchiveSet().contains(suffix1) || PQCImageFormats::get().getEnabledFormatsLibArchiveSet().contains(suffix2)) {
+        err.append(PQCLoadImageArchive::load(filename, requestedSize, origSize, img));
+        if(!img.isNull()) {
+            PQCScriptsImages::get().setSupportsTransparency(filename, img.hasAlphaChannel());
+            return "";
+        }
+    }
 #endif
 
 #ifdef PQMLIBSAI
-    if(img.isNull() && (PQCImageFormats::get().getEnabledFormatsLibsaiSet().contains(suffix1) || PQCImageFormats::get().getEnabledFormatsLibsaiSet().contains(suffix2)))
-        err = PQCLoadImageLibsai::load(filename, requestedSize, origSize, img);
+    if(PQCImageFormats::get().getEnabledFormatsLibsaiSet().contains(suffix1) || PQCImageFormats::get().getEnabledFormatsLibsaiSet().contains(suffix2)) {
+        err.append(PQCLoadImageLibsai::load(filename, requestedSize, origSize, img));
+        if(!img.isNull()) {
+            PQCScriptsImages::get().setSupportsTransparency(filename, img.hasAlphaChannel());
+            return "";
+        }
+    }
 #endif
 
-    if(img.isNull() && (PQCImageFormats::get().getEnabledFormatsXCFToolsSet().contains(suffix1) || PQCImageFormats::get().getEnabledFormatsXCFToolsSet().contains(suffix2)))
-        err = PQCLoadImageXCF::load(filename, requestedSize, origSize, img);
+    if(PQCImageFormats::get().getEnabledFormatsXCFToolsSet().contains(suffix1) || PQCImageFormats::get().getEnabledFormatsXCFToolsSet().contains(suffix2)) {
+        err.append(PQCLoadImageXCF::load(filename, requestedSize, origSize, img));
+        if(!img.isNull()) {
+            PQCScriptsImages::get().setSupportsTransparency(filename, img.hasAlphaChannel());
+            return "";
+        }
+    }
 
 #if defined(PQMIMAGEMAGICK) || defined(PQMGRAPHICSMAGICK)
-    if(img.isNull() && (PQCImageFormats::get().getEnabledFormatsMagickSet().contains(suffix1) || PQCImageFormats::get().getEnabledFormatsMagickSet().contains(suffix2)))
-        err = PQCLoadImageMagick::load(filename, requestedSize, origSize, img);
+    if(PQCImageFormats::get().getEnabledFormatsMagickSet().contains(suffix1) || PQCImageFormats::get().getEnabledFormatsMagickSet().contains(suffix2)) {
+        err.append(PQCLoadImageMagick::load(filename, requestedSize, origSize, img));
+        if(!img.isNull()) {
+            PQCScriptsImages::get().setSupportsTransparency(filename, img.hasAlphaChannel());
+            return "";
+        }
+    }
 #endif
 
 #ifdef PQMLIBVIPS
-    if((!err.isEmpty() || img.isNull()) && (PQCImageFormats::get().getEnabledFormatsLibVipsSet().contains(suffix1) || PQCImageFormats::get().getEnabledFormatsLibVipsSet().contains(suffix2)))
-        err = PQCLoadImageLibVips::load(filename, requestedSize, origSize, img);
+    if(PQCImageFormats::get().getEnabledFormatsLibVipsSet().contains(suffix1) || PQCImageFormats::get().getEnabledFormatsLibVipsSet().contains(suffix2)) {
+        err.append(PQCLoadImageLibVips::load(filename, requestedSize, origSize, img));
+        if(!img.isNull()) {
+            PQCScriptsImages::get().setSupportsTransparency(filename, img.hasAlphaChannel());
+            return "";
+        }
+    }
 #endif
 
 #ifdef PQMDEVIL
-    if(img.isNull() && (PQCImageFormats::get().getEnabledFormatsDevILSet().contains(suffix1) || PQCImageFormats::get().getEnabledFormatsDevILSet().contains(suffix2)))
-        err = PQCLoadImageDevil::load(filename, requestedSize, origSize, img);
+    if(PQCImageFormats::get().getEnabledFormatsDevILSet().contains(suffix1) || PQCImageFormats::get().getEnabledFormatsDevILSet().contains(suffix2)) {
+        err.append(PQCLoadImageDevil::load(filename, requestedSize, origSize, img));
+        if(!img.isNull()) {
+            PQCScriptsImages::get().setSupportsTransparency(filename, img.hasAlphaChannel());
+            return "";
+        }
+    }
 #endif
 
-    if(img.isNull() && (PQCImageFormats::get().getEnabledFormatsVideoSet().contains(suffix1) || PQCImageFormats::get().getEnabledFormatsLibmpvSet().contains(suffix1) ||
-                        PQCImageFormats::get().getEnabledFormatsVideoSet().contains(suffix2) || PQCImageFormats::get().getEnabledFormatsLibmpvSet().contains(suffix2)))
-        err = PQCLoadImageVideo::load(filename, requestedSize, origSize, img);
+    if((PQCImageFormats::get().getEnabledFormatsVideoSet().contains(suffix1) || PQCImageFormats::get().getEnabledFormatsLibmpvSet().contains(suffix1) ||
+        PQCImageFormats::get().getEnabledFormatsVideoSet().contains(suffix2) || PQCImageFormats::get().getEnabledFormatsLibmpvSet().contains(suffix2))) {
+        err.append(PQCLoadImageVideo::load(filename, requestedSize, origSize, img));
+        if(!img.isNull()) {
+            PQCScriptsImages::get().setSupportsTransparency(filename, img.hasAlphaChannel());
+            return "";
+        }
+    }
 
 
     //////////////////////////////////////////////
     //////////////////////////////////////////////
-    // if that failed, then we check for mimetype matches
-    if(img.isNull()) {
+    // if we got here then the above failed and we check for mimetype matches
 
-        QMimeDatabase db;
-        QString mimetype = db.mimeTypeForFile(filename).name();
+    QMimeDatabase db;
+    QString mimetype = db.mimeTypeForFile(filename).name();
 
-        if(!mimetype.isEmpty() && mimetype != "application/octet-stream") {
+    if(!mimetype.isEmpty() && mimetype != "application/octet-stream") {
 
-            // resvg trumps Qt's SVG engine
+        // resvg trumps Qt's SVG engine
 #ifdef PQMRESVG
-            if(PQCImageFormats::get().getEnabledMimeTypesResvgSet().contains(mimetype))
-                err = PQCLoadImageResvg::load(filename, requestedSize, origSize, img);
+        if(PQCImageFormats::get().getEnabledMimeTypesResvgSet().contains(mimetype)) {
+            err.append(PQCLoadImageResvg::load(filename, requestedSize, origSize, img));
+            if(!img.isNull()) {
+                PQCScriptsImages::get().setSupportsTransparency(filename, img.hasAlphaChannel());
+                return "";
+            }
+        }
 #endif
 
 #ifdef PQMPOPPLER
-            if(img.isNull() && PQCImageFormats::get().getEnabledMimeTypesPopplerSet().contains(mimetype))
-                err = PQCLoadImagePoppler::load(filename, requestedSize, origSize, img);
+        if(PQCImageFormats::get().getEnabledMimeTypesPopplerSet().contains(mimetype)) {
+            err.append(PQCLoadImagePoppler::load(filename, requestedSize, origSize, img));
+            if(!img.isNull()) {
+                PQCScriptsImages::get().setSupportsTransparency(filename, img.hasAlphaChannel());
+                return "";
+            }
+        }
 #endif
 
 #ifdef PQMQTPDF
-            if(img.isNull() && PQCImageFormats::get().getEnabledMimeTypesPopplerSet().contains(mimetype))
-                err = PQCLoadImageQtPDF::load(filename, requestedSize, origSize, img);
+        if(PQCImageFormats::get().getEnabledMimeTypesPopplerSet().contains(mimetype)) {
+            err.append(PQCLoadImageQtPDF::load(filename, requestedSize, origSize, img));
+            if(!img.isNull()) {
+                PQCScriptsImages::get().setSupportsTransparency(filename, img.hasAlphaChannel());
+                return "";
+            }
+        }
 #endif
 
-            if(img.isNull() && PQCImageFormats::get().getEnabledMimeTypesQtSet().contains(mimetype))
-                err = PQCLoadImageQt::load(filename, requestedSize, origSize, img);
+        if(PQCImageFormats::get().getEnabledMimeTypesQtSet().contains(mimetype)) {
+            err.append(PQCLoadImageQt::load(filename, requestedSize, origSize, img));
+            if(!img.isNull()) {
+                PQCScriptsImages::get().setSupportsTransparency(filename, img.hasAlphaChannel());
+                return "";
+            }
+        }
 
 #ifdef PQMRAW
-            if(img.isNull() && PQCImageFormats::get().getEnabledMimeTypesLibRawSet().contains(mimetype))
-                err = PQCLoadImageRAW::load(filename, requestedSize, origSize, img);
+        if(PQCImageFormats::get().getEnabledMimeTypesLibRawSet().contains(mimetype)) {
+            err.append(PQCLoadImageRAW::load(filename, requestedSize, origSize, img));
+            if(!img.isNull()) {
+                PQCScriptsImages::get().setSupportsTransparency(filename, img.hasAlphaChannel());
+                return "";
+            }
+        }
 #endif
 
 #ifdef PQMLIBARCHIVE
-            if(img.isNull() && PQCImageFormats::get().getEnabledMimeTypesLibArchiveSet().contains(mimetype))
-                err = PQCLoadImageArchive::load(filename, requestedSize, origSize, img);
+        if(PQCImageFormats::get().getEnabledMimeTypesLibArchiveSet().contains(mimetype)) {
+            err.append(PQCLoadImageArchive::load(filename, requestedSize, origSize, img));
+            if(!img.isNull()) {
+                PQCScriptsImages::get().setSupportsTransparency(filename, img.hasAlphaChannel());
+                return "";
+            }
+        }
 #endif
 
 #ifdef PQMLIBSAI
-            if(img.isNull() && PQCImageFormats::get().getEnabledMimeTypesLibsaiSet().contains(mimetype))
-                err = PQCLoadImageLibsai::load(filename, requestedSize, origSize, img);
+        if(PQCImageFormats::get().getEnabledMimeTypesLibsaiSet().contains(mimetype)) {
+            err.append(PQCLoadImageLibsai::load(filename, requestedSize, origSize, img));
+            if(!img.isNull()) {
+                PQCScriptsImages::get().setSupportsTransparency(filename, img.hasAlphaChannel());
+                return "";
+            }
+        }
 #endif
 
-            if(img.isNull() && PQCImageFormats::get().getEnabledMimeTypesXCFToolsSet().contains(mimetype))
-                err = PQCLoadImageXCF::load(filename, requestedSize, origSize, img);
+        if(PQCImageFormats::get().getEnabledMimeTypesXCFToolsSet().contains(mimetype)) {
+            err.append(PQCLoadImageXCF::load(filename, requestedSize, origSize, img));
+            if(!img.isNull()) {
+                PQCScriptsImages::get().setSupportsTransparency(filename, img.hasAlphaChannel());
+                return "";
+            }
+        }
 
 #if defined(PQMIMAGEMAGICK) || defined(PQMGRAPHICSMAGICK)
-            if(img.isNull() && PQCImageFormats::get().getEnabledMimeTypesMagickSet().contains(mimetype))
-                err = PQCLoadImageMagick::load(filename, requestedSize, origSize, img);
+        if(PQCImageFormats::get().getEnabledMimeTypesMagickSet().contains(mimetype)) {
+            err.append(PQCLoadImageMagick::load(filename, requestedSize, origSize, img));
+            if(!img.isNull()) {
+                PQCScriptsImages::get().setSupportsTransparency(filename, img.hasAlphaChannel());
+                return "";
+            }
+        }
 #endif
 
 #ifdef PQMLIBVIPS
-            if(img.isNull() && PQCImageFormats::get().getEnabledMimeTypesLibVipsSet().contains(mimetype))
-                err = PQCLoadImageLibVips::load(filename, requestedSize, origSize, img);
+        if(PQCImageFormats::get().getEnabledMimeTypesLibVipsSet().contains(mimetype)) {
+            err.append(PQCLoadImageLibVips::load(filename, requestedSize, origSize, img));
+            if(!img.isNull()) {
+                PQCScriptsImages::get().setSupportsTransparency(filename, img.hasAlphaChannel());
+                return "";
+            }
+        }
 #endif
 
 #ifdef PQMDEVIL
-            if(img.isNull() && PQCImageFormats::get().getEnabledMimeTypesDevILSet().contains(mimetype))
-                err = PQCLoadImageDevil::load(filename, requestedSize, origSize, img);
+        if(PQCImageFormats::get().getEnabledMimeTypesDevILSet().contains(mimetype)) {
+            err.append(PQCLoadImageDevil::load(filename, requestedSize, origSize, img));
+            if(!img.isNull()) {
+                PQCScriptsImages::get().setSupportsTransparency(filename, img.hasAlphaChannel());
+                return "";
+            }
+        }
 #endif
 
-            if(img.isNull() && (PQCImageFormats::get().getEnabledMimeTypesVideoSet().contains(mimetype) || PQCImageFormats::get().getEnabledMimeTypesLibmpvSet().contains(mimetype)))
-                err = PQCLoadImageVideo::load(filename, requestedSize, origSize, img);
-
+        if(PQCImageFormats::get().getEnabledMimeTypesVideoSet().contains(mimetype) || PQCImageFormats::get().getEnabledMimeTypesLibmpvSet().contains(mimetype)) {
+            err.append(PQCLoadImageVideo::load(filename, requestedSize, origSize, img));
+            if(!img.isNull()) {
+                PQCScriptsImages::get().setSupportsTransparency(filename, img.hasAlphaChannel());
+                return "";
+            }
         }
 
     }
@@ -380,22 +533,21 @@ QString PQCLoadImage::load(QString filename, QSize requestedSize, QSize &origSiz
 #if defined(PQMGRAPHICSMAGICK) || defined(PQMIMAGEMAGICK)
     // if everything failed, we make sure to try one more time with ImageMagick or GraphicsMagick to see what could be done
     // we do not do this for video files as it can lead to resource intensive ffmpeg processes that may persist after PhotoQt is closed
-    if(img.isNull() && !PQCImageFormats::get().getEnabledFormatsVideoSet().contains(suffix1) && !PQCImageFormats::get().getEnabledFormatsLibmpvSet().contains(suffix1) &&
-                       !PQCImageFormats::get().getEnabledFormatsVideoSet().contains(suffix2) && !PQCImageFormats::get().getEnabledFormatsLibmpvSet().contains(suffix2)) {
+    if(!PQCImageFormats::get().getEnabledFormatsVideoSet().contains(suffix1) && !PQCImageFormats::get().getEnabledFormatsLibmpvSet().contains(suffix1) &&
+       !PQCImageFormats::get().getEnabledFormatsVideoSet().contains(suffix2) && !PQCImageFormats::get().getEnabledFormatsLibmpvSet().contains(suffix2)) {
 
         qDebug() << "null image, try magick";
 
         // we do not override the old error message
         PQCLoadImageMagick::load(filename, requestedSize, origSize, img);
+        if(!img.isNull()) {
+            PQCScriptsImages::get().setSupportsTransparency(filename, img.hasAlphaChannel());
+            return "";
+        }
 
     }
 #endif
 
-    if(!img.isNull()) {
-        err = "";
-        PQCScriptsImages::get().setSupportsTransparency(filename, img.hasAlphaChannel());
-    }
-
-    return err;
+    return err.join("\n");
 
 }
