@@ -9,10 +9,15 @@ The instructions below serve as a guide to compile and install PhotoQt from sour
 - Qt6 ImageFormats
 
 Make sure that you have all the required QML modules installed:
-QtGraphicalEffects, QtMultimedia, QtQuick, QtQuick.Controls, QtQuick.Controls.Styles, QtQuick.Layouts, QtQuick.Window, QtLocation, QtPositioning.
-
-For the extensions you also need to have the following QML modules installed:
-QtCharts
+- QtQuick
+- QtQuick.Controls
+- QtQuick.Controls.Styles
+- QtQuick.Layouts
+- QtQuick.Window
+- QtMultimedia
+- QtGraphicalEffects
+- QtLocation and QtPositioning (can be disabled with `-DWITH_LOCATION=OFF`)
+- QtQuick3D (can be disabled with `-DWITH_PHOTOSPHERE=OFF`)
 
 Other dependencies that are needed by default, but can be disabled via CMake:
 
@@ -41,6 +46,7 @@ Dependencies that are disabled by default, but can be enabled via CMake:
 Please note that you probably want to have as many of these enabled as possible as they greatly enhance the experience of PhotoQt.
 
 #### NOTE
+
 If any enabled dependency is not found, then it will be disabled automatically. At the end of the CMake run an overview is provided with all successfully enabled and all disabled features.
 
 #### NOTE

@@ -14,9 +14,15 @@
 - Qt6 ImageFormats
 
 > Make sure that you have the required QML modules installed:
-  QtGraphicalEffects, QtMultimedia, QtQuick, QtQuick.Controls,
-  QtQuick.Controls.Styles, QtQuick.Layouts, QtQuick.Window,
-  QtLocation, QtPositioning
+- QtQuick
+- QtQuick.Controls
+- QtQuick.Controls.Styles
+- QtQuick.Layouts
+- QtQuick.Window
+- QtMultimedia
+- QtGraphicalEffects
+- QtLocation and QtPositioning (can be disabled with -DWITH_LOCATION=OFF)
+- QtQuick3D (can be disabled with -DWITH_PHOTOSPHERE=OFF)
 
 > For the extensions you also need to have the following QML modules
   installed: QtCharts
