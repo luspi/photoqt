@@ -244,7 +244,7 @@ PQCSingleInstance::PQCSingleInstance(int &argc, char *argv[]) : QApplication(arg
 
             QString token = qgetenv("XDG_ACTIVATION_TOKEN");
             if(!token.isEmpty())
-                writeMessage.append(QString("_T_O_K_E_N_%1\n").arg(token).toUtf8());
+                writeMessage.append(("_T_O_K_E_N_" % token % "\n").toUtf8());
 
         } else
             writeMessage.reserve(msg.size());
@@ -255,11 +255,11 @@ PQCSingleInstance::PQCSingleInstance(int &argc, char *argv[]) : QApplication(arg
 
         // Send composed message string
         if(receivedFiles.length())
-            writeMessage.append(QString("_F_I_L_E_%1\n").arg(receivedFiles.join(":://:://::")).toUtf8());
+            writeMessage.append(("_F_I_L_E_" % receivedFiles.join(":://:://::") % "\n").toUtf8());
         if(!receivedShortcut.isEmpty())
-            writeMessage.append(QString("_S_H_O_R_T_C_U_T_%1\n").arg(receivedShortcut).toUtf8());
+            writeMessage.append(("_S_H_O_R_T_C_U_T_" % receivedShortcut % "\n").toUtf8());
         if(!receivedSetting[0].isEmpty())
-            writeMessage.append(QString("_S_E_T_T_I_N_G_%1:%2\n").arg(receivedSetting[0], receivedSetting[1]).toUtf8());
+            writeMessage.append(("_S_E_T_T_I_N_G_" % receivedSetting[0] % ":" % receivedSetting[1] % "\n").toUtf8());
 
         socket->write(writeMessage.join('\n'));
         socket->flush();
