@@ -42,9 +42,10 @@ const QSize PQCLoadImagePoppler::loadSize(QString filename) {
 
     // extract page and totalpage value from filename (prepended to filename (after filepath))
     int page = 0;
-    if(filename.contains("::PDF::")) {
-        page = filename.split("::PDF::").at(0).toInt();
-        filename = filename.split("::PDF::").at(1);
+    const int idx = filename.indexOf("::PDF::");
+    if(idx != -1) {
+        page = filename.mid(0,idx).toInt();
+        filename = filename.mid(idx+7);
     }
 
     // Load poppler document and render to QImage
@@ -79,9 +80,10 @@ const QString PQCLoadImagePoppler::load(QString filename, QSize maxSize, QSize &
 
     // extract page and totalpage value from filename (prepended to filename (after filepath))
     int page = 0;
-    if(filename.contains("::PDF::")) {
-        page = filename.split("::PDF::").at(0).toInt();
-        filename = filename.split("::PDF::").at(1);
+    const int idx = filename.indexOf("::PDF::");
+    if(idx != -1) {
+        page = filename.mid(0,idx).toInt();
+        filename = filename.mid(idx+7);
     }
 
     // Load poppler document and render to QImage

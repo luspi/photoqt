@@ -39,6 +39,7 @@
 #include <pqc_resolutioncache.h>
 #include <pqc_settingscpp.h>
 #include <scripts/pqc_scriptsimages.h>
+#include <pqc_helper.h>
 
 #ifdef PQMLIBARCHIVE
 #include <archive.h>
@@ -118,26 +119,28 @@ PQCFileFolderModel::PQCFileFolderModel(QObject *parent) : QObject(parent) {
         Q_EMIT currentIndexChanged();
         Q_EMIT currentFileChanged();
 
-        bool ispdf = m_currentFile.indexOf("::PDF::")>-1;
+        const int pdfIdx = m_currentFile.indexOf("::PDF::");
+        bool ispdf = pdfIdx>-1;
         if(m_isPDF != ispdf) {
             m_isPDF = ispdf;
             m_isARC = false;
             if(ispdf) {
-                m_pdfName = m_currentFile.split("::PDF::")[1];
-                m_pdfNum = m_currentFile.split("::PDF::")[0].toInt();
+                m_pdfNum = m_currentFile.mid(0,pdfIdx).toInt();
+                m_pdfName = m_currentFile.mid(pdfIdx+7);
             }
             Q_EMIT isPDFChanged();
             Q_EMIT pdfNameChanged();
             Q_EMIT pdfNumChanged();
         }
 
-        bool isarc = m_currentFile.indexOf("::ARC::")>-1;
+        const int arcIdx = m_currentFile.indexOf("::ARC::");
+        bool isarc = arcIdx>-1;
         if(m_isARC != isarc) {
             m_isPDF = false;
             m_isARC = isarc;
             if(m_isARC) {
-                m_arcName = m_currentFile.split("::ARC::")[1];
-                m_arcFile = m_currentFile.split("::ARC::")[0];
+                m_arcFile = m_currentFile.mid(0,arcIdx);
+                m_arcName = m_currentFile.mid(arcIdx+7);
             }
             Q_EMIT isARCChanged();
             Q_EMIT arcNameChanged();
@@ -1089,14 +1092,18 @@ void PQCFileFolderModel::loadDataMainView() {
         // load files
 
         int numberPageDocument = 0;
-        if(m_fileInFolderMainView.contains("::PDF::")) {
+        const int pdfIdx = m_fileInFolderMainView.indexOf("::PDF::");
+        if(pdfIdx > -1) {
             m_readDocumentOnly = true;
-            numberPageDocument = m_fileInFolderMainView.split("::PDF::").at(0).toInt();
-            m_fileInFolderMainView = m_fileInFolderMainView.split("::PDF::").at(1);
-        } else if(m_fileInFolderMainView.contains("::ARC::")) {
-            m_readArchiveOnly = true;
-            numberPageDocument = m_fileInFolderMainView.split("::ARC::").at(0).toInt();
-            m_fileInFolderMainView = m_fileInFolderMainView.split("::ARC::").at(1);
+            numberPageDocument = m_fileInFolderMainView.mid(0,pdfIdx).toInt();
+            m_fileInFolderMainView = m_fileInFolderMainView.mid(pdfIdx+7);
+        } else {
+            const int arcIdx = m_fileInFolderMainView.indexOf("::ARC::");
+            if(arcIdx > -1) {
+                m_readArchiveOnly = true;
+                numberPageDocument = m_fileInFolderMainView.mid(0,arcIdx).toInt();
+                m_fileInFolderMainView = m_fileInFolderMainView.mid(arcIdx+7);
+            }
         }
 
         const bool isFolder = (QFile::exists(m_fileInFolderMainView) && !QFileInfo(m_fileInFolderMainView).isFile()) || m_fileInFolderMainView.endsWith("/");
@@ -1690,10 +1697,9 @@ void PQCFileFolderModel::disableViewerMode(bool bufferDisabling) {
         m_justLeftViewerMode = true;
 
     QString tmp = getCurrentFile();
-    if(tmp.contains("::PDF::"))
-        setFileInFolderMainView(tmp.split("::PDF::")[1]);
-    else if(tmp.contains("::ARC::"))
-        setFileInFolderMainView(tmp.split("::ARC::")[1]);
+
+    setFileInFolderMainView(PQCHelper::extractInsidePDFFilename(tmp));
+    setFileInFolderMainView(PQCHelper::extractInsideARCFilename(tmp));
     forceReloadMainView();
 
     m_isPDF = false;

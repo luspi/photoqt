@@ -41,9 +41,10 @@ const QSize PQCLoadImageQtPDF::loadSize(QString filename) {
 
     // extract page and totalpage value from filename (prepended to filename (after filepath))
     int page = 0;
-    if(filename.contains("::PDF::")) {
-        page = filename.split("::PDF::").at(0).toInt();
-        filename = filename.split("::PDF::").at(1);
+    const int idx = filename.indexOf("::PDF::");
+    if(idx != -1) {
+        page = filename.mid(0,idx).toInt();
+        filename = filename.mid(idx+7);
     }
 
 #ifdef PQMQTPDF
@@ -78,9 +79,10 @@ const QString PQCLoadImageQtPDF::load(QString filename, QSize maxSize, QSize &or
     // extract page and totalpage value from filename (prepended to filename (after filepath))
     int page = 0;
     QString realFileName = filename;
-    if(filename.contains("::PDF::")) {
-        page = filename.split("::PDF::").at(0).toInt();
-        realFileName = filename.split("::PDF::").at(1);
+    const int idx = filename.indexOf("::PDF::");
+    if(idx != -1) {
+        page = filename.mid(0,idx).toInt();
+        realFileName = filename.mid(idx+7);
     }
 
     QPdfDocument doc;

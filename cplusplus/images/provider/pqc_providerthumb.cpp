@@ -26,6 +26,7 @@
 #include <pqc_configfiles.h>
 #include <pqc_loadimage.h>
 #include <scripts/pqc_scriptsfilespaths.h>
+#include <pqc_helper.h>
 #include <QSvgRenderer>
 #include <QPainter>
 #include <QCryptographicHash>
@@ -75,11 +76,7 @@ void PQCAsyncImageResponseThumb::loadImage() {
     QString filename = QByteArray::fromPercentEncoding(m_url.toUtf8());
     filename = filename.replace("&#39;","'");
 
-    QString filenameForChecking = filename;
-    if(filenameForChecking.contains("::PDF::"))
-        filenameForChecking = filenameForChecking.split("::PDF::").at(1);
-    if(filenameForChecking.contains("::ARC::"))
-        filenameForChecking = filenameForChecking.split("::ARC::").at(1);
+    const QString filenameForChecking = PQCHelper::extractInsideFilename(filename);
 
     if(PQCSettingsCPP::get().getThumbnailsIconsOnly() || PQCScriptsFilesPaths::get().isExcludeDirFromCaching(filenameForChecking)) {
         QSize origSize;

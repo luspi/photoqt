@@ -54,3 +54,45 @@ QString PQCHelper::setJoin(QSet<QString> set, QString sep) {
     return result;
 
 }
+
+QString PQCHelper::extractInsideFilename(QString path) {
+
+    const QStringList lst = {"::PDF::", "::ARC::"};
+
+    for(const QString &str : lst) {
+        const int idx = path.indexOf(str);
+        if(idx != -1)
+            return path.mid(idx + str.length());
+    }
+
+    return path;
+
+}
+
+QString PQCHelper::extractInsidePDFFilename(QString path) {
+    const int idx = path.indexOf("::PDF::");
+    if(idx != -1)
+        return path.mid(idx + 7);
+    return path;
+}
+
+QString PQCHelper::extractInsideARCFilename(QString path) {
+    const int idx = path.indexOf("::ARC::");
+    if(idx != -1)
+        return path.mid(idx + 7);
+    return path;
+}
+
+int PQCHelper::extractOutsidePDFNumber(QString path) {
+    int idx = path.indexOf("::PDF::");
+    if(idx != -1)
+        return path.mid(0, idx).toInt();
+    return 0;
+}
+
+QString PQCHelper::extractOutsideARCFilename(QString path) {
+    int idx = path.indexOf("::ARC::");
+    if(idx != -1)
+        return path.mid(0, idx);
+    return path;
+}

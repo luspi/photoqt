@@ -29,6 +29,7 @@
 #include <QApplication>
 #include <QColorSpace>
 #include <pqc_notify_cpp.h>
+#include <pqc_helper.h>
 
 #ifdef PQMLCMS2
 #include <lcms2.h>
@@ -45,11 +46,7 @@ QImage PQCProviderFull::requestImage(const QString &url, QSize *origSize, const 
 
     QString filename = PQCScriptsFilesPaths::get().cleanPath(QByteArray::fromPercentEncoding(url.toUtf8()));
 
-    QString filenameForChecking = filename;
-    if(filenameForChecking.contains("::PDF::"))
-        filenameForChecking = filenameForChecking.split("::PDF::").at(1);
-    if(filenameForChecking.contains("::ARC::"))
-        filenameForChecking = filenameForChecking.split("::ARC::").at(1);
+    QString filenameForChecking = PQCHelper::extractInsideFilename(filename);
 
     if(!QFileInfo::exists(filenameForChecking)) {
         QString err = QApplication::translate("imageprovider", "File failed to load, it does not exist!");

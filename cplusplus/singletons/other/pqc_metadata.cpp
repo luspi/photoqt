@@ -27,6 +27,7 @@
 #include <pqc_configfiles.h>
 #include <pqc_notify_cpp.h>
 #include <pqc_metadata_cpp.h>
+#include <pqc_helper.h>
 
 #include <QFileInfo>
 #include <QtDebug>
@@ -119,10 +120,8 @@ void PQCMetaData::updateMetadata() {
         return;
     }
 
-    if(path.contains("::PDF::"))
-        path = path.split("::PDF::").at(1);
-    if(path.contains("::ARC::"))
-        path = path.split("::ARC::").at(1);
+    path = PQCHelper::extractInsidePDFFilename(path);
+    path = PQCHelper::extractInsideARCFilename(path);
 
     QFileInfo info(path);
 

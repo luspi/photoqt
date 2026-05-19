@@ -46,6 +46,7 @@
 #include <pqc_loadimage.h>
 #include <pqc_configfiles.h>
 #include <pqc_notify_cpp.h>
+#include <pqc_helper.h>
 
 #ifdef Q_OS_UNIX
 #include <sys/xattr.h>
@@ -208,8 +209,7 @@ void PQCScriptsImages::listArchiveContent(QString path) {
 
     qDebug() << "args: path =" << path;
 
-    if(path.contains("::ARC::"))
-        path = path.split("::ARC::").at(1);
+    path = PQCHelper::extractInsideARCFilename(path);
 
     const bool limitArchiveFileCount = PQCSettingsCPP::get().getFiletypesArchiveDontLoadMoreFilesThan();
     const int limitArchiveFileCountNumber = PQCSettingsCPP::get().getFiletypesArchiveDontLoadMoreFilesThanCount();
@@ -524,8 +524,7 @@ int PQCScriptsImages::getNumberDocumentPages(QString path) {
     if(path.trimmed().isEmpty())
         return 0;
 
-    if(path.contains("::PDF::"))
-        path = path.split("::PDF::").at(1);
+    path = PQCHelper::extractInsidePDFFilename(path);
 
 #ifdef PQMPOPPLER
     std::unique_ptr<Poppler::Document> document = Poppler::Document::load(path);
@@ -970,7 +969,7 @@ QString PQCScriptsImages::extractArchiveFileToTempLocation(QString path) {
     if(!path.contains("::ARC::"))
         return "";
 
-    QStringList parts = path.split("::ARC::");
+    const QStringList parts = path.split("::ARC::");
     QString archivefile = parts.at(1);
     QString compressedFilename = parts.at(0);
 
@@ -1142,8 +1141,9 @@ QString PQCScriptsImages::extractDocumentPageToTempLocation(QString path) {
 #ifdef PQMQTPDF
 
     // extract page and totalpage value from filename (prepended to filename (after filepath))
-    int page = path.split("::PDF::").at(0).toInt();
-    QString realFileName = path.split("::PDF::").at(1);
+    const QStringList parts = path.split("::PDF::");
+    int page = parts.at(0).toInt();
+    QString realFileName = parts.at(1);
 
     QPdfDocument doc;
 
@@ -1187,8 +1187,9 @@ QString PQCScriptsImages::extractDocumentPageToTempLocation(QString path) {
 #ifdef PQMPOPPLER
 
     // extract page and totalpage value from filename (prepended to filename (after filepath))
-    int page = path.split("::PDF::").at(0).toInt();
-    QString filename = path.split("::PDF::").at(1);
+    const QStringList parts = path.split("::PDF::");
+    int page = parts.at(0).toInt();
+    QString filename = parts.at(1);
 
     // Load poppler document and render to QImage
     std::unique_ptr<Poppler::Document> document = Poppler::Document::load(filename);
@@ -1269,8 +1270,7 @@ int PQCScriptsImages::getDocumentPageCount(QString path) {
 
 #ifdef PQMQTPDF
 
-    if(path.contains("::PDF::"))
-        path = path.split("::PDF::").at(1);
+    path = PQCHelper::extractInsidePDFFilename(path);
 
     QPdfDocument doc;
 

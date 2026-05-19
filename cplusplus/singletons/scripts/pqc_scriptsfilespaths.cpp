@@ -25,6 +25,7 @@
 #include <pqc_notify_cpp.h>
 #include <pqc_imageformats.h>
 #include <pqc_configfiles.h>
+#include <pqc_helper.h>
 #include <qlogging.h>   // needed in this form to compile with Qt 6.2
 #include <QtDebug>
 #include <QDir>
@@ -172,10 +173,7 @@ QString PQCScriptsFilesPaths::getFilename(QString fullpath) {
     if(fullpath.isEmpty())
         return "";
 
-    if(fullpath.contains("::ARC::"))
-        fullpath = fullpath.split("::ARC::")[0];
-
-    return QFileInfo(fullpath).fileName();
+    return QFileInfo(PQCHelper::extractInsideFilename(fullpath)).fileName();
 
 }
 
@@ -184,12 +182,7 @@ QString PQCScriptsFilesPaths::getDir(QString fullpath) {
     if(fullpath.isEmpty())
         return "";
 
-    if(fullpath.contains("::ARC::"))
-        return QFileInfo(fullpath.split("::ARC::")[1]).absolutePath();
-    if(fullpath.contains("::PDF::"))
-        return QFileInfo(fullpath.split("::PDF::")[1]).absolutePath();
-
-    return QFileInfo(fullpath).absolutePath();
+    return QFileInfo(PQCHelper::extractInsideFilename(fullpath)).absolutePath();
 
 }
 
@@ -205,13 +198,13 @@ QString PQCScriptsFilesPaths::getDirname(const QString fullpath) {
 
 QString PQCScriptsFilesPaths::getFullArchivePath(QString path) {
 
-    if(path.contains("::ARC::"))
-        return path.split("::ARC::")[0];
+    const int idx = path.indexOf("::ARC::");
+    if(idx != -1)
+        return path.mid(0, idx);
 
-    if(path.contains("::PDF::")) {
-        const QStringList lst = path.split("::PDF::");
-        return QString("%1 (%2)").arg(lst[1]).arg(lst[0].toInt()+1);
-    }
+    const int idx2 = path.indexOf("::ARC::");
+    if(idx2 != -1)
+        return path.mid(idx+7) % " (" % QString::number(path.mid(0,idx).toInt()+1) % ")";
 
     return path;
 }
