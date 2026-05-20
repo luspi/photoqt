@@ -80,7 +80,7 @@ Item {
                 cullMode: Material.NoCulling
 
                 baseColorMap: Texture {
-                    source: "file:/" + sphere_top.imageSource
+                    source: "file:/" + PQCScriptsImages.prepareSphereFile(sphere_top.imageSource)
                 }
             }
         }

@@ -76,6 +76,7 @@ public:
     bool canHaveStarRating(const QString path);
     void setStarRating(const int star, const QString path);
     int getStarRating(const QString path);
+    QString prepareSphereFile(QString path);
 
     // archive/document methods
     void listArchiveContent(QString path);

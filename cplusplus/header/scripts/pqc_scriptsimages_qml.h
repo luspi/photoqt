@@ -67,6 +67,7 @@ public:
     Q_INVOKABLE bool canHaveStarRating(const QString path)                      { return PQCScriptsImages::get().canHaveStarRating(path); }
     Q_INVOKABLE void setStarRating(const int star, const QString path)          {        PQCScriptsImages::get().setStarRating(star, path); }
     Q_INVOKABLE int getStarRating(const QString path)                           { return PQCScriptsImages::get().getStarRating(path); }
+    Q_INVOKABLE QString prepareSphereFile(QString path)                         { return PQCScriptsImages::get().prepareSphereFile(path); }
 
     // archive/document methods
     Q_INVOKABLE void        listArchiveContent(QString path)                { PQCScriptsImages::get().listArchiveContent(path); }

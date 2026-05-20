@@ -2026,3 +2026,96 @@ int PQCScriptsImages::getStarRating(const QString path) {
 
     return 0;
 }
+
+QString PQCScriptsImages::prepareSphereFile(QString path) {
+
+    qDebug() << "args: path " << path;
+
+#if defined(PQMEXIV2) && (EXIV2_TEST_VERSION(0, 28, 0) || defined(PQMEXIV2_ENABLE_BMFF))
+
+#if EXIV2_TEST_VERSION(0, 28, 0)
+    Exiv2::Image::UniquePtr image;
+#else
+    Exiv2::Image::AutoPtr image;
+#endif
+
+    try {
+        image = Exiv2::ImageFactory::open(path.toStdString());
+        image->readMetadata();
+    } catch (Exiv2::Error& e) {
+        // An error code of kerFileContainsUnknownImageType (older version: 11) means unknown file type \
+        // Since we always try to read any file's meta data, this happens a lot
+#if EXIV2_TEST_VERSION(0, 28, 0)
+        if(e.code() != Exiv2::ErrorCode::kerFileContainsUnknownImageType)
+#else
+        if(e.code() != 11)
+#endif
+            qWarning() << "ERROR reading exiv data (caught exception):" << e.what();
+        else
+            qDebug() << "ERROR reading exiv data (caught exception):" << e.what();
+
+        return path;
+    }
+
+    Exiv2::XmpData xmpData;
+    try {
+        xmpData = image->xmpData();
+    } catch(Exiv2::Error &e) {
+        qDebug() << "ERROR: Unable to read xmp metadata:" << e.what();
+        return path;
+    }
+
+    int croppedW = 0, croppedH = 0;
+    int fullW = 0, fullH = 0;
+
+    for(Exiv2::XmpData::const_iterator it_xmp = xmpData.begin(); it_xmp != xmpData.end(); ++it_xmp) {
+
+        QString familyName = QString::fromStdString(it_xmp->familyName());
+        QString groupName = QString::fromStdString(it_xmp->groupName());
+        QString tagName = QString::fromStdString(it_xmp->tagName());
+
+        // check for actual and full dimensions of sphere
+        if(familyName == "Xmp" && groupName == "GPano") {
+            if(tagName == "CroppedAreaImageHeightPixels")
+                croppedH = QString::fromStdString(Exiv2::toString(it_xmp->value())).toInt();
+            else if(tagName == "CroppedAreaImageWidthPixels")
+                croppedW = QString::fromStdString(Exiv2::toString(it_xmp->value())).toInt();
+            else if(tagName == "FullPanoHeightPixels")
+                fullH = QString::fromStdString(Exiv2::toString(it_xmp->value())).toInt();
+            else if(tagName == "FullPanoWidthPixels")
+                fullW = QString::fromStdString(Exiv2::toString(it_xmp->value())).toInt();
+        }
+
+    }
+
+    // we add a small margin to allow for minor inaccuracies in creating the image
+    // this will not affect the visible part of the image
+    if(croppedW > 0 && croppedH > 0 && fullW > 0 && fullH > 0 && (croppedW < fullW-10 || croppedH < fullH-10)) {
+
+        // image is cropped -> process
+
+        QImage partialImage = QImage(path);
+
+        QImage fullimage(fullW, fullH, QImage::Format_RGB32);
+        fullimage.fill(Qt::transparent);
+        QPainter painter(&fullimage);
+        painter.drawImage((fullW-croppedW)/2, (fullH-croppedH)/2, partialImage);
+        painter.end();
+
+        const QString dir = PQCConfigFiles::get().CACHE_DIR() % "/sphere";
+        if(QDir().mkpath(dir)) {
+            const QString newPath = dir % "/" % QFileInfo(path).fileName();
+            if(QFile(newPath).exists()) QFile::remove(newPath);
+            fullimage.save(newPath);
+            return newPath;
+        }
+
+        return path;
+
+    }
+
+#endif
+
+    return path;
+
+}
