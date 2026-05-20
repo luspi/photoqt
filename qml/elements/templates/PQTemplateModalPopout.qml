@@ -126,7 +126,7 @@ Window {
         updateGeometry.restart()
     onHeightChanged:
         updateGeometry.restart()
-    onVisibilityChanged: {
+    onVisibilityChanged: (visibility) => {
         if(visibility === Window.Hidden) {
             setupHasBeenCompleted = false
             element_top._hide()
