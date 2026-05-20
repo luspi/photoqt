@@ -83,12 +83,13 @@ bool PQCScriptsFileManagement::copyFileToHere(QString filename, QString targetdi
     if(!info.exists())
         return false;
 
-    QString targetFilename = QString("%1/%2").arg(targetdir, info.fileName());
-    QFileInfo targetinfo(targetFilename);
+    QString targetFilename = targetdir % "/" % info.fileName();
 
     // file copied to itself
     if(targetFilename == filename)
         return true;
+
+    QFileInfo targetinfo(targetFilename);
 
     if(targetinfo.exists()) {
         QFile tf(targetFilename);
@@ -181,8 +182,8 @@ bool PQCScriptsFileManagement::renameFile(QString dir, QString oldName, QString 
     qDebug() << "args: oldName =" << oldName;
     qDebug() << "args: newName =" << newName;
 
-    QFile file(dir + "/" + oldName);
-    return file.rename(dir + "/" + newName);
+    QFile file(dir % "/" % oldName);
+    return file.rename(dir % "/" % newName);
 
 }
 
@@ -274,14 +275,14 @@ QString PQCScriptsFileManagement::undoLastAction(QString action) {
         QFile delFile(act.at(1).toString());
 
         QFileInfo info(act.at(1).toString());
-        QFile infoFile(QDir::cleanPath(info.absolutePath() + "/../info/" + info.fileName() + ".trashinfo"));
+        QFile infoFile(QDir::cleanPath(info.absolutePath() % "/../info/" % info.fileName() % ".trashinfo"));
 
         if(origFile.exists()) {
 
             // re-add action to list
             undoTrash.push_back(act);
 
-            return QString("-%1").arg(tr("File with original filename exists already", "filemanagement"));
+            return "-" % tr("File with original filename exists already", "filemanagement");
 
         }
 
@@ -302,10 +303,10 @@ QString PQCScriptsFileManagement::undoLastAction(QString action) {
         // re-add action to list
         undoTrash.push_back(act);
 
-        return QString("-%1: %2").arg(tr("Failed to recover file"), act.at(0).toString());
+        return "-" % tr("Failed to recover file") % ": " % act.at(0).toString();
 
     }
 
-    return QString("-%1: %2").arg(tr("Unknown action"), action);
+    return "-" % tr("Unknown action") % ": " % action;
 
 }
