@@ -49,11 +49,12 @@ void PQCScriptsOther::deleteScreenshots() {
     qDebug() << "";
     int count = 0;
     while(true) {
-        QFile file(QDir::tempPath() + QString("/photoqt_screenshot_%1.jpg").arg(count));
+        QFile file(QDir::tempPath() % "/photoqt_screenshot_" % QString::number(count) % ".jpg");
         if(file.exists())
             file.remove();
         else
             break;
+        count += 1;
     }
 }
 
@@ -79,7 +80,7 @@ void PQCScriptsOther::printFile(QString filename) {
 
     // get the starting output filename (directory stored, filename based on image filename)
     QFileInfo info(filename);
-    printer.setOutputFileName(QString("%1/%2.pdf").arg(info.absolutePath(), info.baseName()));
+    printer.setOutputFileName(info.absolutePath() % "/" % info.baseName());
 
     // the additional image options tab
     PQCPrintTabImageOptions *imageoptions = new PQCPrintTabImageOptions(printer.pageLayout().pageSize().rect(QPageSize::Millimeter).size());
@@ -171,7 +172,7 @@ void PQCScriptsOther::printFile(QString filename) {
 int PQCScriptsOther::getCurrentScreen(QPoint pos) {
     for(int i = 0; i < QApplication::screens().count(); ++i) {
         QScreen *screen = QApplication::screens().at(i);
-        QRect r = screen->geometry();
+        const QRect r = screen->geometry();
         if(r.x() < pos.x() && r.x()+r.width() > pos.x() &&
             r.y() < pos.y() && r.y()+r.height() > pos.y())
             return i;
