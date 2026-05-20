@@ -41,7 +41,7 @@ void PQCScriptsColorProfiles::loadColorProfileInfo() {
     QDirIterator it(PQCConfigFiles::get().ICC_COLOR_PROFILE_DIR(), {"*.icc", "*.icm", "*.ICC", "*.ICM"}, QDir::Files, QDirIterator::Subdirectories);
     while(it.hasNext()) {
 
-        QByteArray fullpath = QFile::encodeName(QString("%1/%2").arg(PQCConfigFiles::get().ICC_COLOR_PROFILE_DIR(), it.next()));
+        QByteArray fullpath = QFile::encodeName(PQCConfigFiles::get().ICC_COLOR_PROFILE_DIR() % "/" % it.next());
         cmsHPROFILE profile = cmsOpenProfileFromFile(fullpath.constData(), "r");
 
         if(!profile) {
@@ -125,7 +125,7 @@ void PQCScriptsColorProfiles::loadColorProfileInfo() {
                 QColorSpace sp = QColorSpace::fromIccProfile(iccfile.readAll());
                 if(sp.isValid()) {
                     m_externalColorProfiles << fn;
-                    m_externalColorProfileDescriptions << QString("%1 <i>(system)</i>").arg(sp.description());
+                    m_externalColorProfileDescriptions << sp.description() % " <i>(system)</i>";
                 }
             }
         }
