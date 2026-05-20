@@ -105,85 +105,85 @@ QString PQCScriptsConfig::getConfigInfo(bool formatHTML) {
 
     QString txt = "";
 
-    txt += QString(" - Compiled with %1Qt %2%3, running with %4Qt %5%6%7").arg(bold1, QT_VERSION_STR, bold2, bold1, qVersion(), bold2, nl);
+    txt += " - Compiled with " % bold1 % "Qt " % QT_VERSION_STR % bold2 % ", running with " % bold1 % "Qt " % qVersion() % bold2 % nl;
 
 #ifdef PQMPORTABLETWEAKS
-    txt += QString(" - Portable version%1").arg(nl);
+    txt += " - Portable version" % nl;
 #endif
 
 #ifdef PQMEXIV2
-    txt += QString(" - %1Exiv2%2: %3%4").arg(bold1, bold2, Exiv2::version(), nl);
+    txt += " - " % bold1 % "Exiv2" % bold2 % ": " % Exiv2::version() % nl;
 #endif
 
 #ifdef PQMPUGIXML
-    txt += QString(" - %1pugixml%2: %3%4").arg(bold1, bold2).arg((PUGIXML_VERSION)/1000.).arg(nl);
+    txt += " - " % bold1 % "pugixml" % bold2 % ": " % QString::number((PUGIXML_VERSION)/1000.) % nl;
 #endif
 
 #ifdef PQMCHROMECAST
-    txt += QString(" - %1Chromecast%2%3").arg(bold1, bold2, nl);
+    txt += " - " % bold1 % "Chromecast" % bold2 % nl;
 #endif
 
 #ifdef PQMRAW
-    txt += QString(" - %1LibRaw%2: %3%4").arg(bold1, bold2, LibRaw::version(), nl);
+    txt += " - " % bold1 % "LibRaw" % bold2 % ": " % LibRaw::version() % nl;
 #endif
 
 #ifdef PQMPOPPLER
-    txt += QString(" - %1Poppler%2: %3%4").arg(bold1, bold2, POPPLER_VERSION, nl);
+    txt += " - " % bold1 % "Poppler" % bold2 % ": " % POPPLER_VERSION % nl;
 #endif
 
 #ifdef PQMQTPDF
-    txt += QString(" - %1QtPDF%2%3").arg(bold1, bold2, nl);
+    txt += " - " % bold1 % "QtPDF" % bold2 % nl;
 #endif
 
 #ifdef PQMLIBARCHIVE
-    txt += QString(" - %1LibArchive%2: %3%4").arg(bold1, bold2, ARCHIVE_VERSION_ONLY_STRING, nl);
+    txt += " - " % bold1 % "LibArchive" % bold2 % ": " % ARCHIVE_VERSION_ONLY_STRING % nl;
 #endif
 
 #ifdef PQMIMAGEMAGICK
-    txt += QString(" - %1ImageMagick%2: %3%4").arg(bold1, bold2, MagickLibVersionText, nl);
+    txt += " - " % bold1 % "ImageMagick" % bold2 % ": " % MagickLibVersionText % nl;
 #endif
 
 #ifdef PQMGRAPHICSMAGICK
-    txt += QString(" - %1GraphicsMagick%2: %3%4").arg(bold1, bold2, MagickLibVersionText, nl);
+    txt += " - " % bold1 % "GraphicsMagick" % bold2 % ": " % MagickLibVersionText % nl;
 #endif
 
 #ifdef PQMDEVIL
-    txt += QString(" - %1DevIL%2: %3%4").arg(bold1, bold2).arg(IL_VERSION).arg(nl);
+    txt += " - " % bold1 % "DevIL" % bold2 % ": " % QString::number(IL_VERSION) % nl;
 #endif
 
 #ifdef PQMLIBSAI
-    txt += QString(" - %1LibSai%2%3").arg(bold1, bold2).arg(nl);
+    txt += " - " % bold1 % "LibSai" % bold2 % nl;
 #endif
 
 #ifdef PQMLOCATION
-    txt += QString(" - %1Location%2%3").arg(bold1, bold2, nl);
+    txt += " - " % bold1 % "Location" % bold2 % nl;
 #endif
 
 #ifdef PQMMOTIONPHOTO
-    txt += QString(" - %1Motion Photo%2%3").arg(bold1, bold2, nl);
+    txt += " - " % bold1 % "Motion Photo" % bold2 % nl;
 #endif
 
 #ifdef PQMVIDEOQT
-    txt += QString(" - %1Video%2 through Qt%3").arg(bold1, bold2, nl);
+    txt += " - " % bold1 % "Video" % bold2 % " through Qt" % nl;
 #endif
 
 #ifdef PQMLCMS2
-    txt += QString(" - %1LittleCMS%2: %3%4").arg(bold1, bold2).arg(LCMS_VERSION).arg(nl);
+    txt += " - " % bold1 % "LittleCMS" % bold2 % ": " % QString::number(LCMS_VERSION) % nl;
 #endif
 
 #ifdef PQMVIDEOMPV
     mpv_handle *mpv = mpv_create();
     if(mpv_initialize(mpv) < 0)
         throw std::runtime_error("could not initialize mpv context");
-    txt += QString(" - %1libmpv%2: %3 (ffmpeg: %4)%5").arg(bold1, bold2, mpv::qt::get_property(mpv, "mpv-version").toString(), mpv::qt::get_property(mpv, "ffmpeg-version").toString(), nl);
+    txt += " - " % bold1 % "libmpv" % bold2 % ": " % mpv::qt::get_property(mpv, "mpv-version").toString() % " (ffmpeg: " % mpv::qt::get_property(mpv, "ffmpeg-version").toString() % ")" % nl;
 #endif
 
-    txt += QString(" - %1Qt%2 image formats available:%3%4").arg(bold1, bold2, nl, spacing);
+    txt += " - " % bold1 % "Qt" % bold2 % " image formats available:" % spacing % nl;
     QImageReader reader;
     auto formats = reader.supportedImageFormats();
     for(int i = 0; i < formats.length(); ++i) {
         if(i != 0 && i%10 == 0)
-            txt += QString("%1%2").arg(nl, spacing);
+            txt += nl % spacing;
         txt += QString("%1, ").arg(QString(formats[i]), 5);
     }
 
@@ -212,7 +212,7 @@ bool PQCScriptsConfig::exportConfigTo(QString path) {
     if(path.isEmpty()) {
         archiveFile = QFileDialog::getSaveFileName(0,
                                                    "Select Location",
-                                                   QDir::homePath() + "/photoqtconfig.pqt",
+                                                   QDir::homePath() % "/photoqtconfig.pqt",
                                                    "PhotoQt Config File (*.pqt);;All Files (*.*)");
         if(archiveFile.trimmed().isEmpty())
             return false;
@@ -632,7 +632,7 @@ bool PQCScriptsConfig::askForConfirmation(QString title, QString text, QString i
 }
 
 bool PQCScriptsConfig::setInterfaceForNextStartup(QString variant) {
-    QFile file(PQCConfigFiles::get().CACHE_DIR() + "/nextstartupvariant");
+    QFile file(PQCConfigFiles::get().CACHE_DIR() % "/nextstartupvariant");
     if(!file.open(QIODevice::WriteOnly|QIODevice::Truncate)) {
         qWarning() << "Unable to toggle interface variant";
         return false;
@@ -644,7 +644,7 @@ bool PQCScriptsConfig::setInterfaceForNextStartup(QString variant) {
 }
 
 QString PQCScriptsConfig::getInterfaceForNextStartup() {
-    QFile file(PQCConfigFiles::get().CACHE_DIR() + "/nextstartupvariant");
+    QFile file(PQCConfigFiles::get().CACHE_DIR() % "/nextstartupvariant");
     if(!file.exists()) return "";
     if(!file.open(QIODevice::ReadOnly)) {
         qWarning() << "Unable to read toggled interface variant";
