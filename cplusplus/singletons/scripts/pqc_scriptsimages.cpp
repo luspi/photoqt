@@ -137,19 +137,19 @@ QString PQCScriptsImages::getIconPathFromTheme(QString binary) {
     for(int i = 0; i < QIcon::themeSearchPaths().length(); ++i) {
 
         // Setup path (this is the most likely directory) and format (PNG)
-        QString path = QIcon::themeSearchPaths().at(i) + "/hicolor/32x32/apps/" + binary.trimmed() + ".png";
+        QString path = QIcon::themeSearchPaths().at(i) % "/hicolor/32x32/apps/" % binary.trimmed() % ".png";
         if(QFile(path).exists())
-            return "file:" + path;
+            return "file:" % path;
         else {
             // Also check a smaller version
             path = path.replace("32x32","22x22");
             if(QFile(path).exists())
-                return "file:" + path;
+                return "file:" % path;
             else {
                 // And check 24x24, if not in the two before, it most likely is in here (e.g., shotwell on my system)
                 path = path.replace("22x22","24x24");
                 if(QFile(path).exists())
-                    return "file:" + path;
+                    return "file:" % path;
             }
         }
 
@@ -157,15 +157,15 @@ QString PQCScriptsImages::getIconPathFromTheme(QString binary) {
 
         path = path.replace("22x22","32x32").replace(".png",".svg");
         if(QFile(path).exists())
-            return "file:" + path;
+            return "file:" % path;
         else {
             path = path.replace("32x32","22x22");
             if(QFile(path).exists())
-                return "file:" + path;
+                return "file:" % path;
             else {
                 path = path.replace("22x22","24x24");
                 if(QFile(path).exists())
-                    return "file:" + path;
+                    return "file:" % path;
             }
         }
 
@@ -188,9 +188,7 @@ QString PQCScriptsImages::loadImageAndConvertToBase64(QString filename) {
         return "";
 
     if(pix.width() > 64 || pix.height() > 64)
-        pix = pix.scaled(64, 64,
-                         Qt::KeepAspectRatio,
-                         Qt::SmoothTransformation);
+        pix = pix.scaled(64, 64, Qt::KeepAspectRatio, Qt::SmoothTransformation);
 
     QByteArray bytes;
     QBuffer buffer(&bytes);
@@ -280,7 +278,9 @@ QStringList PQCScriptsImages::listArchiveContentWithoutThread(QString path, QStr
 
 #ifndef Q_OS_WIN
 
-    if(PQCSettingsCPP::get().getFiletypesExternalUnrar() && (info.suffix() == "cbr" || info.suffix() == "rar")) {
+    const QString suffix = info.suffix().toLower();
+
+    if(PQCSettingsCPP::get().getFiletypesExternalUnrar() && (suffix == "cbr" || suffix == "rar")) {
 
         QProcess p;
         p.setProcessChannelMode(QProcess::MergedChannels);
@@ -483,8 +483,8 @@ bool PQCScriptsImages::isPDFDocument(QString path) {
     qDebug() << "args: path =" << path;
 
 #if defined(PQMPOPPLER) || defined(PQMQTPDF)
-    if(PQCImageFormats::get().getEnabledFormatsPopplerSet().contains(QFileInfo(path).suffix().toLower()) ||
-       PQCImageFormats::get().getEnabledFormatsPopplerSet().contains(QFileInfo(path).completeSuffix().toLower()))
+    const QSet<QString> set = PQCImageFormats::get().getEnabledFormatsPopplerSet();
+    if(set.contains(QFileInfo(path).suffix().toLower()) || set.contains(QFileInfo(path).completeSuffix().toLower()))
         return true;
 
     QMimeDatabase db;
@@ -503,8 +503,8 @@ bool PQCScriptsImages::isArchive(QString path, bool silent, bool insideArchive) 
     // thus for that check we set the 'silent' flat
     if(!silent) qDebug() << "args: path =" << path;
 
-    if(PQCImageFormats::get().getEnabledFormatsLibArchiveSet().contains(QFileInfo(path).suffix().toLower()) ||
-       PQCImageFormats::get().getEnabledFormatsLibArchiveSet().contains(QFileInfo(path).completeSuffix().toLower()))
+    const QSet<QString> set = PQCImageFormats::get().getEnabledFormatsLibArchiveSet();
+    if(set.contains(QFileInfo(path).suffix().toLower()) || set.contains(QFileInfo(path).completeSuffix().toLower()))
         return true;
 
     if(!insideArchive) {
@@ -674,7 +674,7 @@ QString PQCScriptsImages::extractMotionPhoto(QString path) {
     if(!info.exists())
         return "";
 
-    const QString videofilename = QString("%1/motionphotos/%2.mp4").arg(PQCConfigFiles::get().CACHE_DIR(), info.baseName());
+    const QString videofilename = PQCConfigFiles::get().CACHE_DIR() % "/motionphotos/" % QString::number(qHash(info.baseName())) % ".mp4";
     if(QFileInfo::exists(videofilename)) {
         return videofilename;
     }
@@ -828,9 +828,9 @@ bool PQCScriptsImages::isPhotoSphere(QString path) {
 
     for(Exiv2::XmpData::const_iterator it_xmp = xmpData.begin(); it_xmp != xmpData.end(); ++it_xmp) {
 
-        QString familyName = QString::fromStdString(it_xmp->familyName());
-        QString groupName = QString::fromStdString(it_xmp->groupName());
-        QString tagName = QString::fromStdString(it_xmp->tagName());
+        const QString familyName = QString::fromStdString(it_xmp->familyName());
+        const QString groupName = QString::fromStdString(it_xmp->groupName());
+        const QString tagName = QString::fromStdString(it_xmp->tagName());
 
         /***********************************/
         // check for Motion Photo
@@ -1172,8 +1172,8 @@ QString PQCScriptsImages::extractDocumentPageToTempLocation(QString path) {
     paint.end();
 
     // we extract it to a temp location from where we can load it then
-    const QString tempdir = PQCConfigFiles::get().CACHE_DIR() + "/clipboard/";
-    const QString temppath = tempdir + QString("%1.jpg").arg(page+1);
+    const QString tempdir = PQCConfigFiles::get().CACHE_DIR() % "/clipboard/";
+    const QString temppath = tempdir % QString::number(page+1) % ".jpg";
 
     QDir td;
     if(!td.exists(tempdir))
@@ -1210,8 +1210,8 @@ QString PQCScriptsImages::extractDocumentPageToTempLocation(QString path) {
     QImage img = p->renderToImage(quality, quality);
 
     // we extract it to a temp location from where we can load it then
-    const QString tempdir = PQCConfigFiles::get().CACHE_DIR() + "/clipboard/";
-    const QString temppath = tempdir + QString("%1.jpg").arg(page+1);
+    const QString tempdir = PQCConfigFiles::get().CACHE_DIR() % "/clipboard/";
+    const QString temppath = tempdir + QString::number(page+1) % ".jpg";
 
     QDir td;
     if(!td.exists(tempdir))
@@ -1250,10 +1250,10 @@ bool PQCScriptsImages::extractFrameAndSave(QString path, int frameNumber) {
         suffix = "png";
 
     // compose default target filename
-    QString targetfile = QString("%1/%2_%3.%4").arg(info.absolutePath(), info.baseName()).arg(frameNumber).arg(suffix);
+    const QString defaultfile = info.absolutePath() % "/" % info.baseName() % "_" % QString::number(frameNumber) % "." % suffix;
 
     // ask user to confirm target file
-    targetfile = PQCScriptsFilesPaths::get().selectFileFromDialog("Save", targetfile, PQCImageFormats::get().detectFormatId(targetfile), true);
+    const QString targetfile = PQCScriptsFilesPaths::get().selectFileFromDialog("Save", defaultfile, PQCImageFormats::get().detectFormatId(defaultfile), true);
 
     // no file selected/dialog cancelled
     if(targetfile.isEmpty())
@@ -1327,7 +1327,7 @@ void PQCScriptsImages::removeThumbnailFor(QString path) {
 
     for(auto &c : cachedirs) {
         const QByteArray md5 = QCryptographicHash::hash(p,QCryptographicHash::Md5).toHex();
-        const QString thumbcachepath = PQCConfigFiles::get().THUMBNAIL_CACHE_DIR() + "/" + c + "/" + md5 + ".png";
+        const QString thumbcachepath = PQCConfigFiles::get().THUMBNAIL_CACHE_DIR() % "/" % c % "/" % md5 % ".png";
         if(QFileInfo::exists(thumbcachepath))
             QFile::remove(thumbcachepath);
     }
