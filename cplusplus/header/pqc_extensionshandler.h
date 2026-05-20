@@ -152,14 +152,14 @@ public:
     Q_INVOKABLE int installExtension(QString filepath);
     Q_INVOKABLE bool verifyExtension(QString extensionDir, QString nameId);
 
-    bool loadExtension(PQCExtensionInfo *extinfo, QString nameId, QString hashId, QString extensionDir, QString manifestTxt, bool isEnabled);
+    bool loadExtension(std::shared_ptr<PQCExtensionInfo> &extinfo, QString nameId, QString hashId, QString extensionDir, QString manifestTxt, bool isEnabled);
     void setExtensionMainMenu(QString hashId, bool add);
     void setExtensionContextMenu(QString hashId, QString section, bool add);
 
 private:
     PQCExtensionsHandler();
 
-    QMap<QString, PQCExtensionInfo*> m_allextensions;
+    QMap<QString, std::shared_ptr<PQCExtensionInfo> > m_allextensions;
 
     // these are processed ones and then cached as they are needed often
     QStringList m_extensions;
@@ -182,7 +182,7 @@ private:
 
     QStringList listFilesIn(QString dir);
 
-    QHash<QString, QTranslator*> extTrans;
+    QHash<QString, std::shared_ptr<QTranslator> > extTrans;
 
     QStringList m_mainmenu;
     QStringList m_contextMenuUse;

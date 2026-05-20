@@ -79,12 +79,12 @@ PQCExtensionsHandler::PQCExtensionsHandler() {
         Q_EMIT numExtensionsFailedChanged();
 
         for(const QString &hashId : std::as_const(m_extensions)) {
-            const PQCExtensionInfo *info = m_allextensions.value(hashId);
+            const std::shared_ptr<PQCExtensionInfo> info = m_allextensions.value(hashId);
             setExtensionMainMenu(hashId, info->mainmenu);
             setExtensionContextMenu(hashId, info->contextMenuSection, true);
         }
         for(const QString &hashId : std::as_const(m_extensionsDisabled)) {
-            const PQCExtensionInfo *info = m_allextensions.value(hashId);
+            const std::shared_ptr<PQCExtensionInfo> info = m_allextensions.value(hashId);
             setExtensionMainMenu(hashId, false);
             setExtensionContextMenu(hashId, info->contextMenuSection, false);
         }
@@ -118,24 +118,24 @@ void PQCExtensionsHandler::setup() {
 #ifdef Q_OS_UNIX
     #ifdef NDEBUG
       #ifdef PQMAPPIMAGEBUILD
+        m_systemExtensionDir = QCoreApplication::applicationDirPath() % "/../" % QString(PQMSHAREDLIBDIR) % "/PhotoQt/extensions";
         const QStringList checkDirs = {PQCConfigFiles::get().EXTENSION_DATA_DIR(),
-                                       QString("%1/../%2/PhotoQt/extensions").arg(QCoreApplication::applicationDirPath(), PQMSHAREDLIBDIR)};
-        m_systemExtensionDir = QString("%1/../%2/PhotoQt/extensions").arg(QCoreApplication::applicationDirPath(), PQMSHAREDLIBDIR);
+                                       m_systemExtensionDir};
       #else
+        m_systemExtensionDir = QString(PQMINSTALLPREFIX) % "/" % QString(PQMSHAREDLIBDIR) % "/PhotoQt/extensions";
         const QStringList checkDirs = {PQCConfigFiles::get().EXTENSION_DATA_DIR(),
-                                       QString("%1/%2/PhotoQt/extensions").arg(PQMINSTALLPREFIX, PQMSHAREDLIBDIR)};
-        m_systemExtensionDir = QString("%1/%2/PhotoQt/extensions").arg(PQMINSTALLPREFIX, PQMSHAREDLIBDIR);
+                                       m_systemExtensionDir};
       #endif
     #else
-        const QStringList checkDirs = {QString("%1/extensions").arg(PQMBUILDDIR),
+        m_systemExtensionDir = QString(PQMBUILDDIR) %  ("/extensions");
+        const QStringList checkDirs = {m_systemExtensionDir,
                                        PQCConfigFiles::get().EXTENSION_DATA_DIR(),
-                                       QString("%1/%2/PhotoQt/extensions").arg(QCoreApplication::applicationDirPath(), PQMSHAREDLIBDIR)};
-        m_systemExtensionDir = QString("%1/extensions").arg(PQMBUILDDIR);
+                                       QCoreApplication::applicationDirPath() % "/" % QString(PQMSHAREDLIBDIR) % "/PhotoQt/extensions"};
     #endif
 #else
+        m_systemExtensionDir = QCoreApplication::applicationDirPath() % "/extensions";
         const QStringList checkDirs = {PQCConfigFiles::get().EXTENSION_DATA_DIR(),
-                                       QCoreApplication::applicationDirPath() + "/extensions"};
-        m_systemExtensionDir = QCoreApplication::applicationDirPath() + "/extensions";
+                                       m_systemExtensionDir};
 #endif
 
         // This needs to be instantiated to make sure that the CPP class has been populated.
@@ -150,14 +150,14 @@ void PQCExtensionsHandler::setup() {
             const QStringList dirlist = pluginsDir.entryList(QDir::Dirs|QDir::NoDotAndDotDot);
             for(const QString &nameId : dirlist) {
 
-                const QString extensionDir = QFileInfo(QString("%1/%2/tmp.txt").arg(baseDir, nameId)).absolutePath();
+                const QString extensionDir = QDir(baseDir).absoluteFilePath(nameId);
                 const QString hashId = (m_systemExtensionDir == baseDir ?
                                             QCryptographicHash::hash(nameId.toUtf8(), QCryptographicHash::Md5).toHex() :
                                             QCryptographicHash::hash(extensionDir.toUtf8(), QCryptographicHash::Md5).toHex());
-                const QString identifyName = QString("%1 (%2)").arg(nameId, extensionDir);
+                const QString identifyName = nameId % " (" % extensionDir % ")";
 
                 // if there is a YAML file, then we load that one
-                const QString yamlfile = QString("%1/manifest.yml").arg(extensionDir);
+                const QString yamlfile = extensionDir % "/manifest.yml";
                 if(!QFile::exists(yamlfile)) {
 
                     qWarning() << "Required YAML file not found for extension" << identifyName;
@@ -201,7 +201,7 @@ void PQCExtensionsHandler::setup() {
                 QTextStream in(&fy);
                 QString definition = in.readAll();
 
-                PQCExtensionInfo *extinfo = new PQCExtensionInfo;
+                std::shared_ptr<PQCExtensionInfo> extinfo(new PQCExtensionInfo);
 
                 extinfo->location = extensionDir;
                 extinfo->internalId = hashId;
@@ -209,7 +209,6 @@ void PQCExtensionsHandler::setup() {
 
                 if(!loadExtension(extinfo, nameId, hashId, extensionDir, definition, extEnabled)) {
                     qWarning() << identifyName << "- failed to load";
-                    delete extinfo;
                     continue;
                 }
 
@@ -217,21 +216,17 @@ void PQCExtensionsHandler::setup() {
                 qDebug() << "Successfully loaded extension" << identifyName;
 
                 // create translator for this extension
-                QTranslator *trans = new QTranslator;
+                std::shared_ptr<QTranslator> trans(new QTranslator);
                 extTrans.insert(hashId, trans);
 
                 if(extEnabled) {
                     m_extensions.append(hashId);
-                    const QString qmfile = QString("%1/lang/%2_%3.qm").arg(extinfo->location, nameId, PQCScriptsLocalization::get().getActiveTranslationCode());
-                    if(!QFile::exists(qmfile))
-                        qDebug() << identifyName << "- no translation file found:" << qmfile;
-                    else {
-                        if(trans->load(qmfile)) {
-                            qDebug() << identifyName << "- installing translation file:" << qmfile;
-                            qApp->installTranslator(trans);
-                        } else
-                            qWarning() << identifyName << "- unable to install translator:" << PQCScriptsLocalization::get().getActiveTranslationCode();
-                    }
+                    const QString qmfile = extinfo->location % "/lang/" % nameId % "_" % PQCScriptsLocalization::get().getActiveTranslationCode() % ".qm";
+                    if(trans->load(qmfile)) {
+                        qDebug() << identifyName << "- installing translation file:" << qmfile;
+                        qApp->installTranslator(trans.get());
+                    } else
+                        qDebug() << identifyName << "- unable to install translator:" << PQCScriptsLocalization::get().getActiveTranslationCode();
                 } else {
                     if(allowUntrusted || verificationPassed)
                         m_extensionsDisabled.append(hashId);
@@ -268,7 +263,7 @@ void PQCExtensionsHandler::setup() {
 
 PQCExtensionsHandler::~PQCExtensionsHandler() {}
 
-bool PQCExtensionsHandler::loadExtension(PQCExtensionInfo *extinfo, QString nameId, QString hashId, QString extensionDir, QString manifestTxt, bool isEnabled) {
+bool PQCExtensionsHandler::loadExtension(std::shared_ptr<PQCExtensionInfo> &extinfo, QString nameId, QString hashId, QString extensionDir, QString manifestTxt, bool isEnabled) {
 
 #ifdef PQMEXTENSIONS
 
@@ -276,7 +271,7 @@ bool PQCExtensionsHandler::loadExtension(PQCExtensionInfo *extinfo, QString name
 
     YAML::Node config;
 
-    const QString identifyName = QString("%1 (%2)").arg(nameId, extensionDir);
+    const QString identifyName = nameId % " (" % extensionDir % ")";
 
     // LOAD yaml file
     try {
@@ -311,7 +306,6 @@ bool PQCExtensionsHandler::loadExtension(PQCExtensionInfo *extinfo, QString name
         extinfo->longName = QString::fromStdString(config["about"]["longName"].as<std::string>());
     } catch(YAML::Exception &e) {
         haveProperLongName = false;
-        qDebug() << "Extension:" << identifyName << "- Optional value for 'longName' not found, adopting value of 'name':" << e.what();
     }
     if(extinfo->longName.isEmpty()) {
         haveProperLongName = false;
@@ -376,68 +370,62 @@ bool PQCExtensionsHandler::loadExtension(PQCExtensionInfo *extinfo, QString name
     // check localizations for name
     for(const QString &lang : langLst) {
         try {
-            if(config["about"][QString("name[%1]").arg(lang).toStdString()].IsDefined()) {
-                const QString val = QString::fromStdString(config["about"][QString("name[%1]").arg(lang).toStdString()].as<std::string>());
-                qDebug() << "Extension:" << identifyName << "- localized name to" << lang << "found:" << val;
+            const std::string langStr = QString("name[" % lang % "]").toStdString();
+            if(config["about"][langStr].IsDefined()) {
+                const QString val = QString::fromStdString(config["about"][langStr].as<std::string>());
                 extinfo->nameLocalized[lang] = val;
-            } else if(lang.contains("_")) {
-                const QString lang_ = lang.split("_")[0];
-                if(config["about"][QString("name[%1]").arg(lang_).toStdString()].IsDefined()) {
-                    const QString val = QString::fromStdString(config["about"][QString("name[%1]").arg(lang_).toStdString()].as<std::string>());
-                    qDebug() << "Extension:" << identifyName << "- localized name to" << lang_ << "found:" << val;
-                    extinfo->nameLocalized[lang] = val;
-                } else
-                    qDebug() << "Extension:" << identifyName << "- localized 'name' to" << lang << "not found.";
-            } else
-                qDebug() << "Extension:" << identifyName << "- localized 'name' to" << lang << "not found.";
-        } catch(YAML::Exception &e) {
-            qDebug() << "Extension:" << identifyName << "- localized 'name' to" << lang << "not found.";
-        }
+            } else {
+                const int langIdx = lang.indexOf("_");
+                if(langIdx > -1) {
+                    const std::string lang_Str = QString("name[" % lang.mid(0,langIdx) % "]").toStdString();
+                    if(config["about"][lang_Str].IsDefined()) {
+                        const QString val = QString::fromStdString(config["about"][lang_Str].as<std::string>());
+                        extinfo->nameLocalized[lang] = val;
+                    }
+                }
+            }
+        } catch(YAML::Exception &e) {}
     }
     // check localizations for longName
     for(const QString &lang : langLst) {
         if(haveProperLongName) {
             try {
-                if(config["about"][QString("longName[%1]").arg(lang).toStdString()].IsDefined()) {
-                    const QString val = QString::fromStdString(config["about"][QString("longName[%1]").arg(lang).toStdString()].as<std::string>());
-                    qDebug() << "Extension:" << identifyName << "- localized longName to" << lang << "found:" << val;
+                const std::string langStr = QString("longName[" % lang % "]").toStdString();
+                if(config["about"][langStr].IsDefined()) {
+                    const QString val = QString::fromStdString(config["about"][langStr].as<std::string>());
                     extinfo->longNameLocalized[lang] = val;
-                } else if(lang.contains("_")) {
-                    const QString lang_ = lang.split("_")[0];
-                    if(config["about"][QString("longName[%1]").arg(lang_).toStdString()].IsDefined()){
-                        const QString val = QString::fromStdString(config["about"][QString("longName[%1]").arg(lang_).toStdString()].as<std::string>());
-                        qDebug() << "Extension:" << identifyName << "- localized longName to" << lang_ << "found:" << val;
-                        extinfo->longNameLocalized[lang] = val;
-                    } else
-                        qDebug() << "Extension:" << identifyName << "- localized 'longName' to" << lang << "not found.";
-                } else
-                    qDebug() << "Extension:" << identifyName << "- localized 'longName' to" << lang << "not found.";
-            } catch(YAML::Exception &e) {
-                qDebug() << "Extension:" << identifyName << "- localized 'longName' to" << lang << "not found.";
-            }
+                } else {
+                    const int langIdx = lang.indexOf("_");
+                    if(langIdx > -1) {
+                        const std::string lang_Str = QString("longName[" % lang.mid(0,langIdx) % "]").toStdString();
+                        if(config["about"][lang_Str].IsDefined()){
+                            const QString val = QString::fromStdString(config["about"][lang_Str].as<std::string>());
+                            extinfo->longNameLocalized[lang] = val;
+                        }
+                    }
+                }
+            } catch(YAML::Exception &e) {}
         } else
             extinfo->longNameLocalized = extinfo->nameLocalized;
     }
     // check localizations for description
     for(const QString &lang : langLst) {
         try {
-            if(config["about"][QString("description[%1]").arg(lang).toStdString()].IsDefined()) {
-                const QString val = QString::fromStdString(config["about"][QString("description[%1]").arg(lang).toStdString()].as<std::string>());
-                qDebug() << "Extension:" << identifyName << "- localized description to" << lang << "found:" << val;
+            const std::string langStr = QString("description[" % lang % "]").toStdString();
+            if(config["about"][langStr].IsDefined()) {
+                const QString val = QString::fromStdString(config["about"][langStr].as<std::string>());
                 extinfo->descriptionLocalized[lang] = val;
-            } else if(lang.contains("_")) {
-                const QString lang_ = lang.split("_")[0];
-                if(config["about"][QString("description[%1]").arg(lang_).toStdString()].IsDefined()){
-                    const QString val = QString::fromStdString(config["about"][QString("description[%1]").arg(lang_).toStdString()].as<std::string>());
-                    qDebug() << "Extension:" << identifyName << "- localized description to" << lang_ << "found:" << val;
-                    extinfo->descriptionLocalized[lang] = val;
-                } else
-                    qDebug() << "Extension:" << identifyName << "- localized 'description' to" << lang << "not found.";
-            } else
-                qDebug() << "Extension:" << identifyName << "- localized 'description' to" << lang << "not found.";
-        } catch(YAML::Exception &e) {
-            qDebug() << "Extension:" << identifyName << "- localized 'description' to" << lang << "not found.";
-        }
+            } else {
+                const int langIdx = lang.indexOf("_");
+                if(langIdx > -1) {
+                    const std::string lang_Str = QString("description[" % lang.mid(0,langIdx) % "]").toStdString();
+                    if(config["about"][lang_Str].IsDefined()){
+                        const QString val = QString::fromStdString(config["about"][lang_Str].as<std::string>());
+                        extinfo->descriptionLocalized[lang] = val;
+                    }
+                }
+            }
+        } catch(YAML::Exception &e) {}
     }
 
     /***********************************/
@@ -449,9 +437,7 @@ bool PQCExtensionsHandler::loadExtension(PQCExtensionInfo *extinfo, QString name
     // allow integrated
     try {
         extinfo->integratedAllow = config["setup"]["integrated"]["allow"].as<bool>();
-    } catch(YAML::Exception &e) {
-        qDebug() << "Extension:" << identifyName << "- Optional value for 'integrated/allow' invalid or not found, skipping:" << e.what();
-    }
+    } catch(YAML::Exception &e) {}
 
     // minimum required window size
     try {
@@ -460,23 +446,17 @@ bool PQCExtensionsHandler::loadExtension(PQCExtensionInfo *extinfo, QString name
             qWarning() << "Extension:" << identifyName << "- Expected two values (width, height) for property 'minimumRequiredWindowSize', but found" << vals.size();
         else
             extinfo->integratedMinimumRequiredWindowSize = QSize(vals.front(), vals.back());
-    } catch(YAML::Exception &e) {
-        qDebug() << "Extension:" << identifyName << "- Optional value for 'minimumRequiredWindowSize' invalid or not found, skipping:" << e.what();
-    }
+    } catch(YAML::Exception &e) {}
 
     // default position
     try {
         extinfo->integratedDefaultPosition = extinfo->getIntegerForPosition(config["setup"]["integrated"]["defaultPosition"].as<std::string>());
-    } catch(YAML::Exception &e) {
-        qDebug() << "Extension:" << identifyName << "- Optional value for 'defaultPosition' invalid or not found, skipping:" << e.what();
-    }
+    } catch(YAML::Exception &e) {}
 
     // default distance from window edge
     try {
         extinfo->integratedDefaultDistanceFromEdge = config["setup"]["integrated"]["defaultDistanceFromEdge"].as<int>();
-    } catch(YAML::Exception &e) {
-        qDebug() << "Extension:" << identifyName << "- Optional value for 'defaultDistanceFromEdge' invalid or not found, skipping:" << e.what();
-    }
+    } catch(YAML::Exception &e) {}
 
     // default integrated size
     try {
@@ -485,16 +465,12 @@ bool PQCExtensionsHandler::loadExtension(PQCExtensionInfo *extinfo, QString name
             qWarning() << "Extension:" << identifyName << "- Expected two values (width, height) for property 'integrated/defaultSize', but found" << vals.size();
         else
             extinfo->integratedDefaultSize = QSize(vals.front(), vals.back());
-    } catch(YAML::Exception &e) {
-        qDebug() << "Extension:" << identifyName << "- Optional value for 'integrated/defaultSize' invalid or not found, skipping:" << e.what();
-    }
+    } catch(YAML::Exception &e) {}
 
     // fix size to content
     try {
         extinfo->integratedFixSizeToContent = config["setup"]["integrated"]["fixSizeToContent"].as<bool>();
-    } catch(YAML::Exception &e) {
-        qDebug() << "Extension:" << identifyName << "- Optional value for 'integrated/fixSizeToContent' invalid or not found, skipping:" << e.what();
-    }
+    } catch(YAML::Exception &e) {}
 
 
     //////////////////////
@@ -507,9 +483,7 @@ bool PQCExtensionsHandler::loadExtension(PQCExtensionInfo *extinfo, QString name
             qWarning() << "Extension:" << identifyName << "- At least one of integrated or popout needs to be enabled. Force-enabling integrated.";
             extinfo->integratedAllow = true;
         }
-    } catch(YAML::Exception &e) {
-        qDebug() << "Extension:" << identifyName << "- Optional value for 'popout/allow' invalid or not found, skipping:" << e.what();
-    }
+    } catch(YAML::Exception &e) {}
 
     // default popout size
     try {
@@ -518,16 +492,12 @@ bool PQCExtensionsHandler::loadExtension(PQCExtensionInfo *extinfo, QString name
             qWarning() << "Extension:" << identifyName << "- Expected two values (width, height) for property 'popout/defaultSize', but found" << vals.size();
         else
             extinfo->popoutDefaultSize = QSize(vals.front(), vals.back());
-    } catch(YAML::Exception &e) {
-        qDebug() << "Extension:" << identifyName << "- Optional value for 'popout/defaultSize' invalid or not found, skipping:" << e.what();
-    }
+    } catch(YAML::Exception &e) {}
 
     // fix size to content
     try {
         extinfo->popoutFixSizeToContent = config["setup"]["popout"]["fixSizeToContent"].as<bool>();
-    } catch(YAML::Exception &e) {
-        qDebug() << "Extension:" << identifyName << "- Optional value for 'popout/fixSizeToContent' invalid or not found, skipping:" << e.what();
-    }
+    } catch(YAML::Exception &e) {}
 
 
     //////////////////////
@@ -536,55 +506,41 @@ bool PQCExtensionsHandler::loadExtension(PQCExtensionInfo *extinfo, QString name
     // this is a floating element
     try {
         extinfo->floating = config["setup"]["floating"].as<bool>();
-    } catch(YAML::Exception &e) {
-        qDebug() << "Extension:" << identifyName << "- Optional value for 'floating' invalid or not found, skipping:" << e.what();
-    }
+    } catch(YAML::Exception &e) {}
 
     // make element modal
     try {
         extinfo->modal = config["setup"]["modal"].as<bool>();
-    } catch(YAML::Exception &e) {
-        qDebug() << "Extension:" << identifyName << "- Optional value for 'modal' invalid or not found, skipping:" << e.what();
-    }
+    } catch(YAML::Exception &e) {}
 
     // default shortcut to toggle element
     try {
         extinfo->defaultShortcut = QString::fromStdString(config["setup"]["defaultShortcut"].as<std::string>());
-    } catch(YAML::Exception &e) {
-        qDebug() << "Extension:" << identifyName << "- Optional value for 'defaultShortcut' invalid or not found, skipping:" << e.what();
-    }
+    } catch(YAML::Exception &e) {}
 
     // remember geometry
     try {
         extinfo->rememberGeometry = config["setup"]["rememberGeometry"].as<bool>();
-    } catch(YAML::Exception &e) {
-        qDebug() << "Extension:" << identifyName << "- Optional value for 'rememberGeometry' invalid or not found, skipping:" << e.what();
-    }
+    } catch(YAML::Exception &e) {}
 
     // context menu section
     try {
         extinfo->contextMenuSection = QString::fromStdString(config["setup"]["contextmenu"].as<std::string>());
         setExtensionContextMenu(hashId, extinfo->contextMenuSection, isEnabled);
         Q_EMIT contextMenuOtherChanged();
-    } catch(YAML::Exception &e) {
-        qDebug() << "Extension:" << identifyName << "- Optional value for 'contextmenu' invalid or not found, skipping:" << e.what();
-    }
+    } catch(YAML::Exception &e) {}
 
     // add entry to main menu
     try {
         extinfo->mainmenu = config["setup"]["mainmenu"].as<bool>();
         setExtensionMainMenu(hashId, (isEnabled && extinfo->mainmenu));
         Q_EMIT mainmenuChanged();
-    } catch(YAML::Exception &e) {
-        qDebug() << "Extension:" << identifyName << "- Optional value for 'mainmenu' invalid or not found, skipping:" << e.what();
-    }
+    } catch(YAML::Exception &e) {}
 
     // add entry to main menu
     try {
         extinfo->customMouseHandling = config["setup"]["customMouseHandling"].as<bool>();
-    } catch(YAML::Exception &e) {
-        qDebug() << "Extension:" << identifyName << "- Optional value for 'customMouseHandling' invalid or not found, skipping:" << e.what();
-    }
+    } catch(YAML::Exception &e) {}
 
     // settings
     try {
@@ -600,9 +556,7 @@ bool PQCExtensionsHandler::loadExtension(PQCExtensionInfo *extinfo, QString name
 
         }
 
-    } catch(YAML::Exception &e) {
-        qDebug() << "Extension:" << identifyName << "- Optional value for 'settings' invalid or not found, skipping:" << e.what();
-    }
+    } catch(YAML::Exception &e) {}
 
     // whether CPP actions have been supplied
     try {
@@ -627,7 +581,7 @@ bool PQCExtensionsHandler::loadExtension(PQCExtensionInfo *extinfo, QString name
 
             } else {
 
-                const QString libName = QString("%1/%2").arg(extensionDir, filList.at(0));
+                const QString libName = extensionDir % "/" % filList.at(0);
 
                 // linker file does not exist
                 if(!QFile::exists(libName)) {
@@ -656,9 +610,7 @@ bool PQCExtensionsHandler::loadExtension(PQCExtensionInfo *extinfo, QString name
 
         }
 
-    } catch(YAML::Exception &e) {
-        qDebug() << "Optional value for 'haveCPPActions' invalid or not found, skipping:" << e.what();
-    }
+    } catch(YAML::Exception &e) {}
 
     // adapt old APIs
     if(oldExtension_v1) {
@@ -734,7 +686,7 @@ QString PQCExtensionsHandler::getExtensionLocation(QString id) {
 }
 
 QString PQCExtensionsHandler::getExtensionConfigLocation(QString id) {
-    const QString path = QString("%1/%2").arg(PQCConfigFiles::get().EXTENSION_CONFIG_DIR(), id);
+    const QString path = PQCConfigFiles::get().EXTENSION_CONFIG_DIR() % "/" % id;
     QDir dir(path);
     if(!dir.exists(path))
         dir.mkpath(path);
@@ -742,7 +694,7 @@ QString PQCExtensionsHandler::getExtensionConfigLocation(QString id) {
 }
 
 QString PQCExtensionsHandler::getExtensionDataLocation(QString id) {
-    const QString path = QString("%1/%2").arg(PQCConfigFiles::get().EXTENSION_DATA_DIR(), id);
+    const QString path = PQCConfigFiles::get().EXTENSION_DATA_DIR() % "/" % id;
     QDir dir(path);
     if(!dir.exists(path))
         dir.mkpath(path);
@@ -750,7 +702,7 @@ QString PQCExtensionsHandler::getExtensionDataLocation(QString id) {
 }
 
 QString PQCExtensionsHandler::getExtensionCacheLocation(QString id) {
-    const QString path = QString("%1/%2").arg(PQCConfigFiles::get().EXTENSION_CACHE_DIR(), id);
+    const QString path = PQCConfigFiles::get().EXTENSION_CACHE_DIR() % "/" % id;
     QDir dir(path);
     if(!dir.exists(path))
         dir.mkpath(path);
@@ -777,10 +729,13 @@ QString PQCExtensionsHandler::getExtensionName(QString id) {
         if(l1 != "en") {
             if(m_allextensions[id]->nameLocalized.contains(l1))
                 return m_allextensions[id]->nameLocalized[l1];
-            else if(l1.contains("_")) {
-                const QString l2 = l1.split("_")[0];
-                if(m_allextensions[id]->nameLocalized.contains(l2))
-                    return m_allextensions[id]->nameLocalized[l2];
+            else {
+                const int idx = l1.indexOf("_");
+                if(idx > -1) {
+                    const QString l2 = l1.mid(0,idx);
+                    if(m_allextensions[id]->nameLocalized.contains(l2))
+                        return m_allextensions[id]->nameLocalized[l2];
+                }
             }
         }
         return m_allextensions[id]->name;
@@ -809,10 +764,13 @@ QString PQCExtensionsHandler::getExtensionDescription(QString id) {
         if(l1 != "en") {
             if(m_allextensions[id]->descriptionLocalized.contains(l1))
                 return m_allextensions[id]->descriptionLocalized[l1];
-            else if(l1.contains("_")) {
-                const QString l2 = l1.split("_")[0];
-                if(m_allextensions[id]->descriptionLocalized.contains(l2))
-                    return m_allextensions[id]->descriptionLocalized[l2];
+            else {
+                const int idx = l1.indexOf("_");
+                if(idx > -1) {
+                    const QString l2 = l1.mid(0, idx);
+                    if(m_allextensions[id]->descriptionLocalized.contains(l2))
+                        return m_allextensions[id]->descriptionLocalized[l2];
+                }
             }
         }
         return m_allextensions[id]->description;
@@ -827,10 +785,13 @@ QString PQCExtensionsHandler::getExtensionLongName(QString id) {
         if(l1 != "en") {
             if(m_allextensions[id]->longNameLocalized.contains(l1))
                 return m_allextensions[id]->longNameLocalized[l1];
-            else if(l1.contains("_")) {
-                const QString l2 = l1.split("_")[0];
-                if(m_allextensions[id]->longNameLocalized.contains(l2))
-                    return m_allextensions[id]->longNameLocalized[l2];
+            else {
+                const int idx = l1.indexOf("_");
+                if(idx > -1) {
+                    const QString l2 = l1.mid(0,idx);
+                    if(m_allextensions[id]->longNameLocalized.contains(l2))
+                        return m_allextensions[id]->longNameLocalized[l2];
+                }
             }
         }
         return m_allextensions[id]->longName;
@@ -985,7 +946,7 @@ bool PQCExtensionsHandler::getExtensionHasCPPActions(QString id) {
 
 bool PQCExtensionsHandler::getHasSettings(const QString &id) {
     if(m_allextensions.contains(id))
-        return QFile::exists(QString("%1/qml/%2Settings.qml").arg(m_allextensions[id]->location, m_allextensions[id]->nameId));
+        return QFile::exists(m_allextensions[id]->location % "/qml/" % m_allextensions[id]->nameId % "Settings.qml");
     qWarning() << "Unknown extension id:" << id;
     return false;
 }
@@ -1103,12 +1064,12 @@ void PQCExtensionsHandler::setEnabledExtensions(const QStringList &ids) {
     m_extensions = ids;
     m_numExtensionsEnabled = m_extensions.length();
     for(const QString &id : ids) {
-        const QString qmfile = QString("%1/lang/%2_%3.qm").arg(m_allextensions.value(id)->location,id,PQCScriptsLocalization::get().getActiveTranslationCode());
+        const QString qmfile = m_allextensions.value(id)->location % "/lang/" % id % "_" % PQCScriptsLocalization::get().getActiveTranslationCode() % ".qm";
         if(!QFile::exists(qmfile))
             qDebug() << id << "- no translation file found:" << qmfile;
         else {
             if(extTrans.value(id)->load(qmfile))
-                qApp->installTranslator(extTrans.value(id));
+                qApp->installTranslator(extTrans.value(id).get());
             else
                 qWarning() << id << "- unable to install translator:" << PQCScriptsLocalization::get().getActiveTranslationCode();
         }
@@ -1119,7 +1080,7 @@ void PQCExtensionsHandler::setEnabledExtensions(const QStringList &ids) {
 void PQCExtensionsHandler::setDisabledExtensions(const QStringList &ids) {
     m_extensionsDisabled = ids;
     for(const QString &id : ids)
-        qApp->removeTranslator(extTrans.value(id));
+        qApp->removeTranslator(extTrans.value(id).get());
     resetNumExtensionsAll->start();
 }
 
@@ -1166,7 +1127,7 @@ int PQCExtensionsHandler::installExtension(QString filepath) {
         msg.setIcon(QMessageBox::Critical);
         msg.setWindowFlag(Qt::WindowStaysOnTopHint);
         msg.setWindowTitle("Invalid extension");
-        msg.setText(QString("The extension does not appear to be valid and cannot be installed.\n\nError message:\n%1").arg(meta["error"].toString()));
+        msg.setText("The extension does not appear to be valid and cannot be installed.\n\nError message:\n" % meta["error"].toString());
         msg.setStandardButtons(QMessageBox::Ok);
         msg.exec();
 
@@ -1178,7 +1139,12 @@ int PQCExtensionsHandler::installExtension(QString filepath) {
     msg.setIcon(QMessageBox::Question);
     msg.setWindowTitle("Install extension?");
     msg.setWindowFlag(Qt::WindowStaysOnTopHint);
-    msg.setText(QString("Do you want to install this extension?<br><br><b>Name:</b> %1 (version: %2)<br><b>Description:</b> %3<br><b>Author:</b> %4<br><b>Contact:</b> %5<br><b>Website:</b> %6").arg(meta["name"].toString()).arg(meta["version"].toInt()).arg(meta["description"].toString(), meta["author"].toString(), meta["contact"].toString(), meta["website"].toString()));
+    msg.setText("Do you want to install this extension?<br><br><b>Name:</b> " % meta["name"].toString() %
+                " (version: " % QString::number(meta["version"].toInt()) %
+                ")<br><b>Description:</b> " % meta["description"].toString() %
+                "<br><b>Author:</b> " % meta["author"].toString() %
+                "<br><b>Contact:</b> " % meta["contact"].toString() %
+                "<br><b>Website:</b> " % meta["website"].toString() % "");
     msg.setTextFormat(Qt::RichText);
     msg.setStandardButtons(QMessageBox::Yes|QMessageBox::No);
     msg.setDefaultButton(QMessageBox::No);
@@ -1199,11 +1165,11 @@ int PQCExtensionsHandler::installExtension(QString filepath) {
 #ifdef Q_OS_WIN
     int r = archive_read_open_filename_w(a, reinterpret_cast<const wchar_t*>(filepath.utf16()), 10240);
 #else
-    int r = archive_read_open_filename(a, filepath.toLocal8Bit().data(), 10240);
+    QByteArray tmpPath = QFile::encodeName(filepath);
+    int r = archive_read_open_filename(a, tmpPath.constData(), 10240);
 #endif
     if(r != ARCHIVE_OK) {
-        QString msg = QString("ERROR: archive_read_open_filename() returned code of %1").arg(r);
-        qWarning() << msg;
+        qWarning() << "ERROR: archive_read_open_filename() returned code of" << r;
         return 0;
     }
 
@@ -1218,9 +1184,13 @@ int PQCExtensionsHandler::installExtension(QString filepath) {
 
         // Read the current file entry
         // We use the '_w' variant here, as otherwise on Windows this call causes a segfault when a file in an archive contains non-latin characters
-        QString filenameinside = QString::fromWCharArray(archive_entry_pathname_w(entry));
+        // Also, if the archives is malformed or there is an encoding issue then it is possible that this may return a nullptr
+        // and PhotoQt might crash if not handled properly -> check before converting to QString
+        const wchar_t *wpath = archive_entry_pathname_w(entry);
+        if(!wpath) continue;
+        QString filenameinside = QString::fromWCharArray(wpath);
 
-        QString fullpath = PQCConfigFiles::get().DATA_DIR() + "/extensions/" + filenameinside;
+        QString fullpath = PQCConfigFiles::get().DATA_DIR() % "/extensions/" % filenameinside;
 
         if(fullpath.endsWith("/")) {
             if(nameId.isEmpty())
@@ -1230,35 +1200,69 @@ int PQCExtensionsHandler::installExtension(QString filepath) {
                 qWarning() << "Unable to make path:" << fullpath;
         } else {
 
-            // store read data in here
-            const void *buff;
-            size_t size;
-            la_int64_t offset;
+            // Find out the size of the data
+            int64_t size = archive_entry_size(entry);
 
-            // The output file...
+            if(size <= 0) {
+                qWarning() << "Invalid image size of file in archive:" << size;
+                numFilesFailure += 1;
+                continue;
+            }
+
+            // Create a buffer of that size to hold the image data
+            QByteArray data;
+            data.resize(size);
+
+            // And finally read the file into the buffer in chunks
+            char* ptr = data.data();
+            qint64 total = 0;
+            while (total < size) {
+                la_ssize_t chunk = archive_read_data(a, ptr + total, size - total);
+                if(chunk < 0) {
+                    qWarning() << "Invalid chunk read:" << archive_error_string(a);
+                    break;
+                }
+
+                if (chunk == 0) {
+                    break;
+                }
+
+                total += chunk;
+            }
+
+            if(total != size) {
+                qWarning() << QString("Failed to read image data, read size (%1) doesn't match expected size (%2)...").arg(total).arg(size);
+                numFilesFailure += 1;
+                continue;
+            }
+
+            // file handles
             QFile file(fullpath);
-
-            // Overwrite old content
+            QFileInfo info(file);
             if(!file.open(QIODevice::WriteOnly | QIODevice::Truncate)) {
                 qWarning() << QString("ERROR: Unable to write file '%1'... Skipping file!").arg(filenameinside);
                 numFilesFailure += 1;
                 continue;
             }
-            QDataStream out(&file);   // we will serialize the data into the file
 
-            // read data
-            while((r = archive_read_data_block(a, &buff, &size, &offset)) == ARCHIVE_OK) {
-                if(r != ARCHIVE_OK || size == 0) {
-                    numFilesFailure += 1;
-                    qWarning() << QString("ERROR: Unable to extract file '%1':").arg(filenameinside) << archive_error_string(a) << " " << QString("(%1)").arg(r) << " - Skipping file!";
-                    break;
-                }
-                out.writeRawData((const char*) buff, size);
+            // remove it if it exists, there is no way to know if it's the same file or not
+            if(file.exists()) file.remove();
+
+            // make sure the path exists
+            QDir dir(info.absolutePath());
+            if(!dir.exists())
+                dir.mkpath(info.absolutePath());
+
+            // write buffer to file
+            if(!file.open(QIODevice::WriteOnly)) {
+                qWarning() << "Unable to extract file to temporary location.";
+                continue;
             }
+            QDataStream out(&file);   // we will serialize the data into the file
+            out.writeRawData(data, data.size());
+            file.close();
 
             numFilesSuccess += 1;
-
-            file.close();
 
         }
 
@@ -1266,19 +1270,19 @@ int PQCExtensionsHandler::installExtension(QString filepath) {
 
     if(numFilesSuccess > 0) {
 
-        const QString extensionDir = QFileInfo(QString("%1/%2/tmp.txt").arg(PQCConfigFiles::get().EXTENSION_DATA_DIR(), nameId)).absolutePath();
+        const QString extensionDir = QFileInfo(PQCConfigFiles::get().EXTENSION_DATA_DIR() % "/" % nameId % "/tmp.txt").absolutePath();
         const QString hashId = QCryptographicHash::hash(extensionDir.toUtf8(), QCryptographicHash::Md5).toHex();
-        const QString identifyName = QString("%1 (%2)").arg(nameId, extensionDir);
+        const QString identifyName = nameId % " (" % extensionDir % ")";
 
         if(m_allextensions.contains(hashId))
             return 2;
 
-        PQCExtensionInfo *extinfo = new PQCExtensionInfo;
+        std::shared_ptr<PQCExtensionInfo> extinfo(new PQCExtensionInfo);
         extinfo->location = extensionDir;
         extinfo->internalId = hashId;
         extinfo->nameId = nameId;
 
-        QFile fy(QString("%1/manifest.yml").arg(extinfo->location));
+        QFile fy(extinfo->location % "/manifest.yml");
         if(!fy.open(QIODevice::ReadOnly)) {
             qWarning() << "Unable to read manifest.yml for reading";
             return -1;
@@ -1287,12 +1291,11 @@ int PQCExtensionsHandler::installExtension(QString filepath) {
         QString manifestTxt = in.readAll();
 
         if(!loadExtension(extinfo, nameId, hashId, extensionDir, manifestTxt, false)) {
-            delete extinfo;
             return -1;
         }
 
         // create translator for this extension
-        QTranslator *trans = new QTranslator;
+        std::shared_ptr<QTranslator> trans(new QTranslator);
         extTrans.insert(hashId, trans);
 
         // all good so far, we have what we need
@@ -1330,10 +1333,11 @@ QHash<QString,QVariant> PQCExtensionsHandler::getExtensionZipMetadata(QString fi
 #ifdef Q_OS_WIN
     int r = archive_read_open_filename_w(a, reinterpret_cast<const wchar_t*>(filepath.utf16()), 10240);
 #else
-    int r = archive_read_open_filename(a, filepath.toLocal8Bit().data(), 10240);
+    QByteArray tmpPath = QFile::encodeName(filepath);
+    int r = archive_read_open_filename(a, tmpPath.constData(), 10240);
 #endif
     if(r != ARCHIVE_OK) {
-        QString msg = QString("ERROR: archive_read_open_filename() returned code of %1").arg(r);
+        QString msg = "ERROR: archive_read_open_filename() returned code of " % QString::number(r);
         qWarning() << msg;
         ret["error"] = msg;
         return ret;
@@ -1347,24 +1351,51 @@ QHash<QString,QVariant> PQCExtensionsHandler::getExtensionZipMetadata(QString fi
 
         // Read the current file entry
         // We use the '_w' variant here, as otherwise on Windows this call causes a segfault when a file in an archive contains non-latin characters
-        QString filenameinside = QString::fromWCharArray(archive_entry_pathname_w(entry));
+        // Also, if the archives is malformed or there is an encoding issue then it is possible that this may return a nullptr
+        // and PhotoQt might crash if not handled properly -> check before converting to QString
+        const wchar_t *wpath = archive_entry_pathname_w(entry);
+        if(!wpath) continue;
+        QString filenameinside = QString::fromWCharArray(wpath);
 
         if(filenameinside.endsWith("manifest.yml") && filenameinside.count("/") == 1) {
 
-            // store read data in here
-            const void *buff;
-            size_t size;
-            la_int64_t offset;
+            // Find out the size of the data
+            int64_t size = archive_entry_size(entry);
 
-            // read data
-            while((r = archive_read_data_block(a, &buff, &size, &offset)) == ARCHIVE_OK) {
-                if(r != ARCHIVE_OK || size == 0) {
-                    QString msg = QString("ERROR: Unable to read file 'manifest.yml': %1 (%2)").arg(archive_error_string(a)).arg(r);
+            if(size <= 0) {
+                QString msg = "Invalid image size of file in archive: " % QString::number(size);
+                qWarning() << msg;
+                ret["error"] = msg;
+                continue;
+            }
+
+            // Create a buffer of that size to hold the image data
+            definitionyml.resize(size);
+
+            // And finally read the file into the buffer in chunks
+            char* ptr = definitionyml.data();
+            qint64 total = 0;
+            while (total < size) {
+                la_ssize_t chunk = archive_read_data(a, ptr + total, size - total);
+                if(chunk < 0) {
+                    QString msg = "Invalid chunk read: " % QString::fromStdString(archive_error_string(a));
                     qWarning() << msg;
                     ret["error"] = msg;
                     break;
                 }
-                definitionyml = QByteArray::fromRawData((const char*) buff, size);
+
+                if (chunk == 0) {
+                    break;
+                }
+
+                total += chunk;
+            }
+
+            if(total != size) {
+                QString msg = QString("Failed to read image data, read size (%1) doesn't match expected size (%2)...").arg(total).arg(size);
+                qWarning() << msg;
+                ret["error"] = msg;
+                continue;
             }
 
         }
@@ -1381,7 +1412,7 @@ QHash<QString,QVariant> PQCExtensionsHandler::getExtensionZipMetadata(QString fi
         try {
             config = YAML::Load(definitionyml.toStdString());
         } catch(YAML::Exception &e) {
-            QString msg = QString("Failed to load YAML file: %1").arg(e.what());
+            QString msg = "Failed to load YAML file: " % QString(e.what());
             qWarning() << msg;
             ret["error"] = msg;
             err = true;
@@ -1392,7 +1423,7 @@ QHash<QString,QVariant> PQCExtensionsHandler::getExtensionZipMetadata(QString fi
             try {
                 ret["about"] = config["about"]["version"].as<int>();
             } catch(YAML::Exception &e) {
-                QString msg = QString("Failed to read value for 'version': %1").arg(e.what());
+                QString msg = "Failed to read value for 'version': " % QString(e.what());
                 qWarning() << msg;
                 ret["error"] = msg;
                 err = true;
@@ -1404,7 +1435,7 @@ QHash<QString,QVariant> PQCExtensionsHandler::getExtensionZipMetadata(QString fi
             try {
                 ret["name"] = QString::fromStdString(config["about"]["name"].as<std::string>());
             } catch(YAML::Exception &e) {
-                QString msg = QString("Failed to read value for 'name': %1").arg(e.what());
+                QString msg = "Failed to read value for 'name': " % QString(e.what());
                 qWarning() << msg;
                 ret["error"] = msg;
                 err = true;
@@ -1416,7 +1447,7 @@ QHash<QString,QVariant> PQCExtensionsHandler::getExtensionZipMetadata(QString fi
             try {
                 ret["description"] = QString::fromStdString(config["about"]["description"].as<std::string>());
             } catch(YAML::Exception &e) {
-                QString msg = QString("Failed to read value for 'description': %1").arg(e.what());
+                QString msg = "Failed to read value for 'description': " % QString(e.what());
                 qWarning() << msg;
                 ret["error"] = msg;
                 err = true;
@@ -1428,7 +1459,7 @@ QHash<QString,QVariant> PQCExtensionsHandler::getExtensionZipMetadata(QString fi
             try {
                 ret["author"] = QString::fromStdString(config["about"]["author"].as<std::string>());
             } catch(YAML::Exception &e) {
-                QString msg = QString("Failed to read value for 'author': %1").arg(e.what());
+                QString msg = "Failed to read value for 'author': " % QString(e.what());
                 qWarning() << msg;
                 ret["error"] = msg;
                 err = true;
@@ -1440,7 +1471,7 @@ QHash<QString,QVariant> PQCExtensionsHandler::getExtensionZipMetadata(QString fi
             try {
                 ret["contact"] = QString::fromStdString(config["about"]["contact"].as<std::string>());
             } catch(YAML::Exception &e) {
-                QString msg = QString("Failed to read value for 'contact': %1").arg(e.what());
+                QString msg = "Failed to read value for 'contact': " % QString(e.what());
                 qWarning() << msg;
                 ret["error"] = msg;
                 err = true;
@@ -1452,7 +1483,7 @@ QHash<QString,QVariant> PQCExtensionsHandler::getExtensionZipMetadata(QString fi
             try {
                 ret["website"] = QString::fromStdString(config["about"]["website"].as<std::string>());
             } catch(YAML::Exception &e) {
-                QString msg = QString("Failed to read value for 'website': %1").arg(e.what());
+                QString msg = "Failed to read value for 'website': " % QString(e.what());
                 qWarning() << msg;
                 ret["error"] = msg;
                 err = true;
@@ -1465,14 +1496,15 @@ QHash<QString,QVariant> PQCExtensionsHandler::getExtensionZipMetadata(QString fi
                 ret["targetAPI"] = config["about"]["targetAPI"].as<int>();
 
                 if(ret["targetAPI"].toInt() > CURRENTAPIVERSION) {
-                    QString msg = QString("Required API version - %1 - newer than what's supported: %2").arg(ret["targetAPI"].toInt()).arg(CURRENTAPIVERSION);
+                    QString msg = "Required API version - " % QString::number(ret["targetAPI"].toInt()) %
+                                  " - newer than what's supported: " % QString::number(CURRENTAPIVERSION);
                     qWarning() << msg;
                     ret["error"] = msg;
                     err = true;
                 }
 
             } catch(YAML::Exception &e) {
-                QString msg = QString("Failed to read value for 'targetAPI': %1").arg(e.what());
+                QString msg = "Failed to read value for 'targetAPI': " % QString(e.what());
                 qWarning() << msg;
                 ret["error"] = msg;
                 err = true;
@@ -1489,8 +1521,6 @@ QHash<QString,QVariant> PQCExtensionsHandler::getExtensionZipMetadata(QString fi
     if(r != ARCHIVE_OK)
         qWarning() << "ERROR: archive_read_free() returned code of" << r;
 
-    if(err)
-        return ret;
     return ret;
 
 #endif
@@ -1508,7 +1538,7 @@ bool PQCExtensionsHandler::verifyExtension(QString extensionDir, QString nameId)
 
 #ifdef PQMEXTENSIONS
 
-    const QString identifyName = QString("%1 (%2)").arg(nameId, extensionDir);
+    const QString identifyName = nameId % " (" % extensionDir % ")";
 
     /*************************************/
     // first verify signature of manifest
@@ -1518,14 +1548,14 @@ bool PQCExtensionsHandler::verifyExtension(QString extensionDir, QString nameId)
         return false;
     }
 
-    QFile fmanifest(QString("%1/verification.txt").arg(extensionDir));
+    QFile fmanifest(extensionDir % "/verification.txt");
     if(!fmanifest.open(QIODevice::ReadOnly)) {
         qWarning() << identifyName << "- unable to read verification.txt:" << QString("%1/verification.txt").arg(extensionDir);
         return false;
     }
     QByteArray manifest = fmanifest.readAll();
 
-    QFile fmanifestsig(QString("%1/verification.txt.sig").arg(extensionDir));
+    QFile fmanifestsig(extensionDir % "/verification.txt.sig");
     if(!fmanifestsig.open(QIODevice::ReadOnly)) {
         qWarning() << identifyName << "- unable to read verification.txt.sig";
         return false;
@@ -1628,7 +1658,7 @@ bool PQCExtensionsHandler::verifyExtension(QString extensionDir, QString nameId)
             return false;
         }
 
-        QFile file(QString("%1/%2").arg(extensionDir,f));
+        QFile file(extensionDir % "/" % f);
         if(!file.open(QIODevice::ReadOnly)) {
             qWarning() << identifyName << "- unable to read found file:" << f;
             return false;
@@ -1643,96 +1673,9 @@ bool PQCExtensionsHandler::verifyExtension(QString extensionDir, QString nameId)
     }
 
     if(counter != hashMap.count()) {
-        qWarning() << identifyName << "- some expected files were not found";
+        qWarning() << identifyName << "- some expected files were not found, found" << counter << "of" << hashMap.count() << "files";
         return false;
     }
-
-
-    /******************************************/
-    //
-    // THE CHECK BELOW IS CURRENTLY NOT USED
-    // it is left here in case that ever changes
-    //
-    // The reason is that we want to avoid running random code that was not intended
-    // by the user to be run. The checks above (the signed manifest) already takes
-    // care of that. Other than the signature, the check below is very easy to
-    // circumvent and thus of only limited usefulness.
-    //
-    // To my knowledge there is no way to verify the integrity of a compiled library
-    // that is compiled on the end user's system (reproducible builds could help here,
-    // but we are not there yet afaik).
-    //
-    /******************************************/
-
-    /******************************************/
-    // lastly, we check the hash of the compiled library (if any)
-    // the first time this check is done, the hash does not yet exist and is created
-    // this is not as secure as we might want but should be sufficient with the other
-    // verifications above
-    // after all, we want it to be secure but if something messed up the extension to
-    // this extent then the system has bigger issues
-
-    /*const QString soname = QString("%1/%2/lib%3.so").arg(baseDir, id, id);
-
-    if(QFile::exists(soname)) {
-
-        QFile fC(soname);
-        if(!fC.open(QIODevice::ReadOnly)) {
-            qWarning() << id << "- .so file cannot be read";
-            return false;
-        }
-
-        // find out version number of current extension
-        QFile fVer(QString("%1/%2/manifest.yml").arg(baseDir, id));
-        if(!fVer.open(QIODevice::ReadOnly)) {
-            qWarning() << id << "- unable to open manifest.yml to find version number";
-            return false;
-        }
-        int versionNumber = -1;
-        YAML::Node config;
-        try {
-            config = YAML::Load(fVer.readAll().toStdString());
-            versionNumber = config["about"]["version"].as<int>();
-        } catch(YAML::Exception &e) {
-            qWarning() << id << "- unable to find version number in yml file:" << e.what();
-            return false;
-        }
-
-        // get hash parts
-        const QString idHash  = QCryptographicHash::hash(id.toUtf8(),QCryptographicHash::Sha256).toHex();
-        const QString cppHash = QCryptographicHash::hash(fC.readAll(),QCryptographicHash::Sha256).toHex();
-
-        // access hash fle
-        QFile fCHash(PQCConfigFiles::get().DATA_DIR() + "/extensions/cpphashes");
-        if(!fCHash.open(QIODevice::ReadOnly)) {
-            qWarning() << id << "- unable to open cpp hash file -" << QString("%1/extensions/cpphashes").arg(PQCConfigFiles::get().DATA_DIR()) << "- for reading and writing";
-            return false;
-        }
-
-        QTextStream in(&fCHash);
-        QString existingHashes = in.readAll();
-
-        if(existingHashes.contains(QString("%1:%2:").arg(idHash).arg(versionNumber))) {
-
-            if(!existingHashes.contains(QString("%1:%2:%3").arg(idHash).arg(versionNumber).arg(cppHash))) {
-                qWarning() << id << "- the hash of the compiled library does not match.";
-                return false;
-            }
-
-        } else {
-
-            existingHashes = QString("%1%2:%3:%4\n").arg(existingHashes, idHash).arg(versionNumber).arg(cppHash);
-            fCHash.close();
-            if(!fCHash.open(QIODevice::WriteOnly|QIODevice::Truncate)) {
-                qWarning() << id << "- unable to store lib hash";
-                return false;
-            }
-            QTextStream out(&fCHash);
-            out << existingHashes;
-            out.flush();
-        }
-
-    }*/
 
     /******************************************/
 
@@ -1754,11 +1697,11 @@ QStringList PQCExtensionsHandler::listFilesIn(QString dir) {
     const QStringList lstD = d.entryList(QDir::Dirs|QDir::NoDotAndDotDot);
 
     for(const QString &e : lstD)
-        ret << listFilesIn(QString("%1/%2").arg(dir, e));
+        ret << listFilesIn(dir % "/" % e);
 
     const QStringList lstF = d.entryList(QDir::Files);
     for(const QString &e : lstF)
-        ret << QString("%1/%2").arg(dir, e);
+        ret << (dir % "/" % e);
 
     return ret;
 }
@@ -1766,15 +1709,15 @@ QStringList PQCExtensionsHandler::listFilesIn(QString dir) {
 void PQCExtensionsHandler::updateTranslationLanguage() {
 
     for(const QString &id : std::as_const(m_extensions))
-        qApp->removeTranslator(extTrans.value(id));
+        qApp->removeTranslator(extTrans.value(id).get());
 
     for(const QString &id : std::as_const(m_extensions)) {
-        const QString qmfile = QString("%1/lang/%2_%3.qm").arg(m_allextensions.value(id)->location,id,PQCScriptsLocalization::get().getActiveTranslationCode());
+        const QString qmfile = m_allextensions.value(id)->location % "/lang/" % id % "_" % PQCScriptsLocalization::get().getActiveTranslationCode() % ".qm";
         if(!QFile::exists(qmfile))
             qDebug() << id << "- no translation file found:" << qmfile;
         else {
             if(extTrans.value(id)->load(qmfile))
-                qApp->installTranslator(extTrans.value(id));
+                qApp->installTranslator(extTrans.value(id).get());
             else
                 qWarning() << id << "- unable to install translator:" << PQCScriptsLocalization::get().getActiveTranslationCode();
         }
