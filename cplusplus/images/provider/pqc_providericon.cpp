@@ -59,7 +59,7 @@ QImage PQCProviderIcon::requestImage(const QString &icon, QSize *origSize, const
     else if(suf.contains(".")) {
         const QString suf2 = (suf.startsWith("network_") ? "network_" : "") % suf.split(".").last();
         if(QFile::exists(":/filetypes/" % suf2 % ".svg"))
-            iconname = ":/filetypes/" % suf2 % "1.svg";
+            iconname = ":/filetypes/" % suf2 % ".svg";
     }
 
     return svg->requestImage(iconname, origSize, requestedSize);
