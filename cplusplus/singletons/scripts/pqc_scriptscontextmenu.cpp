@@ -80,19 +80,13 @@ QVariantList PQCScriptsContextMenu::getEntries() {
 
     while(query.next()) {
 
-        const QString command = query.record().value(0).toString();
-        const QString arguments = query.record().value(1).toString();
-        const QString icon = query.record().value(2).toString();
-        const QString desc = query.record().value(3).toString();
-        const QString close = query.record().value(4).toString();
-
         QStringList thisentry;
 
-        thisentry << icon;      // icon (if specified)
-        thisentry << command;   // executable
-        thisentry << desc;      // name
-        thisentry << close;     // close
-        thisentry << arguments; // command line arguments
+        thisentry << query.record().value(2).toString(); // icon (if specified)
+        thisentry << query.record().value(0).toString(); // executable
+        thisentry << query.record().value(3).toString(); // name
+        thisentry << query.record().value(4).toString(); // close
+        thisentry << query.record().value(1).toString(); // command line arguments
 
         ret << thisentry;
 
