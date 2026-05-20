@@ -189,7 +189,7 @@ QString PQCScriptsColorProfiles::getColorProfileID(int index) {
     index -= m_importedColorProfiles.length();
 
     if(index < m_integratedColorProfiles.length())
-        return QString("::%1").arg(static_cast<int>(index));
+        return QString("::%1").arg(index);
 
     index -= m_integratedColorProfiles.length();
 
@@ -318,7 +318,7 @@ bool PQCScriptsColorProfiles::importColorProfile() {
                 }
             }
 
-            const QString targetFN = QString("%1/%2").arg(PQCConfigFiles::get().ICC_COLOR_PROFILE_DIR(), info.fileName());
+            const QString targetFN = PQCConfigFiles::get().ICC_COLOR_PROFILE_DIR() % "/" % info.fileName();
             if(QFile::exists(targetFN))
                 QFile::remove(targetFN);
 

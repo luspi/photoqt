@@ -154,9 +154,9 @@ QVariantList PQCScriptsContextMenu::detectSystemEntries() {
 
     // These are the possible entries
     // There will be a ' %f' added at the end of each executable.
-    QStringList m;
-    //: Used as in 'Edit with [application]'. %1 will be replaced with application name.
-    m << QApplication::translate("startup", "Edit with %1").arg("Gimp") << "gimp"
+    QStringList m = QStringList()
+      //: Used as in 'Edit with [application]'. %1 will be replaced with application name.
+      << QApplication::translate("startup", "Edit with %1").arg("Gimp") << "gimp"
       //: Used as in 'Edit with [application]'. %1 will be replaced with application name.
       << QApplication::translate("startup", "Edit with %1").arg("Krita") << "krita"
       //: Used as in 'Edit with [application]'. %1 will be replaced with application name.
