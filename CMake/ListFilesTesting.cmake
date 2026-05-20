@@ -117,9 +117,6 @@ SET(photoqt_testscripts_SOURCES
 ########################################################################
 ########################################################################
 
-                    ../../cplusplus/other/pqc_mpvobject.cpp
-
-                    ../../cplusplus/header/pqc_mpvobject.h
                     ../../cplusplus/header/pqc_imageformats_qml.h
                     ../../cplusplus/header/pqc_filefoldermodel.h
                     ../../cplusplus/header/pqc_metadata.h
@@ -155,5 +152,8 @@ SET(photoqt_testscripts_SOURCES
                     # ../../cplusplus/header/scripts/pqc_scriptsclipboard_qml.h
                     # ../../cplusplus/header/scripts/pqc_scriptschromecast_qml.h
                 )
+
+SET(photoqt_testscripts_SOURCES_LIBMPV ../../cplusplus/other/pqc_mpvobject.cpp
+                                       ../../cplusplus/header/pqc_mpvobject.h)
 
 endif()
