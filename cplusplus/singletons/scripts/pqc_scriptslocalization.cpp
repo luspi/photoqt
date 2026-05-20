@@ -55,10 +55,8 @@ QStringList PQCScriptsLocalization::getAvailableTranslations() {
 
     QStringList ret;
 
-    QStringList tmp;
-
     // the non-translated language is English
-    tmp << "en";
+    ret << "en";
 
     QDirIterator it(":/lang");
     while (it.hasNext()) {
@@ -67,12 +65,11 @@ QStringList PQCScriptsLocalization::getAvailableTranslations() {
             file = file.remove(0, 15);
             file = file.remove(file.length()-3, file.length());
             if(!ret.contains(file))
-                tmp.push_back(file);
+                ret.append(file);
         }
     }
 
-    tmp.sort();
-    ret.append(tmp);
+    ret.sort();
 
     return ret;
 
@@ -96,42 +93,13 @@ void PQCScriptsLocalization::updateTranslation(QString code) {
     currentTranslation = "";
     for(const QString &c : allcodes) {
 
-        if(QFile(":/lang/photoqt_" + c + ".qm").exists()) {
-
-            if(trans.load(":/lang/photoqt_" + c)) {
-                currentTranslation = c;
-                qApp->installTranslator(&trans);
-            } else
-                qWarning() << "Unable to install translator for language code" << c;
-
-        } else if(c.contains("_")) {
-
-            const QString cc = c.split("_").at(0);
-
-            if(QFile(":/lang/photoqt_" + cc + ".qm").exists()) {
-
-                if(trans.load(":/lang/photoqt_" + cc)) {
-                    currentTranslation = cc;
-                    qApp->installTranslator(&trans);
-                } else
-                    qWarning() << "Unable to install translator for language code" << cc;
-
-            }
-
-        } else {
-
-            const QString cc = QString("%1_%2").arg(c, c.toUpper());
-
-            if(QFile(":/lang/photoqt_" + cc + ".qm").exists()) {
-
-                if(trans.load(":/lang/photoqt_" + cc)) {
-                    currentTranslation = cc;
-                    qApp->installTranslator(&trans);
-                } else
-                    qWarning() << "Unable to install translator for language code" << c;
-
-            }
-        }
+        // the load() function will try various filename combinations
+        if(trans.load(":/lang/photoqt_" % c % ".qm")) {
+            currentTranslation = c;
+            qApp->installTranslator(&trans);
+            break;
+        } else
+            qWarning() << "Unable to install translator for language code" << c;
 
     }
 
