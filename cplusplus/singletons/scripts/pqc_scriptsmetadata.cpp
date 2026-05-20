@@ -51,11 +51,9 @@ QString PQCScriptsMetaData::analyzeDateTimeOriginal(const QString dateTime, cons
 
     QLocale locale = QLocale(PQCSettingsCPP::get().getInterfaceLanguage());
 
-    QString inputFormat = "yyyy:MM:dd HH:mm:ss";
-    if(!offset.isEmpty())
-        inputFormat += "ttt";
+    const QString inputFormat = (offset.isEmpty() ? "yyyy:MM:dd HH:mm:ss" : "yyyy:MM:dd HH:mm:ssttt");
 
-    QString combined = dateTime + offset;
+    const QString combined = dateTime % offset;
     QDateTime dt = locale.toDateTime(combined, inputFormat);
 
     if(dt.isValid()) {
@@ -99,7 +97,7 @@ QString PQCScriptsMetaData::analyzeExposureTime(const QString val) {
     // normalize parts using gcd
     const int gcd = std::gcd(t1, t2);
 
-    return QString("%1/%2").arg(t1/gcd).arg(t2/gcd);
+    return QString::number(t1/gcd) % "/" % QString::number(t2/gcd);
 
 }
 
@@ -115,25 +113,25 @@ QString PQCScriptsMetaData::analyzeFlash(const QString val) {
     }
 
     //: This string identifies that flash was fired, stored in image metadata
-    QString fYes = tr("yes");
+    const QString fYes = tr("yes");
     //: This string identifies that flash was not fired, stored in image metadata
-    QString fNo = tr("no");
+    const QString fNo = tr("no");
     //: This string refers to the absence of a flash, stored in image metadata
-    QString fNoFlash = tr("No flash function");
+    const QString fNoFlash = tr("No flash function");
     //: This string refers to a flash mode, stored in image metadata
-    QString fNoStrobe = tr("strobe return light not detected");
+    const QString fNoStrobe = tr("strobe return light not detected");
     //: This string refers to a flash mode, stored in image metadata
-    QString fYesStrobe = tr("strobe return light detected");
+    const QString fYesStrobe = tr("strobe return light detected");
     //: This string refers to a flash mode, stored in image metadata
-    QString fComp = tr("compulsory flash mode");
+    const QString fComp = tr("compulsory flash mode");
     //: This string refers to a flash mode, stored in image metadata
-    QString fAuto = tr("auto mode");
+    const QString fAuto = tr("auto mode");
     //: This string refers to a flash mode, stored in image metadata
-    QString fRed = tr("red-eye reduction mode");
+    const QString fRed = tr("red-eye reduction mode");
     //: This string refers to a flash mode, stored in image metadata
-    QString fYesReturn = tr("return light detected");
+    const QString fYesReturn = tr("return light detected");
     //: This string refers to a flash mode, stored in image metadata
-    QString fNoReturn = tr("return light not detected");
+    const QString fNoReturn = tr("return light not detected");
 
     switch(_val) {
         case 0:
@@ -145,44 +143,44 @@ QString PQCScriptsMetaData::analyzeFlash(const QString val) {
         case 6:
             return fYesStrobe;
         case 9:
-            return fYes + " (" + fComp + ")";
+            return fYes % " (" % fComp % ")";
         case 13:
-            return fYes + " (" + fComp + ", " + fNoReturn + ")";
+            return fYes % " (" % fComp % ", " % fNoReturn % ")";
         case 15:
-            return fYes + " (" + fComp + ", " + fYesReturn + ")";
+            return fYes % " (" % fComp % ", " % fYesReturn % ")";
         case 16:
-            return fNo + " (" + fComp + ")";
+            return fNo % " (" % fComp % ")";
         case 24:
-            return fNo + " (" + fAuto + ")";
+            return fNo % " (" % fAuto % ")";
         case 25:
-            return fYes + " (" + fAuto + ")";
+            return fYes % " (" % fAuto % ")";
         case 29:
-            return fYes + " (" + fAuto + ", " + fNoReturn + ")";
+            return fYes % " (" % fAuto % ", " % fNoReturn % ")";
         case 31:
-            return fYes + " (" + fAuto + ", " + fYesReturn + ")";
+            return fYes % " (" % fAuto % ", " % fYesReturn % ")";
         case 32:
             return fNoFlash;
         case 65:
-            return fYes + " (" + fRed + ")";
+            return fYes % " (" % fRed % ")";
         case 69:
-            return fYes + " (" + fRed + ", " + fNoReturn + ")";
+            return fYes % " (" % fRed % ", " % fNoReturn % ")";
         case 71:
-            return fYes + " (" + fRed + ", " + fYesReturn + ")";
+            return fYes % " (" % fRed % ", " % fYesReturn % ")";
         case 73:
-            return fYes + " (" + fComp + ", " + fRed + ")";
+            return fYes % " (" % fComp % ", " % fRed % ")";
         case 77:
-            return fYes + " (" + fComp + ", " + fRed + ", " + fNoReturn + ")";
+            return fYes % " (" % fComp % ", " % fRed % ", " % fNoReturn % ")";
         case 79:
-            return fYes + " (" + fComp + ", " + fRed + ", " + fYesReturn + ")";
+            return fYes % " (" % fComp % ", " % fRed % ", " % fYesReturn % ")";
         case 89:
-            return fYes + " (" + fAuto + ", " + fRed + ")";
+            return fYes % " (" % fAuto % ", " % fRed % ")";
         case 93:
-            return fYes + " (" + fAuto + ", " + fNoReturn + ", " + fRed + ")";
+            return fYes % " (" % fAuto % ", " % fNoReturn % ", " % fRed % ")";
         case 95:
-            return fYes + " (" + fAuto + ", " + fYesReturn + ", " + fRed + ")";
+            return fYes % " (" % fAuto % ", " % fYesReturn % ", " % fRed % ")";
         default:
             //: This string refers to a flash mode, stored in image metadata
-            return tr("Invalid flash") + " " + val;
+            return tr("Invalid flash") % " " % val;
     }
 
 }
@@ -205,7 +203,7 @@ QString PQCScriptsMetaData::analyzeSceneCaptureType(const QString val) {
         return tr("Night Scene");
     else
         //: This string refers to a type of scene, stored in image metadata
-        return tr("Invalid Scene Type") + " " + val;
+        return tr("Invalid Scene Type") % " " % val;
 
 }
 
@@ -287,25 +285,25 @@ QString PQCScriptsMetaData::analyzeLightSource(const QString val) {
             return tr("Shade");
         case 12:
             //: This string refers to the light source stored in image metadata
-            return tr("Daylight fluorescent") + " (D 5700 - 7100K)";
+            return tr("Daylight fluorescent") % " (D 5700 - 7100K)";
         case 13:
             //: This string refers to the light source stored in image metadata
-            return tr("Day white fluorescent") + " (N 4600 - 5400K)";
+            return tr("Day white fluorescent") % " (N 4600 - 5400K)";
         case 14:
             //: This string refers to the light source stored in image metadata
-            return tr("Cool white fluorescent") + " (W 3900 - 4500K)";
+            return tr("Cool white fluorescent") % " (W 3900 - 4500K)";
         case 15:
             //: This string refers to the light source stored in image metadata
-            return tr("White fluorescent") + " (WW 3200 - 3700K)";
+            return tr("White fluorescent") % " (WW 3200 - 3700K)";
         case 17:
             //: This string refers to the light source stored in image metadata
-            return tr("Standard light") + " A";
+            return tr("Standard light") % " A";
         case 18:
             //: This string refers to the light source stored in image metadata
-            return tr("Standard light") + " B";
+            return tr("Standard light") % " B";
         case 19:
             //: This string refers to the light source stored in image metadata
-            return tr("Standard light") + " C";
+            return tr("Standard light") % " C";
         case 20:
             return "D55";
         case 21:
@@ -321,7 +319,7 @@ QString PQCScriptsMetaData::analyzeLightSource(const QString val) {
             return tr("Other light source");
         default:
             //: This string refers to the light source stored in image metadata
-            return tr("Invalid light source") + " " + val;
+            return tr("Invalid light source") % " " % val;
     }
 
 }
@@ -336,7 +334,7 @@ QString PQCScriptsMetaData::analyzeGPS(QString latRef, QString lat, QString lonR
     if(latRef.isEmpty()) latRef = "N";
     if(lonRef.isEmpty()) lonRef = "E";
 
-    return _analyzeGPSHelper(lat) + " " + latRef + ", " + _analyzeGPSHelper(lon) + " " + lonRef;
+    return _analyzeGPSHelper(lat) % " " % latRef % ", " % _analyzeGPSHelper(lon) % " " % lonRef;
 
 }
 
@@ -350,10 +348,14 @@ QString PQCScriptsMetaData::_analyzeGPSHelper(QString pos) {
     // This double holds the decimal value (if any)
     double calcSecs = 0;
     for(int i = 0; i < split.length(); ++i) {
-        if(split.at(i).contains("/")) {
+
+        const QString cur = split.at(i);
+
+        const int idx = cur.indexOf("/");
+        if(idx > -1) {
             bool ok1, ok2;
-            double t1 = split.at(i).split("/").at(0).toDouble(&ok1);
-            double t2 = split.at(i).split("/").at(1).toDouble(&ok2);
+            double t1 = cur.mid(0,idx).toDouble(&ok1);
+            double t2 = cur.mid(idx+1).toDouble(&ok2);
             if(ok1 && ok2 && t2 > 0.0) {
                 double division = t1/t2;
                 // If there's a decimal value...
@@ -372,11 +374,11 @@ QString PQCScriptsMetaData::_analyzeGPSHelper(QString pos) {
         split.replace(2, QString::number(split.at(2).toDouble()+calcSecs*60));
 
     if(split.length() == 3)
-        return split.at(0) + "°" + split.at(1) + "'" + split.at(2) + "\"";
+        return split.at(0) % "°" % split.at(1) % "'" % split.at(2) % "\"";
     else if(split.length() == 2)
-        return split.at(0) + "°" + split.at(1) + "'0\"";
+        return split.at(0) % "°" % split.at(1) % "'0\"";
     else if(split.length() == 1)
-        return split.at(0) + "°0'0\"";
+        return split.at(0) % "°0'0\"";
 
     return pos;
 
@@ -424,10 +426,10 @@ double PQCScriptsMetaData::_convertGPSToDecimalHelper(QString pos) {
 
     double val = 0;
 
-    if(pos.contains("/")) {
-        const QStringList p = pos.split("/");
-        const double one = p.at(0).toDouble();
-        const double two = p.at(1).toDouble();
+    const int idx = pos.indexOf("/");
+    if(idx > -1) {
+        const double one = pos.mid(0,idx).toDouble();
+        const double two = pos.mid(idx+1).toDouble();
 
         val = one;
         if(two != 0)
@@ -450,7 +452,7 @@ QString PQCScriptsMetaData::convertGPSToDecimalForOpenStreetMap(QString gps) {
     if(pt.x() == 9999)
         return "";
 
-    return QString("%1/%2").arg(pt.x()).arg(pt.y());
+    return QString::number(pt.x()) % "/" % QString::number(pt.y());
 
 }
 
@@ -571,11 +573,15 @@ QVariantList PQCScriptsMetaData::getFaceTags(QString filename) {
                 // Remove beginning part (up to index)
                 tagName = tagName.remove(0,QString("RegionInfo/MPRI:Regions[").length());
 
+                const int tagIdx = tagName.indexOf("]/MPReg:");
+
                 // Make sure this is data we are actually interested in
-                if(tagName.contains("]/MPReg:")) {
+                if(tagIdx > -1) {
 
                     // Filter out index (usually starts at 1, increments by 1 for each tag)
-                    QString index = tagName.split("]/MPReg:").at(0);
+                    QString index = tagName.mid(0,tagIdx);
+
+                    QMap<QString,QString> &curMap = facedata[index];
 
                     // If this item contains the rectangle data
                     if(tagName.contains("MPReg:Rectangle")) {
@@ -591,18 +597,18 @@ QVariantList PQCScriptsMetaData::getFaceTags(QString filename) {
                             const QString h = pos.at(3).trimmed();
 
                             if(w != "0" && h != "0") {
-                                facedata[index].insert("x",pos.at(0).trimmed());
-                                facedata[index].insert("y",pos.at(1).trimmed());
-                                facedata[index].insert("w",w);
-                                facedata[index].insert("h",h);
+                                curMap.insert("x",pos.at(0).trimmed());
+                                curMap.insert("y",pos.at(1).trimmed());
+                                curMap.insert("w",w);
+                                curMap.insert("h",h);
                             }
                         }
 
-                        // If this item contains the person's name
+                    // If this item contains the person's name
                     } else if(tagName.contains("MPReg:PersonDisplayName"))
 
-                    // Store person's name
-                    facedata[index].insert("name", QString::fromStdString(Exiv2::toString(it_xmp->value())));
+                        // Store person's name
+                        curMap.insert("name", QString::fromStdString(Exiv2::toString(it_xmp->value())));
 
                 }
 
@@ -621,18 +627,18 @@ QVariantList PQCScriptsMetaData::getFaceTags(QString filename) {
 
         iter.next();
 
-        // If we found all the information we need: x, y, width, height, name
-        if(iter.value().keys().contains("x") && iter.value().keys().contains("y") &&
-            iter.value().keys().contains("w") && iter.value().keys().contains("h") &&
-            iter.value().keys().contains("name")) {
+        const QMap<QString,QString> &values = iter.value();
+        const QStringList &keys = values.keys();
 
+        // If we found all the information we need: x, y, width, height, name
+        if(keys.contains("x") && keys.contains("y") && keys.contains("w") && keys.contains("h") && keys.contains("name")) {
             // Store data in return list
             ret.append(iter.key());
-            ret.append(iter.value()["x"]);
-            ret.append(iter.value()["y"]);
-            ret.append(iter.value()["w"]);
-            ret.append(iter.value()["h"]);
-            ret.append(iter.value()["name"]);
+            ret.append(values["x"]);
+            ret.append(values["y"]);
+            ret.append(values["w"]);
+            ret.append(values["h"]);
+            ret.append(values["name"]);
 
         }
 
