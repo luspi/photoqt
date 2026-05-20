@@ -22,7 +22,7 @@
 
 #include <pqc_configfiles.h>
 #include <scripts/pqc_scriptsfiledialog.h>
-#include <pqc_imageformats.h>
+#include <pqc_imagehandler.h>
 #include <QtDebug>
 #include <QStorageInfo>
 #include <QUrl>
@@ -574,7 +574,7 @@ unsigned int PQCScriptsFileDialog::getNumberOfFilesInFolder(const QString &path)
 
     QDir dir(path);
     QStringList checkForTheseFormats;
-    const QStringList lst = PQCImageFormats::get().getEnabledFormats();
+    const QSet<QString> lst = PQCImageHandler::get().getSuffixes();
     for(const QString &c : lst)
         checkForTheseFormats << QString("*.%1").arg(c);
 

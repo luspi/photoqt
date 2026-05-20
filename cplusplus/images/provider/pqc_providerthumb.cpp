@@ -24,7 +24,7 @@
 #include <pqc_providericon.h>
 #include <pqc_settingscpp.h>
 #include <pqc_configfiles.h>
-#include <pqc_loadimage.h>
+#include <pqc_imagehandler.h>
 #include <scripts/pqc_scriptsfilespaths.h>
 #include <pqc_helper.h>
 #include <QSvgRenderer>
@@ -210,7 +210,8 @@ void PQCAsyncImageResponseThumb::loadImage() {
 
     // Load image
     QSize origSize;
-    PQCLoadImage::get().load(filename, m_requestedSize, origSize, p);
+    QString error = "";
+    p = PQCImageHandler::get().getImage(filename, m_requestedSize, origSize, error);
 
     /**********************************************************/
 

@@ -23,7 +23,7 @@
 #include <scripts/pqc_scriptsfilespaths.h>
 #include <pqc_settingscpp.h>
 #include <pqc_notify_cpp.h>
-#include <pqc_imageformats.h>
+#include <pqc_imagehandler.h>
 #include <pqc_configfiles.h>
 #include <pqc_helper.h>
 #include <qlogging.h>   // needed in this form to compile with Qt 6.2
@@ -453,20 +453,18 @@ void PQCScriptsFilesPaths::openInDefaultFileManager(QString filename) {
 
 QString PQCScriptsFilesPaths::selectFileFromDialog(QString buttonlabel, QString preselectFile, bool confirmOverwrite) {
 
-    return PQCScriptsFilesPaths::selectFileFromDialog(buttonlabel, preselectFile, PQCImageFormats::get().detectFormatId(preselectFile), confirmOverwrite);
+    return PQCScriptsFilesPaths::selectFileFromDialog(buttonlabel, preselectFile, QFileInfo(preselectFile).suffix(), confirmOverwrite);
 
 }
 
-QString PQCScriptsFilesPaths::selectFileFromDialog(QString buttonlabel, QString preselectFile, int formatId, bool confirmOverwrite) {
+QString PQCScriptsFilesPaths::selectFileFromDialog(QString buttonlabel, QString preselectFile, QString suffix, bool confirmOverwrite) {
 
     qDebug() << "args: buttonlabel" << buttonlabel;
     qDebug() << "args: preselectFile" << preselectFile;
-    qDebug() << "args: formatId" << formatId;
+    qDebug() << "args: suffix" << suffix;
     qDebug() << "args: confirmOverwrite" << confirmOverwrite;
 
     QFileInfo info(preselectFile);
-
-    const QStringList endings = PQCImageFormats::get().getFormatEndings(formatId);
 
     QFileDialog diag;
     diag.setWindowModality(Qt::ApplicationModal);
@@ -477,7 +475,7 @@ QString PQCScriptsFilesPaths::selectFileFromDialog(QString buttonlabel, QString 
     if(!confirmOverwrite)
         diag.setOption(QFileDialog::DontConfirmOverwrite);
     diag.setOption(QFileDialog::DontUseNativeDialog, false);
-    diag.setNameFilter("*." % endings.join(" *.") % ";;All Files (*.*)");
+    diag.setNameFilter("*." % suffix % ";;All Files (*.*)");
     diag.setDirectory(info.absolutePath());
     diag.selectFile(info.completeBaseName() % "." % info.completeSuffix());
 
@@ -487,7 +485,7 @@ QString PQCScriptsFilesPaths::selectFileFromDialog(QString buttonlabel, QString 
             QString fn = fileNames[0];
             QFileInfo newinfo(fn);
             if(newinfo.suffix().isEmpty())
-                return (fn % "." % endings[0]);
+                return (fn % "." % suffix);
             return fn;
         }
     }
@@ -544,7 +542,7 @@ void PQCScriptsFilesPaths::saveLogToFile(QString txt) {
 
 }
 
-QString PQCScriptsFilesPaths::openFileFromDialog(QString buttonlabel, QString preselectFile, QStringList endings) {
+QString PQCScriptsFilesPaths::openFileFromDialog(QString buttonlabel, QString preselectFile, QSet<QString> endings) {
 
     qDebug() << "args: buttonlabel" << buttonlabel;
     qDebug() << "args: preselectFile" << preselectFile;
@@ -559,7 +557,7 @@ QString PQCScriptsFilesPaths::openFileFromDialog(QString buttonlabel, QString pr
 
 }
 
-QStringList PQCScriptsFilesPaths::openFilesFromDialog(QString buttonlabel, QString preselectFile, QStringList endings) {
+QStringList PQCScriptsFilesPaths::openFilesFromDialog(QString buttonlabel, QString preselectFile, QSet<QString> endings) {
 
     qDebug() << "args: buttonlabel" << buttonlabel;
     qDebug() << "args: preselectFile" << preselectFile;
@@ -573,8 +571,8 @@ QStringList PQCScriptsFilesPaths::openFilesFromDialog(QString buttonlabel, QStri
     diag.setModal(true);
     diag.setAcceptMode(QFileDialog::AcceptOpen);
     diag.setOption(QFileDialog::DontUseNativeDialog, false);
-    if(endings.length() > 0)
-        diag.setNameFilter("*." % endings.join(" *.") % ";;All Files (*.*)");
+    if(endings.size() > 0)
+        diag.setNameFilter("*." % PQCHelper::setJoin(endings, " *.") % ";;All Files (*.*)");
     if(info.isFile()) {
         diag.setDirectory(info.absolutePath());
         diag.selectFile(info.fileName());
@@ -895,12 +893,12 @@ QString PQCScriptsFilesPaths::_findFirstFileinFolderAndSubFolder(const QString f
             const QString fullPath = dir.absolutePath() % "/" % f;
 
             const QString suffix = QFileInfo(fullPath).suffix().toLower();
-            if(PQCImageFormats::get().getEnabledFormats().contains(suffix)) {
+            if(PQCImageHandler::get().getSuffixes().contains(suffix)) {
                 ret = fullPath;
                 break;
             } else {
                 QString mimetype = db.mimeTypeForFile(fullPath).name();
-                if(PQCImageFormats::get().getEnabledMimeTypes().contains(mimetype)) {
+                if(PQCImageHandler::get().getMimetypes().contains(mimetype)) {
                     ret = fullPath;
                     break;
                 }

@@ -19,59 +19,50 @@
  ** along with PhotoQt. If not, see <http://www.gnu.org/licenses/>.      **
  **                                                                      **
  **************************************************************************/
+#pragma once
 
-import QtQuick
-import QtQuick.Dialogs
-import PhotoQt
+#include <QObject>
+#include <QString>
+#include <QSet>
+#include <pqc_imageplugin.h>
 
-Item {
+class PQCImageHandler : public QObject {
 
-    id: filedialog_top
+    Q_OBJECT
 
-    Connections {
-
-        target: PQCNotify
-
-        function onLoaderPassOn(what : string, param : list<var>) {
-
-            console.log("args: what =", what)
-            console.log("args: param =", param)
-
-            if(what === "show") {
-
-                if(param[0] === "FileDialog")
-                    filedialog_top.show()
-
-            }
-
-        }
-
+public:
+    static PQCImageHandler& get() {
+        static PQCImageHandler instance;
+        return instance;
     }
 
-    function show() {
+    PQCImageHandler(PQCImageHandler const&) = delete;
+    void operator=(PQCImageHandler const&) = delete;
 
-        var startname = ""
+    QSize getSize(QString path);
+    QImage getImage(QString path, QSize requestedSize, QSize &origSize, QString &error);
 
-        PQCConstants.modalFileDialogOpen = true
+    bool canWrite(QString path);
+    bool writeImage(QImage img, QString targetPath);
 
-        if(PQCSettings.filedialogStartupRestorePrevious)
-            startname = PQCScriptsFileDialog.getLastLocation()
-        else
-            startname = PQCScriptsFilesPaths.getHomeDir()
+    int getNumFormatsEnabled() { return m_numEnabled; }
+    QSet<QString> getSuffixes(QString category = "all");
+    QSet<QString> getMimetypes(QString category = "all");
+    QSet<QString> getSuffixes(QStringList categories);
+    QSet<QString> getMimetypes(QStringList categories);
+    QString getDescription(QString suffix);
 
+private:
+    PQCImageHandler();
 
-        if(PQCFileFolderModel.currentIndex !== -1 && PQCFileFolderModel.currentFile !== "")
-            startname = PQCScriptsFilesPaths.getDir(PQCFileFolderModel.currentFile)
+    QStringList pluginOrder;
+    QHash<QString, PQCImagePlugin*> plugins;
 
-        var fname = PQCScriptsFilesPaths.openFileFromDialog("Open", startname, PQCImageHandler.getSuffixes())
+    int m_numEnabled;
+    QSet<QString> m_suffixes;
+    QSet<QString> m_mimetypes;
 
-        if(fname !== "") {
-            PQCScriptsFileDialog.setLastLocation(PQCScriptsFilesPaths.getDir(fname))
-            PQCFileFolderModel.fileInFolderMainView = fname
-        }
+Q_SIGNALS:
+    void formatsUpdated();
 
-        PQCConstants.modalFileDialogOpen = false
-
-    }
-
-}
+};

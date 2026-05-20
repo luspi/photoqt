@@ -243,7 +243,7 @@ Item {
 
                 PQCSettings.closeDatabase()
                 PQCShortcuts.closeDatabase()
-                PQCImageFormats.closeDatabase()
+                // PQCImageFormats.closeDatabase() // TODO
                 PQCLocation.closeDatabase()
                 PQCScriptsContextMenu.closeDatabase()
 
@@ -311,10 +311,13 @@ Item {
             var suffix1 = PQCScriptsFilesPaths.getSuffix(PQCFileFolderModel.currentFile)
             var suffix2 = PQCScriptsFilesPaths.getCompleteSuffix(PQCFileFolderModel.currentFile)
 
+            const libmpvSuffixes = PQCImageHandler.getSuffixes("libmpv")
+            const videoSuffixes  = PQCImageHandler.getSuffixes("video")
+
             var isVideo = (PQCScriptsConfig.isMPVSupportEnabled() &&
-                                (PQCImageFormats.getEnabledFormatsLibmpv().indexOf(suffix1)>-1 || PQCImageFormats.getEnabledFormatsLibmpv().indexOf(suffix2)>-1)) ||
+                                (libmpvSuffixes.indexOf(suffix1)>-1 || libmpvSuffixes.indexOf(suffix2)>-1)) ||
                           (PQCScriptsConfig.isVideoQtSupportEnabled() &&
-                                (PQCImageFormats.getEnabledFormatsVideo().indexOf(suffix1)>-1 || PQCImageFormats.getEnabledFormatsVideo().indexOf(suffix2)>-1))
+                                (videoSuffixes.indexOf(suffix1)>-1 || videoSuffixes.indexOf(suffix2)>-1))
 
             if(isVideo) {
 

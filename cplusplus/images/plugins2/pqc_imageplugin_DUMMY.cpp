@@ -20,58 +20,38 @@
  **                                                                      **
  **************************************************************************/
 
-import QtQuick
-import QtQuick.Dialogs
-import PhotoQt
+#include <pqc_imageplugin_qt.h>
 
-Item {
+PQCImagePluginQt::PQCImagePluginQt(QString settingsFile) {
 
-    id: filedialog_top
+}
 
-    Connections {
+const bool PQCImagePluginQt::canWrite(QString path) {
+    return false;
+}
 
-        target: PQCNotify
+const bool PQCImagePluginQt::writeImage(QImage img, QString targetPath) {
+    return false;
+}
 
-        function onLoaderPassOn(what : string, param : list<var>) {
+const QSize PQCImagePluginQt::getSize(QString path) {
+    return QSize();
+}
 
-            console.log("args: what =", what)
-            console.log("args: param =", param)
+const QImage PQCImagePluginQt::getImage(QString path, QSize requestedSize, QSize &origSize, QString &error) {
+    return QImage();
+}
 
-            if(what === "show") {
+void PQCImagePluginQt::setEnabled(QString suffix, QString mimetype, bool enabled) {
 
-                if(param[0] === "FileDialog")
-                    filedialog_top.show()
+}
 
-            }
+/***********************************************/
 
-        }
+void PQCImagePluginQt::loadFormats() {
 
-    }
+}
 
-    function show() {
-
-        var startname = ""
-
-        PQCConstants.modalFileDialogOpen = true
-
-        if(PQCSettings.filedialogStartupRestorePrevious)
-            startname = PQCScriptsFileDialog.getLastLocation()
-        else
-            startname = PQCScriptsFilesPaths.getHomeDir()
-
-
-        if(PQCFileFolderModel.currentIndex !== -1 && PQCFileFolderModel.currentFile !== "")
-            startname = PQCScriptsFilesPaths.getDir(PQCFileFolderModel.currentFile)
-
-        var fname = PQCScriptsFilesPaths.openFileFromDialog("Open", startname, PQCImageHandler.getSuffixes())
-
-        if(fname !== "") {
-            PQCScriptsFileDialog.setLastLocation(PQCScriptsFilesPaths.getDir(fname))
-            PQCFileFolderModel.fileInFolderMainView = fname
-        }
-
-        PQCConstants.modalFileDialogOpen = false
-
-    }
+void PQCImagePluginQt::saveFormats() {
 
 }

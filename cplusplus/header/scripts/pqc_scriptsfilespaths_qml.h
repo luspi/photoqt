@@ -87,8 +87,8 @@ public:
 
 
     // externally related
-    Q_INVOKABLE QString     selectFileFromDialog(QString buttonlabel, QString preselectFile, int formatId, bool confirmOverwrite) {
-        return PQCScriptsFilesPaths::get().selectFileFromDialog(buttonlabel, preselectFile, formatId, confirmOverwrite);
+    Q_INVOKABLE QString     selectFileFromDialog(QString buttonlabel, QString preselectFile, QString suffix, bool confirmOverwrite) {
+        return PQCScriptsFilesPaths::get().selectFileFromDialog(buttonlabel, preselectFile, suffix, confirmOverwrite);
     }
     Q_INVOKABLE QString     selectFileFromDialog(QString buttonlabel, QString preselectFile, bool confirmOverwrite) {
         return PQCScriptsFilesPaths::get().selectFileFromDialog(buttonlabel, preselectFile, confirmOverwrite);
@@ -99,10 +99,10 @@ public:
     Q_INVOKABLE void        saveLogToFile(QString txt) {
         PQCScriptsFilesPaths::get().saveLogToFile(txt);
     }
-    Q_INVOKABLE QString     openFileFromDialog(QString buttonlabel, QString preselectFile, QStringList endings) {
+    Q_INVOKABLE QString     openFileFromDialog(QString buttonlabel, QString preselectFile, QSet<QString> endings) {
          return PQCScriptsFilesPaths::get().openFileFromDialog(buttonlabel, preselectFile, endings);
     }
-    Q_INVOKABLE QStringList openFilesFromDialog(QString buttonlabel, QString preselectFile, QStringList endings) {
+    Q_INVOKABLE QStringList openFilesFromDialog(QString buttonlabel, QString preselectFile, QSet<QString> endings) {
         return PQCScriptsFilesPaths::get().openFilesFromDialog(buttonlabel, preselectFile, endings);
     }
     Q_INVOKABLE QString     getExistingDirectory(QString startDir = QDir::homePath()) {

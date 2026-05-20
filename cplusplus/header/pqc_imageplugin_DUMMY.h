@@ -1,5 +1,5 @@
 /**************************************************************************
- **                                                                      **
+ * *                                                                      **
  ** Copyright (C) 2011-2026 Lukas Spies                                  **
  ** Contact: https://photoqt.org                                         **
  **                                                                      **
@@ -19,59 +19,46 @@
  ** along with PhotoQt. If not, see <http://www.gnu.org/licenses/>.      **
  **                                                                      **
  **************************************************************************/
+#pragma once
 
-import QtQuick
-import QtQuick.Dialogs
-import PhotoQt
+#include <pqc_imageplugin.h>
+#include <QSet>
 
-Item {
+class PQCImagePluginQt : PQCImagePlugin {
 
-    id: filedialog_top
+public:
+    PQCImagePluginQt(QString settingsFile);
 
-    Connections {
+    const QString name() override { return ""; }
+    const bool canPreload() override { return true; }
+    const bool getEnabledByDefault() override { return true; }
 
-        target: PQCNotify
-
-        function onLoaderPassOn(what : string, param : list<var>) {
-
-            console.log("args: what =", what)
-            console.log("args: param =", param)
-
-            if(what === "show") {
-
-                if(param[0] === "FileDialog")
-                    filedialog_top.show()
-
-            }
-
-        }
-
+    const QSet<QString> getSupportedSuffixes() override {
+        return m_supportedSuffixes;
+    }
+    const QSet<QString> getSupportedMimetypes() override {
+        return m_supportedMimetypes;
     }
 
-    function show() {
-
-        var startname = ""
-
-        PQCConstants.modalFileDialogOpen = true
-
-        if(PQCSettings.filedialogStartupRestorePrevious)
-            startname = PQCScriptsFileDialog.getLastLocation()
-        else
-            startname = PQCScriptsFilesPaths.getHomeDir()
-
-
-        if(PQCFileFolderModel.currentIndex !== -1 && PQCFileFolderModel.currentFile !== "")
-            startname = PQCScriptsFilesPaths.getDir(PQCFileFolderModel.currentFile)
-
-        var fname = PQCScriptsFilesPaths.openFileFromDialog("Open", startname, PQCImageHandler.getSuffixes())
-
-        if(fname !== "") {
-            PQCScriptsFileDialog.setLastLocation(PQCScriptsFilesPaths.getDir(fname))
-            PQCFileFolderModel.fileInFolderMainView = fname
-        }
-
-        PQCConstants.modalFileDialogOpen = false
-
+    const QSet<QString> getToggledFormats() override {
+        return m_toggledFormats;
     }
 
-}
+    const bool canWrite(QString path) override;
+    const bool writeImage(QImage img, QString targetPath) override;
+
+    const QSize getSize(QString path) override;
+    const QImage getImage(QString path, QSize requestedSize, QSize &origSize, QString &error) override;
+
+    void setEnabled(QString suffix, QString mimetype, bool enabled) override;
+
+private:
+    QSet<QString> m_supportedSuffixes;
+    QSet<QString> m_supportedMimetypes;
+    QSet<QString> m_toggledFormats;
+    QSet<QString> m_toggledMimetypes;
+
+    void loadFormats();
+    void saveFormats();
+
+};

@@ -22,6 +22,7 @@
 
 #include <pqc_providerfull.h>
 #include <pqc_loadimage.h>
+#include <pqc_imagehandler.h>
 #include <scripts/pqc_scriptsfilespaths.h>
 #include <scripts/pqc_scriptsimages.h>
 #include <pqc_settings.h>
@@ -56,8 +57,8 @@ QImage PQCProviderFull::requestImage(const QString &url, QSize *origSize, const 
     }
 
     // Load image
-    QImage ret;
-    PQCLoadImage::get().load(filename, requestedSize, *origSize, ret);
+    QString error = "";
+    QImage ret = PQCImageHandler::get().getImage(filename, requestedSize, *origSize, error);
 
     // if returned image is not an error image ...
     if(ret.isNull())

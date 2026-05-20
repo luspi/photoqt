@@ -93,12 +93,12 @@ public:
     QString getWindowsDriveLetter(QString path);
 
     // externally related
-    QString     selectFileFromDialog(QString buttonlabel, QString preselectFile, int formatId, bool confirmOverwrite);
+    QString     selectFileFromDialog(QString buttonlabel, QString preselectFile, QString suffix, bool confirmOverwrite);
     QString     selectFileFromDialog(QString buttonlabel, QString preselectFile, bool confirmOverwrite);
     QString     selectFolderFromDialog(QString buttonlabel, QString preselectFolder);
     void        saveLogToFile(QString txt);
-    QString     openFileFromDialog(QString buttonlabel, QString preselectFile, QStringList endings);
-    QStringList openFilesFromDialog(QString buttonlabel, QString preselectFile, QStringList endings);
+    QString     openFileFromDialog(QString buttonlabel, QString preselectFile, QSet<QString> endings);
+    QStringList openFilesFromDialog(QString buttonlabel, QString preselectFile, QSet<QString> endings);
     QString     getExistingDirectory(QString startDir = QDir::homePath());
     void        cleanupTemporaryFiles();
     void        setThumbnailBaseCacheDir(QString dir);

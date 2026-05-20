@@ -32,26 +32,26 @@ public:
     PQCFileFolderModelCache();
 
     bool loadFilesFromCache(QString foldername, bool showHidden, bool sortReversed, QString sortBy,
-                            QSet<QString> defaultSuffixFilters, QStringList nameFilters, QStringList filenameFileters, QStringList mimeTypeFilters, QSize imageResolutionFilter, int fileSizeFilter,
+                            QSet<QString> defaultSuffixFilters, QStringList nameFilters, QStringList filenameFileters, QSet<QString> mimeTypeFilters, QSize imageResolutionFilter, int fileSizeFilter,
                             bool ignoreFiltersExceptDefault, int numberFormatsEnabled, QStringList &entriesFiles);
 
     bool loadFoldersFromCache(QString foldername, bool showHidden, bool sortReversed, QString sortBy,
-                              QSet<QString> defaultSuffixFilters, QStringList nameFilters, QStringList filenameFileters, QStringList mimeTypeFilters, QSize imageResolutionFilter, int fileSizeFilter,
+                              QSet<QString> defaultSuffixFilters, QStringList nameFilters, QStringList filenameFileters, QSet<QString> mimeTypeFilters, QSize imageResolutionFilter, int fileSizeFilter,
                               bool ignoreFiltersExceptDefault, QStringList &entriesFolders);
 
     void saveFilesToCache(QString foldername, bool showHidden, bool sortReversed, QString sortBy,
-                          QSet<QString> defaultSuffixFilters, QStringList nameFilters, QStringList filenameFileters, QStringList mimeTypeFilters, QSize imageResolutionFilter, int fileSizeFilter,
+                          QSet<QString> defaultSuffixFilters, QStringList nameFilters, QStringList filenameFileters, QSet<QString> mimeTypeFilters, QSize imageResolutionFilter, int fileSizeFilter,
                           bool ignoreFiltersExceptDefault, int numberFormatsEnabled, QStringList &entriesFiles);
 
     void saveFoldersToCache(QString foldername, bool showHidden, bool sortReversed, QString sortBy,
-                            QSet<QString> defaultSuffixFilters, QStringList nameFilters, QStringList filenameFileters, QStringList mimeTypeFilters, QSize imageResolutionFilter, int fileSizeFilter,
+                            QSet<QString> defaultSuffixFilters, QStringList nameFilters, QStringList filenameFileters, QSet<QString> mimeTypeFilters, QSize imageResolutionFilter, int fileSizeFilter,
                             bool ignoreFiltersExceptDefault, QStringList &entriesFolders);
 
     void resetData();
 
 private:
     QString getUniqueCacheKey(qint64 lastModified, QString foldername, bool showHidden, bool sortReversed, QString sortBy,
-                              QSet<QString> defaultSuffixFilters, QStringList nameFilters, QStringList filenameFilters, QStringList mimeTypeFilters, QSize imageResolutionFilter, int fileSizeFilter,
+                              QSet<QString> defaultSuffixFilters, QStringList nameFilters, QStringList filenameFilters, QSet<QString> mimeTypeFilters, QSize imageResolutionFilter, int fileSizeFilter,
                               bool ignoreFiltersExceptDefault, int numberFormatsEnabled = 0);
 
     qint64 getLastModified(QString dirPath, bool files, bool folders);

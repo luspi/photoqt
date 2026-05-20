@@ -24,7 +24,7 @@
 #include <pqc_notify_cpp.h>
 #include <pqc_printtabimageoptions.h>
 #include <pqc_printtabimagepositiontile.h>
-#include <pqc_loadimage.h>
+#include <pqc_imagehandler.h>
 #include <pqc_settings.h>
 
 #include <QDateTime>
@@ -71,9 +71,9 @@ void PQCScriptsOther::printFile(QString filename) {
     QSettings settings;
 
     // Get the image
-    QImage img;
     QSize orig;
-    PQCLoadImage::get().load(filename, QSize(), orig, img);
+    QString err = "";
+    QImage img = PQCImageHandler::get().getImage(filename, QSize(), orig, err);
 
     // show the printer dialog with additional options tab
     QPrinter printer(QPrinter::HighResolution);

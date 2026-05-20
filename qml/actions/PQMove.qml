@@ -30,7 +30,7 @@ Item {
 
     function moveFile() {
 
-        var targetfile = PQCScriptsFilesPaths.selectFileFromDialog(qsTranslate("filemanagement", "Move here"), PQCFileFolderModel.currentFile, PQCImageFormats.detectFormatId(PQCFileFolderModel.currentFile), true);
+        var targetfile = PQCScriptsFilesPaths.selectFileFromDialog(qsTranslate("filemanagement", "Move here"), PQCFileFolderModel.currentFile, PQCScriptsFilesPaths.getSuffix(PQCFileFolderModel.currentFile), true);
         if(targetfile === "" || targetfile === PQCFileFolderModel.currentFile) {
         } else {
             if(!PQCScriptsFileManagement.moveFile(PQCFileFolderModel.currentFile, targetfile)) {

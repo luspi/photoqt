@@ -737,7 +737,7 @@ Item {
     }
 
     Connections {
-        target: PQCImageFormats
+        target: PQCImageHandler
         function onFormatsUpdated() {
             fileview.item.model = 0
             PQCFileFolderModel.forceReloadFileDialog()
