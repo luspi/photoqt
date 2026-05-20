@@ -54,9 +54,9 @@ PQCScriptsChromeCast::~PQCScriptsChromeCast() {
 
     disconnect();
 
-    QFile::remove(QString("%1/chromecast_discovery.py").arg(QDir::tempPath()));
-    QFile::remove(QString("%1/chromecast_cast.py").arg(QDir::tempPath()));
-    QFile::remove(QString("%1/chromecast_disconnect.py").arg(QDir::tempPath()));
+    QFile::remove(QDir::tempPath() % "/chromecast_discovery.py");
+    QFile::remove(QDir::tempPath() % "/chromecast_cast.py");
+    QFile::remove(QDir::tempPath() % "/chromecast_disconnect.py");
 
     server->deleteLater();
     procDiscovery->deleteLater();
@@ -100,7 +100,7 @@ bool PQCScriptsChromeCast::startDiscovery() {
     m_inDiscovery = true;
     Q_EMIT inDiscoveryChanged();
 
-    const QString tmpPath = QString("%1/chromecast_discovery.py").arg(QDir::tempPath());
+    const QString tmpPath = QDir::tempPath() % "/chromecast_discovery.py";
 
     QFile::remove(tmpPath);
     if(!QFile::copy(":/chromecast_discovery.py", tmpPath)) {
@@ -176,7 +176,7 @@ bool PQCScriptsChromeCast::castImage(QString filename) {
     if(filename.isEmpty()) {
 
         QImage img(":/other/logo_chromecast.jpg");
-        if(!img.save(QString("%1/photoqtchromecast.jpg").arg(QDir::tempPath()), nullptr, 100)) {
+        if(!img.save(QDir::tempPath() % "/photoqtchromecast.jpg", nullptr, 100)) {
             qWarning() << "Failed to save default image.";
             return false;
         }
@@ -197,12 +197,12 @@ bool PQCScriptsChromeCast::castImage(QString filename) {
             QPainter painter(&ret);
             painter.drawImage((1920-img.width())/2, (1080-img.height())/2, img);
             painter.end();
-            if(!ret.save(QString("%1/photoqtchromecast.jpg").arg(QDir::tempPath()), nullptr, 100)) {
+            if(!ret.save(QDir::tempPath() % "/photoqtchromecast.jpg", nullptr, 100)) {
                 qWarning() << "Failed to save image:" << filename;
                 return false;
             }
         } else {
-            if(!img.save(QString("%1/photoqtchromecast.jpg").arg(QDir::tempPath()), nullptr, 100)) {
+            if(!img.save(QDir::tempPath() % "/photoqtchromecast.jpg", nullptr, 100)) {
                 qWarning() << "Failed to save image:" << filename;
                 return false;
             }
@@ -229,7 +229,7 @@ bool PQCScriptsChromeCast::disconnect() {
     if(!m_connected)
         return true;
 
-    const QString pyPath = QString("%1/chromecast_disconnect.py").arg(QDir::tempPath());
+    const QString pyPath = QDir::tempPath() % "/chromecast_disconnect.py";
     QFile::remove(pyPath);
     if(!QFile::copy(":/chromecast_disconnect.py", pyPath)) {
         qWarning() << "ERROR preparing disconnect python script, chromecast won't properly shut down";
