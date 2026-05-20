@@ -56,8 +56,11 @@ void PQCScriptsFilesPaths::detectNetworkShares() {
     networkshares.clear();
     const QList<QStorageInfo> info = QStorageInfo::mountedVolumes();
     for(const QStorageInfo &s : info) {
-        if(s.isValid() && (s.fileSystemType() == "cifs" || s.fileSystemType() == "samba" || s.fileSystemType() == "fuse"))
-            networkshares.push_back(s.rootPath());
+        if(!s.isValid())
+            continue;
+        const QByteArrayView fsType = s.fileSystemType();
+        if(fsType == "cifs" || fsType == "samba" || fsType == "fuse")
+            networkshares.insert(s.rootPath());
 #ifdef Q_OS_WIN
         // on windows network shares often have a fileSystemType of FAT or NTFS or therelike
         // This check excludes known physical devices assuming everything else to be remote
@@ -67,14 +70,14 @@ void PQCScriptsFilesPaths::detectNetworkShares() {
     }
 #ifdef Q_OS_UNIX
     // sshfs mounts are not listed as part of mountedVolumes but we might be able to find them in mtab
-    QFile f("/etc/mtab");
-    if(f.exists() && f.open(QIODevice::ReadOnly)) {
+    QFile f("/proc/mounts");
+    if(f.open(QIODevice::ReadOnly|QIODevice::Text)) {
         QTextStream in(&f);
         QString line;
         while(in.readLineInto(&line)) {
-            QStringList parts = line.split(" ");
-            if(parts.length() > 2 && parts[2] == "fuse.sshfs")
-                networkshares.push_back(parts[1]);
+            QList<QStringView> parts = QStringView{line}.split(u' ');
+            if(parts.length() > 2 && parts[2] == u"fuse.sshfs")
+                networkshares.insert(parts[1].toString());
         }
     }
 #endif
@@ -82,6 +85,12 @@ void PQCScriptsFilesPaths::detectNetworkShares() {
 }
 
 QString PQCScriptsFilesPaths::cleanPath(QString path) {
+
+#ifdef Q_OS_WIN
+    bool addslash = false;
+    if(path.startsWith("//"))
+        addslash = true;
+#endif
 
     QUrl url(path);
     if(url.isLocalFile())
@@ -96,9 +105,6 @@ QString PQCScriptsFilesPaths::cleanPath(QString path) {
         path = info.symLinkTarget();
 
 #ifdef Q_OS_WIN
-    bool addslash = false;
-    if(path.startsWith("//"))
-        addslash = true;
     path = QDir::cleanPath(path);
     if(addslash)
         return ("/"+path);
@@ -340,23 +346,23 @@ bool PQCScriptsFilesPaths::isExcludeDirFromCaching(QString filename) {
     qDebug() << "args: filename =" << filename;
 
     if(!PQCSettingsCPP::get().getThumbnailsExcludeDropBox().isEmpty()) {
-        if(filename.indexOf(PQCSettingsCPP::get().getThumbnailsExcludeDropBox())== 0)
+        if(filename.startsWith(PQCSettingsCPP::get().getThumbnailsExcludeDropBox()))
             return true;
     }
 
     if(!PQCSettingsCPP::get().getThumbnailsExcludeNextcloud().isEmpty()) {
-        if(filename.indexOf(PQCSettingsCPP::get().getThumbnailsExcludeNextcloud())== 0)
+        if(filename.startsWith(PQCSettingsCPP::get().getThumbnailsExcludeNextcloud()))
             return true;
     }
 
     if(!PQCSettingsCPP::get().getThumbnailsExcludeOwnCloud().isEmpty()) {
-        if(filename.indexOf(PQCSettingsCPP::get().getThumbnailsExcludeOwnCloud())== 0)
+        if(filename.startsWith(PQCSettingsCPP::get().getThumbnailsExcludeOwnCloud()))
             return true;
     }
 
     const QStringList str = PQCSettingsCPP::get().getThumbnailsExcludeFolders();
     for(const QString &dir: str) {
-        if(!dir.isEmpty() && filename.indexOf(dir) == 0)
+        if(!dir.isEmpty() && filename.startsWith(dir))
             return true;
     }
 
@@ -373,7 +379,7 @@ bool PQCScriptsFilesPaths::isOnNetwork(QString filename) {
     qDebug() << "args: filename =" << filename;
 
     for(const QString &dir: std::as_const(networkshares)) {
-        if(!dir.isEmpty() && filename.indexOf(dir) == 0)
+        if(!dir.isEmpty() && filename.startsWith(dir))
             return true;
     }
     return false;
@@ -471,9 +477,9 @@ QString PQCScriptsFilesPaths::selectFileFromDialog(QString buttonlabel, QString 
     if(!confirmOverwrite)
         diag.setOption(QFileDialog::DontConfirmOverwrite);
     diag.setOption(QFileDialog::DontUseNativeDialog, false);
-    diag.setNameFilter("*."+endings.join(" *.") + ";;All Files (*.*)");
+    diag.setNameFilter("*." % endings.join(" *.") % ";;All Files (*.*)");
     diag.setDirectory(info.absolutePath());
-    diag.selectFile(info.completeBaseName() + "." + info.completeSuffix());
+    diag.selectFile(info.completeBaseName() % "." % info.completeSuffix());
 
     if(diag.exec()) {
         QStringList fileNames = diag.selectedFiles();
@@ -481,7 +487,7 @@ QString PQCScriptsFilesPaths::selectFileFromDialog(QString buttonlabel, QString 
             QString fn = fileNames[0];
             QFileInfo newinfo(fn);
             if(newinfo.suffix().isEmpty())
-                return fn+"."+endings[0];
+                return (fn % "." % endings[0]);
             return fn;
         }
     }
@@ -521,7 +527,7 @@ void PQCScriptsFilesPaths::saveLogToFile(QString txt) {
 
     qDebug() << "args: txt.length = " << txt.length();
 
-    QString newfile = QFileDialog::getSaveFileName(nullptr, QString(), QString("%1/photoqt-%2.log").arg(QDir::homePath(), QDateTime::currentDateTime().toString("yyyy-MM-dd_hh-mm")));
+    QString newfile = QFileDialog::getSaveFileName(nullptr, QString(), QDir::homePath() % "/photoqt-" % QDateTime::currentDateTime().toString("yyyy-MM-dd_hh-mm") % ".log");
 
     if(newfile.isEmpty()) {
         return;
@@ -568,7 +574,7 @@ QStringList PQCScriptsFilesPaths::openFilesFromDialog(QString buttonlabel, QStri
     diag.setAcceptMode(QFileDialog::AcceptOpen);
     diag.setOption(QFileDialog::DontUseNativeDialog, false);
     if(endings.length() > 0)
-        diag.setNameFilter("*."+endings.join(" *.") + ";;All Files (*.*)");
+        diag.setNameFilter("*." % endings.join(" *.") % ";;All Files (*.*)");
     if(info.isFile()) {
         diag.setDirectory(info.absolutePath());
         diag.selectFile(info.fileName());
@@ -605,7 +611,7 @@ QString PQCScriptsFilesPaths::createTooltipFilename(const QString fname) {
 
         // if it is too long, then the new character is moved to a new line
         if(metrics.horizontalAdvance(testLine) > 200) {
-            result += currentLine + "\n";
+            result += currentLine % "\n";
             currentLine = c;
         } else {
             currentLine += c;
@@ -636,7 +642,7 @@ QString PQCScriptsFilesPaths::findDropBoxFolder() {
 // https://stackoverflow.com/questions/12118162/how-to-determine-the-dropbox-folder-location-programmatically
 
 #ifdef Q_OS_UNIX
-    QFile f(QDir::homePath()+"/.dropbox/host.db");
+    QFile f(QDir::homePath() % "/.dropbox/host.db");
 #else
     QFile f(QString("%1/Dropbox/host.db").arg(QStandardPaths::AppDataLocation));
 #endif
@@ -660,15 +666,18 @@ QString PQCScriptsFilesPaths::findNextcloudFolder() {
 
 #if defined Q_OS_UNIX || defined Q_OS_WIN
 #if defined Q_OS_UNIX
-    QFile f(QDir::homePath()+"/.config/Nextcloud/nextcloud.cfg");
+    QFile f(QDir::homePath() % "/.config/Nextcloud/nextcloud.cfg");
 #elif defined Q_OS_WIN
     QFile f(QString("%1/Nextcloud/nextcloud.cfg").arg(QStandardPaths::AppDataLocation));
 #endif
     if(f.exists() && f.open(QIODevice::ReadOnly)) {
         QTextStream in(&f);
         QString txt = in.readAll();
-        if(txt.contains("0\\Folders\\1\\localPath=")) {
-            QString path = txt.split("0\\Folders\\1\\localPath=")[1].split("\n")[0];
+        const int first = txt.indexOf("0\\Folders\\1\\localPath=");
+        if(first > 0) {
+            const QString firstStr = txt.mid(first);
+            const int second = firstStr.indexOf("\n");
+            QString path = firstStr.mid(0,second);
             if(path.endsWith("/"))
                 return path.remove(path.length()-1,1);
             return path;
@@ -684,15 +693,18 @@ QString PQCScriptsFilesPaths::findOwnCloudFolder() {
 
 #if defined Q_OS_UNIX || defined Q_OS_WIN
 #if defined Q_OS_UNIX
-    QFile f(QDir::homePath()+"/.config/ownCloud/owncloud.cfg");
+    QFile f(QDir::homePath() % "/.config/ownCloud/owncloud.cfg");
 #elif defined Q_OS_WIN
     QFile f(QString("%1/ownCloud/owncloud.cfg").arg(QStandardPaths::AppDataLocation));
 #endif
     if(f.exists() && f.open(QIODevice::ReadOnly)) {
         QTextStream in(&f);
         QString txt = in.readAll();
-        if(txt.contains("0\\Folders\\1\\localPath=")) {
-            QString path = txt.split("0\\Folders\\1\\localPath=")[1].split("\n")[0];
+        const int first = txt.indexOf("0\\Folders\\1\\localPath=");
+        if(first > 0) {
+            const QString firstStr = txt.mid(first);
+            const int second = firstStr.indexOf("\n");
+            QString path = firstStr.mid(0,second);
             if(path.endsWith("/"))
                 return path.remove(path.length()-1,1);
             return path;
@@ -719,15 +731,16 @@ QString PQCScriptsFilesPaths::handleAnimatedImagePathAndEncode(QString path) {
         return toPercentEncoding(path);
 
     // if the image is larger than 256 MB we don't copy this
-    if(info.size() > 1024*1024*256)
+    // 268435456 := 1024*1024*256
+    if(info.size() > 268435456)
         return toPercentEncoding(path);
 
-    const QString tempdir = QString("%1/animatedfiles").arg(PQCConfigFiles::get().CACHE_DIR());
+    const QString tempdir = PQCConfigFiles::get().CACHE_DIR() % "/animatedfiles";
     QDir dir(tempdir);
     if(!dir.exists())
         dir.mkdir(tempdir);
 
-    QString targetFilename = QString("%1/animatedfiles/temp%3.%4").arg(PQCConfigFiles::get().CACHE_DIR()).arg(animatedImageTemporaryCounter).arg(info.suffix());
+    QString targetFilename = PQCConfigFiles::get().CACHE_DIR() % "/animatedfiles/temp" % QString::number(animatedImageTemporaryCounter) % "." % info.suffix();
     QFileInfo targetinfo(targetFilename);
 
     animatedImageTemporaryCounter = (animatedImageTemporaryCounter+1)%5;
@@ -753,19 +766,19 @@ QString PQCScriptsFilesPaths::handleAnimatedImagePathAndEncode(QString path) {
 
 void PQCScriptsFilesPaths::cleanupTemporaryFiles() {
 
-    QDir dir(QString("%1/animatedfiles").arg(PQCConfigFiles::get().CACHE_DIR()));
+    QDir dir(PQCConfigFiles::get().CACHE_DIR() % "%1/animatedfiles");
     if(dir.exists())
         dir.removeRecursively();
 
-    dir.setPath(PQCConfigFiles::get().CACHE_DIR() + "/archive/");
+    dir.setPath(PQCConfigFiles::get().CACHE_DIR() % "/archive/");
     if(dir.exists())
         dir.removeRecursively();
 
-    dir.setPath(PQCConfigFiles::get().CACHE_DIR() + "/clipboard/");
+    dir.setPath(PQCConfigFiles::get().CACHE_DIR() % "/clipboard/");
     if(dir.exists())
         dir.removeRecursively();
 
-    dir.setPath(PQCConfigFiles::get().CACHE_DIR() + "/motionphotos/");
+    dir.setPath(PQCConfigFiles::get().CACHE_DIR() % "/motionphotos/");
     if(dir.exists())
         dir.removeRecursively();
 
@@ -832,7 +845,7 @@ QString PQCScriptsFilesPaths::getSiblingFile(const QString currentFile, const in
 
             // check all previous directories one by one
             for(int i = currentIndex-1; i >= 0; --i) {
-                siblingFile = _findFirstFileinFolderAndSubFolder(prefixDir.absolutePath() + "/" + parentSiblings.at(i), false, remainingIteration, remainingLevelDown);
+                siblingFile = _findFirstFileinFolderAndSubFolder(prefixDir.absolutePath() % "/" % parentSiblings.at(i), false, remainingIteration, remainingLevelDown);
                 // if we found a file or reached maximum iteration level: stop
                 if(!siblingFile.isEmpty() || remainingIteration <= 0) break;
             }
@@ -842,7 +855,7 @@ QString PQCScriptsFilesPaths::getSiblingFile(const QString currentFile, const in
 
             // check all next directories one by one
             for(int i = currentIndex+1; i < parentSiblings.length(); ++i) {
-                siblingFile = _findFirstFileinFolderAndSubFolder(prefixDir.absolutePath() + "/" + parentSiblings.at(i), true, remainingIteration, remainingLevelDown);
+                siblingFile = _findFirstFileinFolderAndSubFolder(prefixDir.absolutePath() % "/" % parentSiblings.at(i), true, remainingIteration, remainingLevelDown);
                 // if we found a file or reached maximum iteration level: stop
                 if(!siblingFile.isEmpty() || remainingIteration <= 0) break;
             }
@@ -879,7 +892,7 @@ QString PQCScriptsFilesPaths::_findFirstFileinFolderAndSubFolder(const QString f
 
         for(const QString &f : std::as_const(fileList)) {
 
-            const QString fullPath = dir.absolutePath() + "/" + f;
+            const QString fullPath = dir.absolutePath() % "/" % f;
 
             const QString suffix = QFileInfo(fullPath).suffix().toLower();
             if(PQCImageFormats::get().getEnabledFormats().contains(suffix)) {
