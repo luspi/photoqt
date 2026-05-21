@@ -42,7 +42,7 @@ public:
 
     const QString getDescription(QString suffix) override;
 
-    const bool canWrite(QString path) override;
+    const QSet<QString> getWritableSuffixes() override;
     const bool writeImage(QImage img, QString targetPath) override;
 
     const QSize loadSize(QString path) override;
@@ -58,9 +58,12 @@ private:
     QSet<QString> m_allSuffixes;
     QSet<QString> m_allMimetypes;
 
-    QHash<QString,QString> suffix2description;
+    bool m_composedWritableSuffixes;
+    QSet<QString> m_writableSuffixes;
 
-    QHash<QString,QString> suffix2magick;
+    QHash<QString,QString> m_suffix2description;
+
+    QHash<QString,QString> m_suffix2magick;
 
     QString m_settingsDir;
 

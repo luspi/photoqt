@@ -113,6 +113,8 @@ PQCImageHandler::PQCImageHandler() {
     }
     m_numEnabled = m_suffixes.size();
 
+    m_composedWritableSuffixes = false;
+
 }
 
 QSize PQCImageHandler::getSize(QString path) {
@@ -229,14 +231,9 @@ QImage PQCImageHandler::getImage(QString path, QSize requestedSize, QSize &origS
 
 bool PQCImageHandler::canWrite(QString path) {
 
-    for(PQCImagePlugin *plugin : std::as_const(plugins)) {
+    QFileInfo info(path);
 
-        bool ret = plugin->canWrite(path);
-        if(ret) return true;
-
-    }
-
-    return false;
+    return (m_writableSuffixes.contains(info.suffix().toLower()) || m_writableSuffixes.contains(info.completeSuffix().toLower()));
 
 }
 
@@ -295,6 +292,37 @@ QSet<QString> PQCImageHandler::getMimetypes(QStringList categories) {
     for(const QString &c : std::as_const(categories)) {
         if(plugins.contains(c))
             ret += plugins.value(c)->getMimetypes();
+    }
+
+    return ret;
+
+}
+
+QSet<QString> PQCImageHandler::getWritableSuffixes(QString category) {
+
+    if(!m_composedWritableSuffixes) {
+        for(PQCImagePlugin *plugin : std::as_const(plugins)) {
+            m_writableSuffixes += plugin->getWritableSuffixes();
+        }
+        m_composedWritableSuffixes = true;
+    }
+
+    if(category == "all") return m_writableSuffixes;
+
+    if(plugins.contains(category))
+        return plugins.value(category)->getWritableSuffixes();
+
+    return m_writableSuffixes;
+
+}
+
+QSet<QString> PQCImageHandler::getWritableSuffixes(QStringList categories) {
+
+    QSet<QString> ret;
+
+    for(const QString &c : std::as_const(categories)) {
+        if(plugins.contains(c))
+            ret += plugins.value(c)->getWritableSuffixes();
     }
 
     return ret;

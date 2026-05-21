@@ -30,21 +30,47 @@
 #include <QtDebug>
 
 #if defined(PQMIMAGEMAGICK) || defined(PQMGRAPHICSMAGICK)
+#include <Magick++/CoderInfo.h>
+#include <Magick++/Exception.h>
 #include <Magick++/Image.h>
 #endif
 
 PQCImagePluginMagick::PQCImagePluginMagick(QString settingsDir) : m_settingsDir(settingsDir) {
+
+    m_composedWritableSuffixes = false;
 
     loadFormats();
 
 }
 
 const QString PQCImagePluginMagick::getDescription(QString suffix) {
-    return suffix2description.value(suffix, "");
+    return m_suffix2description.value(suffix, "");
 }
 
-const bool PQCImagePluginMagick::canWrite(QString path) {
-    return false;
+const QSet<QString> PQCImagePluginMagick::getWritableSuffixes() {
+
+    if(m_composedWritableSuffixes) return m_writableSuffixes;
+
+    m_composedWritableSuffixes = true;
+
+    for(const QString &suf : std::as_const(m_allSuffixes)) {
+
+        const QString magick = m_suffix2magick.value(suf, suf.toUpper());
+
+#if defined(PQMIMAGEMAGICK) || defined(PQMGRAPHICSMAGICK)
+        try {
+            Magick::CoderInfo magickCoderInfo(magick.toStdString());
+            if(magickCoderInfo.isWritable())
+                m_writableSuffixes.insert(suf);
+        } catch(...) {
+            // do nothing here
+        }
+#endif
+
+    }
+
+    return m_writableSuffixes;
+
 }
 
 const bool PQCImagePluginMagick::writeImage(QImage img, QString targetPath) {
@@ -62,8 +88,8 @@ const QSize PQCImagePluginMagick::loadSize(QString path) {
     if(!suf.isEmpty()) {
         mgs = QStringList() << suf.toUpper();
         const QString sufl = suf.toLower();
-        if(suffix2magick.contains(sufl))
-            mgs << suffix2magick.value(sufl).toUpper();
+        if(m_suffix2magick.contains(sufl))
+            mgs << m_suffix2magick.value(sufl).toUpper();
     }
 
     // if nothing else worked try without any magick, maybe this will help...
@@ -126,8 +152,8 @@ const QImage PQCImagePluginMagick::loadImage(QString path, QSize requestedSize, 
         if(!suf.isEmpty()) {
             mgs = QStringList() << suf.toUpper();
             const QString sufl = suf.toLower();
-            if(suffix2magick.contains(sufl))
-                mgs << suffix2magick.value(sufl).toUpper();
+            if(m_suffix2magick.contains(sufl))
+                mgs << m_suffix2magick.value(sufl).toUpper();
         }
 
         // if nothing else worked try without any magick, maybe this will help...
@@ -222,6 +248,42 @@ void PQCImagePluginMagick::setEnabled(QString suffix, QString mimetype, bool ena
 
 void PQCImagePluginMagick::loadFormats() {
 
+    // we always already consider the file ending, these are only the mismatched pairs
+    m_suffix2magick = {
+        {"dib", "BMP"},
+        {"epsf", "EPS"},
+        {"epsi", "EPS"},
+        {"jpeg2000", "JP2"},
+        {"j2k",      "JP2"},
+        {"jpc",      "JP2"},
+        {"jpx",      "JP2"},
+        {"jpg",  "JPEG"},
+        {"jpe",  "JPEG"},
+        {"jif",  "JPEG"},
+        {"pnm", "PPM"},
+        {"rgba", "RGB"},
+        {"sgi",  "RGB"},
+        {"bw",   "RGB"},
+        {"icb", "TGA"},
+        {"vda", "TGA"},
+        {"vst", "TGA"},
+        {"tiff", "TIF"},
+        {"bm",  "XBM"},
+        {"ch",  "SCT"},
+        {"ct",  "SCT"},
+        {"sun",  "RAS"},
+        {"sr",   "RAS"},
+        {"im1",  "RAS"},
+        {"im24", "RAS"},
+        {"im32", "RAS"},
+        {"im8",  "RAS"},
+        {"rast", "RAS"},
+        {"rs",   "RAS"},
+        {"scr",  "RAS"},
+        {"pm",  "XPM"},
+        {"avifs", "AVIF"}
+    };
+
     m_suffixes.clear();
     m_toggledSuffixes.clear();
     m_allSuffixes.clear();
@@ -249,42 +311,53 @@ void PQCImagePluginMagick::loadFormats() {
 
     // then we store ALL supported suffixes
 #ifdef PQMIMAGEMAGICK
-    m_allSuffixes = {"bmp", "dib", "cur", "eps", "epsf", "epsi", "exr", "gif", "icns",
-                     "jpeg2000", "j2k", "jp2", "jpc", "jpx", "jpeg", "jpg", "jpe", "jif",
-                     "mng", "ora", "pbm", "pcx", "pgm", "pict", "pct", "pic", "png",
-                     "ppm", "pnm", "psd", "psb", "psdt", "rgba", "rgb", "sgi", "bw",
-                     "svg", "svgz", "tga", "icb", "vda", "vst", "tiff", "tif", "wbmp",
-                     "xbm", "bm", "xcf", "sfw", "alb", "pwm", "pwp", "art", "avs", "x",
-                     "mbfavs", "sct", "ch", "ct", "dcr", "kdc", "drf", "k25", "dcs",
-                     "dc2", "kc2", "cals", "ct1", "ct2", "ct3", "ct4", "c4", "cal", "nif",
-                     "ras", "cut", "pal", "dcx", "dic", "dcm", "dpx", "epi", "ept", "fits",
-                     "fit", "fts", "cg3", "g3", "jbig", "jbg", "bie", "jng", "mat", "miff",
-                     "mif", "mtv", "pic", "otb", "palm", "pam", "pcd", "pcds", "pdb", "picon",
-                     "pix", "als", "alias", "ps", "ps2", "ps3", "ptiff", "ptif", "rla",
-                     "rle", "sun", "ras", "sr", "im1", "im24", "im32", "im8", "rast", "rs",
-                     "scr", "tim", "ttf", "vicar", "vic", "img", "viff", "xv", "webp", "wpg",
-                     "aai", "arw", "bpg", "crw", "crr", "cr2", "cr3", "djvu", "djv", "dng",
-                     "ff", "fl32", "rgbe", "hdr", "rad", "heif", "heic", "hrz", "mpc", "srf",
-                     "mrw", "sr2", "arq", "orf", "ori", "pef", "ptx", "pes", "pfm", "raf", "rgf",
-                     "wmf", "wmz", "apm", "dds", "iff", "ico", "xpm", "pm", "avif", "avifs",
-                     "apng", "cube", "mvg", "phm", "xwd", "jxl", "otf", "otc", "ttf", "ttc",
-                     "cg4", "g4", "dfont", "pfb", "pfm", "afm", "inf", "pfa", "ofm", "pgx",
-                     "qoi", "scr", "sixel", "ai"};
+    const QSet<QString> candidates = {"bmp", "dib", "cur", "eps", "epsf", "epsi", "exr", "gif", "icns",
+                                      "jpeg2000", "j2k", "jp2", "jpc", "jpx", "jpeg", "jpg", "jpe", "jif",
+                                      "mng", "ora", "pbm", "pcx", "pgm", "pict", "pct", "pic", "png",
+                                      "ppm", "pnm", "psd", "psb", "psdt", "rgba", "rgb", "sgi", "bw",
+                                      "svg", "svgz", "tga", "icb", "vda", "vst", "tiff", "tif", "wbmp",
+                                      "xbm", "bm", "xcf", "sfw", "alb", "pwm", "pwp", "art", "avs", "x",
+                                      "mbfavs", "sct", "ch", "ct", "dcr", "kdc", "drf", "k25", "dcs",
+                                      "dc2", "kc2", "cals", "ct1", "ct2", "ct3", "ct4", "c4", "cal", "nif",
+                                      "ras", "cut", "pal", "dcx", "dic", "dcm", "dpx", "epi", "ept", "fits",
+                                      "fit", "fts", "cg3", "g3", "jbig", "jbg", "bie", "jng", "mat", "miff",
+                                      "mif", "mtv", "pic", "otb", "palm", "pam", "pcd", "pcds", "pdb", "picon",
+                                      "pix", "als", "alias", "ps", "ps2", "ps3", "ptiff", "ptif", "rla",
+                                      "rle", "sun", "ras", "sr", "im1", "im24", "im32", "im8", "rast", "rs",
+                                      "scr", "tim", "ttf", "vicar", "vic", "img", "viff", "xv", "webp", "wpg",
+                                      "aai", "arw", "bpg", "crw", "crr", "cr2", "cr3", "djvu", "djv", "dng",
+                                      "ff", "fl32", "rgbe", "hdr", "rad", "heif", "heic", "hrz", "mpc", "srf",
+                                      "mrw", "sr2", "arq", "orf", "ori", "pef", "ptx", "pes", "pfm", "raf", "rgf",
+                                      "wmf", "wmz", "apm", "dds", "iff", "ico", "xpm", "pm", "avif", "avifs",
+                                      "apng", "cube", "mvg", "phm", "xwd", "jxl", "otf", "otc", "ttf", "ttc",
+                                      "cg4", "g4", "dfont", "pfb", "pfm", "afm", "inf", "pfa", "ofm", "pgx",
+                                      "qoi", "scr", "sixel", "ai"};
 #else
-    m_allSuffixes = {"bmp", "dib", "cur", "eps", "epsf", "epsi", "gif", "jpeg2000", "j2k",
-                     "jp2", "jpc", "jpx", "jpeg", "jpg", "jpe", "jif", "mng", "pbm", "pcx",
-                     "pgm", "pict", "pct", "pic", "png", "ppm", "pnm", "rgba", "rgb", "sgi",
-                     "bw", "tga", "icb", "vda", "vst", "tiff", "tif", "wbmp", "xbm", "bm",
-                     "xcf", "sfw", "alb", "pwm", "pwp", "art", "avs", "x", "mbfavs", "sct",
-                     "ch", "ct", "dcr", "kdc", "drf", "k25", "dcs", "dc2", "kc2", "cals",
-                     "ct1", "ct2", "ct3", "ct4", "c4", "cal", "nif", "ras", "cut", "pal",
-                     "dic", "dcm", "dpx", "epi", "ept", "fits", "fit", "fts", "cg3", "g3",
-                     "jng", "mat", "miff", "mif", "mtv", "pic", "otb", "p7", "palm", "pam",
-                     "pcd", "pcds", "pdb", "picon", "pix", "als", "alias", "ps", "ps2", "ps3",
-                     "ptiff", "ptif", "rla", "rle", "sun", "ras", "sr", "im1", "im24", "im32",
-                     "im8", "rast", "rs", "scr", "tim", "vicar", "vic", "img", "viff", "xv",
-                     "webp", "wpg", "iff", "ico", "xpm", "pm", "avif", "avifs", "mvg", "xwd",
-                     "pfb", "pfm", "afm", "inf", "pfa", "ofm", "pgx", "ai"};
+    const QSet<QString> candidates = {"bmp", "dib", "cur", "eps", "epsf", "epsi", "gif", "jpeg2000", "j2k",
+                                      "jp2", "jpc", "jpx", "jpeg", "jpg", "jpe", "jif", "mng", "pbm", "pcx",
+                                      "pgm", "pict", "pct", "pic", "png", "ppm", "pnm", "rgba", "rgb", "sgi",
+                                      "bw", "tga", "icb", "vda", "vst", "tiff", "tif", "wbmp", "xbm", "bm",
+                                      "xcf", "sfw", "alb", "pwm", "pwp", "art", "avs", "x", "mbfavs", "sct",
+                                      "ch", "ct", "dcr", "kdc", "drf", "k25", "dcs", "dc2", "kc2", "cals",
+                                      "ct1", "ct2", "ct3", "ct4", "c4", "cal", "nif", "ras", "cut", "pal",
+                                      "dic", "dcm", "dpx", "epi", "ept", "fits", "fit", "fts", "cg3", "g3",
+                                      "jng", "mat", "miff", "mif", "mtv", "pic", "otb", "p7", "palm", "pam",
+                                      "pcd", "pcds", "pdb", "picon", "pix", "als", "alias", "ps", "ps2", "ps3",
+                                      "ptiff", "ptif", "rla", "rle", "sun", "ras", "sr", "im1", "im24", "im32",
+                                      "im8", "rast", "rs", "scr", "tim", "vicar", "vic", "img", "viff", "xv",
+                                      "webp", "wpg", "iff", "ico", "xpm", "pm", "avif", "avifs", "mvg", "xwd",
+                                      "pfb", "pfm", "afm", "inf", "pfa", "ofm", "pgx", "ai"};
+#endif
+#if defined(PQMIMAGEMAGICK) || defined(PQMGRAPHICSMAGICK)
+    for(const QString &s : std::as_const(candidates)) {
+        try {
+            Magick::CoderInfo magickCoderInfo(m_suffix2magick.value(s, s.toUpper()).toStdString());
+            if(magickCoderInfo.isWritable())
+                m_allSuffixes.insert(s);
+        } catch(...) {
+            // do nothing here
+        }
+    }
 #endif
 
     // these are the currently enabled ones
@@ -294,7 +367,7 @@ void PQCImagePluginMagick::loadFormats() {
 
     // these are the ones supported by ImageMagick, GraphicsMagick supports a subset of them
     // for simplicity we list them only once
-    suffix2description = {
+    m_suffix2description = {
         {"bmp", "BMP: Microsoft Windows bitmap"},
         {"dib", "BMP: Microsoft Windows bitmap"},
         {"cur", "CUR: Microsoft Windows cursor format"},
@@ -493,42 +566,6 @@ void PQCImagePluginMagick::loadFormats() {
         {"scr", "ZX-Spectrum SCREEN"},
         {"sixel", "DEC SIXEL Graphics Format"},
         {"ai", "AI: Adobe Illustrator (PDF compatible)"}
-    };
-
-    // we always already consider the file ending, these are only the mismatched pairs
-    suffix2magick = {
-        {"dib", "BMP"},
-        {"epsf", "EPS"},
-        {"epsi", "EPS"},
-        {"jpeg2000", "JP2"},
-        {"j2k",      "JP2"},
-        {"jpc",      "JP2"},
-        {"jpx",      "JP2"},
-        {"jpg",  "JPEG"},
-        {"jpe",  "JPEG"},
-        {"jif",  "JPEG"},
-        {"pnm", "PPM"},
-        {"rgba", "RGB"},
-        {"sgi",  "RGB"},
-        {"bw",   "RGB"},
-        {"icb", "TGA"},
-        {"vda", "TGA"},
-        {"vst", "TGA"},
-        {"tiff", "TIF"},
-        {"bm",  "XBM"},
-        {"ch",  "SCT"},
-        {"ct",  "SCT"},
-        {"sun",  "RAS"},
-        {"sr",   "RAS"},
-        {"im1",  "RAS"},
-        {"im24", "RAS"},
-        {"im32", "RAS"},
-        {"im8",  "RAS"},
-        {"rast", "RAS"},
-        {"rs",   "RAS"},
-        {"scr",  "RAS"},
-        {"pm",  "XPM"},
-        {"avifs", "AVIF"}
     };
 
     /********************************/

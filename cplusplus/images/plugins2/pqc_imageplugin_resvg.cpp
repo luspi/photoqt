@@ -33,6 +33,8 @@
 
 PQCImagePluginResvg::PQCImagePluginResvg(QString settingsDir) : m_settingsDir(settingsDir) {
 
+    m_composedWritableSuffixes = false;
+
     loadFormats();
 
 }
@@ -41,8 +43,10 @@ const QString PQCImagePluginResvg::getDescription(QString suffix) {
     return suffix2description.value(suffix, "");
 }
 
-const bool PQCImagePluginResvg::canWrite(QString path) {
-    return false;
+const QSet<QString> PQCImagePluginResvg::getWritableSuffixes() {
+
+    return {};
+
 }
 
 const bool PQCImagePluginResvg::writeImage(QImage img, QString targetPath) {

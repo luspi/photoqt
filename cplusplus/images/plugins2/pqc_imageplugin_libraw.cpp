@@ -35,6 +35,8 @@
 
 PQCImagePluginLibraw::PQCImagePluginLibraw(QString settingsDir) : m_settingsDir(settingsDir) {
 
+    m_composedWritableSuffixes = false;
+
     loadFormats();
 
 }
@@ -43,8 +45,10 @@ const QString PQCImagePluginLibraw::getDescription(QString suffix) {
     return suffix2description.value(suffix, "");
 }
 
-const bool PQCImagePluginLibraw::canWrite(QString path) {
-    return false;
+const QSet<QString> PQCImagePluginLibraw::getWritableSuffixes() {
+
+    return {};
+
 }
 
 const bool PQCImagePluginLibraw::writeImage(QImage img, QString targetPath) {

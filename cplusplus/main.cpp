@@ -65,8 +65,6 @@
 #include <pqc_settingscpp.h>
 #include <scripts/pqc_scriptslocalization.h>
 
-#include <pqc_imagehandler.h>
-
 #if defined(PQMIMAGEMAGICK) || defined(PQMGRAPHICSMAGICK)
 #include <Magick++.h>
 #endif

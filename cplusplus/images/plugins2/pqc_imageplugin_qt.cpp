@@ -35,6 +35,8 @@
 
 PQCImagePluginQt::PQCImagePluginQt(QString settingsDir) : m_settingsDir(settingsDir) {
 
+    m_composedWritableSuffixes = false;
+
     loadFormats();
 
 }
@@ -43,10 +45,21 @@ const QString PQCImagePluginQt::getDescription(QString suffix) {
     return suffix2description.value(suffix, "");
 }
 
-const bool PQCImagePluginQt::canWrite(QString path) {
+const QSet<QString> PQCImagePluginQt::getWritableSuffixes() {
 
-    QImageWriter writer(path);
-    return writer.canWrite();
+    if(m_composedWritableSuffixes) return m_writableSuffixes;
+
+    m_composedWritableSuffixes = true;
+
+    QImageWriter writer;
+    const QString tmpPath = QDir::tempPath();
+    for(const QString &suf : std::as_const(m_allSuffixes)) {
+        writer.setFileName(tmpPath % "/temp." % suf);
+        if(writer.canWrite())
+            m_writableSuffixes.insert(suf);
+    }
+
+    return m_writableSuffixes;
 
 }
 

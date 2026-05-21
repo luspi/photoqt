@@ -54,8 +54,8 @@ public:
     // the description for a suffix
     virtual const QString getDescription(QString suffix) = 0;
 
-    // can this format be written by this plugin?
-    virtual const bool canWrite(QString path) = 0;
+    // all formats that can be written
+    virtual const QSet<QString> getWritableSuffixes() = 0;
     // write the image to the target path
     virtual const bool writeImage(QImage img, QString targetPath) = 0;
 

@@ -50,6 +50,8 @@ public:
     QSet<QString> getMimetypes(QString category = "all");
     QSet<QString> getSuffixes(QStringList categories);
     QSet<QString> getMimetypes(QStringList categories);
+    QSet<QString> getWritableSuffixes(QString category = "all");
+    QSet<QString> getWritableSuffixes(QStringList categories);
     QString getDescription(QString suffix);
 
 private:
@@ -61,6 +63,9 @@ private:
     int m_numEnabled;
     QSet<QString> m_suffixes;
     QSet<QString> m_mimetypes;
+    QSet<QString> m_writableSuffixes;
+
+    bool m_composedWritableSuffixes;
 
 Q_SIGNALS:
     void formatsUpdated();

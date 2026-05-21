@@ -43,7 +43,9 @@ class PQCImageHandlerQML : public QObject {
     QML_NAMED_ELEMENT(PQCImageHandler)
 
 public:
-    PQCImageHandlerQML() {}
+    PQCImageHandlerQML() {
+        connect(&PQCImageHandler::get(), &PQCImageHandler::formatsUpdated, this, &PQCImageHandlerQML::formatsUpdated);
+    }
 
     Q_INVOKABLE QSize getSize(QString path) {
         return PQCImageHandler::get().getSize(path);
@@ -76,5 +78,8 @@ public:
     Q_INVOKABLE QString getDescription(QString suffix) {
         return PQCImageHandler::get().getDescription(suffix);
     }
+
+Q_SIGNALS:
+    void formatsUpdated();
 
 };

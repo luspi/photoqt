@@ -30,6 +30,8 @@
 
 PQCImagePluginVideo::PQCImagePluginVideo(QString settingsDir) : m_settingsDir(settingsDir) {
 
+    m_composedWritableSuffixes = false;
+
     loadFormats();
 
 }
@@ -38,8 +40,10 @@ const QString PQCImagePluginVideo::getDescription(QString suffix) {
     return suffix2description.value(suffix, "");
 }
 
-const bool PQCImagePluginVideo::canWrite(QString path) {
-    return false;
+const QSet<QString> PQCImagePluginVideo::getWritableSuffixes() {
+
+    return {};
+
 }
 
 const bool PQCImagePluginVideo::writeImage(QImage img, QString targetPath) {
@@ -71,7 +75,7 @@ void PQCImagePluginVideo::loadFormats() {
     m_allSuffixes.clear();
 
     // first we read the toggled suffixes from the settings file
-    const QString suffixFilename = m_settingsDir % "/Qt_suffixes";
+    const QString suffixFilename = m_settingsDir % "/video_suffixes";
     QFile suffixFile(suffixFilename);
     if(!suffixFile.open(QIODevice::ReadOnly|QIODevice::Text)) {
         qDebug() << "Failed to open settings file at:" << suffixFilename;
@@ -122,7 +126,7 @@ void PQCImagePluginVideo::loadFormats() {
     m_toggledMimetypes.clear();
     m_allMimetypes.clear();
 
-    const QString mimeFilename = m_settingsDir % "/Qt_mimetypes";
+    const QString mimeFilename = m_settingsDir % "/video_mimetypes";
     QFile mimeFile(mimeFilename);
     if(!mimeFile.open(QIODevice::ReadOnly|QIODevice::Text)) {
         qDebug() << "Failed to open settings file at:" << mimeFilename;
