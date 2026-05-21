@@ -34,7 +34,6 @@
 #include <pqc_settingscpp.h>
 #include <pqc_imagehandler.h>
 #include <scripts/pqc_scriptsfilespaths.h>
-#include <pqc_imageformats.h>
 #include <pqc_extensionsettings.h>
 #include <scripts/pqc_scriptslocalization.h>
 #include <pqc_metadata_cpp.h>

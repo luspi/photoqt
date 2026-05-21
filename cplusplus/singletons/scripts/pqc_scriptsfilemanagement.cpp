@@ -24,7 +24,6 @@
 #include <scripts/pqc_scriptsfilespaths.h>
 #include <pqc_filefoldermodelCPP.h>
 #include <pqc_configfiles.h>
-#include <pqc_imageformats.h>
 #include <pqc_loadimage.h>
 #include <QtDebug>
 #include <QFileInfo>

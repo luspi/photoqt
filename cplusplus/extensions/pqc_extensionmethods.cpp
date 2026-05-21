@@ -25,7 +25,6 @@
 #include <scripts/pqc_scriptsshortcuts.h>
 #include <scripts/pqc_scriptsconfig.h>
 #include <pqc_extensionshandler.h>
-#include <pqc_imageformats.h>
 
 PQCExtensionMethods::PQCExtensionMethods(QObject *parent) : QObject(parent) {
 
