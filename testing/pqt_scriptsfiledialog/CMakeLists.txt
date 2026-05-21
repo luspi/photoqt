@@ -81,6 +81,7 @@ if(_WITH_VIDEO_QT)
 endif()
 
 if(_WITH_VIDEO_MPV)
+    SET(photoqt_testscripts_SOURCES ${photoqt_testscripts_SOURCES} ${photoqt_testscripts_SOURCES_LIBMPV})
     target_compile_definitions(${testname} PRIVATE PQMVIDEOMPV)
     target_link_libraries(${testname} PRIVATE Libmpv::Libmpv)
 endif()
