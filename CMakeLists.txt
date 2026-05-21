@@ -635,7 +635,6 @@ target_compile_definitions(photoqt PRIVATE PQMVERSION="${APPVERSION}")
 # set header files as include files
 target_include_directories(photoqt PRIVATE "cplusplus/header")
 target_include_directories(photoqt PRIVATE "cplusplus/header/scripts")
-target_include_directories(photoqt PRIVATE "cplusplus/header/scripts/qmlcpp")
 target_include_directories(photoqt PRIVATE "cplusplus/extensions")
 target_include_directories(photoqt PRIVATE "cplusplus/images/plugins")
 

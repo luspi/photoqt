@@ -103,12 +103,26 @@ void PQTScriptsFilesPaths::cleanPath_data() {
     QTest::addColumn<QString>("string");
     QTest::addColumn<QString>("result");
 
+    // this behavior depends on which platform is run
+    // the differences go deeper than just PhotoQt's code and include how QUrl handles local files
+    // thus we have to distinguish the input values here as well
+#ifdef Q_OS_UNIX
     QTest::newRow("file:/") << "file://home/test/image.jpg" << "/home/test/image.jpg";
     QTest::newRow("file://") << "file:///home/test/image.jpg" << "/home/test/image.jpg";
     QTest::newRow("file:///") << "file:////home/test/image.jpg" << "/home/test/image.jpg";
     QTest::newRow("image://full/") << "image://full//home/test/image.jpg" << "/home/test/image.jpg";
     QTest::newRow("image://thumb/") << "image://thumb//home/test/image.jpg" << "/home/test/image.jpg";
     QTest::newRow("/..//test/") << "/home/test2/../test//image.jpg" << "/home/test/image.jpg";
+#endif
+#ifdef Q_OS_WIN
+    QTest::newRow("file:/") << "file:/C:/home/test/image.jpg" << "C:/home/test/image.jpg";
+    QTest::newRow("file://") << "file://C:/home/test/image.jpg" << "C:/home/test/image.jpg";
+    QTest::newRow("file:///") << "file:///C:/home/test/image.jpg" << "C:/home/test/image.jpg";
+    QTest::newRow("image://full/") << "image://full/C:/home/test/image.jpg" << "C:/home/test/image.jpg";
+    QTest::newRow("image://thumb/") << "image://thumb/C:/home/test/image.jpg" << "C:/home/test/image.jpg";
+    QTest::newRow("/..//test/") << "C:/home/test2/../test//image.jpg" << "C:/home/test/image.jpg";
+    QTest::newRow("//host/") << "//host/home/test2/../test//image.jpg" << "//host/home/test/image.jpg";
+#endif
     QTest::newRow("empty") << "" << "";
 
 }
@@ -119,33 +133,6 @@ void PQTScriptsFilesPaths::cleanPath() {
     QFETCH(QString, result);
 
     QCOMPARE(PQCScriptsFilesPaths::get().cleanPath(string), result);
-
-}
-
-/********************************************************/
-
-void PQTScriptsFilesPaths::win_cleanPath_data() {
-
-    QTest::addColumn<QString>("string");
-    QTest::addColumn<QString>("result");
-
-    QTest::newRow("file:/") << "file:/C:/home/test/image.jpg" << "C:/home/test/image.jpg";
-    QTest::newRow("file://") << "file://C:/home/test/image.jpg" << "C:/home/test/image.jpg";
-    QTest::newRow("file:///") << "file:///C:/home/test/image.jpg" << "C:/home/test/image.jpg";
-    QTest::newRow("image://full/") << "image://full/C:/home/test/image.jpg" << "C:/home/test/image.jpg";
-    QTest::newRow("image://thumb/") << "image://thumb/C:/home/test/image.jpg" << "C:/home/test/image.jpg";
-    QTest::newRow("/..//test/") << "C:/home/test2/../test//image.jpg" << "C:/home/test/image.jpg";
-    QTest::newRow("//host/") << "//host/home/test2/../test//image.jpg" << "//host/home/test/image.jpg";
-    QTest::newRow("empty") << "" << "";
-
-}
-
-void PQTScriptsFilesPaths::win_cleanPath() {
-
-    QFETCH(QString, string);
-    QFETCH(QString, result);
-
-    QCOMPARE(PQCScriptsFilesPaths::get().cleanPath_windows(string), result);
 
 }
 

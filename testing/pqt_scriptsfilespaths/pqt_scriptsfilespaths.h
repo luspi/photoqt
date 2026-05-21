@@ -36,9 +36,6 @@ private Q_SLOTS:
     void cleanPath_data();
     void cleanPath();
 
-    void win_cleanPath_data();
-    void win_cleanPath();
-
     void getSuffix_data();
     void getSuffix();
 
