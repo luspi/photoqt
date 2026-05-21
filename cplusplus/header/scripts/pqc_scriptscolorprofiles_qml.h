@@ -37,14 +37,32 @@ public:
     PQCScriptsColorProfilesQML() {}
     ~PQCScriptsColorProfilesQML() {}
 
-    Q_INVOKABLE QStringList getImportedColorProfiles()               { return PQCScriptsColorProfiles::get().getImportedColorProfiles(); }
-    Q_INVOKABLE QStringList getColorProfiles()                       { return PQCScriptsColorProfiles::get().getColorProfiles(); }
-    Q_INVOKABLE QStringList getColorProfileDescriptions()            { return PQCScriptsColorProfiles::get().getColorProfileDescriptions(); }
-    Q_INVOKABLE QString     getColorProfileID(int index)             { return PQCScriptsColorProfiles::get().getColorProfileID(index); }
-    Q_INVOKABLE void        setColorProfile(QString path, int index) {        PQCScriptsColorProfiles::get().setColorProfile(path, index); }
-    Q_INVOKABLE QString     getColorProfileFor(QString path)         { return PQCScriptsColorProfiles::get().getColorProfileFor(path); }
-    Q_INVOKABLE bool        importColorProfile()                     { return PQCScriptsColorProfiles::get().importColorProfile(); }
-    Q_INVOKABLE bool        removeImportedColorProfile(int index)    { return PQCScriptsColorProfiles::get().removeImportedColorProfile(index); }
-    Q_INVOKABLE QString     detectVideoColorProfile(QString path)    { return PQCScriptsColorProfiles::get().detectVideoColorProfile(path); }
+    Q_INVOKABLE QStringList getImportedColorProfiles() {
+        return PQCScriptsColorProfiles::get().getImportedColorProfiles();
+    }
+    Q_INVOKABLE QStringList getColorProfiles() {
+        return PQCScriptsColorProfiles::get().getColorProfiles();
+    }
+    Q_INVOKABLE QStringList getColorProfileDescriptions() {
+        return PQCScriptsColorProfiles::get().getColorProfileDescriptions();
+    }
+    Q_INVOKABLE QString     getColorProfileID(int index) {
+        return PQCScriptsColorProfiles::get().getColorProfileID(index);
+    }
+    Q_INVOKABLE void        setColorProfile(QString path, int index) {
+        PQCScriptsColorProfiles::get().setColorProfile(path, index);
+    }
+    Q_INVOKABLE QString     getColorProfileFor(QString path) {
+        return PQCScriptsColorProfiles::get().getColorProfileFor(path);
+    }
+    Q_INVOKABLE bool        importColorProfile() {
+        return PQCScriptsColorProfiles::get().importColorProfile();
+    }
+    Q_INVOKABLE bool        removeImportedColorProfile(int index) {
+        return PQCScriptsColorProfiles::get().removeImportedColorProfile(index);
+    }
+    Q_INVOKABLE QString     detectVideoColorProfile(QString path) {
+        return PQCScriptsColorProfiles::get().detectVideoColorProfile(path);
+    }
 
 };

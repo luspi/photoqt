@@ -20,32 +20,46 @@
  **                                                                      **
  **************************************************************************/
 
-#include <cstddef>
-#include <pqc_loadimage_libsai.h>
-#include <pqc_configfiles.h>
+#include <pqc_imageplugin_libsai.h>
 #include <pqc_settingscpp.h>
-#include <scripts/pqc_scriptsimages.h>
+#include <scripts/pqc_scriptscolorprofiles.h>
 #include <pqc_imagecache.h>
 #include <pqc_notify_cpp.h>
-#include <QSize>
-#include <QImage>
+
+#include <QFile>
 #include <QtDebug>
 #include <QPainter>
-#include <QCryptographicHash>
-#include <QRegion>
-#include <QtConcurrent/QtConcurrentMap>
 
-PQCLoadImageLibsai::PQCLoadImageLibsai() {}
+PQCImagePluginLibsai::PQCImagePluginLibsai(QString settingsDir) : m_settingsDir(settingsDir) {
 
-const QSize PQCLoadImageLibsai::loadSize(QString filename) {
+    m_composedWritableSuffixes = false;
+
+    loadFormats();
+
+}
+
+const QString PQCImagePluginLibsai::getDescription(QString suffix) {
+    return suffix2description.value(suffix, "");
+}
+
+const QSet<QString> PQCImagePluginLibsai::getWritableSuffixes() {
+
+    return {};
+
+}
+
+const bool PQCImagePluginLibsai::writeImage(QImage img, QString targetPath) {
+    return false;
+}
+
+const QSize PQCImagePluginLibsai::loadSize(QString path) {
 
 #ifdef PQMLIBSAI
 
-    sai::Document saidoc(filename.toStdString().c_str());
+    sai::Document saidoc(path.toStdString().c_str());
 
     if(!saidoc.IsOpen()) {
-        QString err = "Error opening SAI file for reading.";
-        qWarning() << err;
+        qWarning() << "Error opening SAI file for reading.";
         return QSize();
     }
 
@@ -57,21 +71,23 @@ const QSize PQCLoadImageLibsai::loadSize(QString filename) {
 #endif
 
     return QSize();
+
 }
 
-const QString PQCLoadImageLibsai::load(QString filename, QSize maxSize, QSize &origSize, QImage &img) {
+const QImage PQCImagePluginLibsai::loadImage(QString path, QSize requestedSize, QSize &origSize, QString &error) {
 
-    qDebug() << "args: filename = " << filename;
-    qDebug() << "args: maxSize = " << maxSize;
+    qDebug() << "args: path = " << path;
+    qDebug() << "args: requestedSize = " << requestedSize;
 
 #ifdef PQMLIBSAI
 
-    sai::Document saidoc(filename.toStdString().c_str());
+    sai::Document saidoc(path.toStdString().c_str());
 
     if(!saidoc.IsOpen()) {
-        QString err = "Error opening SAI file for reading.";
-        qWarning() << err;
-        return err;
+        const QString msg = "Error opening SAI file for reading.";
+        error += msg % "\n";
+        qWarning() << msg;
+        return QImage();
     }
 
     std::uint32_t w = 0, h = 0;
@@ -79,7 +95,7 @@ const QString PQCLoadImageLibsai::load(QString filename, QSize maxSize, QSize &o
     origSize = QSize(w, h);
 
     // Load thumbnail only
-    if(!maxSize.isEmpty() && qMax(maxSize.width(), maxSize.height()) <= 512) {
+    if(!requestedSize.isEmpty() && qMax(requestedSize.width(), requestedSize.height()) <= 512) {
 
         // Get the thumbnail data
         uint32_t tw = 0, th = 0;
@@ -88,21 +104,24 @@ const QString PQCLoadImageLibsai::load(QString filename, QSize maxSize, QSize &o
 
         // construct thumbnail image
         // we have to call copy() as QImage does not take ownership of the data and the buffer will be freed while the image is still in use
-        img = QImage(reinterpret_cast<uchar*>(pixels.get()), tw, th, 4*tw, QImage::Format_ARGB32_Premultiplied).copy();
+        QImage img = QImage(reinterpret_cast<uchar*>(pixels.get()), tw, th, 4*tw, QImage::Format_ARGB32_Premultiplied).copy();
 
         if(!img.isNull()) {
 
             // make sure thumbnail is not larger than requested
             QSize finalSize = origSize;
 
-            if(finalSize.width() > maxSize.width() || finalSize.height() > maxSize.height())
-                finalSize = finalSize.scaled(maxSize, Qt::KeepAspectRatio);
+            if(finalSize.width() > requestedSize.width() || finalSize.height() > requestedSize.height()) {
 
-            img = img.scaled(finalSize,
-                             Qt::IgnoreAspectRatio,
-                             (PQCSettingsCPP::get().getImageviewRescalingSmooth() ? Qt::SmoothTransformation : Qt::FastTransformation));
+                finalSize = finalSize.scaled(requestedSize, Qt::KeepAspectRatio);
 
-            return "";
+                return img.scaled(finalSize,
+                                  Qt::IgnoreAspectRatio,
+                                  (PQCSettingsCPP::get().getImageviewRescalingSmooth() ? Qt::SmoothTransformation : Qt::FastTransformation));
+
+            }
+
+            return img;
 
         }
 
@@ -131,7 +150,7 @@ const QString PQCLoadImageLibsai::load(QString filename, QSize maxSize, QSize &o
 
         // if this is a layer
         if(static_cast<sai::LayerType>(LayerHeader.Type) == sai::LayerType::Layer ||
-           static_cast<sai::LayerType>(LayerHeader.Type) == sai::LayerType::RootLayer) {
+            static_cast<sai::LayerType>(LayerHeader.Type) == sai::LayerType::RootLayer) {
 
             // If the current layer or the full current set is not visible, stop.
             if(LayerHeader.Visible == 0)
@@ -157,7 +176,7 @@ const QString PQCLoadImageLibsai::load(QString filename, QSize maxSize, QSize &o
                     curPainter.drawImage(QPoint(LayerHeader.Bounds.X, LayerHeader.Bounds.Y), i);
                     curPainter.end();
 
-                // create new layer image
+                    // create new layer image
                 } else {
 
                     QPainter curPainter(&curImage);
@@ -203,10 +222,10 @@ const QString PQCLoadImageLibsai::load(QString filename, QSize maxSize, QSize &o
         return true;
     });
 
-    if(PQCNotifyCPP::get().isPhotoQtShuttingDown()) return "";
+    if(PQCNotifyCPP::get().isPhotoQtShuttingDown()) return QImage();
 
     // compose final image
-    img = QImage(w, h, QImage::Format_ARGB32_Premultiplied);
+    QImage img(w, h, QImage::Format_ARGB32_Premultiplied);
     img.fill(Qt::white);
     QPainter composedPainter(&img);
     for(const QImage &img : std::as_const(allImageLayers)) {
@@ -216,23 +235,72 @@ const QString PQCLoadImageLibsai::load(QString filename, QSize maxSize, QSize &o
 
     // if successful then we cache the image
     if(!img.isNull())
-        PQCImageCache::get().saveImageToCache(filename, "", &img);
+        PQCImageCache::get().saveImageToCache(path, "", &img);
 
     // make sure we fit the requested size
-    if(maxSize.width() != -1) {
-        img = img.scaled(origSize.scaled(maxSize, Qt::KeepAspectRatio),
-                         Qt::IgnoreAspectRatio,
-                         (PQCSettingsCPP::get().getImageviewRescalingSmooth() ? Qt::SmoothTransformation : Qt::FastTransformation));
+    if(requestedSize.width() != -1) {
+        return img.scaled(origSize.scaled(requestedSize, Qt::KeepAspectRatio),
+                          Qt::IgnoreAspectRatio,
+                          (PQCSettingsCPP::get().getImageviewRescalingSmooth() ? Qt::SmoothTransformation : Qt::FastTransformation));
     }
 
-    return "";
+    return img;
 
 #endif
 
-    origSize = QSize(-1,-1);
-    QString errormsg = "Failed to load image, libsai not supported by this build of PhotoQt!";
-    qDebug() << errormsg;
-    return errormsg;
+    return QImage();
+
+}
+
+void PQCImagePluginLibsai::setEnabled(QString suffix, QString mimetype, bool enabled) {
+
+}
+
+/***********************************************/
+
+void PQCImagePluginLibsai::loadFormats() {
+
+    m_suffixes.clear();
+    m_toggledSuffixes.clear();
+    m_allSuffixes.clear();
+
+    // first we read the toggled suffixes from the settings file
+    const QString suffixFilename = m_settingsDir % "/libsai_suffixes";
+    QFile suffixFile(suffixFilename);
+    if(!suffixFile.open(QIODevice::ReadOnly|QIODevice::Text)) {
+        qDebug() << "Failed to open settings file at:" << suffixFilename;
+    } else {
+        QTextStream suffixIn(&suffixFile);
+        const QStringList tmp = suffixIn.readAll().split("\n", Qt::SkipEmptyParts);
+        m_toggledSuffixes = QSet<QString>(tmp.begin(), tmp.end());
+        suffixFile.close();
+    }
+
+    // then we store ALL supported suffixes
+    m_allSuffixes = {"sai"};
+
+    // these are the currently enabled ones
+    m_suffixes = m_allSuffixes - m_toggledSuffixes;
+
+    suffix2description = {
+        {"sai", "PaintTool Sai"}
+    };
+
+    /********************************/
+
+    m_mimetypes.clear();
+    m_toggledMimetypes.clear();
+    m_allMimetypes.clear();
+
+    // no mimetypes here
+
+    Q_EMIT formatsUpdated();
+
+}
+
+void PQCImagePluginLibsai::saveFormats() {
+
+    // TODO
 
 }
 
@@ -241,7 +309,7 @@ const QString PQCLoadImageLibsai::load(QString filename, QSize maxSize, QSize &o
 /*********************************************************************/
 // This function is based on ReadRasterLayer() function found in:
 // https://github.com/Wunkolo/libsai/blob/main/samples/Document.cpp
-std::vector<std::uint32_t> PQCLoadImageLibsai::ReadRasterLayer(const sai::LayerHeader& layerHeader, sai::VirtualFileEntry& layerFile) {
+std::vector<std::uint32_t> PQCImagePluginLibsai::ReadRasterLayer(const sai::LayerHeader& layerHeader, sai::VirtualFileEntry& layerFile) {
 
     const std::size_t tileSize   = 32u;
     const std::size_t tilePixels = tileSize * tileSize;
@@ -294,9 +362,9 @@ std::vector<std::uint32_t> PQCLoadImageLibsai::ReadRasterLayer(const sai::LayerH
                 }
 
                 // Decompress and place into the appropriate interleaved channel
-                PQCLoadImageLibsai::RLEDecompressStride(decompressedTile.data(), compressedTile.data(),
-                                                        sizeof(std::uint32_t), tilePixels,
-                                                        curChannel);
+                RLEDecompressStride(decompressedTile.data(), compressedTile.data(),
+                                    sizeof(std::uint32_t), tilePixels,
+                                    curChannel);
                 ++curChannel;
 
                 // Skip all other channels besides the RGBA ones we care about
@@ -334,7 +402,7 @@ std::vector<std::uint32_t> PQCLoadImageLibsai::ReadRasterLayer(const sai::LayerH
 /*********************************************************************/
 // This function is based on RLEDecompressStride() function found in:
 // https://github.com/Wunkolo/libsai/blob/main/samples/Document.cpp
-void PQCLoadImageLibsai::RLEDecompressStride(std::byte* destination, const std::byte* source, std::size_t stride, std::size_t strideCount, std::size_t channel) {
+void PQCImagePluginLibsai::RLEDecompressStride(std::byte* destination, const std::byte* source, std::size_t stride, std::size_t strideCount, std::size_t channel) {
 
     destination += channel;
     std::size_t writeCount = 0;

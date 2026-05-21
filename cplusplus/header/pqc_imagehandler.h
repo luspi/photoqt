@@ -19,63 +19,55 @@
  ** along with PhotoQt. If not, see <http://www.gnu.org/licenses/>.      **
  **                                                                      **
  **************************************************************************/
+#pragma once
 
-#include <pqc_loadimage_resvg.h>
-#include <pqc_imagecache.h>
-#include <pqc_settings.h>
-#include <QSize>
-#include <QImage>
-#ifdef PQMRESVG
-#include <ResvgQt.h>
-#endif
+#include <QObject>
+#include <QString>
+#include <QSet>
+#include <pqc_imageplugin.h>
 
-PQCLoadImageResvg::PQCLoadImageResvg() {}
+class PQCImageHandler : public QObject {
 
-const QSize PQCLoadImageResvg::loadSize(QString filename) {
+    Q_OBJECT
 
-    qDebug() << "args: filename =" << filename;
-
-#ifdef PQMRESVG
-
-    ResvgOptions opt;
-    ResvgRenderer renderer(filename, opt);
-    return renderer.defaultSize();
-
-#endif
-
-    return QSize();
-
-}
-
-const QString PQCLoadImageResvg::load(QString filename, QSize maxSize, QSize &origSize, QImage &img) {
-
-    qDebug() << "args: filename =" << filename;
-    qDebug() << "args: maxSize =" << maxSize;
-
-#ifdef PQMRESVG
-
-    ResvgOptions opt;
-    ResvgRenderer renderer(filename, opt);
-
-    if(!renderer.isValid()) {
-        QString errmsg = "Invalid SVG encountered";
-        qWarning() << errmsg;
-        return errmsg;
+public:
+    static PQCImageHandler& get() {
+        static PQCImageHandler instance;
+        return instance;
     }
 
-    if(maxSize.isValid()) {
-        QSize defaultSize = renderer.defaultSize();
-        if(defaultSize.isEmpty()) defaultSize = maxSize;
-        img = renderer.renderToImage(defaultSize.scaled(maxSize, Qt::KeepAspectRatio));
-    } else
-        img = renderer.renderToImage();
+    PQCImageHandler(PQCImageHandler const&) = delete;
+    void operator=(PQCImageHandler const&) = delete;
 
-    origSize = img.size();
+    QSize getSize(QString path);
+    QImage getImage(QString path, QSize requestedSize, QSize &origSize, QString &error);
 
-    return "";
+    bool canWrite(QString path);
+    bool writeImage(QImage img, QString targetPath);
 
-#endif
+    int getNumFormatsEnabled() { return m_numEnabled; }
+    QSet<QString> getSuffixes(QString category = "all");
+    QSet<QString> getMimetypes(QString category = "all");
+    QSet<QString> getSuffixes(QStringList categories);
+    QSet<QString> getMimetypes(QStringList categories);
+    QSet<QString> getWritableSuffixes(QString category = "all");
+    QSet<QString> getWritableSuffixes(QStringList categories);
+    QString getDescription(QString suffix);
 
-    return "";
+private:
+    PQCImageHandler();
 
-}
+    QStringList pluginOrder;
+    QHash<QString, PQCImagePlugin*> plugins;
+
+    int m_numEnabled;
+    QSet<QString> m_suffixes;
+    QSet<QString> m_mimetypes;
+    QSet<QString> m_writableSuffixes;
+
+    bool m_composedWritableSuffixes;
+
+Q_SIGNALS:
+    void formatsUpdated();
+
+};

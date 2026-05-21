@@ -47,7 +47,6 @@
 #include <pqc_validate.h>
 #include <pqc_notify_cpp.h>
 #include <pqc_messagehandler.h>
-#include <pqc_imageformats.h>
 #include <pqc_providericon.h>
 #include <pqc_providertheme.h>
 #include <pqc_providerthumb.h>

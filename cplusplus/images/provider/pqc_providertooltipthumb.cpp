@@ -23,7 +23,6 @@
 #include <pqc_providertooltipthumb.h>
 #include <pqc_settingscpp.h>
 #include <pqc_configfiles.h>
-#include <pqc_loadimage.h>
 #include <pqc_providerthumb.h>
 #include <QPainter>
 
@@ -54,8 +53,6 @@ void PQCAsyncImageResponseTooltipThumb::run() {
 }
 
 void PQCAsyncImageResponseTooltipThumb::loadImage() {
-
-    qDebug() << "";
 
     loader->loadImage();
 

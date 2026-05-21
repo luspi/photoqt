@@ -22,7 +22,7 @@
 
 #include <scripts/pqc_scriptschromecast.h>
 #include <pqc_localhttpserver.h>
-#include <pqc_loadimage.h>
+#include <pqc_imagehandler.h>
 #include <pqc_settingscpp.h>
 #include <pqc_filefoldermodelCPP.h>
 
@@ -183,9 +183,9 @@ bool PQCScriptsChromeCast::castImage(QString filename) {
 
     } else {
 
-        QImage img;
         QSize orig;
-        PQCLoadImage::get().load(filename, QSize(1920,1080), orig, img);
+        QString err = "";
+        QImage img = PQCImageHandler::get().getImage(filename, QSize(1920,1080), orig, err);
 
         if(img.height() > 1080)
             img = img.scaledToHeight(1080);

@@ -32,9 +32,8 @@
 #include <QTimer>
 #include <pqc_filefoldermodelCPP.h>
 #include <pqc_settingscpp.h>
-#include <pqc_loadimage.h>
+#include <pqc_imagehandler.h>
 #include <scripts/pqc_scriptsfilespaths.h>
-#include <pqc_imageformats.h>
 #include <pqc_extensionsettings.h>
 #include <scripts/pqc_scriptslocalization.h>
 #include <pqc_metadata_cpp.h>
@@ -994,9 +993,9 @@ QVariant PQCExtensionsHandler::callActionWithImage(const QString &id, QVariant a
     qDebug() << "args: id =" << id;
 
     if(m_actions.contains(id)) {
-        QImage img;
         QSize sze;
-        PQCLoadImage::get().load(PQCFileFolderModelCPP::get().getCurrentFile(), QSize(-1,-1), sze, img);
+        QString err = "";
+        QImage img = PQCImageHandler::get().getImage(PQCFileFolderModelCPP::get().getCurrentFile(), QSize(-1,-1), sze, err);
         return m_actions[id]->actionWithImage(PQCFileFolderModelCPP::get().getCurrentFile(), img, additional);
     }
 
@@ -1034,9 +1033,9 @@ void PQCExtensionsHandler::callActionWithImageNonBlocking(const QString &id, QVa
 #else
     QThreadPool::globalInstance()->start([=]() {
 #endif
-        QImage img;
         QSize sze;
-        PQCLoadImage::get().load(PQCFileFolderModelCPP::get().getCurrentFile(), QSize(-1,-1), sze, img);
+        QString err = "";
+        QImage img = PQCImageHandler::get().getImage(PQCFileFolderModelCPP::get().getCurrentFile(), QSize(-1,-1), sze, err);
         if(m_actions.contains(id)) {
             QVariant ret = m_actions[id]->actionWithImage(PQCFileFolderModelCPP::get().getCurrentFile(), img, additional);
             Q_EMIT replyForActionWithImage(id, ret);

@@ -20,42 +20,57 @@
  **                                                                      **
  **************************************************************************/
 
-#include <pqc_loadimage.h>
-#include <pqc_loadimage_archive.h>
-#include <pqc_imagecache.h>
-#include <scripts/pqc_scriptsimages.h>
-#include <scripts/pqc_scriptscolorprofiles.h>
+#include <pqc_imageplugin_libarchive.h>
 #include <pqc_settingscpp.h>
-#include <pqc_configfiles.h>
-#include <pqc_loadimage.h>
-#include <pqc_imageformats.h>
-#include <pqc_notify_cpp.h>
+#include <pqc_imagecache.h>
+#include <scripts/pqc_scriptscolorprofiles.h>
+#include <scripts/pqc_scriptsimages.h>
+#include <pqc_imagehandler.h>
 
-#include <QSize>
+#include <QFile>
 #include <QtDebug>
-#include <QFileInfo>
-#include <QImage>
-#include <QProcess>
 #include <QTemporaryFile>
+#include <QProcess>
 
 #ifdef PQMLIBARCHIVE
 #include <archive.h>
 #include <archive_entry.h>
 #endif
 
-PQCLoadImageArchive::PQCLoadImageArchive() {}
+PQCImagePluginLibarchive::PQCImagePluginLibarchive(QString settingsDir) : m_settingsDir(settingsDir) {
 
-const QSize PQCLoadImageArchive::loadSize(QString filename) {
+    m_composedWritableSuffixes = false;
+
+    loadFormats();
+
+}
+
+const QString PQCImagePluginLibarchive::getDescription(QString suffix) {
+    return suffix2description.value(suffix, "");
+}
+
+const QSet<QString> PQCImagePluginLibarchive::getWritableSuffixes() {
+
+    return {};
+
+}
+
+const bool PQCImagePluginLibarchive::writeImage(QImage img, QString targetPath) {
+    return false;
+}
+
+const QSize PQCImagePluginLibarchive::loadSize(QString path) {
 
 #ifdef PQMLIBARCHIVE
 
     // filter out name of archivefile and of compressed file inside
-    QString archivefile = filename;
+    QString archivefile = path;
     QString compressedFilename = "";
-    if(archivefile.contains("::ARC::")) {
+    const int idx = archivefile.indexOf("::ARC::");
+    if(idx > -1) {
         QStringList parts = archivefile.split("::ARC::");
-        archivefile = parts.at(1);
-        compressedFilename = parts.at(0);
+        archivefile = archivefile.mid(idx+7);
+        compressedFilename = archivefile.mid(0,idx);
     } else {
         QStringList cont = PQCScriptsImages::get().listArchiveContentWithoutThread(archivefile);
         if(cont.length() == 0) {
@@ -169,7 +184,7 @@ const QSize PQCLoadImageArchive::loadSize(QString filename) {
 
             tempFile.flush();
 
-            QSize origSize = PQCLoadImage::get().load(tempFile.fileName());
+            QSize origSize = PQCImageHandler::get().getSize(tempFile.fileName());
 
             r = archive_read_free(a);
             if(r != ARCHIVE_OK)
@@ -191,17 +206,17 @@ const QSize PQCLoadImageArchive::loadSize(QString filename) {
 
 }
 
-const QString PQCLoadImageArchive::load(QString filename, QSize maxSize, QSize &origSize, QImage &img) {
+const QImage PQCImagePluginLibarchive::loadImage(QString path, QSize requestedSize, QSize &origSize, QString &error) {
 
-    qDebug() << "args: filename =" << filename;
-    qDebug() << "args: maxSize =" << maxSize;
+    qDebug() << "args: path =" << path;
+    qDebug() << "args: requestedSize =" << requestedSize;
 
     QString errormsg = "";
 
 #ifdef PQMLIBARCHIVE
 
     // filter out name of archivefile and of compressed file inside
-    QString archivefile = filename;
+    QString archivefile = path;
     QString compressedFilename = "";
     if(archivefile.contains("::ARC::")) {
         QStringList parts = archivefile.split("::ARC::");
@@ -210,17 +225,19 @@ const QString PQCLoadImageArchive::load(QString filename, QSize maxSize, QSize &
     } else {
         QStringList cont = PQCScriptsImages::get().listArchiveContentWithoutThread(archivefile);
         if(cont.length() == 0) {
-            errormsg = "Unable to list contents of archive file...";
-            qWarning() << errormsg;
-            return errormsg;
+            const QString msg = "Unable to list contents of archive file...";
+            error += msg % "\n";
+            qWarning() << msg;
+            return QImage();
         }
         compressedFilename = cont.at(0);
     }
 
     if(!QFileInfo::exists(archivefile)) {
-        errormsg = "File doesn't seem to exist...";
-        qWarning() << errormsg;
-        return errormsg;
+        const QString msg = "File doesn't seem to exist...";
+        error += msg % "\n";
+        qWarning() << msg;
+        return QImage();
     }
 
     QFileInfo info(archivefile);
@@ -244,29 +261,29 @@ const QString PQCLoadImageArchive::load(QString filename, QSize maxSize, QSize &
 
                 p.waitForFinished(15000);
 
-                PQCLoadImage::get().load(tmpDir + compressedFilename, QSize(-1,-1), origSize, img);
+                QImage img = PQCImageHandler::get().getImage(tmpDir + compressedFilename, QSize(-1,-1), origSize, error);
                 QDir dir(tmpDir);
                 dir.removeRecursively();
 
                 // cache image before potentially scaling it
                 if(!img.isNull()) {
-                    PQCScriptsColorProfiles::get().applyColorProfile(filename, img);
-                    PQCImageCache::get().saveImageToCache(filename, PQCScriptsColorProfiles::get().getColorProfileFor(filename), &img);
+                    PQCScriptsColorProfiles::get().applyColorProfile(path, img);
+                    PQCImageCache::get().saveImageToCache(path, PQCScriptsColorProfiles::get().getColorProfileFor(path), &img);
                 }
 
                 // Scale image if necessary
-                if(!maxSize.isEmpty()) {
+                if(!requestedSize.isEmpty()) {
 
                     QSize finalSize = origSize;
 
-                    if(finalSize.width() > maxSize.width() || finalSize.height() > maxSize.height())
-                        finalSize = finalSize.scaled(maxSize, Qt::KeepAspectRatio);
+                    if(finalSize.width() > requestedSize.width() || finalSize.height() > requestedSize.height())
+                        finalSize = finalSize.scaled(requestedSize, Qt::KeepAspectRatio);
 
-                    img = img.scaled(finalSize, Qt::IgnoreAspectRatio, Qt::SmoothTransformation);
+                    return img.scaled(finalSize, Qt::IgnoreAspectRatio, Qt::SmoothTransformation);
 
                 }
 
-                return "";
+                return img;
 
             } else
                 qWarning() << "Failed to run unrar, trying with libarchive";
@@ -294,10 +311,13 @@ const QString PQCLoadImageArchive::load(QString filename, QSize maxSize, QSize &
 
     // If something went wrong, output error message and stop here
     if(r != ARCHIVE_OK) {
-        errormsg = QString("archive_read_open_filename() returned code of %1").arg(r);
-        qWarning() << errormsg;
-        return errormsg;
+        const QString msg = QString("archive_read_open_filename() returned code of %1").arg(r);
+        error += msg % "\n";
+        qWarning() << msg;
+        return QImage();
     }
+
+    QImage img;
 
     // Loop over entries in archive
     struct archive_entry *entry;
@@ -318,9 +338,10 @@ const QString PQCLoadImageArchive::load(QString filename, QSize maxSize, QSize &
             int64_t size = archive_entry_size(entry);
 
             if(size <= 0) {
-                const QString err = QString("Invalid image size of file in archive: %1").arg(size);
-                qWarning() << err;
-                return err;
+                const QString msg = QString("Invalid image size of file in archive: %1").arg(size);
+                error += msg % "\n";
+                qWarning() << msg;
+                return QImage();
             }
 
             // Create a buffer of that size to hold the image data
@@ -333,9 +354,10 @@ const QString PQCLoadImageArchive::load(QString filename, QSize maxSize, QSize &
             while (total < size) {
                 la_ssize_t chunk = archive_read_data(a, ptr + total, size - total);
                 if(chunk < 0) {
-                    const QString err = QString("Invalid chunk read: %1").arg(archive_error_string(a));
-                    qWarning() << err;
-                    return err;
+                    const QString msg = QString("Invalid chunk read: %1").arg(archive_error_string(a));
+                    error += msg % "\n";
+                    qWarning() << msg;
+                    return QImage();
                 }
 
                 if (chunk == 0) {
@@ -346,9 +368,10 @@ const QString PQCLoadImageArchive::load(QString filename, QSize maxSize, QSize &
             }
 
             if(total != size) {
-                errormsg = QString("Failed to read image data, read size (%1) doesn't match expected size (%2)...").arg(total).arg(size);
-                qWarning() << errormsg;
-                return errormsg;
+                const QString msg = QString("Failed to read image data, read size (%1) doesn't match expected size (%2)...").arg(total).arg(size);
+                error += msg % "\n";
+                qWarning() << msg;
+                return QImage();
             }
 
             // and finish off by turning it into an image
@@ -359,22 +382,24 @@ const QString PQCLoadImageArchive::load(QString filename, QSize maxSize, QSize &
 
             // write buffer to file
             if(!tempFile.open()) {
-                const QString err = "Unable to load archive file to temporary file.";
-                qWarning() << err;
-                return err;
+                const QString msg = "Unable to load archive file to temporary file.";
+                error += msg % "\n";
+                qWarning() << msg;
+                return QImage();
             }
 
             if(tempFile.write(data) != data.size()) {
-                const QString err = "Failed to write image to temporary file.";
-                qWarning() << err;
-                return err;
+                const QString msg = "Failed to write image to temporary file.";
+                error += msg % "\n";
+                qWarning() << msg;
+                return QImage();
             }
 
             tempFile.flush();
 
             // attempt to load file
-            QString err = PQCLoadImage::get().load(tempFile.fileName(), QSize(-1,-1), origSize, img);
-            if(!err.isEmpty())
+            img = PQCImageHandler::get().getImage(tempFile.fileName(), QSize(-1,-1), origSize, error);
+            if(img.isNull())
                 qWarning() << "Failed to load image inside archive:" << filenameinside;
 
             // Nothing more to do except some cleaning up below
@@ -396,29 +421,103 @@ const QString PQCLoadImageArchive::load(QString filename, QSize maxSize, QSize &
 
         if(PQCSettingsCPP::get().getMetadataAutoRotation()) {
             // apply transformations if any
-            PQCScriptsImages::get().applyExifOrientation(filename, img);
+            PQCScriptsImages::get().applyExifOrientation(path, img);
         }
 
-        PQCScriptsColorProfiles::get().applyColorProfile(filename, img);
-        PQCImageCache::get().saveImageToCache(filename, PQCScriptsColorProfiles::get().getColorProfileFor(filename), &img);
+        PQCScriptsColorProfiles::get().applyColorProfile(path, img);
+        PQCImageCache::get().saveImageToCache(path, PQCScriptsColorProfiles::get().getColorProfileFor(path), &img);
     }
 
     // Scale image if necessary
-    if(!maxSize.isEmpty()) {
-        img = img.scaled(origSize.scaled(maxSize, Qt::KeepAspectRatio),
+    if(!requestedSize.isEmpty()) {
+        img = img.scaled(origSize.scaled(requestedSize, Qt::KeepAspectRatio),
                          Qt::IgnoreAspectRatio,
                          (PQCSettingsCPP::get().getImageviewRescalingSmooth() ? Qt::SmoothTransformation : Qt::FastTransformation));
     }
 
-    return "";
-
-#else
-
-    origSize = QSize(-1,-1);
-    errormsg = "Failed to load archive, LibArchive not supported by this build of PhotoQt!";
-    qWarning() << errormsg;
-    return errormsg;
+    return img;
 
 #endif
+
+    return QImage();
+
+}
+
+void PQCImagePluginLibarchive::setEnabled(QString suffix, QString mimetype, bool enabled) {
+
+}
+
+/***********************************************/
+
+void PQCImagePluginLibarchive::loadFormats() {
+
+    m_suffixes.clear();
+    m_toggledSuffixes.clear();
+    m_allSuffixes.clear();
+
+    // first we read the toggled suffixes from the settings file
+    const QString suffixFilename = m_settingsDir % "/libarchive_suffixes";
+    QFile suffixFile(suffixFilename);
+    if(!suffixFile.open(QIODevice::ReadOnly|QIODevice::Text)) {
+        qDebug() << "Failed to open settings file at:" << suffixFilename;
+    } else {
+        QTextStream suffixIn(&suffixFile);
+        const QStringList tmp = suffixIn.readAll().split("\n", Qt::SkipEmptyParts);
+        m_toggledSuffixes = QSet<QString>(tmp.begin(), tmp.end());
+        suffixFile.close();
+    }
+
+    // then we store ALL supported suffixes
+    m_allSuffixes = {"cb7", "cbr", "cbt", "cbz", "rar", "tar", "7z", "zip", "tar.gz",
+                     "taz", "tgz", "tar.xz", "txz", "tar.bz2", "tb2", "tbz", "tbz2",
+                     "tz2", "tar.zst", "tzst", "tar.lz", "tar.lzma", "tlz", "tar.lzo",
+                     "tar.Z", "tZ", ""};
+
+    // these are the currently enabled ones
+    m_suffixes = m_allSuffixes - m_toggledSuffixes;
+
+    suffix2description = {
+        {"cb7", "Comic book archive"},
+        {"cbr", "Comic book archive"},
+        {"cbt", "Comic book archive"},
+        {"cbz", "Comic book archive"},
+        {"rar", "RAR file format"},
+        {"tar", "TAR file format"},
+        {"7z", "7z file format"},
+        {"zip", "ZIP file format"},
+        {"tar.gz",  "TAR file format (GZIP)"},
+        {"taz,tgz", "TAR file format (GZIP)"},
+        {"tar.xz", "TAR file format (XZ)"},
+        {"txz",    "TAR file format (XZ)"},
+        {"tar.bz2", "TAR file format (BZIP2)"},
+        {"tb2",     "TAR file format (BZIP2)"},
+        {"tbz",     "TAR file format (BZIP2)"},
+        {"tbz2",    "TAR file format (BZIP2)"},
+        {"tz2",     "TAR file format (BZIP2)"},
+        {"tar.zst", "TAR file format (ZSTD)"},
+        {"tzst",    "TAR file format (ZSTD)"},
+        {"tar.lz", "TAR file format (LZIP)"},
+        {"tar.lzma", "TAR file format (LZMA)"},
+        {"tlz",      "TAR file format (LZMA)"},
+        {"tar.lzo", "TAR file format (LZOP)"},
+        {"tar.ZZ", "TAR file format (COMPRESS)"},
+        {"tZ",     "TAR file format (COMPRESS)"}
+    };
+
+    /********************************/
+
+    m_mimetypes.clear();
+    m_toggledMimetypes.clear();
+    m_allMimetypes.clear();
+
+    // no mimetypes here currently
+
+    Q_EMIT formatsUpdated();
+
+}
+
+void PQCImagePluginLibarchive::saveFormats() {
+
+    // TODO
 
 }

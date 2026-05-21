@@ -33,13 +33,12 @@
 #include <QDirIterator>
 #include <pqc_configfiles.h>
 #include <pqc_filefoldermodel.h>
-#include <pqc_imageformats.h>
-#include <pqc_loadimage.h>
 #include <pqc_notify_cpp.h>
 #include <pqc_resolutioncache.h>
 #include <pqc_settingscpp.h>
 #include <scripts/pqc_scriptsimages.h>
 #include <pqc_helper.h>
+#include <pqc_imagehandler.h>
 
 #ifdef PQMLIBARCHIVE
 #include <archive.h>
@@ -81,9 +80,9 @@ PQCFileFolderModel::PQCFileFolderModel(QObject *parent) : QObject(parent) {
     m_entriesFileDialog.clear();
 
     m_nameFilters = QStringList();
-    m_restrictToSuffixes = PQCImageFormats::get().getEnabledFormatsSet();
+    m_restrictToSuffixes = PQCImageHandler::get().getSuffixes();
     m_filenameFilters = QStringList();
-    m_restrictToMimeTypes = PQCImageFormats::get().getEnabledMimeTypes();
+    m_restrictToMimeTypes = PQCImageHandler::get().getMimetypes();
     m_imageResolutionFilter = QSize(0,0);
     m_fileSizeFilter = 0;
     m_justLeftViewerMode = false;
@@ -418,14 +417,13 @@ void PQCFileFolderModel::setLoadVirtualFolderMainView(bool val) {
 /********************************************/
 /********************************************/
 
-QStringList PQCFileFolderModel::getRestrictToSuffixes() {
-    return QStringList(m_restrictToSuffixes.begin(), m_restrictToSuffixes.end());
+QSet<QString> PQCFileFolderModel::getRestrictToSuffixes() {
+    return m_restrictToSuffixes;
 }
-void PQCFileFolderModel::setRestrictToSuffixes(QStringList val) {
-    QSet<QString> _val(val.begin(), val.end());
-    if(m_restrictToSuffixes == _val)
+void PQCFileFolderModel::setRestrictToSuffixes(QSet<QString> val) {
+    if(m_restrictToSuffixes == val)
         return;
-    m_restrictToSuffixes = _val;
+    m_restrictToSuffixes = val;
     Q_EMIT restrictToSuffixesChanged();
     loadDelayMainView->start();
     loadDelayFileDialog->start();
@@ -457,10 +455,10 @@ void PQCFileFolderModel::setFilenameFilters(QStringList val) {
     checkFilterActive();
 }
 
-QStringList PQCFileFolderModel::getRestrictToMimeTypes() {
+QSet<QString> PQCFileFolderModel::getRestrictToMimeTypes() {
     return m_restrictToMimeTypes;
 }
-void PQCFileFolderModel::setRestrictToMimeTypes(QStringList val) {
+void PQCFileFolderModel::setRestrictToMimeTypes(QSet<QString> val) {
     if(m_restrictToMimeTypes == val)
         return;
     m_restrictToMimeTypes = val;
@@ -583,7 +581,7 @@ void PQCFileFolderModel::advancedSortMainView(QString advSortCriteria, bool advS
 
                 QSize size = PQCResolutionCache::get().getResolution(fn);
                 if(!size.isValid()) {
-                    size = PQCLoadImage::get().load(fn);
+                    size = PQCImageHandler::get().getSize(fn);
                     if(size.isValid())
                         PQCResolutionCache::get().saveResolution(fn, size);
                 }
@@ -599,8 +597,8 @@ void PQCFileFolderModel::advancedSortMainView(QString advSortCriteria, bool advS
                     requestedSize = QSize(-1,-1);
 
                 QSize origSize;
-                QImage img;
-                QString err = PQCLoadImage::get().load(fn, requestedSize, origSize, img);
+                QString err = "";
+                QImage img = PQCImageHandler::get().getImage(fn, requestedSize, origSize, err);
                 if(!err.isEmpty()) {
                     qWarning() << "Error loading image:" << err;
                     continue;
@@ -749,8 +747,8 @@ void PQCFileFolderModel::advancedSortMainView(QString advSortCriteria, bool advS
                     requestedSize = QSize(-1,-1);
 
                 QSize origSize;
-                QImage img;
-                QString err = PQCLoadImage::get().load(fn, requestedSize, origSize, img);
+                QString err = "";
+                QImage img = PQCImageHandler::get().getImage(fn, requestedSize, origSize, err);
                 if(!err.isEmpty()) {
                     qWarning() << "Error loading image:" << err;
                     continue;
@@ -1410,7 +1408,7 @@ QStringList PQCFileFolderModel::getAllFiles(QString folder, bool ignoreFiltersEx
     for(const QString &f : std::as_const(foldersToScan)) {
 
         // ratings filters might not be stored in the file so we have to assume the content might have changed
-        if(m_ratingsFilter || !cache.loadFilesFromCache(f, showHidden, sortReversed, sortBy, m_restrictToSuffixes, m_nameFilters, m_filenameFilters, m_restrictToMimeTypes, m_imageResolutionFilter, m_fileSizeFilter, ignoreFiltersExceptDefault, PQCImageFormats::get().getEnabledFormatsNum(), ret)) {
+        if(m_ratingsFilter || !cache.loadFilesFromCache(f, showHidden, sortReversed, sortBy, m_restrictToSuffixes, m_nameFilters, m_filenameFilters, m_restrictToMimeTypes, m_imageResolutionFilter, m_fileSizeFilter, ignoreFiltersExceptDefault, PQCImageHandler::get().getNumFormatsEnabled(), ret)) {
 
             QStringList ret_cur;
 
@@ -1473,7 +1471,7 @@ QStringList PQCFileFolderModel::getAllFiles(QString folder, bool ignoreFiltersEx
                             const int width = m_imageResolutionFilter.width();
                             const int height = m_imageResolutionFilter.height();
 
-                            QSize origSize = PQCLoadImage::get().load(f.absoluteFilePath());
+                            QSize origSize = PQCImageHandler::get().getSize(f.absoluteFilePath());
 
                             if(greater && ((origSize.width() < width && width > 0) || (origSize.height() < height && height > 0)))
                                 continue;
@@ -1577,7 +1575,7 @@ QStringList PQCFileFolderModel::getAllFiles(QString folder, bool ignoreFiltersEx
 
             // ratings might not be stored in the file, so don't cache this
             if(!m_ratingsFilter)
-                cache.saveFilesToCache(f, showHidden, sortReversed, sortBy, m_restrictToSuffixes, m_nameFilters, m_filenameFilters, m_restrictToMimeTypes, m_imageResolutionFilter, m_fileSizeFilter, ignoreFiltersExceptDefault, PQCImageFormats::get().getEnabledFormatsNum(), ret_cur);
+                cache.saveFilesToCache(f, showHidden, sortReversed, sortBy, m_restrictToSuffixes, m_nameFilters, m_filenameFilters, m_restrictToMimeTypes, m_imageResolutionFilter, m_fileSizeFilter, ignoreFiltersExceptDefault, PQCImageHandler::get().getNumFormatsEnabled(), ret_cur);
 
         }
 

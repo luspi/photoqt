@@ -30,7 +30,7 @@ Item {
 
     function copyFile() {
 
-        var targetfile = PQCScriptsFilesPaths.selectFileFromDialog(qsTranslate("filemanagement", "Copy here"), PQCFileFolderModel.currentFile, PQCImageFormats.detectFormatId(PQCFileFolderModel.currentFile), true);
+        var targetfile = PQCScriptsFilesPaths.selectFileFromDialog(qsTranslate("filemanagement", "Copy here"), PQCFileFolderModel.currentFile, PQCScriptsFilesPaths.getSuffix(PQCFileFolderModel.currentFile), true);
         if(targetfile !== "" && targetfile !== PQCFileFolderModel.currentFile) {
             if(!PQCScriptsFileManagement.copyFile(PQCFileFolderModel.currentFile, targetfile)) {
                 PQCScriptsConfig.inform(qsTranslate("filemanagement", "Error"),

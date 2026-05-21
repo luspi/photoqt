@@ -2435,15 +2435,18 @@ Loader {
             var suffix1 = PQCScriptsFilesPaths.getSuffix(PQCFileFolderModel.currentFile)
             var suffix2 = PQCScriptsFilesPaths.getCompleteSuffix(PQCFileFolderModel.currentFile)
 
+            var libarchiveSuffixes = PQCImageHandler.getSuffixes("libarchive")
+            var popplerSuffixes    = PQCImageHandler.getSuffixes("poppler")
+
             var comicbookSuffix = ["cbt", "cbr", "cbz", "cb7"]
             if((PQCSettings.filetypesComicBookAlwaysEnterAutomatically &&
                     comicbookSuffix.indexOf(suffix1) > -1 &&
                     !PQCFileFolderModel.currentFile.includes("::ARC::")) ||
                (PQCSettings.filetypesArchiveAlwaysEnterAutomatically &&
-                    (PQCImageFormats.getEnabledFormatsLibArchive().indexOf(suffix1) > -1 || PQCImageFormats.getEnabledFormatsLibArchive().indexOf(suffix2) > -1) &&
+                    (libarchiveSuffixes.indexOf(suffix1) > -1 || libarchiveSuffixes.indexOf(suffix2) > -1) &&
                     !PQCFileFolderModel.currentFile.includes("::ARC::")) ||
                (PQCSettings.filetypesDocumentAlwaysEnterAutomatically &&
-                    (PQCImageFormats.getEnabledFormatsPoppler().indexOf(suffix1) > -1 || PQCImageFormats.getEnabledFormatsPoppler().indexOf(suffix2) > -1) &&
+                    (popplerSuffixes.indexOf(suffix1) > -1 || popplerSuffixes.indexOf(suffix2) > -1) &&
                     !PQCFileFolderModel.currentFile.includes("::PDF::"))) {
                 return true
             }

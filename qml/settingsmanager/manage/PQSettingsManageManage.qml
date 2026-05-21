@@ -127,8 +127,9 @@ PQSetting {
                             PQCSettings.resetToDefault()
                         else if(cancel.action === "shortcuts")
                             PQCShortcuts.resetToDefault()
-                        else if(cancel.action === "formats")
-                            PQCImageFormats.resetToDefault()
+                        // TODO
+                        // else if(cancel.action === "formats")
+                            // PQCImageFormats.resetToDefault()
 
                         cancel.action = ""
 
@@ -170,13 +171,15 @@ PQSetting {
 
                 PQCShortcuts.closeDatabase()
                 PQCSettings.closeDatabase()
-                PQCImageFormats.closeDatabase()
+                // TODO
+                // PQCImageFormats.closeDatabase()
 
                 PQCScriptsConfig.exportConfigTo("")
 
                 PQCShortcuts.reopenDatabase()
                 PQCSettings.reopenDatabase()
-                PQCImageFormats.reopenDatabase()
+                // TODO
+                // PQCImageFormats.reopenDatabase()
 
             }
         },
@@ -189,7 +192,8 @@ PQSetting {
 
                 PQCShortcuts.closeDatabase()
                 PQCSettings.closeDatabase()
-                PQCImageFormats.closeDatabase()
+                // TODO
+                // PQCImageFormats.closeDatabase()
 
                 if(PQCScriptsConfig.importConfigFrom("")) {
                     PQCScriptsConfig.inform(qsTranslate("settingsmanager", "Restart required"),

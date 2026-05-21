@@ -194,9 +194,11 @@ Item {
                     var suffix1 = PQCScriptsFilesPaths.getSuffixLowerCase(event.urls[i])
                     var suffix2 = PQCScriptsFilesPaths.getCompleteSuffixLowerCase(event.urls[i])
                     var mimetype = PQCScriptsImages.getMimetypeForFile(event.urls[i])
-                    if(PQCImageFormats.getEnabledFormats().indexOf(suffix1) > -1 ||
-                       PQCImageFormats.getEnabledFormats().indexOf(suffix2) > -1 ||
-                       PQCImageFormats.getEnabledMimeTypes().indexOf(mimetype) > -1) {
+
+                    const suffixes = PQCImageHandler.getSuffixes()
+                    const mimetypes = PQCImageHandler.getMimetypes()
+
+                    if(suffixes.indexOf(suffix1) > -1 || suffixes.indexOf(suffix2) > -1 || mimetypes.indexOf(mimetype) > -1) {
                         PQCFileFolderModel.fileInFolderMainView = PQCScriptsFilesPaths.cleanPath(PQCScriptsFilesPaths.fromPercentEncoding(event.urls[i]))
                         PQCFileFolderModel.folderFileDialog = PQCScriptsFilesPaths.getDir(PQCFileFolderModel.fileInFolderMainView)
                         found = true
@@ -226,9 +228,11 @@ Item {
                     var suffix1 = PQCScriptsFilesPaths.getSuffixLowerCase(event.urls[i])
                     var suffix2 = PQCScriptsFilesPaths.getCompleteSuffixLowerCase(event.urls[i])
                     var mimetype = PQCScriptsImages.getMimetypeForFile(event.urls[i])
-                    if(PQCImageFormats.getEnabledFormats().indexOf(suffix1) > -1 ||
-                       PQCImageFormats.getEnabledFormats().indexOf(suffix2) > -1 ||
-                       PQCImageFormats.getEnabledMimeTypes().indexOf(mimetype) > -1) {
+
+                    const suffixes = PQCImageHandler.getSuffixes()
+                    const mimetypes = PQCImageHandler.getMimetypes()
+
+                    if(suffixes.indexOf(suffix1) > -1 || suffixes.indexOf(suffix2) > -1 || mimetypes.indexOf(mimetype) > -1) {
                         found = true
                     }
 

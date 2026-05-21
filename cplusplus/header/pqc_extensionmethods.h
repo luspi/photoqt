@@ -53,18 +53,6 @@ public:
     // open settings for extension
     Q_INVOKABLE void showSettingsFor(const QString &id);
 
-    // image formats methods
-    Q_INVOKABLE QVariantList getImageFormatsAllInformation();
-    Q_INVOKABLE QStringList  getImageFormatsThatAreEnabled();
-    Q_INVOKABLE QStringList  getImageFormatsMimeTypesThatAreEnabled();
-    Q_INVOKABLE QVariantList getImageFormatsThatAreWriteable();
-
-    Q_INVOKABLE int          getImageFormatId(const QString filename);
-    Q_INVOKABLE QString      getImageFormatName(const int uniqueid);
-    Q_INVOKABLE QStringList  getImageFormatEndings(const int uniqueid);
-    Q_INVOKABLE QVariantMap  getImageFormatInfo(const int uniqueid);
-    Q_INVOKABLE int          getImageFormatWriteStatus(const int uniqueid);
-
     /*******************************************/
     // no-op to ensure this class is setup
     Q_INVOKABLE void setup() {}

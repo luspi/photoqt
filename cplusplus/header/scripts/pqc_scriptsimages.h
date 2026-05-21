@@ -51,7 +51,7 @@ public:
     bool isMpvVideo(QString path);
     bool isQtVideo(QString path);
     bool isPDFDocument(QString path);
-    bool isArchive(QString path, bool silent = false, bool insideArchive = false);
+    bool isArchive(QString path, bool insideArchive = false);
     int isMotionPhoto(QString path);
     bool isPhotoSphere(QString path);
     bool isComicBook(QString path);
@@ -59,7 +59,6 @@ public:
     bool isNormalImage(QString path);
 
     // info about image
-    QSize getCurrentImageResolution(QString filename);
     bool isItAnimated(QString filename);
     bool supportsTransparency(QString path);
     void setSupportsTransparency(QString path, bool alpha);

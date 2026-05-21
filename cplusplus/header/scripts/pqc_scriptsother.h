@@ -35,7 +35,7 @@ public:
         return instance;
     }
 
-    PQCScriptsOther(PQCScriptsOther const&)     = delete;
+    PQCScriptsOther(PQCScriptsOther const&) = delete;
     void operator=(PQCScriptsOther const&) = delete;
 
     // screenshot handling

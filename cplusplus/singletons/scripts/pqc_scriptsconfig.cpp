@@ -337,7 +337,8 @@ bool PQCScriptsConfig::importConfigFrom(QString path) {
 #ifdef Q_OS_WIN
     int r = archive_read_open_filename_w(a, reinterpret_cast<const wchar_t*>(archiveFile.utf16()), 10240);
 #else
-    int r = archive_read_open_filename(a, archiveFile.toLocal8Bit().data(), 10240);
+    QByteArray tmpPath = QFile::encodeName(archiveFile);
+    int r = archive_read_open_filename(a, tmpPath.constData(), 10240);
 #endif
     if(r != ARCHIVE_OK) {
         qWarning() << "ERROR: archive_read_open_filename() returned code of" << r;
@@ -350,14 +351,53 @@ bool PQCScriptsConfig::importConfigFrom(QString path) {
 
         // Read the current file entry
         // We use the '_w' variant here, as otherwise on Windows this call causes a segfault when a file in an archive contains non-latin characters
-        QString filenameinside = QString::fromWCharArray(archive_entry_pathname_w(entry));
+        // Also, if the archives is malformed or there is an encoding issue then it is possible that this may return a nullptr
+        // and PhotoQt might crash if not handled properly -> check before converting to QString
+        const wchar_t *wpath = archive_entry_pathname_w(entry);
+        if(!wpath) continue;
+        QString filenameinside = QString::fromWCharArray(wpath);
 
         if(allfiles.contains(filenameinside)) {
 
-            // store read data in here
-            const void *buff;
-            size_t size;
-            la_int64_t offset;
+            // Find out the size of the data
+            int64_t size = archive_entry_size(entry);
+
+            if(size <= 0) {
+                qWarning() << QString("Invalid image size of file in archive: %1").arg(size);
+                archive_read_close(a);
+                archive_read_free(a);
+                continue;
+            }
+
+            // Create a buffer of that size to hold the image data
+            QByteArray data;
+            data.resize(size);
+
+            // And finally read the file into the buffer in chunks
+            char* ptr = data.data();
+            qint64 total = 0;
+            while (total < size) {
+                la_ssize_t chunk = archive_read_data(a, ptr + total, size - total);
+                if(chunk < 0) {
+                    qWarning() << QString("Invalid chunk read: %1").arg(archive_error_string(a));
+                    archive_read_close(a);
+                    archive_read_free(a);
+                    continue;
+                }
+
+                if (chunk == 0) {
+                    break;
+                }
+
+                total += chunk;
+            }
+
+            if(total != size) {
+                qWarning() << QString("Failed to read image data, read size (%1) doesn't match expected size (%2)...").arg(total).arg(size);
+                archive_read_close(a);
+                archive_read_free(a);
+                continue;
+            }
 
             // The output file...
             QFile file(allfiles[filenameinside]);
@@ -367,15 +407,7 @@ bool PQCScriptsConfig::importConfigFrom(QString path) {
                 continue;
             }
             QDataStream out(&file);   // we will serialize the data into the file
-
-            // read data
-            while((r = archive_read_data_block(a, &buff, &size, &offset)) == ARCHIVE_OK) {
-                if(r != ARCHIVE_OK || size == 0) {
-                    qWarning() << QString("ERROR: Unable to extract file '%1':").arg(allfiles[filenameinside]) << archive_error_string(a) << " " << QString("(%1)").arg(r) << " - Skipping file!";
-                    break;
-                }
-                out.writeRawData((const char*) buff, size);
-            }
+            out.writeRawData(data, size);
 
             file.close();
 

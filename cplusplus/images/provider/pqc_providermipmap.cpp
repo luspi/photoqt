@@ -23,7 +23,6 @@
 #include <pqc_providermipmap.h>
 #include <pqc_settingscpp.h>
 #include <pqc_configfiles.h>
-#include <pqc_loadimage.h>
 #include <pqc_providerthumb.h>
 #include <QPainter>
 
@@ -54,8 +53,6 @@ void PQCAsyncImageResponseMipMap::run() {
 }
 
 void PQCAsyncImageResponseMipMap::loadImage() {
-
-    qDebug() << "";
 
     loader->loadImage();
     m_image = loader->m_image.scaled(m_requestedSize, Qt::KeepAspectRatio);

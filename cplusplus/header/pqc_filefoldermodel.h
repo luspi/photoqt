@@ -116,9 +116,9 @@ public:
     /********************************************/
     /********************************************/
 
-    Q_PROPERTY(QStringList restrictToSuffixes READ getRestrictToSuffixes WRITE setRestrictToSuffixes NOTIFY restrictToSuffixesChanged)
-    QStringList getRestrictToSuffixes();
-    void setRestrictToSuffixes(QStringList val);
+    Q_PROPERTY(QSet<QString> restrictToSuffixes READ getRestrictToSuffixes WRITE setRestrictToSuffixes NOTIFY restrictToSuffixesChanged)
+    QSet<QString> getRestrictToSuffixes();
+    void setRestrictToSuffixes(QSet<QString> val);
 
     Q_PROPERTY(QStringList nameFilters READ getNameFilters WRITE setNameFilters NOTIFY nameFiltersChanged)
     QStringList getNameFilters();
@@ -130,9 +130,9 @@ public:
 
     Q_PROPERTY(int ratingsFilter MEMBER m_ratingsFilter NOTIFY ratingsFilterChanged)
 
-    Q_PROPERTY(QStringList restrictToMimeTypes READ getRestrictToMimeTypes WRITE setRestrictToMimeTypes NOTIFY restrictToMimeTypesChanged)
-    QStringList getRestrictToMimeTypes();
-    void setRestrictToMimeTypes(QStringList val);
+    Q_PROPERTY(QSet<QString> restrictToMimeTypes READ getRestrictToMimeTypes WRITE setRestrictToMimeTypes NOTIFY restrictToMimeTypesChanged)
+    QSet<QString> getRestrictToMimeTypes();
+    void setRestrictToMimeTypes(QSet<QString> val);
 
     Q_PROPERTY(QSize imageResolutionFilter READ getImageResolutionFilter WRITE setImageResolutionFilter NOTIFY imageResolutionFilterChanged)
     QSize getImageResolutionFilter();
@@ -239,7 +239,7 @@ private:
 
     QStringList m_nameFilters;
     QSet<QString> m_restrictToSuffixes;
-    QStringList m_restrictToMimeTypes;
+    QSet<QString> m_restrictToMimeTypes;
     QStringList m_filenameFilters;
     int m_ratingsFilter;
     QSize m_imageResolutionFilter;

@@ -595,7 +595,7 @@ Flickable {
                 listviews[minCol].append({"currentPath" : pth, "modelData" : j, "offsetY" : columnHeights[minCol], "itemHeight" : columnWidth})
                 columnHeights[minCol] += columnWidth
             } else {
-                var sze = PQCScriptsImages.getCurrentImageResolution(pth)
+                var sze = PQCImageHandler.getSize(pth)
                 var h = (sze.height * (columnWidth/sze.width))
                 listviews[minCol].append({"currentPath" : pth, "modelData" : j, "offsetY" : columnHeights[minCol], "itemHeight" : h})
                 columnHeights[minCol] += h

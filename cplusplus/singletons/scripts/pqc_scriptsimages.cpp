@@ -42,8 +42,7 @@
 #include <scripts/pqc_scriptsfilespaths.h>
 #include <scripts/pqc_scriptsmetadata.h>
 #include <pqc_settingscpp.h>
-#include <pqc_imageformats.h>
-#include <pqc_loadimage.h>
+#include <pqc_imagehandler.h>
 #include <pqc_configfiles.h>
 #include <pqc_notify_cpp.h>
 #include <pqc_helper.h>
@@ -107,9 +106,9 @@ PQCScriptsImages::PQCScriptsImages() {
 
     // if the formats changed then we can't rely on the archive cache anymore
 #if __cplusplus >= 202002L
-    connect(&PQCImageFormats::get(), &PQCImageFormats::formatsUpdated, this, [=, this]() {archiveContentCache.clear();});
+    connect(&PQCImageHandler::get(), &PQCImageHandler::formatsUpdated, this, [=, this]() {archiveContentCache.clear();});
 #else
-    connect(&PQCImageFormats::get(), &PQCImageFormats::formatsUpdated, this, [=]() {archiveContentCache.clear();});
+    connect(&PQCImageHandler::get(), &PQCImageHandler::formatsUpdated, this, [=]() {archiveContentCache.clear();});
 #endif
 
     devicePixelRatioCachedWhen = 0;
@@ -117,12 +116,6 @@ PQCScriptsImages::PQCScriptsImages() {
 }
 
 PQCScriptsImages::~PQCScriptsImages() {}
-
-QSize PQCScriptsImages::getCurrentImageResolution(QString filename) {
-
-    return PQCLoadImage::get().load(filename);
-
-}
 
 bool PQCScriptsImages::isItAnimated(QString filename) {
     QImageReader reader(filename);
@@ -274,7 +267,7 @@ QStringList PQCScriptsImages::listArchiveContentWithoutThread(QString path, QStr
         return archiveContentCache[cacheKey];
     }
 
-    const QStringList enabledFormats = PQCImageFormats::get().getEnabledFormats();
+    const QSet<QString> enabledFormats = PQCImageHandler::get().getSuffixes();
 
 #ifndef Q_OS_WIN
 
@@ -296,7 +289,7 @@ QStringList PQCScriptsImages::listArchiveContentWithoutThread(QString path, QStr
 
                     // remove archives and unsupported files
                     ret.erase(std::remove_if(ret.begin(), ret.end(), [&](const QString &f) {
-                                  return (isArchive(f, true) || !enabledFormats.contains(QFileInfo(f).suffix().toLower()));
+                                  return (isArchive(f) || !enabledFormats.contains(QFileInfo(f).suffix().toLower()));
                               }), ret.end());
 
                     // limit how many files to load
@@ -360,7 +353,7 @@ QStringList PQCScriptsImages::listArchiveContentWithoutThread(QString path, QStr
 
             // If supported file format, append to temporary list
             const QFileInfo info(filenameinside);
-            if(!isArchive(filenameinside, true, true) && (enabledFormats.contains(info.suffix().toLower()) || enabledFormats.contains(info.completeSuffix().toLower())))
+            if(!isArchive(filenameinside, true) && (enabledFormats.contains(info.suffix().toLower()) || enabledFormats.contains(info.completeSuffix().toLower())))
                 ret.append(filenameinside);
 
             // limit how many files to load
@@ -416,16 +409,16 @@ bool PQCScriptsImages::isMpvVideo(QString path) {
 
 #ifdef PQMVIDEOMPV
 
-    QString suf = QFileInfo(path).suffix().toLower();
-    if(PQCImageFormats::get().getEnabledFormatsLibmpvSet().contains(suf)) {
+    QFileInfo info(path);
+    const QSet<QString> suffixes = PQCImageHandler::get().getSuffixes("libmpv");
+    if(suffixes.contains(info.suffix().toLower()) || suffixes.contains(info.completeSuffix().toLower())) {
 
         supported = true;
 
     } else {
 
         QMimeDatabase db;
-        QString mimetype = db.mimeTypeForFile(path).name();
-        if(PQCImageFormats::get().getEnabledMimeTypesLibmpvSet().contains(mimetype))
+        if(PQCImageHandler::get().getMimetypes("libmpv").contains(db.mimeTypeForFile(path).name()))
             supported = true;
 
     }
@@ -451,16 +444,16 @@ bool PQCScriptsImages::isQtVideo(QString path) {
 
 #ifdef PQMVIDEOQT
 
-    QString suf = QFileInfo(path).suffix().toLower();
-    if(PQCImageFormats::get().getEnabledFormatsVideoSet().contains(suf)) {
+    QFileInfo info = QFileInfo(path);
+    const QSet<QString> suffixes = PQCImageHandler::get().getSuffixes("video");
+    if(suffixes.contains(info.suffix().toLower()) || suffixes.contains(info.completeSuffix().toLower())) {
 
         supported = true;
 
     } else {
 
         QMimeDatabase db;
-        QString mimetype = db.mimeTypeForFile(path).name();
-        if(PQCImageFormats::get().getEnabledMimeTypesVideoSet().contains(mimetype))
+        if(PQCImageHandler::get().getMimetypes("video").contains(db.mimeTypeForFile(path).name()))
             supported = true;
 
     }
@@ -483,12 +476,13 @@ bool PQCScriptsImages::isPDFDocument(QString path) {
     qDebug() << "args: path =" << path;
 
 #if defined(PQMPOPPLER) || defined(PQMQTPDF)
-    const QSet<QString> set = PQCImageFormats::get().getEnabledFormatsPopplerSet();
-    if(set.contains(QFileInfo(path).suffix().toLower()) || set.contains(QFileInfo(path).completeSuffix().toLower()))
+    QFileInfo info(path);
+    const QSet<QString> set = PQCImageHandler::get().getSuffixes("pdf");
+    if(set.contains(info.suffix().toLower()) || set.contains(info.completeSuffix().toLower()))
         return true;
 
     QMimeDatabase db;
-    if(PQCImageFormats::get().getEnabledMimeTypesPopplerSet().contains(db.mimeTypeForFile(path).name()))
+    if(PQCImageHandler::get().getMimetypes("pdf").contains(db.mimeTypeForFile(path).name()))
         return true;
 #endif
 
@@ -496,20 +490,16 @@ bool PQCScriptsImages::isPDFDocument(QString path) {
 
 }
 
-bool PQCScriptsImages::isArchive(QString path, bool silent, bool insideArchive) {
+bool PQCScriptsImages::isArchive(QString path, bool insideArchive) {
 
-    // each entry in an archive is checked for whether it is an archive or not
-    // for archives with many files, this generates a LOT of output
-    // thus for that check we set the 'silent' flat
-    if(!silent) qDebug() << "args: path =" << path;
-
-    const QSet<QString> set = PQCImageFormats::get().getEnabledFormatsLibArchiveSet();
-    if(set.contains(QFileInfo(path).suffix().toLower()) || set.contains(QFileInfo(path).completeSuffix().toLower()))
+    QFileInfo info(path);
+    const QSet<QString> set = PQCImageHandler::get().getSuffixes("libarchive");
+    if(set.contains(info.suffix().toLower()) || set.contains(info.completeSuffix().toLower()))
         return true;
 
     if(!insideArchive) {
         QMimeDatabase db;
-        if(PQCImageFormats::get().getEnabledMimeTypesLibArchiveSet().contains(db.mimeTypeForFile(path).name()))
+        if(PQCImageHandler::get().getMimetypes("libarchive").contains(db.mimeTypeForFile(path).name()))
             return true;
     }
 
@@ -870,8 +860,8 @@ QVariantList PQCScriptsImages::getZXingData(QString path) {
 #ifdef PQMZXINGQT
 
     QSize origSize;
-    QImage img;
-    PQCLoadImage::get().load(path, QSize(-1,-1), origSize, img);
+    QString err = "";
+    QImage img = PQCImageHandler::get().getImage(path, QSize(-1,-1), origSize, err);
 
     // Read from QImage
     const QList<ZXingQt::Barcode> codes = ZXingQt::ReadBarcodes(img);
@@ -888,8 +878,8 @@ QVariantList PQCScriptsImages::getZXingData(QString path) {
 #elif defined(PQMZXING)
 
     QSize origSize;
-    QImage img;
-    PQCLoadImage::get().load(path, QSize(-1,-1), origSize, img);
+    QString err = "";
+    QImage img = PQCImageHandler::get().getImage(path, QSize(-1,-1), origSize, err);
 
     ZXing::ImageFormat frmt;
     switch (img.format()) {
@@ -1253,7 +1243,7 @@ bool PQCScriptsImages::extractFrameAndSave(QString path, int frameNumber) {
     const QString defaultfile = info.absolutePath() % "/" % info.baseName() % "_" % QString::number(frameNumber) % "." % suffix;
 
     // ask user to confirm target file
-    const QString targetfile = PQCScriptsFilesPaths::get().selectFileFromDialog("Save", defaultfile, PQCImageFormats::get().detectFormatId(defaultfile), true);
+    const QString targetfile = PQCScriptsFilesPaths::get().selectFileFromDialog("Save", defaultfile, suffix, true);
 
     // no file selected/dialog cancelled
     if(targetfile.isEmpty())
@@ -1503,7 +1493,7 @@ QString PQCScriptsImages::getNameFromMimetype(QString mimetype, QString filename
 
     QString val = db.mimeTypeForName(mimetype).comment();
     if(val.isEmpty())
-        val = PQCImageFormats::get().getFormatName(PQCImageFormats::get().detectFormatId(filename));
+        val = PQCImageHandler::get().getDescription(QFileInfo(filename).suffix());
 
     return val;
 

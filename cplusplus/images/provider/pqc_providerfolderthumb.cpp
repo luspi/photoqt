@@ -23,7 +23,7 @@
 #include <pqc_providerfolderthumb.h>
 #include <pqc_providerthumb.h>
 #include <pqc_settingscpp.h>
-#include <pqc_imageformats.h>
+#include <pqc_imagehandler.h>
 #include <scripts/pqc_scriptsfilespaths.h>
 #include <QPainter>
 #include <QImage>
@@ -111,13 +111,13 @@ void PQCAsyncImageResponseFolderThumb::run() {
 
     // we cache fileinfo lists to speed up subsequent lodings
     QFileInfoList fileinfolist;
-    const int checknum = PQCImageFormats::get().getEnabledFormatsNum();
+    const int checknum = PQCImageHandler::get().getNumFormatsEnabled();
     if(!PQCAsyncImageResponseFolderThumbCache::get().loadFromCache(m_folder, checknum, fileinfolist)) {
 
         QDir dir(m_folder);
 
         QStringList checkForTheseFormats(checknum);
-        const QSet<QString> lst = PQCImageFormats::get().getEnabledFormatsSet();
+        const QSet<QString> lst = PQCImageHandler::get().getSuffixes();
         for(const QString &c : lst)
             checkForTheseFormats << QString("*.%1").arg(c);
 

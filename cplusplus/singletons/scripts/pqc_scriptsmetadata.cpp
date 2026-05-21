@@ -22,7 +22,7 @@
 
 #include <scripts/pqc_scriptsmetadata.h>
 #include <pqc_configfiles.h>
-#include <pqc_imageformats.h>
+#include <pqc_imagehandler.h>
 #include <pqc_settingscpp.h>
 
 #include <QtDebug>
@@ -811,12 +811,6 @@ bool PQCScriptsMetaData::areFaceTagsSupported(QString filename) {
 
     if(filename.contains("::PDF::") || filename.contains("::ARC::"))
         return false;
-
-    const QString suffix = QFileInfo(filename).suffix().toLower();
-    if(!PQCImageFormats::get().getEnabledFormatsQtSet().contains(suffix) &&
-        !PQCImageFormats::get().getEnabledFormatsMagickSet().contains(suffix)) {
-        return false;
-    }
 
 #if EXIV2_TEST_VERSION(0, 28, 0)
     Exiv2::Image::UniquePtr image;

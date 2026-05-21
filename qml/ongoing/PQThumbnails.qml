@@ -205,10 +205,10 @@ Rectangle {
 
                 if(thumbnails_top.state==="left" || thumbnails_top.state==="right") {
                     for(var i = 0; i < view.numModel; ++i)
-                        pix += PQCScriptsImages.getCurrentImageResolution(PQCFileFolderModel.entriesMainView[i]).height
+                        pix += PQCImageHandler.getSize(PQCFileFolderModel.entriesMainView[i]).height
                 } else {
                     for(var j = 0; j < view.numModel; ++j)
-                        pix += PQCScriptsImages.getCurrentImageResolution(PQCFileFolderModel.entriesMainView[j]).width
+                        pix += PQCImageHandler.getSize(PQCFileFolderModel.entriesMainView[j]).width
                 }
 
                 view.thumbwidths = []

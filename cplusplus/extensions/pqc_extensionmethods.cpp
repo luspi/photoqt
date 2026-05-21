@@ -25,7 +25,6 @@
 #include <scripts/pqc_scriptsshortcuts.h>
 #include <scripts/pqc_scriptsconfig.h>
 #include <pqc_extensionshandler.h>
-#include <pqc_imageformats.h>
 
 PQCExtensionMethods::PQCExtensionMethods(QObject *parent) : QObject(parent) {
 
@@ -79,40 +78,6 @@ void PQCExtensionMethods::showNotification(QString title, QString txt) {
 // run another extension
 void PQCExtensionMethods::runExtension(const QString &id) {
     Q_EMIT PQCNotifyCPP::get().showExtension(id);
-}
-
-QVariantMap PQCExtensionMethods::getImageFormatInfo(const int uniqueid) {
-    return PQCImageFormats::get().getFormatsInfo(uniqueid);
-}
-
-int PQCExtensionMethods::getImageFormatWriteStatus(const int uniqueid) {
-    return PQCImageFormats::get().getWriteStatus(uniqueid);
-}
-
-int PQCExtensionMethods::getImageFormatId(const QString filename) {
-    return PQCImageFormats::get().detectFormatId(filename);
-}
-
-QString PQCExtensionMethods::getImageFormatName(const int uniqueid) {
-    return PQCImageFormats::get().getFormatName(uniqueid);
-}
-
-QStringList PQCExtensionMethods::getImageFormatEndings(const int uniqueid) {
-    return PQCImageFormats::get().getFormatEndings(uniqueid);
-}
-
-QVariantList PQCExtensionMethods::getImageFormatsThatAreWriteable() {
-    return PQCImageFormats::get().getWriteableFormats();
-}
-
-QVariantList PQCExtensionMethods::getImageFormatsAllInformation() {
-    return PQCImageFormats::get().getAllFormats();
-}
-QStringList PQCExtensionMethods::getImageFormatsThatAreEnabled() {
-    return PQCImageFormats::get().getEnabledFormats();
-}
-QStringList PQCExtensionMethods::getImageFormatsMimeTypesThatAreEnabled() {
-    return PQCImageFormats::get().getEnabledMimeTypes();
 }
 
 void PQCExtensionMethods::showSettingsFor(const QString &id) {

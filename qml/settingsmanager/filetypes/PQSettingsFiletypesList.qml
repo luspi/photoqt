@@ -392,7 +392,7 @@ PQSetting {
 
         settingsLoaded = false
 
-        listview.ft = PQCImageFormats.getAllFormats()
+        listview.ft = PQCImageHandler.getSuffixes()
         defaultSettings = composeChecker()
 
         PQCConstants.settingsManagerSettingChanged = false
@@ -402,7 +402,8 @@ PQSetting {
 
     function applyChanges() {
 
-        PQCImageFormats.setAllFormats(listview.ft)
+        // TODO
+        // PQCImageFormats.setAllFormats(listview.ft)
         defaultSettings = composeChecker()
 
         PQCConstants.settingsManagerSettingChanged = false
