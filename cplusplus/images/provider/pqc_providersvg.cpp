@@ -26,7 +26,7 @@
 #include <pqc_notify_cpp.h>
 #include <pqc_look.h>
 #ifdef PQMRESVG
-#include <pqc_loadimage_resvg.h>
+#include <pqc_imagehandler.h>
 #else
 #endif
 #include <QSvgRenderer>
@@ -52,8 +52,10 @@ QImage PQCProviderSVG::requestImage(const QString &url, QSize *origSize, const Q
 
 #ifdef PQMRESVG
 
-    PQCLoadImageResvg::load(url, requestedSize, *origSize, ret);
-    return ret;
+    QString error = "";
+    ret = PQCImageHandler::get().getImageWithPlugin("resvg", url, requestedSize, *origSize, error);
+
+    if(!ret.isNull()) return ret;
 
 #endif
 
@@ -70,22 +72,25 @@ QImage PQCProviderSVG::requestImage(const QString &url, QSize *origSize, const Q
     }
 
     // Store the width/height for later use
-    const QSize defaultSize = svg.defaultSize();
-
-    *origSize = defaultSize;
-
-    const QSize use = (requestedSize.isEmpty() ? defaultSize : requestedSize);
-
-    const QSize fitSize = defaultSize.scaled(use, Qt::KeepAspectRatio);
-    const QRect fitRect(QPoint(0,0), fitSize);
+    *origSize = svg.defaultSize();
+    // some svg's might not have a default size
+    // in that case we fall back to the a default size
+    if(!origSize->isValid())
+        *origSize = QSize(512,512);
 
     // Render SVG into pixmap
-    ret = QImage(fitSize, QImage::Format_ARGB32_Premultiplied);
-    ret.fill(::Qt::transparent);
-    QPainter painter(&ret);
-    svg.render(&painter, fitRect);
-    painter.end();
+    QImage img;
+    if(!requestedSize.isEmpty())
+        img = QImage(origSize->scaled(requestedSize, Qt::KeepAspectRatio), QImage::Format_ARGB32);
+    else
+        img = QImage(*origSize, QImage::Format_ARGB32_Premultiplied);
+    img.fill(::Qt::transparent);
+    QPainter painter(&img);
+    painter.setRenderHint(QPainter::Antialiasing);
+    painter.setRenderHint(QPainter::SmoothPixmapTransform);
+    painter.setRenderHint(QPainter::TextAntialiasing);
+    svg.render(&painter);
 
-    return ret;
+    return img;
 
 }
