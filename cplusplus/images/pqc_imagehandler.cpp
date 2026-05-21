@@ -229,6 +229,17 @@ QImage PQCImageHandler::getImage(QString path, QSize requestedSize, QSize &origS
 
 }
 
+QImage PQCImageHandler::getImageWithPlugin(QString plugin, QString path, QSize requestedSize, QSize &origSize, QString &error) {
+
+    if(!pluginOrder.contains(plugin)) {
+        qWarning() << "Requested plugin" << plugin << "not found.";
+        return QImage();
+    }
+
+    return plugins.value(plugin)->loadImage(path, requestedSize, origSize, error);
+
+}
+
 bool PQCImageHandler::canWrite(QString path) {
 
     QFileInfo info(path);

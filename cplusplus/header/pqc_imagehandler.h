@@ -41,6 +41,7 @@ public:
 
     QSize getSize(QString path);
     QImage getImage(QString path, QSize requestedSize, QSize &origSize, QString &error);
+    QImage getImageWithPlugin(QString plugin, QString path, QSize requestedSize, QSize &origSize, QString &error);
 
     bool canWrite(QString path);
     bool writeImage(QImage img, QString targetPath);
