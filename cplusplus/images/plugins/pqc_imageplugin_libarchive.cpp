@@ -66,10 +66,11 @@ const QSize PQCImagePluginLibarchive::loadSize(QString path) {
     // filter out name of archivefile and of compressed file inside
     QString archivefile = path;
     QString compressedFilename = "";
-    if(archivefile.contains("::ARC::")) {
+    const int idx = archivefile.indexOf("::ARC::");
+    if(idx > -1) {
         QStringList parts = archivefile.split("::ARC::");
-        archivefile = parts.at(1);
-        compressedFilename = parts.at(0);
+        archivefile = archivefile.mid(idx+7);
+        compressedFilename = archivefile.mid(0,idx);
     } else {
         QStringList cont = PQCScriptsImages::get().listArchiveContentWithoutThread(archivefile);
         if(cont.length() == 0) {
