@@ -48,19 +48,19 @@ public:
         connect(&PQCScriptsClipboard::get(), &PQCScriptsClipboard::clipboardUpdated, this, &PQCScriptsClipboardQML::clipboardUpdated);
     }
 
-    Q_INVOKABLE bool areFilesInClipboard() {
+    Q_INVOKABLE bool        areFilesInClipboard() {
         return PQCScriptsClipboard::get().areFilesInClipboard();
     }
-    Q_INVOKABLE void copyFilesToClipboard(QStringList files) {
-        PQCScriptsClipboard::get().copyFilesToClipboard(files);
+    Q_INVOKABLE void        copyFilesToClipboard(QStringList files) {
+               PQCScriptsClipboard::get().copyFilesToClipboard(files);
     }
     Q_INVOKABLE QStringList getListOfFilesInClipboard() {
         return PQCScriptsClipboard::get().getListOfFilesInClipboard();
     }
-    Q_INVOKABLE void copyTextToClipboard(QString txt, bool removeHTML= false) {
-        PQCScriptsClipboard::get().copyTextToClipboard(txt, removeHTML);
+    Q_INVOKABLE void        copyTextToClipboard(QString txt, bool removeHTML= false) {
+               PQCScriptsClipboard::get().copyTextToClipboard(txt, removeHTML);
     }
-    Q_INVOKABLE QString getTextFromClipboard() {
+    Q_INVOKABLE QString     getTextFromClipboard() {
         return PQCScriptsClipboard::get().getTextFromClipboard();
     }
 

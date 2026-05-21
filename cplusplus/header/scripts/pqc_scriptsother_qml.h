@@ -47,36 +47,36 @@ public:
 
     // screenshot handling
     Q_INVOKABLE void deleteScreenshots() {
-        PQCScriptsOther::get().deleteScreenshots();
+               PQCScriptsOther::get().deleteScreenshots();
     }
 
     // get methods
-    Q_INVOKABLE qint64 getTimestamp() {
+    Q_INVOKABLE qint64  getTimestamp() {
         return PQCScriptsOther::get().getTimestamp();
     }
     Q_INVOKABLE QString getUniqueId() {
         return PQCScriptsOther::get().getUniqueId();
     }
-    Q_INVOKABLE int getCurrentScreen(QPoint pos) {
+    Q_INVOKABLE int     getCurrentScreen(QPoint pos) {
         return PQCScriptsOther::get().getCurrentScreen(pos);
     }
 
     // print a file
     Q_INVOKABLE void printFile(QString filename) {
-        PQCScriptsOther::get().printFile(filename);
+               PQCScriptsOther::get().printFile(filename);
     }
 
     // color handling
-    Q_INVOKABLE QString addAlphaToColor(QString rgb, int alpha) {
+    Q_INVOKABLE QString      addAlphaToColor(QString rgb, int alpha) {
         return PQCScriptsOther::get().addAlphaToColor(rgb, alpha);
     }
     Q_INVOKABLE QVariantList convertHexToRgba(QString hex) {
         return PQCScriptsOther::get().convertHexToRgba(hex);
     }
-    Q_INVOKABLE QString convertRgbaToHex(QVariantList rgba) {
+    Q_INVOKABLE QString      convertRgbaToHex(QVariantList rgba) {
         return PQCScriptsOther::get().convertRgbaToHex(rgba);
     }
-    Q_INVOKABLE QString convertRgbToHex(QVariantList rgb) {
+    Q_INVOKABLE QString      convertRgbToHex(QVariantList rgb) {
         return PQCScriptsOther::get().convertRgbToHex(rgb);
     }
     Q_INVOKABLE QVariantList selectColor(QVariantList def) {
@@ -85,10 +85,10 @@ public:
 
     // global methods
     Q_INVOKABLE void setPointingHandCursor() {
-        PQCScriptsOther::get().setPointingHandCursor();
+               PQCScriptsOther::get().setPointingHandCursor();
     }
     Q_INVOKABLE void restoreOverrideCursor() {
-        PQCScriptsOther::get().restoreOverrideCursor();
+               PQCScriptsOther::get().restoreOverrideCursor();
     }
     Q_INVOKABLE bool showDesktopNotification(QString summary, QString txt) {
         return PQCScriptsOther::get().showDesktopNotification(summary, txt);

@@ -47,13 +47,13 @@ public:
     Q_INVOKABLE QStringList getAvailableTranslations() {
         return PQCScriptsLocalization::get().getAvailableTranslations();
     }
-    Q_INVOKABLE void updateTranslation(QString code) {
-        PQCScriptsLocalization::get().updateTranslation(code);
+    Q_INVOKABLE void        updateTranslation(QString code) {
+               PQCScriptsLocalization::get().updateTranslation(code);
     }
-    Q_INVOKABLE QString getNameForLocalizationCode(QString code) {
+    Q_INVOKABLE QString     getNameForLocalizationCode(QString code) {
         return PQCScriptsLocalization::get().getNameForLocalizationCode(code);
     }
-    Q_INVOKABLE QString getCurrentTranslation() {
+    Q_INVOKABLE QString     getCurrentTranslation() {
         return PQCScriptsLocalization::get().getCurrentTranslation();
     }
 

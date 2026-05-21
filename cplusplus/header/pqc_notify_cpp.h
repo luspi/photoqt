@@ -45,21 +45,42 @@ public:
     // Thus we cache them here so that we can initialize them properly
     // in its constructor.
 
-    void setFilePath(QString val) { m_filepath = val; Q_EMIT filePathChanged(val); }
-    void setVirtualFiles(QStringList val) { m_virtualFiles = val; Q_EMIT virtualFilesChanged(val); }
-    void setVirtualFolders(QStringList val) { m_virtualFolders = val; Q_EMIT virtualFoldersChanged(val); }
-    void setDebug(bool val) { m_debug = val; Q_EMIT debugChanged(val); }
-    void setStartInTray(bool val) { m_startInTray = val; Q_EMIT startInTrayChanged(val); }
-    void setHaveScreenshots(bool val) { m_haveScreenshots = val; Q_EMIT haveScreenshotsChanged(val); }
-    void setSettingUpdate(QStringList val) { m_settingUpdate = val; Q_EMIT settingUpdateChanged(val); }
+    void setFilePath(QString val) {
+        m_filepath = val;
+        Q_EMIT filePathChanged(val);
+    }
+    void setVirtualFiles(QStringList val) {
+        m_virtualFiles = val;
+        Q_EMIT virtualFilesChanged(val);
+    }
+    void setVirtualFolders(QStringList val) {
+        m_virtualFolders = val;
+        Q_EMIT virtualFoldersChanged(val);
+    }
+    void setDebug(bool val) {
+        m_debug = val;
+        Q_EMIT debugChanged(val);
+    }
+    void setStartInTray(bool val) {
+        m_startInTray = val;
+        Q_EMIT startInTrayChanged(val);
+    }
+    void setHaveScreenshots(bool val) {
+        m_haveScreenshots = val;
+        Q_EMIT haveScreenshotsChanged(val);
+    }
+    void setSettingUpdate(QStringList val) {
+        m_settingUpdate = val;
+        Q_EMIT settingUpdateChanged(val);
+    }
 
-    QString getFilePath() { return m_filepath; }
-    bool getDebug() { return m_debug; }
-    bool getStartInTray() { return m_startInTray; }
-    bool getHaveScreenshots() { return m_haveScreenshots; }
-    QStringList getSettingUpdate() { return m_settingUpdate; }
+    QString getFilePath()           { return m_filepath; }
+    bool getDebug()                 { return m_debug; }
+    bool getStartInTray()           { return m_startInTray; }
+    bool getHaveScreenshots()       { return m_haveScreenshots; }
+    QStringList getSettingUpdate()  { return m_settingUpdate; }
     QStringList getVirtualFolders() { return m_virtualFolders; }
-    QStringList getVirtualFiles() { return m_virtualFiles; }
+    QStringList getVirtualFiles()   { return m_virtualFiles; }
 
     bool isPhotoQtShuttingDown() { return m_shuttingDown; }
 

@@ -50,10 +50,10 @@ public:
     Q_INVOKABLE static QString getConfigInfo(bool formatHTML = false) {
         return PQCScriptsConfig::get().getConfigInfo(formatHTML);
     }
-    Q_INVOKABLE static bool exportConfigTo(QString path) {
+    Q_INVOKABLE static bool    exportConfigTo(QString path) {
         return PQCScriptsConfig::get().exportConfigTo(path);
     }
-    Q_INVOKABLE static bool importConfigFrom(QString path) {
+    Q_INVOKABLE static bool    importConfigFrom(QString path) {
         return PQCScriptsConfig::get().importConfigFrom(path);
     }
 
@@ -74,7 +74,7 @@ public:
         return PQCScriptsConfig::get().isDebugBuild();
     }
     Q_INVOKABLE void callStartupSetupFresh() {
-        PQCScriptsConfig::get().callStartupSetupFresh();
+               PQCScriptsConfig::get().callStartupSetupFresh();
     }
 
     // check for various supported features
@@ -140,23 +140,23 @@ public:
     Q_INVOKABLE QString getLastLoadedImage() {
         return PQCScriptsConfig::get().getLastLoadedImage();
     }
-    Q_INVOKABLE void setLastLoadedImage(QString path) {
-        PQCScriptsConfig::get().setLastLoadedImage(path);
+    Q_INVOKABLE void    setLastLoadedImage(QString path) {
+               PQCScriptsConfig::get().setLastLoadedImage(path);
     }
-    Q_INVOKABLE void deleteLastLoadedImage() {
-        PQCScriptsConfig::get().deleteLastLoadedImage();
+    Q_INVOKABLE void    deleteLastLoadedImage() {
+               PQCScriptsConfig::get().deleteLastLoadedImage();
     }
 
     // pop up messagebox
-    Q_INVOKABLE void inform(QString title, QString txt) {
-        PQCScriptsConfig::get().inform(title, txt);
+    Q_INVOKABLE void    inform(QString title, QString txt) {
+               PQCScriptsConfig::get().inform(title, txt);
     }
-    Q_INVOKABLE bool askForConfirmation(QString title, QString text, QString informativeText) {
+    Q_INVOKABLE bool    askForConfirmation(QString title, QString text, QString informativeText) {
         return PQCScriptsConfig::get().askForConfirmation(title, text, informativeText);
     }
 
     // interface handling at runtime
-    Q_INVOKABLE bool setInterfaceForNextStartup(QString variant) {
+    Q_INVOKABLE bool    setInterfaceForNextStartup(QString variant) {
         return PQCScriptsConfig::get().setInterfaceForNextStartup(variant);
     }
     Q_INVOKABLE QString getInterfaceForNextStartup() {

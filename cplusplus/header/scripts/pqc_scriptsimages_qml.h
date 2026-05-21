@@ -41,47 +41,110 @@ public:
     ~PQCScriptsImagesQML() {}
 
     // check for what kind of image this is
-    Q_INVOKABLE bool isMpvVideo(QString path)    { return PQCScriptsImages::get().isMpvVideo(path); }
-    Q_INVOKABLE bool isQtVideo(QString path)     { return PQCScriptsImages::get().isQtVideo(path); }
-    Q_INVOKABLE bool isPDFDocument(QString path) { return PQCScriptsImages::get().isPDFDocument(path); }
-    Q_INVOKABLE bool isArchive(QString path)     { return PQCScriptsImages::get().isArchive(path); }
-    Q_INVOKABLE int  isMotionPhoto(QString path) { return PQCScriptsImages::get().isMotionPhoto(path); }
-    Q_INVOKABLE bool isPhotoSphere(QString path) { return PQCScriptsImages::get().isPhotoSphere(path); }
-    Q_INVOKABLE bool isComicBook(QString path)   { return PQCScriptsImages::get().isComicBook(path); }
-    Q_INVOKABLE bool isSVG(QString path)         { return PQCScriptsImages::get().isSVG(path); }
-    Q_INVOKABLE bool isNormalImage(QString path) { return PQCScriptsImages::get().isNormalImage(path); }
+    Q_INVOKABLE bool isMpvVideo(QString path) {
+        return PQCScriptsImages::get().isMpvVideo(path);
+    }
+    Q_INVOKABLE bool isQtVideo(QString path) {
+        return PQCScriptsImages::get().isQtVideo(path);
+    }
+    Q_INVOKABLE bool isPDFDocument(QString path) {
+        return PQCScriptsImages::get().isPDFDocument(path);
+    }
+    Q_INVOKABLE bool isArchive(QString path) {
+        return PQCScriptsImages::get().isArchive(path);
+    }
+    Q_INVOKABLE int  isMotionPhoto(QString path) {
+        return PQCScriptsImages::get().isMotionPhoto(path);
+    }
+    Q_INVOKABLE bool isPhotoSphere(QString path) {
+        return PQCScriptsImages::get().isPhotoSphere(path);
+    }
+    Q_INVOKABLE bool isComicBook(QString path) {
+        return PQCScriptsImages::get().isComicBook(path);
+    }
+    Q_INVOKABLE bool isSVG(QString path) {
+        return PQCScriptsImages::get().isSVG(path);
+    }
+    Q_INVOKABLE bool isNormalImage(QString path) {
+        return PQCScriptsImages::get().isNormalImage(path);
+    }
 
     // info about image
-    Q_INVOKABLE bool    isItAnimated(QString filename)                 { return PQCScriptsImages::get().isItAnimated(filename); }
-    Q_INVOKABLE bool    supportsTransparency(QString path)             { return PQCScriptsImages::get().supportsTransparency(path); }
-    Q_INVOKABLE double  getPixelDensity(QString modelName)             { return PQCScriptsImages::get().getPixelDensity(modelName); }
-    Q_INVOKABLE QString getNameFromMimetype(QString mimetype, QString filename) { return PQCScriptsImages::get().getNameFromMimetype(mimetype, filename); }
-    Q_INVOKABLE QString getMimetypeForFile(QString path)               { return PQCScriptsImages::get().getMimetypeForFile(path); }
+    Q_INVOKABLE bool    isItAnimated(QString filename) {
+        return PQCScriptsImages::get().isItAnimated(filename);
+    }
+    Q_INVOKABLE bool    supportsTransparency(QString path) {
+        return PQCScriptsImages::get().supportsTransparency(path);
+    }
+    Q_INVOKABLE double  getPixelDensity(QString modelName) {
+        return PQCScriptsImages::get().getPixelDensity(modelName);
+    }
+    Q_INVOKABLE QString getNameFromMimetype(QString mimetype, QString filename) {
+        return PQCScriptsImages::get().getNameFromMimetype(mimetype, filename);
+    }
+    Q_INVOKABLE QString getMimetypeForFile(QString path) {
+        return PQCScriptsImages::get().getMimetypeForFile(path);
+    }
 
     // do with image
-    Q_INVOKABLE QString      loadImageAndConvertToBase64(QString filename)      { return PQCScriptsImages::get().loadImageAndConvertToBase64(filename); }
-    Q_INVOKABLE QString      extractMotionPhoto(QString path)                   { return PQCScriptsImages::get().extractMotionPhoto(path); }
-    Q_INVOKABLE QVariantList getZXingData(QString path)                         { return PQCScriptsImages::get().getZXingData(path); }
-    Q_INVOKABLE bool         extractFrameAndSave(QString path, int frameNumber) { return PQCScriptsImages::get().extractFrameAndSave(path, frameNumber); }
-    Q_INVOKABLE bool canHaveStarRating(const QString path)                      { return PQCScriptsImages::get().canHaveStarRating(path); }
-    Q_INVOKABLE void setStarRating(const int star, const QString path)          {        PQCScriptsImages::get().setStarRating(star, path); }
-    Q_INVOKABLE int getStarRating(const QString path)                           { return PQCScriptsImages::get().getStarRating(path); }
-    Q_INVOKABLE QString prepareSphereFile(QString path)                         { return PQCScriptsImages::get().prepareSphereFile(path); }
+    Q_INVOKABLE QString      loadImageAndConvertToBase64(QString filename) {
+        return PQCScriptsImages::get().loadImageAndConvertToBase64(filename);
+    }
+    Q_INVOKABLE QString      extractMotionPhoto(QString path) {
+        return PQCScriptsImages::get().extractMotionPhoto(path);
+    }
+    Q_INVOKABLE QVariantList getZXingData(QString path) {
+        return PQCScriptsImages::get().getZXingData(path);
+    }
+    Q_INVOKABLE bool         extractFrameAndSave(QString path, int frameNumber) {
+        return PQCScriptsImages::get().extractFrameAndSave(path, frameNumber);
+    }
+    Q_INVOKABLE bool canHaveStarRating(const QString path) {
+        return PQCScriptsImages::get().canHaveStarRating(path);
+    }
+    Q_INVOKABLE void setStarRating(const int star, const QString path) {
+               PQCScriptsImages::get().setStarRating(star, path);
+    }
+    Q_INVOKABLE int getStarRating(const QString path) {
+        return PQCScriptsImages::get().getStarRating(path);
+    }
+    Q_INVOKABLE QString prepareSphereFile(QString path) {
+        return PQCScriptsImages::get().prepareSphereFile(path);
+    }
 
     // archive/document methods
-    Q_INVOKABLE void        listArchiveContent(QString path)                { PQCScriptsImages::get().listArchiveContent(path); }
-    Q_INVOKABLE QStringList listArchiveContentWithoutThread(QString path)   { return PQCScriptsImages::get().listArchiveContentWithoutThread(path, ""); }
-    Q_INVOKABLE int         getNumberDocumentPages(QString path)            { return PQCScriptsImages::get().getNumberDocumentPages(path); }
-    Q_INVOKABLE int         getDocumentPageCount(QString path)              { return PQCScriptsImages::get().getDocumentPageCount(path); }
-    Q_INVOKABLE QString     extractArchiveFileToTempLocation(QString path)  { return PQCScriptsImages::get().extractArchiveFileToTempLocation(path); }
-    Q_INVOKABLE QString     extractDocumentPageToTempLocation(QString path) { return PQCScriptsImages::get().extractDocumentPageToTempLocation(path); }
+    Q_INVOKABLE void        listArchiveContent(QString path) {
+               PQCScriptsImages::get().listArchiveContent(path);
+    }
+    Q_INVOKABLE QStringList listArchiveContentWithoutThread(QString path) {
+        return PQCScriptsImages::get().listArchiveContentWithoutThread(path, "");
+    }
+    Q_INVOKABLE int         getNumberDocumentPages(QString path) {
+        return PQCScriptsImages::get().getNumberDocumentPages(path);
+    }
+    Q_INVOKABLE int         getDocumentPageCount(QString path) {
+        return PQCScriptsImages::get().getDocumentPageCount(path);
+    }
+    Q_INVOKABLE QString     extractArchiveFileToTempLocation(QString path) {
+        return PQCScriptsImages::get().extractArchiveFileToTempLocation(path);
+    }
+    Q_INVOKABLE QString     extractDocumentPageToTempLocation(QString path) {
+        return PQCScriptsImages::get().extractDocumentPageToTempLocation(path);
+    }
+
 
     // icon and thumbnail methods
-    Q_INVOKABLE QString getIconPathFromTheme(QString binary) { return PQCScriptsImages::get().getIconPathFromTheme(binary); }
-    Q_INVOKABLE void    removeThumbnailFor(QString path)     { return PQCScriptsImages::get().removeThumbnailFor(path); }
+    Q_INVOKABLE QString getIconPathFromTheme(QString binary) {
+        return PQCScriptsImages::get().getIconPathFromTheme(binary);
+    }
+    Q_INVOKABLE void    removeThumbnailFor(QString path) {
+        return PQCScriptsImages::get().removeThumbnailFor(path);
+    }
 
     // video methods
-    Q_INVOKABLE QString convertSecondsToPosition(int t) { return PQCScriptsImages::get().convertSecondsToPosition(t); }
+    Q_INVOKABLE QString convertSecondsToPosition(int t) {
+        return PQCScriptsImages::get().convertSecondsToPosition(t);
+    }
 
 Q_SIGNALS:
     void haveArchiveContentFor(QString filename, QStringList content);

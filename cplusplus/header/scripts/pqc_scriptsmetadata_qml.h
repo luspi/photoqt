@@ -35,13 +35,25 @@ public:
     PQCScriptsMetaDataQML() {}
     ~PQCScriptsMetaDataQML() {}
 
-    Q_INVOKABLE int getExifOrientation(QString path) { return PQCScriptsMetaData::get().getExifOrientation(path); }
+    Q_INVOKABLE int getExifOrientation(QString path) {
+        return PQCScriptsMetaData::get().getExifOrientation(path);
+    }
 
-    Q_INVOKABLE QString convertGPSToDecimalForOpenStreetMap(QString gps)  { return PQCScriptsMetaData::get().convertGPSToDecimalForOpenStreetMap(gps); }
-    Q_INVOKABLE QString convertGPSDecimalToDegree(double lat, double lon) { return PQCScriptsMetaData::get().convertGPSDecimalToDegree(lat, lon); }
+    Q_INVOKABLE QString convertGPSToDecimalForOpenStreetMap(QString gps) {
+        return PQCScriptsMetaData::get().convertGPSToDecimalForOpenStreetMap(gps);
+    }
+    Q_INVOKABLE QString convertGPSDecimalToDegree(double lat, double lon) {
+        return PQCScriptsMetaData::get().convertGPSDecimalToDegree(lat, lon);
+    }
 
-    Q_INVOKABLE bool areFaceTagsSupported(QString filename)           { return PQCScriptsMetaData::get().areFaceTagsSupported(filename); }
-    Q_INVOKABLE QVariantList getFaceTags(QString filename)            { return PQCScriptsMetaData::get().getFaceTags(filename); }
-    Q_INVOKABLE void setFaceTags(QString filename, QVariantList tags) { return PQCScriptsMetaData::get().setFaceTags(filename, tags); }
+    Q_INVOKABLE bool areFaceTagsSupported(QString filename) {
+        return PQCScriptsMetaData::get().areFaceTagsSupported(filename);
+    }
+    Q_INVOKABLE QVariantList getFaceTags(QString filename) {
+        return PQCScriptsMetaData::get().getFaceTags(filename);
+    }
+    Q_INVOKABLE void setFaceTags(QString filename, QVariantList tags) {
+        return PQCScriptsMetaData::get().setFaceTags(filename, tags);
+    }
 
 };
