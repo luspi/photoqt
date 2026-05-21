@@ -117,12 +117,6 @@ PQCScriptsImages::PQCScriptsImages() {
 
 PQCScriptsImages::~PQCScriptsImages() {}
 
-QSize PQCScriptsImages::getCurrentImageResolution(QString filename) {
-
-    return PQCImageHandler::get().getSize(filename);
-
-}
-
 bool PQCScriptsImages::isItAnimated(QString filename) {
     QImageReader reader(filename);
     return (reader.supportsAnimation()&&reader.imageCount()>1);

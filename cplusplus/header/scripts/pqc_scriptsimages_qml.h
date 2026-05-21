@@ -52,7 +52,6 @@ public:
     Q_INVOKABLE bool isNormalImage(QString path) { return PQCScriptsImages::get().isNormalImage(path); }
 
     // info about image
-    Q_INVOKABLE QSize   getCurrentImageResolution(QString filename)    { return PQCScriptsImages::get().getCurrentImageResolution(filename); }
     Q_INVOKABLE bool    isItAnimated(QString filename)                 { return PQCScriptsImages::get().isItAnimated(filename); }
     Q_INVOKABLE bool    supportsTransparency(QString path)             { return PQCScriptsImages::get().supportsTransparency(path); }
     Q_INVOKABLE double  getPixelDensity(QString modelName)             { return PQCScriptsImages::get().getPixelDensity(modelName); }

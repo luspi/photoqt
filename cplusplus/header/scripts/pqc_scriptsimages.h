@@ -59,7 +59,6 @@ public:
     bool isNormalImage(QString path);
 
     // info about image
-    QSize getCurrentImageResolution(QString filename);
     bool isItAnimated(QString filename);
     bool supportsTransparency(QString path);
     void setSupportsTransparency(QString path, bool alpha);
