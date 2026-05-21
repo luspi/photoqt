@@ -281,15 +281,6 @@ int main(int argc, char **argv) {
     VIPS_INIT(argv[0]);
 #endif
 
-    const QString path = "/home/lspies/Nextcloud/Bilder/Grand Canyon/IMG_20190607_105146.jpg";
-    QSize requested(500,400);
-    QSize orig;
-    QString error = "";
-    QImage img = PQCImageHandler::get().getImage(path, requested, orig, error);
-    if(!PQCImageHandler::get().writeImage(img, "/home/lspies/tmp.bmp"))
-        qWarning() << "WRITING FAILED!";
-    qWarning() << ">>>" << PQCImageHandler::get().getSize(path);
-
     // on a fresh install this function is called from the wizard
     if(updateStatus != PQEUpdateCheck::FreshInstall)
         PQCScriptsLocalization::get().updateTranslation(PQCSettingsCPP::get().getInterfaceLanguage());

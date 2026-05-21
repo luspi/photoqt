@@ -47,17 +47,8 @@ SET(photoqt_SOURCES cplusplus/main.cpp
                     cplusplus/header/pqc_extensionproperties.h
                     cplusplus/header/pqc_notify_cpp.h
                     cplusplus/header/pqc_helper.h
-
                     cplusplus/header/pqc_imagehandler.h
                     cplusplus/header/pqc_imageplugin.h
-                    cplusplus/header/pqc_imageplugin_qt.h
-                    cplusplus/header/pqc_imageplugin_resvg.h
-                    cplusplus/header/pqc_imageplugin_pdf.h
-                    cplusplus/header/pqc_imageplugin_libraw.h
-                    cplusplus/header/pqc_imageplugin_libarchive.h
-                    cplusplus/header/pqc_imageplugin_libsai.h
-                    cplusplus/header/pqc_imageplugin_video.h
-                    cplusplus/header/pqc_imageplugin_magick.h
 
                     cplusplus/images/pqc_loadimage.cpp
                     cplusplus/images/pqc_imagecache.cpp
@@ -86,14 +77,26 @@ SET(photoqt_SOURCES cplusplus/main.cpp
                     cplusplus/images/plugins/pqc_loadimage_resvg.cpp
                     cplusplus/images/plugins/pqc_loadimage_libsai.cpp
 
+                    cplusplus/images/plugins2/pqc_imageplugin_qt.h
                     cplusplus/images/plugins2/pqc_imageplugin_qt.cpp
+                    cplusplus/images/plugins2/pqc_imageplugin_resvg.h
                     cplusplus/images/plugins2/pqc_imageplugin_resvg.cpp
+                    cplusplus/images/plugins2/pqc_imageplugin_pdf.h
                     cplusplus/images/plugins2/pqc_imageplugin_pdf.cpp
+                    cplusplus/images/plugins2/pqc_imageplugin_libraw.h
                     cplusplus/images/plugins2/pqc_imageplugin_libraw.cpp
+                    cplusplus/images/plugins2/pqc_imageplugin_libarchive.h
                     cplusplus/images/plugins2/pqc_imageplugin_libarchive.cpp
+                    cplusplus/images/plugins2/pqc_imageplugin_libsai.h
                     cplusplus/images/plugins2/pqc_imageplugin_libsai.cpp
+                    cplusplus/images/plugins2/pqc_imageplugin_video.h
                     cplusplus/images/plugins2/pqc_imageplugin_video.cpp
+                    cplusplus/images/plugins2/pqc_imageplugin_magick.h
                     cplusplus/images/plugins2/pqc_imageplugin_magick.cpp
+                    cplusplus/images/plugins2/pqc_imageplugin_devil.h
+                    cplusplus/images/plugins2/pqc_imageplugin_devil.cpp
+                    cplusplus/images/plugins2/pqc_imageplugin_libvips.h
+                    cplusplus/images/plugins2/pqc_imageplugin_libvips.cpp
 
                     cplusplus/extensions/pqc_extensionshandler.cpp
                     cplusplus/extensions/pqc_extensionmethods.cpp

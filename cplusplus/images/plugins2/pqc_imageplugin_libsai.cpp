@@ -48,7 +48,7 @@ const bool PQCImagePluginLibsai::writeImage(QImage img, QString targetPath) {
     return false;
 }
 
-const QSize PQCImagePluginLibsai::getSize(QString path) {
+const QSize PQCImagePluginLibsai::loadSize(QString path) {
 
 #ifdef PQMLIBSAI
 
@@ -70,7 +70,7 @@ const QSize PQCImagePluginLibsai::getSize(QString path) {
 
 }
 
-const QImage PQCImagePluginLibsai::getImage(QString path, QSize requestedSize, QSize &origSize, QString &error) {
+const QImage PQCImagePluginLibsai::loadImage(QString path, QSize requestedSize, QSize &origSize, QString &error) {
 
     qDebug() << "args: path = " << path;
     qDebug() << "args: requestedSize = " << requestedSize;

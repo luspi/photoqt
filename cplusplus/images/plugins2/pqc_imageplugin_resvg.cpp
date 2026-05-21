@@ -49,7 +49,7 @@ const bool PQCImagePluginResvg::writeImage(QImage img, QString targetPath) {
     return false;
 }
 
-const QSize PQCImagePluginResvg::getSize(QString path) {
+const QSize PQCImagePluginResvg::loadSize(QString path) {
 
 #ifdef PQMRESVG
 
@@ -63,7 +63,7 @@ const QSize PQCImagePluginResvg::getSize(QString path) {
 
 }
 
-const QImage PQCImagePluginResvg::getImage(QString path, QSize requestedSize, QSize &origSize, QString &error) {
+const QImage PQCImagePluginResvg::loadImage(QString path, QSize requestedSize, QSize &origSize, QString &error) {
 
     qDebug() << "args: path =" << path;
     qDebug() << "args: requestedSize =" << requestedSize;

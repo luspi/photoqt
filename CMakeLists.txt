@@ -637,6 +637,7 @@ target_include_directories(photoqt PRIVATE "cplusplus/header")
 target_include_directories(photoqt PRIVATE "cplusplus/header/scripts")
 target_include_directories(photoqt PRIVATE "cplusplus/header/scripts/qmlcpp")
 target_include_directories(photoqt PRIVATE "cplusplus/extensions")
+target_include_directories(photoqt PRIVATE "cplusplus/images/plugins2")
 
 # set some properties for executable
 set_target_properties(photoqt PROPERTIES

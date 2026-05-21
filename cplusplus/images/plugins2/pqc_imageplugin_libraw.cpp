@@ -51,7 +51,7 @@ const bool PQCImagePluginLibraw::writeImage(QImage img, QString targetPath) {
     return false;
 }
 
-const QSize PQCImagePluginLibraw::getSize(QString path) {
+const QSize PQCImagePluginLibraw::loadSize(QString path) {
 
 #ifdef PQMRAW
 
@@ -73,7 +73,7 @@ const QSize PQCImagePluginLibraw::getSize(QString path) {
 
 }
 
-const QImage PQCImagePluginLibraw::getImage(QString path, QSize requestedSize, QSize &origSize, QString &error) {
+const QImage PQCImagePluginLibraw::loadImage(QString path, QSize requestedSize, QSize &origSize, QString &error) {
 
     qDebug() << "args: path =" << path;
     qDebug() << "args: requestedSize =" << requestedSize;

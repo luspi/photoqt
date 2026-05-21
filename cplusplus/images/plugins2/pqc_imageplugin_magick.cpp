@@ -51,7 +51,7 @@ const bool PQCImagePluginMagick::writeImage(QImage img, QString targetPath) {
     return false;
 }
 
-const QSize PQCImagePluginMagick::getSize(QString path) {
+const QSize PQCImagePluginMagick::loadSize(QString path) {
 
 #if defined(PQMIMAGEMAGICK) || defined(PQMGRAPHICSMAGICK)
 
@@ -100,7 +100,7 @@ const QSize PQCImagePluginMagick::getSize(QString path) {
 
 }
 
-const QImage PQCImagePluginMagick::getImage(QString path, QSize requestedSize, QSize &origSize, QString &error) {
+const QImage PQCImagePluginMagick::loadImage(QString path, QSize requestedSize, QSize &origSize, QString &error) {
 
     qDebug() << "args: path =" << path;
     qDebug() << "args: requestedSize =" << requestedSize;

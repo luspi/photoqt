@@ -46,13 +46,13 @@ const bool PQCImagePluginVideo::writeImage(QImage img, QString targetPath) {
     return false;
 }
 
-const QSize PQCImagePluginVideo::getSize(QString path) {
+const QSize PQCImagePluginVideo::loadSize(QString path) {
 
     return QSize();
 
 }
 
-const QImage PQCImagePluginVideo::getImage(QString path, QSize requestedSize, QSize &origSize, QString &error) {
+const QImage PQCImagePluginVideo::loadImage(QString path, QSize requestedSize, QSize &origSize, QString &error) {
 
     return QImage();
 

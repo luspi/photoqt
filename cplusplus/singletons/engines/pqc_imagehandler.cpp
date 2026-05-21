@@ -34,6 +34,8 @@
 #include <pqc_imageplugin_libsai.h>
 #include <pqc_imageplugin_video.h>
 #include <pqc_imageplugin_magick.h>
+#include <pqc_imageplugin_devil.h>
+#include <pqc_imageplugin_libvips.h>
 
 #include <QMimeDatabase>
 
@@ -43,41 +45,63 @@ PQCImageHandler::PQCImageHandler() {
 
     pluginOrder = QStringList()
 #ifdef PQMRESVG
-                  << "resvg"
+        << "resvg"
 #endif
 #if defined(PQMPOPPLER) || defined(PQMQTPDF)
-                  << "pdf"
+        << "pdf"
 #endif
-                  << "qt"
+        << "qt"
 #ifdef PQMRAW
-                  << "libraw"
+        << "libraw"
 #endif
 #ifdef PQMLIBARCHIVE
-                  << "libarchive"
+        << "libarchive"
 #endif
 #ifdef PQMLIBSAI
-                  << "libsai"
+        << "libsai"
 #endif
-                  << "xcftools"
 #if defined(PQMIMAGEMAGICK) || defined(PQMGRAPHICSMAGICK)
-                  << "magick"
+        << "magick"
 #endif
 #ifdef PQMLIBVIPS
-                  << "libvips"
+        << "libvips"
 #endif
 #ifdef PQMDEVIL
-                  << "devil"
+        << "devil"
 #endif
-                  << "video";
+#if defined(PQMVIDEOQT) || defined(PQMVIDEOMPV)
+        << "video"
+#endif
+    ;
 
     plugins.insert("qt", new PQCImagePluginQt(setDir));
+#ifdef PQMRESVG
     plugins.insert("resvg", new PQCImagePluginResvg(setDir));
+#endif
+#if defined(PQMPOPPLER) || defined(PQMQTPDF)
     plugins.insert("pdf", new PQCImagePluginPDF(setDir));
+#endif
+#ifdef PQMRAW
     plugins.insert("libraw", new PQCImagePluginLibraw(setDir));
+#endif
+#ifdef PQMLIBARCHIVE
     plugins.insert("libarchive", new PQCImagePluginLibarchive(setDir));
+#endif
+#ifdef PQMLIBSAI
     plugins.insert("libsai", new PQCImagePluginLibsai(setDir));
+#endif
+#if defined(PQMVIDEOQT) || defined(PQMVIDEOMPV)
     plugins.insert("video", new PQCImagePluginVideo(setDir));
+#endif
+#if defined(PQMIMAGEMAGICK) || defined(PQMGRAPHICSMAGICK)
     plugins.insert("magick", new PQCImagePluginMagick(setDir));
+#endif
+#ifdef PQMDEVIL
+    plugins.insert("devil", new PQCImagePluginDevIL(setDir));
+#endif
+#ifdef PQMLIBVIPS
+    plugins.insert("libvips", new PQCImagePluginLibVips(setDir));
+#endif
 
     for(PQCImagePlugin *plugin : std::as_const(plugins)) {
 
@@ -97,12 +121,16 @@ QSize PQCImageHandler::getSize(QString path) {
     const QString suffix1 = info.suffix().toLower();
     const QString suffix2 = info.completeSuffix().toLower();
 
-    for(PQCImagePlugin *plugin : std::as_const(plugins)) {
+    for(const QString &name : std::as_const(pluginOrder)) {
+
+        if(!plugins.contains(name)) continue;
+
+        PQCImagePlugin *plugin = plugins[name];
 
         QSet<QString> suf = plugin->getSuffixes();
         if(suf.contains(suffix1) || suf.contains(suffix2)) {
 
-            QSize sze = plugin->getSize(path);
+            QSize sze = plugin->loadSize(path);
             if(!sze.isEmpty())
                 return sze;
 
@@ -113,12 +141,16 @@ QSize PQCImageHandler::getSize(QString path) {
     QMimeDatabase db;
     const QString mimetype = db.mimeTypeForFile(path).name();
 
-    for(PQCImagePlugin *plugin : std::as_const(plugins)) {
+    for(const QString &name : std::as_const(pluginOrder)) {
+
+        if(!plugins.contains(name)) continue;
+
+        PQCImagePlugin *plugin = plugins[name];
 
         QSet<QString> mim = plugin->getMimetypes();
         if(mim.contains(mimetype)) {
 
-            QSize sze = plugin->getSize(path);
+            QSize sze = plugin->loadSize(path);
             if(!sze.isEmpty())
                 return sze;
 
@@ -153,14 +185,19 @@ QImage PQCImageHandler::getImage(QString path, QSize requestedSize, QSize &origS
     const QString suffix1 = info.suffix().toLower();
     const QString suffix2 = info.completeSuffix().toLower();
 
-    for(PQCImagePlugin *plugin : std::as_const(plugins)) {
+    for(const QString &name : std::as_const(pluginOrder)) {
+
+        if(!plugins.contains(name)) continue;
+
+        PQCImagePlugin *plugin = plugins[name];
 
         QSet<QString> suf = plugin->getSuffixes();
         if(suf.contains(suffix1) || suf.contains(suffix2)) {
 
-            img = plugin->getImage(path, requestedSize, origSize, error);
-            if(!img.isNull())
+            img = plugin->loadImage(path, requestedSize, origSize, error);
+            if(!img.isNull()) {
                 return img;
+            }
 
         }
 
@@ -169,12 +206,16 @@ QImage PQCImageHandler::getImage(QString path, QSize requestedSize, QSize &origS
     QMimeDatabase db;
     const QString mimetype = db.mimeTypeForFile(path).name();
 
-    for(PQCImagePlugin *plugin : std::as_const(plugins)) {
+    for(const QString &name : std::as_const(pluginOrder)) {
+
+        if(!plugins.contains(name)) continue;
+
+        PQCImagePlugin *plugin = plugins[name];
 
         QSet<QString> mim = plugin->getMimetypes();
         if(mim.contains(mimetype)) {
 
-            img = plugin->getImage(path, requestedSize, origSize, error);
+            img = plugin->loadImage(path, requestedSize, origSize, error);
             if(!img.isNull())
                 return img;
 

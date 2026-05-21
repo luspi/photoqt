@@ -55,7 +55,7 @@ const bool PQCImagePluginPDF::writeImage(QImage img, QString targetPath) {
     return false;
 }
 
-const QSize PQCImagePluginPDF::getSize(QString path) {
+const QSize PQCImagePluginPDF::loadSize(QString path) {
 
     // extract page and totalpage value from path (prepended to path (after filepath))
     int page = 0;
@@ -104,7 +104,7 @@ const QSize PQCImagePluginPDF::getSize(QString path) {
 
 }
 
-const QImage PQCImagePluginPDF::getImage(QString path, QSize requestedSize, QSize &origSize, QString &error) {
+const QImage PQCImagePluginPDF::loadImage(QString path, QSize requestedSize, QSize &origSize, QString &error) {
 
     qDebug() << "args: path =" << path;
     qDebug() << "args: requestedSize =" << requestedSize;

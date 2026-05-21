@@ -24,14 +24,22 @@
 #include <pqc_imageplugin.h>
 #include <QSet>
 
-class PQCImagePluginResvg : public PQCImagePlugin {
+#ifdef PQMLIBSAI
+#if __has_include(<sai.hpp>)
+#include <sai.hpp>
+#elif __has_include(<sai/sai.hpp>)
+#include <sai/sai.hpp>
+#endif
+#endif
+
+class PQCImagePluginLibsai : public PQCImagePlugin {
 
 public:
-    PQCImagePluginResvg(QString settingsDir);
+    PQCImagePluginLibsai(QString settingsDir);
 
-    const QString name() override { return "reSVG"; }
+    const QString name() override { return "libsai"; }
     const bool canPreload() override { return true; }
-    const bool getEnabledByDefault() override { return true; }
+    const bool enabledByDefault() override { return true; }
 
     const QSet<QString> getSuffixes()  override { return m_suffixes; }
     const QSet<QString> getMimetypes() override { return m_mimetypes; }
@@ -45,8 +53,8 @@ public:
     const bool canWrite(QString path) override;
     const bool writeImage(QImage img, QString targetPath) override;
 
-    const QSize getSize(QString path) override;
-    const QImage getImage(QString path, QSize requestedSize, QSize &origSize, QString &error) override;
+    const QSize loadSize(QString path) override;
+    const QImage loadImage(QString path, QSize requestedSize, QSize &origSize, QString &error) override;
 
     void setEnabled(QString suffix, QString mimetype, bool enabled) override;
 
@@ -64,5 +72,10 @@ private:
 
     void loadFormats();
     void saveFormats();
+
+#ifdef PQMLIBSAI
+    static std::vector<uint32_t> ReadRasterLayer(const sai::LayerHeader& layerHeader, sai::VirtualFileEntry& layerFile);
+    static void RLEDecompressStride(std::byte* destination, const std::byte* source, std::size_t stride, std::size_t strideCount, std::size_t channel);
+#endif
 
 };

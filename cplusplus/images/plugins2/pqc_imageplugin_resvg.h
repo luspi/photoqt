@@ -24,14 +24,14 @@
 #include <pqc_imageplugin.h>
 #include <QSet>
 
-class PQCImagePluginMagick : public PQCImagePlugin {
+class PQCImagePluginResvg : public PQCImagePlugin {
 
 public:
-    PQCImagePluginMagick(QString settingsDir);
+    PQCImagePluginResvg(QString settingsDir);
 
-    const QString name() override { return "ImageMagick/GraphicsMagick"; }
+    const QString name() override { return "reSVG"; }
     const bool canPreload() override { return true; }
-    const bool getEnabledByDefault() override { return true; }
+    const bool enabledByDefault() override { return true; }
 
     const QSet<QString> getSuffixes()  override { return m_suffixes; }
     const QSet<QString> getMimetypes() override { return m_mimetypes; }
@@ -45,8 +45,8 @@ public:
     const bool canWrite(QString path) override;
     const bool writeImage(QImage img, QString targetPath) override;
 
-    const QSize getSize(QString path) override;
-    const QImage getImage(QString path, QSize requestedSize, QSize &origSize, QString &error) override;
+    const QSize loadSize(QString path) override;
+    const QImage loadImage(QString path, QSize requestedSize, QSize &origSize, QString &error) override;
 
     void setEnabled(QString suffix, QString mimetype, bool enabled) override;
 
@@ -59,8 +59,6 @@ private:
     QSet<QString> m_allMimetypes;
 
     QHash<QString,QString> suffix2description;
-
-    QHash<QString,QString> suffix2magick;
 
     QString m_settingsDir;
 

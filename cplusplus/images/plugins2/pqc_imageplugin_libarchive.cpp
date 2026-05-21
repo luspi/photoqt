@@ -55,7 +55,7 @@ const bool PQCImagePluginLibarchive::writeImage(QImage img, QString targetPath) 
     return false;
 }
 
-const QSize PQCImagePluginLibarchive::getSize(QString path) {
+const QSize PQCImagePluginLibarchive::loadSize(QString path) {
 
 #ifdef PQMLIBARCHIVE
 
@@ -201,7 +201,7 @@ const QSize PQCImagePluginLibarchive::getSize(QString path) {
 
 }
 
-const QImage PQCImagePluginLibarchive::getImage(QString path, QSize requestedSize, QSize &origSize, QString &error) {
+const QImage PQCImagePluginLibarchive::loadImage(QString path, QSize requestedSize, QSize &origSize, QString &error) {
 
     qDebug() << "args: path =" << path;
     qDebug() << "args: requestedSize =" << requestedSize;

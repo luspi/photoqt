@@ -61,7 +61,7 @@ const bool PQCImagePluginQt::writeImage(QImage img, QString targetPath) {
 
 }
 
-const QSize PQCImagePluginQt::getSize(QString path) {
+const QSize PQCImagePluginQt::loadSize(QString path) {
 
     // Suffix, for easier access later-on
     QString suffix = QFileInfo(path).suffix().toLower();
@@ -125,7 +125,7 @@ const QSize PQCImagePluginQt::getSize(QString path) {
 
 }
 
-const QImage PQCImagePluginQt::getImage(QString path, QSize requestedSize, QSize &origSize, QString &error) {
+const QImage PQCImagePluginQt::loadImage(QString path, QSize requestedSize, QSize &origSize, QString &error) {
 
     qDebug() << "args: path =" << path;
     qDebug() << "args: requestedSize =" << requestedSize;

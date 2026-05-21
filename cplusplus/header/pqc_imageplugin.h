@@ -39,7 +39,7 @@ public:
     virtual const bool canPreload() = 0;
 
     // either all formats are enabled or disabled by default
-    virtual const bool getEnabledByDefault() = 0;
+    virtual const bool enabledByDefault() = 0;
 
     // get the formats and mime types that are supported for READING
     virtual const QSet<QString> getAllSuffixes() = 0;
@@ -60,12 +60,12 @@ public:
     virtual const bool writeImage(QImage img, QString targetPath) = 0;
 
     // LOAD the size (resolution) of the image at the specified path
-    virtual const QSize getSize(QString path) = 0;
+    virtual const QSize loadSize(QString path) = 0;
 
     // LOAD the image from the specified path at its requested Size
     // > origSize is set to the original size of the image (before scaling)
     // > error holding any potential error message
-    virtual const QImage getImage(QString path, QSize requestedSize, QSize &origSize, QString &error) = 0;
+    virtual const QImage loadImage(QString path, QSize requestedSize, QSize &origSize, QString &error) = 0;
 
     // toggle the enabled status of the specified formats and/or mimetypes
     virtual void setEnabled(QString suffix, QString mimetype, bool enabled) = 0;
