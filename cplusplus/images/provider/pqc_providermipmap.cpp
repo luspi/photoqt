@@ -54,8 +54,6 @@ void PQCAsyncImageResponseMipMap::run() {
 
 void PQCAsyncImageResponseMipMap::loadImage() {
 
-    qDebug() << "";
-
     loader->loadImage();
     m_image = loader->m_image.scaled(m_requestedSize, Qt::KeepAspectRatio);
 

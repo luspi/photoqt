@@ -71,8 +71,6 @@ void PQCAsyncImageResponseThumb::run() {
 
 void PQCAsyncImageResponseThumb::loadImage() {
 
-    qDebug() << "";
-
     QString filename = QByteArray::fromPercentEncoding(m_url.toUtf8());
     filename = filename.replace("&#39;","'");
 

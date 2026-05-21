@@ -54,8 +54,6 @@ void PQCAsyncImageResponseTooltipThumb::run() {
 
 void PQCAsyncImageResponseTooltipThumb::loadImage() {
 
-    qDebug() << "";
-
     loader->loadImage();
 
     loader->m_image = loader->m_image.scaled(m_requestedSize, Qt::KeepAspectRatio);

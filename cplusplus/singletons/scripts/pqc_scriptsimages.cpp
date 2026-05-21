@@ -295,7 +295,7 @@ QStringList PQCScriptsImages::listArchiveContentWithoutThread(QString path, QStr
 
                     // remove archives and unsupported files
                     ret.erase(std::remove_if(ret.begin(), ret.end(), [&](const QString &f) {
-                                  return (isArchive(f, true) || !enabledFormats.contains(QFileInfo(f).suffix().toLower()));
+                                  return (isArchive(f) || !enabledFormats.contains(QFileInfo(f).suffix().toLower()));
                               }), ret.end());
 
                     // limit how many files to load
@@ -359,7 +359,7 @@ QStringList PQCScriptsImages::listArchiveContentWithoutThread(QString path, QStr
 
             // If supported file format, append to temporary list
             const QFileInfo info(filenameinside);
-            if(!isArchive(filenameinside, true, true) && (enabledFormats.contains(info.suffix().toLower()) || enabledFormats.contains(info.completeSuffix().toLower())))
+            if(!isArchive(filenameinside, true) && (enabledFormats.contains(info.suffix().toLower()) || enabledFormats.contains(info.completeSuffix().toLower())))
                 ret.append(filenameinside);
 
             // limit how many files to load
@@ -496,12 +496,7 @@ bool PQCScriptsImages::isPDFDocument(QString path) {
 
 }
 
-bool PQCScriptsImages::isArchive(QString path, bool silent, bool insideArchive) {
-
-    // each entry in an archive is checked for whether it is an archive or not
-    // for archives with many files, this generates a LOT of output
-    // thus for that check we set the 'silent' flat
-    if(!silent) qDebug() << "args: path =" << path;
+bool PQCScriptsImages::isArchive(QString path, bool insideArchive) {
 
     QFileInfo info(path);
     const QSet<QString> set = PQCImageHandler::get().getSuffixes("libarchive");

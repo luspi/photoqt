@@ -343,8 +343,6 @@ bool PQCScriptsFilesPaths::doesItExist(QString path) {
 
 bool PQCScriptsFilesPaths::isExcludeDirFromCaching(QString filename) {
 
-    qDebug() << "args: filename =" << filename;
-
     if(!PQCSettingsCPP::get().getThumbnailsExcludeDropBox().isEmpty()) {
         if(filename.startsWith(PQCSettingsCPP::get().getThumbnailsExcludeDropBox()))
             return true;
@@ -375,8 +373,6 @@ bool PQCScriptsFilesPaths::isExcludeDirFromCaching(QString filename) {
 }
 
 bool PQCScriptsFilesPaths::isOnNetwork(QString filename) {
-
-    qDebug() << "args: filename =" << filename;
 
     for(const QString &dir: std::as_const(networkshares)) {
         if(!dir.isEmpty() && filename.startsWith(dir))
