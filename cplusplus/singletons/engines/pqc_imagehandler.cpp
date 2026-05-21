@@ -22,20 +22,62 @@
 
 #include <pqc_imagehandler.h>
 #include <pqc_configfiles.h>
-#include <pqc_imageplugin_qt.h>
 #include <pqc_scriptscolorprofiles.h>
 #include <pqc_imagecache.h>
 #include <pqc_settingscpp.h>
+
+#include <pqc_imageplugin_qt.h>
+#include <pqc_imageplugin_resvg.h>
+#include <pqc_imageplugin_pdf.h>
+#include <pqc_imageplugin_libraw.h>
+#include <pqc_imageplugin_libarchive.h>
+#include <pqc_imageplugin_libsai.h>
+#include <pqc_imageplugin_video.h>
+#include <pqc_imageplugin_magick.h>
+
 #include <QMimeDatabase>
 
 PQCImageHandler::PQCImageHandler() {
 
     const QString setDir = PQCConfigFiles::get().CONFIG_DIR() % "/imageplugins";
 
-    pluginOrder = {"qt", "magick", "svg", "pdf"};
+    pluginOrder = QStringList()
+#ifdef PQMRESVG
+                  << "resvg"
+#endif
+#if defined(PQMPOPPLER) || defined(PQMQTPDF)
+                  << "pdf"
+#endif
+                  << "qt"
+#ifdef PQMRAW
+                  << "libraw"
+#endif
+#ifdef PQMLIBARCHIVE
+                  << "libarchive"
+#endif
+#ifdef PQMLIBSAI
+                  << "libsai"
+#endif
+                  << "xcftools"
+#if defined(PQMIMAGEMAGICK) || defined(PQMGRAPHICSMAGICK)
+                  << "magick"
+#endif
+#ifdef PQMLIBVIPS
+                  << "libvips"
+#endif
+#ifdef PQMDEVIL
+                  << "devil"
+#endif
+                  << "video";
 
     plugins.insert("qt", new PQCImagePluginQt(setDir));
-    plugins.insert("magick", new PQCImagePluginQt(setDir));
+    plugins.insert("resvg", new PQCImagePluginResvg(setDir));
+    plugins.insert("pdf", new PQCImagePluginPDF(setDir));
+    plugins.insert("libraw", new PQCImagePluginLibraw(setDir));
+    plugins.insert("libarchive", new PQCImagePluginLibarchive(setDir));
+    plugins.insert("libsai", new PQCImagePluginLibsai(setDir));
+    plugins.insert("video", new PQCImagePluginVideo(setDir));
+    plugins.insert("magick", new PQCImagePluginMagick(setDir));
 
     for(PQCImagePlugin *plugin : std::as_const(plugins)) {
 

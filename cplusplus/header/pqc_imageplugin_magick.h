@@ -24,12 +24,12 @@
 #include <pqc_imageplugin.h>
 #include <QSet>
 
-class PQCImagePluginQt : public PQCImagePlugin {
+class PQCImagePluginMagick : public PQCImagePlugin {
 
 public:
-    PQCImagePluginQt(QString settingsDir);
+    PQCImagePluginMagick(QString settingsDir);
 
-    const QString name() override { return "Qt"; }
+    const QString name() override { return "ImageMagick/GraphicsMagick"; }
     const bool canPreload() override { return true; }
     const bool getEnabledByDefault() override { return true; }
 
@@ -59,6 +59,8 @@ private:
     QSet<QString> m_allMimetypes;
 
     QHash<QString,QString> suffix2description;
+
+    QHash<QString,QString> suffix2magick;
 
     QString m_settingsDir;
 

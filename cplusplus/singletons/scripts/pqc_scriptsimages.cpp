@@ -483,12 +483,12 @@ bool PQCScriptsImages::isPDFDocument(QString path) {
 
 #if defined(PQMPOPPLER) || defined(PQMQTPDF)
     QFileInfo info(path);
-    const QSet<QString> set = PQCImageHandler::get().getSuffixes("poppler");
+    const QSet<QString> set = PQCImageHandler::get().getSuffixes("pdf");
     if(set.contains(info.suffix().toLower()) || set.contains(info.completeSuffix().toLower()))
         return true;
 
     QMimeDatabase db;
-    if(PQCImageHandler::get().getMimetypes("poppler").contains(db.mimeTypeForFile(path).name()))
+    if(PQCImageHandler::get().getMimetypes("pdf").contains(db.mimeTypeForFile(path).name()))
         return true;
 #endif
 

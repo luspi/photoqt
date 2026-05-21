@@ -63,8 +63,6 @@ const bool PQCImagePluginQt::writeImage(QImage img, QString targetPath) {
 
 const QSize PQCImagePluginQt::getSize(QString path) {
 
-    qDebug() << "args: path =" << path;
-
     // Suffix, for easier access later-on
     QString suffix = QFileInfo(path).suffix().toLower();
 
@@ -148,7 +146,7 @@ const QImage PQCImagePluginQt::getImage(QString path, QSize requestedSize, QSize
         // Invalid vector graphic
         if(!svg.isValid()) {
             const QString msg = "Error: invalid svg file";
-            error += msg;
+            error += msg % "\n";
             qWarning() << msg;
             return QImage();
         }
@@ -207,8 +205,7 @@ const QImage PQCImagePluginQt::getImage(QString path, QSize requestedSize, QSize
         // If QImageReader cannot read the image does not mean all hope is lost
         if(!reader.canRead()) {
 
-            error += "unable to read image with reader, trying direct QImage\n";
-            qDebug() << error;
+            qDebug() << "unable to read image with reader, trying direct QImage";
 
             // It is possible that QImage can load an image directly even if QImageReader cannot
             img.load(path);
@@ -286,15 +283,22 @@ void PQCImagePluginQt::loadFormats() {
     m_allSuffixes.clear();
 
     // first we read the toggled suffixes from the settings file
-    const QString suffixFilename = m_settingsDir % "/Qt_suffixes";
+    const QString suffixFilename = m_settingsDir % "/qt_suffixes";
     QFile suffixFile(suffixFilename);
     if(!suffixFile.open(QIODevice::ReadOnly|QIODevice::Text)) {
+
         qDebug() << "Failed to open settings file at:" << suffixFilename;
+
+        // these are the ones DISABLED BY DEFAULT
+        m_toggledSuffixes << "eps" << "epsf" << "epsi" << "pdf";
+
     } else {
+
         QTextStream suffixIn(&suffixFile);
         const QStringList tmp = suffixIn.readAll().split("\n", Qt::SkipEmptyParts);
         m_toggledSuffixes = QSet<QString>(tmp.begin(), tmp.end());
         suffixFile.close();
+
     }
 
     // then we store ALL supported suffixes
@@ -405,7 +409,7 @@ void PQCImagePluginQt::loadFormats() {
     m_toggledMimetypes.clear();
     m_allMimetypes.clear();
 
-    const QString mimeFilename = m_settingsDir % "/Qt_mimetypes";
+    const QString mimeFilename = m_settingsDir % "/qt_mimetypes";
     QFile mimeFile(mimeFilename);
     if(!mimeFile.open(QIODevice::ReadOnly|QIODevice::Text)) {
         qDebug() << "Failed to open settings file at:" << mimeFilename;

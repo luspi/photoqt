@@ -24,12 +24,12 @@
 #include <pqc_imageplugin.h>
 #include <QSet>
 
-class PQCImagePluginQt : public PQCImagePlugin {
+class PQCImagePluginPDF : public PQCImagePlugin {
 
 public:
-    PQCImagePluginQt(QString settingsDir);
+    PQCImagePluginPDF(QString settingsDir);
 
-    const QString name() override { return "Qt"; }
+    const QString name() override { return "PDF"; }
     const bool canPreload() override { return true; }
     const bool getEnabledByDefault() override { return true; }
 

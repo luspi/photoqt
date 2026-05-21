@@ -54,9 +54,6 @@ public:
     // the description for a suffix
     virtual const QString getDescription(QString suffix) = 0;
 
-    // these are the formats that do NOT match the enabledByDefault property
-    virtual const QSet<QString> getToggledFormats() = 0;
-
     // can this format be written by this plugin?
     virtual const bool canWrite(QString path) = 0;
     // write the image to the target path

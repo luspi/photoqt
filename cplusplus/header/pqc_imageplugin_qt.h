@@ -42,25 +42,12 @@ public:
 
     const QString getDescription(QString suffix) override;
 
-    // these are the formats that do NOT match the enabledByDefault property
-    const QSet<QString> getToggledFormats() override {
-        return m_toggledSuffixes;
-    }
-
-    // can this format be written by this plugin?
     const bool canWrite(QString path) override;
-    // write the image to the target path
     const bool writeImage(QImage img, QString targetPath) override;
 
-    // LOAD the size (resolution) of the image at the specified path
     const QSize getSize(QString path) override;
-
-    // LOAD the image from the specified path at its requested Size
-    // > origSize is set to the original size of the image (before scaling)
-    // > error holding any potential error message
     const QImage getImage(QString path, QSize requestedSize, QSize &origSize, QString &error) override;
 
-    // toggle the enabled status of the specified formats and/or mimetypes
     void setEnabled(QString suffix, QString mimetype, bool enabled) override;
 
 private:
@@ -77,8 +64,5 @@ private:
 
     void loadFormats();
     void saveFormats();
-
-// Q_SIGNALS:
-//     void formatsUpdated() override;
 
 };

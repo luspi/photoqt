@@ -24,14 +24,14 @@
 #include <pqc_imageplugin.h>
 #include <QSet>
 
-class PQCImagePluginQt : public PQCImagePlugin {
+class PQCImagePluginVideo : public PQCImagePlugin {
 
 public:
-    PQCImagePluginQt(QString settingsDir);
+    PQCImagePluginVideo(QString settingsDir);
 
-    const QString name() override { return "Qt"; }
+    const QString name() override { return "Video"; }
     const bool canPreload() override { return true; }
-    const bool getEnabledByDefault() override { return true; }
+    const bool getEnabledByDefault() override { return false; }
 
     const QSet<QString> getSuffixes()  override { return m_suffixes; }
     const QSet<QString> getMimetypes() override { return m_mimetypes; }

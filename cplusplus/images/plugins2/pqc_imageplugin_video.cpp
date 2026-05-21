@@ -20,7 +20,7 @@
  **                                                                      **
  **************************************************************************/
 
-#include <pqc_imageplugin_qt.h>
+#include <pqc_imageplugin_video.h>
 #include <pqc_settingscpp.h>
 #include <scripts/pqc_scriptscolorprofiles.h>
 #include <pqc_imagecache.h>
@@ -28,43 +28,43 @@
 #include <QFile>
 #include <QtDebug>
 
-PQCImagePluginQt::PQCImagePluginQt(QString settingsDir) : m_settingsDir(settingsDir) {
+PQCImagePluginVideo::PQCImagePluginVideo(QString settingsDir) : m_settingsDir(settingsDir) {
 
     loadFormats();
 
 }
 
-const QString PQCImagePluginQt::getDescription(QString suffix) {
+const QString PQCImagePluginVideo::getDescription(QString suffix) {
     return suffix2description.value(suffix, "");
 }
 
-const bool PQCImagePluginQt::canWrite(QString path) {
+const bool PQCImagePluginVideo::canWrite(QString path) {
     return false;
 }
 
-const bool PQCImagePluginQt::writeImage(QImage img, QString targetPath) {
+const bool PQCImagePluginVideo::writeImage(QImage img, QString targetPath) {
     return false;
 }
 
-const QSize PQCImagePluginQt::getSize(QString path) {
+const QSize PQCImagePluginVideo::getSize(QString path) {
 
     return QSize();
 
 }
 
-const QImage PQCImagePluginQt::getImage(QString path, QSize requestedSize, QSize &origSize, QString &error) {
+const QImage PQCImagePluginVideo::getImage(QString path, QSize requestedSize, QSize &origSize, QString &error) {
 
     return QImage();
 
 }
 
-void PQCImagePluginQt::setEnabled(QString suffix, QString mimetype, bool enabled) {
+void PQCImagePluginVideo::setEnabled(QString suffix, QString mimetype, bool enabled) {
 
 }
 
 /***********************************************/
 
-void PQCImagePluginQt::loadFormats() {
+void PQCImagePluginVideo::loadFormats() {
 
     m_suffixes.clear();
     m_toggledSuffixes.clear();
@@ -83,14 +83,37 @@ void PQCImagePluginQt::loadFormats() {
     }
 
     // then we store ALL supported suffixes
-    m_allSuffixes = {"ani" /* ... */ };
+    m_allSuffixes = {"amv", "asf", "avi", "flv", "f4v", "mkv", "mov", "qt",
+                     "ogg", "ogv", "vob", "webm", "mp4", "m4v", "mpg", "mp2",
+                     "mpeg", "mpe", "mpv", "m2v", "3gp", "3g2", "wmv"};
 
     // these are the currently enabled ones
     m_suffixes = m_allSuffixes - m_toggledSuffixes;
 
     suffix2description = {
-        {"ani", "Animated Windows cursors"}
-        // ...
+        {"amv", "AMV video format"},
+        {"asf", "Advanced Systems Format"},
+        {"avi", "Audio Video Interleave"},
+        {"flv", "Flash Video"},
+        {"f4v", "Flash Video"},
+        {"mkv", "Matroska Video"},
+        {"mov", "QuickTime File Format"},
+        {"qt",  "QuickTime File Format"},
+        {"ogg", "Theora"},
+        {"ogv", "Theora"},
+        {"vob", "Video Object"},
+        {"webm", "WebM"},
+        {"mp4", "MP4: MPEG-4 Part 14"},
+        {"m4v", "MP4: MPEG-4 Part 14"},
+        {"mpg",  "MPEG: Moving Picture Experts Group"},
+        {"mp2",  "MPEG: Moving Picture Experts Group"},
+        {"mpeg", "MPEG: Moving Picture Experts Group"},
+        {"mpe",  "MPEG: Moving Picture Experts Group"},
+        {"mpv",  "MPEG: Moving Picture Experts Group"},
+        {"m2v",  "MPEG: Moving Picture Experts Group"},
+        {"3gp", "3GP: 3rd Generation Partnership Project"},
+        {"3g2", "3GP: 3rd Generation Partnership Project"},
+        {"wmv", "Windows Media Video"}
     };
 
     /********************************/
@@ -111,7 +134,10 @@ void PQCImagePluginQt::loadFormats() {
     }
 
     // then we store ALL supported mimetypes
-    m_allMimetypes = {"application/x-navi-animation" /* ... */ };
+    m_allMimetypes = {"video/x-ms-asf", "application/vnd.ms-asf", "video/vnd.avi",
+                      "video/avi", "video/msvideo", "video/x-msvideo", "video/x-flv",
+                      "video/x-matroska", "video/quicktime", "video/webm", "video/mp4",
+                      "video/mpeg", "video/3gpp", "video/3gpp2", "video/x-ms-wmv"};
 
     // these are the currently enabled ones
     m_mimetypes = m_allMimetypes - m_toggledMimetypes;
@@ -120,7 +146,7 @@ void PQCImagePluginQt::loadFormats() {
 
 }
 
-void PQCImagePluginQt::saveFormats() {
+void PQCImagePluginVideo::saveFormats() {
 
     // TODO
 
