@@ -28,9 +28,7 @@ import "../../other/PQCommonFunctions.js" as PQF
 MenuItem {
     id: control
     implicitWidth: 250
-    implicitHeight: h
-
-    property int h: visible ? 30 : 0
+    implicitHeight: 30
 
     onImplicitWidthChanged: {
         if(menu !== null && implicitWidth > menu.width+10) {
@@ -58,7 +56,7 @@ MenuItem {
             id: controltxt
             y: (parent.height-height)/2
             leftPadding: control.checkable||control.iconSource!=""||control.moveToRightABit ? 30 : 5
-            height: control.h
+            height: control.implicitHeight
 
             property string plainTxt: control.text.replace("&","")
             property string modTxt: PQF.parseMenuString(control.text)
@@ -87,15 +85,15 @@ MenuItem {
     indicator: Item {
 
         implicitWidth: 30
-        implicitHeight: control.h
+        implicitHeight: control.implicitHeight
         visible: control.checkable||control.iconSource!=""
 
         Image {
             visible: control.iconSource!=""
             x: 5
-            y: control.h/4
-            width: control.h/2
-            height: control.h/2
+            y: control.implicitHeight/4
+            width: control.implicitHeight/2
+            height: control.implicitHeight/2
             opacity: control.enabled ? 1 : 0.6
             Behavior on opacity { enabled: !PQCSettings.generalDisableAllAnimations; NumberAnimation { duration: 200 } }
             fillMode: Image.Pad
@@ -108,8 +106,8 @@ MenuItem {
             visible: control.iconSource==""
 
             anchors.centerIn: parent
-            implicitWidth: control.h/2
-            implicitHeight: control.h/2
+            implicitWidth: control.implicitHeight/2
+            implicitHeight: control.implicitHeight/2
 
             color: palette.base
             border.width: 1
@@ -154,15 +152,15 @@ MenuItem {
 
     arrow: Canvas {
         x: parent.width - width
-        implicitWidth: control.h
-        implicitHeight: control.h
+        implicitWidth: control.implicitHeight
+        implicitHeight: control.implicitHeight
         visible: control.subMenu
         onPaint: {
             var ctx = getContext("2d")
             ctx.fillStyle = PQCLook.baseBorder
-            ctx.moveTo(control.h/3, control.h/3)
-            ctx.lineTo(width - control.h/3, height / 2)
-            ctx.lineTo(control.h/3, height - control.h/3)
+            ctx.moveTo(control.implicitHeight/3, control.implicitHeight/3)
+            ctx.lineTo(width - control.implicitHeight/3, height / 2)
+            ctx.lineTo(control.implicitHeight/3, height - control.implicitHeight/3)
             ctx.closePath()
             ctx.fill()
         }
