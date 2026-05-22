@@ -2021,7 +2021,9 @@ QString PQCScriptsImages::prepareSphereFile(QString path) {
 
     qDebug() << "args: path " << path;
 
-#if defined(PQMEXIV2) && (EXIV2_TEST_VERSION(0, 28, 0) || defined(PQMEXIV2_ENABLE_BMFF))
+#if defined(PQMEXIV2)
+// the following macro needs to come after the above check as the macro might not be defined
+#if (EXIV2_TEST_VERSION(0, 28, 0) || defined(PQMEXIV2_ENABLE_BMFF))
 
 #if EXIV2_TEST_VERSION(0, 28, 0)
     Exiv2::Image::UniquePtr image;
@@ -2104,6 +2106,7 @@ QString PQCScriptsImages::prepareSphereFile(QString path) {
 
     }
 
+#endif
 #endif
 
     return path;

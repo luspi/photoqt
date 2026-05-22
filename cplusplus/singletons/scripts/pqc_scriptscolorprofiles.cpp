@@ -268,6 +268,11 @@ bool PQCScriptsColorProfiles::importColorProfile() {
 
     qDebug() << "";
 
+#ifndef PQMLCMS2
+    qWarning() << "Importing color profiles requires LCMS2 which is not available.";
+    return false;
+#endif
+
 #ifdef Q_OS_UNIX
     QString loc = "/usr/share/color/icc";
 #else
@@ -295,12 +300,14 @@ bool PQCScriptsColorProfiles::importColorProfile() {
         if(fileNames.length() > 0) {
 
             QByteArray fn = QFile::encodeName(fileNames[0]);
+#ifdef PQMLCMS2
             cmsHPROFILE profile = cmsOpenProfileFromFile(fn, "r");
             if(!profile) {
                 qWarning() << "invalid ICC profile, import cancelled";
                 return false;
             }
             cmsCloseProfile(profile);
+#endif
 
             QFileInfo info(fn);
 
