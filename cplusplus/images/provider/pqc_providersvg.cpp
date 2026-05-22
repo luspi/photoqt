@@ -44,12 +44,6 @@ QImage PQCProviderSVG::requestImage(const QString &url, QSize *origSize, const Q
 
     QImage ret;
 
-    if(requestedSize.isEmpty()) {
-        ret = QImage(1,1, QImage::Format_ARGB32);
-        ret.fill(Qt::transparent);
-        return ret;
-    }
-
 #ifdef PQMRESVG
 
     QString error = "";
