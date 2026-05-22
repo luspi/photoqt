@@ -22,7 +22,7 @@
 
 /* :-)) <3 */
 
-/*1off_Qt64
+/*1off_Qt64-
 import QtQuick
 
 Item {
@@ -37,7 +37,7 @@ Item {
     property Item maskSource
     property real shadowVerticalOffset
 }
-2off_Qt64*/
+2off_Qt64-*/
 
 /*1on_Qt65+*/
 import QtQuick.Effects

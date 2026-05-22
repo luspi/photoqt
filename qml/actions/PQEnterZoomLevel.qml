@@ -58,8 +58,10 @@ ApplicationWindow {
             PQSpinBox {
                 id: zoomedit
                 width: zoom_top.width-suffix.width-20
+/*1on_Qt66+*/
+                // the live property was added with Qt 6.6
                 live: true
-
+/*2on_Qt66+*/
             }
             PQText {
                 id: suffix

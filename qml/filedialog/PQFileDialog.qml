@@ -59,9 +59,9 @@ PQTemplate {
             filedialog_top.finishedSetup = true
     }
 
-/*1off_Qt64
+/*1off_Qt64-
     Item {
-2off_Qt64*/
+2off_Qt64-*/
 /*1on_Qt65+*/
     SplitView {
 /*2on_Qt65+*/
@@ -98,9 +98,9 @@ PQTemplate {
 
         PQPlaces {
             id: fd_places
-/*1off_Qt64
+/*1off_Qt64-
             width: 200
-2off_Qt64*/
+2off_Qt64-*/
 /*1on_Qt65+*/
             SplitView.minimumWidth: (PQCSettings.filedialogPlaces || PQCSettings.filedialogDevices) ? 100 : 5
             SplitView.preferredWidth: PQCSettings.filedialogPlacesWidth
@@ -111,7 +111,7 @@ PQTemplate {
 /*2on_Qt65+*/
         }
 
-/*1off_Qt64
+/*1off_Qt64-
         Rectangle {
             color: palette.text
             opacity: 0.2
@@ -119,14 +119,14 @@ PQTemplate {
             height: parent.height
             x: 200
         }
-2off_Qt64*/
+2off_Qt64-*/
 
         PQFileView {
             id: fd_fileview
-/*1off_Qt64
+/*1off_Qt64-
             x: 205
             width: parent.width-205
-2off_Qt64*/
+2off_Qt64-*/
 /*1on_Qt65+*/
             SplitView.minimumWidth: 200
             SplitView.fillWidth: true

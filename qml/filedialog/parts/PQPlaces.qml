@@ -290,13 +290,13 @@ Item {
             id: deleg
 
             required property int index
-/*1off_Qt64
+/*1off_Qt64-
             property string folder: places_top.entries_favorites[index]['folder']
             property string path: places_top.entries_favorites[index]['path']
             property string icon: places_top.entries_favorites[index]['icon']
             property string theid: places_top.entries_favorites[index]['theid']
             property string hidden: places_top.entries_favorites[index]['hidden']
-2off_Qt64*/
+2off_Qt64-*/
 /*1on_Qt65+*/
             required property string folder
             required property string path
@@ -503,12 +503,12 @@ Item {
             id: deleg
 
             required property int index
-/*1off_Qt64
+/*1off_Qt64-
             property string folder: places_top.entries_devices[index]['folder']
             property string path: places_top.entries_devices[index]['path']
             property string fstype: places_top.entries_devices[index]['fstype']
             property string fssize: places_top.entries_devices[index]['fssize']
-2off_Qt64*/
+2off_Qt64-*/
 /*1on_Qt65+*/
             required property string folder
             required property string path

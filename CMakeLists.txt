@@ -479,117 +479,125 @@ endif()
 #### Handle Qt<6.4/5 specific stuff ####
 ########################################
 
-# MultiEffect is only available since Qt 6.5
-if(Qt6_VERSION VERSION_LESS 6.5)
+# there are some QML properties and items that were added with later versions of Qt
+# since QML does not support macros, we need to make do with adjusting the source code if needed
+# this is of course guarded behind an opt-in option presented to the user
+foreach(QTV 6.5 6.6 6.7 6.8 6.9 6.10 6.11 6.12 6.13)
 
-    # we need to modify the code slightly to make it work with Qt 6.4
-    foreach(QMLFILE ${photoqt_QML})
+    string(REPLACE "." "" QTVnodot ${QTV})
+    math(EXPR QTVnodotMINUS1 "${QTVnodot}-1")
 
-        file(READ ${QMLFILE} FILE_CONTENTS)
+    # some things is only available since Qt 6.x
+    if(Qt6_VERSION VERSION_LESS ${QTV})
 
-        set(anything_changed FALSE)
+        # we need to modify the code slightly to make it work with Qt 6.x-
+        foreach(QMLFILE ${photoqt_QML})
 
-        # pragma ComponentBehavior causes issues with Qt 6.4 (and isn't supported before)
-        if(FILE_CONTENTS MATCHES "pragma ComponentBehavior: Bound")
-            string(REPLACE "pragma ComponentBehavior: Bound" "/*Qt64:pragma/ComponentBehavior:/Bound*/" FILE_CONTENTS "${FILE_CONTENTS}")
-        endif()
+            file(READ ${QMLFILE} FILE_CONTENTS)
 
-        # switch on Qt 6.4 specific code
-        if(FILE_CONTENTS MATCHES "/\\*1off_Qt64")
-            set(anything_changed TRUE)
-            string(REPLACE "/*1off_Qt64" "/*1on_Qt64*/" FILE_CONTENTS "${FILE_CONTENTS}")
-        endif()
-        if(FILE_CONTENTS MATCHES "2off_Qt64\\*/")
-            set(anything_changed TRUE)
-            string(REPLACE "2off_Qt64*/" "/*2on_Qt64*/" FILE_CONTENTS "${FILE_CONTENTS}")
-        endif()
+            set(anything_changed FALSE)
 
-        # switch off Qt 6.5+ specific code
-        if(FILE_CONTENTS MATCHES "/\\*1on_Qt65\\+\\*/")
-            set(anything_changed TRUE)
-            string(REPLACE "/*1on_Qt65+*/" "/*1off_Qt65+" FILE_CONTENTS "${FILE_CONTENTS}")
-        endif()
-        if(FILE_CONTENTS MATCHES "/\\*2on_Qt65\\+\\*/")
-            set(anything_changed TRUE)
-            string(REPLACE "/*2on_Qt65+*/" "2off_Qt65+*/" FILE_CONTENTS "${FILE_CONTENTS}")
-        endif()
-
-        # Qt 6.4 striggles with properties of type list somewhat randomly
-        # Replacing them all by var keeps the code working and avoids any issues
-        if(FILE_CONTENTS MATCHES "list\\<")
-            set(anything_changed TRUE)
-            string(REPLACE "property list<int>" "property var" FILE_CONTENTS "${FILE_CONTENTS}")
-            string(REPLACE "property list<string>" "property var" FILE_CONTENTS "${FILE_CONTENTS}")
-            string(REPLACE "property list<double>" "property var" FILE_CONTENTS "${FILE_CONTENTS}")
-            string(REPLACE "property list<real>" "property var" FILE_CONTENTS "${FILE_CONTENTS}")
-            string(REPLACE "property list<var>" "property var" FILE_CONTENTS "${FILE_CONTENTS}")
-            string(REPLACE "property list<bool>" "property var" FILE_CONTENTS "${FILE_CONTENTS}")
-            string(REPLACE "property list<point>" "property var" FILE_CONTENTS "${FILE_CONTENTS}")
-            string(REPLACE "property list<PQMenu>" "property var" FILE_CONTENTS "${FILE_CONTENTS}")
-            string(REPLACE "property list<PQButton>" "property var" FILE_CONTENTS "${FILE_CONTENTS}")
-            string(REPLACE "property list<PQButtonElement>" "property var" FILE_CONTENTS "${FILE_CONTENTS}")
-            string(REPLACE "property list<PQComboBox>" "property var" FILE_CONTENTS "${FILE_CONTENTS}")
-            string(REPLACE "property list<PQSliderSpinBox>" "property var" FILE_CONTENTS "${FILE_CONTENTS}")
-            # a list<string> is used in a few places as type in function definitions
-            string(REPLACE ": list<string>" ": var" FILE_CONTENTS "${FILE_CONTENTS}")
-        endif()
-
-        if(anything_changed)
-            if(_WITH_ADAPTSOURCE)
-                file(WRITE ${QMLFILE} "${FILE_CONTENTS}")
-            else()
-                message(FATAL_ERROR "Error: Source files are not adapted for Qt 6.4. You need to enable the WITH_ADAPTSOURCE option to automatically convert them!")
+            # switch on Qt 6.x- specific code
+            if(FILE_CONTENTS MATCHES "/\\*1off_Qt${QTVnodotMINUS1}|")
+                set(anything_changed TRUE)
+                string(REGEX REPLACE "/\\*1off_Qt${QTVnodotMINUS1}\n" "/*1on_Qt${QTVnodotMINUS1}*/\n" FILE_CONTENTS "${FILE_CONTENTS}")
             endif()
-        endif()
-
-    endforeach()
-
-else()
-
-    # we potentially need to undo some of the changes done above for Qt 6.4 specific code
-    foreach(QMLFILE ${photoqt_QML})
-
-        file(READ ${QMLFILE} FILE_CONTENTS)
-
-        set(anything_changed FALSE)
-
-        # re-enable pragma's if they were disabled previously
-        if(FILE_CONTENTS MATCHES "/\\*Qt64:pragma/ComponentBehavior:/Bound\\*/")
-            set(anything_changed TRUE)
-            string(REPLACE "/*Qt64:pragma/ComponentBehavior:/Bound*/" "pragma ComponentBehavior: Bound" FILE_CONTENTS "${FILE_CONTENTS}")
-        endif()
-
-        # switch off Qt 6.4 specific code
-        if(FILE_CONTENTS MATCHES "/\\*1on_Qt64\\*/")
-            set(anything_changed TRUE)
-            string(REPLACE "/*1on_Qt64*/" "/*1off_Qt64" FILE_CONTENTS "${FILE_CONTENTS}")
-        endif()
-        if(FILE_CONTENTS MATCHES "/\\*2on_Qt64\\*/")
-            set(anything_changed TRUE)
-            string(REPLACE "/*2on_Qt64*/" "2off_Qt64*/" FILE_CONTENTS "${FILE_CONTENTS}")
-        endif()
-
-        # switch on Qt 6.5+ specific code
-        if(FILE_CONTENTS MATCHES "/\\*1off_Qt65\\+")
-            set(anything_changed TRUE)
-            string(REPLACE "/*1off_Qt65+" "/*1on_Qt65+*/" FILE_CONTENTS "${FILE_CONTENTS}")
-        endif()
-        if(FILE_CONTENTS MATCHES "2off_Qt65\\+\\*/")
-            set(anything_changed TRUE)
-            string(REPLACE "2off_Qt65+*/" "/*2on_Qt65+*/" FILE_CONTENTS "${FILE_CONTENTS}")
-        endif()
-
-        if(anything_changed)
-            if(_WITH_ADAPTSOURCE)
-                file(WRITE ${QMLFILE} "${FILE_CONTENTS}")
-            else()
-                message(FATAL_ERROR "Error: Source files were prepared for Qt 6.4 and are not adapted for Qt 6.5+. You need to enable the WITH_ADAPTSOURCE option to automatically convert them!")
+            if(FILE_CONTENTS MATCHES "2off_Qt${QTVnodotMINUS1}\\*/")
+                set(anything_changed TRUE)
+                string(REGEX REPLACE "2off_Qt${QTVnodotMINUS1}\\*/\n" "/*2on_Qt${QTVnodotMINUS1}*/\n" FILE_CONTENTS "${FILE_CONTENTS}")
             endif()
-        endif()
 
-    endforeach()
+            # switch off Qt 6.x specific code
+            if(FILE_CONTENTS MATCHES "/\\*1on_Qt${QTVnodot}\\+\\*/")
+                set(anything_changed TRUE)
+                string(REGEX REPLACE "/\\*1on_Qt${QTVnodot}\\+\\*/\n" "/*1off_Qt${QTVnodot}+\n" FILE_CONTENTS "${FILE_CONTENTS}")
+            endif()
+            if(FILE_CONTENTS MATCHES "/\\*2on_Qt${QTVnodot}\\+\\*/")
+                set(anything_changed TRUE)
+                string(REGEX REPLACE "/\\*2on_Qt${QTVnodot}\\+\\*/\n" "2off_Qt${QTVnodot}+*/\n" FILE_CONTENTS "${FILE_CONTENTS}")
+            endif()
 
-endif()
+            if(Qt6_VERSION VERSION_EQUAL 6.4)
+
+                # pragma ComponentBehavior causes issues with Qt 6.4 (and isn't supported before)
+                if(FILE_CONTENTS MATCHES "pragma ComponentBehavior: Bound")
+                    string(REPLACE "pragma ComponentBehavior: Bound" "/*Qt64:pragma/ComponentBehavior:/Bound*/" FILE_CONTENTS "${FILE_CONTENTS}")
+                endif()
+
+                # Qt 6.4 struggles with properties of type list somewhat randomly
+                # Replacing them all by var keeps the code working and avoids any issues
+                if(FILE_CONTENTS MATCHES "list\\<")
+                    set(anything_changed TRUE)
+                    string(REPLACE "property list<int>" "property var" FILE_CONTENTS "${FILE_CONTENTS}")
+                    string(REPLACE "property list<string>" "property var" FILE_CONTENTS "${FILE_CONTENTS}")
+                    string(REPLACE "property list<double>" "property var" FILE_CONTENTS "${FILE_CONTENTS}")
+                    string(REPLACE "property list<real>" "property var" FILE_CONTENTS "${FILE_CONTENTS}")
+                    string(REPLACE "property list<var>" "property var" FILE_CONTENTS "${FILE_CONTENTS}")
+                    string(REPLACE "property list<bool>" "property var" FILE_CONTENTS "${FILE_CONTENTS}")
+                    string(REPLACE "property list<point>" "property var" FILE_CONTENTS "${FILE_CONTENTS}")
+                    string(REPLACE "property list<PQMenu>" "property var" FILE_CONTENTS "${FILE_CONTENTS}")
+                    string(REPLACE "property list<PQButton>" "property var" FILE_CONTENTS "${FILE_CONTENTS}")
+                    string(REPLACE "property list<PQButtonElement>" "property var" FILE_CONTENTS "${FILE_CONTENTS}")
+                    string(REPLACE "property list<PQComboBox>" "property var" FILE_CONTENTS "${FILE_CONTENTS}")
+                    string(REPLACE "property list<PQSliderSpinBox>" "property var" FILE_CONTENTS "${FILE_CONTENTS}")
+                    # a list<string> is used in a few places as type in function definitions
+                    string(REPLACE ": list<string>" ": var" FILE_CONTENTS "${FILE_CONTENTS}")
+                endif()
+
+            endif()
+
+            if(anything_changed)
+                if(_WITH_ADAPTSOURCE)
+                    file(WRITE ${QMLFILE} "${FILE_CONTENTS}")
+                else()
+                    message(FATAL_ERROR "Error: Source files are not adapted for Qt 6.4. You need to enable the WITH_ADAPTSOURCE option to automatically convert them!")
+                endif()
+            endif()
+
+        endforeach()
+
+    else()
+
+        # we potentially need to undo some of the changes done above for Qt 6.4 specific code
+        foreach(QMLFILE ${photoqt_QML})
+
+            file(READ ${QMLFILE} FILE_CONTENTS)
+
+            set(anything_changed FALSE)
+
+            # switch off Qt 6.x- specific code
+            if(FILE_CONTENTS MATCHES "/\\*1on_Qt${QTVnodotMINUS1}\\*/")
+                set(anything_changed TRUE)
+                string(REGEX REPLACE "/\\*1on_Qt${QTVnodotMINUS1}\\*/\n" "/*1off_Qt${QTVnodotMINUS1}\n" FILE_CONTENTS "${FILE_CONTENTS}")
+            endif()
+            if(FILE_CONTENTS MATCHES "/\\*2on_Qt${QTVnodotMINUS1}\\*/")
+                set(anything_changed TRUE)
+                string(REGEX REPLACE "/\\*2on_Qt${QTVnodotMINUS1}\\*/\n" "2off_Qt${QTVnodotMINUS1}*/\n" FILE_CONTENTS "${FILE_CONTENTS}")
+            endif()
+
+            # switch on Qt 6.x specific code
+            if(FILE_CONTENTS MATCHES "/\\*1off_Qt${QTVnodot}\\+")
+                set(anything_changed TRUE)
+                string(REGEX REPLACE "/\\*1off_Qt${QTVnodot}\\+\n" "/*1on_Qt${QTVnodot}+*/\n" FILE_CONTENTS "${FILE_CONTENTS}")
+            endif()
+            if(FILE_CONTENTS MATCHES "2off_Qt${QTVnodot}\\+\\*/")
+                set(anything_changed TRUE)
+                string(REGEX REPLACE "2off_Qt${QTVnodot}\\+\\*/\n" "/*2on_Qt${QTVnodot}+*/\n" FILE_CONTENTS "${FILE_CONTENTS}")
+            endif()
+
+            if(anything_changed)
+                if(_WITH_ADAPTSOURCE)
+                    file(WRITE ${QMLFILE} "${FILE_CONTENTS}")
+                else()
+                    message(FATAL_ERROR "Error: Source files were prepared for Qt 6.x- and are not adapted for Qt 6.x+. You need to enable the WITH_ADAPTSOURCE option to automatically convert them!")
+                endif()
+            endif()
+
+        endforeach()
+
+    endif()
+
+endforeach()
 
 
 ########################
