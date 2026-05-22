@@ -39,13 +39,15 @@ QImage PQCProviderSVGColor::requestImage(const QString &url, QSize *origSize, co
         return ret;
     }
 
-    // have a target color!
-    if(url.contains(":://::")) {
+    const int idx = url.indexOf(":://::");
 
-        const QString fn = url.split(":://::").at(1);
+    // have a target color!
+    if(idx > -1) {
+
+        const QString fn = url.mid(idx+6);
 
         // extract target color and lighten or darken it
-        QColor c(url.split(":://::").at(0));
+        QColor c(url.mid(0,idx));
 
         // create inverse color (half transparent to not be overpowering)
         QColor invc((255-c.red()), (255-c.green()), (255-c.blue()), 32);

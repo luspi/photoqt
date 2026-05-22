@@ -178,7 +178,7 @@ void PQCAsyncImageResponseThumb::loadImage() {
         if(QFile(thumbcachepath).exists()) {
 
             p.load(thumbcachepath);
-            uint mtime = p.text("Thumb::MTime").trimmed().toInt();
+            qint64 mtime = p.text("Thumb::MTime").toInt();
 
             // Use image if it's up-to-date
             if(QFileInfo(filenameForChecking).lastModified().toSecsSinceEpoch() == mtime) {
@@ -217,7 +217,7 @@ void PQCAsyncImageResponseThumb::loadImage() {
 
         const QString suf = QFileInfo(filenameForChecking).suffix().toLower();
         QString iconname = ":/filetypes/unknown.svg";
-        if(QFile::exists(":/filetypes/"% suf % "1.svg"))
+        if(QFile::exists(":/filetypes/"% suf % ".svg"))
             iconname = ":/filetypes/" % suf % ".svg";
 
         QSvgRenderer svg;

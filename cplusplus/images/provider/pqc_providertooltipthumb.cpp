@@ -56,12 +56,14 @@ void PQCAsyncImageResponseTooltipThumb::loadImage() {
 
     loader->loadImage();
 
-    loader->m_image = loader->m_image.scaled(m_requestedSize, Qt::KeepAspectRatio);
+    QImage *loadedImage = &loader->m_image;
 
-    m_image = QImage(m_requestedSize.width(), std::min(m_requestedSize.height(), loader->m_image.height()), QImage::Format_ARGB32);
+    *loadedImage = loadedImage->scaled(m_requestedSize, Qt::KeepAspectRatio);
+
+    m_image = QImage(m_requestedSize.width(), std::min(m_requestedSize.height(), loadedImage->height()), QImage::Format_ARGB32);
     m_image.fill(QColor::fromRgba(qRgba(255,255,255,16)));
     QPainter painter(&m_image);
-    painter.drawImage(QRect((m_image.width()-loader->m_image.width())/2, (m_image.height()-loader->m_image.height())/2, loader->m_image.width(), loader->m_image.height()), loader->m_image);
+    painter.drawImage(QRect((m_image.width()-loadedImage->width())/2, (m_image.height()-loadedImage->height())/2, loadedImage->width(), loadedImage->height()), *loadedImage);
     painter.end();
 
     // aaaaand done!

@@ -36,9 +36,9 @@ PQCProviderTheme::PQCProviderTheme() : QQuickImageProvider(QQuickImageProvider::
     // this is needed to 'fix' the icons on Linux
     if(PQCSettingsCPP::get().getGeneralInterfaceVariant() == "modern") {
         if(QColor(PQCSettingsCPP::get().getInterfaceAccentColor()).lightness() > 96)
-            QIcon::setThemeName(QString("%1-light").arg(origTheme));
+            QIcon::setThemeName(origTheme % "-light");
         else
-            QIcon::setThemeName(QString("%1-dark").arg(origTheme));
+            QIcon::setThemeName(origTheme % "-dark");
         QIcon::setFallbackThemeName(origTheme);
     }
 #if __cplusplus >= 202002L
@@ -48,9 +48,9 @@ PQCProviderTheme::PQCProviderTheme() : QQuickImageProvider(QQuickImageProvider::
 #endif
         if(PQCSettingsCPP::get().getGeneralInterfaceVariant() == "modern") {
             if(QColor(PQCSettingsCPP::get().getInterfaceAccentColor()).lightness() > 96)
-                QIcon::setThemeName(QString("%1-light").arg(origTheme));
+                QIcon::setThemeName(origTheme % "-light");
             else
-                QIcon::setThemeName(QString("%1-dark").arg(origTheme));
+                QIcon::setThemeName(origTheme % "-dark");
             QIcon::setFallbackThemeName(origTheme);
         }
     });
@@ -94,12 +94,16 @@ QImage PQCProviderTheme::requestImage(const QString &icon, QSize *origSize, cons
 
         QString iconname = ":/filetypes/unknown.svg";
 
-        if(suf != "folder" && QFile(QString(":/filetypes/%1.svg").arg(suf)).exists())
-            iconname = QString(":/filetypes/%1.svg").arg(suf);
-        else if(QFile(QString(":/other/filedialog-%1.svg").arg(suf)).exists())
-            iconname = QString(":/other/filedialog-%1.svg").arg(suf);
-        else if(suf.contains("folder") || suf.contains("directory"))
-            iconname = QString(":/other/filedialog-folder.svg");
+        const QString firstName = ":/filetypes/" % suf % ".svg";
+        if(suf != "folder" && QFile(firstName).exists())
+            iconname = firstName;
+        else {
+            const QString secondName = ":/other/filedialog-" % suf % ".svg";
+            if(QFile(secondName).exists())
+                iconname = secondName;
+            else if(suf.contains("folder") || suf.contains("directory"))
+                iconname = QString(":/other/filedialog-folder.svg");
+        }
 
         return svg->requestImage(iconname, origSize, requestedSize);
 
