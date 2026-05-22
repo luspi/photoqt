@@ -12,7 +12,6 @@
         <file>other/logo_white.svg</file>
         <file>other/logo_full.svg</file>
         <file>other/checkerboard.png</file>
-        <file>other/errorimage.svg</file>
         <file>filetypes/folder_listicon_small.svg</file>
         <file>filetypes/folder_listicon_verysmall.svg</file>
         <file>dark/about.svg</file>
@@ -214,5 +213,6 @@
         <file>light/find.svg</file>
         <file>dark/virtualfolder.svg</file>
         <file>light/virtualfolder.svg</file>
+        <file>other/sadface.svg</file>
     </qresource>
 </RCC>

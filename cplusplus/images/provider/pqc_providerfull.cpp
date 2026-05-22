@@ -31,6 +31,7 @@
 #include <QColorSpace>
 #include <pqc_notify_cpp.h>
 #include <pqc_helper.h>
+#include <QPainter>
 
 #ifdef PQMLCMS2
 #include <lcms2.h>
@@ -57,9 +58,58 @@ QImage PQCProviderFull::requestImage(const QString &url, QSize *origSize, const 
     QString error = "";
     QImage ret = PQCImageHandler::get().getImage(filename, requestedSize, *origSize, error);
 
-    // if returned image is not an error image ...
-    if(ret.isNull())
-        return QImage();
+    // if returned image is not a valid image
+    if(ret.isNull()) {
+
+        if(error == "")
+            error = "Unknown error";
+
+        // get the widht of the text
+        // this class assumes everything is a single line of text
+        QFont ft = qApp->font();
+        ft.setPointSize(30);
+        QFontMetrics metrics(ft);
+        // get the bounding rect and do a rough conversion to a string with line breaks
+        QRect rect = metrics.boundingRect(error);
+        const int lineCount = error.count("\n");
+        const int eH = qMin(1200, qMax(600, rect.height()/lineCount + (lineCount+5)*metrics.lineSpacing()+20))+300;
+        const int eW = qMin(1500, qMax(rect.width()/lineCount+100, static_cast<int>(eH*1.25)));
+        QImage img(eW, eH, QImage::Format_ARGB32_Premultiplied);
+        img.fill(Qt::transparent);
+
+        // get the sad face image
+        QString err;
+        QImage sadface = PQCImageHandler::get().getImageWithPlugin("qt", ":/other/sadface.svg", QSize(128,128), *origSize, err);
+
+        // start constructing
+        QPainter painter(&img);
+
+        // first draw a slightly rounded dark rectangle in the background
+        const QColor bgcol(0,0,0,175);
+        painter.setPen(QPen(bgcol));
+        painter.setBrush(bgcol);
+        painter.drawRoundedRect(QRect(0,0,img.width(),img.height()), 20, 20);
+
+        // draw the sad face image in the top center
+        painter.drawImage((img.width()-sadface.width())/2, 50, sadface);
+
+        // white text
+        painter.setPen(QPen(Qt::white));
+        ft = qApp->font();
+        // title: large, bold
+        ft.setPointSize(45);
+        ft.setBold(true);
+        painter.setFont(ft);
+        painter.drawText(QRect(10,200,img.width()-20,100), Qt::AlignHCenter, "Image failed to load!");
+        // error messages: smaller, non-bold
+        ft.setPointSize(30);
+        ft.setBold(false);
+        painter.setFont(ft);
+        painter.drawText(QRect(10,330,img.width()-20,img.height()-340), Qt::AlignHCenter, error);
+        painter.end();
+
+        return img;
+    }
 
     // return scaled version
     if(requestedSize.width() > 2 && requestedSize.height() > 2 && origSize->width() > requestedSize.width() && origSize->height() > requestedSize.height())
