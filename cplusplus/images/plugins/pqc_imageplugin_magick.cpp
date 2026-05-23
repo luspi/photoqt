@@ -316,7 +316,7 @@ void PQCImagePluginMagick::loadFormats() {
                                       "mng", "ora", "pbm", "pcx", "pgm", "pict", "pct", "pic", "png",
                                       "ppm", "pnm", "psd", "psb", "psdt", "rgba", "rgb", "sgi", "bw",
                                       "svg", "svgz", "tga", "icb", "vda", "vst", "tiff", "tif", "wbmp",
-                                      "xbm", "bm", "xcf", "sfw", "alb", "pwm", "pwp", "art", "avs", "x",
+                                      "xbm", "bm", "xcf", "sfw", "alb", "pwm", "pwp", "art", "avs",
                                       "mbfavs", "sct", "ch", "ct", "dcr", "kdc", "drf", "k25", "dcs",
                                       "dc2", "kc2", "cals", "ct1", "ct2", "ct3", "ct4", "c4", "cal", "nif",
                                       "ras", "cut", "pal", "dcx", "dic", "dcm", "dpx", "epi", "ept", "fits",
@@ -337,7 +337,7 @@ void PQCImagePluginMagick::loadFormats() {
                                       "jp2", "jpc", "jpx", "jpeg", "jpg", "jpe", "jif", "mng", "pbm", "pcx",
                                       "pgm", "pict", "pct", "pic", "png", "ppm", "pnm", "rgba", "rgb", "sgi",
                                       "bw", "tga", "icb", "vda", "vst", "tiff", "tif", "wbmp", "xbm", "bm",
-                                      "xcf", "sfw", "alb", "pwm", "pwp", "art", "avs", "x", "mbfavs", "sct",
+                                      "xcf", "sfw", "alb", "pwm", "pwp", "art", "avs", "mbfavs", "sct",
                                       "ch", "ct", "dcr", "kdc", "drf", "k25", "dcs", "dc2", "kc2", "cals",
                                       "ct1", "ct2", "ct3", "ct4", "c4", "cal", "nif", "ras", "cut", "pal",
                                       "dic", "dcm", "dpx", "epi", "ept", "fits", "fit", "fts", "cg3", "g3",
@@ -348,6 +348,7 @@ void PQCImagePluginMagick::loadFormats() {
                                       "webp", "wpg", "iff", "ico", "xpm", "pm", "avif", "avifs", "mvg", "xwd",
                                       "pfb", "pfm", "afm", "inf", "pfa", "ofm", "pgx", "ai"};
 #endif
+
 #if defined(PQMIMAGEMAGICK) || defined(PQMGRAPHICSMAGICK)
     for(const QString &s : std::as_const(candidates)) {
         try {
