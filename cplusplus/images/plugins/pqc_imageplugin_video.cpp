@@ -64,46 +64,52 @@ const QSize PQCImagePluginVideo::loadSize(QString path) {
 
 #ifdef PQMFFMPEGTHUMBNAILER
 
-        ffmpegthumbnailer::VideoThumbnailer thumbnailer;
+        try {
 
-        thumbnailer.setThumbnailSize(0);
-        thumbnailer.setMaintainAspectRatio(true);
-        thumbnailer.setSmartFrameSelection(true);
-        thumbnailer.setWorkAroundIssues(true);
+            ffmpegthumbnailer::VideoThumbnailer thumbnailer;
 
-        // we use a temporary file that is automatically removed afterwards
-        QTemporaryFile tempFile;
-        tempFile.setAutoRemove(true);
+            thumbnailer.setThumbnailSize(0);
+            thumbnailer.setMaintainAspectRatio(true);
+            thumbnailer.setSmartFrameSelection(true);
+            thumbnailer.setWorkAroundIssues(true);
 
-        // we need to open it in order for it to be created and have a filename
-        if(!tempFile.open()) {
+            // we use a temporary file that is automatically removed afterwards
+            QTemporaryFile tempFile;
+            tempFile.setAutoRemove(true);
 
-            qWarning() << "Unable to open temporary file from thumbnail generation.";
-
-        } else {
-
-            // release the file
-            tempFile.close();
-
-            thumbnailer.generateThumbnail(path.toStdString(), ThumbnailerImageType::Jpeg, tempFile.fileName().toStdString());
-
-            // reopening the file is safe
+            // we need to open it in order for it to be created and have a filename
             if(!tempFile.open()) {
 
                 qWarning() << "Unable to open temporary file from thumbnail generation.";
 
             } else {
 
-                // this is a JPEG, so load with Qt
-                QImage img(tempFile.fileName());
+                // release the file
+                tempFile.close();
 
-                if(img.isNull())
-                    qWarning() << "Failed to load video thumbnail from temporary file";
-                else
-                    return img.size();
+                thumbnailer.generateThumbnail(path.toStdString(), ThumbnailerImageType::Jpeg, tempFile.fileName().toStdString());
+
+                // reopening the file is safe
+                if(!tempFile.open()) {
+
+                    qWarning() << "Unable to open temporary file from thumbnail generation.";
+
+                } else {
+
+                    // this is a JPEG, so load with Qt
+                    QImage img(tempFile.fileName());
+
+                    if(img.isNull())
+                        qWarning() << "Failed to load video thumbnail from temporary file";
+                    else
+                        return img.size();
+
+                }
 
             }
 
+        } catch(...) {
+            qWarning() << "ffmpegthumbnail API failed";
         }
 
 #endif
@@ -154,48 +160,54 @@ const QImage PQCImagePluginVideo::loadImage(QString path, QSize requestedSize, Q
 
 #ifdef PQMFFMPEGTHUMBNAILER
 
-        ffmpegthumbnailer::VideoThumbnailer thumbnailer;
+        try {
 
-        thumbnailer.setThumbnailSize(requestedSize.width(), requestedSize.height());
-        thumbnailer.setMaintainAspectRatio(true);
-        thumbnailer.setSmartFrameSelection(true);
-        thumbnailer.setWorkAroundIssues(true);
+            ffmpegthumbnailer::VideoThumbnailer thumbnailer;
 
-        // add movie-strip overlay
-        ffmpegthumbnailer::FilmStripFilter filmStrip;
-        thumbnailer.addFilter(&filmStrip);
+            thumbnailer.setThumbnailSize(requestedSize.width(), requestedSize.height());
+            thumbnailer.setMaintainAspectRatio(true);
+            thumbnailer.setSmartFrameSelection(true);
+            thumbnailer.setWorkAroundIssues(true);
 
-        // we use a temporary file that is automatically removed afterwards
-        QTemporaryFile tempFile;
-        tempFile.setAutoRemove(true);
+            // add movie-strip overlay
+            ffmpegthumbnailer::FilmStripFilter filmStrip;
+            thumbnailer.addFilter(&filmStrip);
 
-        // we need to open it in order for it to be created and have a filename
-        if(!tempFile.open()) {
-            const QString err = "Unable to open temporary file from thumbnail generation.";
-            qWarning() << err;
-            error += err % "\n";
-            return QImage();
-        }
-        // release the file
-        tempFile.close();
+            // we use a temporary file that is automatically removed afterwards
+            QTemporaryFile tempFile;
+            tempFile.setAutoRemove(true);
 
-        thumbnailer.generateThumbnail(path.toStdString(), ThumbnailerImageType::Jpeg, tempFile.fileName().toStdString());
+            // we need to open it in order for it to be created and have a filename
+            if(!tempFile.open()) {
+                const QString err = "Unable to open temporary file from thumbnail generation.";
+                qWarning() << err;
+                error += err % "\n";
+                return QImage();
+            }
+            // release the file
+            tempFile.close();
 
-        // reopening the file is safe
-        if(!tempFile.open()) {
-            const QString err = "Unable to open temporary file from thumbnail generation.";
-            qWarning() << err;
-            error += err % "\n";
-            return QImage();
-        }
+            thumbnailer.generateThumbnail(path.toStdString(), ThumbnailerImageType::Jpeg, tempFile.fileName().toStdString());
 
-        // attempt to load file as simple image
-        QImage ffmpegimg(tempFile.fileName());
+            // reopening the file is safe
+            if(!tempFile.open()) {
+                const QString err = "Unable to open temporary file from thumbnail generation.";
+                qWarning() << err;
+                error += err % "\n";
+                return QImage();
+            }
 
-        if(ffmpegimg.isNull())
-            qWarning() << "Failed to load video thumbnail from temporary file";
-        else {
-            return ffmpegimg;
+            // attempt to load file as simple image
+            QImage ffmpegimg(tempFile.fileName());
+
+            if(ffmpegimg.isNull())
+                qWarning() << "Failed to load video thumbnail from temporary file";
+            else {
+                return ffmpegimg;
+            }
+
+        } catch(...) {
+            qWarning() << "ffmpegthumbnailer API failed";
         }
 
 #endif
