@@ -131,8 +131,6 @@ const QImage PQCImagePluginMagick::loadImage(QString path, QSize requestedSize, 
     qDebug() << "args: path =" << path;
     qDebug() << "args: requestedSize =" << requestedSize;
 
-    QString errormsg = "";
-
 #if defined(PQMIMAGEMAGICK) || defined(PQMGRAPHICSMAGICK)
 
     QSize finalSize;
@@ -215,7 +213,7 @@ const QImage PQCImagePluginMagick::loadImage(QString path, QSize requestedSize, 
 
         ++howOftenFailed;
         qWarning() << e.what();
-        errormsg += QString("<div style='margin-bottom: 5px'>%1</div>").arg(e.what());
+        error += QString(e.what()) % "\n";
 
     }
 
@@ -257,6 +255,8 @@ void PQCImagePluginMagick::loadFormats() {
         {"j2k",      "JP2"},
         {"jpc",      "JP2"},
         {"jpx",      "JP2"},
+        {"jpf",      "JP2"},
+        {"j2c",      "JP2"},
         {"jpg",  "JPEG"},
         {"jpe",  "JPEG"},
         {"jif",  "JPEG"},
@@ -382,6 +382,8 @@ void PQCImagePluginMagick::loadFormats() {
         {"jp2",      "JPEG-2000"},
         {"jpc",      "JPEG-2000"},
         {"jpx",      "JPEG-2000"},
+        {"jpf",      "JPEG-2000"},
+        {"j2c",      "JPEG-2000"},
         {"jpeg", "JPEG: Joint Photographic Experts Group JFIF format"},
         {"jpg",  "JPEG: Joint Photographic Experts Group JFIF format"},
         {"jpe",  "JPEG: Joint Photographic Experts Group JFIF format"},
@@ -602,7 +604,7 @@ void PQCImagePluginMagick::loadFormats() {
 #ifdef PQMIMAGEMAGICK
     m_allMimetypes = {"image/bmp", "image/x-ms-bmp", "image/x-win-bitmap", "application/postscript",
                       "application/eps", "application/x-eps", "image/eps", "image/x-eps", "image/x-exr",
-                      "image/gif", "image/jp2", "image/jpx", "image/jpm", "image/jpeg", "video/x-mng",
+                      "image/gif", "image/jp2", "image/jpx", "image/jpeg", "video/x-mng",
                       "image/openraster", "image/x-portable-anymap", "image/vnd.zbrush.pcx", "image/x-pcx",
                       "image/x-portable-greymap", "image/x-portable-anymap", "image/png",
                       "image/x-portable-pixmap", "image/x-portable-anymap", "image/vnd.adobe.photoshop",
@@ -619,7 +621,7 @@ void PQCImagePluginMagick::loadFormats() {
 #else
     m_allMimetypes = {"image/bmp", "image/x-ms-bmp", "image/x-win-bitmap", "application/postscript",
                       "application/eps", "application/x-eps", "image/eps", "image/x-eps", "image/gif",
-                      "image/jp2", "image/jpx", "image/jpm", "image/jpeg", "video/x-mng", "image/x-portable-anymap",
+                      "image/jp2", "image/jpx", "image/jpeg", "video/x-mng", "image/x-portable-anymap",
                       "image/vnd.zbrush.pcx", "image/x-pcx", "image/x-portable-greymap", "image/x-portable-anymap",
                       "image/png", "image/x-portable-pixmap", "image/x-portable-anymap", "image/sgi",
                       "image/x-targa", "image/x-tga", "image/tiff", "image/tiff-fx", "image/vnd.wap.wbmp",

@@ -43,6 +43,9 @@ PQCImageHandler::PQCImageHandler() {
 
     const QString setDir = PQCConfigFiles::get().CONFIG_DIR() % "/imageplugins";
 
+    // these crash when loaded in parallel -> protect loading these with a mutex
+    m_doNotThreadFormats = {"jpeg2000", "jp2", "jpc", "jpx", "jpf", "j2c", "mj2"};
+
     pluginOrder = QStringList()
 #ifdef PQMRESVG
         << "resvg"
@@ -187,6 +190,9 @@ QImage PQCImageHandler::getImage(QString path, QSize requestedSize, QSize &origS
     const QString suffix1 = info.suffix().toLower();
     const QString suffix2 = info.completeSuffix().toLower();
 
+    const bool doNotThread = m_doNotThreadFormats.contains(suffix1);
+    if(doNotThread) providerMutex.lock();
+
     for(const QString &name : std::as_const(pluginOrder)) {
 
         if(!plugins.contains(name)) continue;
@@ -198,6 +204,7 @@ QImage PQCImageHandler::getImage(QString path, QSize requestedSize, QSize &origS
 
             img = plugin->loadImage(path, requestedSize, origSize, error);
             if(!img.isNull()) {
+                if(doNotThread) providerMutex.unlock();
                 return img;
             }
 
@@ -218,12 +225,24 @@ QImage PQCImageHandler::getImage(QString path, QSize requestedSize, QSize &origS
         if(mim.contains(mimetype)) {
 
             img = plugin->loadImage(path, requestedSize, origSize, error);
-            if(!img.isNull())
+            if(!img.isNull()) {
+                if(doNotThread) providerMutex.unlock();
                 return img;
+            }
 
         }
 
     }
+
+#if defined(PQMIMAGEMAGICK) || defined(PQMGRAPHICSMAGICK)
+
+    img = plugins["magick"]->loadImage(path, requestedSize, origSize, error);
+    if(doNotThread) providerMutex.unlock();
+    return img;
+
+#endif
+
+    if(doNotThread) providerMutex.unlock();
 
     return QImage();
 

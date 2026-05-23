@@ -24,6 +24,7 @@
 #include <QObject>
 #include <QString>
 #include <QSet>
+#include <QMutex>
 #include <pqc_imageplugin.h>
 
 class PQCImageHandler : public QObject {
@@ -55,6 +56,10 @@ public:
     QSet<QString> getWritableSuffixes(QStringList categories);
     QString getDescription(QString suffix);
 
+    const QSet<QString> getDoNotThreadFormats() { return m_doNotThreadFormats; };
+
+    QMutex providerMutex;
+
 private:
     PQCImageHandler();
 
@@ -67,6 +72,8 @@ private:
     QSet<QString> m_writableSuffixes;
 
     bool m_composedWritableSuffixes;
+
+    QSet<QString> m_doNotThreadFormats;
 
 Q_SIGNALS:
     void formatsUpdated();

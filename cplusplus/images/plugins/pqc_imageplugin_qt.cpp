@@ -317,11 +317,11 @@ void PQCImagePluginQt::loadFormats() {
     // then we store ALL supported suffixes
     m_allSuffixes = {"ani", "avif", "avifs", "bmp", "dib", "cine", "cur", "dds", "eps", "epsf", "epsi", "exr",
                      "gif", "heif", "heic", "ico", "jfif", "jpeg", "jpg", "jpe", "jif", "jpeg2000", "j2k", "jp2",
-                     "jpc", "jpx", "jxl", "jxr", "hdp", "wdp", "kra", "mng", "obm", "ora", "pbm", "pcx", "pdd",
-                     "pdf", "pfm", "pgm", "phm", "pic", "png", "ppm", "pnm", "psd", "psb", "psdt", "pxr", "qoi",
+                     "jpc", "jpx", "jpf", "j2c", "jxl", "jxr", "hdp", "wdp", "kra", "mng", "obm", "ora", "pbm",
+                     "pcx", "pdd", "pdf", "pfm", "pgm", "phm", "pic", "png", "ppm", "pnm", "psd", "psb", "psdt",
                      "qtk", "r3d", "rgba", "rgb", "sgi", "bw", "rgbe", "hdr", "rad", "sct", "ch", "ct", "sun",
                      "ras", "sr", "im1", "im24", "im32", "im8", "rast", "rs", "scr", "svg", "svgz", "tga", "icb",
-                     "vda", "vst", "tiff", "tif", "wbmp", "webp", "xbm", "bm", "xcf", "xpm", "pm"};
+                     "vda", "vst", "tiff", "tif", "wbmp", "webp", "xbm", "bm", "xcf", "xpm", "pm", "pxr", "qoi"};
 
     // these are the currently enabled ones
     m_suffixes = m_allSuffixes - m_toggledSuffixes;
@@ -353,6 +353,8 @@ void PQCImagePluginQt::loadFormats() {
         {"jp2",      "JPEG-2000"},
         {"jpc",      "JPEG-2000"},
         {"jpx",      "JPEG-2000"},
+        {"jpf",      "JPEG-2000"},
+        {"j2c",      "JPEG-2000"},
         {"jxl",      "JPEG XL"},
         {"jxr", "JPEG-XR"},
         {"hdp", "JPEG-XR"},
@@ -437,7 +439,7 @@ void PQCImagePluginQt::loadFormats() {
     m_allMimetypes = {"application/x-navi-animation", "image/avif", "image/avif-sequence", "image/bmp", "image/x-ms-bmp",
                       "image/x-win-bitmap", "application/postscript", "application/eps", "application/x-eps", "image/eps",
                       "image/x-eps", "image/x-exr", "image/gif", "image/heic", "image/heif", "image/vnd.microsoft.icon",
-                      "image/x-icon", "image/jpeg", "image/jp2", "image/jpx", "image/jpm", "image/jxl", "application/x-krita",
+                      "image/x-icon", "image/jpeg", "image/jp2", "image/jpx", "image/jxl", "application/x-krita",
                       "video/x-mng", "image/openraster", "image/x-portable-anymap", "image/vnd.zbrush.pcx", "image/x-pcx",
                       "application/pdf", "application/x-pdf", "application/x-bzpdf", "application/x-gzpdf",
                       "image/x-portable-greymap", "image/x-portable-anymap", "image/png", "image/x-portable-pixmap",

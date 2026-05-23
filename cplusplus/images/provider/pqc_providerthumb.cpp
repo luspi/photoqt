@@ -42,9 +42,12 @@
 QQuickImageResponse *PQCAsyncImageProviderThumb::requestImageResponse(const QString &url, const QSize &requestedSize) {
 
     PQCAsyncImageResponseThumb *response = new PQCAsyncImageResponseThumb(url, ((requestedSize.isValid() && !requestedSize.isNull()) ? requestedSize : QSize(256,256)));
+
     QThreadPool::globalInstance()->setMaxThreadCount(qMax(1,PQCSettingsCPP::get().getThumbnailsMaxNumberThreads()));
     pool.start(response);
+
     return response;
+
 }
 
 PQCAsyncImageResponseThumb::PQCAsyncImageResponseThumb(const QString &url, const QSize &requestedSize) : m_requestedSize(requestedSize) {

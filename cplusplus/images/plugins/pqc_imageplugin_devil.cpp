@@ -226,7 +226,7 @@ void PQCImagePluginDevIL::loadFormats() {
     }
 
     // then we store ALL supported suffixes
-    m_allSuffixes = {"bmp", "dib", "cur", "gif", "jpeg2000", "j2k", "jp2", "jpc", "jpx",
+    m_allSuffixes = {"bmp", "dib", "cur", "gif",
                      "jpeg", "jpg", "jpe", "jif", "pbm", "pgm", "png", "ppm", "pnm", "psd",
                      "psb", "psdt", "rgba", "rgb", "sgi", "bw", "tga", "icb", "vda", "vst",
                      "tiff", "tif", "cut", "pal", "dic", "dcm", "fits", "fit", "fts",
@@ -241,11 +241,6 @@ void PQCImagePluginDevIL::loadFormats() {
         {"dib", "BMP: Microsoft Windows bitmap"},
         {"cur", "CUR: Microsoft Windows cursor format"},
         {"gif", "GIF: Graphics Interchange Format"},
-        {"jpeg2000", "JPEG-2000"},
-        {"j2k",      "JPEG-2000"},
-        {"jp2",      "JPEG-2000"},
-        {"jpc",      "JPEG-2000"},
-        {"jpx",      "JPEG-2000"},
         {"jpeg", "JPEG: Joint Photographic Experts Group JFIF format"},
         {"jpg",  "JPEG: Joint Photographic Experts Group JFIF format"},
         {"jpe",  "JPEG: Joint Photographic Experts Group JFIF format"},
@@ -309,8 +304,8 @@ void PQCImagePluginDevIL::loadFormats() {
     }
 
     // then we store ALL supported mimetypes
-    m_allMimetypes = {"image/bmp", "image/x-ms-bmp", "image/x-win-bitmap", "image/gif", "image/jp2",
-                      "image/jpx", "image/jpm", "image/jpeg", "image/x-portable-anymap",
+    m_allMimetypes = {"image/bmp", "image/x-ms-bmp", "image/x-win-bitmap", "image/gif",
+                      "image/jpeg", "image/x-portable-anymap",
                       "image/x-portable-greymap", "image/x-portable-anymap", "image/png",
                       "image/x-portable-pixmap", "image/x-portable-anymap", "image/vnd.adobe.photoshop",
                       "image/sgi", "image/x-targa", "image/x-tga", "image/tiff", "image/tiff-fx",
