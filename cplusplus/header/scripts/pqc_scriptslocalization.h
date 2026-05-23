@@ -34,6 +34,7 @@
 /*************************************************************/
 
 class QTranslator;
+class QQmlEngine;
 
 class PQCScriptsLocalization : public QObject {
 
@@ -51,6 +52,7 @@ public:
     QString getNameForLocalizationCode(QString code);
     QString getCurrentTranslation();
     QString getActiveTranslationCode();
+    void setQmlEngine(QQmlEngine *engine);
 
 private:
     PQCScriptsLocalization();
@@ -58,5 +60,7 @@ private:
     QTranslator *trans;
     QString currentTranslation;
     QHash<QString,QString> langNames;
+
+    QQmlEngine *m_engine;
 
 };

@@ -314,6 +314,8 @@ int main(int argc, char **argv) {
     engine.load("qrc:/PhotoQt/qml/PQMainWindow.qml");
 #endif
 
+    PQCScriptsLocalization::get().setQmlEngine(&engine);
+
     int currentExitCode = app.exec();
 
 #ifdef PQMLIBVIPS

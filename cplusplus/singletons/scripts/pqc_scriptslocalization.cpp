@@ -49,6 +49,10 @@ PQCScriptsLocalization &PQCScriptsLocalization::get() {
     return instance;
 }
 
+void PQCScriptsLocalization::setQmlEngine(QQmlEngine *engine) {
+    m_engine = engine;
+}
+
 QStringList PQCScriptsLocalization::getAvailableTranslations() {
 
     qDebug() << "";
@@ -107,8 +111,8 @@ void PQCScriptsLocalization::updateTranslation(QString code) {
     if(currentTranslation.isEmpty())
         currentTranslation = code;
 
-    if(QQmlEngine::contextForObject(this) != nullptr)
-        QQmlEngine::contextForObject(this)->engine()->retranslate();
+    if(m_engine != nullptr)
+        m_engine->retranslate();
 
 }
 
