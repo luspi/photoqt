@@ -23,7 +23,6 @@
 import QtQuick
 import PhotoQt
 import ExtensionSettings
-import PQCExtensionsHandler
 
 Window {
 

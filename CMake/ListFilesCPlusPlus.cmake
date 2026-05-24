@@ -40,6 +40,7 @@ SET(photoqt_SOURCES cplusplus/main.cpp
                     cplusplus/header/pqc_filefoldermodelCPP.h
                     cplusplus/header/pqc_resolutioncache.h
                     cplusplus/header/pqc_extensionshandler.h
+                    cplusplus/header/pqc_extensionshandler_qml.h
                     cplusplus/header/pqc_extensioninfo.h
                     cplusplus/header/pqc_extensionsettings.h
                     cplusplus/header/pqc_extensionmethods.h

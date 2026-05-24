@@ -22,7 +22,6 @@
 
 import QtQuick
 import QtQml
-import PQCExtensionsHandler
 import PhotoQt
 
 Item {

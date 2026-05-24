@@ -299,9 +299,6 @@ int main(int argc, char **argv) {
     engine.addImageProvider("svgcolor", new PQCProviderSVGColor);
     engine.addImageProvider("mipmap", new PQCAsyncImageProviderMipMap);
 
-    // These only need to be imported where needed
-    qmlRegisterSingletonInstance("PQCExtensionsHandler", 1, 0, "PQCExtensionsHandler", &PQCExtensionsHandler::get());
-
     // the extension settings item
     qmlRegisterType<ExtensionSettings>("ExtensionSettings", 1, 0, "ExtensionSettings");
 

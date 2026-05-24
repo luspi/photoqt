@@ -67,90 +67,148 @@ public:
 
     /************************************************/
 
-    Q_PROPERTY(int numExtensionsEnabled MEMBER m_numExtensionsEnabled NOTIFY numExtensionsEnabledChanged)
-    Q_PROPERTY(int numExtensionsAll MEMBER m_numExtensionsAll NOTIFY numExtensionsAllChanged)
-    Q_PROPERTY(int numExtensionsFailed MEMBER m_numExtensionsFailed NOTIFY numExtensionsFailedChanged)
+    Q_PROPERTY(int numExtensionsEnabled READ getNumExtensionsEnabled WRITE setNumExtensionsEnabled NOTIFY numExtensionsEnabledChanged)
+    Q_PROPERTY(int numExtensionsAll READ getNumExtensionsAll WRITE setNumExtensionsAll NOTIFY numExtensionsAllChanged)
+    Q_PROPERTY(int numExtensionsFailed READ getNumExtensionsFailed WRITE setNumExtensionsFailed NOTIFY numExtensionsFailedChanged)
 
-    // proeprties regarding which context menu to add an extension to
-    Q_PROPERTY(QStringList contextMenuUse MEMBER m_contextMenuUse NOTIFY contextMenuUseChanged)
-    Q_PROPERTY(QStringList contextMenuManipulate MEMBER m_contextMenuManipulate NOTIFY contextMenuManipulateChanged)
-    Q_PROPERTY(QStringList contextMenuAbout MEMBER m_contextMenuAbout NOTIFY contextMenuAboutChanged)
-    Q_PROPERTY(QStringList contextMenuOther MEMBER m_contextMenuOther NOTIFY contextMenuOtherChanged)
-    Q_PROPERTY(QStringList mainmenu MEMBER m_mainmenu NOTIFY mainmenuChanged);
+    int getNumExtensionsEnabled() { return m_numExtensionsEnabled; }
+    void setNumExtensionsEnabled(const int val) {
+        if(val == m_numExtensionsEnabled)
+            return;
+        m_numExtensionsEnabled = val;
+        Q_EMIT numExtensionsEnabledChanged();
+    }
+    int getNumExtensionsAll() { return m_numExtensionsAll; }
+    void setNumExtensionsAll(const int val) {
+        if(val == m_numExtensionsAll)
+            return;
+        m_numExtensionsAll = val;
+        Q_EMIT numExtensionsAllChanged();
+    }
+    int getNumExtensionsFailed() { return m_numExtensionsFailed; }
+    void setNumExtensionsFailed(const int val) {
+        if(val == m_numExtensionsFailed)
+            return;
+        m_numExtensionsFailed = val;
+        Q_EMIT numExtensionsFailedChanged();
+    }
+
+    // properties regarding which context menu to add an extension to
+    Q_PROPERTY(QStringList contextMenuUse READ getContextMenuUse WRITE setContextMenuUse NOTIFY contextMenuUseChanged)
+    Q_PROPERTY(QStringList contextMenuManipulate READ getContextMenuManipulate WRITE setContextMenuManipulate NOTIFY contextMenuManipulateChanged)
+    Q_PROPERTY(QStringList contextMenuAbout READ getContextMenuAbout WRITE setContextMenuAbout NOTIFY contextMenuAboutChanged)
+    Q_PROPERTY(QStringList contextMenuOther READ getContextMenuOther WRITE setContextMenuOther NOTIFY contextMenuOtherChanged)
+    Q_PROPERTY(QStringList mainmenu READ getMainmenu WRITE setMainmenu NOTIFY mainmenuChanged);
+
+    QStringList getContextMenuUse() { return m_contextMenuUse; }
+    void setContextMenuUse(const QStringList val) {
+        if(val == m_contextMenuUse)
+            return;
+        m_contextMenuUse = val;
+        Q_EMIT contextMenuUseChanged();
+    }
+    QStringList getContextMenuManipulate() { return m_contextMenuManipulate; }
+    void setContextMenuManipulate(const QStringList val) {
+        if(val == m_contextMenuManipulate)
+            return;
+        m_contextMenuManipulate = val;
+        Q_EMIT contextMenuManipulateChanged();
+    }
+    QStringList getContextMenuAbout() { return m_contextMenuAbout; }
+    void setContextMenuAbout(const QStringList val) {
+        if(val == m_contextMenuAbout)
+            return;
+        m_contextMenuAbout = val;
+        Q_EMIT contextMenuAboutChanged();
+    }
+    QStringList getContextMenuOther() { return m_contextMenuOther; }
+    void setContextMenuOther(const QStringList val) {
+        if(val == m_contextMenuOther)
+            return;
+        m_contextMenuOther = val;
+        Q_EMIT contextMenuOtherChanged();
+    }
+    QStringList getMainmenu() { return m_mainmenu; }
+    void setMainmenu(const QStringList val) {
+        if(val == m_mainmenu)
+            return;
+        m_mainmenu = val;
+        Q_EMIT mainmenuChanged();
+    }
 
     // get some extensions properties
-    Q_INVOKABLE int     getExtensionVersion(QString id);
-    Q_INVOKABLE QString getExtensionName(QString id);
-    Q_INVOKABLE QString getExtensionLongName(QString id);
-    Q_INVOKABLE QString getExtensionAuthor(QString id);
-    Q_INVOKABLE QString getExtensionContact(QString id);
-    Q_INVOKABLE QString getExtensionDescription(QString id);
-    Q_INVOKABLE QString getExtensionWebsite(QString id);
-    Q_INVOKABLE int     getExtensionTargetAPIVersion(QString id);
+    int     getExtensionVersion(QString id);
+    QString getExtensionName(QString id);
+    QString getExtensionLongName(QString id);
+    QString getExtensionAuthor(QString id);
+    QString getExtensionContact(QString id);
+    QString getExtensionDescription(QString id);
+    QString getExtensionWebsite(QString id);
+    int     getExtensionTargetAPIVersion(QString id);
 
-    Q_INVOKABLE QString getExtensionNameId(QString id);
+    QString getExtensionNameId(QString id);
 
-    Q_INVOKABLE bool    getExtensionIntegratedAllow(QString id);
-    Q_INVOKABLE QSize   getExtensionIntegratedMinimumRequiredWindowSize(QString id);
-    Q_INVOKABLE int     getExtensionIntegratedDefaultPosition(QString id);
-    Q_INVOKABLE int     getExtensionIntegratedDefaultDistanceFromEdge(QString id);
-    Q_INVOKABLE QSize   getExtensionIntegratedDefaultSize(QString id);
-    Q_INVOKABLE bool    getExtensionIntegratedFixSizeToContent(QString id);
+    bool    getExtensionIntegratedAllow(QString id);
+    QSize   getExtensionIntegratedMinimumRequiredWindowSize(QString id);
+    int     getExtensionIntegratedDefaultPosition(QString id);
+    int     getExtensionIntegratedDefaultDistanceFromEdge(QString id);
+    QSize   getExtensionIntegratedDefaultSize(QString id);
+    bool    getExtensionIntegratedFixSizeToContent(QString id);
 
-    Q_INVOKABLE QSize   getExtensionPopoutDefaultSize(QString id);
-    Q_INVOKABLE bool    getExtensionPopoutAllow(QString id);
-    Q_INVOKABLE bool    getExtensionPopoutFixSizeToContent(QString id);
+    QSize   getExtensionPopoutDefaultSize(QString id);
+    bool    getExtensionPopoutAllow(QString id);
+    bool    getExtensionPopoutFixSizeToContent(QString id);
 
-    Q_INVOKABLE bool    getExtensionFloating(QString id);
-    Q_INVOKABLE bool    getExtensionModal(QString id);
-    Q_INVOKABLE bool    getExtensionMainMenu(QString id);
-    Q_INVOKABLE QString getExtensionDefaultShortcut(QString id);
-    Q_INVOKABLE bool    getExtensionRememberGeometry(QString id);
-    Q_INVOKABLE bool    getExtensionCustomMouseHandling(QString id);
-    Q_INVOKABLE QString getExtensionContextMenuSection(QString id);
-    Q_INVOKABLE bool    getExtensionHasCPPActions(QString id);
-    Q_INVOKABLE QList<QStringList> getExtensionSettings(QString id);
+    bool    getExtensionFloating(QString id);
+    bool    getExtensionModal(QString id);
+    bool    getExtensionMainMenu(QString id);
+    QString getExtensionDefaultShortcut(QString id);
+    bool    getExtensionRememberGeometry(QString id);
+    bool    getExtensionCustomMouseHandling(QString id);
+    QString getExtensionContextMenuSection(QString id);
+    bool    getExtensionHasCPPActions(QString id);
+    QList<QStringList> getExtensionSettings(QString id);
 
     // get a list of all extension ids
-    Q_INVOKABLE QStringList getExtensions();
+    QStringList getExtensions();
 
     // get a list of all disabled extensions
-    Q_INVOKABLE QStringList getDisabledExtensions();
+    QStringList getDisabledExtensions();
 
     // get a list of all extensions that failed the verification and are not excluded
-    Q_INVOKABLE QStringList getFailedExtensions();
+    QStringList getFailedExtensions();
 
     // get a list of all extensions ids, enabled AND disabled
-    Q_INVOKABLE QStringList getExtensionsEnabledAndDisabld();
+    QStringList getExtensionsEnabledAndDisabld();
 
     // get the base dir of the extension
-    Q_INVOKABLE QString getExtensionLocation(QString id);
-    Q_INVOKABLE QString getExtensionConfigLocation(QString id);
-    Q_INVOKABLE QString getExtensionDataLocation(QString id);
-    Q_INVOKABLE QString getExtensionCacheLocation(QString id);
+    QString getExtensionLocation(QString id);
+    QString getExtensionConfigLocation(QString id);
+    QString getExtensionDataLocation(QString id);
+    QString getExtensionCacheLocation(QString id);
 
     // check whether an extension comes with a settings widget
-    Q_INVOKABLE bool getHasSettings(const QString &id);
+    bool getHasSettings(const QString &id);
 
     // get the respective extension (if any) for a given shortcut
-    Q_INVOKABLE QString getExtensionForShortcut(QString sh);
-    Q_INVOKABLE QString getShortcutForExtension(QString id);
-    Q_INVOKABLE void addShortcut(QString id, QString sh);
-    Q_INVOKABLE void removeShortcut(QString id);
+    QString getExtensionForShortcut(QString sh);
+    QString getShortcutForExtension(QString id);
+    void addShortcut(QString id, QString sh);
+    void removeShortcut(QString id);
 
     /*************************************************************/
     // everything below is not to be used by any extension!
 
     // called when setup is supposed to start
-    Q_INVOKABLE void setup();
+    void setup();
 
     // these are predominantly used by the settings manager
-    Q_INVOKABLE void setEnabledExtensions(const QStringList &ids);
-    Q_INVOKABLE void setDisabledExtensions(const QStringList &ids);
-    Q_INVOKABLE void enableExtension(const QString &id);
-    Q_INVOKABLE void disableExtension(const QString &id);
-    Q_INVOKABLE int installExtension(QString filepath);
-    Q_INVOKABLE bool verifyExtension(QString extensionDir, QString nameId);
+    void setEnabledExtensions(const QStringList &ids);
+    void setDisabledExtensions(const QStringList &ids);
+    void enableExtension(const QString &id);
+    void disableExtension(const QString &id);
+    int installExtension(QString filepath);
+    bool verifyExtension(QString extensionDir, QString nameId);
 
     bool loadExtension(std::shared_ptr<PQCExtensionInfo> &extinfo, QString nameId, QString hashId, QString extensionDir, QString manifestTxt, bool isEnabled);
     void setExtensionMainMenu(QString hashId, bool add);

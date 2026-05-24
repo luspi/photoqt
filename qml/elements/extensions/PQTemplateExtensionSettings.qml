@@ -23,7 +23,6 @@
 import QtQuick
 import QtQuick.Controls
 import PhotoQt
-import PQCExtensionsHandler
 
 Flickable {
 

@@ -22,7 +22,6 @@
 
 import QtQuick
 import PhotoQt
-import PQCExtensionsHandler
 import "../../other/PQCommonFunctions.js" as PQF
 
 PQSetting {
