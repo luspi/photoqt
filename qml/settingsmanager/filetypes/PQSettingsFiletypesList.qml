@@ -222,10 +222,24 @@ PQSetting {
                     spacing: 10
 
                     PQCheckBox {
+                        id: formatcheck
                         y: (parent.height-height)/2
                         width: (listview.width-30)/3
                         text: deleg.entry
                         elide: Text.ElideMiddle
+                        opacity: (checkState != Qt.Unchecked) ? 1 : 0.5
+                        Behavior on opacity { enabled: !PQCSettings.generalDisableAllAnimations; NumberAnimation { duration: 100 } }
+                        tristate: true
+                        checkState: deleg.supportedPlugins.length===pluginrow.howManyEnabled ? Qt.Checked : pluginrow.howManyEnabled>0 ? Qt.PartiallyChecked : Qt.Unchecked
+                        nextCheckState: function() {
+                            if(checkState == Qt.Checked) {
+                                pluginrow.checkAll(false)
+                                return Qt.Unchecked
+                            } else {
+                                pluginrow.checkAll(true)
+                                return Qt.Checked
+                            }
+                        }
                     }
 
                     Row {
@@ -235,7 +249,14 @@ PQSetting {
                         width: 2*(listview.width-20)/3
                         spacing: 0
 
+                        opacity: (formatcheck.checkState != Qt.Unchecked) ? 1 : 0.5
+                        Behavior on opacity { enabled: !PQCSettings.generalDisableAllAnimations; NumberAnimation { duration: 100 } }
+
                         property int allunits: 0
+
+                        property int howManyEnabled: 0
+
+                        signal checkAll(var check)
 
                         Repeater {
                             model: listview.plugins.length
@@ -260,6 +281,16 @@ PQSetting {
                                 property bool hovered: butmouse.containsMouse
                                 property bool checked: deleg.entrystatus[modelData]
 
+                                onCheckedChanged:
+                                    pluginrow.howManyEnabled += (checked ? 1 : -1)
+
+                                Connections {
+                                    target: pluginrow
+                                    function onCheckAll(check : bool) {
+                                        if(butdeleg.enabled) butdeleg.checked = check
+                                    }
+                                }
+
                                 Rectangle {
                                     id: mainbut
                                     height: parent.height
@@ -282,6 +313,7 @@ PQSetting {
                                 Rectangle {
                                     anchors.fill: parent
                                     anchors.margins: 5
+                                    opacity: (formatcheck.checkState != Qt.Unchecked) ? 1 : 0.5
                                     radius: 10
                                     color: "transparent"
                                     visible: butdeleg.enabled

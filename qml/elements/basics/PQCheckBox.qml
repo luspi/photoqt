@@ -58,7 +58,7 @@ CheckBox {
         // Checkmark
         Canvas {
             anchors.fill: parent
-            visible: control.checked
+            visible: control.checked || (control.tristate && control.checkState==Qt.Checked)
             onPaint: {
                 var ctx = getContext("2d")
                 ctx.strokeStyle = palette.text
@@ -67,6 +67,23 @@ CheckBox {
                 ctx.moveTo(width * 0.2, height * 0.55)
                 ctx.lineTo(width * 0.45, height * 0.75)
                 ctx.lineTo(width * 0.8, height * 0.25)
+                ctx.stroke()
+            }
+        }
+
+        // Partial checkmark
+        Canvas {
+            anchors.fill: parent
+            visible: control.tristate && control.checkState==Qt.PartiallyChecked
+            onPaint: {
+                var ctx = getContext("2d")
+                ctx.reset()
+                ctx.strokeStyle = palette.text
+                ctx.lineWidth = 2
+                ctx.lineCap = "round"
+                ctx.beginPath()
+                ctx.moveTo(width * 0.25, height * 0.5)
+                ctx.lineTo(width * 0.75, height * 0.5)
                 ctx.stroke()
             }
         }
