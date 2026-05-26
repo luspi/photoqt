@@ -93,6 +93,7 @@ CheckBox {
         text: control.text
         font: control.font
         color: palette.text
+        elide: control.elide
         verticalAlignment: Text.AlignVCenter
         leftPadding: control.indicator.width + control.spacing
     }
