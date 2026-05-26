@@ -479,7 +479,7 @@ void PQCImagePluginLibarchive::loadFormats() {
     m_allSuffixes = {"cb7", "cbr", "cbt", "cbz", "rar", "tar", "7z", "zip", "tar.gz",
                      "taz", "tgz", "tar.xz", "txz", "tar.bz2", "tb2", "tbz", "tbz2",
                      "tz2", "tar.zst", "tzst", "tar.lz", "tar.lzma", "tlz", "tar.lzo",
-                     "tar.Z", "tZ", ""};
+                     "tar.z", "tz"};
 
     // these are the currently enabled ones
     m_suffixes = m_allSuffixes - m_toggledSuffixes;
@@ -493,8 +493,9 @@ void PQCImagePluginLibarchive::loadFormats() {
         {"tar", "TAR file format"},
         {"7z", "7z file format"},
         {"zip", "ZIP file format"},
-        {"tar.gz",  "TAR file format (GZIP)"},
-        {"taz,tgz", "TAR file format (GZIP)"},
+        {"tar.gz", "TAR file format (GZIP)"},
+        {"taz",    "TAR file format (GZIP)"},
+        {"tgz",    "TAR file format (GZIP)"},
         {"tar.xz", "TAR file format (XZ)"},
         {"txz",    "TAR file format (XZ)"},
         {"tar.bz2", "TAR file format (BZIP2)"},
@@ -508,8 +509,8 @@ void PQCImagePluginLibarchive::loadFormats() {
         {"tar.lzma", "TAR file format (LZMA)"},
         {"tlz",      "TAR file format (LZMA)"},
         {"tar.lzo", "TAR file format (LZOP)"},
-        {"tar.ZZ", "TAR file format (COMPRESS)"},
-        {"tZ",     "TAR file format (COMPRESS)"}
+        {"tar.z", "TAR file format (COMPRESS)"},
+        {"tz",    "TAR file format (COMPRESS)"}
     };
 
     /********************************/

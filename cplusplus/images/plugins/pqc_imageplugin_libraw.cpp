@@ -428,7 +428,7 @@ void PQCImagePluginLibraw::loadFormats() {
         {"rdc", "Rollei RAW Image"},
         {"rwz", "Rawzor RAW image"},
         {"sti", "Sinar CaptureShop RAW image"},
-        {"x3f", "Sigma Digital Camera Raw Image"},
+        {"x3f", "Sigma Digital Camera Raw Image"}
     };
 
     /********************************/
