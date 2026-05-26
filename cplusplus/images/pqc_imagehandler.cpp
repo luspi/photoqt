@@ -371,3 +371,135 @@ QString PQCImageHandler::getDescription(QString suffix) {
     return "";
 
 }
+
+QStringList PQCImageHandler::getPluginNames() {
+    QStringList ret;
+    for(const QString &plugin: std::as_const(pluginOrder))
+        ret.append(plugins[plugin]->name());
+    return ret;
+}
+
+QStringList PQCImageHandler::getPluginsForFormatByDescription(QString description) {
+
+    QStringList ret;
+    for(const QString &plugin: std::as_const(pluginOrder)) {
+        if(plugins[plugin]->supportsFormatByDescription(description))
+            ret << plugins[plugin]->name();
+    }
+    return ret;
+
+}
+
+QStringList PQCImageHandler::getAllDescriptions() {
+
+    QStringList ret;
+
+    for(const QString &name : std::as_const(pluginOrder)) {
+        PQCImagePlugin *plugin = plugins[name];
+        QStringList allSuffixes = plugin->getSuffixes().values();
+        allSuffixes.sort(Qt::CaseInsensitive);
+        for(const QString &suf : std::as_const(allSuffixes)) {
+            const QString dsc = plugin->getDescription(suf);
+            if(!ret.contains(dsc))
+                ret.append(dsc);
+        }
+    }
+
+    return ret;
+
+}
+
+
+//     // description => suffixes,
+//     QMap<QString, QMap<QString,QVariantList> > ret;
+
+//     for(PQCImagePlugin *plugin : std::as_const(plugins)) {
+
+//         const QString name = plugin->name();
+
+//         QSet<QString> allSuffixes = plugin->getAllSuffixes();
+//         QSet<QString> allMimetypes = plugin->getAllMimetypes();
+
+//         QSet<QString> enabledSuffixes = plugin->getSuffixes();
+//         QSet<QString> enabledMimetypes = plugin->getMimetypes();
+
+
+//         for(const QString &s : allSuffixes) {
+
+//             const QString desc = plugin->getDescription(s);
+//             QMap<QString, QVariantList> dat;
+//             if(ret.contains(desc)) {
+//                 dat = ret.value(desc);
+//             } else {
+//                 QVariantList sL;
+//                 QVariantList mL;
+//                 QVariantList sm = {sL, mL};
+//                 QVariantMap smMap;
+//                 dat.insert(name, sm);
+//             }
+
+//             QVariantList curList = dat.value(name).toList().value(0).toList();
+//             curList.append(s);
+//             curList.append(enabledSuffixes.contains(s) ? 1 : 0);
+
+//             QVariantList mimList = dat.value(name).toList().value(1).toList();
+
+//             QVariantList sm = {curList, mimList};
+//             dat.insert(name, sm);
+//             ret.insert(desc, dat);
+
+//         }
+
+//         // for(const QString &m : allMimetypes) {
+
+//         //     const QString desc = plugin->getDescription(m);
+//         //     QVariantMap dat;
+//         //     if(ret.contains(desc)) {
+//         //         dat = ret.value(desc);
+//         //     } else {
+//         //         QVariantList sL;
+//         //         QVariantList mL;
+//         //         QVariantList sm = {sL, mL};
+//         //         QVariantMap smMap;
+//         //         smMap.insert(name, sm);
+//         //         dat = smMap;
+//         //     }
+
+//         //     QVariantList curList = dat.value(name).toList().value(1).toList();
+//         //     curList.append(m);
+//         //     curList.append(enabledMimetypes.contains(m) ? 1 : 0);
+
+//         //     ret.insert(desc, dat);
+
+//         // }
+
+
+//     }
+
+//     QVariantList lst;
+//     const QStringList dscs = ret.keys();
+//     for(const QString &dsc : dscs) {
+//         lst << dsc;
+
+//         QVariantList l;
+//         QMap<QString, QVariantList> dat = ret.value(dsc);
+//         const QStringList plugins = dat.keys();
+//         for(const QString &plugin : plugins) {
+//             l << plugin << dat.value(plugin);
+//         }
+
+//         lst << ret.value(key).;
+//         // lst << l;
+//     }
+
+//     return lst;
+
+// }
+
+bool PQCImageHandler::isEnabled(QString plugin, QString description) {
+    for(const QString &name : std::as_const(pluginOrder)) {
+        if(name == plugin || plugins[name]->name() == plugin)
+            return plugins[name]->supportsFormatByDescription(description);
+    }
+    return false;
+}

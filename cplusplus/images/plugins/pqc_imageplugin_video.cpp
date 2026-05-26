@@ -45,7 +45,15 @@ PQCImagePluginVideo::PQCImagePluginVideo(QString settingsDir) : m_settingsDir(se
 }
 
 const QString PQCImagePluginVideo::getDescription(QString suffix) {
-    return suffix2description.value(suffix, "");
+    return suffix2description.value(suffix.toLower(), "");
+}
+
+const bool PQCImagePluginVideo::supportsFormatByDescription(QString description) {
+    for(const auto &[suf, desc] : std::as_const(suffix2description).asKeyValueRange()) {
+        if(desc == description)
+            return true;
+    }
+    return false;
 }
 
 const QSet<QString> PQCImagePluginVideo::getWritableSuffixes() {

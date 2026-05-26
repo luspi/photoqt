@@ -79,6 +79,26 @@ public:
         return PQCImageHandler::get().getDescription(suffix);
     }
 
+    /*****************************************************/
+
+    Q_INVOKABLE QStringList getPluginNames() {
+        return PQCImageHandler::get().getPluginNames();
+    }
+
+    Q_INVOKABLE QStringList getAllDescriptions() {
+        return PQCImageHandler::get().getAllDescriptions();
+    }
+
+    Q_INVOKABLE QStringList getPluginsForFormatByDescription(QString description) {
+        return PQCImageHandler::get().getPluginsForFormatByDescription(description);
+    }
+
+    Q_INVOKABLE bool isEnabled(QString plugin, QString description) {
+        return PQCImageHandler::get().isEnabled(plugin, description);
+    }
+
+    /*****************************************************/
+
 Q_SIGNALS:
     void formatsUpdated();
 

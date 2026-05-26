@@ -111,21 +111,21 @@ PQSetting {
                 property int num: 0
                 //: The %1 will be replaced with the number of file formats, please don't forget to add it.
                 text:  qsTranslate("settingsmanager", "Currently there are %1 file formats enabled").arg("<b>"+num+"</b>")
-                Connections {
-                    target: listview
-                    function onFtChanged() {
-                        countEnabled.countFormats()
-                    }
-                }
-                Component.onCompleted: {
-                    countEnabled.countFormats()
-                }
-                function countFormats() {
-                    var c = 0
-                    for(var i = 0; i< listview.ft.length; ++i)
-                        if(listview.ft[i][1] === 1) c += 1
-                    countEnabled.num = c
-                }
+                // Connections {
+                //     target: listview
+                //     function onFtChanged() {
+                //         countEnabled.countFormats()
+                //     }
+                // }
+                // Component.onCompleted: {
+                //     countEnabled.countFormats()
+                // }
+                // function countFormats() {
+                //     var c = 0
+                //     for(var i = 0; i< listview.ft.length; ++i)
+                //         if(listview.ft[i][1] === 1) c += 1
+                //     countEnabled.num = c
+                // }
             }
 
             Item {
@@ -178,140 +178,66 @@ PQSetting {
             width: set_fity.contentWidth
             height: set_fity.availableHeight - topcol.height - set_fity.contentSpacing - 10
 
-            property list<var> ft: []
-            onFtChanged:
-                set_fity.checkForChanges()
-
             clip: true
 
-            model: ft.length
+            property list<string> entries: []
 
-            Rectangle {
-                anchors.fill: parent
-                color: "transparent"
-                border.color: PQCLook.baseBorder
-                border.width: 1
-            }
+            property list<string> plugins: []
+            property var entry2status: ({})
+            property var entry2plugins: ({})
 
-            ScrollBar.vertical: PQVerticalScrollBar {}
+            model: entries.length
 
-            PQScrollManager { flickable: listview }
+            delegate: Rectangle {
 
-            delegate:
+                id: deleg
+
+                required property int modelData
+                property string entry: listview.entries[deleg.modelData]
+                property list<int> entrystatus: listview.entry2status[entry]
+                property list<string> supportedPlugins: listview.entry2plugins[entry]
+
+                width: listview.width
+                height: 50
+                color: palette.alternateBase
                 Rectangle {
+                    width: parent.width
+                    height: 1
+                    y: parent.height-height
+                    color: PQCLook.baseBorder
+                }
 
-                    id: entry_rect
+                Row {
 
-                    required property int modelData
-
-                    width: set_fity.contentWidth
-
-                    clip: true
-
-                    property bool filterPass: true
-                    height: filterPass ? 50 : 0
-                    Behavior on height { enabled: !PQCSettings.generalDisableAllAnimations; NumberAnimation { duration: 50 } }
-
-                    color: entry_rect.modelData%2==0 ? palette.alternateBase : palette.base
-                    visible: height > 0
+                    x: 10
+                    y: (parent.height-height)/2
 
                     PQCheckBox {
-                        id: checkenable
-                        anchors {
-                            left: parent.left
-                            leftMargin: 10
-                            top: parent.top
-                            bottom: parent.bottom
-                        }
-                        checked: listview.ft[entry_rect.modelData][1]
-                        onClicked: {
-                            listview.ft[entry_rect.modelData][1] = (listview.ft[entry_rect.modelData][1]+1)%2
-                            listview.ftChanged()
-                        }
+                        y: (parent.height-height)/2
+                        width: (listview.width-30)/2
+                        text: deleg.entry
                     }
 
-                    PQText {
-                        id: entry_desc
-                        anchors {
-                            left: checkenable.right
-                            leftMargin: 10
-                            top: parent.top
-                            bottom: parent.bottom
+                    Flow {
+                        y: (parent.height-height)/2
+                        width: (listview.width-30)/2
+                        spacing: 10
+
+                        Repeater {
+                            model: listview.plugins.length
+                            PQCheckBox {
+                                required property int modelData
+                                property string plugin: listview.plugins[modelData]
+                                text: plugin
+                                checked: deleg.entrystatus[modelData]
+                                enabled: deleg.supportedPlugins.indexOf(plugin)>-1
+                                opacity: enabled ? 1 : 0.3
+                            }
                         }
-                        elide: Text.ElideRight
-                        width: entry_rect.width/2 - checkenable.width-10
-                        verticalAlignment: Text.AlignVCenter
-                        text: "<b>" + listview.ft[entry_rect.modelData][2] + "</b> &nbsp;&nbsp; *." + listview.ft[entry_rect.modelData][0].split(",").join(", *.")
-                        opacity: checkenable.checked ? 1 : 0.3
-                        Behavior on opacity { enabled: !PQCSettings.generalDisableAllAnimations; NumberAnimation { duration: 200 } }
-                        textFormat: Text.StyledText
-                    }
-
-                    PQText {
-                        id: entry_libs
-                        anchors {
-                            left: entry_desc.right
-                            leftMargin: 10
-                            top: parent.top
-                            bottom: parent.bottom
-                        }
-                        width: entry_rect.width/2-10
-                        verticalAlignment: Text.AlignVCenter
-                        text: listview.ft[entry_rect.modelData].slice(4).join(", ")
-                        opacity: checkenable.checked ? 1 : 0.3
-                        Behavior on opacity { enabled: !PQCSettings.generalDisableAllAnimations; NumberAnimation { duration: 200 } }
-                    }
-
-                    PQMouseArea {
-                        anchors.fill: parent
-                        hoverEnabled: true
-                        cursorShape: Qt.PointingHandCursor
-                        onClicked: {
-                            listview.ft[entry_rect.modelData][1] = (listview.ft[entry_rect.modelData][1]+1)%2
-                            listview.ftChanged()
-                        }
-                        text: "<b>" + qsTranslate("settingsmanager", "File endings:") + "</b> *." + listview.ft[entry_rect.modelData][0].split(",").join(", *.")
-                    }
-
-                    function filterItem() : void {
-
-                        var desc_pass = false
-                        if(filter_desc.text === "" ||
-                                entry_desc.text.toLowerCase().indexOf(filter_desc.text.toLowerCase()) !== -1 ||
-                                listview.ft[entry_rect.modelData][0].toLowerCase().indexOf(filter_desc.text.toLowerCase()) !== -1) {
-                            desc_pass = true
-                        }
-
-                        var lib_pass = false
-                        if(filter_lib.text === "" ||
-                                entry_libs.text.toLowerCase().indexOf(filter_lib.text.toLowerCase()) !== -1) {
-                            lib_pass = true
-                        }
-
-                        entry_rect.filterPass = (desc_pass && lib_pass)
 
                     }
-
-                    Connections {
-                        target: filter_desc
-                        function onTextChanged() {
-                            entry_rect.filterItem()
-                        }
-                    }
-
-                    Connections {
-                        target: filter_lib
-                        function onTextChanged() {
-                            entry_rect.filterItem()
-                        }
-                    }
-
-                    // this is needed as not all items might be set up as they are too far outside the view
-                    // thus they wont be able to respond to the above signals
-                    Component.onCompleted:
-                        entry_rect.filterItem()
-
                 }
+            }
 
         }
 
@@ -392,8 +318,27 @@ PQSetting {
 
         settingsLoaded = false
 
-        listview.ft = PQCImageHandler.getSuffixes()
-        defaultSettings = composeChecker()
+        listview.entries = []
+
+        var descs = PQCImageHandler.getAllDescriptions()
+        var plugins = PQCImageHandler.getPluginNames()
+        var stat = ({})
+        var pluginstat = ({})
+        for(var iD in descs) {
+            var d = descs[iD]
+            if(d in stat) continue;
+            var supported = PQCImageHandler.getPluginsForFormatByDescription(d)
+            var cur = []
+            for(var iPl in plugins) {
+                cur.push(PQCImageHandler.isEnabled(plugins[iPl], d) ? 1 : 0)
+            }
+            stat[d] = cur
+            pluginstat[d] = supported
+        }
+        listview.plugins = plugins
+        listview.entry2status = stat
+        listview.entry2plugins = pluginstat
+        listview.entries = descs
 
         PQCConstants.settingsManagerSettingChanged = false
         settingsLoaded = true

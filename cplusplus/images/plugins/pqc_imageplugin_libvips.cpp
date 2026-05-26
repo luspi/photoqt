@@ -42,7 +42,15 @@ PQCImagePluginLibVips::PQCImagePluginLibVips(QString settingsDir) : m_settingsDi
 }
 
 const QString PQCImagePluginLibVips::getDescription(QString suffix) {
-    return suffix2description.value(suffix, "");
+    return suffix2description.value(suffix.toLower(), "");
+}
+
+const bool PQCImagePluginLibVips::supportsFormatByDescription(QString description) {
+    for(const auto &[suf, desc] : std::as_const(suffix2description).asKeyValueRange()) {
+        if(desc == description)
+            return true;
+    }
+    return false;
 }
 
 const QSet<QString> PQCImagePluginLibVips::getWritableSuffixes() {
