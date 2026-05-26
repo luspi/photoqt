@@ -61,6 +61,7 @@ public:
     QStringList getPluginsForFormatByDescription(QString description);
 
     bool isEnabled(QString plugin, QString description);
+    void setEnabled(QString pluginName, QString description, bool enabled);
 
     const QSet<QString> getDoNotThreadFormats() { return m_doNotThreadFormats; };
 

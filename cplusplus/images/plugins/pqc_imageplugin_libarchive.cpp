@@ -451,7 +451,7 @@ const QImage PQCImagePluginLibarchive::loadImage(QString path, QSize requestedSi
 
 }
 
-void PQCImagePluginLibarchive::setEnabled(QString suffix, QString mimetype, bool enabled) {
+void PQCImagePluginLibarchive::setEnabled(QString description, bool enabled) {
 
 }
 
@@ -485,33 +485,36 @@ void PQCImagePluginLibarchive::loadFormats() {
     m_suffixes = m_allSuffixes - m_toggledSuffixes;
 
     suffix2description = {
-        {"cb7", "Comic book archive"},
-        {"cbr", "Comic book archive"},
-        {"cbt", "Comic book archive"},
-        {"cbz", "Comic book archive"},
-        {"rar", "RAR file format"},
-        {"tar", "TAR file format"},
-        {"7z", "7z file format"},
-        {"zip", "ZIP file format"},
-        {"tar.gz", "TAR file format (GZIP)"},
-        {"taz",    "TAR file format (GZIP)"},
-        {"tgz",    "TAR file format (GZIP)"},
-        {"tar.xz", "TAR file format (XZ)"},
-        {"txz",    "TAR file format (XZ)"},
-        {"tar.bz2", "TAR file format (BZIP2)"},
-        {"tb2",     "TAR file format (BZIP2)"},
-        {"tbz",     "TAR file format (BZIP2)"},
-        {"tbz2",    "TAR file format (BZIP2)"},
-        {"tz2",     "TAR file format (BZIP2)"},
-        {"tar.zst", "TAR file format (ZSTD)"},
-        {"tzst",    "TAR file format (ZSTD)"},
-        {"tar.lz", "TAR file format (LZIP)"},
+        {"cb7",      "Comic book archive"},
+        {"cbr",      "Comic book archive"},
+        {"cbt",      "Comic book archive"},
+        {"cbz",      "Comic book archive"},
+        {"rar",      "RAR file format"},
+        {"tar",      "TAR file format"},
+        {"7z",       "7z file format"},
+        {"zip",      "ZIP file format"},
+        {"tar.gz",   "TAR file format (GZIP)"},
+        {"taz",      "TAR file format (GZIP)"},
+        {"tgz",      "TAR file format (GZIP)"},
+        {"tar.xz",   "TAR file format (XZ)"},
+        {"txz",      "TAR file format (XZ)"},
+        {"tar.bz2",  "TAR file format (BZIP2)"},
+        {"tb2",      "TAR file format (BZIP2)"},
+        {"tbz",      "TAR file format (BZIP2)"},
+        {"tbz2",     "TAR file format (BZIP2)"},
+        {"tz2",      "TAR file format (BZIP2)"},
+        {"tar.zst",  "TAR file format (ZSTD)"},
+        {"tzst",     "TAR file format (ZSTD)"},
+        {"tar.lz",   "TAR file format (LZIP)"},
         {"tar.lzma", "TAR file format (LZMA)"},
         {"tlz",      "TAR file format (LZMA)"},
-        {"tar.lzo", "TAR file format (LZOP)"},
-        {"tar.z", "TAR file format (COMPRESS)"},
-        {"tz",    "TAR file format (COMPRESS)"}
+        {"tar.lzo",  "TAR file format (LZOP)"},
+        {"tar.z",    "TAR file format (COMPRESS)"},
+        {"tz",       "TAR file format (COMPRESS)"}
     };
+
+    // no mimetypes
+    mimetype2description.clear();
 
     /********************************/
 

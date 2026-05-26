@@ -278,7 +278,7 @@ const QImage PQCImagePluginVideo::loadImage(QString path, QSize requestedSize, Q
 
 }
 
-void PQCImagePluginVideo::setEnabled(QString suffix, QString mimetype, bool enabled) {
+void PQCImagePluginVideo::setEnabled(QString description, bool enabled) {
 
 }
 

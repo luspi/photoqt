@@ -260,7 +260,7 @@ const QImage PQCImagePluginLibsai::loadImage(QString path, QSize requestedSize, 
 
 }
 
-void PQCImagePluginLibsai::setEnabled(QString suffix, QString mimetype, bool enabled) {
+void PQCImagePluginLibsai::setEnabled(QString descriptiondescription, bool enabled) {
 
 }
 
@@ -293,6 +293,8 @@ void PQCImagePluginLibsai::loadFormats() {
     suffix2description = {
         {"sai", "PaintTool Sai"}
     };
+
+    mimetype2description.clear();
 
     /********************************/
 

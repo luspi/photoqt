@@ -72,8 +72,8 @@ public:
     // > error holding any potential error message
     virtual const QImage loadImage(QString path, QSize requestedSize, QSize &origSize, QString &error) = 0;
 
-    // toggle the enabled status of the specified formats and/or mimetypes
-    virtual void setEnabled(QString suffix, QString mimetype, bool enabled) = 0;
+    // toggle the enabled status of the specified formats
+    virtual void setEnabled(QString suffix, bool enabled) = 0;
 
 Q_SIGNALS:
     void formatsUpdated();

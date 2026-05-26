@@ -344,7 +344,7 @@ const QImage PQCImagePluginLibraw::loadImage(QString path, QSize requestedSize, 
 
 }
 
-void PQCImagePluginLibraw::setEnabled(QString suffix, QString mimetype, bool enabled) {
+void PQCImagePluginLibraw::setEnabled(QString description, bool enabled) {
 
 }
 
@@ -429,6 +429,13 @@ void PQCImagePluginLibraw::loadFormats() {
         {"rwz", "Rawzor RAW image"},
         {"sti", "Sinar CaptureShop RAW image"},
         {"x3f", "Sigma Digital Camera Raw Image"}
+    };
+
+    mimetype2description = {
+        {"image/x-canon-crw",   "Canon Digital Camera Raw Image Format"},
+        {"image/x-canon-cr2",   "Canon Digital Camera Raw Image Format"},
+        {"image/x-olympus-orf", "Olympus Digital Camera Raw Image Format"},
+        {"image/x-pentax-pef",  "Pentax Raw Image Format"}
     };
 
     /********************************/

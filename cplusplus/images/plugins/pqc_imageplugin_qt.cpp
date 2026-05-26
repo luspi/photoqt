@@ -289,7 +289,7 @@ const QImage PQCImagePluginQt::loadImage(QString path, QSize requestedSize, QSiz
 
 }
 
-void PQCImagePluginQt::setEnabled(QString suffix, QString mimetype, bool enabled) {
+void PQCImagePluginQt::setEnabled(QString description, bool enabled) {
 
     // TODO
 

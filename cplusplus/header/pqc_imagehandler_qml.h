@@ -97,6 +97,10 @@ public:
         return PQCImageHandler::get().isEnabled(plugin, description);
     }
 
+    Q_INVOKABLE void setEnabled(QString pluginName, QString description, bool enabled) {
+               PQCImageHandler::get().setEnabled(pluginName, description, enabled);
+    }
+
     /*****************************************************/
 
 Q_SIGNALS:

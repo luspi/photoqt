@@ -229,7 +229,7 @@ const QImage PQCImagePluginPDF::loadImage(QString path, QSize requestedSize, QSi
 
 }
 
-void PQCImagePluginPDF::setEnabled(QString suffix, QString mimetype, bool enabled) {
+void PQCImagePluginPDF::setEnabled(QString description, bool enabled) {
 
 }
 

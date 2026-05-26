@@ -172,7 +172,7 @@ const QImage PQCImagePluginLibVips::loadImage(QString path, QSize requestedSize,
 
 }
 
-void PQCImagePluginLibVips::setEnabled(QString suffix, QString mimetype, bool enabled) {
+void PQCImagePluginLibVips::setEnabled(QString description, bool enabled) {
 
 }
 
@@ -206,36 +206,58 @@ void PQCImagePluginLibVips::loadFormats() {
     m_suffixes = m_allSuffixes - m_toggledSuffixes;
 
     suffix2description = {
-        {"exr", "OpenEXR"},
-        {"gif", "GIF: Graphics Interchange Format"},
+        {"exr",      "OpenEXR"},
+        {"gif",      "GIF: Graphics Interchange Format"},
         {"jpeg2000", "JPEG-2000"},
         {"j2k",      "JPEG-2000"},
         {"jp2",      "JPEG-2000"},
         {"jpc",      "JPEG-2000"},
         {"jpx",      "JPEG-2000"},
-        {"jpeg", "JPEG: Joint Photographic Experts Group JFIF format"},
-        {"jpg",  "JPEG: Joint Photographic Experts Group JFIF format"},
-        {"jpe",  "JPEG: Joint Photographic Experts Group JFIF format"},
-        {"jif",  "JPEG: Joint Photographic Experts Group JFIF format"},
-        {"pbm", "PBM: Portable bitmap format (black and white)"},
-        {"pgm", "PGM: Portable graymap format (gray scale)"},
-        {"png", "PNG: Portable Network Graphics"},
-        {"ppm", "PPM: Portable pixmap format (color)"},
-        {"pnm", "PPM: Portable pixmap format (color)"},
-        {"svg",  "SVG: Scalable Vector Graphics"},
-        {"svgz", "SVG: Scalable Vector Graphics"},
-        {"tiff", "TIFF: Tagged Image File Format"},
-        {"tif",  "TIFF: Tagged Image File Format"},
-        {"fits", "FITS: Flexible Image Transport System"},
-        {"fit",  "FITS: Flexible Image Transport System"},
-        {"fts",  "FITS: Flexible Image Transport System"},
-        {"webp", "WEBP: Google web image format"},
-        {"rgbe", "HDR: Radiance RGBE image format"},
-        {"hdr",  "HDR: Radiance RGBE image format"},
-        {"rad",  "HDR: Radiance RGBE image format"},
-        {"heif", "HEIF: High Efficiency Image Format"},
-        {"heic", "HEIF: High Efficiency Image Format"},
-        {"pfm", "Portable Float Map"}
+        {"jpeg",     "JPEG: Joint Photographic Experts Group JFIF format"},
+        {"jpg",      "JPEG: Joint Photographic Experts Group JFIF format"},
+        {"jpe",      "JPEG: Joint Photographic Experts Group JFIF format"},
+        {"jif",      "JPEG: Joint Photographic Experts Group JFIF format"},
+        {"pbm",      "PBM: Portable bitmap format (black and white)"},
+        {"pgm",      "PGM: Portable graymap format (gray scale)"},
+        {"png",      "PNG: Portable Network Graphics"},
+        {"ppm",      "PPM: Portable pixmap format (color)"},
+        {"pnm",      "PPM: Portable pixmap format (color)"},
+        {"svg",      "SVG: Scalable Vector Graphics"},
+        {"svgz",     "SVG: Scalable Vector Graphics"},
+        {"tiff",     "TIFF: Tagged Image File Format"},
+        {"tif",      "TIFF: Tagged Image File Format"},
+        {"fits",     "FITS: Flexible Image Transport System"},
+        {"fit",      "FITS: Flexible Image Transport System"},
+        {"fts",      "FITS: Flexible Image Transport System"},
+        {"webp",     "WEBP: Google web image format"},
+        {"rgbe",     "HDR: Radiance RGBE image format"},
+        {"hdr",      "HDR: Radiance RGBE image format"},
+        {"rad",      "HDR: Radiance RGBE image format"},
+        {"heif",     "HEIF: High Efficiency Image Format"},
+        {"heic",     "HEIF: High Efficiency Image Format"},
+        {"pfm",      "Portable Float Map"}
+    };
+
+    mimetype2description = {
+        {"image/x-exr",              "OpenEXR"},
+        {"image/gif",                "GIF: Graphics Interchange Format"},
+        {"image/jp2,",               "JPEG-2000"},
+        {"image/jpx",                "JPEG-2000"},
+        {"image/jpm",                "JPEG-2000"},
+        {"image/jpeg",               "JPEG: Joint Photographic Experts Group JFIF format"},
+        {"image/x-portable-anymap",  "PBM: Portable bitmap format (black and white)"},
+        {"image/x-portable-greymap", "PGM: Portable graymap format (gray scale)"},
+        {"image/x-portable-anymap",  "PGM: Portable graymap format (gray scale)"},
+        {"image/png",                "PNG: Portable Network Graphics"},
+        {"image/x-portable-pixmap",  "PPM: Portable pixmap format (color)"},
+        {"image/x-portable-anymap",  "PPM: Portable pixmap format (color)"},
+        {"image/svg+xml",            "SVG: Scalable Vector Graphics"},
+        {"image/tiff",               "TIFF: Tagged Image File Format"},
+        {"image/tiff-fx",            "TIFF: Tagged Image File Format"},
+        {"image/fits",               "FITS: Flexible Image Transport System"},
+        {"image/webp",               "WEBP: Google web image format"},
+        {"image/heic",               "HEIF: High Efficiency Image Format"},
+        {"image/heif",               "HEIF: High Efficiency Image Format"}
     };
 
     /********************************/

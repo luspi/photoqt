@@ -33,6 +33,10 @@ PQSetting {
 
     property string defaultSettings: ""
 
+    property list<var> changes: []
+    onChangesChanged:
+        checkForChanges()
+
     content: [
 
         Column {
@@ -66,28 +70,15 @@ PQSetting {
                     id: enableBut
                     //: As in: "Enable all formats in the seleted category of file types"
                     text: qsTranslate("settingsmanager", "Enable")
-                    onClicked:
-                        butrow.checkUncheck(1)
+                    // onClicked:
+                    //     butrow.checkUncheck(1)
                 }
                 PQButton {
                     id: disableBut
                     //: As in: "Disable all formats in the seleted category of file types"
                     text: qsTranslate("settingsmanager", "Disable")
-                    onClicked:
-                        butrow.checkUncheck(0)
-                }
-
-                function checkUncheck(checked : bool) {
-                    if(catCombo.currentIndex === 0)
-                        set_fity.checkImg(checked)
-                    else if(catCombo.currentIndex === 1)
-                        set_fity.checkPac(checked)
-                    else if(catCombo.currentIndex === 2)
-                        set_fity.checkDoc(checked)
-                    else if(catCombo.currentIndex === 3)
-                        set_fity.checkVid(checked)
-                    else
-                        console.warn("Error: Unknown category selected:", catCombo.currentText)
+                    // onClicked:
+                    //     butrow.checkUncheck(0)
                 }
 
                 Item {
@@ -294,7 +285,9 @@ PQSetting {
                                 Connections {
                                     target: pluginrow
                                     function onCheckAll(check : bool) {
-                                        if(butdeleg.enabled) butdeleg.checked = check
+                                        if(butdeleg.enabled && butdeleg.checked !== check) {
+                                            butdeleg.checked = check
+                                        }
                                     }
                                 }
 
@@ -343,8 +336,12 @@ PQSetting {
                                     cursorShape: Qt.PointingHandCursor
                                     text: butdeleg.enabled ? buttxt.text : qsTranslate("settingsmanager", "format not supported by this plugin")
 
-                                    onClicked:
+                                    onClicked: {
                                         butdeleg.checked = !butdeleg.checked
+                                        var newchange = [butdeleg.plugin, deleg.entry, butdeleg.checked]
+                                        set_fity.changes.push(newchange)
+                                        set_fity.changesChanged()
+                                    }
 
                                 }
 
@@ -361,59 +358,51 @@ PQSetting {
     ]
 
     function checkAll() {
-        checkImg(true)
-        checkPac(true)
-        checkDoc(true)
-        checkVid(true)
+        // checkImg(true)
+        // checkPac(true)
+        // checkDoc(true)
+        // checkVid(true)
     }
 
-    function checkImg(checked: bool) {
-        var val = (checked ? 1 : 0)
-        for(var i in listview.ft) {
-            if(listview.ft[i][3] === "img" && listview.ft[i][1] !== val) {
-                listview.ft[i][1] = val
-            }
-        }
-        listview.ftChanged()
-    }
+    // function checkImg(checked: bool) {
+    //     var val = (checked ? 1 : 0)
+    //     for(var i in listview.ft) {
+    //         if(listview.ft[i][3] === "img" && listview.ft[i][1] !== val) {
+    //             listview.ft[i][1] = val
+    //         }
+    //     }
+    //     listview.ftChanged()
+    // }
 
-    function checkPac(checked: bool) {
-        var val = (checked ? 1 : 0)
-        for(var i in listview.ft) {
-            if(listview.ft[i][3] === "pac" && listview.ft[i][1] !== val) {
-                listview.ft[i][1] = val
-            }
-        }
-        listview.ftChanged()
-    }
+    // function checkPac(checked: bool) {
+    //     var val = (checked ? 1 : 0)
+    //     for(var i in listview.ft) {
+    //         if(listview.ft[i][3] === "pac" && listview.ft[i][1] !== val) {
+    //             listview.ft[i][1] = val
+    //         }
+    //     }
+    //     listview.ftChanged()
+    // }
 
-    function checkDoc(checked: bool) {
-        var val = (checked ? 1 : 0)
-        for(var i in listview.ft) {
-            if(listview.ft[i][3] === "doc" && listview.ft[i][1] !== val) {
-                listview.ft[i][1] = val
-            }
-        }
-        listview.ftChanged()
-    }
+    // function checkDoc(checked: bool) {
+    //     var val = (checked ? 1 : 0)
+    //     for(var i in listview.ft) {
+    //         if(listview.ft[i][3] === "doc" && listview.ft[i][1] !== val) {
+    //             listview.ft[i][1] = val
+    //         }
+    //     }
+    //     listview.ftChanged()
+    // }
 
-    function checkVid(checked: bool) {
-        var val = (checked ? 1 : 0)
-        for(var i in listview.ft) {
-            if(listview.ft[i][3] === "vid" && listview.ft[i][1] !== val) {
-                listview.ft[i][1] = val
-            }
-        }
-        listview.ftChanged()
-    }
-
-    function composeChecker() {
-        var str = ""
-        for(var e in listview.ft) {
-            str += listview.ft[e][1].toString()
-        }
-        return str
-    }
+    // function checkVid(checked: bool) {
+    //     var val = (checked ? 1 : 0)
+    //     for(var i in listview.ft) {
+    //         if(listview.ft[i][3] === "vid" && listview.ft[i][1] !== val) {
+    //             listview.ft[i][1] = val
+    //         }
+    //     }
+    //     listview.ftChanged()
+    // }
 
     function handleEscape() {}
 
@@ -426,8 +415,7 @@ PQSetting {
             return
         }
 
-        var chk = composeChecker()
-        PQCConstants.settingsManagerSettingChanged = (chk !== defaultSettings)
+        PQCConstants.settingsManagerSettingChanged = (changes.length > 0)
 
     }
 
@@ -469,7 +457,11 @@ PQSetting {
 
         // TODO
         // PQCImageFormats.setAllFormats(listview.ft)
-        defaultSettings = composeChecker()
+        for(var iCh in changes) {
+            var cur = changes[iCh]
+            PQCImageHandler.setEnabled(cur[0], cur[1], cur[2])
+        }
+        changes = []
 
         PQCConstants.settingsManagerSettingChanged = false
 

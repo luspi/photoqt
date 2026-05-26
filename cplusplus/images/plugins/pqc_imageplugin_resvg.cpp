@@ -111,7 +111,7 @@ const QImage PQCImagePluginResvg::loadImage(QString path, QSize requestedSize, Q
 
 }
 
-void PQCImagePluginResvg::setEnabled(QString suffix, QString mimetype, bool enabled) {
+void PQCImagePluginResvg::setEnabled(QString description, bool enabled) {
 
 }
 

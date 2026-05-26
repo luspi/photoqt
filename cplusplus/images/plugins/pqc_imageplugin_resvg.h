@@ -50,7 +50,7 @@ public:
     const QSize loadSize(QString path) override;
     const QImage loadImage(QString path, QSize requestedSize, QSize &origSize, QString &error) override;
 
-    void setEnabled(QString suffix, QString mimetype, bool enabled) override;
+    void setEnabled(QString description, bool enabled) override;
 
 private:
     QSet<QString> m_suffixes;
@@ -64,6 +64,7 @@ private:
     QSet<QString> m_writableSuffixes;
 
     QHash<QString,QString> suffix2description;
+    QHash<QString,QString> mimetype2description;
 
     QString m_settingsDir;
 
