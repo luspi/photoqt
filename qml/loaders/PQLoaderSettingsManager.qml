@@ -46,7 +46,7 @@ Loader {
                 button3: smmod.button3
                 bottomLeft: smmod.bottomLeft
                 popInOutButton: smmod.popInOutButton
-                availableHeight: smmod.contentHeight - (loaderset_top.isModern ? (smmod.bottomrowHeight+smmod.toprowHeight) : 0)
+                availableHeight: smmod.contentHeight
                 Component.onCompleted: {
                     smmod.elementId = elementId
                     smmod.title = title
@@ -78,7 +78,7 @@ Loader {
                 button3: smpop.button3
                 bottomLeft: smpop.bottomLeft
                 popInOutButton: smpop.popInOutButton
-                availableHeight: smpop.contentHeight - (loaderset_top.isModern ? (smpop.bottomrowHeight+smpop.toprowHeight) : 0)
+                availableHeight: smpop.contentHeight
                 Component.onCompleted: {
                     smpop.elementId = elementId
                     smpop.title = title
