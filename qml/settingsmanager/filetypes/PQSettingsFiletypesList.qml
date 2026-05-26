@@ -169,14 +169,21 @@ PQSetting {
 
         },
 
-        // // PQSettingsSeparator {}
+        PQText {
+            id: warn_width
+            text: qsTranslate("settingsmanager", "Increase the window size for better seeing all the details.")
+            width: set_fity.contentWidth
+            wrapMode: Text.WrapAtWordBoundaryOrAnywhere
+            color: "red"
+            visible: width < 600
+        },
 
         ListView {
 
             id: listview
 
             width: set_fity.contentWidth
-            height: set_fity.availableHeight - topcol.height - set_fity.contentSpacing - 10
+            height: set_fity.availableHeight - topcol.height - set_fity.contentSpacing - 10 - (warn_width.visible ? (warn_width.height+10) : 0)
 
             clip: true
 
@@ -212,27 +219,98 @@ PQSetting {
                     x: 10
                     y: (parent.height-height)/2
 
+                    spacing: 10
+
                     PQCheckBox {
                         y: (parent.height-height)/2
-                        width: (listview.width-30)/2
+                        width: (listview.width-30)/3
                         text: deleg.entry
+                        elide: Text.ElideMiddle
                     }
 
-                    Flow {
+                    Row {
+                        id: pluginrow
+
                         y: (parent.height-height)/2
-                        width: (listview.width-30)/2
-                        spacing: 10
+                        width: 2*(listview.width-20)/3
+                        spacing: 0
+
+                        property int allunits: 0
 
                         Repeater {
                             model: listview.plugins.length
-                            PQCheckBox {
+                            Item {
+
+                                id: butdeleg
+
                                 required property int modelData
-                                property string plugin: listview.plugins[modelData]
-                                text: plugin
-                                checked: deleg.entrystatus[modelData]
+
                                 enabled: deleg.supportedPlugins.indexOf(plugin)>-1
-                                opacity: enabled ? 1 : 0.3
+                                opacity: enabled ? 1 : 0.2
+
+                                property int units: Math.max(5, buttxt.text.length)
+                                onUnitsChanged:
+                                    pluginrow.allunits += units
+
+                                property string plugin: listview.plugins[modelData]
+
+                                width: units * (pluginrow.width/pluginrow.allunits)
+                                height: deleg.height
+
+                                property bool hovered: butmouse.containsMouse
+                                property bool checked: deleg.entrystatus[modelData]
+
+                                Rectangle {
+                                    id: mainbut
+                                    height: parent.height
+                                    width: parent.width
+                                    color: palette.alternateBase
+                                    border.width: 1
+                                    border.color: PQCLook.baseBorder
+                                    PQText {
+                                        id:  buttxt
+                                        width: parent.width
+                                        height: parent.height
+                                        font.pointSize: pluginrow.width/listview.plugins.length < 50 ? PQCLook.fontSizeS : PQCLook.fontSize
+                                        horizontalAlignment: Text.AlignHCenter
+                                        elide: Text.ElideMiddle
+                                        verticalAlignment: Text.AlignVCenter
+                                        text: butdeleg.plugin
+                                    }
+                                }
+
+                                Rectangle {
+                                    anchors.fill: parent
+                                    anchors.margins: 5
+                                    radius: 10
+                                    color: "transparent"
+                                    visible: butdeleg.enabled
+                                    border.width: 1
+                                    border.color: butdeleg.checked ? "green" : "red"
+                                    Rectangle {
+                                        anchors.fill: parent
+                                        radius: parent.radius
+                                        opacity: 0.3
+                                        color: butdeleg.checked ? "green" : "red"
+                                    }
+                                }
+
+                                PQMouseArea {
+
+                                    id: butmouse
+
+                                    anchors.fill: parent
+                                    hoverEnabled: true
+                                    cursorShape: Qt.PointingHandCursor
+                                    text: butdeleg.enabled ? buttxt.text : qsTranslate("settingsmanager", "format not supported by this plugin")
+
+                                    onClicked:
+                                        butdeleg.checked = !butdeleg.checked
+
+                                }
+
                             }
+
                         }
 
                     }
