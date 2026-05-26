@@ -240,6 +240,13 @@ PQSetting {
                                 return Qt.Checked
                             }
                         }
+                        property bool setup: false
+                        onCheckedChanged: {
+                            if(!setup) return
+                            countEnabled.num += (checked ? 1 : -1)
+                        }
+                        Component.onCompleted:
+                            setup = true
                     }
 
                     Row {
@@ -431,9 +438,11 @@ PQSetting {
         listview.entries = []
 
         var descs = PQCImageHandler.getAllDescriptions()
+        descs.sort()
         var plugins = PQCImageHandler.getPluginNames()
         var stat = ({})
         var pluginstat = ({})
+        countEnabled.num = 0
         for(var iD in descs) {
             var d = descs[iD]
             if(d in stat) continue;
@@ -443,6 +452,7 @@ PQSetting {
                 cur.push(PQCImageHandler.isEnabled(plugins[iPl], d) ? 1 : 0)
             }
             stat[d] = cur
+            countEnabled.num += (cur.reduce((partialSum, a) => partialSum + a, 0) ? 1 : 0)
             pluginstat[d] = supported
         }
         listview.plugins = plugins
