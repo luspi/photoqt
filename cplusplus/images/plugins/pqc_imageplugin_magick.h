@@ -29,7 +29,12 @@ class PQCImagePluginMagick : public PQCImagePlugin {
 public:
     PQCImagePluginMagick(QString settingsDir);
 
-    const QString name() override { return "ImageMagick/GraphicsMagick"; }
+#ifdef PQMIMAGEMAGICK
+    const QString name() override { return "ImageMagick"; }
+#elif defined(PQMGRAPHICSMAGICK)
+    const QString name() override { return "GraphicsMagick"; }
+#endif
+    const QString category() override { return "image"; }
     const bool canPreload() override { return true; }
     const bool enabledByDefault() override { return true; }
 

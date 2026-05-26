@@ -30,6 +30,7 @@ public:
     PQCImagePluginLibVips(QString settingsDir);
 
     const QString name() override { return "libvips"; }
+    const QString category() override { return "image"; }
     const bool canPreload() override { return true; }
     const bool enabledByDefault() override { return true; }
 

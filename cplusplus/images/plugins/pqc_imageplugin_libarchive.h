@@ -30,6 +30,7 @@ public:
     PQCImagePluginLibarchive(QString settingsDir);
 
     const QString name() override { return "LibArchive"; }
+    const QString category() override { return "archive"; }
     const bool canPreload() override { return true; }
     const bool enabledByDefault() override { return true; }
 

@@ -30,6 +30,7 @@ public:
     PQCImagePluginResvg(QString settingsDir);
 
     const QString name() override { return "reSVG"; }
+    const QString category() override { return "image"; }
     const bool canPreload() override { return true; }
     const bool enabledByDefault() override { return true; }
 

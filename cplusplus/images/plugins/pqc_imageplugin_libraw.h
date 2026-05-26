@@ -30,6 +30,7 @@ public:
     PQCImagePluginLibraw(QString settingsDir);
 
     const QString name() override { return "libraw"; }
+    const QString category() override { return "image"; }
     const bool canPreload() override { return true; }
     const bool enabledByDefault() override { return true; }
 

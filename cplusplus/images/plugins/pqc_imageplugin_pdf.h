@@ -30,6 +30,7 @@ public:
     PQCImagePluginPDF(QString settingsDir);
 
     const QString name() override { return "PDF"; }
+    const QString category() override { return "document"; }
     const bool canPreload() override { return true; }
     const bool enabledByDefault() override { return true; }
 

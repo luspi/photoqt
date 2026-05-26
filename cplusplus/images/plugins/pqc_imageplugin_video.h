@@ -30,6 +30,7 @@ public:
     PQCImagePluginVideo(QString settingsDir);
 
     const QString name() override { return "Video"; }
+    const QString category() override { return "video"; }
     const bool canPreload() override { return true; }
     const bool enabledByDefault() override { return false; }
 

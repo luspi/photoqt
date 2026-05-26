@@ -30,6 +30,7 @@ public:
     PQCImagePluginQt(QString settingsDir);
 
     const QString name() override { return "Qt"; }
+    const QString category() override { return "image"; }
     const bool canPreload() override { return true; }
     const bool enabledByDefault() override { return true; }
 

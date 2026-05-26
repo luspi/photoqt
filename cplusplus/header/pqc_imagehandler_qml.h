@@ -67,11 +67,11 @@ public:
         return PQCImageHandler::get().getMimetypes(category);
     }
 
-    QSet<QString> getSuffixes(QStringList categories) {
+    Q_INVOKABLE QSet<QString> getSuffixes(QStringList categories) {
         return PQCImageHandler::get().getSuffixes(categories);
     }
 
-    QSet<QString> getMimetypes(QStringList categories) {
+    Q_INVOKABLE QSet<QString> getMimetypes(QStringList categories) {
         return PQCImageHandler::get().getMimetypes(categories);
     }
 

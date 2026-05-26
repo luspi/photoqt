@@ -34,6 +34,9 @@ public:
 
     // the printable name of this plugin
     virtual const QString name() = 0;
+
+    // which category this falls under
+    virtual const QString category() = 0;
     \
     // is this plugin suitable for preloading?
     virtual const bool canPreload() = 0;
