@@ -64,6 +64,8 @@ Loader {
 
     property bool smallerVersion: false
 
+    property string tintButton: ""
+
     property bool isModern: PQCSettings.generalInterfaceVariant==="modern"
 
     sourceComponent: isModern ? modern_button : integrated_button
@@ -146,6 +148,13 @@ Loader {
                 }
             }
 
+            Rectangle {
+                visible: loader.tintButton!==""
+                anchors.fill: parent
+                anchors.margins: 1
+                opacity: 0.1
+                color: loader.tintButton
+            }
 
         }
 
@@ -229,6 +238,14 @@ Loader {
                         loader.clicked()
                     }
                 }
+            }
+
+            Rectangle {
+                visible: loader.tintButton!==""
+                anchors.fill: parent
+                anchors.margins: 1
+                opacity: 0.1
+                color: loader.tintButton
             }
 
         }

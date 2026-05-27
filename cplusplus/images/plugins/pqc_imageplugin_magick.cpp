@@ -25,6 +25,7 @@
 #include <pqc_imagecache.h>
 #include <scripts/pqc_scriptscolorprofiles.h>
 #include <scripts/pqc_scriptsimages.h>
+#include <pqc_helper.h>
 
 #include <QFile>
 #include <QtDebug>
@@ -44,7 +45,32 @@ PQCImagePluginMagick::PQCImagePluginMagick(QString settingsDir) : m_settingsDir(
 }
 
 const QString PQCImagePluginMagick::getDescription(QString suffix) {
-    return m_suffix2description.value(suffix, "");
+    return m_suffix2description.value(suffix.toLower(), "");
+}
+
+const QSet<QString> PQCImagePluginMagick::getSuffixesForFormatByDescription(QString description) {
+    QSet<QString> ret;
+    for(const auto &[suf, desc] : std::as_const(m_suffix2description).asKeyValueRange()) {
+        if(desc == description)
+            ret.insert(suf);
+    }
+    return ret;
+}
+
+const bool PQCImagePluginMagick::supportsFormatByDescription(QString description) {
+    for(const auto &[suf, desc] : std::as_const(m_suffix2description).asKeyValueRange()) {
+        if(desc == description)
+            return true;
+    }
+    return false;
+}
+
+const bool PQCImagePluginMagick::isEnabled(QString description) {
+    for(const auto &[suf, desc] : std::as_const(m_suffix2description).asKeyValueRange()) {
+        if(desc == description)
+            return m_suffixes.contains(suf);
+    }
+    return false;
 }
 
 const QSet<QString> PQCImagePluginMagick::getWritableSuffixes() {
@@ -238,7 +264,100 @@ const QImage PQCImagePluginMagick::loadImage(QString path, QSize requestedSize, 
 
 }
 
-void PQCImagePluginMagick::setEnabled(QString suffix, QString mimetype, bool enabled) {
+void PQCImagePluginMagick::setEnabled(QString description, bool enabled) {
+
+    // first find all the suffixes and mimetypes for this format description
+    QSet<QString> suffixes, mimetypes;
+    for(const auto &[key, value] : std::as_const(m_suffix2description).asKeyValueRange()) {
+        if(value == description)
+            suffixes.insert(key);
+    }
+    for(const auto &[key, value] : std::as_const(mimetype2description).asKeyValueRange()) {
+        if(value == description)
+            mimetypes.insert(key);
+    }
+
+    // then find the ones stored as toggled
+    QSet<QString> storedSuffixes, storedMimetypes;
+
+#ifdef PQMIMAGEMAGICK
+    const QString suffixFilename = m_settingsDir % "/imagemagick_suffixes";
+#else
+    const QString suffixFilename = m_settingsDir % "/graphicsmagick_suffixes";
+#endif
+    QFile suffixFile(suffixFilename);
+    if(suffixFile.exists()) {
+        if(!suffixFile.open(QIODevice::ReadOnly|QIODevice::Text)) {
+            qWarning() << "Failed to open settings file at:" << suffixFilename;
+            return;
+        } else {
+            QTextStream suffixIn(&suffixFile);
+            const QStringList tmp = suffixIn.readAll().split("\n", Qt::SkipEmptyParts);
+            storedSuffixes = QSet<QString>(tmp.begin(), tmp.end());
+            suffixFile.close();
+        }
+    }
+
+#ifdef PQMIMAGEMAGICK
+    const QString mimeFilename = m_settingsDir % "/imagemagick_mimetypes";
+#else
+    const QString mimeFilename = m_settingsDir % "/graphicsmagick_mimetypes";
+#endif
+    QFile mimeFile(mimeFilename);
+    if(mimeFile.exists()) {
+        if(!mimeFile.open(QIODevice::ReadOnly|QIODevice::Text)) {
+            qWarning() << "Failed to open settings file at:" << mimeFilename;
+            return;
+        } else {
+            QTextStream mimeIn(&mimeFile);
+            const QStringList tmp = mimeIn.readAll().split("\n", Qt::SkipEmptyParts);
+            storedMimetypes = QSet<QString>(tmp.begin(), tmp.end());
+            mimeFile.close();
+        }
+    }
+
+    // if we toggle this format then we only need to make sure they are added to the list, nothing else
+    if((enabledByDefault() && !enabled) || (!enabledByDefault() && enabled)) {
+
+        storedSuffixes += suffixes;
+        storedMimetypes += mimetypes;
+
+        // otherwise we need to make sure that no suffix is part of the list
+    } else {
+
+        QSet<QString> newsetSuffixes, newsetMime;
+
+        for(const QString &s : std::as_const(storedSuffixes)) {
+            if(!suffixes.contains(s))
+                newsetSuffixes.insert(s);
+        }
+        for(const QString &m : std::as_const(storedMimetypes)) {
+            if(!mimetypes.contains(m))
+                newsetMime.insert(m);
+        }
+
+        storedSuffixes = newsetSuffixes;
+        storedMimetypes = newsetMime;
+
+    }
+
+    QFile outSuffixFile(suffixFilename);
+    if(!outSuffixFile.open(QIODevice::WriteOnly|QIODevice::Text|QIODevice::Truncate)) {
+        qDebug() << "Failed to open settings file at:" << suffixFilename;
+    } else {
+        QTextStream suffixOut(&outSuffixFile);
+        suffixOut << PQCHelper::setJoin(storedSuffixes, "\n");
+        outSuffixFile.close();
+    }
+
+    QFile outMimeFile(mimeFilename);
+    if(!outMimeFile.open(QIODevice::WriteOnly|QIODevice::Text|QIODevice::Truncate)) {
+        qDebug() << "Failed to open settings file at:" << mimeFilename;
+    } else {
+        QTextStream mimeOut(&outMimeFile);
+        mimeOut << PQCHelper::setJoin(storedMimetypes, "\n");
+        outMimeFile.close();
+    }
 
 }
 
@@ -349,26 +468,9 @@ void PQCImagePluginMagick::loadFormats() {
                                       "pfb", "pfm", "afm", "inf", "pfa", "ofm", "pgx", "ai"};
 #endif
 
-#if defined(PQMIMAGEMAGICK) || defined(PQMGRAPHICSMAGICK)
-    for(const QString &s : std::as_const(candidates)) {
-        try {
-            Magick::CoderInfo magickCoderInfo(m_suffix2magick.value(s, s.toUpper()).toStdString());
-            if(magickCoderInfo.isWritable())
-                m_allSuffixes.insert(s);
-        } catch(...) {
-            // do nothing here
-        }
-    }
-#endif
-
-    // these are the currently enabled ones
-    m_suffixes = m_allSuffixes - m_toggledSuffixes;
-
-    /********************************/
-
     // these are the ones supported by ImageMagick, GraphicsMagick supports a subset of them
     // for simplicity we list them only once
-    m_suffix2description = {
+    QHash<QString,QString> candidate_suffix2description = {
         {"bmp", "BMP: Microsoft Windows bitmap"},
         {"dib", "BMP: Microsoft Windows bitmap"},
         {"cur", "CUR: Microsoft Windows cursor format"},
@@ -571,6 +673,23 @@ void PQCImagePluginMagick::loadFormats() {
         {"ai", "AI: Adobe Illustrator (PDF compatible)"}
     };
 
+#if defined(PQMIMAGEMAGICK) || defined(PQMGRAPHICSMAGICK)
+    for(const QString &s : std::as_const(candidates)) {
+        try {
+            Magick::CoderInfo magickCoderInfo(m_suffix2magick.value(s, s.toUpper()).toStdString());
+            if(magickCoderInfo.isWritable()) {
+                m_allSuffixes.insert(s);
+                m_suffix2description.insert(s, candidate_suffix2description.value(s, ""));
+            }
+        } catch(...) {
+            // do nothing here
+        }
+    }
+#endif
+
+    // these are the currently enabled ones
+    m_suffixes = m_allSuffixes - m_toggledSuffixes;
+
     /********************************/
 
     m_mimetypes.clear();
@@ -637,12 +756,79 @@ void PQCImagePluginMagick::loadFormats() {
     // these are the currently enabled ones
     m_mimetypes = m_allMimetypes - m_toggledMimetypes;
 
+    mimetype2description = {
+        {"image/bmp",                    "BMP: Microsoft Windows bitmap"},
+        {"image/x-ms-bmp",               "BMP: Microsoft Windows bitmap"},
+        {"image/x-win-bitmap",           "CUR: Microsoft Windows cursor format"},
+        {"application/postscript",       "EPS: Encapsulated PostScript"},
+        {"application/eps",              "EPS: Encapsulated PostScript"},
+        {"application/x-eps",            "EPS: Encapsulated PostScript"},
+        {"image/eps",                    "EPS: Encapsulated PostScript"},
+        {"image/x-eps",                  "EPS: Encapsulated PostScript"},
+        {"image/x-exr",                  "OpenEXR"},
+        {"image/gif",                    "GIF: Graphics Interchange Format"},
+        {"image/jp2",                    "JPEG-2000"},
+        {"image/jpx",                    "JPEG-2000"},
+        {"image/jpm",                    "JPEG-2000"},
+        {"image/jpeg",                   "JPEG: Joint Photographic Experts Group JFIF format"},
+        {"video/x-mng",                  "MNG: Multiple-image Network Graphics"},
+        {"image/openraster",             "OpenRaster"},
+        {"image/x-portable-anymap",      "PBM: Portable bitmap format (black and white)"},
+        {"image/vnd.zbrush.pcx",         "PCX: ZSoft PiCture eXchange"},
+        {"image/x-pcx",                  "PCX: ZSoft PiCture eXchange"},
+        {"image/x-portable-greymap",     "PGM: Portable graymap format (gray scale)"},
+        {"image/x-portable-anymap",      "PGM: Portable graymap format (gray scale)"},
+        {"image/png",                    "PNG: Portable Network Graphics"},
+        {"image/x-portable-pixmap",      "PPM: Portable pixmap format (color)"},
+        {"image/x-portable-anymap",      "PPM: Portable pixmap format (color)"},
+        {"image/vnd.adobe.photoshop",    "Adobe PhotoShop"},
+        {"image/sgi",                    "SGI images"},
+        {"image/svg+xml",                "SVG: Scalable Vector Graphics"},
+        {"image/x-targa",                "TGA: Truevision Targa image"},
+        {"image/x-tga",                  "TGA: Truevision Targa image"},
+        {"image/tiff",                   "TIFF: Tagged Image File Format"},
+        {"image/tiff-fx",                "TIFF: Tagged Image File Format"},
+        {"image/vnd.wap.wbmp",           "Wireless Bitmap"},
+        {"image/x-xbitmap",              "X BitMap"},
+        {"image/x-xbm",                  "X BitMap"},
+        {"image/x-xcf",                  "Gimp XCF"},
+        {"application/x-fpt",            "AVS X image"},
+        {"application/dicom",            "Digital Imaging and Communications in Medicine (DICOM) image"},
+        {"image/dicom-rle",              "Digital Imaging and Communications in Medicine (DICOM) image"},
+        {"image/x-dpx",                  "Digital Moving Picture Exchange"},
+        {"application/postscript",       "Adobe Encapsulated PostScript Interchange format"},
+        {"image/x-eps",                  "Adobe Encapsulated PostScript Interchange format with TIFF preview"},
+        {"image/fits",                   "FITS: Flexible Image Transport System"},
+        {"application/x-pnf",            "JBIG: Joint Bi-level Image experts Group file interchange format (JBIG)"},
+        {"video/x-jng",                  "JPEG Network Graphics"},
+        {"image/x-miff",                 "Magick image file format"},
+        {"image/x-portable-arbitrarymap", "Portable Arbitrary Map format"},
+        {"image/x-portable-pixmap",       "Portable Arbitrary Map format"},
+        {"image/x-xpmi",                  "Personal Icon"},
+        {"application/postscript",        "Adobe Level III PostScript file"},
+        {"image/tiff",                    "Pyramid encoded TIFF"},
+        {"font/sfnt",                     "TrueType font file"},
+        {"image/webp",                    "WEBP: Google web image format"},
+        {"image/bpg",                     "BPG: Better Portable Graphics"},
+        {"image/x-canon-crw",             "Canon Digital Camera Raw Image Format"},
+        {"image/x-canon-cr2",             "Canon Digital Camera Raw Image Format"},
+        {"image/vnd.djvu",                "DjVu digital document format "},
+        {"image/heic",                    "HEIF: High Efficiency Image Format"},
+        {"image/heif",                    "HEIF: High Efficiency Image Format"},
+        {"image/x-olympus-orf",           "Olympus Digital Camera Raw Image Format"},
+        {"image/x-pentax-pef",            "Pentax Raw Image Format"},
+        {"image/vnd.microsoft.icon",      "Microsoft Windows icon format"},
+        {"image/x-icon",                  "Microsoft Windows icon format"},
+        {"image/x-xpixmap",               "X PixMap"},
+        {"image/x-xpmi",                  "X PixMap"},
+        {"image/avif",                    "AVIF: AV1 Image File Format"},
+        {"image/avif-sequence",           "AVIF: AV1 Image File Format"},
+        {"image/x-mvg",                   "Magick Vector Graphics"},
+        {"image/jxl",                     "JPEG XL"},
+        {"font/opentype",                 "OpenType font file"},
+        {"application/vnd.ms-opentype",   "OpenType font file"}
+    };
+
     Q_EMIT formatsUpdated();
-
-}
-
-void PQCImagePluginMagick::saveFormats() {
-
-    // TODO
 
 }

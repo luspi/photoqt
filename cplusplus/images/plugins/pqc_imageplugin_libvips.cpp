@@ -25,6 +25,7 @@
 #include <pqc_imagecache.h>
 #include <scripts/pqc_scriptscolorprofiles.h>
 #include <scripts/pqc_scriptsimages.h>
+#include <pqc_helper.h>
 
 #include <QFile>
 #include <QtDebug>
@@ -42,7 +43,32 @@ PQCImagePluginLibVips::PQCImagePluginLibVips(QString settingsDir) : m_settingsDi
 }
 
 const QString PQCImagePluginLibVips::getDescription(QString suffix) {
-    return suffix2description.value(suffix, "");
+    return suffix2description.value(suffix.toLower(), "");
+}
+
+const QSet<QString> PQCImagePluginLibVips::getSuffixesForFormatByDescription(QString description) {
+    QSet<QString> ret;
+    for(const auto &[suf, desc] : std::as_const(suffix2description).asKeyValueRange()) {
+        if(desc == description)
+            ret.insert(suf);
+    }
+    return ret;
+}
+
+const bool PQCImagePluginLibVips::supportsFormatByDescription(QString description) {
+    for(const auto &[suf, desc] : std::as_const(suffix2description).asKeyValueRange()) {
+        if(desc == description)
+            return true;
+    }
+    return false;
+}
+
+const bool PQCImagePluginLibVips::isEnabled(QString description) {
+    for(const auto &[suf, desc] : std::as_const(suffix2description).asKeyValueRange()) {
+        if(desc == description)
+            return m_suffixes.contains(suf);
+    }
+    return false;
 }
 
 const QSet<QString> PQCImagePluginLibVips::getWritableSuffixes() {
@@ -164,7 +190,92 @@ const QImage PQCImagePluginLibVips::loadImage(QString path, QSize requestedSize,
 
 }
 
-void PQCImagePluginLibVips::setEnabled(QString suffix, QString mimetype, bool enabled) {
+void PQCImagePluginLibVips::setEnabled(QString description, bool enabled) {
+
+    // first find all the suffixes and mimetypes for this format description
+    QSet<QString> suffixes, mimetypes;
+    for(const auto &[key, value] : std::as_const(suffix2description).asKeyValueRange()) {
+        if(value == description)
+            suffixes.insert(key);
+    }
+    for(const auto &[key, value] : std::as_const(mimetype2description).asKeyValueRange()) {
+        if(value == description)
+            mimetypes.insert(key);
+    }
+
+    // then find the ones stored as toggled
+    QSet<QString> storedSuffixes, storedMimetypes;
+
+    const QString suffixFilename = m_settingsDir % "/libvips_suffixes";
+    QFile suffixFile(suffixFilename);
+    if(suffixFile.exists()) {
+        if(!suffixFile.open(QIODevice::ReadOnly|QIODevice::Text)) {
+            qWarning() << "Failed to open settings file at:" << suffixFilename;
+            return;
+        } else {
+            QTextStream suffixIn(&suffixFile);
+            const QStringList tmp = suffixIn.readAll().split("\n", Qt::SkipEmptyParts);
+            storedSuffixes = QSet<QString>(tmp.begin(), tmp.end());
+            suffixFile.close();
+        }
+    }
+
+    const QString mimeFilename = m_settingsDir % "/libvips_mimetypes";
+    QFile mimeFile(mimeFilename);
+    if(mimeFile.exists()) {
+        if(!mimeFile.open(QIODevice::ReadOnly|QIODevice::Text)) {
+            qWarning() << "Failed to open settings file at:" << mimeFilename;
+            return;
+        } else {
+            QTextStream mimeIn(&mimeFile);
+            const QStringList tmp = mimeIn.readAll().split("\n", Qt::SkipEmptyParts);
+            storedMimetypes = QSet<QString>(tmp.begin(), tmp.end());
+            mimeFile.close();
+        }
+    }
+
+    // if we toggle this format then we only need to make sure they are added to the list, nothing else
+    if((enabledByDefault() && !enabled) || (!enabledByDefault() && enabled)) {
+
+        storedSuffixes += suffixes;
+        storedMimetypes += mimetypes;
+
+        // otherwise we need to make sure that no suffix is part of the list
+    } else {
+
+        QSet<QString> newsetSuffixes, newsetMime;
+
+        for(const QString &s : std::as_const(storedSuffixes)) {
+            if(!suffixes.contains(s))
+                newsetSuffixes.insert(s);
+        }
+        for(const QString &m : std::as_const(storedMimetypes)) {
+            if(!mimetypes.contains(m))
+                newsetMime.insert(m);
+        }
+
+        storedSuffixes = newsetSuffixes;
+        storedMimetypes = newsetMime;
+
+    }
+
+    QFile outSuffixFile(suffixFilename);
+    if(!outSuffixFile.open(QIODevice::WriteOnly|QIODevice::Text|QIODevice::Truncate)) {
+        qDebug() << "Failed to open settings file at:" << suffixFilename;
+    } else {
+        QTextStream suffixOut(&outSuffixFile);
+        suffixOut << PQCHelper::setJoin(storedSuffixes, "\n");
+        outSuffixFile.close();
+    }
+
+    QFile outMimeFile(mimeFilename);
+    if(!outMimeFile.open(QIODevice::WriteOnly|QIODevice::Text|QIODevice::Truncate)) {
+        qDebug() << "Failed to open settings file at:" << mimeFilename;
+    } else {
+        QTextStream mimeOut(&outMimeFile);
+        mimeOut << PQCHelper::setJoin(storedMimetypes, "\n");
+        outMimeFile.close();
+    }
 
 }
 
@@ -198,36 +309,36 @@ void PQCImagePluginLibVips::loadFormats() {
     m_suffixes = m_allSuffixes - m_toggledSuffixes;
 
     suffix2description = {
-        {"exr", "OpenEXR"},
-        {"gif", "GIF: Graphics Interchange Format"},
+        {"exr",      "OpenEXR"},
+        {"gif",      "GIF: Graphics Interchange Format"},
         {"jpeg2000", "JPEG-2000"},
         {"j2k",      "JPEG-2000"},
         {"jp2",      "JPEG-2000"},
         {"jpc",      "JPEG-2000"},
         {"jpx",      "JPEG-2000"},
-        {"jpeg", "JPEG: Joint Photographic Experts Group JFIF format"},
-        {"jpg",  "JPEG: Joint Photographic Experts Group JFIF format"},
-        {"jpe",  "JPEG: Joint Photographic Experts Group JFIF format"},
-        {"jif",  "JPEG: Joint Photographic Experts Group JFIF format"},
-        {"pbm", "PBM: Portable bitmap format (black and white)"},
-        {"pgm", "PGM: Portable graymap format (gray scale)"},
-        {"png", "PNG: Portable Network Graphics"},
-        {"ppm", "PPM: Portable pixmap format (color)"},
-        {"pnm", "PPM: Portable pixmap format (color)"},
-        {"svg",  "SVG: Scalable Vector Graphics"},
-        {"svgz", "SVG: Scalable Vector Graphics"},
-        {"tiff", "TIFF: Tagged Image File Format"},
-        {"tif",  "TIFF: Tagged Image File Format"},
-        {"fits", "FITS: Flexible Image Transport System"},
-        {"fit",  "FITS: Flexible Image Transport System"},
-        {"fts",  "FITS: Flexible Image Transport System"},
-        {"webp", "WEBP: Google web image format"},
-        {"rgbe", "HDR: Radiance RGBE image format"},
-        {"hdr",  "HDR: Radiance RGBE image format"},
-        {"rad",  "HDR: Radiance RGBE image format"},
-        {"heif", "HEIF: High Efficiency Image Format"},
-        {"heic", "HEIF: High Efficiency Image Format"},
-        {"pfm", "Portable Float Map"}
+        {"jpeg",     "JPEG: Joint Photographic Experts Group JFIF format"},
+        {"jpg",      "JPEG: Joint Photographic Experts Group JFIF format"},
+        {"jpe",      "JPEG: Joint Photographic Experts Group JFIF format"},
+        {"jif",      "JPEG: Joint Photographic Experts Group JFIF format"},
+        {"pbm",      "PBM: Portable bitmap format (black and white)"},
+        {"pgm",      "PGM: Portable graymap format (gray scale)"},
+        {"png",      "PNG: Portable Network Graphics"},
+        {"ppm",      "PPM: Portable pixmap format (color)"},
+        {"pnm",      "PPM: Portable pixmap format (color)"},
+        {"svg",      "SVG: Scalable Vector Graphics"},
+        {"svgz",     "SVG: Scalable Vector Graphics"},
+        {"tiff",     "TIFF: Tagged Image File Format"},
+        {"tif",      "TIFF: Tagged Image File Format"},
+        {"fits",     "FITS: Flexible Image Transport System"},
+        {"fit",      "FITS: Flexible Image Transport System"},
+        {"fts",      "FITS: Flexible Image Transport System"},
+        {"webp",     "WEBP: Google web image format"},
+        {"rgbe",     "HDR: Radiance RGBE image format"},
+        {"hdr",      "HDR: Radiance RGBE image format"},
+        {"rad",      "HDR: Radiance RGBE image format"},
+        {"heif",     "HEIF: High Efficiency Image Format"},
+        {"heic",     "HEIF: High Efficiency Image Format"},
+        {"pfm",      "Portable Float Map"}
     };
 
     /********************************/
@@ -257,12 +368,28 @@ void PQCImagePluginLibVips::loadFormats() {
     // these are the currently enabled ones
     m_mimetypes = m_allMimetypes - m_toggledMimetypes;
 
+    mimetype2description = {
+        {"image/x-exr",              "OpenEXR"},
+        {"image/gif",                "GIF: Graphics Interchange Format"},
+        {"image/jp2,",               "JPEG-2000"},
+        {"image/jpx",                "JPEG-2000"},
+        {"image/jpm",                "JPEG-2000"},
+        {"image/jpeg",               "JPEG: Joint Photographic Experts Group JFIF format"},
+        {"image/x-portable-anymap",  "PBM: Portable bitmap format (black and white)"},
+        {"image/x-portable-greymap", "PGM: Portable graymap format (gray scale)"},
+        {"image/x-portable-anymap",  "PGM: Portable graymap format (gray scale)"},
+        {"image/png",                "PNG: Portable Network Graphics"},
+        {"image/x-portable-pixmap",  "PPM: Portable pixmap format (color)"},
+        {"image/x-portable-anymap",  "PPM: Portable pixmap format (color)"},
+        {"image/svg+xml",            "SVG: Scalable Vector Graphics"},
+        {"image/tiff",               "TIFF: Tagged Image File Format"},
+        {"image/tiff-fx",            "TIFF: Tagged Image File Format"},
+        {"image/fits",               "FITS: Flexible Image Transport System"},
+        {"image/webp",               "WEBP: Google web image format"},
+        {"image/heic",               "HEIF: High Efficiency Image Format"},
+        {"image/heif",               "HEIF: High Efficiency Image Format"}
+    };
+
     Q_EMIT formatsUpdated();
-
-}
-
-void PQCImagePluginLibVips::saveFormats() {
-
-    // TODO
 
 }

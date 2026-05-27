@@ -38,6 +38,7 @@ public:
     PQCImagePluginLibsai(QString settingsDir);
 
     const QString name() override { return "libsai"; }
+    const QString category() override { return "image"; }
     const bool canPreload() override { return true; }
     const bool enabledByDefault() override { return true; }
 
@@ -49,6 +50,9 @@ public:
     const QSet<QString> getAllMimetypes() override { return m_allMimetypes; }
 
     const QString getDescription(QString suffix) override;
+    const QSet<QString> getSuffixesForFormatByDescription(QString description) override;
+    const bool supportsFormatByDescription(QString description) override;
+    const bool isEnabled(QString description) override;
 
     const QSet<QString> getWritableSuffixes() override;
     const bool writeImage(QImage img, QString targetPath) override;
@@ -56,7 +60,9 @@ public:
     const QSize loadSize(QString path) override;
     const QImage loadImage(QString path, QSize requestedSize, QSize &origSize, QString &error) override;
 
-    void setEnabled(QString suffix, QString mimetype, bool enabled) override;
+    void setEnabled(QString description, bool enabled) override;
+
+    void loadFormats() override;
 
 private:
     QSet<QString> m_suffixes;
@@ -70,11 +76,9 @@ private:
     QSet<QString> m_writableSuffixes;
 
     QHash<QString,QString> suffix2description;
+    QHash<QString,QString> mimetype2description;
 
     QString m_settingsDir;
-
-    void loadFormats();
-    void saveFormats();
 
 #ifdef PQMLIBSAI
     static std::vector<uint32_t> ReadRasterLayer(const sai::LayerHeader& layerHeader, sai::VirtualFileEntry& layerFile);

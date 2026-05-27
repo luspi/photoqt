@@ -67,17 +67,53 @@ public:
         return PQCImageHandler::get().getMimetypes(category);
     }
 
-    QSet<QString> getSuffixes(QStringList categories) {
+    Q_INVOKABLE QSet<QString> getSuffixes(QStringList categories) {
         return PQCImageHandler::get().getSuffixes(categories);
     }
 
-    QSet<QString> getMimetypes(QStringList categories) {
+    Q_INVOKABLE QSet<QString> getMimetypes(QStringList categories) {
         return PQCImageHandler::get().getMimetypes(categories);
     }
 
     Q_INVOKABLE QString getDescription(QString suffix) {
         return PQCImageHandler::get().getDescription(suffix);
     }
+
+    /*****************************************************/
+
+    Q_INVOKABLE QStringList getPluginNames() {
+        return PQCImageHandler::get().getPluginNames();
+    }
+
+    Q_INVOKABLE QStringList getAllDescriptions() {
+        return PQCImageHandler::get().getAllDescriptions();
+    }
+
+    Q_INVOKABLE QStringList getPluginsForFormatByDescription(QString description) {
+        return PQCImageHandler::get().getPluginsForFormatByDescription(description);
+    }
+
+    Q_INVOKABLE QStringList getAllSuffixesForFormatByDescription(QString description) {
+        return PQCImageHandler::get().getAllSuffixesForFormatByDescription(description);
+    }
+
+    Q_INVOKABLE QString getCategoryForFormatByDescription(QString description) {
+        return PQCImageHandler::get().getCategoryForFormatByDescription(description);
+    }
+
+    Q_INVOKABLE bool isEnabled(QString plugin, QString description) {
+        return PQCImageHandler::get().isEnabled(plugin, description);
+    }
+
+    Q_INVOKABLE void setEnabled(QString pluginName, QString description, bool enabled) {
+               PQCImageHandler::get().setEnabled(pluginName, description, enabled);
+    }
+
+    Q_INVOKABLE void reloadPlugins() {
+               PQCImageHandler::get().reloadPlugins();
+    }
+
+    /*****************************************************/
 
 Q_SIGNALS:
     void formatsUpdated();

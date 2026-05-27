@@ -34,6 +34,9 @@ public:
 
     // the printable name of this plugin
     virtual const QString name() = 0;
+
+    // which category this falls under
+    virtual const QString category() = 0;
     \
     // is this plugin suitable for preloading?
     virtual const bool canPreload() = 0;
@@ -53,6 +56,12 @@ public:
 
     // the description for a suffix
     virtual const QString getDescription(QString suffix) = 0;
+    // the suffixes for a description
+    virtual const QSet<QString> getSuffixesForFormatByDescription(QString description) = 0;
+    // whether this plugin supports the format based on its description
+    virtual const bool supportsFormatByDescription(QString description) = 0;
+    // whether this format is supported and enabled based on its description
+    virtual const bool isEnabled(QString description) = 0;
 
     // all formats that can be written
     virtual const QSet<QString> getWritableSuffixes() = 0;
@@ -67,8 +76,11 @@ public:
     // > error holding any potential error message
     virtual const QImage loadImage(QString path, QSize requestedSize, QSize &origSize, QString &error) = 0;
 
-    // toggle the enabled status of the specified formats and/or mimetypes
-    virtual void setEnabled(QString suffix, QString mimetype, bool enabled) = 0;
+    // toggle the enabled status of the specified formats
+    virtual void setEnabled(QString description, bool enabled) = 0;
+
+    // load all formats based on the settings files
+    virtual void loadFormats() = 0;
 
 Q_SIGNALS:
     void formatsUpdated();

@@ -199,6 +199,7 @@ SET(photoqt_QML qml/PQMainWindow.qml
                 qml/settingsmanager/elements/PQSettingSubtitle.qml
                 qml/settingsmanager/elements/PQSettingSpacer.qml
                 qml/settingsmanager/elements/PQSettingsResetButton.qml
+                qml/settingsmanager/elements/PQSettingFiletypesToggle.qml
 
                 qml/settingsmanager/interface/PQSettingsInterfaceAccentColor.qml
                 qml/settingsmanager/interface/PQSettingsInterfaceBackground.qml
