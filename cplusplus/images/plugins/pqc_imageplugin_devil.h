@@ -72,7 +72,6 @@ private:
     QString m_settingsDir;
 
     void loadFormats();
-    void saveFormats();
 
 #ifdef PQMDEVIL
         // DevIL is not threadsafe -> this ensures only one image is loaded at a time

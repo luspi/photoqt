@@ -77,7 +77,7 @@ public:
     virtual const QImage loadImage(QString path, QSize requestedSize, QSize &origSize, QString &error) = 0;
 
     // toggle the enabled status of the specified formats
-    virtual void setEnabled(QString suffix, bool enabled) = 0;
+    virtual void setEnabled(QString description, bool enabled) = 0;
 
 Q_SIGNALS:
     void formatsUpdated();

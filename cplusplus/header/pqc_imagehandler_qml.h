@@ -97,6 +97,10 @@ public:
         return PQCImageHandler::get().getAllSuffixesForFormatByDescription(description);
     }
 
+    Q_INVOKABLE QString getCategoryForFormatByDescription(QString description) {
+        return PQCImageHandler::get().getCategoryForFormatByDescription(description);
+    }
+
     Q_INVOKABLE bool isEnabled(QString plugin, QString description) {
         return PQCImageHandler::get().isEnabled(plugin, description);
     }

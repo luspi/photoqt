@@ -79,7 +79,6 @@ private:
     QString m_settingsDir;
 
     void loadFormats();
-    void saveFormats();
 
 #ifdef PQMLIBSAI
     static std::vector<uint32_t> ReadRasterLayer(const sai::LayerHeader& layerHeader, sai::VirtualFileEntry& layerFile);

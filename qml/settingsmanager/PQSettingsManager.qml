@@ -83,6 +83,9 @@ PQTemplate {
             return false
         }
 
+        filetypesToggleCategory.hide()
+        filetypesTogglePlugins.hide()
+
         confirmUnsaved.opacity = 0
         PQCConstants.modalSettingsManagerOpen = false
 
@@ -292,6 +295,10 @@ PQTemplate {
                     id: settings_loader
                     x: 10
                     width: parent.width-20
+                    onSourceComponentChanged: {
+                        filetypesToggleCategory.hide()
+                        filetypesTogglePlugins.hide()
+                    }
                 }
 
             }
@@ -307,6 +314,49 @@ PQTemplate {
     PQSettingsShortcutsDetectNew {
         id: detectNew
         parent: settingsmanager_top.parent.parent
+    }
+
+    PQSettingFiletypesToggle {
+
+        id: filetypesToggleCategory
+
+        //: the category here refers to a type of file to view: image, document, video, archive
+        title: qsTranslate("settingsmanager", "Toggle a category")
+        what: "categories"
+        model: [
+            qsTranslate("settingsmanager", "images"),
+            qsTranslate("settingsmanager", "archives"),
+            qsTranslate("settingsmanager", "documents"),
+            qsTranslate("settingsmanager", "videos")
+        ]
+
+        Connections {
+            target: PQCNotify
+            function onSettingsmanagerSendCommand(what : string, args : list<var>) {
+                if(what === "filetypesToggleCategories")
+                    filetypesToggleCategory.show()
+            }
+        }
+
+    }
+
+    PQSettingFiletypesToggle {
+
+        id: filetypesTogglePlugins
+
+        //: The plugin here refers to an image plugin for rendering a file
+        title: qsTranslate("settingsmanager", "Toggle a plugin")
+        what: "plugins"
+        model: PQCImageHandler.getPluginNames()
+
+        Connections {
+            target: PQCNotify
+            function onSettingsmanagerSendCommand(what : string, args : list<var>) {
+                if(what === "filetypesTogglePlugins")
+                    filetypesTogglePlugins.show()
+            }
+        }
+
     }
 
     Connections {
@@ -336,6 +386,10 @@ PQTemplate {
 
                         if(confirmUnsaved.visible)
                             confirmUnsaved.cancelDialog()
+                        else if(filetypesToggleCategory.visible)
+                            filetypesToggleCategory.hide()
+                        else if(filetypesTogglePlugins.visible)
+                            filetypesTogglePlugins.hide()
                         else
                             button3.clicked()
 

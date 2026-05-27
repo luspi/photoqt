@@ -401,13 +401,21 @@ QStringList PQCImageHandler::getAllSuffixesForFormatByDescription(QString descri
 
 }
 
+QString PQCImageHandler::getCategoryForFormatByDescription(QString description) {
+    for(const QString &plugin: std::as_const(pluginOrder)) {
+        if(plugins[plugin]->supportsFormatByDescription(description))
+            return plugins[plugin]->category();
+    }
+    return "";
+}
+
 QStringList PQCImageHandler::getAllDescriptions() {
 
     QStringList ret;
 
     for(const QString &name : std::as_const(pluginOrder)) {
         PQCImagePlugin *plugin = plugins[name];
-        QStringList allSuffixes = plugin->getSuffixes().values();
+        QStringList allSuffixes = plugin->getAllSuffixes().values();
         allSuffixes.sort(Qt::CaseInsensitive);
         for(const QString &suf : std::as_const(allSuffixes)) {
             const QString dsc = plugin->getDescription(suf);
@@ -431,11 +439,8 @@ bool PQCImageHandler::isEnabled(QString plugin, QString description) {
 void PQCImageHandler::setEnabled(QString pluginName, QString description, bool enabled) {
 
     for(PQCImagePlugin *plugin : std::as_const(plugins)) {
-
-        if(plugin->name() == pluginName) {
+        if(plugin->name() == pluginName)
             plugin->setEnabled(description, enabled);
-        }
-
     }
 
 }

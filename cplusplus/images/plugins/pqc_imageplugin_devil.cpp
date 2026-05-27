@@ -229,8 +229,6 @@ const QImage PQCImagePluginDevIL::loadImage(QString path, QSize requestedSize, Q
 
 void PQCImagePluginDevIL::setEnabled(QString description, bool enabled) {
 
-    // TODO: also find and disable mimetypes!
-
     // first find all the suffixes and mimetypes for this format description
     QSet<QString> suffixes, mimetypes;
     for(const auto &[key, value] : std::as_const(suffix2description).asKeyValueRange()) {
@@ -457,12 +455,6 @@ void PQCImagePluginDevIL::loadFormats() {
     };
 
     Q_EMIT formatsUpdated();
-
-}
-
-void PQCImagePluginDevIL::saveFormats() {
-
-    // TODO
 
 }
 

@@ -77,6 +77,5 @@ private:
     QString m_settingsDir;
 
     void loadFormats();
-    void saveFormats();
 
 };

@@ -24,6 +24,8 @@
 #include <pqc_imageplugin.h>
 #include <QSet>
 
+class QTimer;
+
 class PQCImagePluginQt : public PQCImagePlugin {
 
 public:
@@ -70,7 +72,11 @@ private:
 
     QString m_settingsDir;
 
+    bool m_filesLoaded;
+    QString m_suffixFileCache;
+    QString m_mimeFileCache;
+    QTimer *submitFilesCache;
+
     void loadFormats();
-    void saveFormats();
 
 };
