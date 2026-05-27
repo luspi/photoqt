@@ -86,6 +86,7 @@ public:
     bool getImageviewSortImagesAscending() { return m_imageviewSortImagesAscending; }
     QString getImageviewSortImagesBy() { return m_imageviewSortImagesBy; }
     QString getInterfaceAccentColor() { return m_interfaceAccentColor; }
+    bool getInterfaceBackgroundImageScreenshot() { return m_interfaceBackgroundImageScreenshot; }
     int getInterfaceFontBoldWeight() { return m_interfaceFontBoldWeight; }
     int getInterfaceFontNormalWeight() { return m_interfaceFontNormalWeight; }
     QString getInterfaceLanguage() { return m_interfaceLanguage; }
@@ -366,6 +367,12 @@ public:
                         m_interfaceAccentColor = val;
                         Q_EMIT interfaceAccentColorChanged();
                     }
+                } else if(table == "interface" && name == "BackgroundImageScreenshot") {
+                    const bool val = value.toInt();
+                    if(m_interfaceBackgroundImageScreenshot != val) {
+                        m_interfaceBackgroundImageScreenshot = value.toInt();
+                        Q_EMIT interfaceBackgroundImageScreenshotChanged();
+                    }
                 } else if(table == "interface" && name == "FontBoldWeight") {
                     const int val = value.toInt();
                     if(m_interfaceFontBoldWeight != val) {
@@ -524,6 +531,7 @@ private:
         m_imageviewSortImagesAscending = true;
         m_imageviewSortImagesBy = "naturalname";
         m_interfaceAccentColor = "#222222";
+        m_interfaceBackgroundImageScreenshot = false;
         m_interfaceFontBoldWeight = 700;
         m_interfaceFontNormalWeight = 400;
         m_interfaceLanguage = "en";
@@ -585,6 +593,7 @@ private:
     bool m_imageviewSortImagesAscending;
     QString m_imageviewSortImagesBy;
     QString m_interfaceAccentColor;
+    bool m_interfaceBackgroundImageScreenshot;
     int m_interfaceFontBoldWeight;
     int m_interfaceFontNormalWeight;
     QString m_interfaceLanguage;
@@ -648,6 +657,7 @@ Q_SIGNALS:
     void interfacePopoutMapExplorerNonModalChanged();
     void interfacePopoutFileDialogNonModalChanged();
     void interfacePopoutSettingsManagerNonModalChanged();
+    void interfaceBackgroundImageScreenshotChanged();
     void thumbnailsExcludeDropBoxChanged();
     void thumbnailsExcludeNextcloudChanged();
     void thumbnailsExcludeOwnCloudChanged();

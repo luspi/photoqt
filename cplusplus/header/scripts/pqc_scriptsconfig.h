@@ -50,6 +50,7 @@ public:
     bool isBetaVersion();
     bool isDebugBuild();
     void callStartupSetupFresh();
+    bool isThisAWaylandSession();
 
     // check for various supported features
     bool isChromecastEnabled();

@@ -140,6 +140,9 @@ public:
     Q_INVOKABLE QString getTempDir() {
         return PQCScriptsFilesPaths::get().getTempDir();
     }
+    Q_INVOKABLE QString getApplicationCacheDir() {
+        return PQCScriptsFilesPaths::get().getApplicationCacheDir();
+    }
     Q_INVOKABLE QString findDropBoxFolder() {
         return PQCScriptsFilesPaths::get().findDropBoxFolder();
     }

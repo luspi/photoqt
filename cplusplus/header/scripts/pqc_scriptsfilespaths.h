@@ -85,6 +85,7 @@ public:
     // get some fixed directories
     QString getHomeDir();
     QString getTempDir();
+    QString getApplicationCacheDir();
     QString findDropBoxFolder();
     QString findNextcloudFolder();
     QString findOwnCloudFolder();

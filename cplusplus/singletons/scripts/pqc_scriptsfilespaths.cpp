@@ -333,6 +333,10 @@ QString PQCScriptsFilesPaths::getTempDir() {
     return QDir::tempPath();
 }
 
+QString PQCScriptsFilesPaths::getApplicationCacheDir() {
+    return PQCConfigFiles::get().CACHE_DIR();
+}
+
 bool PQCScriptsFilesPaths::isFolder(QString path) {
     return QFileInfo(path).isDir();
 }
@@ -773,6 +777,10 @@ void PQCScriptsFilesPaths::cleanupTemporaryFiles() {
         dir.removeRecursively();
 
     dir.setPath(PQCConfigFiles::get().CACHE_DIR() % "/motionphotos/");
+    if(dir.exists())
+        dir.removeRecursively();
+
+    dir.setPath(PQCConfigFiles::get().CACHE_DIR() % "/screenshots/");
     if(dir.exists())
         dir.removeRecursively();
 

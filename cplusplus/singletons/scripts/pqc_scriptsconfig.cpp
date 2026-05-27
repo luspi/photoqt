@@ -688,3 +688,7 @@ QString PQCScriptsConfig::getInterfaceForNextStartup() {
         return ret;
     return "";
 }
+
+bool PQCScriptsConfig::isThisAWaylandSession() {
+    return (qApp->platformName() == "wayland");
+}

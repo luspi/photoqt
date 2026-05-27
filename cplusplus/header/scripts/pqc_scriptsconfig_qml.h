@@ -76,6 +76,9 @@ public:
     Q_INVOKABLE void callStartupSetupFresh() {
                PQCScriptsConfig::get().callStartupSetupFresh();
     }
+    Q_INVOKABLE bool isThisAWaylandSession() {
+        return PQCScriptsConfig::get().isThisAWaylandSession();
+    }
 
     // check for various supported features
     Q_INVOKABLE bool isChromecastEnabled() {

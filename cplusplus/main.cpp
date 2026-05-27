@@ -247,19 +247,28 @@ int main(int argc, char **argv) {
 
     /***************************************/
 
-    // Get screenshots for fake transparency
-    bool success = true;
-    for(int i = 0; i < QApplication::screens().count(); ++i) {
-        QScreen *screen = QApplication::screens().at(i);
-        QRect r = screen->geometry();
-        QPixmap pix = screen->grabWindow(0,r.x(),r.y(),r.width(),r.height());
-        if(!pix.save(QDir::tempPath() + QString("/photoqt_screenshot_%1.jpg").arg(i))) {
-            qDebug() << "Error taking screenshot for screen #" << i;
-            success = false;
-            break;
+    // Get screenshots for fake transparency if needed
+    if(PQCSettingsCPP::get().getInterfaceBackgroundImageScreenshot() && qApp->platformName() != "wayland") {
+
+        const QList<QScreen*> screens = QGuiApplication::screens();
+        int index = 0;
+        bool success = true;
+        for(QScreen *screen : screens) {
+            const QPixmap pixmap = screen->grabWindow(0);
+            QDir d(PQCConfigFiles::get().CACHE_DIR() % "/screenshots/");
+            d.mkdir(d.absolutePath());
+            const QString fn = d.absolutePath() % "/" % QString::number(index) % ".jpg";
+            if(pixmap.isNull() || !pixmap.save(fn)) {
+                qWarning() << "Failed to store screenshot of screen" << index << "to" << fn;
+                success = false;
+                break;
+            }
+            index += 1;
         }
+
+        PQCNotifyCPP::get().setHaveScreenshots(success);
+
     }
-    PQCNotifyCPP::get().setHaveScreenshots(success);
 
     /***************************************/
 

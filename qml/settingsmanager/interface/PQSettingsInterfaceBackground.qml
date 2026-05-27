@@ -63,12 +63,32 @@ PQSetting {
 
             PQRadioButton {
                 id: radio_fake
-                visible: PQCConstants.startupHaveScreenshots
                 enforceMaxWidth: set_bg.contentWidth
+                visible: !PQCScriptsConfig.isThisAWaylandSession()
                 //: How the background of PhotoQt should be
                 text: qsTranslate("settingsmanager", "fake transparency")
                 ButtonGroup.group: bggrp
                 onCheckedChanged: set_bg.checkForChanges()
+            }
+
+            Item {
+                width: set_bg.contentWidth
+                height: radio_fake.checked ? fakerow.height : 0
+                Behavior on height { enabled: !PQCSettings.generalDisableAllAnimations; NumberAnimation { duration: 200 } }
+                clip: true
+                visible: !PQCScriptsConfig.isThisAWaylandSession() && height>0
+                Row {
+                    id: fakerow
+                    Item {
+                        width: 20
+                        height: 1
+                    }
+                    PQText {
+                        width: set_bg.contentWidth-20
+                        wrapMode: Text.WrapAtWordBoundaryOrAnywhere
+                        text: "<b>" + qsTranslate("settingsmanager", "This option requires a restart for the screenshots to be taken.") + "</b><br><b>" + qsTranslate("settingsmanager", "Note:") + "</b> " + qsTranslate("settingsmanager", "This results in screenshots of all your current screens to be taken when PhotoQt starts up. They will be stored as local files until PhotoQt is closed again.")
+                    }
+                }
             }
 
             PQRadioButton {
@@ -456,8 +476,10 @@ PQSetting {
 
         settingsLoaded = false
 
-        radio_real.loadAndSetDefault(!PQCSettings.interfaceBackgroundImageScreenshot && !PQCSettings.interfaceBackgroundImageUse && !PQCSettings.interfaceBackgroundFullyTransparent)
-        radio_fake.loadAndSetDefault(PQCSettings.interfaceBackgroundImageScreenshot)
+        radio_real.loadAndSetDefault((!PQCSettings.interfaceBackgroundImageScreenshot || (PQCSettings.interfaceBackgroundImageScreenshot && PQCScriptsConfig.isThisAWaylandSession())) &&
+                                     !PQCSettings.interfaceBackgroundImageUse &&
+                                     !PQCSettings.interfaceBackgroundFullyTransparent)
+        radio_fake.loadAndSetDefault(PQCSettings.interfaceBackgroundImageScreenshot&&!PQCScriptsConfig.isThisAWaylandSession())
         radio_solid.loadAndSetDefault(PQCSettings.interfaceBackgroundSolid)
         radio_nobg.loadAndSetDefault(PQCSettings.interfaceBackgroundFullyTransparent)
         radio_custom.loadAndSetDefault(PQCSettings.interfaceBackgroundImageUse)
