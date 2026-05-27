@@ -390,6 +390,17 @@ QStringList PQCImageHandler::getPluginsForFormatByDescription(QString descriptio
 
 }
 
+QStringList PQCImageHandler::getAllSuffixesForFormatByDescription(QString description) {
+
+    QSet<QString> ret;
+    for(const QString &plugin: std::as_const(pluginOrder)) {
+        if(plugins[plugin]->supportsFormatByDescription(description))
+            ret += plugins[plugin]->getSuffixesForFormatByDescription(description);
+    }
+    return ret.values();
+
+}
+
 QStringList PQCImageHandler::getAllDescriptions() {
 
     QStringList ret;

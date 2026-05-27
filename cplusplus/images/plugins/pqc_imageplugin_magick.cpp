@@ -47,6 +47,15 @@ const QString PQCImagePluginMagick::getDescription(QString suffix) {
     return m_suffix2description.value(suffix.toLower(), "");
 }
 
+const QSet<QString> PQCImagePluginMagick::getSuffixesForFormatByDescription(QString description) {
+    QSet<QString> ret;
+    for(const auto &[suf, desc] : std::as_const(m_suffix2description).asKeyValueRange()) {
+        if(desc == description)
+            ret.insert(suf);
+    }
+    return ret;
+}
+
 const bool PQCImagePluginMagick::supportsFormatByDescription(QString description) {
     for(const auto &[suf, desc] : std::as_const(m_suffix2description).asKeyValueRange()) {
         if(desc == description)

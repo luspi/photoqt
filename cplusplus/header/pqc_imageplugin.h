@@ -56,6 +56,8 @@ public:
 
     // the description for a suffix
     virtual const QString getDescription(QString suffix) = 0;
+    // the suffixes for a description
+    virtual const QSet<QString> getSuffixesForFormatByDescription(QString description) = 0;
     // whether this plugin supports the format based on its description
     virtual const bool supportsFormatByDescription(QString description) = 0;
     // whether this format is supported and enabled based on its description

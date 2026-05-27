@@ -43,6 +43,7 @@ public:
     const QSet<QString> getAllMimetypes() override { return m_allMimetypes; }
 
     const QString getDescription(QString suffix) override;
+    const QSet<QString> getSuffixesForFormatByDescription(QString description) override;
     const bool supportsFormatByDescription(QString description) override;
     const bool isEnabled(QString description) override;
 

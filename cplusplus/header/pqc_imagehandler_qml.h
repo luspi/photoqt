@@ -93,6 +93,10 @@ public:
         return PQCImageHandler::get().getPluginsForFormatByDescription(description);
     }
 
+    Q_INVOKABLE QStringList getAllSuffixesForFormatByDescription(QString description) {
+        return PQCImageHandler::get().getAllSuffixesForFormatByDescription(description);
+    }
+
     Q_INVOKABLE bool isEnabled(QString plugin, QString description) {
         return PQCImageHandler::get().isEnabled(plugin, description);
     }

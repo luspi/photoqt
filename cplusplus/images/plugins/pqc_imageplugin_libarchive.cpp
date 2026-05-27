@@ -49,6 +49,15 @@ const QString PQCImagePluginLibarchive::getDescription(QString suffix) {
     return suffix2description.value(suffix.toLower(), "");
 }
 
+const QSet<QString> PQCImagePluginLibarchive::getSuffixesForFormatByDescription(QString description) {
+    QSet<QString> ret;
+    for(const auto &[suf, desc] : std::as_const(suffix2description).asKeyValueRange()) {
+        if(desc == description)
+            ret.insert(suf);
+    }
+    return ret;
+}
+
 const bool PQCImagePluginLibarchive::supportsFormatByDescription(QString description) {
     for(const auto &[suf, desc] : std::as_const(suffix2description).asKeyValueRange()) {
         if(desc == description)

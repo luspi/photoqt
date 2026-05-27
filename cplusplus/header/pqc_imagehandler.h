@@ -59,6 +59,7 @@ public:
     QStringList getPluginNames();
     QStringList getAllDescriptions();
     QStringList getPluginsForFormatByDescription(QString description);
+    QStringList getAllSuffixesForFormatByDescription(QString description);
 
     bool isEnabled(QString plugin, QString description);
     void setEnabled(QString pluginName, QString description, bool enabled);

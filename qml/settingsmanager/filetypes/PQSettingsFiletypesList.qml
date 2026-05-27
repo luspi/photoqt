@@ -101,22 +101,7 @@ PQSetting {
                 id: countEnabled
                 property int num: 0
                 //: The %1 will be replaced with the number of file formats, please don't forget to add it.
-                text:  qsTranslate("settingsmanager", "Currently there are %1 file formats enabled").arg("<b>"+num+"</b>")
-                // Connections {
-                //     target: listview
-                //     function onFtChanged() {
-                //         countEnabled.countFormats()
-                //     }
-                // }
-                // Component.onCompleted: {
-                //     countEnabled.countFormats()
-                // }
-                // function countFormats() {
-                //     var c = 0
-                //     for(var i = 0; i< listview.ft.length; ++i)
-                //         if(listview.ft[i][1] === 1) c += 1
-                //     countEnabled.num = c
-                // }
+                text:  qsTranslate("settingsmanager", "%1 file formats are enabled across %2 plugins.").arg("<b>"+num+"</b>").arg("<b>"+listview.plugins.length+"</b>")
             }
 
             Item {
@@ -131,15 +116,15 @@ PQSetting {
                     id: filter_desc
                     width: set_fity.contentWidth/2 -5
                     placeholderText: qsTranslate("settingsmanager", "Search by description or file ending")
-                    // Keys.onTabPressed: (event) => {
-                    //     PQCNotify.loaderPassOn("keyEvent", [event.key, event.modifiers])
-                    // }
-                    // onPressed: (key, modifiers) => {
-                    //    if(key === Qt.Key_S && modifiers === Qt.ControlModifier)
-                    //         PQCNotify.loaderPassOn("keyEvent", [key, modifiers])
-                    //     else if(key === Qt.Key_R && modifiers === Qt.ControlModifier)
-                    //         PQCNotify.loaderPassOn("keyEvent", [key, modifiers])
-                    // }
+                    Keys.onTabPressed: (event) => {
+                        PQCNotify.loaderPassOn("keyEvent", [event.key, event.modifiers])
+                    }
+                    onPressed: (key, modifiers) => {
+                       if(key === Qt.Key_S && modifiers === Qt.ControlModifier)
+                            PQCNotify.loaderPassOn("keyEvent", [key, modifiers])
+                        else if(key === Qt.Key_R && modifiers === Qt.ControlModifier)
+                            PQCNotify.loaderPassOn("keyEvent", [key, modifiers])
+                    }
                 }
 
                 PQLineEdit {
@@ -184,6 +169,8 @@ PQSetting {
             property var entry2status: ({})
             property var entry2plugins: ({})
 
+            ScrollBar.vertical: PQVerticalScrollBar { id: listScrollbar }
+
             model: entries.length
 
             delegate: Rectangle {
@@ -195,8 +182,30 @@ PQSetting {
                 property list<int> entrystatus: listview.entry2status[entry]
                 property list<string> supportedPlugins: listview.entry2plugins[entry]
 
-                width: listview.width
-                height: 50
+                property list<string> formatSuffixes: PQCImageHandler.getAllSuffixesForFormatByDescription(entry)
+
+                width: listview.width-listScrollbar.width
+                height: {
+                    var txtF = filter_desc.text.toLowerCase()
+                    var txtL = filter_lib.text.toLowerCase()
+                    if(txtF === "" && txtL === "")
+                        return 50
+
+                    if(txtL === "") {
+                        const str_suffixes = formatSuffixes.join("\n")
+                        return (entry.toLowerCase().indexOf(txtF) > -1 || str_suffixes.indexOf(txtF) > -1) ? 50 : 0
+                    } else if(txtF === "") {
+                        const str_plugins = supportedPlugins.join("\n").toLowerCase()
+                        return (str_plugins.indexOf(txtL) > -1) ? 50 : 0
+                    }
+
+                    const str_suffixes = formatSuffixes.join("\n")
+                    const str_plugins = supportedPlugins.join("\n")
+                    return ((entry.toLowerCase().indexOf(txtF) > -1 || str_suffixes.indexOf(txtF) > -1) &&
+                            str_plugins.indexOf(txtL) > -1) ? 50 : 0
+
+                }
+                clip: true
                 color: palette.alternateBase
                 Rectangle {
                     width: parent.width
@@ -214,12 +223,12 @@ PQSetting {
 
                     PQCheckBox {
                         id: formatcheck
-                        y: (parent.height-height)/2
                         width: (listview.width-30)/3
+                        height: deleg.height
                         text: deleg.entry
+                        tooltip: "<b>" + text + "</b><br>*." + deleg.formatSuffixes.join(", *.")
                         elide: Text.ElideMiddle
-                        opacity: (checkState != Qt.Unchecked) ? 1 : 0.5
-                        Behavior on opacity { enabled: !PQCSettings.generalDisableAllAnimations; NumberAnimation { duration: 100 } }
+                        font.strikeout: (checkState == Qt.Unchecked)
                         tristate: true
                         checkState: deleg.supportedPlugins.length===pluginrow.howManyEnabled ? Qt.Checked : pluginrow.howManyEnabled>0 ? Qt.PartiallyChecked : Qt.Unchecked
                         nextCheckState: function() {
@@ -244,11 +253,8 @@ PQSetting {
                         id: pluginrow
 
                         y: (parent.height-height)/2
-                        width: 2*(listview.width-20)/3
+                        width: 2*(listview.width-20-listScrollbar.width)/3
                         spacing: 0
-
-                        opacity: (formatcheck.checkState != Qt.Unchecked) ? 1 : 0.5
-                        Behavior on opacity { enabled: !PQCSettings.generalDisableAllAnimations; NumberAnimation { duration: 100 } }
 
                         property int allunits: 0
 
@@ -313,7 +319,6 @@ PQSetting {
                                 Rectangle {
                                     anchors.fill: parent
                                     anchors.margins: 5
-                                    opacity: (formatcheck.checkState != Qt.Unchecked) ? 1 : 0.5
                                     radius: 10
                                     color: "transparent"
                                     visible: butdeleg.enabled
@@ -334,7 +339,11 @@ PQSetting {
                                     anchors.fill: parent
                                     hoverEnabled: true
                                     cursorShape: Qt.PointingHandCursor
-                                    text: butdeleg.enabled ? buttxt.text : qsTranslate("settingsmanager", "format not supported by this plugin")
+                                    text: butdeleg.enabled ?
+                                              ((butdeleg.checked ?
+                                                    qsTranslate("settingsmanager", "Click to disable plugin:") :
+                                                    qsTranslate("settingsmanager", "Click to enable plugin:")) + ": <b>" + buttxt.text + "</b>") :
+                                              qsTranslate("settingsmanager", "format not supported by this plugin")
 
                                     onClicked: {
                                         butdeleg.checked = !butdeleg.checked
