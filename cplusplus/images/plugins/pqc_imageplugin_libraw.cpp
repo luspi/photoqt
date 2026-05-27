@@ -53,6 +53,14 @@ const bool PQCImagePluginLibraw::supportsFormatByDescription(QString description
     return false;
 }
 
+const bool PQCImagePluginLibraw::isEnabled(QString description) {
+    for(const auto &[suf, desc] : std::as_const(suffix2description).asKeyValueRange()) {
+        if(desc == description)
+            return m_suffixes.contains(suf);
+    }
+    return false;
+}
+
 const QSet<QString> PQCImagePluginLibraw::getWritableSuffixes() {
 
     return {};
@@ -431,13 +439,6 @@ void PQCImagePluginLibraw::loadFormats() {
         {"x3f", "Sigma Digital Camera Raw Image"}
     };
 
-    mimetype2description = {
-        {"image/x-canon-crw",   "Canon Digital Camera Raw Image Format"},
-        {"image/x-canon-cr2",   "Canon Digital Camera Raw Image Format"},
-        {"image/x-olympus-orf", "Olympus Digital Camera Raw Image Format"},
-        {"image/x-pentax-pef",  "Pentax Raw Image Format"}
-    };
-
     /********************************/
 
     m_mimetypes.clear();
@@ -463,6 +464,13 @@ void PQCImagePluginLibraw::loadFormats() {
 
     // these are the currently enabled ones
     m_mimetypes = m_allMimetypes - m_toggledMimetypes;
+
+    mimetype2description = {
+        {"image/x-canon-crw",   "Canon Digital Camera Raw Image Format"},
+        {"image/x-canon-cr2",   "Canon Digital Camera Raw Image Format"},
+        {"image/x-olympus-orf", "Olympus Digital Camera Raw Image Format"},
+        {"image/x-pentax-pef",  "Pentax Raw Image Format"}
+    };
 
     Q_EMIT formatsUpdated();
 

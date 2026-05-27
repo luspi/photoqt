@@ -412,7 +412,7 @@ QStringList PQCImageHandler::getAllDescriptions() {
 bool PQCImageHandler::isEnabled(QString plugin, QString description) {
     for(const QString &name : std::as_const(pluginOrder)) {
         if(name == plugin || plugins[name]->name() == plugin)
-            return plugins[name]->supportsFormatByDescription(description);
+            return plugins[name]->isEnabled(description);
     }
     return false;
 }

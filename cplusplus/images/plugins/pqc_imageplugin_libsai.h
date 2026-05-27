@@ -51,6 +51,7 @@ public:
 
     const QString getDescription(QString suffix) override;
     const bool supportsFormatByDescription(QString description) override;
+    const bool isEnabled(QString description) override;
 
     const QSet<QString> getWritableSuffixes() override;
     const bool writeImage(QImage img, QString targetPath) override;

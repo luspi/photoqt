@@ -51,6 +51,14 @@ const bool PQCImagePluginResvg::supportsFormatByDescription(QString description)
     return false;
 }
 
+const bool PQCImagePluginResvg::isEnabled(QString description) {
+    for(const auto &[suf, desc] : std::as_const(suffix2description).asKeyValueRange()) {
+        if(desc == description)
+            return m_suffixes.contains(suf);
+    }
+    return false;
+}
+
 const QSet<QString> PQCImagePluginResvg::getWritableSuffixes() {
 
     return {};
@@ -172,6 +180,10 @@ void PQCImagePluginResvg::loadFormats() {
 
     // these are the currently enabled ones
     m_mimetypes = m_allMimetypes - m_toggledMimetypes;
+
+    mimetype2description = {
+        {"image/svg+xml", "SVG: Scalable Vector Graphics"}
+    };
 
     Q_EMIT formatsUpdated();
 

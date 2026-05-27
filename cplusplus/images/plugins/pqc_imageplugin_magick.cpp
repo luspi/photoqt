@@ -55,6 +55,14 @@ const bool PQCImagePluginMagick::supportsFormatByDescription(QString description
     return false;
 }
 
+const bool PQCImagePluginMagick::isEnabled(QString description) {
+    for(const auto &[suf, desc] : std::as_const(m_suffix2description).asKeyValueRange()) {
+        if(desc == description)
+            return m_suffixes.contains(suf);
+    }
+    return false;
+}
+
 const QSet<QString> PQCImagePluginMagick::getWritableSuffixes() {
 
     if(m_composedWritableSuffixes) return m_writableSuffixes;
@@ -290,79 +298,6 @@ void PQCImagePluginMagick::loadFormats() {
         {"scr",  "RAS"},
         {"pm",  "XPM"},
         {"avifs", "AVIF"}
-    };
-
-    mimetype2description = {
-        {"image/bmp",                    "BMP: Microsoft Windows bitmap"},
-        {"image/x-ms-bmp",               "BMP: Microsoft Windows bitmap"},
-        {"image/x-win-bitmap",           "CUR: Microsoft Windows cursor format"},
-        {"application/postscript",       "EPS: Encapsulated PostScript"},
-        {"application/eps",              "EPS: Encapsulated PostScript"},
-        {"application/x-eps",            "EPS: Encapsulated PostScript"},
-        {"image/eps",                    "EPS: Encapsulated PostScript"},
-        {"image/x-eps",                  "EPS: Encapsulated PostScript"},
-        {"image/x-exr",                  "OpenEXR"},
-        {"image/gif",                    "GIF: Graphics Interchange Format"},
-        {"image/jp2",                    "JPEG-2000"},
-        {"image/jpx",                    "JPEG-2000"},
-        {"image/jpm",                    "JPEG-2000"},
-        {"image/jpeg",                   "JPEG: Joint Photographic Experts Group JFIF format"},
-        {"video/x-mng",                  "MNG: Multiple-image Network Graphics"},
-        {"image/openraster",             "OpenRaster"},
-        {"image/x-portable-anymap",      "PBM: Portable bitmap format (black and white)"},
-        {"image/vnd.zbrush.pcx",         "PCX: ZSoft PiCture eXchange"},
-        {"image/x-pcx",                  "PCX: ZSoft PiCture eXchange"},
-        {"image/x-portable-greymap",     "PGM: Portable graymap format (gray scale)"},
-        {"image/x-portable-anymap",      "PGM: Portable graymap format (gray scale)"},
-        {"image/png",                    "PNG: Portable Network Graphics"},
-        {"image/x-portable-pixmap",      "PPM: Portable pixmap format (color)"},
-        {"image/x-portable-anymap",      "PPM: Portable pixmap format (color)"},
-        {"image/vnd.adobe.photoshop",    "Adobe PhotoShop"},
-        {"image/sgi",                    "SGI images"},
-        {"image/svg+xml",                "SVG: Scalable Vector Graphics"},
-        {"image/x-targa",                "TGA: Truevision Targa image"},
-        {"image/x-tga",                  "TGA: Truevision Targa image"},
-        {"image/tiff",                   "TIFF: Tagged Image File Format"},
-        {"image/tiff-fx",                "TIFF: Tagged Image File Format"},
-        {"image/vnd.wap.wbmp",           "Wireless Bitmap"},
-        {"image/x-xbitmap",              "X BitMap"},
-        {"image/x-xbm",                  "X BitMap"},
-        {"image/x-xcf",                  "Gimp XCF"},
-        {"application/x-fpt",            "AVS X image"},
-        {"application/dicom",            "Digital Imaging and Communications in Medicine (DICOM) image"},
-        {"image/dicom-rle",              "Digital Imaging and Communications in Medicine (DICOM) image"},
-        {"image/x-dpx",                  "Digital Moving Picture Exchange"},
-        {"application/postscript",       "Adobe Encapsulated PostScript Interchange format"},
-        {"image/x-eps",                  "Adobe Encapsulated PostScript Interchange format with TIFF preview"},
-        {"image/fits",                   "FITS: Flexible Image Transport System"},
-        {"application/x-pnf",            "JBIG: Joint Bi-level Image experts Group file interchange format (JBIG)"},
-        {"video/x-jng",                  "JPEG Network Graphics"},
-        {"image/x-miff",                 "Magick image file format"},
-        {"image/x-portable-arbitrarymap", "Portable Arbitrary Map format"},
-        {"image/x-portable-pixmap",       "Portable Arbitrary Map format"},
-        {"image/x-xpmi",                  "Personal Icon"},
-        {"application/postscript",        "Adobe Level III PostScript file"},
-        {"image/tiff",                    "Pyramid encoded TIFF"},
-        {"font/sfnt",                     "TrueType font file"},
-        {"image/webp",                    "WEBP: Google web image format"},
-        {"image/bpg",                     "BPG: Better Portable Graphics"},
-        {"image/x-canon-crw",             "Canon Digital Camera Raw Image Format"},
-        {"image/x-canon-cr2",             "Canon Digital Camera Raw Image Format"},
-        {"image/vnd.djvu",                "DjVu digital document format "},
-        {"image/heic",                    "HEIF: High Efficiency Image Format"},
-        {"image/heif",                    "HEIF: High Efficiency Image Format"},
-        {"image/x-olympus-orf",           "Olympus Digital Camera Raw Image Format"},
-        {"image/x-pentax-pef",            "Pentax Raw Image Format"},
-        {"image/vnd.microsoft.icon",      "Microsoft Windows icon format"},
-        {"image/x-icon",                  "Microsoft Windows icon format"},
-        {"image/x-xpixmap",               "X PixMap"},
-        {"image/x-xpmi",                  "X PixMap"},
-        {"image/avif",                    "AVIF: AV1 Image File Format"},
-        {"image/avif-sequence",           "AVIF: AV1 Image File Format"},
-        {"image/x-mvg",                   "Magick Vector Graphics"},
-        {"image/jxl",                     "JPEG XL"},
-        {"font/opentype",                 "OpenType font file"},
-        {"application/vnd.ms-opentype",   "OpenType font file"}
     };
 
     m_suffixes.clear();
@@ -717,6 +652,79 @@ void PQCImagePluginMagick::loadFormats() {
 
     // these are the currently enabled ones
     m_mimetypes = m_allMimetypes - m_toggledMimetypes;
+
+    mimetype2description = {
+        {"image/bmp",                    "BMP: Microsoft Windows bitmap"},
+        {"image/x-ms-bmp",               "BMP: Microsoft Windows bitmap"},
+        {"image/x-win-bitmap",           "CUR: Microsoft Windows cursor format"},
+        {"application/postscript",       "EPS: Encapsulated PostScript"},
+        {"application/eps",              "EPS: Encapsulated PostScript"},
+        {"application/x-eps",            "EPS: Encapsulated PostScript"},
+        {"image/eps",                    "EPS: Encapsulated PostScript"},
+        {"image/x-eps",                  "EPS: Encapsulated PostScript"},
+        {"image/x-exr",                  "OpenEXR"},
+        {"image/gif",                    "GIF: Graphics Interchange Format"},
+        {"image/jp2",                    "JPEG-2000"},
+        {"image/jpx",                    "JPEG-2000"},
+        {"image/jpm",                    "JPEG-2000"},
+        {"image/jpeg",                   "JPEG: Joint Photographic Experts Group JFIF format"},
+        {"video/x-mng",                  "MNG: Multiple-image Network Graphics"},
+        {"image/openraster",             "OpenRaster"},
+        {"image/x-portable-anymap",      "PBM: Portable bitmap format (black and white)"},
+        {"image/vnd.zbrush.pcx",         "PCX: ZSoft PiCture eXchange"},
+        {"image/x-pcx",                  "PCX: ZSoft PiCture eXchange"},
+        {"image/x-portable-greymap",     "PGM: Portable graymap format (gray scale)"},
+        {"image/x-portable-anymap",      "PGM: Portable graymap format (gray scale)"},
+        {"image/png",                    "PNG: Portable Network Graphics"},
+        {"image/x-portable-pixmap",      "PPM: Portable pixmap format (color)"},
+        {"image/x-portable-anymap",      "PPM: Portable pixmap format (color)"},
+        {"image/vnd.adobe.photoshop",    "Adobe PhotoShop"},
+        {"image/sgi",                    "SGI images"},
+        {"image/svg+xml",                "SVG: Scalable Vector Graphics"},
+        {"image/x-targa",                "TGA: Truevision Targa image"},
+        {"image/x-tga",                  "TGA: Truevision Targa image"},
+        {"image/tiff",                   "TIFF: Tagged Image File Format"},
+        {"image/tiff-fx",                "TIFF: Tagged Image File Format"},
+        {"image/vnd.wap.wbmp",           "Wireless Bitmap"},
+        {"image/x-xbitmap",              "X BitMap"},
+        {"image/x-xbm",                  "X BitMap"},
+        {"image/x-xcf",                  "Gimp XCF"},
+        {"application/x-fpt",            "AVS X image"},
+        {"application/dicom",            "Digital Imaging and Communications in Medicine (DICOM) image"},
+        {"image/dicom-rle",              "Digital Imaging and Communications in Medicine (DICOM) image"},
+        {"image/x-dpx",                  "Digital Moving Picture Exchange"},
+        {"application/postscript",       "Adobe Encapsulated PostScript Interchange format"},
+        {"image/x-eps",                  "Adobe Encapsulated PostScript Interchange format with TIFF preview"},
+        {"image/fits",                   "FITS: Flexible Image Transport System"},
+        {"application/x-pnf",            "JBIG: Joint Bi-level Image experts Group file interchange format (JBIG)"},
+        {"video/x-jng",                  "JPEG Network Graphics"},
+        {"image/x-miff",                 "Magick image file format"},
+        {"image/x-portable-arbitrarymap", "Portable Arbitrary Map format"},
+        {"image/x-portable-pixmap",       "Portable Arbitrary Map format"},
+        {"image/x-xpmi",                  "Personal Icon"},
+        {"application/postscript",        "Adobe Level III PostScript file"},
+        {"image/tiff",                    "Pyramid encoded TIFF"},
+        {"font/sfnt",                     "TrueType font file"},
+        {"image/webp",                    "WEBP: Google web image format"},
+        {"image/bpg",                     "BPG: Better Portable Graphics"},
+        {"image/x-canon-crw",             "Canon Digital Camera Raw Image Format"},
+        {"image/x-canon-cr2",             "Canon Digital Camera Raw Image Format"},
+        {"image/vnd.djvu",                "DjVu digital document format "},
+        {"image/heic",                    "HEIF: High Efficiency Image Format"},
+        {"image/heif",                    "HEIF: High Efficiency Image Format"},
+        {"image/x-olympus-orf",           "Olympus Digital Camera Raw Image Format"},
+        {"image/x-pentax-pef",            "Pentax Raw Image Format"},
+        {"image/vnd.microsoft.icon",      "Microsoft Windows icon format"},
+        {"image/x-icon",                  "Microsoft Windows icon format"},
+        {"image/x-xpixmap",               "X PixMap"},
+        {"image/x-xpmi",                  "X PixMap"},
+        {"image/avif",                    "AVIF: AV1 Image File Format"},
+        {"image/avif-sequence",           "AVIF: AV1 Image File Format"},
+        {"image/x-mvg",                   "Magick Vector Graphics"},
+        {"image/jxl",                     "JPEG XL"},
+        {"font/opentype",                 "OpenType font file"},
+        {"application/vnd.ms-opentype",   "OpenType font file"}
+    };
 
     Q_EMIT formatsUpdated();
 

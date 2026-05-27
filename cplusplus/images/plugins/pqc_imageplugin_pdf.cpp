@@ -57,6 +57,14 @@ const bool PQCImagePluginPDF::supportsFormatByDescription(QString description) {
     return false;
 }
 
+const bool PQCImagePluginPDF::isEnabled(QString description) {
+    for(const auto &[suf, desc] : std::as_const(suffix2description).asKeyValueRange()) {
+        if(desc == description)
+            return m_suffixes.contains(suf);
+    }
+    return false;
+}
+
 const QSet<QString> PQCImagePluginPDF::getWritableSuffixes() {
 
     return {};
@@ -304,6 +312,13 @@ void PQCImagePluginPDF::loadFormats() {
 
     // these are the currently enabled ones
     m_mimetypes = m_allMimetypes - m_toggledMimetypes;
+
+    mimetype2description = {
+        {"application/pdf",     "PDF: Adobe Portable Document Format"},
+        {"application/x-pdf",   "PDF: Adobe Portable Document Format"},
+        {"application/x-bzpdf", "PDF: Adobe Portable Document Format"},
+        {"application/x-gzpdf", "PDF: Adobe Portable Document Format"}
+    };
 
     Q_EMIT formatsUpdated();
 

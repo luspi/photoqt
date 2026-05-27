@@ -58,6 +58,8 @@ public:
     virtual const QString getDescription(QString suffix) = 0;
     // whether this plugin supports the format based on its description
     virtual const bool supportsFormatByDescription(QString description) = 0;
+    // whether this format is supported and enabled based on its description
+    virtual const bool isEnabled(QString description) = 0;
 
     // all formats that can be written
     virtual const QSet<QString> getWritableSuffixes() = 0;

@@ -56,6 +56,14 @@ const bool PQCImagePluginVideo::supportsFormatByDescription(QString description)
     return false;
 }
 
+const bool PQCImagePluginVideo::isEnabled(QString description) {
+    for(const auto &[suf, desc] : std::as_const(suffix2description).asKeyValueRange()) {
+        if(desc == description)
+            return m_suffixes.contains(suf);
+    }
+    return false;
+}
+
 const QSet<QString> PQCImagePluginVideo::getWritableSuffixes() {
 
     return {};
@@ -363,6 +371,27 @@ void PQCImagePluginVideo::loadFormats() {
 
     // these are the currently enabled ones
     m_mimetypes = m_allMimetypes - m_toggledMimetypes;
+
+    mimetype2description = {
+        {"video/x-ms-asf", "Advanced Systems Format"},
+        {"application/vnd.ms-asf", "Advanced Systems Format"},
+        {"video/vnd.avi", "Audio Video Interleave"},
+        {"video/avi", "Audio Video Interleave"},
+        {"video/msvideo", "Audio Video Interleave"},
+        {"video/x-msvideo", "Audio Video Interleave"},
+        {"video/x-flv", "Flash Video"},
+        {"video/x-matroska", "Matroska Video"},
+        {"video/quicktime", "QuickTime File Format"},
+        {"video/webm", "WebM"},
+        {"video/mp4", "MP4: MPEG-4 Part 14"},
+        {"video/mpeg", "MPEG: Moving Picture Experts Group"},
+        {"video/3gpp", "3GP: 3rd Generation Partnership Project"},
+        {"video/3gpp2", "3GP: 3rd Generation Partnership Project"},
+        {"video/x-ms-wmv", "Windows Media Video"},
+        {"video/mp2t", "MPEG Transport Stream"},
+        {"application/vnd.rn-realmedia", "RealMedia"},
+        {"application/mxf", "MXF: Material Exchange Format"}
+    };
 
     Q_EMIT formatsUpdated();
 

@@ -57,6 +57,14 @@ const bool PQCImagePluginLibarchive::supportsFormatByDescription(QString descrip
     return false;
 }
 
+const bool PQCImagePluginLibarchive::isEnabled(QString description) {
+    for(const auto &[suf, desc] : std::as_const(suffix2description).asKeyValueRange()) {
+        if(desc == description)
+            return m_suffixes.contains(suf);
+    }
+    return false;
+}
+
 const QSet<QString> PQCImagePluginLibarchive::getWritableSuffixes() {
 
     return {};
@@ -513,14 +521,13 @@ void PQCImagePluginLibarchive::loadFormats() {
         {"tz",       "TAR file format (COMPRESS)"}
     };
 
-    // no mimetypes
-    mimetype2description.clear();
-
     /********************************/
 
+    // no mimetypes
     m_mimetypes.clear();
     m_toggledMimetypes.clear();
     m_allMimetypes.clear();
+    mimetype2description.clear();
 
     // no mimetypes here currently
 

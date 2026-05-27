@@ -53,6 +53,14 @@ const bool PQCImagePluginLibVips::supportsFormatByDescription(QString descriptio
     return false;
 }
 
+const bool PQCImagePluginLibVips::isEnabled(QString description) {
+    for(const auto &[suf, desc] : std::as_const(suffix2description).asKeyValueRange()) {
+        if(desc == description)
+            return m_suffixes.contains(suf);
+    }
+    return false;
+}
+
 const QSet<QString> PQCImagePluginLibVips::getWritableSuffixes() {
 
     return {};
@@ -238,28 +246,6 @@ void PQCImagePluginLibVips::loadFormats() {
         {"pfm",      "Portable Float Map"}
     };
 
-    mimetype2description = {
-        {"image/x-exr",              "OpenEXR"},
-        {"image/gif",                "GIF: Graphics Interchange Format"},
-        {"image/jp2,",               "JPEG-2000"},
-        {"image/jpx",                "JPEG-2000"},
-        {"image/jpm",                "JPEG-2000"},
-        {"image/jpeg",               "JPEG: Joint Photographic Experts Group JFIF format"},
-        {"image/x-portable-anymap",  "PBM: Portable bitmap format (black and white)"},
-        {"image/x-portable-greymap", "PGM: Portable graymap format (gray scale)"},
-        {"image/x-portable-anymap",  "PGM: Portable graymap format (gray scale)"},
-        {"image/png",                "PNG: Portable Network Graphics"},
-        {"image/x-portable-pixmap",  "PPM: Portable pixmap format (color)"},
-        {"image/x-portable-anymap",  "PPM: Portable pixmap format (color)"},
-        {"image/svg+xml",            "SVG: Scalable Vector Graphics"},
-        {"image/tiff",               "TIFF: Tagged Image File Format"},
-        {"image/tiff-fx",            "TIFF: Tagged Image File Format"},
-        {"image/fits",               "FITS: Flexible Image Transport System"},
-        {"image/webp",               "WEBP: Google web image format"},
-        {"image/heic",               "HEIF: High Efficiency Image Format"},
-        {"image/heif",               "HEIF: High Efficiency Image Format"}
-    };
-
     /********************************/
 
     m_mimetypes.clear();
@@ -286,6 +272,28 @@ void PQCImagePluginLibVips::loadFormats() {
 
     // these are the currently enabled ones
     m_mimetypes = m_allMimetypes - m_toggledMimetypes;
+
+    mimetype2description = {
+        {"image/x-exr",              "OpenEXR"},
+        {"image/gif",                "GIF: Graphics Interchange Format"},
+        {"image/jp2,",               "JPEG-2000"},
+        {"image/jpx",                "JPEG-2000"},
+        {"image/jpm",                "JPEG-2000"},
+        {"image/jpeg",               "JPEG: Joint Photographic Experts Group JFIF format"},
+        {"image/x-portable-anymap",  "PBM: Portable bitmap format (black and white)"},
+        {"image/x-portable-greymap", "PGM: Portable graymap format (gray scale)"},
+        {"image/x-portable-anymap",  "PGM: Portable graymap format (gray scale)"},
+        {"image/png",                "PNG: Portable Network Graphics"},
+        {"image/x-portable-pixmap",  "PPM: Portable pixmap format (color)"},
+        {"image/x-portable-anymap",  "PPM: Portable pixmap format (color)"},
+        {"image/svg+xml",            "SVG: Scalable Vector Graphics"},
+        {"image/tiff",               "TIFF: Tagged Image File Format"},
+        {"image/tiff-fx",            "TIFF: Tagged Image File Format"},
+        {"image/fits",               "FITS: Flexible Image Transport System"},
+        {"image/webp",               "WEBP: Google web image format"},
+        {"image/heic",               "HEIF: High Efficiency Image Format"},
+        {"image/heif",               "HEIF: High Efficiency Image Format"}
+    };
 
     Q_EMIT formatsUpdated();
 
