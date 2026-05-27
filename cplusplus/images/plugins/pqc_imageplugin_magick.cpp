@@ -468,26 +468,9 @@ void PQCImagePluginMagick::loadFormats() {
                                       "pfb", "pfm", "afm", "inf", "pfa", "ofm", "pgx", "ai"};
 #endif
 
-#if defined(PQMIMAGEMAGICK) || defined(PQMGRAPHICSMAGICK)
-    for(const QString &s : std::as_const(candidates)) {
-        try {
-            Magick::CoderInfo magickCoderInfo(m_suffix2magick.value(s, s.toUpper()).toStdString());
-            if(magickCoderInfo.isWritable())
-                m_allSuffixes.insert(s);
-        } catch(...) {
-            // do nothing here
-        }
-    }
-#endif
-
-    // these are the currently enabled ones
-    m_suffixes = m_allSuffixes - m_toggledSuffixes;
-
-    /********************************/
-
     // these are the ones supported by ImageMagick, GraphicsMagick supports a subset of them
     // for simplicity we list them only once
-    m_suffix2description = {
+    QHash<QString,QString> candidate_suffix2description = {
         {"bmp", "BMP: Microsoft Windows bitmap"},
         {"dib", "BMP: Microsoft Windows bitmap"},
         {"cur", "CUR: Microsoft Windows cursor format"},
@@ -689,6 +672,23 @@ void PQCImagePluginMagick::loadFormats() {
         {"sixel", "DEC SIXEL Graphics Format"},
         {"ai", "AI: Adobe Illustrator (PDF compatible)"}
     };
+
+#if defined(PQMIMAGEMAGICK) || defined(PQMGRAPHICSMAGICK)
+    for(const QString &s : std::as_const(candidates)) {
+        try {
+            Magick::CoderInfo magickCoderInfo(m_suffix2magick.value(s, s.toUpper()).toStdString());
+            if(magickCoderInfo.isWritable()) {
+                m_allSuffixes.insert(s);
+                m_suffix2description.insert(s, candidate_suffix2description.value(s, ""));
+            }
+        } catch(...) {
+            // do nothing here
+        }
+    }
+#endif
+
+    // these are the currently enabled ones
+    m_suffixes = m_allSuffixes - m_toggledSuffixes;
 
     /********************************/
 

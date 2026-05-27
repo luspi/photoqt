@@ -65,6 +65,8 @@ public:
     bool isEnabled(QString plugin, QString description);
     void setEnabled(QString pluginName, QString description, bool enabled);
 
+    void reloadPlugins();
+
     const QSet<QString> getDoNotThreadFormats() { return m_doNotThreadFormats; };
 
     QMutex providerMutex;

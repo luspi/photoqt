@@ -444,3 +444,10 @@ void PQCImageHandler::setEnabled(QString pluginName, QString description, bool e
     }
 
 }
+
+void PQCImageHandler::reloadPlugins() {
+
+    for(PQCImagePlugin *plugin : std::as_const(plugins)) {
+        plugin->loadFormats();
+    }
+}

@@ -96,7 +96,7 @@ PQSetting {
                         id: countEnabled
                         property int num: 0
                         //: The %1 will be replaced with the number of file formats, please don't forget to add it.
-                        text:  qsTranslate("settingsmanager", "%1 file formats are enabled across %2 plugins.").arg("<b>"+num+"</b>").arg("<b>"+listview.plugins.length+"</b>")
+                        text: qsTranslate("settingsmanager", "%1 file formats are enabled across %2 plugins.").arg("<b>"+num+"</b>").arg("<b>"+listview.plugins.length+"</b>")
                     }
 
                     Item {
@@ -468,6 +468,7 @@ PQSetting {
             var cur = changes[iCh]
             PQCImageHandler.setEnabled(cur[0], cur[1], cur[2])
         }
+        PQCImageHandler.reloadPlugins()
         changes = []
 
         PQCConstants.settingsManagerSettingChanged = false

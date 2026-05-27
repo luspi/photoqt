@@ -58,6 +58,8 @@ public:
 
     void setEnabled(QString description, bool enabled) override;
 
+    void loadFormats() override;
+
 private:
     QSet<QString> m_suffixes;
     QSet<QString> m_mimetypes;
@@ -75,7 +77,5 @@ private:
     QHash<QString,QString> m_suffix2magick;
 
     QString m_settingsDir;
-
-    void loadFormats();
 
 };

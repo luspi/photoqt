@@ -79,6 +79,9 @@ public:
     // toggle the enabled status of the specified formats
     virtual void setEnabled(QString description, bool enabled) = 0;
 
+    // load all formats based on the settings files
+    virtual void loadFormats() = 0;
+
 Q_SIGNALS:
     void formatsUpdated();
 

@@ -36,13 +36,15 @@ Item {
     anchors.fill: parent
     Rectangle {
         anchors.fill: parent
-        color: palette.text
+        color: palette.base
         opacity: 0.5
     }
 
-    MouseArea {
+    PQMouseArea {
         anchors.fill: parent
         hoverEnabled: true
+        cursorShape: Qt.PointingHandCursor
+        tooltip: qsTranslate("settingsmanager", "Click to close")
         onClicked:
             toggle.hide()
     }
@@ -83,7 +85,7 @@ Item {
                     PQTextL{
                         id: txtEnable
                         width: toggleCont.width/2
-                        text: "Enable"
+                        text: qsTranslate("settingsmanager", "Click to enable")
                         horizontalAlignment: Text.AlignHCenter
                     }
 
@@ -118,8 +120,7 @@ Item {
                     PQTextL{
                         id: txtDisable
                         width: toggleCont.width/2
-                        // font.weight: PQCLook.fontWeightBold
-                        text: "Disable"
+                        text: qsTranslate("settingsmanager", "Click to disable")
                         horizontalAlignment: Text.AlignHCenter
                     }
 

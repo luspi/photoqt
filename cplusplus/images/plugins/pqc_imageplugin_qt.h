@@ -56,6 +56,8 @@ public:
 
     void setEnabled(QString description, bool enabled) override;
 
+    void loadFormats() override;
+
 private:
     QSet<QString> m_suffixes;
     QSet<QString> m_mimetypes;
@@ -76,7 +78,5 @@ private:
     QString m_suffixFileCache;
     QString m_mimeFileCache;
     QTimer *submitFilesCache;
-
-    void loadFormats();
 
 };

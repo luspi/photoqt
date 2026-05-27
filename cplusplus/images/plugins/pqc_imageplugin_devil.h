@@ -55,6 +55,8 @@ public:
 
     void setEnabled(QString description, bool enabled) override;
 
+    void loadFormats() override;
+
 private:
     QSet<QString> m_suffixes;
     QSet<QString> m_mimetypes;
@@ -70,8 +72,6 @@ private:
     QHash<QString,QString> mimetype2description;
 
     QString m_settingsDir;
-
-    void loadFormats();
 
 #ifdef PQMDEVIL
         // DevIL is not threadsafe -> this ensures only one image is loaded at a time
