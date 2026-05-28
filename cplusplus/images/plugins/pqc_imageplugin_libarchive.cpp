@@ -66,11 +66,6 @@ PQCImagePluginLibarchive::PQCImagePluginLibarchive() {
                     {{"tar.lzo"}, {}}},
              {"TAR file format (COMPRESS)",
                     {{"tar.z", "tz"}, {}}}},
-            {"cb7", "cbr", "cbt", "cbz", "rar", "tar", "7z", "zip", "tar.gz",
-             "taz", "tgz", "tar.xz", "txz", "tar.bz2", "tb2", "tbz", "tbz2",
-             "tz2", "tar.zst", "tzst", "tar.lz", "tar.lzma", "tlz", "tar.lzo",
-             "tar.z", "tz"},
-            {}, {}, {},
             "libarchive");
 
 }

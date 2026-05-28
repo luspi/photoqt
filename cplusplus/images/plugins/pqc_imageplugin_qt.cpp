@@ -126,23 +126,7 @@ PQCImagePluginQt::PQCImagePluginQt() {
                     {{"xcf"}, {"image/x-xcf"}}},
              {"X PixMap",
                     {{"xpm", "pm"}, {"image/x-xpixmap", "image/x-xpmi"}}}},
-            {"ani", "avif", "avifs", "bmp", "dib", "cine", "cur", "dds", "exr",
-             "gif", "heif", "heic", "ico", "jfif", "jpeg", "jpg", "jpe", "jif", "jpeg2000", "j2k", "jp2",
-             "jpc", "jpx", "jpf", "j2c", "jxl", "jxr", "hdp", "wdp", "kra", "mng", "obm", "ora", "pbm",
-             "pcx", "pdd", "pfm", "pgm", "phm", "pic", "png", "ppm", "pnm", "psd", "psb", "psdt",
-             "qtk", "r3d", "rgba", "rgb", "sgi", "bw", "rgbe", "hdr", "rad", "sct", "ch", "ct", "sun",
-             "ras", "sr", "im1", "im24", "im32", "im8", "rast", "rs", "scr", "svg", "svgz", "tga", "icb",
-             "vda", "vst", "tiff", "tif", "wbmp", "webp", "xbm", "bm", "xcf", "xpm", "pm", "pxr", "qoi"},
-            {"application/x-navi-animation", "image/avif", "image/avif-sequence", "image/bmp", "image/x-ms-bmp",
-             "image/x-win-bitmap", "application/postscript",
-             "image/x-exr", "image/gif", "image/heic", "image/heif", "image/vnd.microsoft.icon",
-             "image/x-icon", "image/jpeg", "image/jp2", "image/jpx", "image/jxl", "application/x-krita",
-             "video/x-mng", "image/openraster", "image/x-portable-anymap", "image/vnd.zbrush.pcx", "image/x-pcx",
-             "image/x-portable-greymap", "image/x-portable-anymap", "image/png", "image/x-portable-pixmap",
-             "image/x-portable-anymap", "image/vnd.adobe.photoshop", "image/sgi", "image/svg+xml", "image/x-targa",
-             "image/x-tga", "image/tiff", "image/tiff-fx", "image/vnd.wap.wbmp", "image/webp", "image/x-xbitmap",
-             "image/x-xbm", "image/x-xcf", "image/x-xpixmap", "image/x-xpmi"},
-            {}, {}, "qt");
+            "qt");
 
     QSet<QString> writableSuffixes;
     QImageWriter writer;

@@ -43,9 +43,8 @@ PQCImagePluginPDF::PQCImagePluginPDF() {
     setData({{"PDF: Adobe Portable Document Format",
                     {{"pdf"}, {"application/pdf", "application/x-pdf", "application/x-bzpdf", "application/x-gzpdf"}}}
             },
-            {"pdf"}, {"application/pdf", "application/x-pdf", "application/x-bzpdf", "application/x-gzpdf"},
-            {"pdf"}, {"application/pdf", "application/x-pdf", "application/x-bzpdf", "application/x-gzpdf"},
-            "pdf");
+            "pdf",
+            {"pdf"}, {"application/pdf", "application/x-pdf", "application/x-bzpdf", "application/x-gzpdf"});
 
 }
 

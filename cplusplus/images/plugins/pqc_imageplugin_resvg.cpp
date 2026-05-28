@@ -36,8 +36,7 @@ PQCImagePluginResvg::PQCImagePluginResvg() {
 
     setData({{"SVG: Scalable Vector Graphics",
                     {{"svg", "svgz"}, {"image/svg+xml"}}}},
-            {"svg", "svgz"}, {"image/svg+xml"},
-            {}, {}, "resvg");
+            "resvg");
 
 }
 

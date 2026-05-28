@@ -94,13 +94,6 @@ PQCImagePluginLibraw::PQCImagePluginLibraw() {
                     {{"sti"}, {}}},
              {"Sigma Digital Camera Raw Image",
                     {{"x3f"}, {}}}},
-            {"dcr", "kdc", "drf", "k25", "dcs", "dc2", "kc2", "arw", "crw", "crr",
-             "cr2", "cr3", "dng", "srf", "mrw", "sr2", "arq", "nef", "nrw", "orf",
-             "ori", "pef", "ptx", "raf", "3fr", "fff", "ari", "bay", "cap", "eip",
-             "liq", "iiq", "erf", "mdc", "mef", "mfw", "mos", "pxn", "raw", "rwl",
-             "rw2", "gpr", "srw", "bmq", "cs1", "dxo", "rdc", "rwz", "sti", "x3f"},
-            {"image/x-canon-crw", "image/x-canon-cr2", "image/x-olympus-orf", "image/x-pentax-pef"},
-            {}, {},
             "libraw");
 
 }

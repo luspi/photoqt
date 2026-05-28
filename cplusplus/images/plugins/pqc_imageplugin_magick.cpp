@@ -76,45 +76,6 @@ PQCImagePluginMagick::PQCImagePluginMagick() {
         {"avifs",    "AVIF"}
     };
 
-#ifdef PQMIMAGEMAGICK
-    const QSet<QString> candidateSuffixes = {"bmp", "dib", "cur", "eps", "epsf", "epsi", "exr", "gif", "icns",
-                                             "jpeg2000", "j2k", "jp2", "jpc", "jpx", "jpeg", "jpg", "jpe", "jif",
-                                             "mng", "ora", "pbm", "pcx", "pgm", "pict", "pct", "pic", "png",
-                                             "ppm", "pnm", "psd", "psb", "psdt", "rgba", "rgb", "sgi", "bw",
-                                             "svg", "svgz", "tga", "icb", "vda", "vst", "tiff", "tif", "wbmp",
-                                             "xbm", "bm", "xcf", "sfw", "alb", "pwm", "pwp", "art", "avs",
-                                             "mbfavs", "sct", "ch", "ct", "dcr", "kdc", "drf", "k25", "dcs",
-                                             "dc2", "kc2", "cals", "ct1", "ct2", "ct3", "ct4", "c4", "cal", "nif",
-                                             "ras", "cut", "pal", "dcx", "dic", "dcm", "dpx", "epi", "ept", "fits",
-                                             "fit", "fts", "cg3", "g3", "jbig", "jbg", "bie", "jng", "mat", "miff",
-                                             "mif", "mtv", "pic", "otb", "palm", "pam", "pcd", "pcds", "pdb", "picon",
-                                             "pix", "als", "alias", "ps", "ps2", "ps3", "ptiff", "ptif", "rla",
-                                             "rle", "sun", "ras", "sr", "im1", "im24", "im32", "im8", "rast", "rs",
-                                             "scr", "tim", "ttf", "vicar", "vic", "img", "viff", "xv", "webp", "wpg",
-                                             "aai", "arw", "bpg", "crw", "crr", "cr2", "cr3", "djvu", "djv", "dng",
-                                             "ff", "fl32", "rgbe", "hdr", "rad", "heif", "heic", "hrz", "mpc", "srf",
-                                             "mrw", "sr2", "arq", "orf", "ori", "pef", "ptx", "pes", "pfm", "raf", "rgf",
-                                             "wmf", "wmz", "apm", "dds", "iff", "ico", "xpm", "pm", "avif", "avifs",
-                                             "apng", "cube", "mvg", "phm", "xwd", "jxl", "otf", "otc", "ttf", "ttc",
-                                             "cg4", "g4", "dfont", "pfb", "pfm", "afm", "inf", "pfa", "ofm", "pgx",
-                                             "qoi", "scr", "sixel", "ai"};
-#else
-    const QSet<QString> candidateSuffixes = {"bmp", "dib", "cur", "eps", "epsf", "epsi", "gif", "jpeg2000", "j2k",
-                                             "jp2", "jpc", "jpx", "jpeg", "jpg", "jpe", "jif", "mng", "pbm", "pcx",
-                                             "pgm", "pict", "pct", "pic", "png", "ppm", "pnm", "rgba", "rgb", "sgi",
-                                             "bw", "tga", "icb", "vda", "vst", "tiff", "tif", "wbmp", "xbm", "bm",
-                                             "xcf", "sfw", "alb", "pwm", "pwp", "art", "avs", "mbfavs", "sct",
-                                             "ch", "ct", "dcr", "kdc", "drf", "k25", "dcs", "dc2", "kc2", "cals",
-                                             "ct1", "ct2", "ct3", "ct4", "c4", "cal", "nif", "ras", "cut", "pal",
-                                             "dic", "dcm", "dpx", "epi", "ept", "fits", "fit", "fts", "cg3", "g3",
-                                             "jng", "mat", "miff", "mif", "mtv", "pic", "otb", "p7", "palm", "pam",
-                                             "pcd", "pcds", "pdb", "picon", "pix", "als", "alias", "ps", "ps2", "ps3",
-                                             "ptiff", "ptif", "rla", "rle", "sun", "ras", "sr", "im1", "im24", "im32",
-                                             "im8", "rast", "rs", "scr", "tim", "vicar", "vic", "img", "viff", "xv",
-                                             "webp", "wpg", "iff", "ico", "xpm", "pm", "avif", "avifs", "mvg", "xwd",
-                                             "pfb", "pfm", "afm", "inf", "pfa", "ofm", "pgx", "ai"};
-#endif
-
     QHash<QString, QList<QSet<QString> > > candidateData = {
         {"BMP: Microsoft Windows bitmap",
                 {{"bmp", "dib"}, {"image/bmp", "image/x-ms-bmp"}}},
@@ -321,8 +282,6 @@ PQCImagePluginMagick::PQCImagePluginMagick() {
     };
 
     QHash<QString,QList<QSet<QString> > > finalData;
-    QSet<QString> finalSuffixes;
-    QSet<QString> finalMimetypes;
     QSet<QString> finalWritableSuffixes;
 #if defined(PQMIMAGEMAGICK) || defined(PQMGRAPHICSMAGICK)
 
@@ -342,30 +301,25 @@ PQCImagePluginMagick::PQCImagePluginMagick() {
                 // do nothing here
             }
         }
-        finalSuffixes += finalS;
         finalWritableSuffixes += finalW;
-        if(finalS.size()) {
-            for(const QString &m : value[1])
-                finalMimetypes.insert(m);
+        if(finalS.size())
             finalData.insert(key, {finalS, value[1]});
-        }
 
     }
 #endif
     setData(finalData,
-            finalSuffixes, finalMimetypes,
 #ifdef PQMIMAGEMAGICK
+            "imagemagick",
             {"eps", "epsf", "epsi", "epi", "ept", "ps", "ps2", "ps3", "bpg", "cg4", "g4"},
             {"application/postscript", "application/eps", "application/x-eps",
              "image/eps", "image/x-eps", "application/postscript", "image/x-eps",
-             "application/postscript", "image/bpg"},
-            "imagemagick"
+             "application/postscript", "image/bpg"}
 #else
+            "graphicsmagick",
             {"eps", "epsf", "epsi", "epi", "ept", "ps", "ps2", "ps3"},
             {"application/postscript", "application/eps", "application/x-eps",
              "image/eps", "image/x-eps", "application/postscript", "image/x-eps",
-             "application/postscript"},
-            "graphicsmagick"
+             "application/postscript"}
 #endif
             );
 

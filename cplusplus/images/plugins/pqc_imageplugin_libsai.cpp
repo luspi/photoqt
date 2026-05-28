@@ -35,8 +35,6 @@ PQCImagePluginLibsai::PQCImagePluginLibsai() {
 
     setData({{"PaintTool Sai",
                     {{"sai"}, {}}}},
-            {"sai"}, {},
-            {}, {},
             "libsai");
 
 }

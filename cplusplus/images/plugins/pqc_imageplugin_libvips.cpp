@@ -66,16 +66,6 @@ PQCImagePluginLibVips::PQCImagePluginLibVips() {
                     {{"heif", "heic"}, {"image/heif", "image/heic"}}},
              {"Portable Float Map",
                     {{"pfm"}, {}}}},
-            {"exr", "gif", "jpeg2000", "j2k", "jp2", "jpc", "jpx", "jpeg",
-             "jpg", "jpe", "jif", "pbm", "pgm", "png", "ppm", "pnm", "svg",
-             "svgz", "tiff", "tif", "fits", "fit", "fts", "webp", "rgbe",
-             "hdr", "rad", "heif", "heic", "pfm"},
-            {"image/x-exr", "image/gif", "image/jp2", "image/jpx", "image/jpm",
-             "image/jpeg", "image/x-portable-anymap", "image/x-portable-greymap",
-             "image/x-portable-anymap", "image/png", "image/x-portable-pixmap",
-             "image/x-portable-anymap", "image/svg+xml", "image/tiff", "image/tiff-fx",
-             "image/fits", "image/webp", "image/heic", "image/heif"},
-            {}, {},
             "libvips");
 
 }

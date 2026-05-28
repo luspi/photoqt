@@ -63,10 +63,8 @@ public:
 
     // sets the data for this plugin
     // if there are any writable suffixes they need to be set separately with the appropriate member function
-    void setData(const QHash<QString, QList<QSet<QString> > > dat,
-                 QSet<QString> allSuffixes, QSet<QString> allMimetypes,
-                 QSet<QString> defaultDisabledSuffixes, QSet<QString> defaultDisabledMimetypes,
-                 const QString settingsPrefix);
+    void setData(const QHash<QString, QList<QSet<QString> > > dat, const QString settingsPrefix,
+                 QSet<QString> defaultDisabledSuffixes = {}, QSet<QString> defaultDisabledMimetypes = {});
 
     /****************************************************/
     /****************************************************/

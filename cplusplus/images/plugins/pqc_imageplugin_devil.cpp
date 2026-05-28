@@ -84,20 +84,6 @@ PQCImagePluginDevIL::PQCImagePluginDevIL() {
                     {{"vtf"}, {}}},
              {"Microsoft Windows icon format",
                     {{"ico"}, {"image/vnd.microsoft.icon", "image/x-icon"}}}},
-            {"bmp", "dib", "cur", "gif",
-             "jpeg", "jpg", "jpe", "jif", "pbm", "pgm", "png", "ppm", "pnm", "psd",
-             "psb", "psdt", "rgba", "rgb", "sgi", "bw", "tga", "icb", "vda", "vst",
-             "tiff", "tif", "cut", "pal", "dic", "dcm", "fits", "fit", "fts",
-             "pcd", "pcds", "pix", "als", "alias", "rgbe", "hdr", "rad", "dds",
-             "ftx", "iff", "lbm", "vtf", "ico"},
-            {"image/bmp", "image/x-ms-bmp", "image/x-win-bitmap", "image/gif",
-             "image/jpeg", "image/x-portable-anymap",
-             "image/x-portable-greymap", "image/x-portable-anymap", "image/png",
-             "image/x-portable-pixmap", "image/x-portable-anymap", "image/vnd.adobe.photoshop",
-             "image/sgi", "image/x-targa", "image/x-tga", "image/tiff", "image/tiff-fx",
-             "application/dicom", "image/dicom-rle", "image/fits", "image/vnd.microsoft.icon",
-             "image/x-icon"},
-            {}, {},
             "devil");
 
 }

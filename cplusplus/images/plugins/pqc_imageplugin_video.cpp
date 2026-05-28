@@ -73,16 +73,7 @@ PQCImagePluginVideo::PQCImagePluginVideo() {
                     {{"rm", "rma", "rmi", "rmv", "rmvb", "rmhd", "rmm", "ra", "ram"}, {"application/vnd.rn-realmedia"}}},
              {"MXF: Material Exchange Format",
                     {{"mxf"}, {"application/mxf"}}}},
-            {"amv", "asf", "avi", "flv", "f4v", "mkv", "mov", "qt",
-             "ogg", "ogv", "vob", "webm", "mp4", "m4v", "mpg", "mp2",
-             "mpeg", "mpe", "mpv", "m2v", "3gp", "3g2", "wmv", "mj2"},
-            {"video/x-ms-asf", "application/vnd.ms-asf", "video/vnd.avi",
-             "video/avi", "video/msvideo", "video/x-msvideo", "video/x-flv",
-             "video/x-matroska", "video/quicktime", "video/webm", "video/mp4",
-             "video/mpeg", "video/3gpp", "video/3gpp2", "video/x-ms-wmv",
-             "video/mj2", "video/mp2t", "application/vnd.rn-realmedia",
-             "application/mxf"},
-            {}, {}, "video");
+            "video");
 
 }
 

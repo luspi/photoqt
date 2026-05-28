@@ -60,18 +60,14 @@ PQCImagePlugin::PQCImagePlugin(QObject *parent) : QObject(parent) {
 }
 
 PQCImagePlugin::~PQCImagePlugin() {
-    delete m_delayWriteToFile;
+    m_delayWriteToFile->deleteLater();
 }
 
-void PQCImagePlugin::setData(const QHash<QString, QList<QSet<QString> > > dat,
-             QSet<QString> allSuffixes, QSet<QString> allMimetypes,
-             QSet<QString> defaultDisabledSuffixes, QSet<QString> defaultDisabledMimetypes,
-             const QString settingsPrefix) {
+void PQCImagePlugin::setData(const QHash<QString, QList<QSet<QString> > > dat, const QString settingsPrefix,
+             QSet<QString> defaultDisabledSuffixes, QSet<QString> defaultDisabledMimetypes) {
 
     m_settingsPrefix = settingsPrefix;
     m_description2data = dat;
-    m_allSuffixes = allSuffixes;
-    m_allMimetypes = allMimetypes;
     m_defaultDisabledSuffixes = defaultDisabledSuffixes;
     m_defaultDisabledMimetypes = defaultDisabledMimetypes;
 
@@ -79,6 +75,8 @@ void PQCImagePlugin::setData(const QHash<QString, QList<QSet<QString> > > dat,
     for(const auto &[key, value] : std::as_const(m_description2data).asKeyValueRange()) {
         for(const QString &suffix : value[0])
             m_suffix2description.insert(suffix, key);
+        m_allSuffixes += value[0];
+        m_allMimetypes += value[1];
     }
 
     loadSetttingsFromFiles();
