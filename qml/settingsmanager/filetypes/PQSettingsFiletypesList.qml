@@ -468,7 +468,6 @@ PQSetting {
             var cur = changes[iCh]
             PQCImageHandler.setEnabled(cur[0], cur[1], cur[2])
         }
-        PQCImageHandler.reloadPlugins()
         changes = []
 
         PQCConstants.settingsManagerSettingChanged = false

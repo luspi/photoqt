@@ -64,6 +64,7 @@ SET(photoqt_SOURCES cplusplus/main.cpp
                     cplusplus/images/provider/pqc_providersvg.cpp
                     cplusplus/images/provider/pqc_providersvgcolor.cpp
 
+                    cplusplus/images/plugins/pqc_imageplugin.cpp
                     cplusplus/images/plugins/pqc_imageplugin_qt.h
                     cplusplus/images/plugins/pqc_imageplugin_qt.cpp
                     cplusplus/images/plugins/pqc_imageplugin_resvg.h

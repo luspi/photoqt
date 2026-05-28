@@ -109,10 +109,6 @@ public:
                PQCImageHandler::get().setEnabled(pluginName, description, enabled);
     }
 
-    Q_INVOKABLE void reloadPlugins() {
-               PQCImageHandler::get().reloadPlugins();
-    }
-
     /*****************************************************/
 
 Q_SIGNALS:
