@@ -81,8 +81,6 @@ private:
     QSet<QString> m_mimetypes;
     QSet<QString> m_writableSuffixes;
 
-    bool m_composedWritableSuffixes;
-
     QSet<QString> m_doNotThreadFormats;
 
 Q_SIGNALS:

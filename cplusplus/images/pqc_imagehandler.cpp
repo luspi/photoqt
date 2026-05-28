@@ -41,10 +41,10 @@
 
 PQCImageHandler::PQCImageHandler() {
 
-    auto t1 = std::chrono::steady_clock::now();
-
     // these crash when loaded in parallel -> protect loading these with a mutex
     m_doNotThreadFormats = {"jpeg2000", "jp2", "jpc", "jpx", "jpf", "j2c", "mj2"};
+
+    /*******************************************************/
 
     m_pluginOrder = QStringList()
 #ifdef PQMRESVG
@@ -77,6 +77,7 @@ PQCImageHandler::PQCImageHandler() {
 #endif
     ;
 
+    /*******************************************************/
     // For the SETTINGS MANAGER the order is slightly different
     m_pluginOrderForSettings = QStringList()
                     << "qt"
@@ -109,6 +110,7 @@ PQCImageHandler::PQCImageHandler() {
 #endif
         ;
 
+    /*******************************************************/
 
     m_plugins.insert("qt", new PQCImagePluginQt);
 #ifdef PQMRESVG
@@ -139,20 +141,19 @@ PQCImageHandler::PQCImageHandler() {
     m_plugins.insert("libvips", new PQCImagePluginLibVips);
 #endif
 
+    /*******************************************************/
+
     for(PQCImagePlugin *plugin : std::as_const(m_plugins)) {
 
         connect(plugin, &PQCImagePlugin::formatsUpdated, this, &PQCImageHandler::formatsUpdated);
 
         m_suffixes += plugin->getSuffixes();
         m_mimetypes += plugin->getMimetypes();
+        m_writableSuffixes += plugin->getWritableSuffixes();
 
     }
+
     m_numEnabled = m_suffixes.size();
-
-    m_composedWritableSuffixes = false;
-
-    auto t2 = std::chrono::steady_clock::now();
-    qWarning() << ">>> t =" << std::chrono::duration<double, std::milli>(t2-t1).count();
 
 }
 
@@ -365,13 +366,6 @@ QSet<QString> PQCImageHandler::getMimetypes(QStringList categories) {
 }
 
 QSet<QString> PQCImageHandler::getWritableSuffixes(QString category) {
-
-    if(!m_composedWritableSuffixes) {
-        for(PQCImagePlugin *plugin : std::as_const(m_plugins)) {
-            m_writableSuffixes += plugin->getWritableSuffixes();
-        }
-        m_composedWritableSuffixes = true;
-    }
 
     if(category == "all") return m_writableSuffixes;
 

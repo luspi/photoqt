@@ -128,8 +128,13 @@ void PQCImagePlugin::loadSetttingsFromFiles() {
     } else {
 
         QTextStream suffixIn(&suffixFile);
-        const QStringList tmp = suffixIn.readAll().split("\n", Qt::SkipEmptyParts);
-        m_disabledSuffixes = QSet<QString>(tmp.begin(), tmp.end());
+
+        while(!suffixIn.atEnd()) {
+            QString line = suffixIn.readLine().trimmed();
+            if(!line.isEmpty())
+                m_disabledSuffixes.insert(line);
+        }
+
         suffixFile.close();
 
     }
@@ -149,10 +154,17 @@ void PQCImagePlugin::loadSetttingsFromFiles() {
         m_disabledMimetypes = m_defaultDisabledMimetypes;
 
     } else {
+
         QTextStream mimeIn(&mimeFile);
-        const QStringList tmp = mimeIn.readAll().split("\n", Qt::SkipEmptyParts);
-        m_disabledMimetypes = QSet<QString>(tmp.begin(), tmp.end());
+
+        while(!mimeIn.atEnd()) {
+            QString line = mimeIn.readLine().trimmed();
+            if(!line.isEmpty())
+                m_disabledMimetypes.insert(line);
+        }
+
         mimeFile.close();
+
     }
 
     // these are the currently enabled ones
