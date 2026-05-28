@@ -103,18 +103,19 @@ bool PQCValidate::validateDirectories(const QString &thumb_cache_basedir) {
     dir.mkpath(PQCConfigFiles::get().CACHE_DIR());
     dir.mkpath(PQCConfigFiles::get().DATA_DIR());
     dir.mkpath(userplaces_info.absolutePath());
+    dir.mkpath(PQCConfigFiles::get().CONFIG_DIR() % "/imageplugins/");
     if(!thumb_cache_basedir.isEmpty()) {
         dir.mkpath(thumb_cache_basedir);
-        dir.mkpath(QString("%1/normal/").arg(thumb_cache_basedir));
-        dir.mkpath(QString("%1/large/").arg(thumb_cache_basedir));
-        dir.mkpath(QString("%1/x-large/").arg(thumb_cache_basedir));
-        dir.mkpath(QString("%1/xx-large/").arg(thumb_cache_basedir));
+        dir.mkpath(thumb_cache_basedir % "/normal/");
+        dir.mkpath(thumb_cache_basedir % "/large/");
+        dir.mkpath(thumb_cache_basedir % "/x-large/");
+        dir.mkpath(thumb_cache_basedir % "/xx-large/");
     } else {
         dir.mkpath(PQCConfigFiles::get().THUMBNAIL_CACHE_DIR());
-        dir.mkpath(QString("%1/normal/").arg(PQCConfigFiles::get().THUMBNAIL_CACHE_DIR()));
-        dir.mkpath(QString("%1/large/").arg(PQCConfigFiles::get().THUMBNAIL_CACHE_DIR()));
-        dir.mkpath(QString("%1/x-large/").arg(PQCConfigFiles::get().THUMBNAIL_CACHE_DIR()));
-        dir.mkpath(QString("%1/xx-large/").arg(PQCConfigFiles::get().THUMBNAIL_CACHE_DIR()));
+        dir.mkpath(PQCConfigFiles::get().THUMBNAIL_CACHE_DIR() % "/normal/");
+        dir.mkpath(PQCConfigFiles::get().THUMBNAIL_CACHE_DIR() % "/large/");
+        dir.mkpath(PQCConfigFiles::get().THUMBNAIL_CACHE_DIR() % "/x-large/");
+        dir.mkpath(PQCConfigFiles::get().THUMBNAIL_CACHE_DIR() % "/xx-large/");
     }
 
     // In a previous version the user-places.xbel file was created as directory instead.
