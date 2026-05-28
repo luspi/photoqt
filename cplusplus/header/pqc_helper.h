@@ -26,12 +26,16 @@
 class PQCHelper {
 
 public:
+
     static qsizetype setAccumulatedSize(QSet<QString> set, qsizetype seplen);
     static QString setJoin(QSet<QString> set, QString sep);
+
     static QString extractInsideFilename(QString path);
     static QString extractInsidePDFFilename(QString path);
     static QString extractInsideARCFilename(QString path);
     static int extractOutsidePDFNumber(QString path);
     static QString extractOutsideARCFilename(QString path);
+
+    static bool zipDirectory(const QString sourceDir, const QString archiveFile);
 
 };
