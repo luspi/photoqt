@@ -20,7 +20,7 @@
  **                                                                      **
  **************************************************************************/
 
-#include <pqc_imageplugin_libraw.h>
+#include <imageplugins/pqc_imageplugin_libraw.h>
 #include <pqc_settingscpp.h>
 #include <scripts/pqc_scriptscolorprofiles.h>
 #include <scripts/pqc_scriptsimages.h>

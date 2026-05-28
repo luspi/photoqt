@@ -26,16 +26,16 @@
 #include <pqc_imagecache.h>
 #include <pqc_settingscpp.h>
 
-#include <pqc_imageplugin_qt.h>
-#include <pqc_imageplugin_resvg.h>
-#include <pqc_imageplugin_pdf.h>
-#include <pqc_imageplugin_libraw.h>
-#include <pqc_imageplugin_libarchive.h>
-#include <pqc_imageplugin_libsai.h>
-#include <pqc_imageplugin_video.h>
-#include <pqc_imageplugin_magick.h>
-#include <pqc_imageplugin_devil.h>
-#include <pqc_imageplugin_libvips.h>
+#include <imageplugins/pqc_imageplugin_qt.h>
+#include <imageplugins/pqc_imageplugin_resvg.h>
+#include <imageplugins/pqc_imageplugin_pdf.h>
+#include <imageplugins/pqc_imageplugin_libraw.h>
+#include <imageplugins/pqc_imageplugin_libarchive.h>
+#include <imageplugins/pqc_imageplugin_libsai.h>
+#include <imageplugins/pqc_imageplugin_video.h>
+#include <imageplugins/pqc_imageplugin_magick.h>
+#include <imageplugins/pqc_imageplugin_devil.h>
+#include <imageplugins/pqc_imageplugin_libvips.h>
 
 #include <QMimeDatabase>
 

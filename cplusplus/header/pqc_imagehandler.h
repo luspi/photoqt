@@ -25,7 +25,7 @@
 #include <QString>
 #include <QSet>
 #include <QMutex>
-#include <pqc_imageplugin.h>
+#include <imageplugins/pqc_imageplugin.h>
 
 class PQCImageHandler : public QObject {
 

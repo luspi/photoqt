@@ -21,20 +21,34 @@
  **************************************************************************/
 #pragma once
 
-#include <pqc_imageplugin.h>
+#include <imageplugins/pqc_imageplugin.h>
 #include <QSet>
 
-class PQCImagePluginQt : public PQCImagePlugin {
+#ifdef PQMLIBSAI
+#if __has_include(<sai.hpp>)
+#include <sai.hpp>
+#elif __has_include(<sai/sai.hpp>)
+#include <sai/sai.hpp>
+#endif
+#endif
+
+class PQCImagePluginLibsai : public PQCImagePlugin {
 
 public:
-    PQCImagePluginQt();
+    PQCImagePluginLibsai();
 
-    const QString name() override { return "Qt"; }
+    const QString name() override { return "libsai"; }
     const QString category() override { return "image"; }
     const bool canPreload() override { return true; }
 
     const QSize loadSize(QString path) override;
     const QImage loadImage(QString path, QSize requestedSize, QSize &origSize, QString &error) override;
     const bool writeImage(QImage img, QString targetPath) override;
+
+private:
+#ifdef PQMLIBSAI
+    static std::vector<uint32_t> ReadRasterLayer(const sai::LayerHeader& layerHeader, sai::VirtualFileEntry& layerFile);
+    static void RLEDecompressStride(std::byte* destination, const std::byte* source, std::size_t stride, std::size_t strideCount, std::size_t channel);
+#endif
 
 };

@@ -21,16 +21,16 @@
  **************************************************************************/
 #pragma once
 
-#include <pqc_imageplugin.h>
+#include <imageplugins/pqc_imageplugin.h>
 #include <QSet>
 
-class PQCImagePluginPDF : public PQCImagePlugin {
+class PQCImagePluginLibraw : public PQCImagePlugin {
 
 public:
-    PQCImagePluginPDF();
+    PQCImagePluginLibraw();
 
-    const QString name() override { return "PDF"; }
-    const QString category() override { return "document"; }
+    const QString name() override { return "libraw"; }
+    const QString category() override { return "image"; }
     const bool canPreload() override { return true; }
 
     const QSize loadSize(QString path) override;

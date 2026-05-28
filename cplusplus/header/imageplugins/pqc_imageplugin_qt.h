@@ -21,31 +21,20 @@
  **************************************************************************/
 #pragma once
 
-#include <pqc_imageplugin.h>
+#include <imageplugins/pqc_imageplugin.h>
 #include <QSet>
-#include <QMutex>
 
-class PQCImagePluginDevIL : public PQCImagePlugin {
+class PQCImagePluginQt : public PQCImagePlugin {
 
 public:
-    PQCImagePluginDevIL();
+    PQCImagePluginQt();
 
-    const QString name() override { return "DevIL"; }
+    const QString name() override { return "Qt"; }
     const QString category() override { return "image"; }
     const bool canPreload() override { return true; }
 
     const QSize loadSize(QString path) override;
     const QImage loadImage(QString path, QSize requestedSize, QSize &origSize, QString &error) override;
     const bool writeImage(QImage img, QString targetPath) override;
-
-private:
-#ifdef PQMDEVIL
-    // DevIL is not threadsafe -> this ensures only one image is loaded at a time
-    mutable QMutex devilMutex;
-#endif
-
-#ifdef PQMDEVIL
-    static QString checkForError();
-#endif
 
 };

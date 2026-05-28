@@ -21,19 +21,16 @@
  **************************************************************************/
 #pragma once
 
-#include <pqc_imageplugin.h>
+#include <imageplugins/pqc_imageplugin.h>
 #include <QSet>
+#include <QMutex>
 
-class PQCImagePluginMagick : public PQCImagePlugin {
+class PQCImagePluginDevIL : public PQCImagePlugin {
 
 public:
-    PQCImagePluginMagick();
+    PQCImagePluginDevIL();
 
-#ifdef PQMIMAGEMAGICK
-    const QString name() override { return "ImageMagick"; }
-#elif defined(PQMGRAPHICSMAGICK)
-    const QString name() override { return "GraphicsMagick"; }
-#endif
+    const QString name() override { return "DevIL"; }
     const QString category() override { return "image"; }
     const bool canPreload() override { return true; }
 
@@ -42,6 +39,13 @@ public:
     const bool writeImage(QImage img, QString targetPath) override;
 
 private:
-    QHash<QString,QString> m_suffix2magick;
+#ifdef PQMDEVIL
+    // DevIL is not threadsafe -> this ensures only one image is loaded at a time
+    mutable QMutex devilMutex;
+#endif
+
+#ifdef PQMDEVIL
+    static QString checkForError();
+#endif
 
 };

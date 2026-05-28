@@ -21,7 +21,7 @@
  **************************************************************************/
 #pragma once
 
-#include <pqc_imageplugin.h>
+#include <imageplugins/pqc_imageplugin.h>
 #include <QSet>
 
 class PQCImagePluginLibVips : public PQCImagePlugin {

@@ -20,7 +20,7 @@
  **                                                                      **
  **************************************************************************/
 
-#include <pqc_imageplugin_magick.h>
+#include <imageplugins/pqc_imageplugin_magick.h>
 #include <pqc_settingscpp.h>
 #include <pqc_imagecache.h>
 #include <scripts/pqc_scriptscolorprofiles.h>

@@ -20,7 +20,7 @@
  **                                                                      **
  **************************************************************************/
 
-#include <pqc_imageplugin_pdf.h>
+#include <imageplugins/pqc_imageplugin_pdf.h>
 #include <pqc_settingscpp.h>
 #include <scripts/pqc_scriptscolorprofiles.h>
 #include <pqc_imagecache.h>

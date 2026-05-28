@@ -20,7 +20,7 @@
  **                                                                      **
  **************************************************************************/
 
-#include <pqc_imageplugin.h>
+#include <imageplugins/pqc_imageplugin.h>
 #include <QTimer>
 
 PQCImagePlugin::PQCImagePlugin(QObject *parent) : QObject(parent) {
