@@ -25,6 +25,7 @@
 
 PQCImagePlugin::PQCImagePlugin(QObject *parent) : QObject(parent) {
 
+    m_delayWriteToFile = new QTimer;
     m_delayWriteToFile->setInterval(500);
     m_delayWriteToFile->setSingleShot(true);
 
