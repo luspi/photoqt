@@ -451,7 +451,11 @@ QStringList PQCImageHandler::getAllDescriptions() {
 
     for(const QString &name : std::as_const(m_pluginOrder)) {
         PQCImagePlugin *plugin = m_plugins[name];
-        ret << plugin->getAllDescriptions();
+        const QStringList lst = plugin->getAllDescriptions();
+        for(const QString &d : lst) {
+            if(!ret.contains(d))
+                ret << d;
+        }
     }
 
     return ret;
