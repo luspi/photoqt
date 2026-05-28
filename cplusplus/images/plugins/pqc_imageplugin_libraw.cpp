@@ -34,51 +34,75 @@
 #include <libraw/libraw.h>
 #endif
 
-PQCImagePluginLibraw::PQCImagePluginLibraw(QString settingsDir) : m_settingsDir(settingsDir) {
+PQCImagePluginLibraw::PQCImagePluginLibraw() {
 
-    m_composedWritableSuffixes = false;
+    setData({{"Kodak Cineon Raw Image Format",
+                    {{"dcr", "kdc", "drf", "k25", "dcs", "dc2", "kc2"}, {}}},
+             {"Sony Digital Camera Alpha Raw Image Format",
+                    {{"arw"}, {}}},
+             {"Canon Digital Camera Raw Image Format",
+                    {{"crw", "crr", "cr2", "cr3"}, {"image/x-canon-crw", "image/x-canon-cr2"}}},
+             {"Adobe Digital Negative Raw Image Format",
+                    {{"dng"}, {}}},
+             {"Sony (Minolta) Raw Image Format",
+                    {{"srf", "mrw", "sr2", "arq"}, {}}},
+             {"Nikon Digital SLR Camera Raw Image Format",
+                    {{"nef", "nrw"}, {}}},
+             {"Olympus Digital Camera Raw Image Format",
+                    {{"orf", "ori"}, {"image/x-olympus-orf"}}},
+             {"Pentax Raw Image Format",
+                    {{"pef", "ptx"}, {"image/x-pentax-pef"}}},
+             {"Fuji CCD Raw Image Format",
+                    {{"raf"}, {}}},
+             {"Hasselblad Raw Image Format",
+                    {{"3fr", "fff"}, {}}},
+             {"ARRIFLEX Raw Image Format",
+                    {{"ari"}, {}}},
+             {"Casio Raw Image Format",
+                    {{"bay"}, {}}},
+             {"Phase One Raw Image Format",
+                    {{"cap", "eip", "liq", "iiq"}, {}}},
+             {"Epson Raw Image Format",
+                    {{"erf"}, {}}},
+             {"Minolta/Agfa Raw Image Format",
+                    {{"mdc"}, {}}},
+             {"Mamiya Raw Image Format",
+                    {{"mef", "mfw"}, {}}},
+             {"Leaf Raw Image Format",
+                    {{"mos"}, {}}},
+             {"Logitech Raw Image Format",
+                    {{"pxn"}, {}}},
+             {"Leica Raw Image Format",
+                    {{"raw", "rwl"}, {}}},
+             {"Panasonic Raw Image Format",
+                    {{"rw2"}, {}}},
+             {"GoPro GPR Raw Image Format",
+                    {{"gpr"}, {}}},
+             {"Samsung Raw Image Format",
+                    {{"srw"}, {}}},
+             {"NuCore RAW image file",
+                    {{"bmq"}, {}}},
+             {"CaptureShop 1-shot Raw Image",
+                    {{"cs1"}, {}}},
+             {"DxO PureRaw",
+                    {{"dxo"}, {}}},
+             {"Rollei RAW Image",
+                    {{"rdc"}, {}}},
+             {"Rawzor RAW image",
+                    {{"rwz"}, {}}},
+             {"Sinar CaptureShop RAW image",
+                    {{"sti"}, {}}},
+             {"Sigma Digital Camera Raw Image",
+                    {{"x3f"}, {}}}},
+            {"dcr", "kdc", "drf", "k25", "dcs", "dc2", "kc2", "arw", "crw", "crr",
+             "cr2", "cr3", "dng", "srf", "mrw", "sr2", "arq", "nef", "nrw", "orf",
+             "ori", "pef", "ptx", "raf", "3fr", "fff", "ari", "bay", "cap", "eip",
+             "liq", "iiq", "erf", "mdc", "mef", "mfw", "mos", "pxn", "raw", "rwl",
+             "rw2", "gpr", "srw", "bmq", "cs1", "dxo", "rdc", "rwz", "sti", "x3f"},
+            {"image/x-canon-crw", "image/x-canon-cr2", "image/x-olympus-orf", "image/x-pentax-pef"},
+            {}, {},
+            "libraw");
 
-    loadFormats();
-
-}
-
-const QString PQCImagePluginLibraw::getDescription(QString suffix) {
-    return suffix2description.value(suffix.toLower(), "");
-}
-
-const QSet<QString> PQCImagePluginLibraw::getSuffixesForFormatByDescription(QString description) {
-    QSet<QString> ret;
-    for(const auto &[suf, desc] : std::as_const(suffix2description).asKeyValueRange()) {
-        if(desc == description)
-            ret.insert(suf);
-    }
-    return ret;
-}
-
-const bool PQCImagePluginLibraw::supportsFormatByDescription(QString description) {
-    for(const auto &[suf, desc] : std::as_const(suffix2description).asKeyValueRange()) {
-        if(desc == description)
-            return true;
-    }
-    return false;
-}
-
-const bool PQCImagePluginLibraw::isEnabled(QString description) {
-    for(const auto &[suf, desc] : std::as_const(suffix2description).asKeyValueRange()) {
-        if(desc == description)
-            return m_suffixes.contains(suf);
-    }
-    return false;
-}
-
-const QSet<QString> PQCImagePluginLibraw::getWritableSuffixes() {
-
-    return {};
-
-}
-
-const bool PQCImagePluginLibraw::writeImage(QImage img, QString targetPath) {
-    return false;
 }
 
 const QSize PQCImagePluginLibraw::loadSize(QString path) {
@@ -362,211 +386,6 @@ const QImage PQCImagePluginLibraw::loadImage(QString path, QSize requestedSize, 
 
 }
 
-void PQCImagePluginLibraw::setEnabled(QString description, bool enabled) {
-
-    // first find all the suffixes and mimetypes for this format description
-    QSet<QString> suffixes, mimetypes;
-    for(const auto &[key, value] : std::as_const(suffix2description).asKeyValueRange()) {
-        if(value == description)
-            suffixes.insert(key);
-    }
-    for(const auto &[key, value] : std::as_const(mimetype2description).asKeyValueRange()) {
-        if(value == description)
-            mimetypes.insert(key);
-    }
-
-    // then find the ones stored as toggled
-    QSet<QString> storedSuffixes, storedMimetypes;
-
-    const QString suffixFilename = m_settingsDir % "/libraw_suffixes";
-    QFile suffixFile(suffixFilename);
-    if(suffixFile.exists()) {
-        if(!suffixFile.open(QIODevice::ReadOnly|QIODevice::Text)) {
-            qWarning() << "Failed to open settings file at:" << suffixFilename;
-            return;
-        } else {
-            QTextStream suffixIn(&suffixFile);
-            const QStringList tmp = suffixIn.readAll().split("\n", Qt::SkipEmptyParts);
-            storedSuffixes = QSet<QString>(tmp.begin(), tmp.end());
-            suffixFile.close();
-        }
-    }
-
-    const QString mimeFilename = m_settingsDir % "/libraw_mimetypes";
-    QFile mimeFile(mimeFilename);
-    if(mimeFile.exists()) {
-        if(!mimeFile.open(QIODevice::ReadOnly|QIODevice::Text)) {
-            qWarning() << "Failed to open settings file at:" << mimeFilename;
-            return;
-        } else {
-            QTextStream mimeIn(&mimeFile);
-            const QStringList tmp = mimeIn.readAll().split("\n", Qt::SkipEmptyParts);
-            storedMimetypes = QSet<QString>(tmp.begin(), tmp.end());
-            mimeFile.close();
-        }
-    }
-
-    // if we toggle this format then we only need to make sure they are added to the list, nothing else
-    if((enabledByDefault() && !enabled) || (!enabledByDefault() && enabled)) {
-
-        storedSuffixes += suffixes;
-        storedMimetypes += mimetypes;
-
-        // otherwise we need to make sure that no suffix is part of the list
-    } else {
-
-        QSet<QString> newsetSuffixes, newsetMime;
-
-        for(const QString &s : std::as_const(storedSuffixes)) {
-            if(!suffixes.contains(s))
-                newsetSuffixes.insert(s);
-        }
-        for(const QString &m : std::as_const(storedMimetypes)) {
-            if(!mimetypes.contains(m))
-                newsetMime.insert(m);
-        }
-
-        storedSuffixes = newsetSuffixes;
-        storedMimetypes = newsetMime;
-
-    }
-
-    QFile outSuffixFile(suffixFilename);
-    if(!outSuffixFile.open(QIODevice::WriteOnly|QIODevice::Text|QIODevice::Truncate)) {
-        qDebug() << "Failed to open settings file at:" << suffixFilename;
-    } else {
-        QTextStream suffixOut(&outSuffixFile);
-        suffixOut << PQCHelper::setJoin(storedSuffixes, "\n");
-        outSuffixFile.close();
-    }
-
-    QFile outMimeFile(mimeFilename);
-    if(!outMimeFile.open(QIODevice::WriteOnly|QIODevice::Text|QIODevice::Truncate)) {
-        qDebug() << "Failed to open settings file at:" << mimeFilename;
-    } else {
-        QTextStream mimeOut(&outMimeFile);
-        mimeOut << PQCHelper::setJoin(storedMimetypes, "\n");
-        outMimeFile.close();
-    }
-
-}
-
-/***********************************************/
-
-void PQCImagePluginLibraw::loadFormats() {
-
-    m_suffixes.clear();
-    m_toggledSuffixes.clear();
-    m_allSuffixes.clear();
-
-    // first we read the toggled suffixes from the settings file
-    const QString suffixFilename = m_settingsDir % "/libraw_suffixes";
-    QFile suffixFile(suffixFilename);
-    if(!suffixFile.open(QIODevice::ReadOnly|QIODevice::Text)) {
-        qDebug() << "Failed to open settings file at:" << suffixFilename;
-    } else {
-        QTextStream suffixIn(&suffixFile);
-        const QStringList tmp = suffixIn.readAll().split("\n", Qt::SkipEmptyParts);
-        m_toggledSuffixes = QSet<QString>(tmp.begin(), tmp.end());
-        suffixFile.close();
-    }
-
-    // then we store ALL supported suffixes
-    m_allSuffixes = {"dcr", "kdc", "drf", "k25", "dcs", "dc2", "kc2", "arw", "crw", "crr",
-                     "cr2", "cr3", "dng", "srf", "mrw", "sr2", "arq", "nef", "nrw", "orf",
-                     "ori", "pef", "ptx", "raf", "3fr", "fff", "ari", "bay", "cap", "eip",
-                     "liq", "iiq", "erf", "mdc", "mef", "mfw", "mos", "pxn", "raw", "rwl",
-                     "rw2", "gpr", "srw", "bmq", "cs1", "dxo", "rdc", "rwz", "sti", "x3f"};
-
-    // these are the currently enabled ones
-    m_suffixes = m_allSuffixes - m_toggledSuffixes;
-
-    suffix2description = {
-        {"dcr", "Kodak Cineon Raw Image Format"},
-        {"kdc", "Kodak Cineon Raw Image Format"},
-        {"drf", "Kodak Cineon Raw Image Format"},
-        {"k25", "Kodak Cineon Raw Image Format"},
-        {"dcs", "Kodak Cineon Raw Image Format"},
-        {"dc2", "Kodak Cineon Raw Image Format"},
-        {"kc2", "Kodak Cineon Raw Image Format"},
-        {"arw", "Sony Digital Camera Alpha Raw Image Format"},
-        {"crw", "Canon Digital Camera Raw Image Format"},
-        {"crr", "Canon Digital Camera Raw Image Format"},
-        {"cr2", "Canon Digital Camera Raw Image Format"},
-        {"cr3", "Canon Digital Camera Raw Image Format"},
-        {"dng", "Adobe Digital Negative Raw Image Format"},
-        {"srf", "Sony (Minolta) Raw Image Format"},
-        {"mrw", "Sony (Minolta) Raw Image Format"},
-        {"sr2", "Sony (Minolta) Raw Image Format"},
-        {"arq", "Sony (Minolta) Raw Image Format"},
-        {"nef", "Nikon Digital SLR Camera Raw Image Format"},
-        {"nrw", "Nikon Digital SLR Camera Raw Image Format"},
-        {"orf", "Olympus Digital Camera Raw Image Format"},
-        {"ori", "Olympus Digital Camera Raw Image Format"},
-        {"pef", "Pentax Raw Image Format"},
-        {"ptx", "Pentax Raw Image Format"},
-        {"raf", "Fuji CCD Raw Image Format"},
-        {"3fr", "Hasselblad Raw Image Format"},
-        {"fff", "Hasselblad Raw Image Format"},
-        {"ari", "ARRIFLEX Raw Image Format"},
-        {"bay", "Casio Raw Image Format"},
-        {"cap", "Phase One Raw Image Format"},
-        {"eip", "Phase One Raw Image Format"},
-        {"liq", "Phase One Raw Image Format"},
-        {"iiq", "Phase One Raw Image Format"},
-        {"erf", "Epson Raw Image Format"},
-        {"mdc", "Minolta/Agfa Raw Image Format"},
-        {"mef", "Mamiya Raw Image Format"},
-        {"mfw", "Mamiya Raw Image Format"},
-        {"mos", "Leaf Raw Image Format"},
-        {"pxn", "Logitech Raw Image Format"},
-        {"raw", "Leica Raw Image Format"},
-        {"rwl", "Leica Raw Image Format"},
-        {"rw2", "Panasonic Raw Image Format"},
-        {"gpr", "GoPro GPR Raw Image Format"},
-        {"srw", "Samsung Raw Image Format"},
-        {"bmq", "NuCore RAW image file"},
-        {"cs1", "CaptureShop 1-shot Raw Image"},
-        {"dxo", "DxO PureRaw"},
-        {"rdc", "Rollei RAW Image"},
-        {"rwz", "Rawzor RAW image"},
-        {"sti", "Sinar CaptureShop RAW image"},
-        {"x3f", "Sigma Digital Camera Raw Image"}
-    };
-
-    /********************************/
-
-    m_mimetypes.clear();
-    m_toggledMimetypes.clear();
-    m_allMimetypes.clear();
-
-    const QString mimeFilename = m_settingsDir % "/libraw_mimetypes";
-    QFile mimeFile(mimeFilename);
-    if(!mimeFile.open(QIODevice::ReadOnly|QIODevice::Text)) {
-        qDebug() << "Failed to open settings file at:" << mimeFilename;
-    } else {
-        QTextStream mimeIn(&mimeFile);
-        const QStringList tmp = mimeIn.readAll().split("\n", Qt::SkipEmptyParts);
-        m_toggledMimetypes = QSet<QString>(tmp.begin(), tmp.end());
-        mimeFile.close();
-    }
-
-    // then we store ALL supported mimetypes
-    m_allMimetypes = {"image/x-canon-crw",
-                      "image/x-canon-cr2",
-                      "image/x-olympus-orf",
-                      "image/x-pentax-pef"};
-
-    // these are the currently enabled ones
-    m_mimetypes = m_allMimetypes - m_toggledMimetypes;
-
-    mimetype2description = {
-        {"image/x-canon-crw",   "Canon Digital Camera Raw Image Format"},
-        {"image/x-canon-cr2",   "Canon Digital Camera Raw Image Format"},
-        {"image/x-olympus-orf", "Olympus Digital Camera Raw Image Format"},
-        {"image/x-pentax-pef",  "Pentax Raw Image Format"}
-    };
-
-    Q_EMIT formatsUpdated();
-
+const bool PQCImagePluginLibraw::writeImage(QImage img, QString targetPath) {
+    return false;
 }

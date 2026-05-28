@@ -74,8 +74,9 @@ public:
 private:
     PQCImageHandler();
 
-    QStringList pluginOrder;
-    QHash<QString, PQCImagePlugin*> plugins;
+    QStringList m_pluginOrder;
+    QStringList m_pluginOrderForSettings;
+    QHash<QString, PQCImagePlugin*> m_plugins;
 
     int m_numEnabled;
     QSet<QString> m_suffixes;

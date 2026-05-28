@@ -31,51 +31,14 @@
 #include <QtDebug>
 #include <QPainter>
 
-PQCImagePluginLibsai::PQCImagePluginLibsai(QString settingsDir) : m_settingsDir(settingsDir) {
+PQCImagePluginLibsai::PQCImagePluginLibsai() {
 
-    m_composedWritableSuffixes = false;
+    setData({{"PaintTool Sai",
+                    {{"sai"}, {}}}},
+            {"sai"}, {},
+            {}, {},
+            "libsai");
 
-    loadFormats();
-
-}
-
-const QString PQCImagePluginLibsai::getDescription(QString suffix) {
-    return suffix2description.value(suffix.toLower(), "");
-}
-
-const QSet<QString> PQCImagePluginLibsai::getSuffixesForFormatByDescription(QString description) {
-    QSet<QString> ret;
-    for(const auto &[suf, desc] : std::as_const(suffix2description).asKeyValueRange()) {
-        if(desc == description)
-            ret.insert(suf);
-    }
-    return ret;
-}
-
-const bool PQCImagePluginLibsai::supportsFormatByDescription(QString description) {
-    for(const auto &[suf, desc] : std::as_const(suffix2description).asKeyValueRange()) {
-        if(desc == description)
-            return true;
-    }
-    return false;
-}
-
-const bool PQCImagePluginLibsai::isEnabled(QString description) {
-    for(const auto &[suf, desc] : std::as_const(suffix2description).asKeyValueRange()) {
-        if(desc == description)
-            return m_suffixes.contains(suf);
-    }
-    return false;
-}
-
-const QSet<QString> PQCImagePluginLibsai::getWritableSuffixes() {
-
-    return {};
-
-}
-
-const bool PQCImagePluginLibsai::writeImage(QImage img, QString targetPath) {
-    return false;
 }
 
 const QSize PQCImagePluginLibsai::loadSize(QString path) {
@@ -278,136 +241,8 @@ const QImage PQCImagePluginLibsai::loadImage(QString path, QSize requestedSize, 
 
 }
 
-void PQCImagePluginLibsai::setEnabled(QString description, bool enabled) {
-
-    // first find all the suffixes and mimetypes for this format description
-    QSet<QString> suffixes, mimetypes;
-    for(const auto &[key, value] : std::as_const(suffix2description).asKeyValueRange()) {
-        if(value == description)
-            suffixes.insert(key);
-    }
-    for(const auto &[key, value] : std::as_const(mimetype2description).asKeyValueRange()) {
-        if(value == description)
-            mimetypes.insert(key);
-    }
-
-    // then find the ones stored as toggled
-    QSet<QString> storedSuffixes, storedMimetypes;
-
-    const QString suffixFilename = m_settingsDir % "/libsai_suffixes";
-    QFile suffixFile(suffixFilename);
-    if(suffixFile.exists()) {
-        if(!suffixFile.open(QIODevice::ReadOnly|QIODevice::Text)) {
-            qWarning() << "Failed to open settings file at:" << suffixFilename;
-            return;
-        } else {
-            QTextStream suffixIn(&suffixFile);
-            const QStringList tmp = suffixIn.readAll().split("\n", Qt::SkipEmptyParts);
-            storedSuffixes = QSet<QString>(tmp.begin(), tmp.end());
-            suffixFile.close();
-        }
-    }
-
-    const QString mimeFilename = m_settingsDir % "/libsai_mimetypes";
-    QFile mimeFile(mimeFilename);
-    if(mimeFile.exists()) {
-        if(!mimeFile.open(QIODevice::ReadOnly|QIODevice::Text)) {
-            qWarning() << "Failed to open settings file at:" << mimeFilename;
-            return;
-        } else {
-            QTextStream mimeIn(&mimeFile);
-            const QStringList tmp = mimeIn.readAll().split("\n", Qt::SkipEmptyParts);
-            storedMimetypes = QSet<QString>(tmp.begin(), tmp.end());
-            mimeFile.close();
-        }
-    }
-
-    // if we toggle this format then we only need to make sure they are added to the list, nothing else
-    if((enabledByDefault() && !enabled) || (!enabledByDefault() && enabled)) {
-
-        storedSuffixes += suffixes;
-        storedMimetypes += mimetypes;
-
-        // otherwise we need to make sure that no suffix is part of the list
-    } else {
-
-        QSet<QString> newsetSuffixes, newsetMime;
-
-        for(const QString &s : std::as_const(storedSuffixes)) {
-            if(!suffixes.contains(s))
-                newsetSuffixes.insert(s);
-        }
-        for(const QString &m : std::as_const(storedMimetypes)) {
-            if(!mimetypes.contains(m))
-                newsetMime.insert(m);
-        }
-
-        storedSuffixes = newsetSuffixes;
-        storedMimetypes = newsetMime;
-
-    }
-
-    QFile outSuffixFile(suffixFilename);
-    if(!outSuffixFile.open(QIODevice::WriteOnly|QIODevice::Text|QIODevice::Truncate)) {
-        qDebug() << "Failed to open settings file at:" << suffixFilename;
-    } else {
-        QTextStream suffixOut(&outSuffixFile);
-        suffixOut << PQCHelper::setJoin(storedSuffixes, "\n");
-        outSuffixFile.close();
-    }
-
-    QFile outMimeFile(mimeFilename);
-    if(!outMimeFile.open(QIODevice::WriteOnly|QIODevice::Text|QIODevice::Truncate)) {
-        qDebug() << "Failed to open settings file at:" << mimeFilename;
-    } else {
-        QTextStream mimeOut(&outMimeFile);
-        mimeOut << PQCHelper::setJoin(storedMimetypes, "\n");
-        outMimeFile.close();
-    }
-
-}
-
-/***********************************************/
-
-void PQCImagePluginLibsai::loadFormats() {
-
-    m_suffixes.clear();
-    m_toggledSuffixes.clear();
-    m_allSuffixes.clear();
-
-    // first we read the toggled suffixes from the settings file
-    const QString suffixFilename = m_settingsDir % "/libsai_suffixes";
-    QFile suffixFile(suffixFilename);
-    if(!suffixFile.open(QIODevice::ReadOnly|QIODevice::Text)) {
-        qDebug() << "Failed to open settings file at:" << suffixFilename;
-    } else {
-        QTextStream suffixIn(&suffixFile);
-        const QStringList tmp = suffixIn.readAll().split("\n", Qt::SkipEmptyParts);
-        m_toggledSuffixes = QSet<QString>(tmp.begin(), tmp.end());
-        suffixFile.close();
-    }
-
-    // then we store ALL supported suffixes
-    m_allSuffixes = {"sai"};
-
-    // these are the currently enabled ones
-    m_suffixes = m_allSuffixes - m_toggledSuffixes;
-
-    suffix2description = {
-        {"sai", "PaintTool Sai"}
-    };
-
-    /********************************/
-
-    m_mimetypes.clear();
-    m_toggledMimetypes.clear();
-    m_allMimetypes.clear();
-    mimetype2description.clear();
-
-    // no mimetypes here
-
-    Q_EMIT formatsUpdated();
-
+const bool PQCImagePluginLibsai::writeImage(QImage img, QString targetPath) {
+    return false;
 }
 
 #ifdef PQMLIBSAI

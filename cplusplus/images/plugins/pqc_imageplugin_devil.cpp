@@ -34,51 +34,72 @@
 #include <IL/il.h>
 #endif
 
-PQCImagePluginDevIL::PQCImagePluginDevIL(QString settingsDir) : m_settingsDir(settingsDir) {
+PQCImagePluginDevIL::PQCImagePluginDevIL() {
 
-    m_composedWritableSuffixes = false;
+    setData({{"BMP: Microsoft Windows bitmap",
+                    {{"bmp", "dib"}, {"image/bmp", "image/x-ms-bmp"}}},
+             {"CUR: Microsoft Windows cursor format",
+                    {{"cur"}, {"image/x-win-bitmap"}}},
+             {"GIF: Graphics Interchange Format",
+                    {{"gif"}, {"image/gif"}}},
+             {"JPEG: Joint Photographic Experts Group JFIF format",
+                    {{"jpeg", "jpg", "jpe", "jif"}, {"image/jpeg"}}},
+             {"PBM: Portable bitmap format (black and white)",
+                    {{"pbm"}, {"image/x-portable-anymap"}}},
+             {"PGM: Portable graymap format (gray scale)",
+                    {{"pgm"}, {"image/x-portable-greymap", "image/x-portable-anymap"}}},
+             {"PPM: Portable pixmap format (color)",
+                    {{"ppm", "pnm"}, {"image/x-portable-pixmap", "image/x-portable-anymap"}}},
+             {"PNG: Portable Network Graphics",
+                    {{"png"}, {"image/png"}}},
+             {"Adobe PhotoShop",
+                    {{"psd", "psb", "psdt"}, {"image/vnd.adobe.photoshop"}}},
+             {"SGI images",
+                    {{"rgba", "rgb", "sgi", "bw"}, {"image/sgi"}}},
+             {"TGA: Truevision Targa image",
+                    {{"tga", "icb", "vda", "vst"}, {"image/x-targa", "image/x-tga"}}},
+             {"TIFF: Tagged Image File Format",
+                    {{"tiff", "tif"}, {"image/tiff", "image/tiff-fx"}}},
+             {"Dr. Halo",
+                    {{"cut", "pal"}, {}}},
+             {"Digital Imaging and Communications in Medicine (DICOM) image",
+                    {{"dic", "dcm"}, {"application/dicom", "image/dicom-rle"}}},
+             {"FITS: Flexible Image Transport System",
+                    {{"fits", "fit", "fts"}, {"image/fits"}}},
+             {"Photo CD",
+                    {{"pcd", "pcds"}, {}}},
+             {"Alias/Wavefront RLE image format",
+                    {{"pix", "als", "alias"}, {}}},
+             {"HDR: Radiance RGBE image format",
+                    {{"rgbe", "hdr", "rad"}, {}}},
+             {"DirectDraw Surface",
+                    {{"dds"}, {}}},
+             {"Heavy Metal: FAKK 2",
+                    {{"ftx"}, {}}},
+             {"Interchange File Format",
+                    {{"iff"}, {}}},
+             {"Interlaced Bitmap",
+                    {{"lbm"}, {}}},
+             {"Valve Texture Format",
+                    {{"vtf"}, {}}},
+             {"Microsoft Windows icon format",
+                    {{"ico"}, {"image/vnd.microsoft.icon", "image/x-icon"}}}},
+            {"bmp", "dib", "cur", "gif",
+             "jpeg", "jpg", "jpe", "jif", "pbm", "pgm", "png", "ppm", "pnm", "psd",
+             "psb", "psdt", "rgba", "rgb", "sgi", "bw", "tga", "icb", "vda", "vst",
+             "tiff", "tif", "cut", "pal", "dic", "dcm", "fits", "fit", "fts",
+             "pcd", "pcds", "pix", "als", "alias", "rgbe", "hdr", "rad", "dds",
+             "ftx", "iff", "lbm", "vtf", "ico"},
+            {"image/bmp", "image/x-ms-bmp", "image/x-win-bitmap", "image/gif",
+             "image/jpeg", "image/x-portable-anymap",
+             "image/x-portable-greymap", "image/x-portable-anymap", "image/png",
+             "image/x-portable-pixmap", "image/x-portable-anymap", "image/vnd.adobe.photoshop",
+             "image/sgi", "image/x-targa", "image/x-tga", "image/tiff", "image/tiff-fx",
+             "application/dicom", "image/dicom-rle", "image/fits", "image/vnd.microsoft.icon",
+             "image/x-icon"},
+            {}, {},
+            "devil");
 
-    loadFormats();
-
-}
-
-const QString PQCImagePluginDevIL::getDescription(QString suffix) {
-    return suffix2description.value(suffix.toLower(), "");
-}
-
-const QSet<QString> PQCImagePluginDevIL::getSuffixesForFormatByDescription(QString description) {
-    QSet<QString> ret;
-    for(const auto &[suf, desc] : std::as_const(suffix2description).asKeyValueRange()) {
-        if(desc == description)
-            ret.insert(suf);
-    }
-    return ret;
-}
-
-const bool PQCImagePluginDevIL::supportsFormatByDescription(QString description) {
-    for(const auto &[suf, desc] : std::as_const(suffix2description).asKeyValueRange()) {
-        if(desc == description)
-            return true;
-    }
-    return false;
-}
-
-const bool PQCImagePluginDevIL::isEnabled(QString description) {
-    for(const auto &[suf, desc] : std::as_const(suffix2description).asKeyValueRange()) {
-        if(desc == description)
-            return m_suffixes.contains(suf);
-    }
-    return false;
-}
-
-const QSet<QString> PQCImagePluginDevIL::getWritableSuffixes() {
-
-    return {};
-
-}
-
-const bool PQCImagePluginDevIL::writeImage(QImage img, QString targetPath) {
-    return false;
 }
 
 const QSize PQCImagePluginDevIL::loadSize(QString path) {
@@ -227,235 +248,8 @@ const QImage PQCImagePluginDevIL::loadImage(QString path, QSize requestedSize, Q
 
 }
 
-void PQCImagePluginDevIL::setEnabled(QString description, bool enabled) {
-
-    // first find all the suffixes and mimetypes for this format description
-    QSet<QString> suffixes, mimetypes;
-    for(const auto &[key, value] : std::as_const(suffix2description).asKeyValueRange()) {
-        if(value == description)
-            suffixes.insert(key);
-    }
-    for(const auto &[key, value] : std::as_const(mimetype2description).asKeyValueRange()) {
-        if(value == description)
-            mimetypes.insert(key);
-    }
-
-    // then find the ones stored as toggled
-    QSet<QString> storedSuffixes, storedMimetypes;
-
-    const QString suffixFilename = m_settingsDir % "/devil_suffixes";
-    QFile suffixFile(suffixFilename);
-    if(suffixFile.exists()) {
-        if(!suffixFile.open(QIODevice::ReadOnly|QIODevice::Text)) {
-            qWarning() << "Failed to open settings file at:" << suffixFilename;
-            return;
-        } else {
-            QTextStream suffixIn(&suffixFile);
-            const QStringList tmp = suffixIn.readAll().split("\n", Qt::SkipEmptyParts);
-            storedSuffixes = QSet<QString>(tmp.begin(), tmp.end());
-            suffixFile.close();
-        }
-    }
-
-    const QString mimeFilename = m_settingsDir % "/devil_mimetypes";
-    QFile mimeFile(mimeFilename);
-    if(mimeFile.exists()) {
-        if(!mimeFile.open(QIODevice::ReadOnly|QIODevice::Text)) {
-            qWarning() << "Failed to open settings file at:" << mimeFilename;
-            return;
-        } else {
-            QTextStream mimeIn(&mimeFile);
-            const QStringList tmp = mimeIn.readAll().split("\n", Qt::SkipEmptyParts);
-            storedMimetypes = QSet<QString>(tmp.begin(), tmp.end());
-            mimeFile.close();
-        }
-    }
-
-    // if we toggle this format then we only need to make sure they are added to the list, nothing else
-    if((enabledByDefault() && !enabled) || (!enabledByDefault() && enabled)) {
-
-        storedSuffixes += suffixes;
-        storedMimetypes += mimetypes;
-
-    // otherwise we need to make sure that no suffix is part of the list
-    } else {
-
-        QSet<QString> newsetSuffixes, newsetMime;
-
-        for(const QString &s : std::as_const(storedSuffixes)) {
-            if(!suffixes.contains(s))
-                newsetSuffixes.insert(s);
-        }
-        for(const QString &m : std::as_const(storedMimetypes)) {
-            if(!mimetypes.contains(m))
-                newsetMime.insert(m);
-        }
-
-        storedSuffixes = newsetSuffixes;
-        storedMimetypes = newsetMime;
-
-    }
-
-    QFile outSuffixFile(suffixFilename);
-    if(!outSuffixFile.open(QIODevice::WriteOnly|QIODevice::Text|QIODevice::Truncate)) {
-        qDebug() << "Failed to open settings file at:" << suffixFilename;
-    } else {
-        QTextStream suffixOut(&outSuffixFile);
-        suffixOut << PQCHelper::setJoin(storedSuffixes, "\n");
-        outSuffixFile.close();
-    }
-
-    QFile outMimeFile(mimeFilename);
-    if(!outMimeFile.open(QIODevice::WriteOnly|QIODevice::Text|QIODevice::Truncate)) {
-        qDebug() << "Failed to open settings file at:" << mimeFilename;
-    } else {
-        QTextStream mimeOut(&outMimeFile);
-        mimeOut << PQCHelper::setJoin(storedMimetypes, "\n");
-        outMimeFile.close();
-    }
-
-}
-
-/***********************************************/
-
-void PQCImagePluginDevIL::loadFormats() {
-
-    m_suffixes.clear();
-    m_toggledSuffixes.clear();
-    m_allSuffixes.clear();
-
-    // first we read the toggled suffixes from the settings file
-    const QString suffixFilename = m_settingsDir % "/devil_suffixes";
-    QFile suffixFile(suffixFilename);
-    if(!suffixFile.open(QIODevice::ReadOnly|QIODevice::Text)) {
-        qDebug() << "Failed to open settings file at:" << suffixFilename;
-    } else {
-        QTextStream suffixIn(&suffixFile);
-        const QStringList tmp = suffixIn.readAll().split("\n", Qt::SkipEmptyParts);
-        m_toggledSuffixes = QSet<QString>(tmp.begin(), tmp.end());
-        suffixFile.close();
-    }
-
-    // then we store ALL supported suffixes
-    m_allSuffixes = {"bmp", "dib", "cur", "gif",
-                     "jpeg", "jpg", "jpe", "jif", "pbm", "pgm", "png", "ppm", "pnm", "psd",
-                     "psb", "psdt", "rgba", "rgb", "sgi", "bw", "tga", "icb", "vda", "vst",
-                     "tiff", "tif", "cut", "pal", "dic", "dcm", "fits", "fit", "fts",
-                     "pcd", "pcds", "pix", "als", "alias", "rgbe", "hdr", "rad", "dds",
-                     "ftx", "iff", "lbm", "vtf", "ico"};
-
-    // these are the currently enabled ones
-    m_suffixes = m_allSuffixes - m_toggledSuffixes;
-
-    suffix2description = {
-        {"bmp",   "BMP: Microsoft Windows bitmap"},
-        {"dib",   "BMP: Microsoft Windows bitmap"},
-        {"cur",   "CUR: Microsoft Windows cursor format"},
-        {"gif",   "GIF: Graphics Interchange Format"},
-        {"jpeg",  "JPEG: Joint Photographic Experts Group JFIF format"},
-        {"jpg",   "JPEG: Joint Photographic Experts Group JFIF format"},
-        {"jpe",   "JPEG: Joint Photographic Experts Group JFIF format"},
-        {"jif",   "JPEG: Joint Photographic Experts Group JFIF format"},
-        {"pbm",   "PBM: Portable bitmap format (black and white)"},
-        {"pgm",   "PGM: Portable graymap format (gray scale)"},
-        {"png",   "PNG: Portable Network Graphics"},
-        {"ppm",   "PPM: Portable pixmap format (color)"},
-        {"pnm",   "PPM: Portable pixmap format (color)"},
-        {"psd",   "Adobe PhotoShop"},
-        {"psb",   "Adobe PhotoShop"},
-        {"psdt",  "Adobe PhotoShop"},
-        {"rgba",  "SGI images"},
-        {"rgb",   "SGI images"},
-        {"sgi",   "SGI images"},
-        {"bw",    "SGI images"},
-        {"tga",   "TGA: Truevision Targa image"},
-        {"icb",   "TGA: Truevision Targa image"},
-        {"vda",   "TGA: Truevision Targa image"},
-        {"vst",   "TGA: Truevision Targa image"},
-        {"tiff",  "TIFF: Tagged Image File Format"},
-        {"tif",   "TIFF: Tagged Image File Format"},
-        {"cut",   "Dr. Halo"},
-        {"pal",   "Dr. Halo"},
-        {"dic",   "Digital Imaging and Communications in Medicine (DICOM) image"},
-        {"dcm",   "Digital Imaging and Communications in Medicine (DICOM) image"},
-        {"fits",  "FITS: Flexible Image Transport System"},
-        {"fit",   "FITS: Flexible Image Transport System"},
-        {"fts",   "FITS: Flexible Image Transport System"},
-        {"pcd",   "Photo CD"},
-        {"pcds",  "Photo CD"},
-        {"pix",   "Alias/Wavefront RLE image format"},
-        {"als",   "Alias/Wavefront RLE image format"},
-        {"alias", "Alias/Wavefront RLE image format"},
-        {"rgbe",  "HDR: Radiance RGBE image format"},
-        {"hdr",   "HDR: Radiance RGBE image format"},
-        {"rad",   "HDR: Radiance RGBE image format"},
-        {"dds",   "DirectDraw Surface"},
-        {"ftx",   "Heavy Metal: FAKK 2"},
-        {"iff",   "Interchange File Format"},
-        {"lbm",   "Interlaced Bitmap"},
-        {"vtf",   "Valve Texture Format"},
-        {"ico",   "Microsoft Windows icon format"}
-    };
-
-    /********************************/
-
-    m_mimetypes.clear();
-    m_toggledMimetypes.clear();
-    m_allMimetypes.clear();
-
-    const QString mimeFilename = m_settingsDir % "/devil_mimetypes";
-    QFile mimeFile(mimeFilename);
-    if(!mimeFile.open(QIODevice::ReadOnly|QIODevice::Text)) {
-        qDebug() << "Failed to open settings file at:" << mimeFilename;
-    } else {
-        QTextStream mimeIn(&mimeFile);
-        const QStringList tmp = mimeIn.readAll().split("\n", Qt::SkipEmptyParts);
-        m_toggledMimetypes = QSet<QString>(tmp.begin(), tmp.end());
-        mimeFile.close();
-    }
-
-    // then we store ALL supported mimetypes
-    m_allMimetypes = {"image/bmp", "image/x-ms-bmp", "image/x-win-bitmap", "image/gif",
-                      "image/jpeg", "image/x-portable-anymap",
-                      "image/x-portable-greymap", "image/x-portable-anymap", "image/png",
-                      "image/x-portable-pixmap", "image/x-portable-anymap", "image/vnd.adobe.photoshop",
-                      "image/sgi", "image/x-targa", "image/x-tga", "image/tiff", "image/tiff-fx",
-                      "application/dicom", "image/dicom-rle", "image/fits", "image/vnd.microsoft.icon",
-                      "image/x-icon"};
-
-    // these are the currently enabled ones
-    m_mimetypes = m_allMimetypes - m_toggledMimetypes;
-
-    mimetype2description = {
-        {"image/bmp",                 "BMP: Microsoft Windows bitmap"},
-        {"image/x-ms-bmp",            "BMP: Microsoft Windows bitmap"},
-        {"image/x-win-bitmap",        "CUR: Microsoft Windows cursor format"},
-        {"image/gif",                 "GIF: Graphics Interchange Format"},
-        {"image/jp2",                 "JPEG-2000"},
-        {"image/jpx",                 "JPEG-2000"},
-        {"image/jpm",                 "JPEG-2000"},
-        {"image/jpeg",                "JPEG: Joint Photographic Experts Group JFIF format"},
-        {"image/x-portable-anymap",   "PBM: Portable bitmap format (black and white)"},
-        {"image/x-portable-greymap",  "PGM: Portable graymap format (gray scale)"},
-        {"image/x-portable-anymap",   "PGM: Portable graymap format (gray scale)"},
-        {"image/png",                 "PNG: Portable Network Graphics"},
-        {"image/x-portable-pixmap",   "PPM: Portable pixmap format (color)"},
-        {"image/x-portable-anymap",   "PPM: Portable pixmap format (color)"},
-        {"image/vnd.adobe.photoshop", "Adobe PhotoShop"},
-        {"image/sgi",                 "SGI images"},
-        {"image/x-targa",             "TGA: Truevision Targa image"},
-        {"image/x-tga",               "TGA: Truevision Targa image"},
-        {"image/tiff",                "TIFF: Tagged Image File Format"},
-        {"image/tiff-fx",             "TIFF: Tagged Image File Format"},
-        {"application/dicom",         "Digital Imaging and Communications in Medicine (DICOM) image"},
-        {"image/dicom-rle",           "Digital Imaging and Communications in Medicine (DICOM) image"},
-        {"image/fits",                "FITS: Flexible Image Transport System"},
-        {"image/vnd.microsoft.icon",  "Microsoft Windows icon format"},
-        {"image/x-icon",              "Microsoft Windows icon format"}
-    };
-
-    Q_EMIT formatsUpdated();
-
+const bool PQCImagePluginDevIL::writeImage(QImage img, QString targetPath) {
+    return false;
 }
 
 #ifdef PQMDEVIL

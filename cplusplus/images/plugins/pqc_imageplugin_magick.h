@@ -27,7 +27,7 @@
 class PQCImagePluginMagick : public PQCImagePlugin {
 
 public:
-    PQCImagePluginMagick(QString settingsDir);
+    PQCImagePluginMagick();
 
 #ifdef PQMIMAGEMAGICK
     const QString name() override { return "ImageMagick"; }
@@ -36,46 +36,12 @@ public:
 #endif
     const QString category() override { return "image"; }
     const bool canPreload() override { return true; }
-    const bool enabledByDefault() override { return true; }
-
-    const QSet<QString> getSuffixes()  override { return m_suffixes; }
-    const QSet<QString> getMimetypes() override { return m_mimetypes; }
-    const QSet<QString> getToggledSuffixes()  override { return m_toggledSuffixes; }
-    const QSet<QString> getToggledMimetypes() override { return m_toggledMimetypes; }
-    const QSet<QString> getAllSuffixes()  override { return m_allSuffixes; }
-    const QSet<QString> getAllMimetypes() override { return m_allMimetypes; }
-
-    const QString getDescription(QString suffix) override;
-    const QSet<QString> getSuffixesForFormatByDescription(QString description) override;
-    const bool supportsFormatByDescription(QString description) override;
-    const bool isEnabled(QString description) override;
-
-    const QSet<QString> getWritableSuffixes() override;
-    const bool writeImage(QImage img, QString targetPath) override;
 
     const QSize loadSize(QString path) override;
     const QImage loadImage(QString path, QSize requestedSize, QSize &origSize, QString &error) override;
-
-    void setEnabled(QString description, bool enabled) override;
-
-    void loadFormats() override;
+    const bool writeImage(QImage img, QString targetPath) override;
 
 private:
-    QSet<QString> m_suffixes;
-    QSet<QString> m_mimetypes;
-    QSet<QString> m_toggledSuffixes;
-    QSet<QString> m_toggledMimetypes;
-    QSet<QString> m_allSuffixes;
-    QSet<QString> m_allMimetypes;
-
-    bool m_composedWritableSuffixes;
-    QSet<QString> m_writableSuffixes;
-
-    QHash<QString,QString> m_suffix2description;
-    QHash<QString,QString> mimetype2description;
-
     QHash<QString,QString> m_suffix2magick;
-
-    QString m_settingsDir;
 
 };

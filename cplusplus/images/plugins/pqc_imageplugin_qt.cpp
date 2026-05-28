@@ -34,69 +34,125 @@
 #include <QSvgRenderer>
 #include <QPainter>
 
-PQCImagePluginQt::PQCImagePluginQt(QString settingsDir) : m_settingsDir(settingsDir) {
+PQCImagePluginQt::PQCImagePluginQt() {
 
-    m_composedWritableSuffixes = false;
+    setData({{"Animated Windows cursors",
+                    {{"ani"}, {"application/x-navi-animation"}}},
+             {"AVIF: AV1 Image File Format",
+                    {{"avif", "avifs"}, {"image/avif", "image/avif-sequence"}}},
+             {"BMP: Microsoft Windows bitmap",
+                    {{"bmp", "dib"}, {"image/bmp", "image/x-ms-bmp"}}},
+             {"Cine File Format",
+                    {{"cine"}, {}}},
+             {"CUR: Microsoft Windows cursor format",
+                    {{"cur"}, {"image/x-win-bitmap"}}},
+             {"DirectDraw Surface",
+                    {{"dds"}, {}}},
+             {"OpenEXR",
+                    {{"exr"}, {"image/x-exr"}}},
+             {"GIF: Graphics Interchange Format",
+                    {{"gif"}, {"image/gif"}}},
+             {"HEIF: High Efficiency Image Format",
+                    {{"heif", "heic"}, {"image/heif", "image/heic"}}},
+             {"Microsoft Windows icon format",
+                    {{"ico"}, {"image/vnd.microsoft.icon", "image/x-icon"}}},
+             {"JPEG File Interchange Format",
+                    {{"jfif"}, {}}},
+             {"JPEG: Joint Photographic Experts Group JFIF format",
+                    {{"jpeg", "jpg", "jpe", "jif"}, {"image/jpeg"}}},
+             {"JPEG-2000",
+                    {{"jpeg2000", "j2k", "jp2", "jpc", "jpx", "jpf", "j2c"}, {"image/jp2", "image/jpx", "image/jpm"}}},
+             {"JPEG XL",
+                    {{"jxl"}, {"image/jxl"}}},
+             {"JPEG-XR",
+                    {{"jxr", "hdp", "wdp"}, {}}},
+             {"Krita Document",
+                    {{"kra"}, {"application/x-krita"}}},
+             {"MNG: Multiple-image Network Graphics",
+                    {{"mng"}, {"video/x-mng"}}},
+             {"OBM file",
+                    {{"obm"}, {}}},
+             {"OpenRaster",
+                    {{"ora"}, {"image/openraster"}}},
+             {"PBM: Portable bitmap format (black and white)",
+                    {{"pbm"}, {"image/x-portable-anymap"}}},
+             {"PCX: ZSoft PiCture eXchange",
+                    {{"pcx"}, {"image/vnd.zbrush.pcx", "image/x-pcx"}}},
+             {"Adobe PhotoDeluxe",
+                    {{"pdd"}, {}}},
+             {"Portable Float Map",
+                    {{"pfm"}, {}}},
+             {"PGM: Portable graymap format (gray scale)",
+                    {{"pgm"}, {"image/x-portable-greymap", "image/x-portable-anymap"}}},
+             {"Portable float map format 16-bit half",
+                    {{"phm"}, {}}},
+             {"Softimage PIC",
+                    {{"pic"}, {}}},
+             {"PNG: Portable Network Graphics",
+                    {{"png"}, {"image/png"}}},
+             {"PPM: Portable pixmap format (color)",
+                    {{"ppm", "pnm"}, {"image/x-portable-pixmap", "image/x-portable-anymap"}}},
+             {"Adobe PhotoShop",
+                    {{"psd", "psb", "psdt"}, {"image/vnd.adobe.photoshop"}}},
+             {"PIXAR format",
+                    {{"PIXAR format"}, {}}},
+             {"Quite OK image format",
+                    {{"qoi"}, {}}},
+             {"Apple QuickTake Picture",
+                    {{"qtk"}, {}}},
+             {"RED R3D file format",
+                    {{"r3d"}, {}}},
+             {"SGI images",
+                    {{"rgba", "rgb", "sgi", "bw"}, {"image/sgi"}}},
+             {"HDR: Radiance RGBE image format",
+                    {{"rgbe", "hdr", "rad"}, {}}},
+             {"Scitex Continuous Tone Picture",
+                    {{"sct", "ch", "ct"}, {}}},
+             {"SUN Rasterfile",
+                    {{"sun", "ras", "sr", "im1", "im24", "im32", "im8", "rast", "rs", "scr"}, {}}},
+             {"SVG: Scalable Vector Graphics",
+                    {{"svg", "svgz"}, {"image/svg+xml"}}},
+             {"TGA: Truevision Targa image",
+                    {{"tga", "icb", "vda", "vst"}, {"image/x-targa", "image/x-tga"}}},
+             {"TIFF: Tagged Image File Format",
+                    {{"tiff", "tif"}, {"image/tiff", "image/tiff-fx"}}},
+             {"Wireless Bitmap",
+                    {{"wbmp"}, {"image/vnd.wap.wbmp"}}},
+             {"WEBP: Google web image format",
+                    {{"webp"}, {"image/webp"}}},
+             {"X BitMap",
+                    {{"xbm", "bm"}, {"image/x-xbitmap", "image/x-xbm"}}},
+             {"Gimp XCF",
+                    {{"xcf"}, {"image/x-xcf"}}},
+             {"X PixMap",
+                    {{"xpm", "pm"}, {"image/x-xpixmap", "image/x-xpmi"}}}},
+            {"ani", "avif", "avifs", "bmp", "dib", "cine", "cur", "dds", "exr",
+             "gif", "heif", "heic", "ico", "jfif", "jpeg", "jpg", "jpe", "jif", "jpeg2000", "j2k", "jp2",
+             "jpc", "jpx", "jpf", "j2c", "jxl", "jxr", "hdp", "wdp", "kra", "mng", "obm", "ora", "pbm",
+             "pcx", "pdd", "pfm", "pgm", "phm", "pic", "png", "ppm", "pnm", "psd", "psb", "psdt",
+             "qtk", "r3d", "rgba", "rgb", "sgi", "bw", "rgbe", "hdr", "rad", "sct", "ch", "ct", "sun",
+             "ras", "sr", "im1", "im24", "im32", "im8", "rast", "rs", "scr", "svg", "svgz", "tga", "icb",
+             "vda", "vst", "tiff", "tif", "wbmp", "webp", "xbm", "bm", "xcf", "xpm", "pm", "pxr", "qoi"},
+            {"application/x-navi-animation", "image/avif", "image/avif-sequence", "image/bmp", "image/x-ms-bmp",
+             "image/x-win-bitmap", "application/postscript",
+             "image/x-exr", "image/gif", "image/heic", "image/heif", "image/vnd.microsoft.icon",
+             "image/x-icon", "image/jpeg", "image/jp2", "image/jpx", "image/jxl", "application/x-krita",
+             "video/x-mng", "image/openraster", "image/x-portable-anymap", "image/vnd.zbrush.pcx", "image/x-pcx",
+             "image/x-portable-greymap", "image/x-portable-anymap", "image/png", "image/x-portable-pixmap",
+             "image/x-portable-anymap", "image/vnd.adobe.photoshop", "image/sgi", "image/svg+xml", "image/x-targa",
+             "image/x-tga", "image/tiff", "image/tiff-fx", "image/vnd.wap.wbmp", "image/webp", "image/x-xbitmap",
+             "image/x-xbm", "image/x-xcf", "image/x-xpixmap", "image/x-xpmi"},
+            {}, {}, "qt");
 
-    loadFormats();
-
-}
-
-const QString PQCImagePluginQt::getDescription(QString suffix) {
-    return suffix2description.value(suffix.toLower(), "");
-}
-
-const QSet<QString> PQCImagePluginQt::getSuffixesForFormatByDescription(QString description) {
-    QSet<QString> ret;
-    for(const auto &[suf, desc] : std::as_const(suffix2description).asKeyValueRange()) {
-        if(desc == description)
-            ret.insert(suf);
-    }
-    return ret;
-}
-
-const bool PQCImagePluginQt::supportsFormatByDescription(QString description) {
-    for(const auto &[suf, desc] : std::as_const(suffix2description).asKeyValueRange()) {
-        if(desc == description)
-            return true;
-    }
-    return false;
-}
-
-const bool PQCImagePluginQt::isEnabled(QString description) {
-    for(const auto &[suf, desc] : std::as_const(suffix2description).asKeyValueRange()) {
-        if(desc == description)
-            return m_suffixes.contains(suf);
-    }
-    return false;
-}
-
-const QSet<QString> PQCImagePluginQt::getWritableSuffixes() {
-
-    if(m_composedWritableSuffixes) return m_writableSuffixes;
-
-    m_composedWritableSuffixes = true;
-
+    QSet<QString> writableSuffixes;
     QImageWriter writer;
     const QString tmpPath = QDir::tempPath();
-    for(const QString &suf : std::as_const(m_allSuffixes)) {
+    for(const QString &suf : getAllSuffixes()) {
         writer.setFileName(tmpPath % "/temp." % suf);
         if(writer.canWrite())
-            m_writableSuffixes.insert(suf);
+            writableSuffixes.insert(suf);
     }
-
-    return m_writableSuffixes;
-
-}
-
-const bool PQCImagePluginQt::writeImage(QImage img, QString targetPath) {
-
-    QImageWriter writer(targetPath);
-
-    if(!writer.canWrite())
-        return false;
-
-    return writer.write(img);
+    setWritableSuffixes(writableSuffixes);
 
 }
 
@@ -307,314 +363,13 @@ const QImage PQCImagePluginQt::loadImage(QString path, QSize requestedSize, QSiz
 
 }
 
-void PQCImagePluginQt::setEnabled(QString description, bool enabled) {
+const bool PQCImagePluginQt::writeImage(QImage img, QString targetPath) {
 
-    // first find all the suffixes and mimetypes for this format description
-    QSet<QString> suffixes, mimetypes;
-    for(const auto &[key, value] : std::as_const(suffix2description).asKeyValueRange()) {
-        if(value == description)
-            suffixes.insert(key);
-    }
-    for(const auto &[key, value] : std::as_const(mimetype2description).asKeyValueRange()) {
-        if(value == description)
-            mimetypes.insert(key);
-    }
+    QImageWriter writer(targetPath);
 
-    // then find the ones stored as toggled
-    QSet<QString> storedSuffixes, storedMimetypes;
+    if(!writer.canWrite())
+        return false;
 
-    const QString suffixFilename = m_settingsDir % "/qt_suffixes";
-    QFile suffixFile(suffixFilename);
-    if(suffixFile.exists()) {
-        if(!suffixFile.open(QIODevice::ReadOnly|QIODevice::Text)) {
-            qWarning() << "Failed to open settings file at:" << suffixFilename;
-            return;
-        } else {
-            QTextStream suffixIn(&suffixFile);
-            const QStringList tmp = suffixIn.readAll().split("\n", Qt::SkipEmptyParts);
-            storedSuffixes = QSet<QString>(tmp.begin(), tmp.end());
-            suffixFile.close();
-        }
-    }
-
-    const QString mimeFilename = m_settingsDir % "/qt_mimetypes";
-    QFile mimeFile(mimeFilename);
-    if(mimeFile.exists()) {
-        if(!mimeFile.open(QIODevice::ReadOnly|QIODevice::Text)) {
-            qWarning() << "Failed to open settings file at:" << mimeFilename;
-            return;
-        } else {
-            QTextStream mimeIn(&mimeFile);
-            const QStringList tmp = mimeIn.readAll().split("\n", Qt::SkipEmptyParts);
-            storedMimetypes = QSet<QString>(tmp.begin(), tmp.end());
-            mimeFile.close();
-        }
-    }
-
-    // if we toggle this format then we only need to make sure they are added to the list, nothing else
-    if((enabledByDefault() && !enabled) || (!enabledByDefault() && enabled)) {
-
-        storedSuffixes += suffixes;
-        storedMimetypes += mimetypes;
-
-        // otherwise we need to make sure that no suffix is part of the list
-    } else {
-
-        QSet<QString> newsetSuffixes, newsetMime;
-
-        for(const QString &s : std::as_const(storedSuffixes)) {
-            if(!suffixes.contains(s))
-                newsetSuffixes.insert(s);
-        }
-        for(const QString &m : std::as_const(storedMimetypes)) {
-            if(!mimetypes.contains(m))
-                newsetMime.insert(m);
-        }
-
-        storedSuffixes = newsetSuffixes;
-        storedMimetypes = newsetMime;
-
-    }
-
-    QFile outSuffixFile(suffixFilename);
-    if(!outSuffixFile.open(QIODevice::WriteOnly|QIODevice::Text|QIODevice::Truncate)) {
-        qDebug() << "Failed to open settings file at:" << suffixFilename;
-    } else {
-        QTextStream suffixOut(&outSuffixFile);
-        suffixOut << PQCHelper::setJoin(storedSuffixes, "\n");
-        outSuffixFile.close();
-    }
-
-    QFile outMimeFile(mimeFilename);
-    if(!outMimeFile.open(QIODevice::WriteOnly|QIODevice::Text|QIODevice::Truncate)) {
-        qDebug() << "Failed to open settings file at:" << mimeFilename;
-    } else {
-        QTextStream mimeOut(&outMimeFile);
-        mimeOut << PQCHelper::setJoin(storedMimetypes, "\n");
-        outMimeFile.close();
-    }
-
-}
-
-/***********************************************/
-
-void PQCImagePluginQt::loadFormats() {
-
-    m_suffixes.clear();
-    m_toggledSuffixes.clear();
-    m_allSuffixes.clear();
-
-    // first we read the toggled suffixes from the settings file
-    const QString suffixFilename = m_settingsDir % "/qt_suffixes";
-    QFile suffixFile(suffixFilename);
-    if(!suffixFile.open(QIODevice::ReadOnly|QIODevice::Text)) {
-
-        qDebug() << "Failed to open settings file at:" << suffixFilename;
-
-        // these are the ones DISABLED BY DEFAULT
-        m_toggledSuffixes << "eps" << "epsf" << "epsi" << "pdf";
-
-    } else {
-
-        QTextStream suffixIn(&suffixFile);
-        const QStringList tmp = suffixIn.readAll().split("\n", Qt::SkipEmptyParts);
-        m_toggledSuffixes = QSet<QString>(tmp.begin(), tmp.end());
-        suffixFile.close();
-
-    }
-
-    // then we store ALL supported suffixes
-    m_allSuffixes = {"ani", "avif", "avifs", "bmp", "dib", "cine", "cur", "dds", "eps", "epsf", "epsi", "exr",
-                     "gif", "heif", "heic", "ico", "jfif", "jpeg", "jpg", "jpe", "jif", "jpeg2000", "j2k", "jp2",
-                     "jpc", "jpx", "jpf", "j2c", "jxl", "jxr", "hdp", "wdp", "kra", "mng", "obm", "ora", "pbm",
-                     "pcx", "pdd", "pdf", "pfm", "pgm", "phm", "pic", "png", "ppm", "pnm", "psd", "psb", "psdt",
-                     "qtk", "r3d", "rgba", "rgb", "sgi", "bw", "rgbe", "hdr", "rad", "sct", "ch", "ct", "sun",
-                     "ras", "sr", "im1", "im24", "im32", "im8", "rast", "rs", "scr", "svg", "svgz", "tga", "icb",
-                     "vda", "vst", "tiff", "tif", "wbmp", "webp", "xbm", "bm", "xcf", "xpm", "pm", "pxr", "qoi",
-                     "eps", "epsf", "epsi", "pdf"};
-
-    // these are the currently enabled ones
-    m_suffixes = m_allSuffixes - m_toggledSuffixes;
-
-    suffix2description = {
-        {"ani", "Animated Windows cursors"},
-        {"avif",  "AVIF: AV1 Image File Format"},
-        {"avifs", "AVIF: AV1 Image File Format"},
-        {"bmp", "BMP: Microsoft Windows bitmap"},
-        {"dib", "BMP: Microsoft Windows bitmap"},
-        {"cine", "Cine File Format"},
-        {"cur", "CUR: Microsoft Windows cursor format"},
-        {"dds", "DirectDraw Surface"},
-        {"eps",  "EPS: Encapsulated PostScript"},
-        {"epsf", "EPS: Encapsulated PostScript"},
-        {"epsi", "EPS: Encapsulated PostScript"},
-        {"exr", "OpenEXR"},
-        {"gif", "GIF: Graphics Interchange Format"},
-        {"heif", "HEIF: High Efficiency Image Format"},
-        {"heic", "HEIF: High Efficiency Image Format"},
-        {"ico", "Microsoft Windows icon format"},
-        {"jfif", "JPEG File Interchange Format"},
-        {"jpeg", "JPEG: Joint Photographic Experts Group JFIF format"},
-        {"jpg",  "JPEG: Joint Photographic Experts Group JFIF format"},
-        {"jpe",  "JPEG: Joint Photographic Experts Group JFIF format"},
-        {"jif",  "JPEG: Joint Photographic Experts Group JFIF format"},
-        {"jpeg2000", "JPEG-2000"},
-        {"j2k",      "JPEG-2000"},
-        {"jp2",      "JPEG-2000"},
-        {"jpc",      "JPEG-2000"},
-        {"jpx",      "JPEG-2000"},
-        {"jpf",      "JPEG-2000"},
-        {"j2c",      "JPEG-2000"},
-        {"jxl",      "JPEG XL"},
-        {"jxr", "JPEG-XR"},
-        {"hdp", "JPEG-XR"},
-        {"wdp", "JPEG-XR"},
-        {"kra", "Krita Document"},
-        {"mng", "MNG: Multiple-image Network Graphics"},
-        {"obm", "OBM file"},
-        {"ora", "OpenRaster"},
-        {"pbm", "PBM: Portable bitmap format (black and white)"},
-        {"pcx", "PCX: ZSoft PiCture eXchange"},
-        {"pdd", "Adobe PhotoDeluxe"},
-        {"pdf", "PDF: Adobe Portable Document Format"},
-        {"pfm", "Portable Float Map"},
-        {"pgm", "PGM: Portable graymap format (gray scale)"},
-        {"phm", "Portable float map format 16-bit half"},
-        {"pic", "Softimage PIC"},
-        {"png", "PNG: Portable Network Graphics"},
-        {"ppm", "PPM: Portable pixmap format (color)"},
-        {"pnm", "PPM: Portable pixmap format (color)"},
-        {"psd",  "Adobe PhotoShop"},
-        {"psb",  "Adobe PhotoShop"},
-        {"psdt", "Adobe PhotoShop"},
-        {"pxr", "PIXAR format"},
-        {"qoi", "Quite OK image format"},
-        {"qtk", "Apple QuickTake Picture"},
-        {"r3d", "RED R3D file format"},
-        {"rgba", "SGI images"},
-        {"rgb",  "SGI images"},
-        {"sgi",  "SGI images"},
-        {"bw",   "SGI images"},
-        {"rgbe", "HDR: Radiance RGBE image format"},
-        {"hdr",  "HDR: Radiance RGBE image format"},
-        {"rad",  "HDR: Radiance RGBE image format"},
-        {"sct", "Scitex Continuous Tone Picture"},
-        {"ch",  "Scitex Continuous Tone Picture"},
-        {"ct",  "Scitex Continuous Tone Picture"},
-        {"sun",  "SUN Rasterfile"},
-        {"ras",  "SUN Rasterfile"},
-        {"sr",   "SUN Rasterfile"},
-        {"im1",  "SUN Rasterfile"},
-        {"im24", "SUN Rasterfile"},
-        {"im32", "SUN Rasterfile"},
-        {"im8",  "SUN Rasterfile"},
-        {"rast", "SUN Rasterfile"},
-        {"rs",   "SUN Rasterfile"},
-        {"scr",  "SUN Rasterfile"},
-        {"svg",  "SVG: Scalable Vector Graphics"},
-        {"svgz", "SVG: Scalable Vector Graphics"},
-        {"tga", "TGA: Truevision Targa image"},
-        {"icb", "TGA: Truevision Targa image"},
-        {"vda", "TGA: Truevision Targa image"},
-        {"vst", "TGA: Truevision Targa image"},
-        {"tiff", "TIFF: Tagged Image File Format"},
-        {"tif",  "TIFF: Tagged Image File Format"},
-        {"wbmp", "Wireless Bitmap"},
-        {"webp", "WEBP: Google web image format"},
-        {"xbm", "X BitMap"},
-        {"bm",  "X BitMap"},
-        {"xcf", "Gimp XCF"},
-        {"xpm", "X PixMap"},
-        {"pm",  "X PixMap"}
-    };
-
-    /********************************/
-
-    m_mimetypes.clear();
-    m_toggledMimetypes.clear();
-    m_allMimetypes.clear();
-
-    const QString mimeFilename = m_settingsDir % "/qt_mimetypes";
-    QFile mimeFile(mimeFilename);
-    if(!mimeFile.open(QIODevice::ReadOnly|QIODevice::Text)) {
-        qDebug() << "Failed to open settings file at:" << mimeFilename;
-    } else {
-        QTextStream mimeIn(&mimeFile);
-        const QStringList tmp = mimeIn.readAll().split("\n", Qt::SkipEmptyParts);
-        m_toggledMimetypes = QSet<QString>(tmp.begin(), tmp.end());
-        mimeFile.close();
-    }
-
-    // then we store ALL supported mimetypes
-    m_allMimetypes = {"application/x-navi-animation", "image/avif", "image/avif-sequence", "image/bmp", "image/x-ms-bmp",
-                      "image/x-win-bitmap", "application/postscript", "application/eps", "application/x-eps", "image/eps",
-                      "image/x-eps", "image/x-exr", "image/gif", "image/heic", "image/heif", "image/vnd.microsoft.icon",
-                      "image/x-icon", "image/jpeg", "image/jp2", "image/jpx", "image/jxl", "application/x-krita",
-                      "video/x-mng", "image/openraster", "image/x-portable-anymap", "image/vnd.zbrush.pcx", "image/x-pcx",
-                      "application/pdf", "application/x-pdf", "application/x-bzpdf", "application/x-gzpdf",
-                      "image/x-portable-greymap", "image/x-portable-anymap", "image/png", "image/x-portable-pixmap",
-                      "image/x-portable-anymap", "image/vnd.adobe.photoshop", "image/sgi", "image/svg+xml", "image/x-targa",
-                      "image/x-tga", "image/tiff", "image/tiff-fx", "image/vnd.wap.wbmp", "image/webp", "image/x-xbitmap",
-                      "image/x-xbm", "image/x-xcf", "image/x-xpixmap", "image/x-xpmi"};
-
-
-    // these are the currently enabled ones
-    m_mimetypes = m_allMimetypes - m_toggledMimetypes;
-
-    mimetype2description = {
-        {"image/bmp", "BMP: Microsoft Windows bitmap"},
-        {"image/x-ms-bmp", "BMP: Microsoft Windows bitmap"},
-        {"image/x-win-bitmap", "CUR: Microsoft Windows cursor format"},
-        {"application/postscript", "EPS: Encapsulated PostScript"},
-        {"application/eps", "EPS: Encapsulated PostScript"},
-        {"application/x-eps", "EPS: Encapsulated PostScript"},
-        {"image/eps", "EPS: Encapsulated PostScript"},
-        {"image/x-eps", "EPS: Encapsulated PostScript"},
-        {"image/x-exr", "OpenEXR"},
-        {"image/gif", "GIF: Graphics Interchange Format"},
-        {"image/jp2", "JPEG-2000"},
-        {"image/jpx", "JPEG-2000"},
-        {"image/jpm", "JPEG-2000"},
-        {"image/jpeg", "JPEG: Joint Photographic Experts Group JFIF format"},
-        {"application/x-krita", "Krita Document"},
-        {"video/x-mng", "MNG: Multiple-image Network Graphics"},
-        {"image/openraster", "OpenRaster"},
-        {"image/x-portable-anymap", "PBM: Portable bitmap format (black and white)"},
-        {"image/vnd.zbrush.pcx", "PCX: ZSoft PiCture eXchange"},
-        {"image/x-pcx", "PCX: ZSoft PiCture eXchange"},
-        {"image/x-portable-greymap", "PGM: Portable graymap format (gray scale)"},
-        {"image/x-portable-anymap", "PGM: Portable graymap format (gray scale)"},
-        {"image/png", "PNG: Portable Network Graphics"},
-        {"image/x-portable-pixmap", "PPM: Portable pixmap format (color)"},
-        {"image/x-portable-anymap", "PPM: Portable pixmap format (color)"},
-        {"image/vnd.adobe.photoshop", "Adobe PhotoShop"},
-        {"image/sgi", "SGI images"},
-        {"image/svg+xml", "SVG: Scalable Vector Graphics"},
-        {"image/x-targa", "TGA: Truevision Targa image"},
-        {"image/x-tga", "TGA: Truevision Targa image"},
-        {"image/tiff", "TIFF: Tagged Image File Format"},
-        {"image/tiff-fx", "TIFF: Tagged Image File Format"},
-        {"image/vnd.wap.wbmp", "Wireless Bitmap"},
-        {"image/x-xbitmap", "X BitMap"},
-        {"image/x-xbm", "X BitMap"},
-        {"image/x-xcf", "Gimp XCF"},
-        {"image/webp", "WEBP: Google web image format"},
-        {"image/heic", "HEIF: High Efficiency Image Format"},
-        {"image/heif", "HEIF: High Efficiency Image Format"},
-        {"image/vnd.microsoft.icon", "Microsoft Windows icon format"},
-        {"image/x-icon", "Microsoft Windows icon format"},
-        {"image/x-xpixmap", "X PixMap"},
-        {"image/x-xpmi", "X PixMap"},
-        {"image/avif", "AVIF: AV1 Image File Format"},
-        {"image/avif-sequence", "AVIF: AV1 Image File Format"},
-        {"application/pdf", "PDF: Adobe Portable Document Format"},
-        {"application/x-pdf", "PDF: Adobe Portable Document Format"},
-        {"application/x-bzpdf", "PDF: Adobe Portable Document Format"},
-        {"application/x-gzpdf", "PDF: Adobe Portable Document Format"},
-        {"image/jxl", "JPEG XL"},
-        {"application/x-navi-animation", "Animated Windows cursors"}
-    };
-
-    Q_EMIT formatsUpdated();
+    return writer.write(img);
 
 }

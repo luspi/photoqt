@@ -38,51 +38,41 @@
 #include <archive_entry.h>
 #endif
 
-PQCImagePluginLibarchive::PQCImagePluginLibarchive(QString settingsDir) : m_settingsDir(settingsDir) {
+PQCImagePluginLibarchive::PQCImagePluginLibarchive() {
 
-    m_composedWritableSuffixes = false;
+    setData({{"Comic book archive",
+                    {{"cb7", "cbr", "cbt", "cbz"}, {}}},
+             {"RAR file format",
+                    {{"rar"}, {}}},
+             {"TAR file format",
+                    {{"tar"}, {}}},
+             {"7z file format",
+                    {{"7z"}, {}}},
+             {"ZIP file format",
+                    {{"zip"}, {}}},
+             {"TAR file format (GZIP)",
+                    {{"tar.gz", "taz", "tgz"}, {}}},
+             {"TAR file format (XZ)",
+                    {{"tar.xz", "txz"}, {}}},
+             {"TAR file format (BZIP2)",
+                    {{"tar.bz2", "tb2", "tbz", "tbz2", "tz2"}, {}}},
+             {"TAR file format (ZSTD)",
+                    {{"tar.zst", "tzst"}, {}}},
+             {"TAR file format (LZIP)",
+                    {{"tar.lz"}, {}}},
+             {"TAR file format (LZMA)",
+                    {{"tar.lzma", "tlz"}, {}}},
+             {"TAR file format (LZOP)",
+                    {{"tar.lzo"}, {}}},
+             {"TAR file format (COMPRESS)",
+                    {{"tar.z", "tz"}, {}}}},
+            {"cb7", "cbr", "cbt", "cbz", "rar", "tar", "7z", "zip", "tar.gz",
+             "taz", "tgz", "tar.xz", "txz", "tar.bz2", "tb2", "tbz", "tbz2",
+             "tz2", "tar.zst", "tzst", "tar.lz", "tar.lzma", "tlz", "tar.lzo",
+             "tar.z", "tz"},
+            {}, {}, {},
+            "libarchive");
 
-    loadFormats();
-
-}
-
-const QString PQCImagePluginLibarchive::getDescription(QString suffix) {
-    return suffix2description.value(suffix.toLower(), "");
-}
-
-const QSet<QString> PQCImagePluginLibarchive::getSuffixesForFormatByDescription(QString description) {
-    QSet<QString> ret;
-    for(const auto &[suf, desc] : std::as_const(suffix2description).asKeyValueRange()) {
-        if(desc == description)
-            ret.insert(suf);
-    }
-    return ret;
-}
-
-const bool PQCImagePluginLibarchive::supportsFormatByDescription(QString description) {
-    for(const auto &[suf, desc] : std::as_const(suffix2description).asKeyValueRange()) {
-        if(desc == description)
-            return true;
-    }
-    return false;
-}
-
-const bool PQCImagePluginLibarchive::isEnabled(QString description) {
-    for(const auto &[suf, desc] : std::as_const(suffix2description).asKeyValueRange()) {
-        if(desc == description)
-            return m_suffixes.contains(suf);
-    }
-    return false;
-}
-
-const QSet<QString> PQCImagePluginLibarchive::getWritableSuffixes() {
-
-    return {};
-
-}
-
-const bool PQCImagePluginLibarchive::writeImage(QImage img, QString targetPath) {
-    return false;
 }
 
 const QSize PQCImagePluginLibarchive::loadSize(QString path) {
@@ -94,7 +84,6 @@ const QSize PQCImagePluginLibarchive::loadSize(QString path) {
     QString compressedFilename = "";
     const int idx = archivefile.indexOf("::ARC::");
     if(idx > -1) {
-        QStringList parts = archivefile.split("::ARC::");
         archivefile = archivefile.mid(idx+7);
         compressedFilename = archivefile.mid(0,idx);
     } else {
@@ -236,8 +225,6 @@ const QImage PQCImagePluginLibarchive::loadImage(QString path, QSize requestedSi
 
     qDebug() << "args: path =" << path;
     qDebug() << "args: requestedSize =" << requestedSize;
-
-    QString errormsg = "";
 
 #ifdef PQMLIBARCHIVE
 
@@ -469,163 +456,6 @@ const QImage PQCImagePluginLibarchive::loadImage(QString path, QSize requestedSi
 
 }
 
-void PQCImagePluginLibarchive::setEnabled(QString description, bool enabled) {
-
-    // first find all the suffixes and mimetypes for this format description
-    QSet<QString> suffixes, mimetypes;
-    for(const auto &[key, value] : std::as_const(suffix2description).asKeyValueRange()) {
-        if(value == description)
-            suffixes.insert(key);
-    }
-    for(const auto &[key, value] : std::as_const(mimetype2description).asKeyValueRange()) {
-        if(value == description)
-            mimetypes.insert(key);
-    }
-
-    // then find the ones stored as toggled
-    QSet<QString> storedSuffixes, storedMimetypes;
-
-    const QString suffixFilename = m_settingsDir % "/libarchive_suffixes";
-    QFile suffixFile(suffixFilename);
-    if(suffixFile.exists()) {
-        if(!suffixFile.open(QIODevice::ReadOnly|QIODevice::Text)) {
-            qWarning() << "Failed to open settings file at:" << suffixFilename;
-            return;
-        } else {
-            QTextStream suffixIn(&suffixFile);
-            const QStringList tmp = suffixIn.readAll().split("\n", Qt::SkipEmptyParts);
-            storedSuffixes = QSet<QString>(tmp.begin(), tmp.end());
-            suffixFile.close();
-        }
-    }
-
-    const QString mimeFilename = m_settingsDir % "/libarchive_mimetypes";
-    QFile mimeFile(mimeFilename);
-    if(mimeFile.exists()) {
-        if(!mimeFile.open(QIODevice::ReadOnly|QIODevice::Text)) {
-            qWarning() << "Failed to open settings file at:" << mimeFilename;
-            return;
-        } else {
-            QTextStream mimeIn(&mimeFile);
-            const QStringList tmp = mimeIn.readAll().split("\n", Qt::SkipEmptyParts);
-            storedMimetypes = QSet<QString>(tmp.begin(), tmp.end());
-            mimeFile.close();
-        }
-    }
-
-    // if we toggle this format then we only need to make sure they are added to the list, nothing else
-    if((enabledByDefault() && !enabled) || (!enabledByDefault() && enabled)) {
-
-        storedSuffixes += suffixes;
-        storedMimetypes += mimetypes;
-
-        // otherwise we need to make sure that no suffix is part of the list
-    } else {
-
-        QSet<QString> newsetSuffixes, newsetMime;
-
-        for(const QString &s : std::as_const(storedSuffixes)) {
-            if(!suffixes.contains(s))
-                newsetSuffixes.insert(s);
-        }
-        for(const QString &m : std::as_const(storedMimetypes)) {
-            if(!mimetypes.contains(m))
-                newsetMime.insert(m);
-        }
-
-        storedSuffixes = newsetSuffixes;
-        storedMimetypes = newsetMime;
-
-    }
-
-    QFile outSuffixFile(suffixFilename);
-    if(!outSuffixFile.open(QIODevice::WriteOnly|QIODevice::Text|QIODevice::Truncate)) {
-        qDebug() << "Failed to open settings file at:" << suffixFilename;
-    } else {
-        QTextStream suffixOut(&outSuffixFile);
-        suffixOut << PQCHelper::setJoin(storedSuffixes, "\n");
-        outSuffixFile.close();
-    }
-
-    QFile outMimeFile(mimeFilename);
-    if(!outMimeFile.open(QIODevice::WriteOnly|QIODevice::Text|QIODevice::Truncate)) {
-        qDebug() << "Failed to open settings file at:" << mimeFilename;
-    } else {
-        QTextStream mimeOut(&outMimeFile);
-        mimeOut << PQCHelper::setJoin(storedMimetypes, "\n");
-        outMimeFile.close();
-    }
-
-}
-
-/***********************************************/
-
-void PQCImagePluginLibarchive::loadFormats() {
-
-    m_suffixes.clear();
-    m_toggledSuffixes.clear();
-    m_allSuffixes.clear();
-
-    // first we read the toggled suffixes from the settings file
-    const QString suffixFilename = m_settingsDir % "/libarchive_suffixes";
-    QFile suffixFile(suffixFilename);
-    if(!suffixFile.open(QIODevice::ReadOnly|QIODevice::Text)) {
-        qDebug() << "Failed to open settings file at:" << suffixFilename;
-    } else {
-        QTextStream suffixIn(&suffixFile);
-        const QStringList tmp = suffixIn.readAll().split("\n", Qt::SkipEmptyParts);
-        m_toggledSuffixes = QSet<QString>(tmp.begin(), tmp.end());
-        suffixFile.close();
-    }
-
-    // then we store ALL supported suffixes
-    m_allSuffixes = {"cb7", "cbr", "cbt", "cbz", "rar", "tar", "7z", "zip", "tar.gz",
-                     "taz", "tgz", "tar.xz", "txz", "tar.bz2", "tb2", "tbz", "tbz2",
-                     "tz2", "tar.zst", "tzst", "tar.lz", "tar.lzma", "tlz", "tar.lzo",
-                     "tar.z", "tz"};
-
-    // these are the currently enabled ones
-    m_suffixes = m_allSuffixes - m_toggledSuffixes;
-
-    suffix2description = {
-        {"cb7",      "Comic book archive"},
-        {"cbr",      "Comic book archive"},
-        {"cbt",      "Comic book archive"},
-        {"cbz",      "Comic book archive"},
-        {"rar",      "RAR file format"},
-        {"tar",      "TAR file format"},
-        {"7z",       "7z file format"},
-        {"zip",      "ZIP file format"},
-        {"tar.gz",   "TAR file format (GZIP)"},
-        {"taz",      "TAR file format (GZIP)"},
-        {"tgz",      "TAR file format (GZIP)"},
-        {"tar.xz",   "TAR file format (XZ)"},
-        {"txz",      "TAR file format (XZ)"},
-        {"tar.bz2",  "TAR file format (BZIP2)"},
-        {"tb2",      "TAR file format (BZIP2)"},
-        {"tbz",      "TAR file format (BZIP2)"},
-        {"tbz2",     "TAR file format (BZIP2)"},
-        {"tz2",      "TAR file format (BZIP2)"},
-        {"tar.zst",  "TAR file format (ZSTD)"},
-        {"tzst",     "TAR file format (ZSTD)"},
-        {"tar.lz",   "TAR file format (LZIP)"},
-        {"tar.lzma", "TAR file format (LZMA)"},
-        {"tlz",      "TAR file format (LZMA)"},
-        {"tar.lzo",  "TAR file format (LZOP)"},
-        {"tar.z",    "TAR file format (COMPRESS)"},
-        {"tz",       "TAR file format (COMPRESS)"}
-    };
-
-    /********************************/
-
-    // no mimetypes
-    m_mimetypes.clear();
-    m_toggledMimetypes.clear();
-    m_allMimetypes.clear();
-    mimetype2description.clear();
-
-    // no mimetypes here currently
-
-    Q_EMIT formatsUpdated();
-
+const bool PQCImagePluginLibarchive::writeImage(QImage img, QString targetPath) {
+    return false;
 }

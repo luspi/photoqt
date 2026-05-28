@@ -41,12 +41,12 @@
 
 PQCImageHandler::PQCImageHandler() {
 
-    const QString setDir = PQCConfigFiles::get().CONFIG_DIR() % "/imageplugins";
+    auto t1 = std::chrono::steady_clock::now();
 
     // these crash when loaded in parallel -> protect loading these with a mutex
     m_doNotThreadFormats = {"jpeg2000", "jp2", "jpc", "jpx", "jpf", "j2c", "mj2"};
 
-    pluginOrder = QStringList()
+    m_pluginOrder = QStringList()
 #ifdef PQMRESVG
         << "resvg"
 #endif
@@ -77,36 +77,69 @@ PQCImageHandler::PQCImageHandler() {
 #endif
     ;
 
-    plugins.insert("qt", new PQCImagePluginQt(setDir));
-#ifdef PQMRESVG
-    plugins.insert("resvg", new PQCImagePluginResvg(setDir));
-#endif
-#if defined(PQMPOPPLER) || defined(PQMQTPDF)
-    plugins.insert("pdf", new PQCImagePluginPDF(setDir));
-#endif
-#ifdef PQMRAW
-    plugins.insert("libraw", new PQCImagePluginLibraw(setDir));
-#endif
-#ifdef PQMLIBARCHIVE
-    plugins.insert("libarchive", new PQCImagePluginLibarchive(setDir));
-#endif
-#ifdef PQMLIBSAI
-    plugins.insert("libsai", new PQCImagePluginLibsai(setDir));
-#endif
-#if defined(PQMVIDEOQT) || defined(PQMVIDEOMPV)
-    plugins.insert("video", new PQCImagePluginVideo(setDir));
-#endif
+    // For the SETTINGS MANAGER the order is slightly different
+    m_pluginOrderForSettings = QStringList()
+                    << "qt"
 #if defined(PQMIMAGEMAGICK) || defined(PQMGRAPHICSMAGICK)
-    plugins.insert("magick", new PQCImagePluginMagick(setDir));
-#endif
-#ifdef PQMDEVIL
-    plugins.insert("devil", new PQCImagePluginDevIL(setDir));
+                    << "magick"
 #endif
 #ifdef PQMLIBVIPS
-    plugins.insert("libvips", new PQCImagePluginLibVips(setDir));
+                    << "libvips"
+#endif
+#ifdef PQMDEVIL
+                     << "devil"
+#endif
+#ifdef PQMRAW
+                    << "libraw"
+#endif
+#ifdef PQMLIBARCHIVE
+                    << "libarchive"
+#endif
+#ifdef PQMRESVG
+                    << "resvg"
+#endif
+#if defined(PQMPOPPLER) || defined(PQMQTPDF)
+                    << "pdf"
+#endif
+#ifdef PQMLIBSAI
+                    << "libsai"
+#endif
+#if defined(PQMVIDEOQT) || defined(PQMVIDEOMPV)
+                    << "video"
+#endif
+        ;
+
+
+    m_plugins.insert("qt", new PQCImagePluginQt);
+#ifdef PQMRESVG
+    plugins.insert("resvg", new PQCImagePluginResvg);
+#endif
+#if defined(PQMPOPPLER) || defined(PQMQTPDF)
+    m_plugins.insert("pdf", new PQCImagePluginPDF);
+#endif
+#ifdef PQMRAW
+    m_plugins.insert("libraw", new PQCImagePluginLibraw);
+#endif
+#ifdef PQMLIBARCHIVE
+    m_plugins.insert("libarchive", new PQCImagePluginLibarchive);
+#endif
+#ifdef PQMLIBSAI
+    m_plugins.insert("libsai", new PQCImagePluginLibsai);
+#endif
+#if defined(PQMVIDEOQT) || defined(PQMVIDEOMPV)
+    m_plugins.insert("video", new PQCImagePluginVideo);
+#endif
+#if defined(PQMIMAGEMAGICK) || defined(PQMGRAPHICSMAGICK)
+    m_plugins.insert("magick", new PQCImagePluginMagick);
+#endif
+#ifdef PQMDEVIL
+    m_plugins.insert("devil", new PQCImagePluginDevIL);
+#endif
+#ifdef PQMLIBVIPS
+    m_plugins.insert("libvips", new PQCImagePluginLibVips);
 #endif
 
-    for(PQCImagePlugin *plugin : std::as_const(plugins)) {
+    for(PQCImagePlugin *plugin : std::as_const(m_plugins)) {
 
         connect(plugin, &PQCImagePlugin::formatsUpdated, this, &PQCImageHandler::formatsUpdated);
 
@@ -118,6 +151,9 @@ PQCImageHandler::PQCImageHandler() {
 
     m_composedWritableSuffixes = false;
 
+    auto t2 = std::chrono::steady_clock::now();
+    qWarning() << ">>> t =" << std::chrono::duration<double, std::milli>(t2-t1).count();
+
 }
 
 QSize PQCImageHandler::getSize(QString path) {
@@ -126,11 +162,11 @@ QSize PQCImageHandler::getSize(QString path) {
     const QString suffix1 = info.suffix().toLower();
     const QString suffix2 = info.completeSuffix().toLower();
 
-    for(const QString &name : std::as_const(pluginOrder)) {
+    for(const QString &name : std::as_const(m_pluginOrder)) {
 
-        if(!plugins.contains(name)) continue;
+        if(!m_plugins.contains(name)) continue;
 
-        PQCImagePlugin *plugin = plugins[name];
+        PQCImagePlugin *plugin = m_plugins[name];
 
         QSet<QString> suf = plugin->getSuffixes();
         if(suf.contains(suffix1) || suf.contains(suffix2)) {
@@ -146,11 +182,11 @@ QSize PQCImageHandler::getSize(QString path) {
     QMimeDatabase db;
     const QString mimetype = db.mimeTypeForFile(path).name();
 
-    for(const QString &name : std::as_const(pluginOrder)) {
+    for(const QString &name : std::as_const(m_pluginOrder)) {
 
-        if(!plugins.contains(name)) continue;
+        if(!m_plugins.contains(name)) continue;
 
-        PQCImagePlugin *plugin = plugins[name];
+        PQCImagePlugin *plugin = m_plugins[name];
 
         QSet<QString> mim = plugin->getMimetypes();
         if(mim.contains(mimetype)) {
@@ -193,11 +229,11 @@ QImage PQCImageHandler::getImage(QString path, QSize requestedSize, QSize &origS
     const bool doNotThread = m_doNotThreadFormats.contains(suffix1);
     if(doNotThread) providerMutex.lock();
 
-    for(const QString &name : std::as_const(pluginOrder)) {
+    for(const QString &name : std::as_const(m_pluginOrder)) {
 
-        if(!plugins.contains(name)) continue;
+        if(!m_plugins.contains(name)) continue;
 
-        PQCImagePlugin *plugin = plugins[name];
+        PQCImagePlugin *plugin = m_plugins[name];
 
         QSet<QString> suf = plugin->getSuffixes();
         if(suf.contains(suffix1) || suf.contains(suffix2)) {
@@ -215,11 +251,11 @@ QImage PQCImageHandler::getImage(QString path, QSize requestedSize, QSize &origS
     QMimeDatabase db;
     const QString mimetype = db.mimeTypeForFile(path).name();
 
-    for(const QString &name : std::as_const(pluginOrder)) {
+    for(const QString &name : std::as_const(m_pluginOrder)) {
 
-        if(!plugins.contains(name)) continue;
+        if(!m_plugins.contains(name)) continue;
 
-        PQCImagePlugin *plugin = plugins[name];
+        PQCImagePlugin *plugin = m_plugins[name];
 
         QSet<QString> mim = plugin->getMimetypes();
         if(mim.contains(mimetype)) {
@@ -236,7 +272,7 @@ QImage PQCImageHandler::getImage(QString path, QSize requestedSize, QSize &origS
 
 #if defined(PQMIMAGEMAGICK) || defined(PQMGRAPHICSMAGICK)
 
-    img = plugins["magick"]->loadImage(path, requestedSize, origSize, error);
+    img = m_plugins["magick"]->loadImage(path, requestedSize, origSize, error);
     if(doNotThread) providerMutex.unlock();
     return img;
 
@@ -250,12 +286,12 @@ QImage PQCImageHandler::getImage(QString path, QSize requestedSize, QSize &origS
 
 QImage PQCImageHandler::getImageWithPlugin(QString plugin, QString path, QSize requestedSize, QSize &origSize, QString &error) {
 
-    if(!pluginOrder.contains(plugin)) {
+    if(!m_pluginOrder.contains(plugin)) {
         qWarning() << "Requested plugin" << plugin << "not found.";
         return QImage();
     }
 
-    return plugins.value(plugin)->loadImage(path, requestedSize, origSize, error);
+    return m_plugins.value(plugin)->loadImage(path, requestedSize, origSize, error);
 
 }
 
@@ -269,7 +305,7 @@ bool PQCImageHandler::canWrite(QString path) {
 
 bool PQCImageHandler::writeImage(QImage img, QString targetPath) {
 
-    for(PQCImagePlugin *plugin : std::as_const(plugins)) {
+    for(PQCImagePlugin *plugin : std::as_const(m_plugins)) {
 
         bool ret = plugin->writeImage(img, targetPath);
         if(ret) return true;
@@ -284,8 +320,8 @@ QSet<QString> PQCImageHandler::getSuffixes(QString category) {
 
     if(category == "all") return m_suffixes;
 
-    if(plugins.contains(category))
-        return plugins.value(category)->getSuffixes();
+    if(m_plugins.contains(category))
+        return m_plugins.value(category)->getSuffixes();
 
     return m_suffixes;
 
@@ -296,8 +332,8 @@ QSet<QString> PQCImageHandler::getSuffixes(QStringList categories) {
     QSet<QString> ret;
 
     for(const QString &c : std::as_const(categories)) {
-        if(plugins.contains(c))
-            ret += plugins.value(c)->getSuffixes();
+        if(m_plugins.contains(c))
+            ret += m_plugins.value(c)->getSuffixes();
     }
 
     return ret;
@@ -308,8 +344,8 @@ QSet<QString> PQCImageHandler::getMimetypes(QString category) {
 
     if(category == "all") return m_mimetypes;
 
-    if(plugins.contains(category))
-        return plugins.value(category)->getMimetypes();
+    if(m_plugins.contains(category))
+        return m_plugins.value(category)->getMimetypes();
 
     return m_mimetypes;
 
@@ -320,8 +356,8 @@ QSet<QString> PQCImageHandler::getMimetypes(QStringList categories) {
     QSet<QString> ret;
 
     for(const QString &c : std::as_const(categories)) {
-        if(plugins.contains(c))
-            ret += plugins.value(c)->getMimetypes();
+        if(m_plugins.contains(c))
+            ret += m_plugins.value(c)->getMimetypes();
     }
 
     return ret;
@@ -331,7 +367,7 @@ QSet<QString> PQCImageHandler::getMimetypes(QStringList categories) {
 QSet<QString> PQCImageHandler::getWritableSuffixes(QString category) {
 
     if(!m_composedWritableSuffixes) {
-        for(PQCImagePlugin *plugin : std::as_const(plugins)) {
+        for(PQCImagePlugin *plugin : std::as_const(m_plugins)) {
             m_writableSuffixes += plugin->getWritableSuffixes();
         }
         m_composedWritableSuffixes = true;
@@ -339,8 +375,8 @@ QSet<QString> PQCImageHandler::getWritableSuffixes(QString category) {
 
     if(category == "all") return m_writableSuffixes;
 
-    if(plugins.contains(category))
-        return plugins.value(category)->getWritableSuffixes();
+    if(m_plugins.contains(category))
+        return m_plugins.value(category)->getWritableSuffixes();
 
     return m_writableSuffixes;
 
@@ -351,8 +387,8 @@ QSet<QString> PQCImageHandler::getWritableSuffixes(QStringList categories) {
     QSet<QString> ret;
 
     for(const QString &c : std::as_const(categories)) {
-        if(plugins.contains(c))
-            ret += plugins.value(c)->getWritableSuffixes();
+        if(m_plugins.contains(c))
+            ret += m_plugins.value(c)->getWritableSuffixes();
     }
 
     return ret;
@@ -361,7 +397,7 @@ QSet<QString> PQCImageHandler::getWritableSuffixes(QStringList categories) {
 
 QString PQCImageHandler::getDescription(QString suffix) {
 
-    for(PQCImagePlugin *plugin : std::as_const(plugins)) {
+    for(PQCImagePlugin *plugin : std::as_const(m_plugins)) {
 
         QString desc = plugin->getDescription(suffix);
         if(desc != "") return desc;
@@ -374,17 +410,17 @@ QString PQCImageHandler::getDescription(QString suffix) {
 
 QStringList PQCImageHandler::getPluginNames() {
     QStringList ret;
-    for(const QString &plugin: std::as_const(pluginOrder))
-        ret.append(plugins[plugin]->name());
+    for(const QString &plugin: std::as_const(m_pluginOrderForSettings))
+        ret.append(m_plugins[plugin]->name());
     return ret;
 }
 
 QStringList PQCImageHandler::getPluginsForFormatByDescription(QString description) {
 
     QStringList ret;
-    for(const QString &plugin: std::as_const(pluginOrder)) {
-        if(plugins[plugin]->supportsFormatByDescription(description))
-            ret << plugins[plugin]->name();
+    for(const QString &plugin: std::as_const(m_pluginOrder)) {
+        if(m_plugins[plugin]->supportsFormatByDescription(description))
+            ret << m_plugins[plugin]->name();
     }
     return ret;
 
@@ -393,18 +429,18 @@ QStringList PQCImageHandler::getPluginsForFormatByDescription(QString descriptio
 QStringList PQCImageHandler::getAllSuffixesForFormatByDescription(QString description) {
 
     QSet<QString> ret;
-    for(const QString &plugin: std::as_const(pluginOrder)) {
-        if(plugins[plugin]->supportsFormatByDescription(description))
-            ret += plugins[plugin]->getSuffixesForFormatByDescription(description);
+    for(const QString &plugin: std::as_const(m_pluginOrder)) {
+        if(m_plugins[plugin]->supportsFormatByDescription(description))
+            ret += m_plugins[plugin]->getSuffixesForFormatByDescription(description);
     }
     return ret.values();
 
 }
 
 QString PQCImageHandler::getCategoryForFormatByDescription(QString description) {
-    for(const QString &plugin: std::as_const(pluginOrder)) {
-        if(plugins[plugin]->supportsFormatByDescription(description))
-            return plugins[plugin]->category();
+    for(const QString &plugin: std::as_const(m_pluginOrder)) {
+        if(m_plugins[plugin]->supportsFormatByDescription(description))
+            return m_plugins[plugin]->category();
     }
     return "";
 }
@@ -413,15 +449,9 @@ QStringList PQCImageHandler::getAllDescriptions() {
 
     QStringList ret;
 
-    for(const QString &name : std::as_const(pluginOrder)) {
-        PQCImagePlugin *plugin = plugins[name];
-        QStringList allSuffixes = plugin->getAllSuffixes().values();
-        allSuffixes.sort(Qt::CaseInsensitive);
-        for(const QString &suf : std::as_const(allSuffixes)) {
-            const QString dsc = plugin->getDescription(suf);
-            if(!ret.contains(dsc))
-                ret.append(dsc);
-        }
+    for(const QString &name : std::as_const(m_pluginOrder)) {
+        PQCImagePlugin *plugin = m_plugins[name];
+        ret << plugin->getAllDescriptions();
     }
 
     return ret;
@@ -429,16 +459,16 @@ QStringList PQCImageHandler::getAllDescriptions() {
 }
 
 bool PQCImageHandler::isEnabled(QString plugin, QString description) {
-    for(const QString &name : std::as_const(pluginOrder)) {
-        if(name == plugin || plugins[name]->name() == plugin)
-            return plugins[name]->isEnabled(description);
+    for(const QString &name : std::as_const(m_pluginOrder)) {
+        if(name == plugin || m_plugins[name]->name() == plugin)
+            return m_plugins[name]->isEnabled(description);
     }
     return false;
 }
 
 void PQCImageHandler::setEnabled(QString pluginName, QString description, bool enabled) {
 
-    for(PQCImagePlugin *plugin : std::as_const(plugins)) {
+    for(PQCImagePlugin *plugin : std::as_const(m_plugins)) {
         if(plugin->name() == pluginName)
             plugin->setEnabled(description, enabled);
     }
@@ -447,7 +477,7 @@ void PQCImageHandler::setEnabled(QString pluginName, QString description, bool e
 
 void PQCImageHandler::reloadPlugins() {
 
-    for(PQCImagePlugin *plugin : std::as_const(plugins)) {
-        plugin->loadFormats();
+    for(PQCImagePlugin *plugin : std::as_const(m_plugins)) {
+        plugin->loadData();
     }
 }
