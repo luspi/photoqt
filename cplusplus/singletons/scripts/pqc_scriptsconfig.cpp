@@ -28,7 +28,9 @@
 #include <QQmlContext>
 #include <QMessageBox>
 #include <QDirIterator>
+#include <QTemporaryFile>
 #include <pqc_configfiles.h>
+#include <pqc_helper.h>
 #include <scripts/pqc_scriptsconfig.h>
 #include <scripts/pqc_scriptslocalization.h>
 #ifndef PQMTESTING
@@ -226,25 +228,37 @@ bool PQCScriptsConfig::exportConfigTo(QString path) {
     // All the config files
     QHash<QString,QString> allfiles;
     allfiles["CFG_USERSETTINGS_DB"] = PQCConfigFiles::get().USERSETTINGS_DB();
-    allfiles["CFG_IMAGEFORMATS_DB"] = PQCConfigFiles::get().IMAGEFORMATS_DB();
     allfiles["CFG_CONTEXTMENU_DB"] = PQCConfigFiles::get().CONTEXTMENU_DB();
     allfiles["CFG_SHORTCUTS_DB"] = PQCConfigFiles::get().SHORTCUTS_DB();
+
+    // create imageplugins zip file
+    QTemporaryFile tempfile;
+    if(!tempfile.open()) {
+        qWarning() << "Unable to create temporary file";
+        return false;
+    }
+    PQCHelper::zipDirectory(PQCConfigFiles::get().CONFIG_DIR()%"/imageplugins/", tempfile.fileName());
+    allfiles["CFG_IMAGEPLUGINS"] = tempfile.fileName();
 
     // handler to the file
     struct archive *a = archive_write_new();
 
     // Write a zip file
+    archive_write_set_format_pax_restricted(a);
     archive_write_add_filter_gzip(a);
-    archive_write_set_format_zip(a);
 
     // open archive for writing
-    archive_write_open_filename(a, archiveFile.toLatin1());
+    QByteArray tmpPath = QFile::encodeName(archiveFile);
+    if(archive_write_open_filename(a, tmpPath.constData()) != ARCHIVE_OK) {
+        qWarning() << "Failed to open archive for writing:" << archive_error_string(a);
+        archive_write_free(a);
+        return false;
+    }
 
     // loop over config files
-    QHash<QString, QString>::const_iterator iter = allfiles.constBegin();
-    while(iter != allfiles.constEnd()) {
+    for(const auto &[key, value] : std::as_const(allfiles).asKeyValueRange()) {
 
-        QFile config(iter.value());
+        QFile config(value);
 
         // Ignore files that do not exist
         if(config.exists()) {
@@ -258,24 +272,36 @@ bool PQCScriptsConfig::exportConfigTo(QString path) {
                 struct archive_entry *entry = archive_entry_new();
 
                 // Set some metadata
-                archive_entry_set_pathname(entry, iter.key().toLatin1());
+                QByteArray tmpPath = QFile::encodeName(key);
+                archive_entry_set_pathname(entry, tmpPath.constData());
                 archive_entry_set_size(entry, config.size());
                 archive_entry_set_filetype(entry, AE_IFREG);
                 archive_entry_set_perm(entry, 0644);
 
                 // write header info
-                archive_write_header(a, entry);
+                if(archive_write_header(a, entry) != ARCHIVE_OK) {
+                    qWarning() << "Failed to write header information:" << archive_error_string(a);
+                    archive_entry_free(entry);
+                    return false;
+                }
 
                 // write config data to compressed file
-                archive_write_data(a, configtxt, config.size());
+                la_ssize_t written = archive_write_data(a, configtxt, config.size());
+
+                if(written < 0) {
+                    qWarning() << "ERROR writing data:" << archive_error_string(a);
+                    return false;
+                }
 
                 // Clean up memory
                 archive_entry_free(entry);
 
+                config.close();
+
             } else
-                qWarning() <<  QString("ERROR: Unable to read config file '%1'... Skipping!").arg(iter.value());
+                qWarning() <<  QString("ERROR: Unable to read config file '%1'... Skipping!").arg(value);
         }
-        ++iter;
+
     }
 
     // Clean up memory
@@ -363,7 +389,7 @@ bool PQCScriptsConfig::importConfigFrom(QString path) {
             int64_t size = archive_entry_size(entry);
 
             if(size <= 0) {
-                qWarning() << QString("Invalid image size of file in archive: %1").arg(size);
+                qWarning() << QString("Invalid size of file in archive: %1").arg(size);
                 archive_read_close(a);
                 archive_read_free(a);
                 continue;

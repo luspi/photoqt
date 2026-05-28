@@ -344,6 +344,9 @@ void PQCStartupHandler::exportData(QString path) {
                       << "> Cancelling request... Goodbye." << std::endl << std::endl;
             return;
         }
+
+        QFile::remove(path);
+
     }
 
     if(!path.endsWith(".pqt"))
