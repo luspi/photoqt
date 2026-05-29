@@ -32,6 +32,7 @@
 #include <QLocalServer>
 #include <QSqlError>
 #include <QSqlQuery>
+#include <QWindow>
 
 #include <pqc_commandlineparser.h>
 #include <pqc_singleinstance.h>
@@ -483,53 +484,35 @@ void PQCSingleInstance::handleMessage(const QList<Actions> msg, bool includeFile
 
 bool PQCSingleInstance::notify(QObject *obj, QEvent *e) {
 
+    // this only lets the events pass that relate to the currently active window
+    if(!qobject_cast<QWindow *>(obj))
+        return QApplication::notify(obj, e);
+
     const QEvent::Type type = e->type();
 
-    if(obj->inherits("QQuickRootItem")) {
+    switch(type) {
 
-        if(type == QEvent::KeyPress) {
-
+        case QEvent::KeyPress: {
             QKeyEvent *ev = reinterpret_cast<QKeyEvent*>(e);
             Q_EMIT PQCNotifyCPP::get().keyPress(ev->key(), ev->modifiers());
-
-        } else if(type == QEvent::KeyRelease) {
-
+            break;
+        }
+        case QEvent::KeyRelease: {
             QKeyEvent *ev = reinterpret_cast<QKeyEvent*>(e);
             Q_EMIT PQCNotifyCPP::get().keyRelease(ev->key(), ev->modifiers());
-
+            break;
         }
-    } else if(obj->inherits("QQuickPopupItem")) {
-
-        // we process modifiers only for popups (like menus)
-
-        if(type == QEvent::KeyPress) {
-
-            QKeyEvent *ev = reinterpret_cast<QKeyEvent*>(e);
-            const int key = ev->key();
-            const Qt::KeyboardModifiers mod = ev->modifiers();
-
-            if((key == Qt::Key_Shift   && mod == Qt::ShiftModifier) ||
-               (key == Qt::Key_Alt     && mod == Qt::AltModifier) ||
-               (key == Qt::Key_Control && mod == Qt::ControlModifier)) {
-
-                Q_EMIT PQCNotifyCPP::get().keyPress(key, mod);
-
-            }
-
-        } else if(type == QEvent::KeyRelease) {
-
-            QKeyEvent *ev = reinterpret_cast<QKeyEvent*>(e);
-            Q_EMIT PQCNotifyCPP::get().keyRelease(ev->key(), ev->modifiers());
-
-        }
-
-    } else if(obj->isWindowType()) {
-
-        if(type == QEvent::Leave)
+        case QEvent::Leave: {
             Q_EMIT PQCNotifyCPP::get().mouseWindowExit();
-
-        else if(type == QEvent::Enter)
+            break;
+        }
+        case QEvent::Enter: {
             Q_EMIT PQCNotifyCPP::get().mouseWindowEnter();
+            break;
+        }
+        default: {
+            break;
+        }
 
     }
 
