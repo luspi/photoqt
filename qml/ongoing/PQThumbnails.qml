@@ -266,7 +266,7 @@ Rectangle {
             id: recheckSize
             interval: 200
             onTriggered: {
-                var w = view.thumbwidths.reduce((partialSum, a) => partialSum + a, 0)
+                var w = view.thumbwidths.reduce((partialSum, a) => partialSum + a, 0) + view.numModel*PQCSettings.thumbnailsSpacing + 5
                 if(view.state === "left" || view.state === "right") {
                     if(w < thumbnails_top.height) {
                         view.height = w
