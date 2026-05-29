@@ -84,7 +84,9 @@ Loader {
         property bool videoHasAudio: false
 
         // when switching images, either one might be set to the current index, eventually (within milliseconds) both will be
-        property bool isMainImage: (PQCConstants.currentImageSource===imageSource || PQCFileFolderModel.currentFile===imageSource || imageloaderitem.thisIsStartupFile)
+        property bool isMainImage: (PQCConstants.currentImageSource===imageSource ||
+                                    PQCFileFolderModel.currentFile===imageSource ||
+                                    imageloaderitem.thisIsStartupFile)
 
         onIsMainImageChanged: setGlobalProperties()
 
@@ -322,6 +324,10 @@ Loader {
             pos.x -= image_wrapper.width/2
             pos.y -= image_wrapper.height/2
 
+            const currentScale = loader_top.imageScale
+            const defaultScale = loader_top.defaultScale
+            const dpr = devicePixelRatio
+
             var zoomfactor
 
             if(Math.abs(forceZoomFactor) > 1e-8) {
@@ -329,19 +335,15 @@ Loader {
                 zoomfactor = forceZoomFactor
 
                 if(PQCSettings.imageviewZoomMaxEnabled)
-                    zoomfactor = Math.min(loader_top.imageScale*zoomfactor, PQCSettings.imageviewZoomMax/(100*PQCConstants.devicePixelRatio))/loader_top.imageScale
+                    zoomfactor = Math.min(currentScale*zoomfactor, PQCSettings.imageviewZoomMax/(100*dpr))/currentScale
 
                 if(PQCSettings.imageviewZoomMinEnabled)
-                    zoomfactor = Math.max(loader_top.imageScale*zoomfactor, loader_top.defaultScale*PQCSettings.imageviewZoomMin/100)/loader_top.imageScale
+                    zoomfactor = Math.max(currentScale*zoomfactor, defaultScale*PQCSettings.imageviewZoomMin/100)/currentScale
 
             } else {
 
-                if(wheelDelta !== undefined) {
-                    if(wheelDelta.y > 12)
-                        wheelDelta.y = 12
-                    else if(wheelDelta.y < -12)
-                        wheelDelta.y = -12
-                }
+                if(wheelDelta !== undefined)
+                    wheelDelta.y = Math.max(-12, Math.min(12, wheelDelta.y))
 
                 // figure out zoom factor
                 var fact
@@ -357,18 +359,18 @@ Loader {
                             fact = Math.max(1.01, Math.min(1.3, 1+(PQCSettings.imageviewZoomSpeed*0.01)))
 
                         if(PQCSettings.imageviewZoomMaxEnabled)
-                            zoomfactor = Math.min(PQCSettings.imageviewZoomMax/(100*PQCConstants.devicePixelRatio), loader_top.imageScale*fact)/loader_top.imageScale
+                            zoomfactor = Math.min(PQCSettings.imageviewZoomMax/(100*dpr), currentScale*fact)/currentScale
                         else
-                            zoomfactor = Math.min(25/PQCConstants.devicePixelRatio, loader_top.imageScale*fact)/loader_top.imageScale
+                            zoomfactor = Math.min(25/dpr, currentScale*fact)/currentScale
 
                     } else {
 
-                        fact = Math.max(0.01, PQCSettings.imageviewZoomSpeed/(100*PQCConstants.devicePixelRatio))
+                        fact = Math.max(0.01, PQCSettings.imageviewZoomSpeed/(100*dpr))
 
                         if(PQCSettings.imageviewZoomMaxEnabled)
-                            zoomfactor = Math.min(PQCSettings.imageviewZoomMax/(100*PQCConstants.devicePixelRatio), loader_top.imageScale+fact)/loader_top.imageScale
+                            zoomfactor = Math.min(PQCSettings.imageviewZoomMax/(100*dpr), currentScale+fact)/currentScale
                         else
-                            zoomfactor = Math.min(25/PQCConstants.devicePixelRatio, loader_top.imageScale+fact)/loader_top.imageScale
+                            zoomfactor = Math.min(25/dpr, currentScale+fact)/currentScale
 
                     }
 
@@ -382,18 +384,18 @@ Loader {
                             fact = Math.max(1.01, Math.min(1.3, 1+PQCSettings.imageviewZoomSpeed*0.01))
 
                         if(PQCSettings.imageviewZoomMinEnabled)
-                            zoomfactor = Math.max((loader_top.defaultScale*PQCSettings.imageviewZoomMin)/100, loader_top.imageScale/fact)/loader_top.imageScale
+                            zoomfactor = Math.max((defaultScale*PQCSettings.imageviewZoomMin)/100, currentScale/fact)/currentScale
                         else
-                            zoomfactor = Math.max(0.01/PQCConstants.devicePixelRatio, loader_top.imageScale/fact)/loader_top.imageScale
+                            zoomfactor = Math.max(0.01/dpr, currentScale/fact)/currentScale
 
                     } else {
 
-                        fact = Math.max(0.01, PQCSettings.imageviewZoomSpeed/(100*PQCConstants.devicePixelRatio))
+                        fact = Math.max(0.01, PQCSettings.imageviewZoomSpeed/(100*dpr))
 
                         if(PQCSettings.imageviewZoomMinEnabled)
-                            zoomfactor = Math.max((loader_top.defaultScale*PQCSettings.imageviewZoomMin)/(100*PQCConstants.devicePixelRatio), loader_top.imageScale-fact)/loader_top.imageScale
+                            zoomfactor = Math.max((defaultScale*PQCSettings.imageviewZoomMin)/(100*dpr), currentScale-fact)/currentScale
                         else
-                            zoomfactor = Math.max(0.01/PQCConstants.devicePixelRatio, loader_top.imageScale-fact)/loader_top.imageScale
+                            zoomfactor = Math.max(0.01/dpr, currentScale-fact)/currentScale
 
                     }
 
@@ -408,25 +410,28 @@ Loader {
                 scaleAnimation.pos = pos
 
             // compute the new scaling factor
-            var newval = loader_top.imageScale*zoomfactor
+            var newval = currentScale*zoomfactor
 
             // we do some checks and for that we need the adjusted ratios
-            var oldval_adjusted = loader_top.imageScale*PQCConstants.devicePixelRatio;
-            var newval_adjusted = newval*PQCConstants.devicePixelRatio;
-            var default_adjusted = loader_top.defaultScale*PQCConstants.devicePixelRatio;
+            var oldval_adjusted = currentScale*dpr;
+            var newval_adjusted = newval*dpr;
+            var default_adjusted = defaultScale*dpr;
+
+            const SNAP_EPSILON = 0.05
+            const FLOAT_EPSILON = 0.00001
 
             // if we are either passing by 100% zoom or end up very close to it, then we 'snap into place' at 100%
             // the third condition checks if we end up close to 100% as long as we didn't start close to 100% (otherwise we might get stuck there)
             // the slightly less/more than 1 are due to possible inaccuracies in the floating point calculations when dividing by the device/pixel ratio
-            if((oldval_adjusted < 0.99999 && newval_adjusted > 1.00001) ||
-               (oldval_adjusted > 1.00001 && newval_adjusted < 0.99999) ||
-                (Math.abs(default_adjusted-oldval_adjusted) > 0.05 && Math.abs(1.0-newval_adjusted) < 0.05))
-                loader_top.imageScale = 1/PQCConstants.devicePixelRatio
+            if((oldval_adjusted < 1-FLOAT_EPSILON && newval_adjusted > 1+FLOAT_EPSILON) ||
+               (oldval_adjusted > 1+FLOAT_EPSILON && newval_adjusted < 1-FLOAT_EPSILON) ||
+                (Math.abs(default_adjusted-oldval_adjusted) > SNAP_EPSILON && Math.abs(1.0-newval_adjusted) < SNAP_EPSILON))
+                loader_top.imageScale = 1/dpr
             // this is the same checks as above but with the default scaling ratio
-            else if((oldval_adjusted < default_adjusted-0.00001 && newval_adjusted > default_adjusted+0.00001) ||
-                    (oldval_adjusted > default_adjusted+0.00001 && newval_adjusted < default_adjusted-0.00001) ||
-                    (Math.abs(default_adjusted-oldval_adjusted) > 0.05 && Math.abs(default_adjusted-newval_adjusted) < 0.05))
-                loader_top.imageScale = loader_top.defaultScale
+            else if((oldval_adjusted < default_adjusted-FLOAT_EPSILON && newval_adjusted > default_adjusted+FLOAT_EPSILON) ||
+                    (oldval_adjusted > default_adjusted+FLOAT_EPSILON && newval_adjusted < default_adjusted-FLOAT_EPSILON) ||
+                    (Math.abs(default_adjusted-oldval_adjusted) > SNAP_EPSILON && Math.abs(default_adjusted-newval_adjusted) < SNAP_EPSILON))
+                loader_top.imageScale = defaultScale
             // if either condition is not met we simply set the new scaling factor unaltered
             else
                 loader_top.imageScale = newval
@@ -600,22 +605,25 @@ Loader {
 
                     var locpos = flickable_content.mapFromItem(imageloaderitem.toplevelItem, pos.x, pos.y)
 
+                    const fw = flickable_content.width
+                    const fh = flickable_content.height
+
                     if(PQCSettings.interfaceCloseOnEmptyBackground) {
-                        if(locpos.x < 0 || locpos.y < 0 || locpos.x > flickable_content.width || locpos.y > flickable_content.height)
+                        if(locpos.x < 0 || locpos.y < 0 || locpos.x > fw || locpos.y > fh)
                             PQCNotify.windowClose()
                         return
                     }
 
                     if(PQCSettings.interfaceNavigateOnEmptyBackground) {
-                        if(locpos.x < 0 || (locpos.x < flickable_content.width/2 && (locpos.y < 0 || locpos.y > flickable_content.height)))
+                        if(locpos.x < 0 || (locpos.x < fw/2 && (locpos.y < 0 || locpos.y > fh)))
                             image_top.showPrev()
-                        else if(locpos.x > flickable_content.width || (locpos.x > flickable_content.width/2 && (locpos.y < 0 || locpos.y > flickable_content.height)))
+                        else if(locpos.x > fw || (locpos.x > fw/2 && (locpos.y < 0 || locpos.y > fh)))
                             image_top.showNext()
                         return
                     }
 
                     if(PQCSettings.interfaceWindowDecorationOnEmptyBackground) {
-                        if(locpos.x < 0 || locpos.y < 0 || locpos.x > flickable_content.width || locpos.y > flickable_content.height)
+                        if(locpos.x < 0 || locpos.y < 0 || locpos.x > fw || locpos.y > fh)
                             PQCSettings.interfaceWindowDecoration = !PQCSettings.interfaceWindowDecoration
                         return
                     }

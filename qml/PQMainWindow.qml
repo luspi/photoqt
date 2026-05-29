@@ -260,15 +260,16 @@ ApplicationWindow {
 
         PQCScriptsLocalization.updateTranslation(PQCSettings.interfaceLanguage)
 
-        if(PQCScriptsConfig.amIOnWindows() && !PQCConstants.startupStartInTray && PQCSettings.generalInterfaceVariant==="modern")
+        const fadeInWindow = (PQCScriptsConfig.amIOnWindows() && !PQCConstants.startupStartInTray && PQCSettings.generalInterfaceVariant==="modern")
+
+        if(fadeInWindow)
             toplevel.opacity = 0
 
         // show window according to settings
         // the integrated interface is always shown in window mode
         if(PQCSettings.interfaceWindowMode || isIntegrated) {
             if(PQCSettings.interfaceSaveWindowGeometry) {
-                var geo = PQCWindowGeometry.mainWindowGeometry
-                setXYWidthHeight(geo)
+                setXYWidthHeight(PQCWindowGeometry.mainWindowGeometry)
                 if(PQCConstants.startupStartInTray) {
                     PQCSettings.interfaceTrayIcon = 1
                     toplevel.hide()
@@ -315,7 +316,7 @@ ApplicationWindow {
 
         PQCNotify.reprocessStartupMessage();
 
-        if(PQCScriptsConfig.amIOnWindows() && !PQCConstants.startupStartInTray && PQCSettings.generalInterfaceVariant==="modern")
+        if(fadeInWindow)
             showOpacity.restart()
 
         if(PQCConstants.startupFilePath === "")
@@ -351,8 +352,7 @@ ApplicationWindow {
                 else
                     PQCFileFolderModel.folderFileDialog = PQCScriptsFilesPaths.getDir(PQCConstants.startupFilePath)
             }
-            if(!toplevel.visible)
-                toplevel.visible = true
+            toplevel.visible = true
             if(toplevel.visibility === Window.Minimized)
                 toplevel.visibility = (PQCConstants.windowMaxAndNotWindowed ? Window.Maximized : Window.Windowed)
             toplevel.raise()
