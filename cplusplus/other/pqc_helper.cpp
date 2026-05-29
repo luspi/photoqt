@@ -203,8 +203,8 @@ bool PQCHelper::unzipDirectory(const QString archiveFile, const QString targetDi
 #ifdef PQMLIBARCHIVE
     struct archive* a = archive_read_new();
 
-    archive_write_set_format_pax_restricted(a);
-    archive_write_add_filter_gzip(a);
+    archive_read_support_filter_all(a);
+    archive_read_support_format_all(a);
 
 #ifdef Q_OS_WIN
     int r = archive_read_open_filename_w(a, reinterpret_cast<const wchar_t*>(archiveFile.utf16()), 10240);

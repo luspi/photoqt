@@ -75,6 +75,8 @@ public:
     bool getForceShowWizard() { return m_forceShowWizard; }
     bool getForceSkipWizard() { return m_forceSkipWizard; }
 
+    static bool importConfig();
+
 protected:
     virtual bool notify(QObject *obj, QEvent *e) override;
 

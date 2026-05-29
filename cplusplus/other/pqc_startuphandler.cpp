@@ -28,6 +28,7 @@
 #include <pqc_migratesettings.h>
 #include <pqc_migrateshortcuts.h>
 #include <pqc_wizard.h>
+#include <pqc_singleinstance.h>
 #include <QtDebug>
 #include <QMessageBox>
 #include <QApplication>
@@ -389,12 +390,19 @@ void PQCStartupHandler::importData(QString path) {
 
         // use plain cout as we don't want any log/debug info prepended
         std::cout << std::endl
-                  << " > Importing configuration from " << path.toStdString() << "... " << std::flush;
+                  << "> Importing configuration from " << path.toStdString() << "... " << std::endl;
 
         if(PQCScriptsConfig::get().importConfigFrom(path))
-            std::cout << "done! Goodbye." << std::endl << std::endl;
+            std::cout << "> Backup copied to temporary location." << std::endl;
+        else {
+            std::cout << "> Failed! Goodbye." << std::endl << std::endl;
+            return;
+        }
+
+        if(PQCSingleInstance::importConfig())
+            std::cout << "> Import done. Goodbye." << std::endl << std::endl;
         else
-            std::cout << "failed! Goodbye." << std::endl << std::endl;
+            std::cout << "> IMPORT FAILED. Goodbye." << std::endl << std::endl;
 
         return;
 
