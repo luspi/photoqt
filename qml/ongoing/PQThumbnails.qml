@@ -327,6 +327,9 @@ Rectangle {
         // used for converting vertical into horizontal flick
         property int flickCounter: 0
 
+        property bool viewSizeLargerThanBarSize: ((orientation==Qt.Horizontal && view.width > thumbnails_top.width) ||
+                                                  (orientation==Qt.Vertical && view.height > thumbnails_top.height))
+
         // some highlight properties
         // these follow the currentIndex property
         highlightFollowsCurrentItem: true
@@ -337,7 +340,7 @@ Rectangle {
         preferredHighlightEnd: PQCSettings.thumbnailsCenterOnActive
                                ? ((orientation==Qt.Horizontal ? view.width : view.height)-PQCSettings.thumbnailsSize)/2+PQCSettings.thumbnailsSize
                                : ((orientation==Qt.Horizontal ? view.width : view.height)-PQCSettings.thumbnailsSize/2)
-        highlightRangeMode: PQCSettings.thumbnailsCenterOnActive ? ListView.StrictlyEnforceRange : ListView.ApplyRange
+        highlightRangeMode: PQCSettings.thumbnailsCenterOnActive && viewSizeLargerThanBarSize ? ListView.StrictlyEnforceRange : ListView.ApplyRange
 
         maximumFlickVelocity: 5000 * Math.max(1, PQCSettings.thumbnailsSize/250)
 
