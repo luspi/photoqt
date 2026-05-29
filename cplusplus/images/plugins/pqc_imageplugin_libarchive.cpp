@@ -104,15 +104,13 @@ const QSize PQCImagePluginLibarchive::loadSize(QString path) {
 
     // Read file
 #ifdef Q_OS_WIN
-    int r = archive_read_open_filename_w(a, reinterpret_cast<const wchar_t*>(archivefile.utf16()), 10240);
+    if(archive_read_open_filename_w(a, reinterpret_cast<const wchar_t*>(archivefile.utf16()), 10240) != ARCHIVE_OK) {
 #else
     QByteArray tmpPath = QFile::encodeName(archivefile);
-    int r = archive_read_open_filename(a, tmpPath.constData(), 10240);
+    if(archive_read_open_filename(a, tmpPath.constData(), 10240) != ARCHIVE_OK) {
 #endif
-
-    // If something went wrong, output error message and stop here
-    if(r != ARCHIVE_OK) {
-        qWarning() << QString("archive_read_open_filename() returned code of %1").arg(r);
+        // If something went wrong, output error message and stop here
+        qWarning() << "archive_read_open_filename() failed:" << archive_error_string(a);
         return QSize();
     }
 
@@ -196,12 +194,9 @@ const QSize PQCImagePluginLibarchive::loadSize(QString path) {
 
             QSize origSize = PQCImageHandler::get().getSize(tempFile.fileName());
 
-            r = archive_read_free(a);
-            if(r != ARCHIVE_OK)
-                qWarning() << "PQLoadImage::Archive::load(): ERROR: archive_read_free() returned code of" << r;
-
             archive_read_close(a);
             archive_read_free(a);
+
             return origSize;
         }
 
@@ -311,15 +306,13 @@ const QImage PQCImagePluginLibarchive::loadImage(QString path, QSize requestedSi
 
     // Read file
 #ifdef Q_OS_WIN
-    int r = archive_read_open_filename_w(a, reinterpret_cast<const wchar_t*>(archivefile.utf16()), 10240);
+    if(archive_read_open_filename_w(a, reinterpret_cast<const wchar_t*>(archivefile.utf16()), 10240) != ARCHIVE_OK) {
 #else
     QByteArray tmpPath = QFile::encodeName(info.absoluteFilePath());
-    int r = archive_read_open_filename(a, tmpPath.constData(), 10240);
+    if(archive_read_open_filename(a, tmpPath.constData(), 10240) != ARCHIVE_OK) {
 #endif
-
-    // If something went wrong, output error message and stop here
-    if(r != ARCHIVE_OK) {
-        const QString msg = QString("archive_read_open_filename() returned code of %1").arg(r);
+        // If something went wrong, output error message and stop here
+        const QString msg = "archive_read_open_filename() failed: " % QString(archive_error_string(a));
         error += msg % "\n";
         qWarning() << msg;
         return QImage();
@@ -417,12 +410,10 @@ const QImage PQCImagePluginLibarchive::loadImage(QString path, QSize requestedSi
     }
 
     // Close archive
-    r = archive_read_close(a);
-    if(r != ARCHIVE_OK)
-        qWarning() << "ERROR: archive_read_close() returned code of" << r;
-    r = archive_read_free(a);
-    if(r != ARCHIVE_OK)
-        qWarning() << "ERROR: archive_read_free() returned code of" << r;
+    if(archive_read_close(a) != ARCHIVE_OK)
+        qWarning() << "ERROR: archive_read_close() failed" << archive_error_string(a);
+    if(archive_read_free(a) != ARCHIVE_OK)
+        qWarning() << "ERROR: archive_read_free() failed:" << archive_error_string(a);
 
     // cache image before potentially scaling it
     if(!img.isNull()) {
