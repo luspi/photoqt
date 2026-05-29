@@ -47,16 +47,12 @@ ListView {
         cursorShape: Qt.PointingHandCursor
     }
 
-    visible: isCurrentView
-    property bool isCurrentView: PQCSettings.filedialogLayout==="list"
-
     // this pair stores the current scroll position
     // this way we can preserve that position when the content of the current directory changes
     property string cachePath: ""
     property real cacheContentY: 0.
 
     onCurrentIndexChanged: {
-        if(!isCurrentView) return
         if(view_top.currentIndex !== currentIndex)
             view_top.currentIndex = currentIndex
         if(!listview.flicking)

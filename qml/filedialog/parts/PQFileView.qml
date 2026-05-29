@@ -79,56 +79,29 @@ Item {
         id: fileview
         anchors.fill: parent
         sourceComponent: (PQCSettings.filedialogLayout === "grid" ? gridfileview : (PQCSettings.filedialogLayout === "masonry" ? masonryfileview : listfileview))
+        onStatusChanged: (status) => {
+            if(status === Loader.Ready)
+                view_top.setupNewData()
+        }
+        Component.onCompleted:
+            view_top.setupNewData()
     }
 
     Component {
-
         id: listfileview
-
-        PQFileViewList {
-
-            onIsCurrentViewChanged: {
-                if(isCurrentView)
-                    view_top.setupNewData()
-                else
-                    model = 0
-            }
-
-        }
+        PQFileViewList {}
     }
 
     Component {
-
         id: gridfileview
-
         PQFileViewGrid {
-
             ignoreMouseEvents: view_top.ignoreMouseEvents
-
-            onIsCurrentViewChanged: {
-                if(isCurrentView)
-                    view_top.setupNewData()
-                else
-                    model = 0
-            }
-
         }
     }
 
     Component {
-
         id: masonryfileview
-
-        PQFileViewMasonry {
-
-            onIsCurrentViewChanged: {
-                if(isCurrentView) {
-                    view_top.setupNewData()
-                } else
-                    model = 0
-            }
-
-        }
+        PQFileViewMasonry {}
     }
 
     MouseArea {

@@ -60,13 +60,8 @@ Flickable {
         }
     }
 
-    visible: isCurrentView
-    property bool isCurrentView: PQCSettings.filedialogLayout==="masonry"
-
     property int currentIndex: -1
     onCurrentIndexChanged: {
-        if(!isCurrentView)
-            return
         if(view_top.currentIndex !== currentIndex)
             view_top.currentIndex = currentIndex
         if(!masonryview.flicking)
