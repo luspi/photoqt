@@ -50,6 +50,16 @@ Loader {
             // increase the speed in a few steps when continued scrolling
             property int flickSpeedCounter: 1
 
+            property bool slightDelay: false
+            Timer {
+                id: resetManagerTopSlightDelay
+                interval: 100
+                onTriggered: {
+                    console.log("resetting slight-delay barrier")
+                    managertop.slightDelay = false
+                }
+            }
+
             Connections {
 
                 target: ldrtop.flickable
@@ -76,8 +86,10 @@ Loader {
             Timer {
                 id: resetLikelyTouchPad
                 interval: 1000
-                onTriggered:
+                onTriggered: {
+                    console.log("resetting likely-touchpad detector")
                     managertop.likelyTouchPad = 0
+                }
             }
 
             MouseArea {
@@ -92,10 +104,14 @@ Loader {
 
                 onWheel: (wheel) => {
 
+                    if(managertop.slightDelay)
+                        return
+
                     // ignore touchpad events
                     if(Math.abs(wheel.angleDelta.y)%60 != 0 || managertop.likelyTouchPad > 5) {
                         managertop.likelyTouchPad += 1
                         resetLikelyTouchPad.restart()
+                        console.log("ignoring touchpad event")
                         return
                     }
 
@@ -147,8 +163,14 @@ Loader {
 
                     }
 
+                    const flickVel = PQCSettings.interfaceFlickAdjustSpeedSpeedup*0.5*managertop.flickSpeedCounter*vel
+                    console.log("flicking with y velocity:",flickVel)
+
                     // flick view
-                    ldrtop.flickable.flick(0, PQCSettings.interfaceFlickAdjustSpeedSpeedup*0.5*managertop.flickSpeedCounter*vel)
+                    ldrtop.flickable.flick(0, flickVel)
+
+                    managertop.slightDelay = true
+                    resetManagerTopSlightDelay.restart()
 
                 }
 
