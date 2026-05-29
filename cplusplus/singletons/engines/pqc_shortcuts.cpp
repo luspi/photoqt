@@ -380,16 +380,21 @@ void PQCShortcuts::saveAllCurrentShortcuts(QVariantList list) {
 
 }
 
-void PQCShortcuts::closeDatabase() {
-
+void PQCShortcuts::commitDatabase() {
     qDebug() << "";
-
     if(dbIsTransaction) {
         db.commit();
         dbIsTransaction = false;
         if(db.lastError().text().trimmed().length())
             qCritical() << "ERROR committing database:" << db.lastError().text();
     }
+}
+
+void PQCShortcuts::closeDatabase() {
+
+    qDebug() << "";
+
+    commitDatabase();
 
     db.close();
 

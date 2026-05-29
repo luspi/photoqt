@@ -248,8 +248,12 @@ bool PQCScriptsConfig::exportConfigTo(QString path) {
     archive_write_add_filter_gzip(a);
 
     // open archive for writing
+#ifdef Q_OS_WIN
+    if(archive_write_open_filename_w(a, reinterpret_cast<const wchar_t*>(archiveFile.utf16())) != ARCHIVE_OK) {
+#else
     QByteArray tmpPath = QFile::encodeName(archiveFile);
     if(archive_write_open_filename(a, tmpPath.constData()) != ARCHIVE_OK) {
+#endif
         qWarning() << "Failed to open archive for writing:" << archive_error_string(a);
         archive_write_free(a);
         return false;
@@ -317,15 +321,9 @@ bool PQCScriptsConfig::exportConfigTo(QString path) {
 
 bool PQCScriptsConfig::importConfigFrom(QString path) {
 
-    /*********************************************************/
-    // NOTE: BEFORE CALLING you HAVE TO ENSURE:
-    // -> settings database is closed
-    // -> shortcuts database is closed
-    // -> image formats database is closed
-    //
-    // If called by command line, they are never opened.
-    // If called through interface, they must be closed manually!
-    /*********************************************************/
+    // this function stores the config that is to be imported in a specific location
+    // it will be actually imported the next time the application is started!
+    // however, we do validate the file
 
     qDebug() << "args: path =" << path;
 
@@ -343,14 +341,12 @@ bool PQCScriptsConfig::importConfigFrom(QString path) {
     } else
         archiveFile = path;
 
-    // All the config files to be imported
-    QHash<QString,QString> allfiles;
-    // the old settings file CAN be used by the new versions (but not the other way round)
-    allfiles["CFG_SETTINGS_DB"] = PQCConfigFiles::get().USERSETTINGS_DB();
-    allfiles["CFG_USERSETTINGS_DB"] = PQCConfigFiles::get().USERSETTINGS_DB();
-    allfiles["CFG_CONTEXTMENU_DB"] = PQCConfigFiles::get().CONTEXTMENU_DB();
-    allfiles["CFG_SHORTCUTS_DB"] = PQCConfigFiles::get().SHORTCUTS_DB();
-    allfiles["CFG_IMAGEFORMATS_DB"] = PQCConfigFiles::get().IMAGEFORMATS_DB();
+    // these are the possible files here.
+    // we also include CFG_SETTINGS_DB and CFG_IMAGEFORMATS_DB as
+    // they are old dbs that are no longer used but are valid content
+    QSet<QString> expectedFiles = {"CFG_USERSETTINGS_DB", "CFG_CONTEXTMENU_DB",
+                                   "CFG_SHORTCUTS_DB", "CFG_IMAGEPLUGINS",
+                                   "CFG_SETTINGS_DB", "CFG_IMAGEFORMATS_DB"};
 
     // Create new archive handler
     struct archive *a = archive_read_new();
@@ -382,61 +378,11 @@ bool PQCScriptsConfig::importConfigFrom(QString path) {
         const wchar_t *wpath = archive_entry_pathname_w(entry);
         if(!wpath) continue;
         QString filenameinside = QString::fromWCharArray(wpath);
-
-        if(allfiles.contains(filenameinside)) {
-
-            // Find out the size of the data
-            int64_t size = archive_entry_size(entry);
-
-            if(size <= 0) {
-                qWarning() << QString("Invalid size of file in archive: %1").arg(size);
-                archive_read_close(a);
-                archive_read_free(a);
-                continue;
-            }
-
-            // Create a buffer of that size to hold the image data
-            QByteArray data;
-            data.resize(size);
-
-            // And finally read the file into the buffer in chunks
-            char* ptr = data.data();
-            qint64 total = 0;
-            while (total < size) {
-                la_ssize_t chunk = archive_read_data(a, ptr + total, size - total);
-                if(chunk < 0) {
-                    qWarning() << QString("Invalid chunk read: %1").arg(archive_error_string(a));
-                    archive_read_close(a);
-                    archive_read_free(a);
-                    continue;
-                }
-
-                if (chunk == 0) {
-                    break;
-                }
-
-                total += chunk;
-            }
-
-            if(total != size) {
-                qWarning() << QString("Failed to read image data, read size (%1) doesn't match expected size (%2)...").arg(total).arg(size);
-                archive_read_close(a);
-                archive_read_free(a);
-                continue;
-            }
-
-            // The output file...
-            QFile file(allfiles[filenameinside]);
-            // Overwrite old content
-            if(!file.open(QIODevice::WriteOnly | QIODevice::Truncate)) {
-                qWarning() << QString("ERROR: Unable to write new config file '%1'... Skipping file!").arg(allfiles[filenameinside]);
-                continue;
-            }
-            QDataStream out(&file);   // we will serialize the data into the file
-            out.writeRawData(data, size);
-
-            file.close();
-
+        if(!expectedFiles.contains(filenameinside)) {
+            qWarning() << "Unexpected file found, likely invalid archive:" << filenameinside;
+            archive_read_close(a);
+            archive_read_free(a);
+            return false;
         }
 
     }
@@ -448,6 +394,21 @@ bool PQCScriptsConfig::importConfigFrom(QString path) {
     r = archive_read_free(a);
     if(r != ARCHIVE_OK)
         qWarning() << "ERROR: archive_read_free() returned code of" << r;
+
+    const QString newPath = PQCConfigFiles::get().CONFIG_DIR() % "/to_be_imported.pqt";
+    if(QFile::exists(newPath)) {
+        if(!QFile::remove(newPath)) {
+            qWarning() << "Unable to remove special import file, something went very wrong!";
+            return false;
+        }
+    }
+
+    if(!QFile::copy(archiveFile, newPath)) {
+        qWarning() << "Copying backup file to special import file failed! This is not good.";
+        return false;
+    }
+
+    qDebug() << "Backup file validated and copied to special location. It will be imported at the next start of PhotoQt.";
 
     return true;
 

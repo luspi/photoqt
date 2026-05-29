@@ -169,17 +169,10 @@ PQSetting {
             width: Math.min(400, set_mana.contentWidth)
             onClicked: {
 
-                PQCShortcuts.closeDatabase()
-                PQCSettings.closeDatabase()
-                // TODO
-                // PQCImageFormats.closeDatabase()
+                PQCShortcuts.commitDatabase()
+                PQCSettings.commitDatabase()
 
                 PQCScriptsConfig.exportConfigTo("")
-
-                PQCShortcuts.reopenDatabase()
-                PQCSettings.reopenDatabase()
-                // TODO
-                // PQCImageFormats.reopenDatabase()
 
             }
         },
@@ -190,14 +183,9 @@ PQSetting {
             width: Math.min(400, set_mana.contentWidth)
             onClicked: {
 
-                PQCShortcuts.closeDatabase()
-                PQCSettings.closeDatabase()
-                // TODO
-                // PQCImageFormats.closeDatabase()
-
                 if(PQCScriptsConfig.importConfigFrom("")) {
                     PQCScriptsConfig.inform(qsTranslate("settingsmanager", "Restart required"),
-                                            qsTranslate("settingsmanager", "PhotoQt will now quit as it needs to be restarted for the changes to take effect."))
+                                            qsTranslate("settingsmanager", "The backup file passed a validation check. PhotoQt needs to be restarted for the import to complete.."))
                     PQCNotify.photoQtQuit()
                 } else {
                     PQCScriptsConfig.inform(qsTranslate("settingsmanager", "Import failed"),

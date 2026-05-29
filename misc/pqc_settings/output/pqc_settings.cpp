@@ -8200,7 +8200,7 @@ void PQCSettings::setDefault() {
     setupFresh();
 
 }
-void PQCSettings::closeDatabase() {
+void PQCSettings::commitDatabase() {
 
     qDebug() << "";
 
@@ -8216,7 +8216,15 @@ void PQCSettings::closeDatabase() {
             qWarning() << "ERROR committing database:" << db.lastError().text();
     }
 
-    db.close();
+}
+
+void PQCSettings::closeDatabase() {
+
+    qDebug() << "";
+
+    commitDatabase();
+
+    QSqlDatabase::database("settings").close();
 
 }
 

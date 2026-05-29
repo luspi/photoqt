@@ -1868,6 +1868,7 @@ public:
 
     bool backupDatabase();
 
+    Q_INVOKABLE void commitDatabase();
     Q_INVOKABLE void closeDatabase();
     Q_INVOKABLE void reopenDatabase();
     Q_INVOKABLE QStringList updateFromCommandLine();

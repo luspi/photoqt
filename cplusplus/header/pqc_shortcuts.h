@@ -62,6 +62,7 @@ public:
     Q_INVOKABLE void saveDuplicateShortcutsCommandOrder(const QVariantList lst);
 
     bool backupDatabase();
+    Q_INVOKABLE void commitDatabase();
     Q_INVOKABLE void closeDatabase();
     Q_INVOKABLE void reopenDatabase();
 

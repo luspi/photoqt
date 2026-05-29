@@ -37,5 +37,6 @@ public:
     static QString extractOutsideARCFilename(QString path);
 
     static bool zipDirectory(const QString sourceDir, const QString archiveFile);
+    static bool unzipDirectory(const QString archiveFile, const QString targetDir);
 
 };

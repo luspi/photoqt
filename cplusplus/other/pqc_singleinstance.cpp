@@ -38,6 +38,12 @@
 #include <pqc_notify_cpp.h>
 #include <pqc_configfiles.h>
 #include <pqc_filefoldermodelCPP.h>
+#include <pqc_helper.h>
+
+#ifdef PQMLIBARCHIVE
+#include <archive.h>
+#include <archive_entry.h>
+#endif
 
 PQCSingleInstance::PQCSingleInstance(int &argc, char *argv[]) : QApplication(argc, argv) {
 
@@ -273,6 +279,152 @@ PQCSingleInstance::PQCSingleInstance(int &argc, char *argv[]) : QApplication(arg
         std::exit(0);
 
     } else {
+
+        /*********************************************************************/
+
+        // in this case we check and (if found) perform any import
+        const QString importFN = PQCConfigFiles::get().CONFIG_DIR() % "/to_be_imported.pqt";
+        if(QFile::exists(importFN)) {
+
+#ifdef PQMLIBARCHIVE
+            qWarning() << "Performing requested import before startup";
+
+            // All the config files to be imported
+            QHash<QString,QString> allfiles;
+            // the old settings file CAN be used by the new versions (but not the other way round)
+            allfiles["CFG_SETTINGS_DB"] = PQCConfigFiles::get().USERSETTINGS_DB();
+            allfiles["CFG_USERSETTINGS_DB"] = PQCConfigFiles::get().USERSETTINGS_DB();
+            allfiles["CFG_CONTEXTMENU_DB"] = PQCConfigFiles::get().CONTEXTMENU_DB();
+            allfiles["CFG_SHORTCUTS_DB"] = PQCConfigFiles::get().SHORTCUTS_DB();
+            allfiles["CFG_IMAGEPLUGINS"] = "";
+
+            // Create new archive handler
+            struct archive *a = archive_read_new();
+
+            // Read config file
+            archive_read_support_format_all(a);
+            archive_read_support_filter_all(a);
+
+            // Read file - if something went wrong, output error message and stop here
+#ifdef Q_OS_WIN
+            if(archive_read_open_filename_w(a, reinterpret_cast<const wchar_t*>(importFN.utf16()), 10240) != ARCHIVE_OK) {
+#else
+            QByteArray tmpPath = QFile::encodeName(importFN);
+            if(archive_read_open_filename(a, tmpPath.constData(), 10240) != ARCHIVE_OK) {
+#endif
+                qWarning() << "ERROR: archive_read_open_filename() failed:" << archive_error_string(a);
+            } else {
+
+                // Loop over entries in archive
+                struct archive_entry *entry;
+                while(archive_read_next_header(a, &entry) == ARCHIVE_OK) {
+
+                    // Read the current file entry
+                    // We use the '_w' variant here, as otherwise on Windows this call causes a segfault when a file in an archive contains non-latin characters
+                    // Also, if the archives is malformed or there is an encoding issue then it is possible that this may return a nullptr
+                    // and PhotoQt might crash if not handled properly -> check before converting to QString
+                    const wchar_t *wpath = archive_entry_pathname_w(entry);
+                    if(!wpath) continue;
+                    QString filenameinside = QString::fromWCharArray(wpath);
+
+                    if(allfiles.contains(filenameinside)) {
+
+                        // Find out the size of the data
+                        int64_t size = archive_entry_size(entry);
+
+                        if(size <= 0) {
+                            qWarning() << QString("Invalid size of file in archive: %1").arg(size);
+                            archive_read_close(a);
+                            archive_read_free(a);
+                            continue;
+                        }
+
+                        // Create a buffer of that size to hold the image data
+                        QByteArray data;
+                        data.resize(size);
+
+                        // And finally read the file into the buffer in chunks
+                        char* ptr = data.data();
+                        qint64 total = 0;
+                        while (total < size) {
+                            la_ssize_t chunk = archive_read_data(a, ptr + total, size - total);
+                            if(chunk < 0) {
+                                qWarning() << QString("Invalid chunk read: %1").arg(archive_error_string(a));
+                                archive_read_close(a);
+                                archive_read_free(a);
+                                continue;
+                            }
+
+                            if (chunk == 0) {
+                                break;
+                            }
+
+                            total += chunk;
+                        }
+
+                        if(total != size) {
+                            qWarning() << QString("Failed to read image data, read size (%1) doesn't match expected size (%2)...").arg(total).arg(size);
+                            archive_read_close(a);
+                            archive_read_free(a);
+                            continue;
+                        }
+
+                        if(filenameinside == "CFG_IMAGEPLUGINS") {
+
+                            // write to temporary file
+                            const QString ipArchive = PQCConfigFiles::get().CONFIG_DIR() % "/to_be_imported_imageplugins.pqt";
+                            QFile file(ipArchive);
+                            // overwrite old content
+                            if(!file.open(QIODevice::WriteOnly | QIODevice::Truncate)) {
+                                qWarning() << "ERROR: Unable to write temporary imageplugins archive... Skipping file!";
+                                continue;
+                            }
+                            QDataStream out(&file);   // we will serialize the data into the file
+                            out.writeRawData(data, size);
+                            file.close();
+                            file.flush();
+
+                            if(!PQCHelper::unzipDirectory(ipArchive, PQCConfigFiles::get().CONFIG_DIR() % "/imageplugins/")) {
+                                qWarning() << "Failed to import imageplugins config!";
+                            }
+
+                        } else {
+
+                            // The output file...
+                            QFile file(allfiles[filenameinside]);
+                            // Overwrite old content
+                            if(!file.open(QIODevice::WriteOnly | QIODevice::Truncate)) {
+                                qWarning() << QString("ERROR: Unable to write new config file '%1'... Skipping file!").arg(allfiles[filenameinside]);
+                                continue;
+                            }
+                            QDataStream out(&file);   // we will serialize the data into the file
+                            out.writeRawData(data, size);
+
+                            file.close();
+
+                        }
+
+                    }
+
+                }
+
+            }
+
+            // Close archive
+            if(archive_read_close(a) != ARCHIVE_OK)
+                qWarning() << "ERROR: archive_read_close() failed:" << archive_error_string(a);
+            if(archive_read_free(a) != ARCHIVE_OK)
+                qWarning() << "ERROR: archive_read_free() failed:" << archive_error_string(a);
+
+#endif
+            if(!QFile::remove(importFN)) {
+                qWarning() << "UNABLE TO REMOVE FILE TO BE IMPORTED:" << importFN;
+                qWarning() << "It will likely be imported again at each subsequent start of PhotoQt unless it is deleted.";
+            }
+
+        }
+
+        /*********************************************************************/
 
         // Create a new local server
         server = new QLocalServer();

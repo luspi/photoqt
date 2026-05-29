@@ -197,3 +197,92 @@ bool PQCHelper::zipDirectory(const QString sourceDir, const QString archiveFile)
     return false;
 
 }
+
+bool PQCHelper::unzipDirectory(const QString archiveFile, const QString targetDir) {
+
+#ifdef PQMLIBARCHIVE
+    struct archive* a = archive_read_new();
+
+    archive_write_set_format_pax_restricted(a);
+    archive_write_add_filter_gzip(a);
+
+#ifdef Q_OS_WIN
+    int r = archive_read_open_filename_w(a, reinterpret_cast<const wchar_t*>(archiveFile.utf16()), 10240);
+#else
+    QByteArray tmpPath = QFile::encodeName(archiveFile);
+    int r = archive_read_open_filename(a, tmpPath.constData(), 10240);
+#endif
+    if(r != ARCHIVE_OK) {
+        qWarning() << QString("ERROR opening archive %1:").arg(tmpPath) << archive_error_string(a);
+        archive_read_free(a);
+        return false;
+    }
+
+    QDir().mkpath(targetDir);
+
+    // prepare data structures
+    struct archive_entry *entry;
+    QByteArray buffer(65536, Qt::Uninitialized);
+
+    while(archive_read_next_header(a, &entry) == ARCHIVE_OK) {
+
+        // Read the current file entry
+        // We use the '_w' variant here, as otherwise on Windows this call causes a segfault when a file in an archive contains non-latin characters
+        // Also, if the archives is malformed or there is an encoding issue then it is possible that this may return a nullptr
+        // and PhotoQt might crash if not handled properly -> check before converting to QString
+        const wchar_t *wpath = archive_entry_pathname_w(entry);
+        if(!wpath) continue;
+        const QString filenameinside = QString::fromWCharArray(wpath);
+
+        // Find out the size of the data
+        int64_t size = archive_entry_size(entry);
+
+        // where to write it to
+        const QString outputPath = QDir(targetDir).filePath(filenameinside);
+
+        // we use a file info as the entry might be in a subfolder and thus the path might be different to targetDir
+        QFileInfo info(outputPath);
+        QDir().mkpath(info.path());
+
+        // we check if it is a directory entry, in that case we simply create the full path
+        mode_t filetype = archive_entry_filetype(entry);
+        if(filetype == AE_IFDIR) {
+            QDir().mkpath(outputPath);
+            continue;
+        }
+
+        // prepare target file (if possible)
+        QFile outFile(outputPath);
+        if(!outFile.open(QIODevice::WriteOnly)) {
+            qWarning() << "Failed to create file:" << outputPath;
+            archive_read_data_skip(a);
+            continue;
+        }
+
+        char* ptr = buffer.data();
+        qint64 total = 0;
+        while(total < size) {
+            la_ssize_t chunk = archive_read_data(a, ptr + total, size - total);
+            qint64 written = outFile.write(buffer.constData(), chunk);
+            if(written != chunk) {
+                qWarning() << "Failed writing file:" << outputPath;
+                break;
+            }
+        }
+
+        if(total < 0) {
+            qWarning() << "Error reading archive data:" << archive_error_string(a);
+        }
+
+        outFile.close();
+    }
+
+    archive_read_close(a);
+    archive_read_free(a);
+
+    return true;
+#endif
+
+    return false;
+
+}
