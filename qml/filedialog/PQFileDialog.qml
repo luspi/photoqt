@@ -313,13 +313,13 @@ PQTemplate {
 
         if(!nothingHere) {
 
-            var folder = ""
+            var folder
 
-            if(PQCFileFolderModel.loadVirtualFolderFileDialog)
+            if(PQCFileFolderModel.loadVirtualFolderFileDialog) {
 
                 folder = ":virtual:"
 
-            else {
+            } else {
 
                 // we default to showing the home folder
                 folder = PQCScriptsFilesPaths.getHomeDir()
@@ -327,8 +327,7 @@ PQTemplate {
                 // if we remember the last location, load it
                 if(PQCSettings.filedialogStartupRestorePrevious) {
 
-                    var tmp = PQCScriptsFileDialog.getLastLocation()
-                    if(tmp !== "") folder = tmp
+                    folder = PQCScriptsFileDialog.getLastLocation() || folder
 
                 } else if(PQCSettings.filedialogStartupRestoreCustom &&
                         PQCSettings.filedialogStartupRestoreCustomFolder !== "" &&
@@ -336,9 +335,10 @@ PQTemplate {
                     folder = PQCSettings.filedialogStartupRestoreCustomFolder
 
 
+                const theDir = PQCScriptsFilesPaths.getDir(PQCFileFolderModel.currentFile)
                 // if an image was loaded with PhotoQt, we make sure the file dialog opens at the right location
-                if(PQCFileFolderModel.currentFile !== "" && !PQCScriptsFilesPaths.areDirsTheSame(folder, PQCScriptsFilesPaths.getDir(PQCFileFolderModel.currentFile)))
-                    folder = PQCScriptsFilesPaths.getDir(PQCFileFolderModel.currentFile)
+                if(PQCFileFolderModel.currentFile !== "" && !PQCScriptsFilesPaths.areDirsTheSame(folder, theDir))
+                    folder = theDir
 
             }
 
@@ -352,7 +352,7 @@ PQTemplate {
 
         }
 
-        // Thge settings manager might be open
+        // The settings manager might be open
         // this happens when the type of file dialog for the integrated ui is changed there
         // in that case we don't want to show the filedialog onCompleted()
         if((dontAnimateFirstStart || nothingHere) && !PQCConstants.isModalOpen) {

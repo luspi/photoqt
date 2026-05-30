@@ -770,7 +770,7 @@ Item {
                   "fstype" : "",
                   "fssize" : 0})
 
-        for(var i = 0; i < s.length; i+=4) {
+        for(let i = 0; i < s.length; i+=4) {
 
             entries_devices.push({"index" : i+1,
                       "folder" : s[i],           // folder
@@ -798,7 +798,7 @@ Item {
                                 "theid" : "",
                                 "hidden" : "false"})
 
-        for(var i = 0; i < upl.length; i+=5) {
+        for(let i = 0; i < upl.length; i+=5) {
             entries_favorites.push({"index" : i+1,
                                     "folder" : upl[i],    // folder
                                     "path" : upl[i+1],    // path

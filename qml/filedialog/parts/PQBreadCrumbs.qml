@@ -298,7 +298,11 @@ Item {
                     property bool windows: PQCScriptsConfig.amIOnWindows()
                     property bool isNetwork: PQCScriptsFilesPaths.isOnNetwork(PQCFileFolderModel.folderFileDialog)
 
-                    property list<string> parts: !windows&&PQCFileFolderModel.folderFileDialog==="/" ? ["/"] : ((isNetwork&&windows) ? PQCFileFolderModel.folderFileDialog.substr(1).split("/") : PQCFileFolderModel.folderFileDialog.split("/"))
+                    property list<string> parts: !windows&&PQCFileFolderModel.folderFileDialog==="/" ?
+                                                     ["/"] :
+                                                     ((isNetwork&&windows) ?
+                                                          PQCFileFolderModel.folderFileDialog.substr(1).split("/") :
+                                                          PQCFileFolderModel.folderFileDialog.split("/"))
 
                     Item { width: 15; height: 1 }
                     Image {
@@ -703,15 +707,18 @@ Item {
 
         var completeWithoutFolder = false
 
-        var path = PQCScriptsFilesPaths.cleanPath(PQCScriptsFilesPaths.pathFromNativeSeparators(addressedit.text))
+        const txt = addressedit.text
+
+        var path = PQCScriptsFilesPaths.cleanPath(PQCScriptsFilesPaths.pathFromNativeSeparators(txt))
         if(PQCScriptsFilesPaths.getFilename(path) === path) {
             completeWithoutFolder = true
             path = PQCFileFolderModel.folderFileDialog + "/" + path
         }
 
         if(PQCScriptsFilesPaths.doesItExist(path)) {
-            if(addressedit.completedPath === addressedit.text)
+            if(addressedit.completedPath === txt) {
                 addressedit.completedPath = ""
+            }
             addressedit.warning = false
             return
         }
@@ -720,10 +727,11 @@ Item {
 
         if(firstmatch !== "") {
             addressedit.warning = false
-            if(completeWithoutFolder)
+            if(completeWithoutFolder) {
                 addressedit.completedPath = PQCScriptsFilesPaths.pathWithNativeSeparators(firstmatch.replace(PQCFileFolderModel.folderFileDialog+"/", ""))
-            else
+            } else {
                 addressedit.completedPath = PQCScriptsFilesPaths.pathWithNativeSeparators(firstmatch)
+            }
             return
         }
 

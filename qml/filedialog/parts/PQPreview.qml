@@ -59,26 +59,29 @@ Item {
         }
 
         function setCurrentBG() {
-            if(view_top.currentIndex === -1 || !PQCSettings.filedialogPreview || (view_top.currentIndex < PQCFileFolderModel.countFoldersFileDialog && view_top.currentFolderThumbnailIndex === -1)) {
+            if(view_top.currentIndex === -1 || !PQCSettings.filedialogPreview ||
+                (view_top.currentIndex < PQCFileFolderModel.countFoldersFileDialog && view_top.currentFolderThumbnailIndex === -1)) {
                 preview.source = ""
                 return
             }
             if(view_top.currentIndex < PQCFileFolderModel.countFoldersFileDialog) {
-                if(PQCSettings.filedialogFolderContentThumbnails)
-                    preview.source = "image://folderthumb/" + PQCFileFolderModel.entriesFileDialog[view_top.currentIndex] + ":://::" + view_top.currentFolderThumbnailIndex
-                else
+                if(PQCSettings.filedialogFolderContentThumbnails) {
+                    preview.source = "image://folderthumb/" + PQCFileFolderModel.entriesFileDialog[view_top.currentIndex] +
+                                            ":://::" + view_top.currentFolderThumbnailIndex
+                } else {
                     preview.source = ""
+                }
             } else {
-                if(PQCSettings.filedialogThumbnails)
+                if(PQCSettings.filedialogThumbnails) {
                     preview.source = "image://thumb/" + PQCFileFolderModel.entriesFileDialog[view_top.currentIndex]
-                else
+                } else {
                     preview.source = "image://icon/"+PQCScriptsFilesPaths.getCompleteSuffix(PQCFileFolderModel.entriesFileDialog[view_top.currentIndex]).toLowerCase()
+                }
             }
         }
 
     }
-    // Starting with Qt 6.4 we use the MultiEffect module to set blur and/or saturation
-    // If a version prior to 6.4 is used, then CMake will copy a fake element there
+
     PQMultiEffect {
         parent: previewtop
         source: preview

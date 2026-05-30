@@ -77,31 +77,33 @@ Item {
     // The fileview holding one of the three layouts
     Loader {
         id: fileview
+        property int fvModel: 0
         anchors.fill: parent
         sourceComponent: (PQCSettings.filedialogLayout === "grid" ? gridfileview : (PQCSettings.filedialogLayout === "masonry" ? masonryfileview : listfileview))
-        onStatusChanged: (status) => {
-            if(status === Loader.Ready)
-                view_top.setupNewData()
-        }
         Component.onCompleted:
             view_top.setupNewData()
     }
 
     Component {
         id: listfileview
-        PQFileViewList {}
+        PQFileViewList {
+            model: fileview.fvModel
+        }
     }
 
     Component {
         id: gridfileview
         PQFileViewGrid {
+            model: fileview.fvModel
             ignoreMouseEvents: view_top.ignoreMouseEvents
         }
     }
 
     Component {
         id: masonryfileview
-        PQFileViewMasonry {}
+        PQFileViewMasonry {
+            model: fileview.fvModel
+        }
     }
 
     MouseArea {
@@ -146,13 +148,13 @@ Item {
 
         onScaleChanged: (delta) => {
             if(PQCSettings.filedialogThumbnailSizeFollowsGlobalThumbnails) {
-                var newval = Math.round(PQCSettings.thumbnailsSize*delta)
+                const newval = Math.round(PQCSettings.thumbnailsSize*delta)
                 if(newval !== PQCSettings.thumbnailsSize)
                     PQCSettings.thumbnailsSize = newval
             } else {
-                var newval2 = Math.round(PQCSettings.filedialogZoom*delta)
-                if(newval2 !== PQCSettings.filedialogZoom)
-                    PQCSettings.filedialogZoom = newval2
+                const newval = Math.round(PQCSettings.filedialogZoom*delta)
+                if(newval !== PQCSettings.filedialogZoom)
+                    PQCSettings.filedialogZoom = newval
             }
         }
 
@@ -639,11 +641,6 @@ Item {
 
     function setupNewData() {
 
-        if(fileview.item === null) {
-            waitForFileviewToBeReady.restart()
-            return
-        }
-
         // register that we called this at least once
         // see comment at definition of this property for more details
         firstSetupCalled = true
@@ -690,12 +687,12 @@ Item {
         // store new folder name
         view_top.storeCurrentFolderName = PQCFileFolderModel.folderFileDialog
 
-        fileview.item.model = 0
+        fileview.fvModel = 0
 
         view_top.currentFolderExcluded = PQCScriptsFilesPaths.isExcludeDirFromCaching(PQCFileFolderModel.folderFileDialog)
         view_top.currentFolderOnNetwork = PQCScriptsFilesPaths.isOnNetwork(PQCFileFolderModel.folderFileDialog)
 
-        fileview.item.model = PQCFileFolderModel.countAllFileDialog
+        fileview.fvModel = PQCFileFolderModel.countAllFileDialog
 
         // We set the currentIndex AFTER the model was loaded so that it doesn't mess with this property
         // By default we pre-select the first entry in the list.
@@ -706,15 +703,15 @@ Item {
     }
 
     Component.onCompleted: {
-        fileview.item.model = PQCFileFolderModel.countAllFileDialog
+        fileview.fvModel = PQCFileFolderModel.countAllFileDialog
     }
 
     Connections {
         target: PQCImageHandler
         function onFormatsUpdated() {
-            fileview.item.model = 0
+            fileview.fvModel = 0
             PQCFileFolderModel.forceReloadFileDialog()
-            fileview.item.model = PQCFileFolderModel.countAllFileDialog
+            fileview.fvModel = PQCFileFolderModel.countAllFileDialog
         }
     }
 
@@ -905,7 +902,7 @@ Item {
             PQCConstants.filedialogCurrentSelection = []
             return
         }
-        PQCConstants.filedialogCurrentSelection = [...Array(fileview.item.model).keys()]
+        PQCConstants.filedialogCurrentSelection = [...Array(fileview.fvModel).keys()]
     }
 
     function copyFiles(forceSelection : bool) {
@@ -1226,7 +1223,7 @@ Item {
             var tmp = (view_top.currentIndex===-1 ? 0 : view_top.currentIndex+1)
 
             // loop over all indices
-            for(var i = tmp; i < tmp+PQCFileFolderModel.countAllFileDialog; ++i) {
+            for(let i = tmp; i < tmp+PQCFileFolderModel.countAllFileDialog; ++i) {
 
                 // we loop around to the beginning
                 var use = i%PQCFileFolderModel.countAllFileDialog
@@ -1236,7 +1233,7 @@ Item {
 
                 // check start of filename
                 var thisIsIt = true
-                for(var j = 0; j < navigateToFileStartingWith.length; ++j) {
+                for(let j = 0; j < navigateToFileStartingWith.length; ++j) {
 
                     if(j >= fname.length) {
                         thisIsIt = false

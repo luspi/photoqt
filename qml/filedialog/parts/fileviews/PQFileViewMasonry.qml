@@ -114,6 +114,7 @@ Flickable {
     property real columnWidth: width/numColumns
 
     property var listviews: ({})
+    property bool listviewsReady: false
 
     Row {
 
@@ -144,6 +145,7 @@ Flickable {
 
                     Component.onCompleted: {
                         masonryview.listviews[columndeleg.index] = mdl
+                        listviewsReady = true
                     }
 
                     delegate: viewentry
@@ -565,9 +567,19 @@ Flickable {
     property list<real> columnHeights: ({})
     property var columnIndices: ({})
 
+    Timer {
+        id: waitForListviewsReady
+        interval: 50
+        onTriggered: {
+            setupData()
+        }
+    }
+
     function setupData() {
 
-        if(!isCurrentView) return
+        if(!listviewsReady) {
+            waitForListviewsReady.restart()
+        }
 
         for(var i = 0; i < masonryview.numColumns; ++i) {
             listviews[i].clear()
@@ -575,26 +587,35 @@ Flickable {
             columnIndices[i] = []
         }
 
-        for(var j = 0; j < PQCFileFolderModel.countAllFileDialog; ++j) {
+        // first do all folders
+        for(let j = 0; j < PQCFileFolderModel.countFoldersFileDialog; ++j) {
 
-            var pth = PQCFileFolderModel.entriesFileDialog[j]
+            const pth = PQCFileFolderModel.entriesFileDialog[j]
 
-            var minCol = 0
-            for(var k = 1; k < masonryview.numColumns; ++k)
-                if(columnHeights[k] < columnHeights[minCol])
-                    minCol = k
-
+            // find shortest column
+            const minCol = columnHeights.reduce((minIdx, value, idx, arr) => value < arr[minIdx] ? idx : minIdx, 0)
             columnIndices[minCol].push(j)
 
-            if(j < PQCFileFolderModel.countFoldersFileDialog) {
-                listviews[minCol].append({"currentPath" : pth, "modelData" : j, "offsetY" : columnHeights[minCol], "itemHeight" : columnWidth})
-                columnHeights[minCol] += columnWidth
-            } else {
-                var sze = PQCImageHandler.getSize(pth)
-                var h = (sze.height * (columnWidth/sze.width))
-                listviews[minCol].append({"currentPath" : pth, "modelData" : j, "offsetY" : columnHeights[minCol], "itemHeight" : h})
-                columnHeights[minCol] += h
-            }
+            listviews[minCol].append({"currentPath" : pth, "modelData" : j, "offsetY" : columnHeights[minCol], "itemHeight" : columnWidth})
+
+            columnHeights[minCol] += columnWidth
+
+        }
+
+        // then do all the files
+        for(let k = PQCFileFolderModel.countFoldersFileDialog; k < PQCFileFolderModel.countAllFileDialog; ++k) {
+
+            const pth = PQCFileFolderModel.entriesFileDialog[k]
+
+            // find shortest column
+            const minCol = columnHeights.reduce((minIdx, value, idx, arr) => value < arr[minIdx] ? idx : minIdx, 0)
+            columnIndices[minCol].push(k)
+
+            var sze = PQCImageHandler.getSize(pth)
+            var h = (sze.height * (columnWidth/sze.width))
+            listviews[minCol].append({"currentPath" : pth, "modelData" : k, "offsetY" : columnHeights[minCol], "itemHeight" : h})
+
+            columnHeights[minCol] += h
 
         }
 
