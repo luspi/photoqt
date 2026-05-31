@@ -544,7 +544,7 @@ QString PQCScriptsColorProfiles::applyColorProfile(QString filename, QImage &img
             if(f.open(QIODevice::ReadOnly))
                 sp = QColorSpace::fromIccProfile(f.readAll());
 
-            const QString desc = _applyColorSpaceQt(img, filename, sp)
+            const QString desc = _applyColorSpaceQt(img, filename, sp);
             if(desc != "")
                 return desc;
 
