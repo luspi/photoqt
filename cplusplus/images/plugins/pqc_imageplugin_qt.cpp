@@ -126,7 +126,8 @@ PQCImagePluginQt::PQCImagePluginQt() {
                     {{"xcf"}, {"image/x-xcf"}}},
              {"X PixMap",
                     {{"xpm", "pm"}, {"image/x-xpixmap", "image/x-xpmi"}}}},
-            "qt");
+            "qt",
+            {"jpeg2000", "j2k", "jp2", "jpc", "jpx", "jpf", "j2c"}, {"image/jp2", "image/jpx", "image/jpm"});
 
     QSet<QString> writableSuffixes;
     QImageWriter writer;

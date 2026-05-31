@@ -66,7 +66,8 @@ PQCImagePluginLibVips::PQCImagePluginLibVips() {
                     {{"heif", "heic"}, {"image/heif", "image/heic"}}},
              {"Portable Float Map",
                     {{"pfm"}, {}}}},
-            "libvips");
+            "libvips",
+            {"jpeg2000", "j2k", "jp2", "jpc", "jpx"}, {"image/jp2", "image/jpx", "image/jpm"});
 
 }
 

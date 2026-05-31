@@ -310,16 +310,19 @@ PQCImagePluginMagick::PQCImagePluginMagick() {
     setData(finalData,
 #ifdef PQMIMAGEMAGICK
             "imagemagick",
-            {"eps", "epsf", "epsi", "epi", "ept", "ps", "ps2", "ps3", "bpg", "cg4", "g4"},
+            {"eps", "epsf", "epsi", "epi", "ept", "ps", "ps2", "ps3", "bpg", "cg4", "g4",
+             "jpeg2000", "j2k", "jp2", "jpc", "jpx", "jpf", "j2c"},
             {"application/postscript", "application/eps", "application/x-eps",
              "image/eps", "image/x-eps", "application/postscript", "image/x-eps",
-             "application/postscript", "image/bpg"}
+             "application/postscript", "image/bpg",
+             "image/jp2", "image/jpx", "image/jpm"}
 #else
             "graphicsmagick",
-            {"eps", "epsf", "epsi", "epi", "ept", "ps", "ps2", "ps3"},
+            {"eps", "epsf", "epsi", "epi", "ept", "ps", "ps2", "ps3",
+             "jpeg2000", "j2k", "jp2", "jpc", "jpx", "jpf", "j2c"},
             {"application/postscript", "application/eps", "application/x-eps",
              "image/eps", "image/x-eps", "application/postscript", "image/x-eps",
-             "application/postscript"}
+             "application/postscript", "image/jp2", "image/jpx", "image/jpm"}
 #endif
             );
 
