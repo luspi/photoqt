@@ -91,7 +91,7 @@ PQCCommandLineParser::PQCCommandLineParser(QApplication &app, QObject *parent) :
                    //: Command line option
         {"show-wizard", QApplication::translate("commandlineparser", "Show the startup wizard.")},
                    //: Command line option
-        {"skip-wizard", QApplication::translate("commandlineparser", "Don't show the startup wizard.")},
+        {"skip-wizard", QApplication::translate("commandlineparser", "Do not show the startup wizard.")},
                    //: Command line option
         {"install-extension", QApplication::translate("commandlineparser", "Install specified extension."),
                    "extension.pqe"},

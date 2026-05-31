@@ -209,7 +209,7 @@
          </font>
         </property>
         <property name="text">
-         <string>Any of these and many other settings can be adjusted any time from within PhotoQt's powerful settings manager.</string>
+         <string>Any of these and many other settings can be adjusted any time from the powerful settings manager within PhotoQt.</string>
         </property>
         <property name="wordWrap">
          <bool>true</bool>

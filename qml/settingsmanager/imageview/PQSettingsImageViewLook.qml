@@ -182,12 +182,12 @@ PQSetting {
             Column {
                 PQCheckBox {
                     id: interp_exceptsmall
-                    text: qsTranslate("settingsmanager", "Don't rescale small images")
+                    text: qsTranslate("settingsmanager", "Do not rescale small images")
                     onCheckedChanged: set_look.checkForChanges()
                 }
                 PQCheckBox {
                     id: interp_noupscale
-                    text: qsTranslate("settingsmanager", "Don't rescale images beyond original size")
+                    text: qsTranslate("settingsmanager", "Do not rescale images beyond original size")
                     onCheckedChanged: set_look.checkForChanges()
                 }
             }

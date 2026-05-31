@@ -99,7 +99,7 @@ PQTemplate {
                     x: (about_top.width-width)/2
                     fontWeight: PQCLook.fontWeightBold
                     text: "PhotoQt v" + PQCScriptsConfig.getVersion()
-                    //: The 'configuration' talked about here refers to the configuration at compile time, i.e., which image libraries were enabled and which versions
+                    //: The configuration talked about here refers to the configuration at compile time, i.e., which image libraries were enabled and which versions
                     onClicked: {
                         if(!configloader.active)
                             configloader.active = true

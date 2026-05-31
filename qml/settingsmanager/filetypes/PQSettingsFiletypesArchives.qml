@@ -136,7 +136,7 @@ PQSetting {
 
         PQCheckBox {
             id: archive_ignorecountcheck
-            text: qsTranslate("settingsmanager", "Don't load more than this many files:")
+            text: qsTranslate("settingsmanager", "Do not load more than this many files:")
             checked: PQCSettings.filetypesArchiveDontLoadMoreFilesThan
             onCheckedChanged: set_arc.checkForChanges()
         },

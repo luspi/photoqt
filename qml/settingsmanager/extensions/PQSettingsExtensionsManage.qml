@@ -49,7 +49,7 @@ PQSetting {
             //: A settings title
             title: qsTranslate("settingsmanager", "Available extensions")
 
-            helptext: qsTranslate("settingsmanager", "PhotoQt's capabilities can be increased with various extensions. Here you can find a list of extensions currently known to PhotoQt and you can choose which one should be enabled. Some extensions come with additional settings that can be accessed by clicking on their entry. The trust status of an unverified extension that was trusted in the past can also be revoked here.")
+            helptext: qsTranslate("settingsmanager", "The capabilities of PhotoQt can be increased with various extensions. Here you can find a list of extensions currently known to PhotoQt and you can choose which one should be enabled. Some extensions come with additional settings that can be accessed by clicking on their entry. The trust status of an unverified extension that was trusted in the past can also be revoked here.")
 
             showLineAbove: false
 
