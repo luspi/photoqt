@@ -109,6 +109,7 @@ ToolBar {
                     }
 
                     Text {
+                        visible: deleg.modelData < ftr.elements.length-1
                         text: "|"
                     }
 
