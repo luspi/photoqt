@@ -30,6 +30,8 @@ MenuItem {
     implicitWidth: 250
     implicitHeight: 30
 
+    height: visible ? implicitHeight : 0
+
     onImplicitWidthChanged: {
         if(menu !== null && implicitWidth > menu.width+10) {
             menu.implicitWidth = implicitWidth
