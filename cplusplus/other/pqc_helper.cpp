@@ -207,13 +207,13 @@ bool PQCHelper::unzipDirectory(const QString archiveFile, const QString targetDi
     archive_read_support_format_all(a);
 
 #ifdef Q_OS_WIN
-    int r = archive_read_open_filename_w(a, reinterpret_cast<const wchar_t*>(archiveFile.utf16()), 10240);
+    if(archive_read_open_filename_w(a, reinterpret_cast<const wchar_t*>(archiveFile.utf16()), 10240) != ARCHIVE_OK) {
+        qWarning() << QString("ERROR opening archive %1:").arg(archiveFile) << archive_error_string(a);
 #else
     QByteArray tmpPath = QFile::encodeName(archiveFile);
-    int r = archive_read_open_filename(a, tmpPath.constData(), 10240);
-#endif
-    if(r != ARCHIVE_OK) {
+    if(archive_read_open_filename(a, tmpPath.constData(), 10240) != ARCHIVE_OK) {
         qWarning() << QString("ERROR opening archive %1:").arg(tmpPath) << archive_error_string(a);
+#endif
         archive_read_free(a);
         return false;
     }
@@ -245,7 +245,11 @@ bool PQCHelper::unzipDirectory(const QString archiveFile, const QString targetDi
         QDir().mkpath(info.path());
 
         // we check if it is a directory entry, in that case we simply create the full path
+#ifdef Q_OS_WIN
+        ushort filetype = archive_entry_filetype(entry);
+#else
         mode_t filetype = archive_entry_filetype(entry);
+#endif
         if(filetype == AE_IFDIR) {
             QDir().mkpath(outputPath);
             continue;
