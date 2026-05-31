@@ -358,7 +358,7 @@ const QImage PQCImagePluginLibraw::loadImage(QString path, QSize requestedSize, 
         if(!img.isNull()) {
 
             PQCScriptsColorProfiles::get().applyColorProfile(path, img);
-            PQCImageCache::get().saveImageToCache(path, PQCScriptsColorProfiles::get().getColorProfileFor(path), &img);
+            PQCImageCache::get().saveImageToCache(path, PQCScriptsColorProfiles::get().getColorProfileFor(path), img);
 
             // Scale image if necessary
             if(requestedSize.isValid() && !requestedSize.isNull()) {

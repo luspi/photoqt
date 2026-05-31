@@ -277,7 +277,7 @@ const QImage PQCImagePluginQt::loadImage(QString path, QSize requestedSize, QSiz
             if(!img.isNull()) {
                 colorProfileAlreadyApplied = true;
                 PQCScriptsColorProfiles::get().applyColorProfile(path, img);
-                PQCImageCache::get().saveImageToCache(path, PQCScriptsColorProfiles::get().getColorProfileFor(path), &img);
+                PQCImageCache::get().saveImageToCache(path, PQCScriptsColorProfiles::get().getColorProfileFor(path), img);
             }
         }
 
@@ -300,7 +300,7 @@ const QImage PQCImagePluginQt::loadImage(QString path, QSize requestedSize, QSiz
                 error = "";
                 colorProfileAlreadyApplied = true;
                 PQCScriptsColorProfiles::get().applyColorProfile(path, img);
-                PQCImageCache::get().saveImageToCache(path, PQCScriptsColorProfiles::get().getColorProfileFor(path), &img);
+                PQCImageCache::get().saveImageToCache(path, PQCScriptsColorProfiles::get().getColorProfileFor(path), img);
             }
         }
 
@@ -326,7 +326,7 @@ const QImage PQCImagePluginQt::loadImage(QString path, QSize requestedSize, QSiz
             if(!img.isNull() && !imageIsScaled) {
                 colorProfileAlreadyApplied = true;
                 PQCScriptsColorProfiles::get().applyColorProfile(path, img);
-                PQCImageCache::get().saveImageToCache(path, PQCScriptsColorProfiles::get().getColorProfileFor(path), &img);
+                PQCImageCache::get().saveImageToCache(path, PQCScriptsColorProfiles::get().getColorProfileFor(path), img);
             }
         }
 

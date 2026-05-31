@@ -223,7 +223,7 @@ const QImage PQCImagePluginDevIL::loadImage(QString path, QSize requestedSize, Q
 
     if(!imageIsScaled) {
         PQCScriptsColorProfiles::get().applyColorProfile(path, img);
-        PQCImageCache::get().saveImageToCache(path, PQCScriptsColorProfiles::get().getColorProfileFor(path), &img);
+        PQCImageCache::get().saveImageToCache(path, PQCScriptsColorProfiles::get().getColorProfileFor(path), img);
     }
 
     return img;

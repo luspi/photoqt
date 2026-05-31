@@ -31,15 +31,15 @@ public:
     PQCImageCache(PQCImageCache const&)     = delete;
     void operator=(PQCImageCache const&) = delete;
 
-    QString getUniqueCacheKey(QString filename, QString profileName);
+    size_t getUniqueCacheKey(QString filename, QString profileName);
     bool getCachedImage(QString filename, QString profileName, QImage &img);
-    bool saveImageToCache(QString filename, QString profileName, QImage *img);
+    bool saveImageToCache(QString filename, QString profileName, QImage &img);
 
 private:
     PQCImageCache(QObject *parent = nullptr);
     ~PQCImageCache();
 
-    QCache<QString,QImage> *cache;
+    QCache<size_t,QImage> *cache;
     int maxcost;
 
 private Q_SLOTS:

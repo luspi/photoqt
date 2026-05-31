@@ -147,7 +147,7 @@ const QImage PQCImagePluginPDF::loadImage(QString path, QSize requestedSize, QSi
     if(!img.isNull()) {
         PQCScriptsColorProfiles::get().applyColorProfile(path, img);
         if(requestedSize.isEmpty())
-            PQCImageCache::get().saveImageToCache(path, PQCScriptsColorProfiles::get().getColorProfileFor(path), &img);
+            PQCImageCache::get().saveImageToCache(path, PQCScriptsColorProfiles::get().getColorProfileFor(path), img);
     }
 
     origSize = p->pageSize()*(quality/72.0);
@@ -200,7 +200,7 @@ const QImage PQCImagePluginPDF::loadImage(QString path, QSize requestedSize, QSi
     paint.end();
 
     if(!img.isNull() && requestedSize.isEmpty())
-        PQCImageCache::get().saveImageToCache(path, PQCScriptsColorProfiles::get().getColorProfileFor(path), &img);
+        PQCImageCache::get().saveImageToCache(path, PQCScriptsColorProfiles::get().getColorProfileFor(path), img);
 
     return img;
 

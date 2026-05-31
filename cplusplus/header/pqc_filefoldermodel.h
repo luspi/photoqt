@@ -267,8 +267,8 @@ private:
     QTimer *timerNotifyCurrentIndexChanged;
     QTimer *timerResetJustLeftViewerMode;
 
-    QStringList getAllFolders(QString folder, bool forceShowHidden = false);
-    QStringList getAllFiles(QString folder, bool ignoreFiltersExceptDefault = false, bool enforceOnlyIncludingThisFolder = false);
+    QStringList getAllFolders(const QString folder, const bool forceShowHidden = false);
+    QStringList getAllFiles(const QString folder, const bool ignoreFiltersExceptDefault = false, const bool enforceOnlyIncludingThisFolder = false);
 
     QMimeDatabase db;
 

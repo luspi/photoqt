@@ -21,7 +21,6 @@
  **************************************************************************/
 
 #include <QCache>
-#include <QCryptographicHash>
 #include <QFileInfo>
 #include <QImage>
 #include <pqc_imagecache.h>
@@ -35,7 +34,7 @@ PQCImageCache &PQCImageCache::get() {
 
 PQCImageCache::PQCImageCache(QObject *parent) : QObject(parent) {
     maxcost = PQCSettingsCPP::get().getImageviewCache();
-    cache = new QCache<QString,QImage>;
+    cache = new QCache<size_t,QImage>;
     cache->setMaxCost(maxcost);
     connect(&PQCNotifyCPP::get(), &PQCNotifyCPP::resetSessionData, this, &PQCImageCache::resetData);
 }
@@ -44,15 +43,16 @@ PQCImageCache::~PQCImageCache() {
     delete cache;
 }
 
-QString PQCImageCache::getUniqueCacheKey(QString filename, QString profileName) {
-    return QCryptographicHash::hash(QString("%1%2%3").arg(filename, profileName).arg(QFileInfo(filename).lastModified().toSecsSinceEpoch()).toUtf8(),QCryptographicHash::Md5).toHex();
+size_t PQCImageCache::getUniqueCacheKey(QString filename, QString profileName) {
+    return qHashMulti(QFileInfo(filename).lastModified().toSecsSinceEpoch(), filename, profileName);
 }
 
 bool PQCImageCache::getCachedImage(QString filename, QString profileName, QImage &img) {
 
-    const QString key = getUniqueCacheKey(filename, profileName);
-    if(cache->contains(key)) {
-        img = *cache->object(key);
+    const size_t key = getUniqueCacheKey(filename, profileName);
+    QImage *tmp = cache->object(key);
+    if(tmp != nullptr) {
+        img = *tmp;
         return true;
     }
 
@@ -60,12 +60,12 @@ bool PQCImageCache::getCachedImage(QString filename, QString profileName, QImage
 
 }
 
-bool PQCImageCache::saveImageToCache(QString filename, QString profileName, QImage *img) {
+bool PQCImageCache::saveImageToCache(QString filename, QString profileName, QImage &img) {
 
-    // we need to use a copy of the image here as otherwise img will have two owners (BAD idea!)
-    QImage *n = new QImage(*img);
-    const int s = static_cast<int>(n->sizeInBytes()/(1024.0*1024.0));
-    return cache->insert(getUniqueCacheKey(filename, profileName), n, qMin(maxcost, qMax(1,s)));
+    // 1024*1024 = 1048576
+    // removing one in the numerator ensures rounding up
+    const int s = static_cast<int>((img.sizeInBytes()+1048575)/(1048576.0));
+    return cache->insert(getUniqueCacheKey(filename, profileName), new QImage(img), qMin(maxcost, qMax(1,s)));
 
 }
 
@@ -73,6 +73,6 @@ void PQCImageCache::resetData() {
     qDebug() << "";
     cache->clear();
     delete cache;
-    cache = new QCache<QString,QImage>;
+    cache = new QCache<size_t,QImage>;
     cache->setMaxCost(maxcost);
 }

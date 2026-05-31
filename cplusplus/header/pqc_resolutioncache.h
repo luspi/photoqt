@@ -44,7 +44,7 @@ public:
 private:
     PQCResolutionCache(QObject *parent = nullptr);
 
-    QString getKey(QString filename);
-    QMap<QString,QSize> resolution;
+    size_t getKey(QString filename);
+    QMap<size_t,QSize> resolution;
 
 };

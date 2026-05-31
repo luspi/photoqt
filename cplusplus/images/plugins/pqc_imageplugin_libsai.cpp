@@ -222,7 +222,7 @@ const QImage PQCImagePluginLibsai::loadImage(QString path, QSize requestedSize, 
 
     // if successful then we cache the image
     if(!img.isNull())
-        PQCImageCache::get().saveImageToCache(path, "", &img);
+        PQCImageCache::get().saveImageToCache(path, "", img);
 
     // make sure we fit the requested size
     if(requestedSize.width() != -1) {

@@ -475,7 +475,7 @@ const QImage PQCImagePluginMagick::loadImage(QString path, QSize requestedSize, 
 
     if(!img.isNull() && !imageIsScaled) {
         PQCScriptsColorProfiles::get().applyColorProfile(path, img);
-        PQCImageCache::get().saveImageToCache(path, PQCScriptsColorProfiles::get().getColorProfileFor(path), &img);
+        PQCImageCache::get().saveImageToCache(path, PQCScriptsColorProfiles::get().getColorProfileFor(path), img);
     }
 
     // And we're done!

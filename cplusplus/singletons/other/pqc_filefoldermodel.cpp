@@ -1277,7 +1277,7 @@ void PQCFileFolderModel::loadDataFileDialog() {
 
 }
 
-QStringList PQCFileFolderModel::getAllFolders(QString folder, bool forceShowHidden) {
+QStringList PQCFileFolderModel::getAllFolders(const QString folder, const bool forceShowHidden) {
 
     qDebug() << "args: folder =" << folder;
 
@@ -1304,8 +1304,12 @@ QStringList PQCFileFolderModel::getAllFolders(QString folder, bool forceShowHidd
     else if(sortBy == "type")
         sortFlags |= QDir::Type;
 
+    const size_t cacheKey = cache.composeCacheKey(folder, false, showHidden, sortReversed, sortBy,
+                                                  m_restrictToSuffixes, m_nameFilters, m_filenameFilters, m_restrictToMimeTypes,
+                                                  m_imageResolutionFilter, m_fileSizeFilter, false);
+
     // ratings filters might not be stored in the file so we have to assume the content might have changed
-    if(m_ratingsFilter || !cache.loadFoldersFromCache(folder, showHidden, sortReversed, sortBy, m_restrictToSuffixes, m_nameFilters, m_filenameFilters, m_restrictToMimeTypes, m_imageResolutionFilter, m_fileSizeFilter, false, ret)) {
+    if(m_ratingsFilter || !cache.loadFoldersFromCache(cacheKey, ret)) {
 
         QDir dir(folder);
 
@@ -1323,8 +1327,9 @@ QStringList PQCFileFolderModel::getAllFolders(QString folder, bool forceShowHidd
             dir.setSorting(sortFlags);
 
         const QFileInfoList lst = dir.entryInfoList();
-        for(const auto &f : lst)
-            ret << f.filePath();
+        ret.reserve(lst.size());
+        for(const QFileInfo &f : lst)
+            ret.append(f.filePath());
 
         if(sortBy == "naturalname") {
             QCollator collator;
@@ -1335,14 +1340,14 @@ QStringList PQCFileFolderModel::getAllFolders(QString folder, bool forceShowHidd
             collator.setNumericMode(true);
 #endif
             if(sortReversed)
-                std::sort(ret.begin(), ret.end(), [&collator](const QString &file1, const QString &file2) { return collator.compare(file2, file1) < 0; });
+                std::sort(ret.begin(), ret.end(), [&collator](const QString &file1, const QString &file2) { return collator.compare(QFileInfo(file2).fileName(), QFileInfo(file1).fileName()) < 0; });
             else
-                std::sort(ret.begin(), ret.end(), [&collator](const QString &file1, const QString &file2) { return collator.compare(file1, file2) < 0; });
+                std::sort(ret.begin(), ret.end(), [&collator](const QString &file1, const QString &file2) { return collator.compare(QFileInfo(file1).fileName(), QFileInfo(file2).fileName()) < 0; });
         }
 
         // ratings might not be stored in the file, so don't cache this
         if(!m_ratingsFilter)
-            cache.saveFoldersToCache(folder, showHidden, sortReversed, sortBy, m_restrictToSuffixes, m_nameFilters, m_filenameFilters, m_restrictToMimeTypes, m_imageResolutionFilter, m_fileSizeFilter, false, ret);
+            cache.saveFoldersToCache(cacheKey, ret);
 
     }
 
@@ -1350,7 +1355,7 @@ QStringList PQCFileFolderModel::getAllFolders(QString folder, bool forceShowHidd
 
 }
 
-QStringList PQCFileFolderModel::getAllFiles(QString folder, bool ignoreFiltersExceptDefault, bool enforceOnlyIncludingThisFolder) {
+QStringList PQCFileFolderModel::getAllFiles(const QString folder, const bool ignoreFiltersExceptDefault, const bool enforceOnlyIncludingThisFolder) {
 
     qDebug() << "args: folder =" << folder;
     qDebug() << "args: ignoreFiltersExceptDefault =" << ignoreFiltersExceptDefault;
@@ -1407,8 +1412,13 @@ QStringList PQCFileFolderModel::getAllFiles(QString folder, bool ignoreFiltersEx
 
     for(const QString &f : std::as_const(foldersToScan)) {
 
+        const size_t cacheKey = cache.composeCacheKey(f, true, showHidden, sortReversed, sortBy,
+                                                      m_restrictToSuffixes, m_nameFilters, m_filenameFilters, m_restrictToMimeTypes,
+                                                      m_imageResolutionFilter, m_fileSizeFilter, ignoreFiltersExceptDefault,
+                                                      PQCImageHandler::get().getNumFormatsEnabled());
+
         // ratings filters might not be stored in the file so we have to assume the content might have changed
-        if(m_ratingsFilter || !cache.loadFilesFromCache(f, showHidden, sortReversed, sortBy, m_restrictToSuffixes, m_nameFilters, m_filenameFilters, m_restrictToMimeTypes, m_imageResolutionFilter, m_fileSizeFilter, ignoreFiltersExceptDefault, PQCImageHandler::get().getNumFormatsEnabled(), ret)) {
+        if(m_ratingsFilter || !cache.loadFilesFromCache(cacheKey, ret)) {
 
             QStringList ret_cur;
 
@@ -1575,7 +1585,7 @@ QStringList PQCFileFolderModel::getAllFiles(QString folder, bool ignoreFiltersEx
 
             // ratings might not be stored in the file, so don't cache this
             if(!m_ratingsFilter)
-                cache.saveFilesToCache(f, showHidden, sortReversed, sortBy, m_restrictToSuffixes, m_nameFilters, m_filenameFilters, m_restrictToMimeTypes, m_imageResolutionFilter, m_fileSizeFilter, ignoreFiltersExceptDefault, PQCImageHandler::get().getNumFormatsEnabled(), ret_cur);
+                cache.saveFilesToCache(cacheKey, ret_cur);
 
         }
 

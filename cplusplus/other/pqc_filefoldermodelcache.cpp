@@ -25,7 +25,6 @@
 #include <QTextStream>
 #include <QFileInfo>
 #include <QSize>
-#include <QCryptographicHash>
 #include <QDir>
 
 PQCFileFolderModelCache::PQCFileFolderModelCache() {
@@ -33,52 +32,50 @@ PQCFileFolderModelCache::PQCFileFolderModelCache() {
     cacheFolders.clear();
 }
 
-bool PQCFileFolderModelCache::loadFilesFromCache(QString foldername, bool showHidden, bool sortReversed, QString sortBy, QSet<QString> defaultSuffixFilters, QStringList nameFilters, QStringList filenameFileters, QSet<QString> mimeTypeFilters, QSize imageResolutionFilter, int fileSizeFilter, bool ignoreFiltersExceptDefault, int numberFormatsEnabled, QStringList &entriesFiles) {
-    const QString key = getUniqueCacheKey(getLastModified(foldername, true, false), foldername, showHidden, sortReversed, sortBy, defaultSuffixFilters, nameFilters, filenameFileters, mimeTypeFilters, imageResolutionFilter, fileSizeFilter, ignoreFiltersExceptDefault, numberFormatsEnabled);
-    if(cacheFiles.contains(key)) {
-        entriesFiles = cacheFiles.value(key);
+bool PQCFileFolderModelCache::loadFilesFromCache(const size_t &cacheKey, QStringList &entriesFiles) {
+    if(cacheFiles.contains(cacheKey)) {
+        entriesFiles = cacheFiles.value(cacheKey);
         return true;
     }
     return false;
 }
 
-bool PQCFileFolderModelCache::loadFoldersFromCache(QString foldername, bool showHidden, bool sortReversed, QString sortBy, QSet<QString> defaultSuffixFilters, QStringList nameFilters, QStringList filenameFileters, QSet<QString> mimeTypeFilters, QSize imageResolutionFilter, int fileSizeFilter, bool ignoreFiltersExceptDefault, QStringList &entriesFolders) {
-    const QString key = getUniqueCacheKey(getLastModified(foldername, false, true), foldername, showHidden, sortReversed, sortBy, defaultSuffixFilters, nameFilters, filenameFileters, mimeTypeFilters, imageResolutionFilter, fileSizeFilter, ignoreFiltersExceptDefault);
-    if(cacheFolders.contains(key)) {
-        entriesFolders = cacheFolders.value(key);
+bool PQCFileFolderModelCache::loadFoldersFromCache(const size_t &cacheKey, QStringList &entriesFolders) {
+    if(cacheFolders.contains(cacheKey)) {
+        entriesFolders = cacheFolders.value(cacheKey);
         return true;
     }
     return false;
 }
 
-void PQCFileFolderModelCache::saveFilesToCache(QString foldername, bool showHidden, bool sortReversed, QString sortBy, QSet<QString> defaultSuffixFilters, QStringList nameFilters, QStringList filenameFileters, QSet<QString> mimeTypeFilters, QSize imageResolutionFilter, int fileSizeFilter, bool ignoreFiltersExceptDefault, int numberFormatsEnabled, QStringList &entriesFiles) {
-    const QString key = getUniqueCacheKey(getLastModified(foldername, true, false), foldername, showHidden, sortReversed, sortBy, defaultSuffixFilters, nameFilters, filenameFileters, mimeTypeFilters, imageResolutionFilter, fileSizeFilter, ignoreFiltersExceptDefault, numberFormatsEnabled);
-    cacheFiles.insert(key, entriesFiles);
+void PQCFileFolderModelCache::saveFilesToCache(const size_t &cacheKey, const QStringList &entriesFiles) {
+    cacheFiles.insert(cacheKey, entriesFiles);
 }
 
-void PQCFileFolderModelCache::saveFoldersToCache(QString foldername, bool showHidden, bool sortReversed, QString sortBy, QSet<QString> defaultSuffixFilters, QStringList nameFilters, QStringList filenameFileters, QSet<QString> mimeTypeFilters, QSize imageResolutionFilter, int fileSizeFilter, bool ignoreFiltersExceptDefault, QStringList &entriesFolders) {
-    const QString key = getUniqueCacheKey(getLastModified(foldername, false, true), foldername, showHidden, sortReversed, sortBy, defaultSuffixFilters, nameFilters, filenameFileters, mimeTypeFilters, imageResolutionFilter, fileSizeFilter, ignoreFiltersExceptDefault);
-    cacheFolders.insert(key, entriesFolders);
+void PQCFileFolderModelCache::saveFoldersToCache(const size_t &cacheKey, const QStringList &entriesFolders) {
+    cacheFolders.insert(cacheKey, entriesFolders);
 }
 
-QString PQCFileFolderModelCache::getUniqueCacheKey(qint64 lastModified, QString foldername, bool showHidden, bool sortReversed, QString sortBy,
-                                                   QSet<QString> defaultSuffixFilters, QStringList nameFilters, QStringList filenameFilters, QSet<QString> mimeTypeFilters, QSize imageResolutionFilter, int fileSizeFilter,
-                                                   bool ignoreFiltersExceptDefault, int numberFormatsEnabled) {
-    QString key;
-    QTextStream(&key) << lastModified
-                      << foldername
-                      << showHidden
-                      << (sortReversed ? 1 : 0)
-                      << sortBy
-                      << nameFilters.join("")
-                      << PQCHelper::setJoin(defaultSuffixFilters, "")
-                      << filenameFilters.join("")
-                      << PQCHelper::setJoin(mimeTypeFilters, "")
-                      << imageResolutionFilter.width() << imageResolutionFilter.height()
-                      << fileSizeFilter
-                      << ignoreFiltersExceptDefault
-                      << numberFormatsEnabled;
-    return QCryptographicHash::hash(key.toUtf8(),QCryptographicHash::Md5).toHex();
+size_t PQCFileFolderModelCache::composeCacheKey(QString foldername, bool considerFiles,
+                                                 bool showHidden, bool sortReversed, QString sortBy, QSet<QString> defaultSuffixFilters,
+                                                 QStringList nameFilters, QStringList filenameFileters, QSet<QString> mimeTypeFilters,
+                                                 QSize imageResolutionFilter, int fileSizeFilter, bool ignoreFiltersExceptDefault,
+                                                 int howManyFormatsEnabled) {
+
+    return qHashMulti(getLastModified(foldername, considerFiles, !considerFiles),
+                      foldername,
+                      showHidden,
+                      sortReversed,
+                      sortBy,
+                      nameFilters,
+                      defaultSuffixFilters,
+                      nameFilters,
+                      mimeTypeFilters,
+                      imageResolutionFilter,
+                      fileSizeFilter,
+                      ignoreFiltersExceptDefault,
+                      howManyFormatsEnabled);
+
 }
 
 void PQCFileFolderModelCache::resetData() {

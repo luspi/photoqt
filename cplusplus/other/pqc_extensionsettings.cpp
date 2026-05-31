@@ -2,7 +2,6 @@
 #include <pqc_extensionshandler.h>
 #include <pqc_configfiles.h>
 #include <QFileSystemWatcher>
-#include <QCryptographicHash>
 #include <QJSValue>
 #include <QPoint>
 
