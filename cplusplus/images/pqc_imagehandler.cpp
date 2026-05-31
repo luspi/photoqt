@@ -42,7 +42,9 @@
 PQCImageHandler::PQCImageHandler() {
 
     // these crash when loaded in parallel -> protect loading these with a mutex
+#ifdef PQMJPEG2000WORKAROUNDS
     m_doNotThreadFormats = {"jpeg2000", "jp2", "jpc", "jpx", "jpf", "j2c", "mj2"};
+#endif
 
     /*******************************************************/
 
