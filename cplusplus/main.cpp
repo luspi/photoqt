@@ -63,6 +63,7 @@
 #include <pqc_startuphandler.h>
 #include <pqc_settingscpp.h>
 #include <scripts/pqc_scriptslocalization.h>
+#include <scripts/pqc_scriptsimages.h>
 
 #if defined(PQMIMAGEMAGICK) || defined(PQMGRAPHICSMAGICK)
 #include <Magick++.h>
@@ -91,6 +92,11 @@
 
 #ifdef PQMEXTENSIONS
 #include <QtCrypto>
+#endif
+
+#ifdef PQMPHOTOSPHEREQRHI
+#include <rhi/qrhi.h>
+#include <QQuickWindow>
 #endif
 
 int main(int argc, char **argv) {
@@ -321,6 +327,20 @@ int main(int argc, char **argv) {
 #endif
 
     PQCScriptsLocalization::get().setQmlEngine(&engine);
+
+#ifdef PQMPHOTOSPHEREQRHI
+    QTimer::singleShot(1000, nullptr, [&](){
+        const QList<QObject *> objects = engine.rootObjects();
+        if(!objects.length()) return;
+        auto *window = qobject_cast<QQuickWindow *>(objects.first());
+        auto *rif = window->rendererInterface();
+        QRhi *rhi = static_cast<QRhi *>(rif->getResource(window, QSGRendererInterface::RhiResource));
+        if(!rhi) return;
+        const int limit = rhi->resourceLimit(QRhi::TextureSizeMax);
+        qDebug() << "Setting maximum texture limit to" << limit;
+        PQCScriptsImages::get().setMaxTextureLimit(limit);
+    });
+#endif
 
     int currentExitCode = app.exec();
 

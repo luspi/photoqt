@@ -42,12 +42,10 @@ QImage PQCProviderSVG::requestImage(const QString &url, QSize *origSize, const Q
 
     // we don't have a debug statement here as there would be A LOT of output all the time
 
-    QImage ret;
-
 #ifdef PQMRESVG
 
     QString error = "";
-    ret = PQCImageHandler::get().getImageWithPlugin("resvg", url, requestedSize, *origSize, error);
+    QImage ret = PQCImageHandler::get().getImageWithPlugin("resvg", url, requestedSize, *origSize, error);
 
     if(!ret.isNull()) return ret;
 

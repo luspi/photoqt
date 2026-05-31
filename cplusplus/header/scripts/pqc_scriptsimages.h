@@ -34,6 +34,7 @@
 /*************************************************************/
 
 #include <QMutex>
+#include <QSize>
 class QFile;
 
 class PQCScriptsImages : public QObject {
@@ -92,6 +93,10 @@ public:
     // video methods
     QString convertSecondsToPosition(int t);
 
+    // other methods
+    void setMaxTextureLimit(int lmt) { m_maxTextureLimit = lmt; }
+    int getMaxTextureLimit() { return m_maxTextureLimit; }
+
 private:
     PQCScriptsImages();
 
@@ -106,6 +111,7 @@ private:
 
     QStringList inProcesOfLoadingTheseArchives;
 
+    int m_maxTextureLimit;
 
 Q_SIGNALS:
     void haveArchiveContentFor(QString filename, QStringList content);

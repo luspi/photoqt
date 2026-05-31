@@ -146,6 +146,12 @@ public:
         return PQCScriptsImages::get().convertSecondsToPosition(t);
     }
 
+
+    // other methods
+    Q_INVOKABLE int getMaxTextureLimit() {
+        return PQCScriptsImages::get().getMaxTextureLimit();
+    }
+
 Q_SIGNALS:
     void haveArchiveContentFor(QString filename, QStringList content);
 

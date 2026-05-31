@@ -112,6 +112,7 @@ PQCScriptsImages::PQCScriptsImages() {
 #endif
 
     devicePixelRatioCachedWhen = 0;
+    m_maxTextureLimit = 0;
 
 }
 
@@ -2088,10 +2089,15 @@ QString PQCScriptsImages::prepareSphereFile(QString path) {
 
         QImage partialImage = QImage(path);
 
-        QImage fullimage(fullW, fullH, QImage::Format_RGB32);
+        double factor = 1.0;
+        if(m_maxTextureLimit > 0 && (fullW > m_maxTextureLimit || fullH > m_maxTextureLimit))
+            factor = qMin(static_cast<double>(m_maxTextureLimit)/static_cast<double>(fullW),
+                          static_cast<double>(m_maxTextureLimit)/static_cast<double>(fullH));
+
+        QImage fullimage(factor*fullW, factor*fullH, QImage::Format_RGB32);
         fullimage.fill(Qt::transparent);
         QPainter painter(&fullimage);
-        painter.drawImage((fullW-croppedW)/2, (fullH-croppedH)/2, partialImage);
+        painter.drawImage(factor*(fullW-croppedW)/2, factor*(fullH-croppedH)/2, partialImage);
         painter.end();
 
         const QString dir = PQCConfigFiles::get().CACHE_DIR() % "/sphere";
@@ -2103,6 +2109,30 @@ QString PQCScriptsImages::prepareSphereFile(QString path) {
         }
 
         return path;
+
+#ifdef PQMPHOTOSPHEREQRHI
+    } else {
+
+        if(m_maxTextureLimit > 0 && (fullW > m_maxTextureLimit || fullH > m_maxTextureLimit)) {
+
+            qWarning() << "Image resolution exceeds maximum texture size of" << m_maxTextureLimit;
+            qWarning() << "Reducing image size to fit within limit.";
+
+            double factor = qMin(static_cast<double>(m_maxTextureLimit)/static_cast<double>(fullW),
+                                 static_cast<double>(m_maxTextureLimit)/static_cast<double>(fullH));
+
+            const QString dir = PQCConfigFiles::get().CACHE_DIR() % "/sphere";
+            if(QDir().mkpath(dir)) {
+                const QString newPath = dir % "/" % QFileInfo(path).fileName();
+                if(QFile(newPath).exists()) QFile::remove(newPath);
+                QImage img(path);
+                img.scaled(fullW*factor, fullH*factor).save(newPath);
+                return newPath;
+            }
+
+        }
+
+#endif
 
     }
 
