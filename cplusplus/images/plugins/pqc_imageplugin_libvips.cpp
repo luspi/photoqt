@@ -155,11 +155,8 @@ const QImage PQCImagePluginLibVips::loadImage(QString path, QSize requestedSize,
         PQCScriptsImages::get().applyExifOrientation(path, img);
     }
 
-    // apply color profile if any
-    PQCScriptsColorProfiles::get().applyColorProfile(path, img);
-
     // cache the image
-    PQCImageCache::get().saveImageToCache(path, PQCScriptsColorProfiles::get().getColorProfileFor(path), img);
+    PQCImageCache::get().saveImageToCache(path, PQCScriptsColorProfiles::get().applyColorProfile(path, img), img);
 
     // clean up memory
     g_object_unref(vimg);

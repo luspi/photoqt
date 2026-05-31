@@ -473,10 +473,8 @@ const QImage PQCImagePluginMagick::loadImage(QString path, QSize requestedSize, 
         PQCScriptsImages::get().applyExifOrientation(path, img);
     }
 
-    if(!img.isNull() && !imageIsScaled) {
-        PQCScriptsColorProfiles::get().applyColorProfile(path, img);
-        PQCImageCache::get().saveImageToCache(path, PQCScriptsColorProfiles::get().getColorProfileFor(path), img);
-    }
+    if(!img.isNull() && !imageIsScaled)
+        PQCImageCache::get().saveImageToCache(path, PQCScriptsColorProfiles::get().applyColorProfile(path, img), img);
 
     // And we're done!
     return img;

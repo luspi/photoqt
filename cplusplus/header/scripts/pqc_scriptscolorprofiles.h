@@ -63,7 +63,7 @@ public:
     Q_INVOKABLE bool removeImportedColorProfile(int index);
     Q_INVOKABLE QString detectVideoColorProfile(QString path);
     void loadColorProfileInfo();
-    bool applyColorProfile(QString filename, QImage &img);
+    QString applyColorProfile(QString filename, QImage &img);
 
 #ifdef PQMLCMS2
     int toLcmsFormat(QImage::Format fmt);
@@ -86,9 +86,9 @@ private:
 
     QFile *m_colorlastlocation;
 
-    bool _applyColorSpaceQt(QImage &img, QString filename, QColorSpace sp);
+    QString _applyColorSpaceQt(QImage &img, QString filename, QColorSpace sp);
 #ifdef PQMLCMS2
-    bool _applyColorSpaceLCMS2(QImage &img, QString filename, cmsHPROFILE targetProfile);
+    QString _applyColorSpaceLCMS2(QImage &img, QString filename, cmsHPROFILE targetProfile);
 #endif
 
 };

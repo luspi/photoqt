@@ -365,7 +365,7 @@ bool PQCScriptsColorProfiles::removeImportedColorProfile(int index) {
 
 }
 
-bool PQCScriptsColorProfiles::applyColorProfile(QString filename, QImage &img) {
+QString PQCScriptsColorProfiles::applyColorProfile(QString filename, QImage &img) {
 
     qDebug() << "args: filename =" << filename;
     qDebug() << "args: img";
@@ -373,8 +373,9 @@ bool PQCScriptsColorProfiles::applyColorProfile(QString filename, QImage &img) {
     // If enabled we do some color profile management now
     if(!PQCSettingsCPP::get().getImageviewColorSpaceEnable()) {
         qDebug() << "Color space handling disabled";
-        Q_EMIT PQCNotifyCPP::get().setColorProfileFor(filename, QColorSpace(QColorSpace::SRgb).description());
-        return true;
+        const QString csp = QColorSpace(QColorSpace::SRgb).description();
+        Q_EMIT PQCNotifyCPP::get().setColorProfileFor(filename, csp);
+        return csp;
     }
 
     bool manualSelectionCausedError = false;
@@ -397,12 +398,15 @@ bool PQCScriptsColorProfiles::applyColorProfile(QString filename, QImage &img) {
 
         qDebug() << "Loading integrated color profile:" << profileName;
 
-        int index = profileName.mid(2).toInt();
+        const int index = profileName.mid(2).toInt();
 
-        if(index < m_integratedColorProfiles.length() && _applyColorSpaceQt(img, filename, QColorSpace(m_integratedColorProfiles[index])))
-            return true;
-        else
-            manualSelectionCausedError = true;
+        if(index < m_integratedColorProfiles.length()) {
+            const QString desc = _applyColorSpaceQt(img, filename, QColorSpace(m_integratedColorProfiles[index]));
+            if(desc != "")
+                return desc;
+            else
+                manualSelectionCausedError = true;
+        }
 
 #ifndef PQMLCMS2
 
@@ -416,8 +420,9 @@ bool PQCScriptsColorProfiles::applyColorProfile(QString filename, QImage &img) {
         if(f.open(QIODevice::ReadOnly))
             sp = QColorSpace::fromIccProfile(f.readAll());
 
-        if(_applyColorSpaceQt(img, filename, sp))
-            return true;
+        const QString desc = _applyColorSpaceQt(img, filename, sp);
+        if(desc != "")
+            return desc;
         else
             manualSelectionCausedError = true;
 
@@ -444,10 +449,13 @@ bool PQCScriptsColorProfiles::applyColorProfile(QString filename, QImage &img) {
 
             attemptedToSetLCMS2Profile = true;
 
-            if(targetProfile && _applyColorSpaceLCMS2(img, filename, targetProfile)) {
-                m_lcms2CountFailedApplications = 0;
-                cmsCloseProfile(targetProfile);
-                return true;
+            if(targetProfile) {
+                const QString desc = _applyColorSpaceLCMS2(img, filename, targetProfile);
+                if(desc != "") {
+                    m_lcms2CountFailedApplications = 0;
+                    cmsCloseProfile(targetProfile);
+                    return desc;
+                }
             } else {
                 if(targetProfile)
                     cmsCloseProfile(targetProfile);
@@ -468,10 +476,11 @@ bool PQCScriptsColorProfiles::applyColorProfile(QString filename, QImage &img) {
 
         if(targetProfile) {
             attemptedToSetLCMS2Profile = true;
-            if(_applyColorSpaceLCMS2(img, filename, targetProfile)) {
+            const QString desc = _applyColorSpaceLCMS2(img, filename, targetProfile);
+            if(desc != "") {
                 m_lcms2CountFailedApplications = 0;
                 cmsCloseProfile(targetProfile);
-                return !manualSelectionCausedError;
+                return desc;
             }
             cmsCloseProfile(targetProfile);
         }
@@ -492,10 +501,13 @@ bool PQCScriptsColorProfiles::applyColorProfile(QString filename, QImage &img) {
 
         if(def.startsWith("::")) {
 
-            int index = def.remove(0,2).toInt();
+            const int index = def.mid(2).toInt();
 
-            if(index < m_integratedColorProfiles.length() && _applyColorSpaceQt(img, filename, QColorSpace(m_integratedColorProfiles[index])))
-                return !manualSelectionCausedError;
+            if(index < m_integratedColorProfiles.length()) {
+                const QString desc = _applyColorSpaceQt(img, filename, QColorSpace(m_integratedColorProfiles[index]));
+                if(desc != "")
+                    return desc;
+            }
 
 #ifdef PQMLCMS2
 
@@ -509,10 +521,11 @@ bool PQCScriptsColorProfiles::applyColorProfile(QString filename, QImage &img) {
 
                 if(targetProfile ) {
                     attemptedToSetLCMS2Profile = true;
-                    if(_applyColorSpaceLCMS2(img, filename, targetProfile)) {
+                    const QString desc = _applyColorSpaceLCMS2(img, filename, targetProfile);
+                    if(desc != "") {
                         m_lcms2CountFailedApplications = 0;
                         cmsCloseProfile(targetProfile);
-                        return !manualSelectionCausedError;
+                        return desc;
                     }
                     cmsCloseProfile(targetProfile);
                 }
@@ -531,8 +544,9 @@ bool PQCScriptsColorProfiles::applyColorProfile(QString filename, QImage &img) {
             if(f.open(QIODevice::ReadOnly))
                 sp = QColorSpace::fromIccProfile(f.readAll());
 
-            if(_applyColorSpaceQt(img, filename, sp))
-                return !manualSelectionCausedError;
+            const QString desc = _applyColorSpaceQt(img, filename, sp)
+            if(desc != "")
+                return desc;
 
 #endif
 
@@ -558,31 +572,32 @@ bool PQCScriptsColorProfiles::applyColorProfile(QString filename, QImage &img) {
     }
 
     // no profile (successfully) applied, set default name
-    Q_EMIT PQCNotifyCPP::get().setColorProfileFor(filename, QColorSpace(QColorSpace::SRgb).description());
+    const QString desc = QColorSpace(QColorSpace::SRgb).description();
+    Q_EMIT PQCNotifyCPP::get().setColorProfileFor(filename, desc);
     qDebug() << "Using default color profile";
-    return !manualSelectionCausedError;
+    return desc;
 
 }
 
-bool PQCScriptsColorProfiles::_applyColorSpaceQt(QImage &img, QString filename, QColorSpace sp) {
+QString PQCScriptsColorProfiles::_applyColorSpaceQt(QImage &img, QString filename, QColorSpace sp) {
 
     QImage ret;
     ret = img.convertedToColorSpace(sp);
     if(ret.isNull()) {
         qWarning() << "Integrated color profile could not be applied.";
-        return false;
+        return "";
     } else {
         const QString desc = sp.description();
         qDebug() << "Applying integrated color profile:" << desc;
         Q_EMIT PQCNotifyCPP::get().setColorProfileFor(filename, desc);
         img = ret;
-        return true;
+        return desc;
     }
 
 }
 
 #ifdef PQMLCMS2
-bool PQCScriptsColorProfiles::_applyColorSpaceLCMS2(QImage &img, QString filename, cmsHPROFILE targetProfile) {
+QString PQCScriptsColorProfiles::_applyColorSpaceLCMS2(QImage &img, QString filename, cmsHPROFILE targetProfile) {
 
     int lcms2SourceFormat = toLcmsFormat(img.format());
 
@@ -598,11 +613,11 @@ bool PQCScriptsColorProfiles::_applyColorSpaceLCMS2(QImage &img, QString filenam
         lcms2targetFormat = lcms2SourceFormat;
         if(img.isNull()) {
             qWarning() << "Error converting image to ARGB32. Not applying color profile.";
-            return false;
+            return "";
         }
         if(lcms2targetFormat == 0) {
             qWarning() << "Unable to 'fix' image format. Not applying color profile.";
-            return false;
+            return "";
         }
     }
 
@@ -611,7 +626,7 @@ bool PQCScriptsColorProfiles::_applyColorSpaceLCMS2(QImage &img, QString filenam
     if (!transform) {
         // Handle error, maybe close profile and return original image or null image
         qWarning() << "Error creating transform for external color profile";
-        return false;
+        return "";
     } else {
 
         // since the target format might not support alpha channels we use black instead of transparent to fill the initial image.
@@ -625,7 +640,7 @@ bool PQCScriptsColorProfiles::_applyColorSpaceLCMS2(QImage &img, QString filenam
         // transform failed returning null image
         if(ret.isNull()) {
             qWarning() << "Failed to apply external color profile, null image returned";
-            return false;
+            return "";
         }
 
         // check if image is all black -> transform failed
@@ -644,7 +659,7 @@ bool PQCScriptsColorProfiles::_applyColorSpaceLCMS2(QImage &img, QString filenam
 
         if(allblack) {
             qWarning() << "Failed to apply external color profile, image completely black";
-            return false;
+            return "";
         }
 
         const int bufSize = 256;
@@ -669,7 +684,7 @@ bool PQCScriptsColorProfiles::_applyColorSpaceLCMS2(QImage &img, QString filenam
 
         img = ret;
 
-        return true;
+        return buf;
 
     }
 }

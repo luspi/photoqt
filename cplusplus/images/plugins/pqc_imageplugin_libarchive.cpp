@@ -269,10 +269,8 @@ const QImage PQCImagePluginLibarchive::loadImage(QString path, QSize requestedSi
                 dir.removeRecursively();
 
                 // cache image before potentially scaling it
-                if(!img.isNull()) {
-                    PQCScriptsColorProfiles::get().applyColorProfile(path, img);
-                    PQCImageCache::get().saveImageToCache(path, PQCScriptsColorProfiles::get().getColorProfileFor(path), img);
-                }
+                if(!img.isNull())
+                    PQCImageCache::get().saveImageToCache(path, PQCScriptsColorProfiles::get().applyColorProfile(path, img), img);
 
                 // Scale image if necessary
                 if(!requestedSize.isEmpty()) {
@@ -423,8 +421,8 @@ const QImage PQCImagePluginLibarchive::loadImage(QString path, QSize requestedSi
             PQCScriptsImages::get().applyExifOrientation(path, img);
         }
 
-        PQCScriptsColorProfiles::get().applyColorProfile(path, img);
-        PQCImageCache::get().saveImageToCache(path, PQCScriptsColorProfiles::get().getColorProfileFor(path), img);
+        PQCImageCache::get().saveImageToCache(path, PQCScriptsColorProfiles::get().applyColorProfile(path, img), img);
+
     }
 
     // Scale image if necessary
