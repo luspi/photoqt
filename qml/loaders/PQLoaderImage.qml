@@ -28,8 +28,5 @@ Loader {
     id: imageloader
     asynchronous: true
     active: false
-    property Item toplevelItem
-    sourceComponent: PQImage {
-        toplevelItem: imageloader.toplevelItem
-    }
+    sourceComponent: PQImage { }
 }

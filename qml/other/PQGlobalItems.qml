@@ -19,13 +19,14 @@
  ** along with PhotoQt. If not, see <http://www.gnu.org/licenses/>.      **
  **                                                                      **
  **************************************************************************/
-pragma ComponentBehavior: Bound
+pragma Singleton
 
 import QtQuick
-import PhotoQt
+import QtQuick.Controls
 
-Loader {
-    // the thumbnails loader can be asynchronous as it is always integrated and never popped out
-    asynchronous: true
-    sourceComponent: PQThumbnails { parent: PQGlobalItems.toplevelItem.parent }
+QtObject {
+
+    property ApplicationWindow rootWindow
+    property Item toplevelItem
+
 }

@@ -419,7 +419,7 @@ else()
 endif()
 
 # Any additional sources are added to the full list.
-SET(photoqt_QML ${photoqt_QML} ${photoqt_QML_ADDITIONAL})
+SET(photoqt_QML ${photoqt_QML} ${photoqt_QML_ADDITIONAL} ${photoqt_QML_SINGLETONS})
 
 #################################
 #### EXTENSIONS KEY HANDLING ####
@@ -640,6 +640,9 @@ endif()
 if(QT_KNOWN_POLICY_QTP0004)
     qt_policy(SET QTP0004 "OLD")
 endif()
+
+# we need to mark the singletons BEFORE adding the qml module
+set_source_files_properties(${photoqt_QML_SINGLETONS} PROPERTIES QT_QML_SINGLETON_TYPE TRUE)
 
 # add qml files
 qt_add_qml_module(photoqt URI PhotoQt VERSION 1.0 QML_FILES ${photoqt_QML})

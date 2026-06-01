@@ -36,8 +36,6 @@ Loader {
 
     property bool thisIsStartupFile: false
 
-    property Item toplevelItem
-
     signal iAmReady()
 
     onImageSourceChanged: {
@@ -607,7 +605,7 @@ Loader {
                     if(!loader_top.isMainImage)
                         return
 
-                    var locpos = flickable_content.mapFromItem(imageloaderitem.toplevelItem, pos.x, pos.y)
+                    var locpos = flickable_content.mapFromItem(PQGlobalItems.toplevelItem, pos.x, pos.y)
 
                     const fw = flickable_content.width
                     const fh = flickable_content.height
@@ -1577,7 +1575,7 @@ Loader {
                     }
 
                     Connections {
-                        target: imageloaderitem.toplevelItem
+                        target: PQGlobalItems.toplevelItem
 
                         function onWidthChanged() {
 
@@ -2049,17 +2047,17 @@ Loader {
             onPositionChanged: (mouse) => {
                 cursorShape = Qt.ArrowCursor
                 hidecursor.restart()
-                var pos = imagemouse.mapToItem(imageloaderitem.toplevelItem, mouse.x, mouse.y)
+                var pos = imagemouse.mapToItem(PQGlobalItems.toplevelItem, mouse.x, mouse.y)
                 PQCNotify.mouseMove(pos.x, pos.y)
             }
             onWheel: (wheel) => {
                 wheel.accepted = !PQCSettings.imageviewUseMouseWheelForImageMove
-                var pos = imagemouse.mapToItem(imageloaderitem.toplevelItem, wheel.x, wheel.y)
+                var pos = imagemouse.mapToItem(PQGlobalItems.toplevelItem, wheel.x, wheel.y)
                 PQCNotify.mouseWheel(pos, wheel.angleDelta, wheel.modifiers)
             }
             onPressed: (mouse) => {
 
-                var locpos = flickable_content.mapFromItem(imageloaderitem.toplevelItem, mouse.x, mouse.y)
+                var locpos = flickable_content.mapFromItem(PQGlobalItems.toplevelItem, mouse.x, mouse.y)
 
                 if(PQCSettings.interfaceCloseOnEmptyBackground &&
                       (locpos.x < flickable_content.x ||
@@ -2105,11 +2103,11 @@ Loader {
                     mouse.accepted = false
                     return
                 }
-                var pos = imagemouse.mapToItem(imageloaderitem.toplevelItem, mouse.x, mouse.y)
+                var pos = imagemouse.mapToItem(PQGlobalItems.toplevelItem, mouse.x, mouse.y)
                 PQCNotify.mousePressed(mouse.modifiers, mouse.button, pos)
             }
             onMouseDoubleClicked: (mouse) => {
-                var pos = imagemouse.mapToItem(imageloaderitem.toplevelItem, mouse.x, mouse.y)
+                var pos = imagemouse.mapToItem(PQGlobalItems.toplevelItem, mouse.x, mouse.y)
                 PQCNotify.mouseDoubleClicked(mouse.modifiers, mouse.button, pos)
             }
 
@@ -2117,7 +2115,7 @@ Loader {
                 if(mouse.button === Qt.LeftButton && loader_top.listenToClicksOnImage)
                     loader_top.imageClicked()
                 else {
-                    var pos = imagemouse.mapToItem(imageloaderitem.toplevelItem, mouse.x, mouse.y)
+                    var pos = imagemouse.mapToItem(PQGlobalItems.toplevelItem, mouse.x, mouse.y)
                     PQCNotify.mouseReleased(mouse.modifiers, mouse.button, pos)
                 }
             }

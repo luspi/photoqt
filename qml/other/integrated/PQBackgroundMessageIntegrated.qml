@@ -143,7 +143,7 @@ Item {
         property point touchPos: Qt.point(-1,-1)
 
         onPositionChanged: (mouse) => {
-            var pos = imagemouse.mapToItem(fullscreenitem, mouse.x, mouse.y)
+            var pos = imagemouse.mapToItem(PQGlobalItems.toplevelItem, mouse.x, mouse.y)
             if(Math.abs(pos.x - touchPos.x) > 20 || Math.abs(pos.y - touchPos.y) > 20)
                 holdTrigger = false
             PQCNotify.mouseMove(pos.x, pos.y)
@@ -154,12 +154,12 @@ Item {
         }
         onPressed: (mouse) => {
             holdTrigger = false
-            var pos = imagemouse.mapToItem(fullscreenitem, mouse.x, mouse.y)
+            var pos = imagemouse.mapToItem(PQGlobalItems.toplevelItem, mouse.x, mouse.y)
             touchPos = pos
             PQCNotify.mousePressed(mouse.modifiers, mouse.button, pos)
         }
         onMouseDoubleClicked: (mouse) => {
-            var pos = imagemouse.mapToItem(fullscreenitem, mouse.x, mouse.y)
+            var pos = imagemouse.mapToItem(PQGlobalItems.toplevelItem, mouse.x, mouse.y)
             PQCNotify.mouseDoubleClicked(mouse.modifiers, mouse.button, pos)
         }
         onReleased: (mouse) => {
@@ -177,13 +177,13 @@ Item {
             if(mouse.button === Qt.LeftButton)
                 PQCScriptsShortcuts.executeInternalCommand("__open")
             else {
-                var pos = imagemouse.mapToItem(fullscreenitem, mouse.x, mouse.y)
+                var pos = imagemouse.mapToItem(PQGlobalItems.toplevelItem, mouse.x, mouse.y)
                 PQCNotify.mouseReleased(mouse.modifiers, mouse.button, pos)
             }
         }
         onPressAndHold: (mouse) => {
             holdTrigger = true
-            var pos = imagemouse.mapToItem(fullscreenitem, mouse.x, mouse.y)
+            var pos = imagemouse.mapToItem(PQGlobalItems.toplevelItem, mouse.x, mouse.y)
             if(Math.abs(pos.x - touchPos.x) < 20 && Math.abs(pos.y - touchPos.y) < 20)
                 PQCScriptsShortcuts.executeInternalCommandWithMousePos("__contextMenuTouch", pos)
         }

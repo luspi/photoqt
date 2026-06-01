@@ -212,13 +212,13 @@ Item {
 
                             function onMouseMove(x : int, y : int) {
 
-                                var local = copycont.mapFromItem(fullscreenitem, Qt.point(x,y))
+                                var local = copycont.mapFromItem(PQGlobalItems.toplevelItem, Qt.point(x,y))
                                 copycont.hovered = (local.x > 0 && local.y > 0 && local.x < copycont.width && local.y < copycont.height)
 
-                                local = linkcont.mapFromItem(fullscreenitem, Qt.point(x,y))
+                                local = linkcont.mapFromItem(PQGlobalItems.toplevelItem, Qt.point(x,y))
                                 linkcont.hovered = (local.x > 0 && local.y > 0 && local.x < linkcont.width && local.y < linkcont.height)
 
-                                local = bardeleg.mapFromItem(fullscreenitem, Qt.point(x,y))
+                                local = bardeleg.mapFromItem(PQGlobalItems.toplevelItem, Qt.point(x,y))
                                 bardeleg.hovered = (local.x > 0 && local.y > 0 && local.x < bardeleg.width && local.y < bardeleg.height)
 
                                 if(copycont.hovered || linkcont.hovered || bardeleg.hovered) {

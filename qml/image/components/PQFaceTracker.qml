@@ -134,7 +134,7 @@ Loader {
 
                     function onMouseMove(x : int, y : int) {
 
-                        var pos = image_wrapper.mapFromItem(fullscreenitem, Qt.point(x,y))
+                        var pos = image_wrapper.mapFromItem(PQGlobalItems.toplevelItem, Qt.point(x,y))
 
                         facedeleg.hovered = false
 

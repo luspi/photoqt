@@ -66,11 +66,11 @@ Item {
                 bgimage.fillMode = Image.Pad
             else
                 bgimage.fillMode = Image.Tile
-            toplevel.color = PQCSettings.interfaceBackgroundCustomOverlay ? PQCSettings.interfaceBackgroundCustomOverlayColor : palette.base
+            PQGlobalItems.rootWindow.color = PQCSettings.interfaceBackgroundCustomOverlay ? PQCSettings.interfaceBackgroundCustomOverlayColor : palette.base
             overlay.color = PQCSettings.interfaceBackgroundCustomOverlay ? PQCSettings.interfaceBackgroundCustomOverlayColor : palette.base
             overlay.opacity = 0.8
         } else if(PQCSettings.interfaceBackgroundImageScreenshot && PQCConstants.startupHaveScreenshots) {
-            var sc = PQCScriptsOther.getCurrentScreen(fullscreenitem.mapToGlobal(toplevel.x+toplevel.width/2, toplevel.y+toplevel.height/2))
+            var sc = PQCScriptsOther.getCurrentScreen(PQGlobalItems.toplevelItem.mapToGlobal(PQGlobalItems.rootWindow.x+PQGlobalItems.rootWindow.width/2, PQGlobalItems.rootWindow.y+PQGlobalItems.rootWindow.height/2))
             bgimage.source = "image://full/" + PQCScriptsFilesPaths.getApplicationCacheDir() + "/screenshots/" + sc + ".jpg"
             bgimage.fillMode = Image.PreserveAspectCrop
             overlay.color = PQCSettings.interfaceBackgroundCustomOverlay ? PQCSettings.interfaceBackgroundCustomOverlayColor : palette.base
@@ -79,14 +79,14 @@ Item {
             console.warn("Window background set to full transparency!")
             bgimage.source = ""
             overlay.opacity = 0
-            toplevel.color = "transparent"
+            PQGlobalItems.rootWindow.color = "transparent"
         } else {
             if(PQCSettings.interfaceBackgroundImageScreenshot && !PQCConstants.startupHaveScreenshots)
                 console.warn("Error: The screenshots could not be taken. Falling back to real transparency for the background.")
             bgimage.source = ""
             overlay.color = PQCSettings.interfaceBackgroundCustomOverlay ? PQCSettings.interfaceBackgroundCustomOverlayColor : palette.base
             overlay.opacity = 0.8
-            toplevel.color = "transparent"
+            PQGlobalItems.rootWindow.color = "transparent"
         }
     }
 

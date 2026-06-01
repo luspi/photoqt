@@ -56,7 +56,7 @@ Rectangle {
         onClicked: (mouse) => { mouse.accepted = true }
         onWheel: (wheel) => { wheel.accepted = true }
         onPositionChanged: (mouse) => {
-            var pos = mapToItem(fullscreenitem, mouse.x, mouse.y)
+            var pos = mapToItem(PQGlobalItems.toplevelItem, mouse.x, mouse.y)
             PQCNotify.mouseMove(pos.x, pos.y)
         }
     }

@@ -132,12 +132,12 @@ Loader {
                     enabled: !newmarker.visible && PQCConstants.faceTaggingMode
 
                     function onMouseMove(x : int, y : int) {
-                        var pos = facedeleg.mapFromItem(fullscreenitem, Qt.point(x,y))
+                        var pos = facedeleg.mapFromItem(PQGlobalItems.toplevelItem, Qt.point(x,y))
                         facedeleg.hovered = (pos.x >= 0 && pos.x <= facedeleg.width && pos.y >= 0 && pos.y <= facedeleg.height)
                     }
 
                     function onMouseReleased(modifiers : int, button : int, pos : point) {
-                        pos = facedeleg.mapFromItem(fullscreenitem, pos)
+                        pos = facedeleg.mapFromItem(PQGlobalItems.toplevelItem, pos)
                         if(Math.abs(facedeleg.mousePressed.x - pos.x) < facetagger_top.threshold && Math.abs(facedeleg.mousePressed.y-pos.y) < facetagger_top.threshold) {
                             if(facedeleg.hovered) {
                                 facetagger_top.deleteFaceTag(facedeleg.curdata[0])
@@ -146,7 +146,7 @@ Loader {
                     }
 
                     function onMousePressed(modifiers : int, button : int, pos : point) {
-                        facedeleg.mousePressed = facedeleg.mapFromItem(fullscreenitem, pos)
+                        facedeleg.mousePressed = facedeleg.mapFromItem(PQGlobalItems.toplevelItem, pos)
                     }
 
                 }
@@ -325,7 +325,7 @@ Loader {
 
             function onMouseMove(x : int, y : int) {
                 if(!facetagger_top.mouseDown) return
-                var pos = facetagger_top.mapFromItem(fullscreenitem, Qt.point(x,y))
+                var pos = facetagger_top.mapFromItem(PQGlobalItems.toplevelItem, Qt.point(x,y))
                 if(Math.abs(facetagger_top.mousePressed.x - pos.x) >= facetagger_top.threshold || Math.abs(facetagger_top.mousePressed.y-pos.y) >= facetagger_top.threshold) {
                     newmarker.newX = facetagger_top.mousePressed.x
                     newmarker.newY = facetagger_top.mousePressed.y
@@ -338,7 +338,7 @@ Loader {
             }
 
             function onMouseReleased(modifiers : int, button : int, pos : point) {
-                pos = facetagger_top.mapFromItem(fullscreenitem, pos)
+                pos = facetagger_top.mapFromItem(PQGlobalItems.toplevelItem, pos)
                 if(Math.abs(facetagger_top.mousePressed.x - pos.x) >= facetagger_top.threshold || Math.abs(facetagger_top.mousePressed.y-pos.y) >= facetagger_top.threshold) {
                     whoisthis.show()
                 } else {
@@ -349,7 +349,7 @@ Loader {
 
             function onMousePressed(modifiers : int, button : int, pos : point) {
                 facetagger_top.mouseDown = true
-                facetagger_top.mousePressed = facetagger_top.mapFromItem(fullscreenitem, pos)
+                facetagger_top.mousePressed = facetagger_top.mapFromItem(PQGlobalItems.toplevelItem, pos)
             }
 
             function onStopFaceTagging() {

@@ -43,8 +43,6 @@ Item {
     property bool integratedInterface: PQCSettings.generalInterfaceVariant==="integrated"
     property int integratedXOffset: ((integratedInterface&&PQCSettings.metadataSideBar&&PQCSettings.metadataSideBarLocation==="left") ? PQCSettings.metadataSideBarWidth : 0)
 
-    property Item toplevelItem
-
     // this mouse area will catch mouse movements AFTER a file has been selected and BEFORE it is loaded
     // that time gap can be long, e.g., for very large archives with very many files
     PQMouseArea {
@@ -58,7 +56,7 @@ Item {
         property bool holdTrigger: false
         property point touchPos: Qt.point(-1,-1)
         onPositionChanged: (mouse) => {
-            var pos = mapToItem(fullscreenitem, mouse.x, mouse.y)
+            var pos = mapToItem(PQGlobalItems.toplevelItem, mouse.x, mouse.y)
             PQCNotify.mouseMove(pos.x, pos.y)
         }
         onWheel: (wheel) => {
@@ -67,12 +65,12 @@ Item {
         }
         onPressed: (mouse) => {
             holdTrigger = false
-            var pos = mapToItem(fullscreenitem, mouse.x, mouse.y)
+            var pos = mapToItem(PQGlobalItems.toplevelItem, mouse.x, mouse.y)
             touchPos = pos
             PQCNotify.mousePressed(mouse.modifiers, mouse.button, pos)
         }
         onMouseDoubleClicked: (mouse) => {
-            var pos = mapToItem(fullscreenitem, mouse.x, mouse.y)
+            var pos = mapToItem(PQGlobalItems.toplevelItem, mouse.x, mouse.y)
             PQCNotify.mouseDoubleClicked(mouse.modifiers, mouse.button, pos)
         }
         onReleased: (mouse) => {
@@ -90,13 +88,13 @@ Item {
             if(mouse.button === Qt.LeftButton)
                 PQCNotify.loaderShow("FileDialog")
             else {
-                var pos = mapToItem(fullscreenitem, mouse.x, mouse.y)
+                var pos = mapToItem(PQGlobalItems.toplevelItem, mouse.x, mouse.y)
                 PQCNotify.mouseReleased(mouse.modifiers, mouse.button, pos)
             }
         }
         onPressAndHold: (mouse) => {
             holdTrigger = true
-            var pos = mapToItem(fullscreenitem, mouse.x, mouse.y)
+            var pos = mapToItem(PQGlobalItems.toplevelItem, mouse.x, mouse.y)
             if(Math.abs(pos.x - touchPos.x) < 20 && Math.abs(pos.y - touchPos.y) < 20)
                 PQCScriptsShortcuts.executeInternalCommandWithMousePos("__contextMenuTouch", pos)
         }
@@ -156,8 +154,6 @@ Item {
             PQImageDisplay {
 
                 required property int modelData
-
-                toplevelItem: image_top.toplevelItem
 
                 onActiveChanged: {
                     repeaterimage.allactive[modelData] = active

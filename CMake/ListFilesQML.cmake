@@ -251,6 +251,8 @@ SET(photoqt_QML qml/PQMainWindow.qml
                 qml/settingsmanager/other/PQSettingsOtherSlideshow.qml
 )
 
+SET(photoqt_QML_SINGLETONS qml/other/PQGlobalItems.qml)
+
 SET(photoqt_QML_QTMULTIMEDIA   qml/image/imageitems/PQVideoQt.qml
                                qml/image/components/PQMotionPhotoQt.qml)
 SET(photoqt_QML_NOQTMULTIMEDIA qml/image/imageitems/dummy/PQVideoQt.qml

@@ -159,6 +159,8 @@ ApplicationWindow {
     Item {
         id: fullscreenitem
         anchors.fill: parent
+        Component.onCompleted:
+            PQGlobalItems.toplevelItem = fullscreenitem
     }
 
     Connections {
@@ -174,7 +176,7 @@ ApplicationWindow {
         PQLoaderMainWindowBackgroundModern {}
     PQLoaderBackgroundMessage {}
 
-    PQLoaderImage { id: imageloader; toplevelItem: fullscreenitem }
+    PQLoaderImage { id: imageloader }
 
         // INTEGRATED INTERFACE ONLY
         PQLoaderSideBarIntegrated { whichside: "left" }
@@ -258,6 +260,8 @@ ApplicationWindow {
     }
 
     Component.onCompleted: {
+
+        PQGlobalItems.rootWindow = toplevel
 
         PQCScriptsLocalization.updateTranslation(PQCSettings.interfaceLanguage)
 
