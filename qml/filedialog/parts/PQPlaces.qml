@@ -28,7 +28,7 @@ Item {
 
     id: places_top
 
-    height: parent.height-fd_breadcrumbs.height-fd_tweaks.height
+    height: parent.height - PQCConstants.filedialogBreadcrumbsHeight - PQCConstants.filedialogTweaksHeight
 
     onWidthChanged:
         PQCConstants.filedialogPlacesWidth = width
@@ -45,7 +45,7 @@ Item {
     property list<int> hoverIndex: [-1,-1,-1]
     property list<int> pressedIndex: [-1,-1,-1]
 
-    property int availableHeight: height - fd_tweaks.zoomMoveUpHeight
+    property int availableHeight: height - PQCConstants.filedialogTweaksZoomMoveUpHeight
 
     Timer {
         id: resetHoverIndex
@@ -179,7 +179,7 @@ Item {
         x: 5
         y: (virtualEntry.visible ? virtualEntry.y+virtualEntry.height : 0) + 5
         width: parent.width-10
-        height: parent.height - (view_devices.visible ? (view_devices.height+10) : 0) - fd_tweaks.zoomMoveUpHeight - (virtualEntry.visible ? virtualEntry.height : 0)
+        height: parent.height - (view_devices.visible ? (view_devices.height+10) : 0) - PQCConstants.filedialogTweaksZoomMoveUpHeight - (virtualEntry.visible ? virtualEntry.height : 0)
 
         clip: true
         visible: PQCSettings.filedialogPlaces
@@ -268,7 +268,7 @@ Item {
     ListView {
         id: view_devices
         x: 5
-        y: view_favorites.visible ? (parent.height-height-fd_tweaks.zoomMoveUpHeight) : 5
+        y: view_favorites.visible ? (parent.height-height-PQCConstants.filedialogTweaksZoomMoveUpHeight) : 5
         width: parent.width-10
         height: Math.min(300, childrenRect.height)
         visible: PQCSettings.filedialogDevices
@@ -746,6 +746,7 @@ Item {
     }
 
     Component.onCompleted: {
+        PQGlobalItems.filedialogPlaces = places_top
         places_top.loadPlaces()
         places_top.loadDevices()
     }

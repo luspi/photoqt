@@ -29,8 +29,13 @@ Item {
 
     width: parent.width
     height: 50
+    onHeightChanged:
+        PQCConstants.filedialogTweaksHeight = width
 
     property int zoomMoveUpHeight: leftcolrect.state==="moveup" ? leftcolrect.height : 0
+    onZoomMoveUpHeightChanged: {
+        PQCConstants.filedialogTweaksZoomMoveUpHeight = zoomMoveUpHeight
+    }
 
     Rectangle {
 

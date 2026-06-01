@@ -31,6 +31,8 @@ Item {
 
     width: parent.width
     height: 50
+    onHeightChanged:
+        PQCConstants.filedialogBreadcrumbsHeight = height
 
     property bool otherContextMenuOpen: false
     signal closeMenus()
@@ -701,6 +703,16 @@ Item {
         width: parent.width
         height: 1
         color: PQCLook.baseBorder
+    }
+
+    Connections {
+
+        target: PQCScriptsFileDialog
+
+        function onDisableAddressEdit() {
+            breadcrumbs_top.disableAddressEdit()
+        }
+
     }
 
     function checkValidEditPath() {

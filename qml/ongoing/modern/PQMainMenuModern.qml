@@ -74,18 +74,20 @@ Rectangle {
     visible: opacity>0
     Behavior on opacity { enabled: !PQCSettings.generalDisableAllAnimations; NumberAnimation { duration: 200 } }
 
+    readonly property size elementSize: PQCSettings.mainmenuElementSize
+
     property int parentWidth
     property int parentHeight
-    width: Math.max(400, PQCSettings.mainmenuElementSize.width)
+    width: Math.max(400, elementSize.width)
     height: isPopout ?
                 (PQGlobalItems.allPopouts[elementId] === undefined ? parent.height : PQGlobalItems.allPopouts[elementId].height) :
                 PQCSettings.mainmenuElementHeightDynamic ?
                     PQCConstants.availableHeight-2*gap-statusinfoOffset :
-                    Math.min(PQCConstants.availableHeight, PQCSettings.mainmenuElementSize.height)
+                    Math.min(PQCConstants.availableHeight, elementSize.height)
 
     property bool setVisible: false
-    property var visiblePos: [0,0]
-    property var invisiblePos: [0, 0]
+    property list<int> visiblePos: [0,0]
+    property list<int> invisiblePos: [0, 0]
     property int hotAreaSize: PQCSettings.interfaceHotEdgeSize*5
     property rect hotArea: Qt.rect(0, PQCConstants.availableHeight-hotAreaSize, PQCConstants.availableWidth, hotAreaSize)
     property bool windowSizeOkay: true
@@ -158,6 +160,7 @@ Rectangle {
     ]
 
     Component.onCompleted: {
+
         if(isPopout) {
             mainmenu_top.opacity = 1
         }

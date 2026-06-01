@@ -145,6 +145,10 @@ public:
         m_filedialogPlacesWidth = 0;
         m_filedialogFileviewWidth = 0;
         m_filedialogAddressEditVisible = false;
+        m_filedialogBreadcrumbsHeight = 0;
+        m_filedialogTweaksHeight = 0;
+        m_filedialogTweaksZoomMoveUpHeight = 0;
+        m_filedialogSplitviewResizing = false;
 
         m_settingsManagerSettingChanged = false;
         m_settingsManagerCacheShortcutNames.clear();
@@ -552,6 +556,10 @@ public:
     Q_PROPERTY(int filedialogPlacesWidth MEMBER m_filedialogPlacesWidth NOTIFY filedialogPlacesWidthChanged)
     Q_PROPERTY(int filedialogFileviewWidth MEMBER m_filedialogFileviewWidth NOTIFY filedialogFileviewWidthChanged)
     Q_PROPERTY(bool filedialogAddressEditVisible MEMBER m_filedialogAddressEditVisible NOTIFY filedialogAddressEditVisibleChanged)
+    Q_PROPERTY(int filedialogBreadcrumbsHeight MEMBER m_filedialogBreadcrumbsHeight NOTIFY filedialogBreadcrumbsHeightChanged)
+    Q_PROPERTY(int filedialogTweaksHeight MEMBER m_filedialogTweaksHeight NOTIFY filedialogTweaksHeightChanged)
+    Q_PROPERTY(int filedialogTweaksZoomMoveUpHeight MEMBER m_filedialogTweaksZoomMoveUpHeight NOTIFY filedialogTweaksZoomMoveUpHeightChanged)
+    Q_PROPERTY(bool filedialogSplitviewResizing MEMBER m_filedialogSplitviewResizing NOTIFY filedialogSplitviewResizingChanged)
 
     Q_PROPERTY(bool settingsManagerSettingChanged MEMBER m_settingsManagerSettingChanged NOTIFY settingsManagerSettingChangedChanged)
     Q_PROPERTY(QString settingsManagerStartWithExtensionOpen MEMBER m_settingsManagerStartWithExtensionOpen NOTIFY settingsManagerStartWithExtensionOpenChanged)
@@ -750,6 +758,10 @@ private:
     int m_filedialogPlacesWidth;
     int m_filedialogFileviewWidth;
     bool m_filedialogAddressEditVisible;
+    int m_filedialogBreadcrumbsHeight;
+    int m_filedialogTweaksHeight;
+    int m_filedialogTweaksZoomMoveUpHeight;
+    bool m_filedialogSplitviewResizing;
 
     bool m_settingsManagerSettingChanged;
     QString m_settingsManagerStartWithExtensionOpen;
@@ -930,5 +942,9 @@ Q_SIGNALS:
     void openGLAvailableForSpheresChanged();
     void currentFilterStringChanged();
     void currentStarRatingChanged();
+    void filedialogBreadcrumbsHeightChanged();
+    void filedialogTweaksHeightChanged();
+    void filedialogTweaksZoomMoveUpHeightChanged();
+    void filedialogSplitviewResizingChanged();
 
 };

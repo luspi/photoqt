@@ -99,5 +99,6 @@ public:
 
 Q_SIGNALS:
     void figuredOutNumberOfFilesInFolder(const QString &path, const unsigned int &num);
+    void disableAddressEdit();  // sent and received by QML
 
 };

@@ -781,18 +781,18 @@ PQCSettings::~PQCSettings() {{
     }}
 }}
 
-bool PQCSettings::getFiledialogDetailsTooltip() {
+bool PQCSettings::getFiledialogDetailsTooltip() const {
     return m_filedialogDetailsTooltip;
 }
 
-void PQCSettings::setFiledialogDetailsTooltip(bool val) {
+void PQCSettings::setFiledialogDetailsTooltip(const bool val) {
     if(val != m_filedialogDetailsTooltip) {
         m_filedialogDetailsTooltip = val;
         Q_EMIT filedialogDetailsTooltipChanged();
     }
 }
 
-const bool PQCSettings::getDefaultForFiledialogDetailsTooltip() {
+const bool PQCSettings::getDefaultForFiledialogDetailsTooltip() const {
         return true;
 }
 
@@ -803,18 +803,18 @@ void PQCSettings::setDefaultForFiledialogDetailsTooltip() {
     }
 }
 
-bool PQCSettings::getFiledialogDevices() {
+bool PQCSettings::getFiledialogDevices() const {
     return m_filedialogDevices;
 }
 
-void PQCSettings::setFiledialogDevices(bool val) {
+void PQCSettings::setFiledialogDevices(const bool val) {
     if(val != m_filedialogDevices) {
         m_filedialogDevices = val;
         Q_EMIT filedialogDevicesChanged();
     }
 }
 
-const bool PQCSettings::getDefaultForFiledialogDevices() {
+const bool PQCSettings::getDefaultForFiledialogDevices() const {
         return false;
 }
 
@@ -825,18 +825,18 @@ void PQCSettings::setDefaultForFiledialogDevices() {
     }
 }
 
-bool PQCSettings::getFiledialogDevicesShowTmpfs() {
+bool PQCSettings::getFiledialogDevicesShowTmpfs() const {
     return m_filedialogDevicesShowTmpfs;
 }
 
-void PQCSettings::setFiledialogDevicesShowTmpfs(bool val) {
+void PQCSettings::setFiledialogDevicesShowTmpfs(const bool val) {
     if(val != m_filedialogDevicesShowTmpfs) {
         m_filedialogDevicesShowTmpfs = val;
         Q_EMIT filedialogDevicesShowTmpfsChanged();
     }
 }
 
-const bool PQCSettings::getDefaultForFiledialogDevicesShowTmpfs() {
+const bool PQCSettings::getDefaultForFiledialogDevicesShowTmpfs() const {
         return false;
 }
 
@@ -847,18 +847,18 @@ void PQCSettings::setDefaultForFiledialogDevicesShowTmpfs() {
     }
 }
 
-bool PQCSettings::getFiledialogDragDropFileviewGrid() {
+bool PQCSettings::getFiledialogDragDropFileviewGrid() const {
     return m_filedialogDragDropFileviewGrid;
 }
 
-void PQCSettings::setFiledialogDragDropFileviewGrid(bool val) {
+void PQCSettings::setFiledialogDragDropFileviewGrid(const bool val) {
     if(val != m_filedialogDragDropFileviewGrid) {
         m_filedialogDragDropFileviewGrid = val;
         Q_EMIT filedialogDragDropFileviewGridChanged();
     }
 }
 
-const bool PQCSettings::getDefaultForFiledialogDragDropFileviewGrid() {
+const bool PQCSettings::getDefaultForFiledialogDragDropFileviewGrid() const {
         return false;
 }
 
@@ -869,18 +869,18 @@ void PQCSettings::setDefaultForFiledialogDragDropFileviewGrid() {
     }
 }
 
-bool PQCSettings::getFiledialogDragDropFileviewList() {
+bool PQCSettings::getFiledialogDragDropFileviewList() const {
     return m_filedialogDragDropFileviewList;
 }
 
-void PQCSettings::setFiledialogDragDropFileviewList(bool val) {
+void PQCSettings::setFiledialogDragDropFileviewList(const bool val) {
     if(val != m_filedialogDragDropFileviewList) {
         m_filedialogDragDropFileviewList = val;
         Q_EMIT filedialogDragDropFileviewListChanged();
     }
 }
 
-const bool PQCSettings::getDefaultForFiledialogDragDropFileviewList() {
+const bool PQCSettings::getDefaultForFiledialogDragDropFileviewList() const {
         return true;
 }
 
@@ -891,18 +891,18 @@ void PQCSettings::setDefaultForFiledialogDragDropFileviewList() {
     }
 }
 
-bool PQCSettings::getFiledialogDragDropFileviewMasonry() {
+bool PQCSettings::getFiledialogDragDropFileviewMasonry() const {
     return m_filedialogDragDropFileviewMasonry;
 }
 
-void PQCSettings::setFiledialogDragDropFileviewMasonry(bool val) {
+void PQCSettings::setFiledialogDragDropFileviewMasonry(const bool val) {
     if(val != m_filedialogDragDropFileviewMasonry) {
         m_filedialogDragDropFileviewMasonry = val;
         Q_EMIT filedialogDragDropFileviewMasonryChanged();
     }
 }
 
-const bool PQCSettings::getDefaultForFiledialogDragDropFileviewMasonry() {
+const bool PQCSettings::getDefaultForFiledialogDragDropFileviewMasonry() const {
         return false;
 }
 
@@ -913,18 +913,18 @@ void PQCSettings::setDefaultForFiledialogDragDropFileviewMasonry() {
     }
 }
 
-bool PQCSettings::getFiledialogDragDropPlaces() {
+bool PQCSettings::getFiledialogDragDropPlaces() const {
     return m_filedialogDragDropPlaces;
 }
 
-void PQCSettings::setFiledialogDragDropPlaces(bool val) {
+void PQCSettings::setFiledialogDragDropPlaces(const bool val) {
     if(val != m_filedialogDragDropPlaces) {
         m_filedialogDragDropPlaces = val;
         Q_EMIT filedialogDragDropPlacesChanged();
     }
 }
 
-const bool PQCSettings::getDefaultForFiledialogDragDropPlaces() {
+const bool PQCSettings::getDefaultForFiledialogDragDropPlaces() const {
         return true;
 }
 
@@ -935,18 +935,18 @@ void PQCSettings::setDefaultForFiledialogDragDropPlaces() {
     }
 }
 
-int PQCSettings::getFiledialogElementPadding() {
+int PQCSettings::getFiledialogElementPadding() const {
     return m_filedialogElementPadding;
 }
 
-void PQCSettings::setFiledialogElementPadding(int val) {
+void PQCSettings::setFiledialogElementPadding(const int val) {
     if(val != m_filedialogElementPadding) {
         m_filedialogElementPadding = val;
         Q_EMIT filedialogElementPaddingChanged();
     }
 }
 
-const int PQCSettings::getDefaultForFiledialogElementPadding() {
+const int PQCSettings::getDefaultForFiledialogElementPadding() const {
         return 1;
 }
 
@@ -956,18 +956,18 @@ void PQCSettings::setDefaultForFiledialogElementPadding() {
     }
 }
 
-bool PQCSettings::getFiledialogFolderContentThumbnails() {
+bool PQCSettings::getFiledialogFolderContentThumbnails() const {
     return m_filedialogFolderContentThumbnails;
 }
 
-void PQCSettings::setFiledialogFolderContentThumbnails(bool val) {
+void PQCSettings::setFiledialogFolderContentThumbnails(const bool val) {
     if(val != m_filedialogFolderContentThumbnails) {
         m_filedialogFolderContentThumbnails = val;
         Q_EMIT filedialogFolderContentThumbnailsChanged();
     }
 }
 
-const bool PQCSettings::getDefaultForFiledialogFolderContentThumbnails() {
+const bool PQCSettings::getDefaultForFiledialogFolderContentThumbnails() const {
         return true;
 }
 
@@ -978,18 +978,18 @@ void PQCSettings::setDefaultForFiledialogFolderContentThumbnails() {
     }
 }
 
-bool PQCSettings::getFiledialogFolderContentThumbnailsAutoload() {
+bool PQCSettings::getFiledialogFolderContentThumbnailsAutoload() const {
     return m_filedialogFolderContentThumbnailsAutoload;
 }
 
-void PQCSettings::setFiledialogFolderContentThumbnailsAutoload(bool val) {
+void PQCSettings::setFiledialogFolderContentThumbnailsAutoload(const bool val) {
     if(val != m_filedialogFolderContentThumbnailsAutoload) {
         m_filedialogFolderContentThumbnailsAutoload = val;
         Q_EMIT filedialogFolderContentThumbnailsAutoloadChanged();
     }
 }
 
-const bool PQCSettings::getDefaultForFiledialogFolderContentThumbnailsAutoload() {
+const bool PQCSettings::getDefaultForFiledialogFolderContentThumbnailsAutoload() const {
         return false;
 }
 
@@ -1000,18 +1000,18 @@ void PQCSettings::setDefaultForFiledialogFolderContentThumbnailsAutoload() {
     }
 }
 
-bool PQCSettings::getFiledialogFolderContentThumbnailsLoop() {
+bool PQCSettings::getFiledialogFolderContentThumbnailsLoop() const {
     return m_filedialogFolderContentThumbnailsLoop;
 }
 
-void PQCSettings::setFiledialogFolderContentThumbnailsLoop(bool val) {
+void PQCSettings::setFiledialogFolderContentThumbnailsLoop(const bool val) {
     if(val != m_filedialogFolderContentThumbnailsLoop) {
         m_filedialogFolderContentThumbnailsLoop = val;
         Q_EMIT filedialogFolderContentThumbnailsLoopChanged();
     }
 }
 
-const bool PQCSettings::getDefaultForFiledialogFolderContentThumbnailsLoop() {
+const bool PQCSettings::getDefaultForFiledialogFolderContentThumbnailsLoop() const {
         return true;
 }
 
@@ -1022,18 +1022,18 @@ void PQCSettings::setDefaultForFiledialogFolderContentThumbnailsLoop() {
     }
 }
 
-bool PQCSettings::getFiledialogFolderContentThumbnailsScaleCrop() {
+bool PQCSettings::getFiledialogFolderContentThumbnailsScaleCrop() const {
     return m_filedialogFolderContentThumbnailsScaleCrop;
 }
 
-void PQCSettings::setFiledialogFolderContentThumbnailsScaleCrop(bool val) {
+void PQCSettings::setFiledialogFolderContentThumbnailsScaleCrop(const bool val) {
     if(val != m_filedialogFolderContentThumbnailsScaleCrop) {
         m_filedialogFolderContentThumbnailsScaleCrop = val;
         Q_EMIT filedialogFolderContentThumbnailsScaleCropChanged();
     }
 }
 
-const bool PQCSettings::getDefaultForFiledialogFolderContentThumbnailsScaleCrop() {
+const bool PQCSettings::getDefaultForFiledialogFolderContentThumbnailsScaleCrop() const {
         return true;
 }
 
@@ -1044,18 +1044,18 @@ void PQCSettings::setDefaultForFiledialogFolderContentThumbnailsScaleCrop() {
     }
 }
 
-bool PQCSettings::getFiledialogFolderContentThumbnailsSortAscending() {
+bool PQCSettings::getFiledialogFolderContentThumbnailsSortAscending() const {
     return m_filedialogFolderContentThumbnailsSortAscending;
 }
 
-void PQCSettings::setFiledialogFolderContentThumbnailsSortAscending(bool val) {
+void PQCSettings::setFiledialogFolderContentThumbnailsSortAscending(const bool val) {
     if(val != m_filedialogFolderContentThumbnailsSortAscending) {
         m_filedialogFolderContentThumbnailsSortAscending = val;
         Q_EMIT filedialogFolderContentThumbnailsSortAscendingChanged();
     }
 }
 
-const bool PQCSettings::getDefaultForFiledialogFolderContentThumbnailsSortAscending() {
+const bool PQCSettings::getDefaultForFiledialogFolderContentThumbnailsSortAscending() const {
         return false;
 }
 
@@ -1066,18 +1066,18 @@ void PQCSettings::setDefaultForFiledialogFolderContentThumbnailsSortAscending() 
     }
 }
 
-QString PQCSettings::getFiledialogFolderContentThumbnailsSortBy() {
+QString PQCSettings::getFiledialogFolderContentThumbnailsSortBy() const {
     return m_filedialogFolderContentThumbnailsSortBy;
 }
 
-void PQCSettings::setFiledialogFolderContentThumbnailsSortBy(QString val) {
+void PQCSettings::setFiledialogFolderContentThumbnailsSortBy(const QString val) {
     if(val != m_filedialogFolderContentThumbnailsSortBy) {
         m_filedialogFolderContentThumbnailsSortBy = val;
         Q_EMIT filedialogFolderContentThumbnailsSortByChanged();
     }
 }
 
-const QString PQCSettings::getDefaultForFiledialogFolderContentThumbnailsSortBy() {
+const QString PQCSettings::getDefaultForFiledialogFolderContentThumbnailsSortBy() const {
         return "default";
 }
 
@@ -1088,18 +1088,18 @@ void PQCSettings::setDefaultForFiledialogFolderContentThumbnailsSortBy() {
     }
 }
 
-int PQCSettings::getFiledialogFolderContentThumbnailsSpeed() {
+int PQCSettings::getFiledialogFolderContentThumbnailsSpeed() const {
     return m_filedialogFolderContentThumbnailsSpeed;
 }
 
-void PQCSettings::setFiledialogFolderContentThumbnailsSpeed(int val) {
+void PQCSettings::setFiledialogFolderContentThumbnailsSpeed(const int val) {
     if(val != m_filedialogFolderContentThumbnailsSpeed) {
         m_filedialogFolderContentThumbnailsSpeed = val;
         Q_EMIT filedialogFolderContentThumbnailsSpeedChanged();
     }
 }
 
-const int PQCSettings::getDefaultForFiledialogFolderContentThumbnailsSpeed() {
+const int PQCSettings::getDefaultForFiledialogFolderContentThumbnailsSpeed() const {
         return 2;
 }
 
@@ -1109,18 +1109,18 @@ void PQCSettings::setDefaultForFiledialogFolderContentThumbnailsSpeed() {
     }
 }
 
-bool PQCSettings::getFiledialogLabelsShowGrid() {
+bool PQCSettings::getFiledialogLabelsShowGrid() const {
     return m_filedialogLabelsShowGrid;
 }
 
-void PQCSettings::setFiledialogLabelsShowGrid(bool val) {
+void PQCSettings::setFiledialogLabelsShowGrid(const bool val) {
     if(val != m_filedialogLabelsShowGrid) {
         m_filedialogLabelsShowGrid = val;
         Q_EMIT filedialogLabelsShowGridChanged();
     }
 }
 
-const bool PQCSettings::getDefaultForFiledialogLabelsShowGrid() {
+const bool PQCSettings::getDefaultForFiledialogLabelsShowGrid() const {
         return true;
 }
 
@@ -1131,18 +1131,18 @@ void PQCSettings::setDefaultForFiledialogLabelsShowGrid() {
     }
 }
 
-bool PQCSettings::getFiledialogLabelsShowMasonry() {
+bool PQCSettings::getFiledialogLabelsShowMasonry() const {
     return m_filedialogLabelsShowMasonry;
 }
 
-void PQCSettings::setFiledialogLabelsShowMasonry(bool val) {
+void PQCSettings::setFiledialogLabelsShowMasonry(const bool val) {
     if(val != m_filedialogLabelsShowMasonry) {
         m_filedialogLabelsShowMasonry = val;
         Q_EMIT filedialogLabelsShowMasonryChanged();
     }
 }
 
-const bool PQCSettings::getDefaultForFiledialogLabelsShowMasonry() {
+const bool PQCSettings::getDefaultForFiledialogLabelsShowMasonry() const {
         return false;
 }
 
@@ -1153,18 +1153,18 @@ void PQCSettings::setDefaultForFiledialogLabelsShowMasonry() {
     }
 }
 
-QString PQCSettings::getFiledialogLayout() {
+QString PQCSettings::getFiledialogLayout() const {
     return m_filedialogLayout;
 }
 
-void PQCSettings::setFiledialogLayout(QString val) {
+void PQCSettings::setFiledialogLayout(const QString val) {
     if(val != m_filedialogLayout) {
         m_filedialogLayout = val;
         Q_EMIT filedialogLayoutChanged();
     }
 }
 
-const QString PQCSettings::getDefaultForFiledialogLayout() {
+const QString PQCSettings::getDefaultForFiledialogLayout() const {
         return "grid";
 }
 
@@ -1175,18 +1175,18 @@ void PQCSettings::setDefaultForFiledialogLayout() {
     }
 }
 
-bool PQCSettings::getFiledialogPlaces() {
+bool PQCSettings::getFiledialogPlaces() const {
     return m_filedialogPlaces;
 }
 
-void PQCSettings::setFiledialogPlaces(bool val) {
+void PQCSettings::setFiledialogPlaces(const bool val) {
     if(val != m_filedialogPlaces) {
         m_filedialogPlaces = val;
         Q_EMIT filedialogPlacesChanged();
     }
 }
 
-const bool PQCSettings::getDefaultForFiledialogPlaces() {
+const bool PQCSettings::getDefaultForFiledialogPlaces() const {
         return true;
 }
 
@@ -1197,18 +1197,18 @@ void PQCSettings::setDefaultForFiledialogPlaces() {
     }
 }
 
-int PQCSettings::getFiledialogPlacesWidth() {
+int PQCSettings::getFiledialogPlacesWidth() const {
     return m_filedialogPlacesWidth;
 }
 
-void PQCSettings::setFiledialogPlacesWidth(int val) {
+void PQCSettings::setFiledialogPlacesWidth(const int val) {
     if(val != m_filedialogPlacesWidth) {
         m_filedialogPlacesWidth = val;
         Q_EMIT filedialogPlacesWidthChanged();
     }
 }
 
-const int PQCSettings::getDefaultForFiledialogPlacesWidth() {
+const int PQCSettings::getDefaultForFiledialogPlacesWidth() const {
         return 290;
 }
 
@@ -1218,18 +1218,18 @@ void PQCSettings::setDefaultForFiledialogPlacesWidth() {
     }
 }
 
-bool PQCSettings::getFiledialogPreview() {
+bool PQCSettings::getFiledialogPreview() const {
     return m_filedialogPreview;
 }
 
-void PQCSettings::setFiledialogPreview(bool val) {
+void PQCSettings::setFiledialogPreview(const bool val) {
     if(val != m_filedialogPreview) {
         m_filedialogPreview = val;
         Q_EMIT filedialogPreviewChanged();
     }
 }
 
-const bool PQCSettings::getDefaultForFiledialogPreview() {
+const bool PQCSettings::getDefaultForFiledialogPreview() const {
         return false;
 }
 
@@ -1240,18 +1240,18 @@ void PQCSettings::setDefaultForFiledialogPreview() {
     }
 }
 
-bool PQCSettings::getFiledialogPreviewBlur() {
+bool PQCSettings::getFiledialogPreviewBlur() const {
     return m_filedialogPreviewBlur;
 }
 
-void PQCSettings::setFiledialogPreviewBlur(bool val) {
+void PQCSettings::setFiledialogPreviewBlur(const bool val) {
     if(val != m_filedialogPreviewBlur) {
         m_filedialogPreviewBlur = val;
         Q_EMIT filedialogPreviewBlurChanged();
     }
 }
 
-const bool PQCSettings::getDefaultForFiledialogPreviewBlur() {
+const bool PQCSettings::getDefaultForFiledialogPreviewBlur() const {
         return false;
 }
 
@@ -1262,18 +1262,18 @@ void PQCSettings::setDefaultForFiledialogPreviewBlur() {
     }
 }
 
-int PQCSettings::getFiledialogPreviewColorIntensity() {
+int PQCSettings::getFiledialogPreviewColorIntensity() const {
     return m_filedialogPreviewColorIntensity;
 }
 
-void PQCSettings::setFiledialogPreviewColorIntensity(int val) {
+void PQCSettings::setFiledialogPreviewColorIntensity(const int val) {
     if(val != m_filedialogPreviewColorIntensity) {
         m_filedialogPreviewColorIntensity = val;
         Q_EMIT filedialogPreviewColorIntensityChanged();
     }
 }
 
-const int PQCSettings::getDefaultForFiledialogPreviewColorIntensity() {
+const int PQCSettings::getDefaultForFiledialogPreviewColorIntensity() const {
         return 50;
 }
 
@@ -1283,18 +1283,18 @@ void PQCSettings::setDefaultForFiledialogPreviewColorIntensity() {
     }
 }
 
-bool PQCSettings::getFiledialogPreviewCropToFit() {
+bool PQCSettings::getFiledialogPreviewCropToFit() const {
     return m_filedialogPreviewCropToFit;
 }
 
-void PQCSettings::setFiledialogPreviewCropToFit(bool val) {
+void PQCSettings::setFiledialogPreviewCropToFit(const bool val) {
     if(val != m_filedialogPreviewCropToFit) {
         m_filedialogPreviewCropToFit = val;
         Q_EMIT filedialogPreviewCropToFitChanged();
     }
 }
 
-const bool PQCSettings::getDefaultForFiledialogPreviewCropToFit() {
+const bool PQCSettings::getDefaultForFiledialogPreviewCropToFit() const {
         return true;
 }
 
@@ -1305,18 +1305,18 @@ void PQCSettings::setDefaultForFiledialogPreviewCropToFit() {
     }
 }
 
-bool PQCSettings::getFiledialogPreviewHigherResolution() {
+bool PQCSettings::getFiledialogPreviewHigherResolution() const {
     return m_filedialogPreviewHigherResolution;
 }
 
-void PQCSettings::setFiledialogPreviewHigherResolution(bool val) {
+void PQCSettings::setFiledialogPreviewHigherResolution(const bool val) {
     if(val != m_filedialogPreviewHigherResolution) {
         m_filedialogPreviewHigherResolution = val;
         Q_EMIT filedialogPreviewHigherResolutionChanged();
     }
 }
 
-const bool PQCSettings::getDefaultForFiledialogPreviewHigherResolution() {
+const bool PQCSettings::getDefaultForFiledialogPreviewHigherResolution() const {
         return false;
 }
 
@@ -1327,18 +1327,18 @@ void PQCSettings::setDefaultForFiledialogPreviewHigherResolution() {
     }
 }
 
-bool PQCSettings::getFiledialogPreviewMuted() {
+bool PQCSettings::getFiledialogPreviewMuted() const {
     return m_filedialogPreviewMuted;
 }
 
-void PQCSettings::setFiledialogPreviewMuted(bool val) {
+void PQCSettings::setFiledialogPreviewMuted(const bool val) {
     if(val != m_filedialogPreviewMuted) {
         m_filedialogPreviewMuted = val;
         Q_EMIT filedialogPreviewMutedChanged();
     }
 }
 
-const bool PQCSettings::getDefaultForFiledialogPreviewMuted() {
+const bool PQCSettings::getDefaultForFiledialogPreviewMuted() const {
         return false;
 }
 
@@ -1349,18 +1349,18 @@ void PQCSettings::setDefaultForFiledialogPreviewMuted() {
     }
 }
 
-bool PQCSettings::getFiledialogRememberSelection() {
+bool PQCSettings::getFiledialogRememberSelection() const {
     return m_filedialogRememberSelection;
 }
 
-void PQCSettings::setFiledialogRememberSelection(bool val) {
+void PQCSettings::setFiledialogRememberSelection(const bool val) {
     if(val != m_filedialogRememberSelection) {
         m_filedialogRememberSelection = val;
         Q_EMIT filedialogRememberSelectionChanged();
     }
 }
 
-const bool PQCSettings::getDefaultForFiledialogRememberSelection() {
+const bool PQCSettings::getDefaultForFiledialogRememberSelection() const {
         return false;
 }
 
@@ -1371,18 +1371,18 @@ void PQCSettings::setDefaultForFiledialogRememberSelection() {
     }
 }
 
-bool PQCSettings::getFiledialogShowHiddenFilesFolders() {
+bool PQCSettings::getFiledialogShowHiddenFilesFolders() const {
     return m_filedialogShowHiddenFilesFolders;
 }
 
-void PQCSettings::setFiledialogShowHiddenFilesFolders(bool val) {
+void PQCSettings::setFiledialogShowHiddenFilesFolders(const bool val) {
     if(val != m_filedialogShowHiddenFilesFolders) {
         m_filedialogShowHiddenFilesFolders = val;
         Q_EMIT filedialogShowHiddenFilesFoldersChanged();
     }
 }
 
-const bool PQCSettings::getDefaultForFiledialogShowHiddenFilesFolders() {
+const bool PQCSettings::getDefaultForFiledialogShowHiddenFilesFolders() const {
         return false;
 }
 
@@ -1393,18 +1393,18 @@ void PQCSettings::setDefaultForFiledialogShowHiddenFilesFolders() {
     }
 }
 
-bool PQCSettings::getFiledialogSingleClickSelect() {
+bool PQCSettings::getFiledialogSingleClickSelect() const {
     return m_filedialogSingleClickSelect;
 }
 
-void PQCSettings::setFiledialogSingleClickSelect(bool val) {
+void PQCSettings::setFiledialogSingleClickSelect(const bool val) {
     if(val != m_filedialogSingleClickSelect) {
         m_filedialogSingleClickSelect = val;
         Q_EMIT filedialogSingleClickSelectChanged();
     }
 }
 
-const bool PQCSettings::getDefaultForFiledialogSingleClickSelect() {
+const bool PQCSettings::getDefaultForFiledialogSingleClickSelect() const {
         return false;
 }
 
@@ -1415,18 +1415,18 @@ void PQCSettings::setDefaultForFiledialogSingleClickSelect() {
     }
 }
 
-bool PQCSettings::getFiledialogStartupRestoreCustom() {
+bool PQCSettings::getFiledialogStartupRestoreCustom() const {
     return m_filedialogStartupRestoreCustom;
 }
 
-void PQCSettings::setFiledialogStartupRestoreCustom(bool val) {
+void PQCSettings::setFiledialogStartupRestoreCustom(const bool val) {
     if(val != m_filedialogStartupRestoreCustom) {
         m_filedialogStartupRestoreCustom = val;
         Q_EMIT filedialogStartupRestoreCustomChanged();
     }
 }
 
-const bool PQCSettings::getDefaultForFiledialogStartupRestoreCustom() {
+const bool PQCSettings::getDefaultForFiledialogStartupRestoreCustom() const {
         return false;
 }
 
@@ -1437,18 +1437,18 @@ void PQCSettings::setDefaultForFiledialogStartupRestoreCustom() {
     }
 }
 
-QString PQCSettings::getFiledialogStartupRestoreCustomFolder() {
+QString PQCSettings::getFiledialogStartupRestoreCustomFolder() const {
     return m_filedialogStartupRestoreCustomFolder;
 }
 
-void PQCSettings::setFiledialogStartupRestoreCustomFolder(QString val) {
+void PQCSettings::setFiledialogStartupRestoreCustomFolder(const QString val) {
     if(val != m_filedialogStartupRestoreCustomFolder) {
         m_filedialogStartupRestoreCustomFolder = val;
         Q_EMIT filedialogStartupRestoreCustomFolderChanged();
     }
 }
 
-const QString PQCSettings::getDefaultForFiledialogStartupRestoreCustomFolder() {
+const QString PQCSettings::getDefaultForFiledialogStartupRestoreCustomFolder() const {
         return "";
 }
 
@@ -1459,18 +1459,18 @@ void PQCSettings::setDefaultForFiledialogStartupRestoreCustomFolder() {
     }
 }
 
-bool PQCSettings::getFiledialogStartupRestoreHome() {
+bool PQCSettings::getFiledialogStartupRestoreHome() const {
     return m_filedialogStartupRestoreHome;
 }
 
-void PQCSettings::setFiledialogStartupRestoreHome(bool val) {
+void PQCSettings::setFiledialogStartupRestoreHome(const bool val) {
     if(val != m_filedialogStartupRestoreHome) {
         m_filedialogStartupRestoreHome = val;
         Q_EMIT filedialogStartupRestoreHomeChanged();
     }
 }
 
-const bool PQCSettings::getDefaultForFiledialogStartupRestoreHome() {
+const bool PQCSettings::getDefaultForFiledialogStartupRestoreHome() const {
         return false;
 }
 
@@ -1481,18 +1481,18 @@ void PQCSettings::setDefaultForFiledialogStartupRestoreHome() {
     }
 }
 
-bool PQCSettings::getFiledialogStartupRestorePrevious() {
+bool PQCSettings::getFiledialogStartupRestorePrevious() const {
     return m_filedialogStartupRestorePrevious;
 }
 
-void PQCSettings::setFiledialogStartupRestorePrevious(bool val) {
+void PQCSettings::setFiledialogStartupRestorePrevious(const bool val) {
     if(val != m_filedialogStartupRestorePrevious) {
         m_filedialogStartupRestorePrevious = val;
         Q_EMIT filedialogStartupRestorePreviousChanged();
     }
 }
 
-const bool PQCSettings::getDefaultForFiledialogStartupRestorePrevious() {
+const bool PQCSettings::getDefaultForFiledialogStartupRestorePrevious() const {
         return true;
 }
 
@@ -1503,18 +1503,18 @@ void PQCSettings::setDefaultForFiledialogStartupRestorePrevious() {
     }
 }
 
-bool PQCSettings::getFiledialogThumbnailSizeFollowsGlobalThumbnails() {
+bool PQCSettings::getFiledialogThumbnailSizeFollowsGlobalThumbnails() const {
     return m_filedialogThumbnailSizeFollowsGlobalThumbnails;
 }
 
-void PQCSettings::setFiledialogThumbnailSizeFollowsGlobalThumbnails(bool val) {
+void PQCSettings::setFiledialogThumbnailSizeFollowsGlobalThumbnails(const bool val) {
     if(val != m_filedialogThumbnailSizeFollowsGlobalThumbnails) {
         m_filedialogThumbnailSizeFollowsGlobalThumbnails = val;
         Q_EMIT filedialogThumbnailSizeFollowsGlobalThumbnailsChanged();
     }
 }
 
-const bool PQCSettings::getDefaultForFiledialogThumbnailSizeFollowsGlobalThumbnails() {
+const bool PQCSettings::getDefaultForFiledialogThumbnailSizeFollowsGlobalThumbnails() const {
         return true;
 }
 
@@ -1525,18 +1525,18 @@ void PQCSettings::setDefaultForFiledialogThumbnailSizeFollowsGlobalThumbnails() 
     }
 }
 
-bool PQCSettings::getFiledialogThumbnails() {
+bool PQCSettings::getFiledialogThumbnails() const {
     return m_filedialogThumbnails;
 }
 
-void PQCSettings::setFiledialogThumbnails(bool val) {
+void PQCSettings::setFiledialogThumbnails(const bool val) {
     if(val != m_filedialogThumbnails) {
         m_filedialogThumbnails = val;
         Q_EMIT filedialogThumbnailsChanged();
     }
 }
 
-const bool PQCSettings::getDefaultForFiledialogThumbnails() {
+const bool PQCSettings::getDefaultForFiledialogThumbnails() const {
         return true;
 }
 
@@ -1547,18 +1547,18 @@ void PQCSettings::setDefaultForFiledialogThumbnails() {
     }
 }
 
-bool PQCSettings::getFiledialogThumbnailsScaleCrop() {
+bool PQCSettings::getFiledialogThumbnailsScaleCrop() const {
     return m_filedialogThumbnailsScaleCrop;
 }
 
-void PQCSettings::setFiledialogThumbnailsScaleCrop(bool val) {
+void PQCSettings::setFiledialogThumbnailsScaleCrop(const bool val) {
     if(val != m_filedialogThumbnailsScaleCrop) {
         m_filedialogThumbnailsScaleCrop = val;
         Q_EMIT filedialogThumbnailsScaleCropChanged();
     }
 }
 
-const bool PQCSettings::getDefaultForFiledialogThumbnailsScaleCrop() {
+const bool PQCSettings::getDefaultForFiledialogThumbnailsScaleCrop() const {
         return true;
 }
 
@@ -1569,18 +1569,18 @@ void PQCSettings::setDefaultForFiledialogThumbnailsScaleCrop() {
     }
 }
 
-bool PQCSettings::getFiledialogUseNativeFileDialog() {
+bool PQCSettings::getFiledialogUseNativeFileDialog() const {
     return m_filedialogUseNativeFileDialog;
 }
 
-void PQCSettings::setFiledialogUseNativeFileDialog(bool val) {
+void PQCSettings::setFiledialogUseNativeFileDialog(const bool val) {
     if(val != m_filedialogUseNativeFileDialog) {
         m_filedialogUseNativeFileDialog = val;
         Q_EMIT filedialogUseNativeFileDialogChanged();
     }
 }
 
-const bool PQCSettings::getDefaultForFiledialogUseNativeFileDialog() {
+const bool PQCSettings::getDefaultForFiledialogUseNativeFileDialog() const {
         return false;
 }
 
@@ -1591,18 +1591,18 @@ void PQCSettings::setDefaultForFiledialogUseNativeFileDialog() {
     }
 }
 
-int PQCSettings::getFiledialogZoom() {
+int PQCSettings::getFiledialogZoom() const {
     return m_filedialogZoom;
 }
 
-void PQCSettings::setFiledialogZoom(int val) {
+void PQCSettings::setFiledialogZoom(const int val) {
     if(val != m_filedialogZoom) {
         m_filedialogZoom = val;
         Q_EMIT filedialogZoomChanged();
     }
 }
 
-const int PQCSettings::getDefaultForFiledialogZoom() {
+const int PQCSettings::getDefaultForFiledialogZoom() const {
         return 40;
 }
 
@@ -1612,18 +1612,18 @@ void PQCSettings::setDefaultForFiledialogZoom() {
     }
 }
 
-bool PQCSettings::getFiletypesAnimatedControls() {
+bool PQCSettings::getFiletypesAnimatedControls() const {
     return m_filetypesAnimatedControls;
 }
 
-void PQCSettings::setFiletypesAnimatedControls(bool val) {
+void PQCSettings::setFiletypesAnimatedControls(const bool val) {
     if(val != m_filetypesAnimatedControls) {
         m_filetypesAnimatedControls = val;
         Q_EMIT filetypesAnimatedControlsChanged();
     }
 }
 
-const bool PQCSettings::getDefaultForFiletypesAnimatedControls() {
+const bool PQCSettings::getDefaultForFiletypesAnimatedControls() const {
         return true;
 }
 
@@ -1634,18 +1634,18 @@ void PQCSettings::setDefaultForFiletypesAnimatedControls() {
     }
 }
 
-bool PQCSettings::getFiletypesAnimatedLeftRight() {
+bool PQCSettings::getFiletypesAnimatedLeftRight() const {
     return m_filetypesAnimatedLeftRight;
 }
 
-void PQCSettings::setFiletypesAnimatedLeftRight(bool val) {
+void PQCSettings::setFiletypesAnimatedLeftRight(const bool val) {
     if(val != m_filetypesAnimatedLeftRight) {
         m_filetypesAnimatedLeftRight = val;
         Q_EMIT filetypesAnimatedLeftRightChanged();
     }
 }
 
-const bool PQCSettings::getDefaultForFiletypesAnimatedLeftRight() {
+const bool PQCSettings::getDefaultForFiletypesAnimatedLeftRight() const {
         return false;
 }
 
@@ -1656,18 +1656,18 @@ void PQCSettings::setDefaultForFiletypesAnimatedLeftRight() {
     }
 }
 
-bool PQCSettings::getFiletypesAnimatedSpacePause() {
+bool PQCSettings::getFiletypesAnimatedSpacePause() const {
     return m_filetypesAnimatedSpacePause;
 }
 
-void PQCSettings::setFiletypesAnimatedSpacePause(bool val) {
+void PQCSettings::setFiletypesAnimatedSpacePause(const bool val) {
     if(val != m_filetypesAnimatedSpacePause) {
         m_filetypesAnimatedSpacePause = val;
         Q_EMIT filetypesAnimatedSpacePauseChanged();
     }
 }
 
-const bool PQCSettings::getDefaultForFiletypesAnimatedSpacePause() {
+const bool PQCSettings::getDefaultForFiletypesAnimatedSpacePause() const {
         return true;
 }
 
@@ -1678,18 +1678,18 @@ void PQCSettings::setDefaultForFiletypesAnimatedSpacePause() {
     }
 }
 
-bool PQCSettings::getFiletypesArchiveAlwaysEnterAutomatically() {
+bool PQCSettings::getFiletypesArchiveAlwaysEnterAutomatically() const {
     return m_filetypesArchiveAlwaysEnterAutomatically;
 }
 
-void PQCSettings::setFiletypesArchiveAlwaysEnterAutomatically(bool val) {
+void PQCSettings::setFiletypesArchiveAlwaysEnterAutomatically(const bool val) {
     if(val != m_filetypesArchiveAlwaysEnterAutomatically) {
         m_filetypesArchiveAlwaysEnterAutomatically = val;
         Q_EMIT filetypesArchiveAlwaysEnterAutomaticallyChanged();
     }
 }
 
-const bool PQCSettings::getDefaultForFiletypesArchiveAlwaysEnterAutomatically() {
+const bool PQCSettings::getDefaultForFiletypesArchiveAlwaysEnterAutomatically() const {
         return false;
 }
 
@@ -1700,18 +1700,18 @@ void PQCSettings::setDefaultForFiletypesArchiveAlwaysEnterAutomatically() {
     }
 }
 
-bool PQCSettings::getFiletypesArchiveControls() {
+bool PQCSettings::getFiletypesArchiveControls() const {
     return m_filetypesArchiveControls;
 }
 
-void PQCSettings::setFiletypesArchiveControls(bool val) {
+void PQCSettings::setFiletypesArchiveControls(const bool val) {
     if(val != m_filetypesArchiveControls) {
         m_filetypesArchiveControls = val;
         Q_EMIT filetypesArchiveControlsChanged();
     }
 }
 
-const bool PQCSettings::getDefaultForFiletypesArchiveControls() {
+const bool PQCSettings::getDefaultForFiletypesArchiveControls() const {
         return true;
 }
 
@@ -1722,18 +1722,18 @@ void PQCSettings::setDefaultForFiletypesArchiveControls() {
     }
 }
 
-bool PQCSettings::getFiletypesArchiveDontLoadMoreFilesThan() {
+bool PQCSettings::getFiletypesArchiveDontLoadMoreFilesThan() const {
     return m_filetypesArchiveDontLoadMoreFilesThan;
 }
 
-void PQCSettings::setFiletypesArchiveDontLoadMoreFilesThan(bool val) {
+void PQCSettings::setFiletypesArchiveDontLoadMoreFilesThan(const bool val) {
     if(val != m_filetypesArchiveDontLoadMoreFilesThan) {
         m_filetypesArchiveDontLoadMoreFilesThan = val;
         Q_EMIT filetypesArchiveDontLoadMoreFilesThanChanged();
     }
 }
 
-const bool PQCSettings::getDefaultForFiletypesArchiveDontLoadMoreFilesThan() {
+const bool PQCSettings::getDefaultForFiletypesArchiveDontLoadMoreFilesThan() const {
         return false;
 }
 
@@ -1744,18 +1744,18 @@ void PQCSettings::setDefaultForFiletypesArchiveDontLoadMoreFilesThan() {
     }
 }
 
-int PQCSettings::getFiletypesArchiveDontLoadMoreFilesThanCount() {
+int PQCSettings::getFiletypesArchiveDontLoadMoreFilesThanCount() const {
     return m_filetypesArchiveDontLoadMoreFilesThanCount;
 }
 
-void PQCSettings::setFiletypesArchiveDontLoadMoreFilesThanCount(int val) {
+void PQCSettings::setFiletypesArchiveDontLoadMoreFilesThanCount(const int val) {
     if(val != m_filetypesArchiveDontLoadMoreFilesThanCount) {
         m_filetypesArchiveDontLoadMoreFilesThanCount = val;
         Q_EMIT filetypesArchiveDontLoadMoreFilesThanCountChanged();
     }
 }
 
-const int PQCSettings::getDefaultForFiletypesArchiveDontLoadMoreFilesThanCount() {
+const int PQCSettings::getDefaultForFiletypesArchiveDontLoadMoreFilesThanCount() const {
         return 2000;
 }
 
@@ -1765,18 +1765,18 @@ void PQCSettings::setDefaultForFiletypesArchiveDontLoadMoreFilesThanCount() {
     }
 }
 
-bool PQCSettings::getFiletypesArchiveIgnoreLargerThan() {
+bool PQCSettings::getFiletypesArchiveIgnoreLargerThan() const {
     return m_filetypesArchiveIgnoreLargerThan;
 }
 
-void PQCSettings::setFiletypesArchiveIgnoreLargerThan(bool val) {
+void PQCSettings::setFiletypesArchiveIgnoreLargerThan(const bool val) {
     if(val != m_filetypesArchiveIgnoreLargerThan) {
         m_filetypesArchiveIgnoreLargerThan = val;
         Q_EMIT filetypesArchiveIgnoreLargerThanChanged();
     }
 }
 
-const bool PQCSettings::getDefaultForFiletypesArchiveIgnoreLargerThan() {
+const bool PQCSettings::getDefaultForFiletypesArchiveIgnoreLargerThan() const {
         return false;
 }
 
@@ -1787,18 +1787,18 @@ void PQCSettings::setDefaultForFiletypesArchiveIgnoreLargerThan() {
     }
 }
 
-int PQCSettings::getFiletypesArchiveIgnoreLargerThanSize() {
+int PQCSettings::getFiletypesArchiveIgnoreLargerThanSize() const {
     return m_filetypesArchiveIgnoreLargerThanSize;
 }
 
-void PQCSettings::setFiletypesArchiveIgnoreLargerThanSize(int val) {
+void PQCSettings::setFiletypesArchiveIgnoreLargerThanSize(const int val) {
     if(val != m_filetypesArchiveIgnoreLargerThanSize) {
         m_filetypesArchiveIgnoreLargerThanSize = val;
         Q_EMIT filetypesArchiveIgnoreLargerThanSizeChanged();
     }
 }
 
-const int PQCSettings::getDefaultForFiletypesArchiveIgnoreLargerThanSize() {
+const int PQCSettings::getDefaultForFiletypesArchiveIgnoreLargerThanSize() const {
         return 2048;
 }
 
@@ -1808,18 +1808,18 @@ void PQCSettings::setDefaultForFiletypesArchiveIgnoreLargerThanSize() {
     }
 }
 
-bool PQCSettings::getFiletypesArchiveLeftRight() {
+bool PQCSettings::getFiletypesArchiveLeftRight() const {
     return m_filetypesArchiveLeftRight;
 }
 
-void PQCSettings::setFiletypesArchiveLeftRight(bool val) {
+void PQCSettings::setFiletypesArchiveLeftRight(const bool val) {
     if(val != m_filetypesArchiveLeftRight) {
         m_filetypesArchiveLeftRight = val;
         Q_EMIT filetypesArchiveLeftRightChanged();
     }
 }
 
-const bool PQCSettings::getDefaultForFiletypesArchiveLeftRight() {
+const bool PQCSettings::getDefaultForFiletypesArchiveLeftRight() const {
         return false;
 }
 
@@ -1830,18 +1830,18 @@ void PQCSettings::setDefaultForFiletypesArchiveLeftRight() {
     }
 }
 
-bool PQCSettings::getFiletypesArchiveViewerModeExitButton() {
+bool PQCSettings::getFiletypesArchiveViewerModeExitButton() const {
     return m_filetypesArchiveViewerModeExitButton;
 }
 
-void PQCSettings::setFiletypesArchiveViewerModeExitButton(bool val) {
+void PQCSettings::setFiletypesArchiveViewerModeExitButton(const bool val) {
     if(val != m_filetypesArchiveViewerModeExitButton) {
         m_filetypesArchiveViewerModeExitButton = val;
         Q_EMIT filetypesArchiveViewerModeExitButtonChanged();
     }
 }
 
-const bool PQCSettings::getDefaultForFiletypesArchiveViewerModeExitButton() {
+const bool PQCSettings::getDefaultForFiletypesArchiveViewerModeExitButton() const {
         return true;
 }
 
@@ -1852,18 +1852,18 @@ void PQCSettings::setDefaultForFiletypesArchiveViewerModeExitButton() {
     }
 }
 
-bool PQCSettings::getFiletypesComicBookAlwaysEnterAutomatically() {
+bool PQCSettings::getFiletypesComicBookAlwaysEnterAutomatically() const {
     return m_filetypesComicBookAlwaysEnterAutomatically;
 }
 
-void PQCSettings::setFiletypesComicBookAlwaysEnterAutomatically(bool val) {
+void PQCSettings::setFiletypesComicBookAlwaysEnterAutomatically(const bool val) {
     if(val != m_filetypesComicBookAlwaysEnterAutomatically) {
         m_filetypesComicBookAlwaysEnterAutomatically = val;
         Q_EMIT filetypesComicBookAlwaysEnterAutomaticallyChanged();
     }
 }
 
-const bool PQCSettings::getDefaultForFiletypesComicBookAlwaysEnterAutomatically() {
+const bool PQCSettings::getDefaultForFiletypesComicBookAlwaysEnterAutomatically() const {
         return false;
 }
 
@@ -1874,18 +1874,18 @@ void PQCSettings::setDefaultForFiletypesComicBookAlwaysEnterAutomatically() {
     }
 }
 
-bool PQCSettings::getFiletypesDocumentAlwaysEnterAutomatically() {
+bool PQCSettings::getFiletypesDocumentAlwaysEnterAutomatically() const {
     return m_filetypesDocumentAlwaysEnterAutomatically;
 }
 
-void PQCSettings::setFiletypesDocumentAlwaysEnterAutomatically(bool val) {
+void PQCSettings::setFiletypesDocumentAlwaysEnterAutomatically(const bool val) {
     if(val != m_filetypesDocumentAlwaysEnterAutomatically) {
         m_filetypesDocumentAlwaysEnterAutomatically = val;
         Q_EMIT filetypesDocumentAlwaysEnterAutomaticallyChanged();
     }
 }
 
-const bool PQCSettings::getDefaultForFiletypesDocumentAlwaysEnterAutomatically() {
+const bool PQCSettings::getDefaultForFiletypesDocumentAlwaysEnterAutomatically() const {
         return false;
 }
 
@@ -1896,18 +1896,18 @@ void PQCSettings::setDefaultForFiletypesDocumentAlwaysEnterAutomatically() {
     }
 }
 
-bool PQCSettings::getFiletypesDocumentControls() {
+bool PQCSettings::getFiletypesDocumentControls() const {
     return m_filetypesDocumentControls;
 }
 
-void PQCSettings::setFiletypesDocumentControls(bool val) {
+void PQCSettings::setFiletypesDocumentControls(const bool val) {
     if(val != m_filetypesDocumentControls) {
         m_filetypesDocumentControls = val;
         Q_EMIT filetypesDocumentControlsChanged();
     }
 }
 
-const bool PQCSettings::getDefaultForFiletypesDocumentControls() {
+const bool PQCSettings::getDefaultForFiletypesDocumentControls() const {
         return true;
 }
 
@@ -1918,18 +1918,18 @@ void PQCSettings::setDefaultForFiletypesDocumentControls() {
     }
 }
 
-bool PQCSettings::getFiletypesDocumentLeftRight() {
+bool PQCSettings::getFiletypesDocumentLeftRight() const {
     return m_filetypesDocumentLeftRight;
 }
 
-void PQCSettings::setFiletypesDocumentLeftRight(bool val) {
+void PQCSettings::setFiletypesDocumentLeftRight(const bool val) {
     if(val != m_filetypesDocumentLeftRight) {
         m_filetypesDocumentLeftRight = val;
         Q_EMIT filetypesDocumentLeftRightChanged();
     }
 }
 
-const bool PQCSettings::getDefaultForFiletypesDocumentLeftRight() {
+const bool PQCSettings::getDefaultForFiletypesDocumentLeftRight() const {
         return false;
 }
 
@@ -1940,18 +1940,18 @@ void PQCSettings::setDefaultForFiletypesDocumentLeftRight() {
     }
 }
 
-bool PQCSettings::getFiletypesDocumentViewerModeExitButton() {
+bool PQCSettings::getFiletypesDocumentViewerModeExitButton() const {
     return m_filetypesDocumentViewerModeExitButton;
 }
 
-void PQCSettings::setFiletypesDocumentViewerModeExitButton(bool val) {
+void PQCSettings::setFiletypesDocumentViewerModeExitButton(const bool val) {
     if(val != m_filetypesDocumentViewerModeExitButton) {
         m_filetypesDocumentViewerModeExitButton = val;
         Q_EMIT filetypesDocumentViewerModeExitButtonChanged();
     }
 }
 
-const bool PQCSettings::getDefaultForFiletypesDocumentViewerModeExitButton() {
+const bool PQCSettings::getDefaultForFiletypesDocumentViewerModeExitButton() const {
         return true;
 }
 
@@ -1962,18 +1962,18 @@ void PQCSettings::setDefaultForFiletypesDocumentViewerModeExitButton() {
     }
 }
 
-bool PQCSettings::getFiletypesExternalUnrar() {
+bool PQCSettings::getFiletypesExternalUnrar() const {
     return m_filetypesExternalUnrar;
 }
 
-void PQCSettings::setFiletypesExternalUnrar(bool val) {
+void PQCSettings::setFiletypesExternalUnrar(const bool val) {
     if(val != m_filetypesExternalUnrar) {
         m_filetypesExternalUnrar = val;
         Q_EMIT filetypesExternalUnrarChanged();
     }
 }
 
-const bool PQCSettings::getDefaultForFiletypesExternalUnrar() {
+const bool PQCSettings::getDefaultForFiletypesExternalUnrar() const {
         return false;
 }
 
@@ -1984,18 +1984,18 @@ void PQCSettings::setDefaultForFiletypesExternalUnrar() {
     }
 }
 
-bool PQCSettings::getFiletypesLoadAppleLivePhotos() {
+bool PQCSettings::getFiletypesLoadAppleLivePhotos() const {
     return m_filetypesLoadAppleLivePhotos;
 }
 
-void PQCSettings::setFiletypesLoadAppleLivePhotos(bool val) {
+void PQCSettings::setFiletypesLoadAppleLivePhotos(const bool val) {
     if(val != m_filetypesLoadAppleLivePhotos) {
         m_filetypesLoadAppleLivePhotos = val;
         Q_EMIT filetypesLoadAppleLivePhotosChanged();
     }
 }
 
-const bool PQCSettings::getDefaultForFiletypesLoadAppleLivePhotos() {
+const bool PQCSettings::getDefaultForFiletypesLoadAppleLivePhotos() const {
         return true;
 }
 
@@ -2006,18 +2006,18 @@ void PQCSettings::setDefaultForFiletypesLoadAppleLivePhotos() {
     }
 }
 
-bool PQCSettings::getFiletypesLoadMotionPhotos() {
+bool PQCSettings::getFiletypesLoadMotionPhotos() const {
     return m_filetypesLoadMotionPhotos;
 }
 
-void PQCSettings::setFiletypesLoadMotionPhotos(bool val) {
+void PQCSettings::setFiletypesLoadMotionPhotos(const bool val) {
     if(val != m_filetypesLoadMotionPhotos) {
         m_filetypesLoadMotionPhotos = val;
         Q_EMIT filetypesLoadMotionPhotosChanged();
     }
 }
 
-const bool PQCSettings::getDefaultForFiletypesLoadMotionPhotos() {
+const bool PQCSettings::getDefaultForFiletypesLoadMotionPhotos() const {
         return true;
 }
 
@@ -2028,18 +2028,18 @@ void PQCSettings::setDefaultForFiletypesLoadMotionPhotos() {
     }
 }
 
-bool PQCSettings::getFiletypesMotionAutoPlay() {
+bool PQCSettings::getFiletypesMotionAutoPlay() const {
     return m_filetypesMotionAutoPlay;
 }
 
-void PQCSettings::setFiletypesMotionAutoPlay(bool val) {
+void PQCSettings::setFiletypesMotionAutoPlay(const bool val) {
     if(val != m_filetypesMotionAutoPlay) {
         m_filetypesMotionAutoPlay = val;
         Q_EMIT filetypesMotionAutoPlayChanged();
     }
 }
 
-const bool PQCSettings::getDefaultForFiletypesMotionAutoPlay() {
+const bool PQCSettings::getDefaultForFiletypesMotionAutoPlay() const {
         return true;
 }
 
@@ -2050,18 +2050,18 @@ void PQCSettings::setDefaultForFiletypesMotionAutoPlay() {
     }
 }
 
-bool PQCSettings::getFiletypesMotionPhotoPlayPause() {
+bool PQCSettings::getFiletypesMotionPhotoPlayPause() const {
     return m_filetypesMotionPhotoPlayPause;
 }
 
-void PQCSettings::setFiletypesMotionPhotoPlayPause(bool val) {
+void PQCSettings::setFiletypesMotionPhotoPlayPause(const bool val) {
     if(val != m_filetypesMotionPhotoPlayPause) {
         m_filetypesMotionPhotoPlayPause = val;
         Q_EMIT filetypesMotionPhotoPlayPauseChanged();
     }
 }
 
-const bool PQCSettings::getDefaultForFiletypesMotionPhotoPlayPause() {
+const bool PQCSettings::getDefaultForFiletypesMotionPhotoPlayPause() const {
         return true;
 }
 
@@ -2072,18 +2072,18 @@ void PQCSettings::setDefaultForFiletypesMotionPhotoPlayPause() {
     }
 }
 
-bool PQCSettings::getFiletypesMotionSpacePause() {
+bool PQCSettings::getFiletypesMotionSpacePause() const {
     return m_filetypesMotionSpacePause;
 }
 
-void PQCSettings::setFiletypesMotionSpacePause(bool val) {
+void PQCSettings::setFiletypesMotionSpacePause(const bool val) {
     if(val != m_filetypesMotionSpacePause) {
         m_filetypesMotionSpacePause = val;
         Q_EMIT filetypesMotionSpacePauseChanged();
     }
 }
 
-const bool PQCSettings::getDefaultForFiletypesMotionSpacePause() {
+const bool PQCSettings::getDefaultForFiletypesMotionSpacePause() const {
         return true;
 }
 
@@ -2094,18 +2094,18 @@ void PQCSettings::setDefaultForFiletypesMotionSpacePause() {
     }
 }
 
-int PQCSettings::getFiletypesPDFQuality() {
+int PQCSettings::getFiletypesPDFQuality() const {
     return m_filetypesPDFQuality;
 }
 
-void PQCSettings::setFiletypesPDFQuality(int val) {
+void PQCSettings::setFiletypesPDFQuality(const int val) {
     if(val != m_filetypesPDFQuality) {
         m_filetypesPDFQuality = val;
         Q_EMIT filetypesPDFQualityChanged();
     }
 }
 
-const int PQCSettings::getDefaultForFiletypesPDFQuality() {
+const int PQCSettings::getDefaultForFiletypesPDFQuality() const {
         return 150;
 }
 
@@ -2115,18 +2115,18 @@ void PQCSettings::setDefaultForFiletypesPDFQuality() {
     }
 }
 
-bool PQCSettings::getFiletypesPhotoSphereArrowKeys() {
+bool PQCSettings::getFiletypesPhotoSphereArrowKeys() const {
     return m_filetypesPhotoSphereArrowKeys;
 }
 
-void PQCSettings::setFiletypesPhotoSphereArrowKeys(bool val) {
+void PQCSettings::setFiletypesPhotoSphereArrowKeys(const bool val) {
     if(val != m_filetypesPhotoSphereArrowKeys) {
         m_filetypesPhotoSphereArrowKeys = val;
         Q_EMIT filetypesPhotoSphereArrowKeysChanged();
     }
 }
 
-const bool PQCSettings::getDefaultForFiletypesPhotoSphereArrowKeys() {
+const bool PQCSettings::getDefaultForFiletypesPhotoSphereArrowKeys() const {
         return false;
 }
 
@@ -2137,18 +2137,18 @@ void PQCSettings::setDefaultForFiletypesPhotoSphereArrowKeys() {
     }
 }
 
-bool PQCSettings::getFiletypesPhotoSphereAutoLoad() {
+bool PQCSettings::getFiletypesPhotoSphereAutoLoad() const {
     return m_filetypesPhotoSphereAutoLoad;
 }
 
-void PQCSettings::setFiletypesPhotoSphereAutoLoad(bool val) {
+void PQCSettings::setFiletypesPhotoSphereAutoLoad(const bool val) {
     if(val != m_filetypesPhotoSphereAutoLoad) {
         m_filetypesPhotoSphereAutoLoad = val;
         Q_EMIT filetypesPhotoSphereAutoLoadChanged();
     }
 }
 
-const bool PQCSettings::getDefaultForFiletypesPhotoSphereAutoLoad() {
+const bool PQCSettings::getDefaultForFiletypesPhotoSphereAutoLoad() const {
         return true;
 }
 
@@ -2159,18 +2159,18 @@ void PQCSettings::setDefaultForFiletypesPhotoSphereAutoLoad() {
     }
 }
 
-bool PQCSettings::getFiletypesPhotoSphereBigButton() {
+bool PQCSettings::getFiletypesPhotoSphereBigButton() const {
     return m_filetypesPhotoSphereBigButton;
 }
 
-void PQCSettings::setFiletypesPhotoSphereBigButton(bool val) {
+void PQCSettings::setFiletypesPhotoSphereBigButton(const bool val) {
     if(val != m_filetypesPhotoSphereBigButton) {
         m_filetypesPhotoSphereBigButton = val;
         Q_EMIT filetypesPhotoSphereBigButtonChanged();
     }
 }
 
-const bool PQCSettings::getDefaultForFiletypesPhotoSphereBigButton() {
+const bool PQCSettings::getDefaultForFiletypesPhotoSphereBigButton() const {
         return false;
 }
 
@@ -2181,18 +2181,18 @@ void PQCSettings::setDefaultForFiletypesPhotoSphereBigButton() {
     }
 }
 
-bool PQCSettings::getFiletypesPhotoSphereControls() {
+bool PQCSettings::getFiletypesPhotoSphereControls() const {
     return m_filetypesPhotoSphereControls;
 }
 
-void PQCSettings::setFiletypesPhotoSphereControls(bool val) {
+void PQCSettings::setFiletypesPhotoSphereControls(const bool val) {
     if(val != m_filetypesPhotoSphereControls) {
         m_filetypesPhotoSphereControls = val;
         Q_EMIT filetypesPhotoSphereControlsChanged();
     }
 }
 
-const bool PQCSettings::getDefaultForFiletypesPhotoSphereControls() {
+const bool PQCSettings::getDefaultForFiletypesPhotoSphereControls() const {
         return false;
 }
 
@@ -2203,18 +2203,18 @@ void PQCSettings::setDefaultForFiletypesPhotoSphereControls() {
     }
 }
 
-bool PQCSettings::getFiletypesPhotoSpherePanOnLoad() {
+bool PQCSettings::getFiletypesPhotoSpherePanOnLoad() const {
     return m_filetypesPhotoSpherePanOnLoad;
 }
 
-void PQCSettings::setFiletypesPhotoSpherePanOnLoad(bool val) {
+void PQCSettings::setFiletypesPhotoSpherePanOnLoad(const bool val) {
     if(val != m_filetypesPhotoSpherePanOnLoad) {
         m_filetypesPhotoSpherePanOnLoad = val;
         Q_EMIT filetypesPhotoSpherePanOnLoadChanged();
     }
 }
 
-const bool PQCSettings::getDefaultForFiletypesPhotoSpherePanOnLoad() {
+const bool PQCSettings::getDefaultForFiletypesPhotoSpherePanOnLoad() const {
         return true;
 }
 
@@ -2225,18 +2225,18 @@ void PQCSettings::setDefaultForFiletypesPhotoSpherePanOnLoad() {
     }
 }
 
-bool PQCSettings::getFiletypesRAWUseEmbeddedIfAvailable() {
+bool PQCSettings::getFiletypesRAWUseEmbeddedIfAvailable() const {
     return m_filetypesRAWUseEmbeddedIfAvailable;
 }
 
-void PQCSettings::setFiletypesRAWUseEmbeddedIfAvailable(bool val) {
+void PQCSettings::setFiletypesRAWUseEmbeddedIfAvailable(const bool val) {
     if(val != m_filetypesRAWUseEmbeddedIfAvailable) {
         m_filetypesRAWUseEmbeddedIfAvailable = val;
         Q_EMIT filetypesRAWUseEmbeddedIfAvailableChanged();
     }
 }
 
-const bool PQCSettings::getDefaultForFiletypesRAWUseEmbeddedIfAvailable() {
+const bool PQCSettings::getDefaultForFiletypesRAWUseEmbeddedIfAvailable() const {
         return true;
 }
 
@@ -2247,18 +2247,18 @@ void PQCSettings::setDefaultForFiletypesRAWUseEmbeddedIfAvailable() {
     }
 }
 
-bool PQCSettings::getFiletypesVideoAutoplay() {
+bool PQCSettings::getFiletypesVideoAutoplay() const {
     return m_filetypesVideoAutoplay;
 }
 
-void PQCSettings::setFiletypesVideoAutoplay(bool val) {
+void PQCSettings::setFiletypesVideoAutoplay(const bool val) {
     if(val != m_filetypesVideoAutoplay) {
         m_filetypesVideoAutoplay = val;
         Q_EMIT filetypesVideoAutoplayChanged();
     }
 }
 
-const bool PQCSettings::getDefaultForFiletypesVideoAutoplay() {
+const bool PQCSettings::getDefaultForFiletypesVideoAutoplay() const {
         return true;
 }
 
@@ -2269,18 +2269,18 @@ void PQCSettings::setDefaultForFiletypesVideoAutoplay() {
     }
 }
 
-QStringList PQCSettings::getFiletypesVideoBackend() {
+QStringList PQCSettings::getFiletypesVideoBackend() const {
     return m_filetypesVideoBackend;
 }
 
-void PQCSettings::setFiletypesVideoBackend(QStringList val) {
+void PQCSettings::setFiletypesVideoBackend(const QStringList val) {
     if(val != m_filetypesVideoBackend) {
         m_filetypesVideoBackend = val;
         Q_EMIT filetypesVideoBackendChanged();
     }
 }
 
-const QStringList PQCSettings::getDefaultForFiletypesVideoBackend() {
+const QStringList PQCSettings::getDefaultForFiletypesVideoBackend() const {
         return QStringList() << "qt" << "mpv";
 }
 
@@ -2292,18 +2292,18 @@ void PQCSettings::setDefaultForFiletypesVideoBackend() {
     }
 }
 
-bool PQCSettings::getFiletypesVideoLeftRightJumpVideo() {
+bool PQCSettings::getFiletypesVideoLeftRightJumpVideo() const {
     return m_filetypesVideoLeftRightJumpVideo;
 }
 
-void PQCSettings::setFiletypesVideoLeftRightJumpVideo(bool val) {
+void PQCSettings::setFiletypesVideoLeftRightJumpVideo(const bool val) {
     if(val != m_filetypesVideoLeftRightJumpVideo) {
         m_filetypesVideoLeftRightJumpVideo = val;
         Q_EMIT filetypesVideoLeftRightJumpVideoChanged();
     }
 }
 
-const bool PQCSettings::getDefaultForFiletypesVideoLeftRightJumpVideo() {
+const bool PQCSettings::getDefaultForFiletypesVideoLeftRightJumpVideo() const {
         return false;
 }
 
@@ -2314,18 +2314,18 @@ void PQCSettings::setDefaultForFiletypesVideoLeftRightJumpVideo() {
     }
 }
 
-bool PQCSettings::getFiletypesVideoLoop() {
+bool PQCSettings::getFiletypesVideoLoop() const {
     return m_filetypesVideoLoop;
 }
 
-void PQCSettings::setFiletypesVideoLoop(bool val) {
+void PQCSettings::setFiletypesVideoLoop(const bool val) {
     if(val != m_filetypesVideoLoop) {
         m_filetypesVideoLoop = val;
         Q_EMIT filetypesVideoLoopChanged();
     }
 }
 
-const bool PQCSettings::getDefaultForFiletypesVideoLoop() {
+const bool PQCSettings::getDefaultForFiletypesVideoLoop() const {
         return false;
 }
 
@@ -2336,18 +2336,18 @@ void PQCSettings::setDefaultForFiletypesVideoLoop() {
     }
 }
 
-bool PQCSettings::getFiletypesVideoSpacePause() {
+bool PQCSettings::getFiletypesVideoSpacePause() const {
     return m_filetypesVideoSpacePause;
 }
 
-void PQCSettings::setFiletypesVideoSpacePause(bool val) {
+void PQCSettings::setFiletypesVideoSpacePause(const bool val) {
     if(val != m_filetypesVideoSpacePause) {
         m_filetypesVideoSpacePause = val;
         Q_EMIT filetypesVideoSpacePauseChanged();
     }
 }
 
-const bool PQCSettings::getDefaultForFiletypesVideoSpacePause() {
+const bool PQCSettings::getDefaultForFiletypesVideoSpacePause() const {
         return true;
 }
 
@@ -2358,18 +2358,18 @@ void PQCSettings::setDefaultForFiletypesVideoSpacePause() {
     }
 }
 
-QString PQCSettings::getFiletypesVideoThumbnailer() {
+QString PQCSettings::getFiletypesVideoThumbnailer() const {
     return m_filetypesVideoThumbnailer;
 }
 
-void PQCSettings::setFiletypesVideoThumbnailer(QString val) {
+void PQCSettings::setFiletypesVideoThumbnailer(const QString val) {
     if(val != m_filetypesVideoThumbnailer) {
         m_filetypesVideoThumbnailer = val;
         Q_EMIT filetypesVideoThumbnailerChanged();
     }
 }
 
-const QString PQCSettings::getDefaultForFiletypesVideoThumbnailer() {
+const QString PQCSettings::getDefaultForFiletypesVideoThumbnailer() const {
         return "ffmpegthumbnailer";
 }
 
@@ -2380,18 +2380,18 @@ void PQCSettings::setDefaultForFiletypesVideoThumbnailer() {
     }
 }
 
-int PQCSettings::getFiletypesVideoVolume() {
+int PQCSettings::getFiletypesVideoVolume() const {
     return m_filetypesVideoVolume;
 }
 
-void PQCSettings::setFiletypesVideoVolume(int val) {
+void PQCSettings::setFiletypesVideoVolume(const int val) {
     if(val != m_filetypesVideoVolume) {
         m_filetypesVideoVolume = val;
         Q_EMIT filetypesVideoVolumeChanged();
     }
 }
 
-const int PQCSettings::getDefaultForFiletypesVideoVolume() {
+const int PQCSettings::getDefaultForFiletypesVideoVolume() const {
         return 100;
 }
 
@@ -2401,18 +2401,18 @@ void PQCSettings::setDefaultForFiletypesVideoVolume() {
     }
 }
 
-bool PQCSettings::getGeneralAutoSaveSettings() {
+bool PQCSettings::getGeneralAutoSaveSettings() const {
     return m_generalAutoSaveSettings;
 }
 
-void PQCSettings::setGeneralAutoSaveSettings(bool val) {
+void PQCSettings::setGeneralAutoSaveSettings(const bool val) {
     if(val != m_generalAutoSaveSettings) {
         m_generalAutoSaveSettings = val;
         Q_EMIT generalAutoSaveSettingsChanged();
     }
 }
 
-const bool PQCSettings::getDefaultForGeneralAutoSaveSettings() {
+const bool PQCSettings::getDefaultForGeneralAutoSaveSettings() const {
         return false;
 }
 
@@ -2423,18 +2423,18 @@ void PQCSettings::setDefaultForGeneralAutoSaveSettings() {
     }
 }
 
-bool PQCSettings::getGeneralCompactSettings() {
+bool PQCSettings::getGeneralCompactSettings() const {
     return m_generalCompactSettings;
 }
 
-void PQCSettings::setGeneralCompactSettings(bool val) {
+void PQCSettings::setGeneralCompactSettings(const bool val) {
     if(val != m_generalCompactSettings) {
         m_generalCompactSettings = val;
         Q_EMIT generalCompactSettingsChanged();
     }
 }
 
-const bool PQCSettings::getDefaultForGeneralCompactSettings() {
+const bool PQCSettings::getDefaultForGeneralCompactSettings() const {
         return false;
 }
 
@@ -2445,18 +2445,18 @@ void PQCSettings::setDefaultForGeneralCompactSettings() {
     }
 }
 
-bool PQCSettings::getGeneralDisableAllAnimations() {
+bool PQCSettings::getGeneralDisableAllAnimations() const {
     return m_generalDisableAllAnimations;
 }
 
-void PQCSettings::setGeneralDisableAllAnimations(bool val) {
+void PQCSettings::setGeneralDisableAllAnimations(const bool val) {
     if(val != m_generalDisableAllAnimations) {
         m_generalDisableAllAnimations = val;
         Q_EMIT generalDisableAllAnimationsChanged();
     }
 }
 
-const bool PQCSettings::getDefaultForGeneralDisableAllAnimations() {
+const bool PQCSettings::getDefaultForGeneralDisableAllAnimations() const {
         return false;
 }
 
@@ -2467,18 +2467,18 @@ void PQCSettings::setDefaultForGeneralDisableAllAnimations() {
     }
 }
 
-QStringList PQCSettings::getGeneralExtensionsAllowUntrusted() {
+QStringList PQCSettings::getGeneralExtensionsAllowUntrusted() const {
     return m_generalExtensionsAllowUntrusted;
 }
 
-void PQCSettings::setGeneralExtensionsAllowUntrusted(QStringList val) {
+void PQCSettings::setGeneralExtensionsAllowUntrusted(const QStringList val) {
     if(val != m_generalExtensionsAllowUntrusted) {
         m_generalExtensionsAllowUntrusted = val;
         Q_EMIT generalExtensionsAllowUntrustedChanged();
     }
 }
 
-const QStringList PQCSettings::getDefaultForGeneralExtensionsAllowUntrusted() {
+const QStringList PQCSettings::getDefaultForGeneralExtensionsAllowUntrusted() const {
         return QStringList() << "";
 }
 
@@ -2490,18 +2490,18 @@ void PQCSettings::setDefaultForGeneralExtensionsAllowUntrusted() {
     }
 }
 
-QStringList PQCSettings::getGeneralExtensionsEnabled() {
+QStringList PQCSettings::getGeneralExtensionsEnabled() const {
     return m_generalExtensionsEnabled;
 }
 
-void PQCSettings::setGeneralExtensionsEnabled(QStringList val) {
+void PQCSettings::setGeneralExtensionsEnabled(const QStringList val) {
     if(val != m_generalExtensionsEnabled) {
         m_generalExtensionsEnabled = val;
         Q_EMIT generalExtensionsEnabledChanged();
     }
 }
 
-const QStringList PQCSettings::getDefaultForGeneralExtensionsEnabled() {
+const QStringList PQCSettings::getDefaultForGeneralExtensionsEnabled() const {
         return QStringList() << "CropImage" << "ExportImage" << "FloatingNavigation" << "Histogram" << "ImgurCom" << "MapCurrent" << "QuickActions" << "ScaleImage" << "Wallpaper" << "ThumbnailGenerator";
 }
 
@@ -2513,18 +2513,18 @@ void PQCSettings::setDefaultForGeneralExtensionsEnabled() {
     }
 }
 
-QStringList PQCSettings::getGeneralExtensionsFloatingSetup() {
+QStringList PQCSettings::getGeneralExtensionsFloatingSetup() const {
     return m_generalExtensionsFloatingSetup;
 }
 
-void PQCSettings::setGeneralExtensionsFloatingSetup(QStringList val) {
+void PQCSettings::setGeneralExtensionsFloatingSetup(const QStringList val) {
     if(val != m_generalExtensionsFloatingSetup) {
         m_generalExtensionsFloatingSetup = val;
         Q_EMIT generalExtensionsFloatingSetupChanged();
     }
 }
 
-const QStringList PQCSettings::getDefaultForGeneralExtensionsFloatingSetup() {
+const QStringList PQCSettings::getDefaultForGeneralExtensionsFloatingSetup() const {
         return QStringList() << "";
 }
 
@@ -2536,18 +2536,18 @@ void PQCSettings::setDefaultForGeneralExtensionsFloatingSetup() {
     }
 }
 
-QString PQCSettings::getGeneralInterfaceVariant() {
+QString PQCSettings::getGeneralInterfaceVariant() const {
     return m_generalInterfaceVariant;
 }
 
-void PQCSettings::setGeneralInterfaceVariant(QString val) {
+void PQCSettings::setGeneralInterfaceVariant(const QString val) {
     if(val != m_generalInterfaceVariant) {
         m_generalInterfaceVariant = val;
         Q_EMIT generalInterfaceVariantChanged();
     }
 }
 
-const QString PQCSettings::getDefaultForGeneralInterfaceVariant() {
+const QString PQCSettings::getDefaultForGeneralInterfaceVariant() const {
         return "modern";
 }
 
@@ -2558,18 +2558,18 @@ void PQCSettings::setDefaultForGeneralInterfaceVariant() {
     }
 }
 
-QString PQCSettings::getGeneralVersion() {
+QString PQCSettings::getGeneralVersion() const {
     return m_generalVersion;
 }
 
-void PQCSettings::setGeneralVersion(QString val) {
+void PQCSettings::setGeneralVersion(const QString val) {
     if(val != m_generalVersion) {
         m_generalVersion = val;
         Q_EMIT generalVersionChanged();
     }
 }
 
-const QString PQCSettings::getDefaultForGeneralVersion() {
+const QString PQCSettings::getDefaultForGeneralVersion() const {
         return "";
 }
 
@@ -2580,18 +2580,18 @@ void PQCSettings::setDefaultForGeneralVersion() {
     }
 }
 
-bool PQCSettings::getImageviewAdvancedSortAscending() {
+bool PQCSettings::getImageviewAdvancedSortAscending() const {
     return m_imageviewAdvancedSortAscending;
 }
 
-void PQCSettings::setImageviewAdvancedSortAscending(bool val) {
+void PQCSettings::setImageviewAdvancedSortAscending(const bool val) {
     if(val != m_imageviewAdvancedSortAscending) {
         m_imageviewAdvancedSortAscending = val;
         Q_EMIT imageviewAdvancedSortAscendingChanged();
     }
 }
 
-const bool PQCSettings::getDefaultForImageviewAdvancedSortAscending() {
+const bool PQCSettings::getDefaultForImageviewAdvancedSortAscending() const {
         return true;
 }
 
@@ -2602,18 +2602,18 @@ void PQCSettings::setDefaultForImageviewAdvancedSortAscending() {
     }
 }
 
-QString PQCSettings::getImageviewAdvancedSortCriteria() {
+QString PQCSettings::getImageviewAdvancedSortCriteria() const {
     return m_imageviewAdvancedSortCriteria;
 }
 
-void PQCSettings::setImageviewAdvancedSortCriteria(QString val) {
+void PQCSettings::setImageviewAdvancedSortCriteria(const QString val) {
     if(val != m_imageviewAdvancedSortCriteria) {
         m_imageviewAdvancedSortCriteria = val;
         Q_EMIT imageviewAdvancedSortCriteriaChanged();
     }
 }
 
-const QString PQCSettings::getDefaultForImageviewAdvancedSortCriteria() {
+const QString PQCSettings::getDefaultForImageviewAdvancedSortCriteria() const {
         return "resolution";
 }
 
@@ -2624,18 +2624,18 @@ void PQCSettings::setDefaultForImageviewAdvancedSortCriteria() {
     }
 }
 
-QStringList PQCSettings::getImageviewAdvancedSortDateCriteria() {
+QStringList PQCSettings::getImageviewAdvancedSortDateCriteria() const {
     return m_imageviewAdvancedSortDateCriteria;
 }
 
-void PQCSettings::setImageviewAdvancedSortDateCriteria(QStringList val) {
+void PQCSettings::setImageviewAdvancedSortDateCriteria(const QStringList val) {
     if(val != m_imageviewAdvancedSortDateCriteria) {
         m_imageviewAdvancedSortDateCriteria = val;
         Q_EMIT imageviewAdvancedSortDateCriteriaChanged();
     }
 }
 
-const QStringList PQCSettings::getDefaultForImageviewAdvancedSortDateCriteria() {
+const QStringList PQCSettings::getDefaultForImageviewAdvancedSortDateCriteria() const {
         return QStringList() << "exiforiginal" << "exifdigital" << "filecreation" << "filemodification";
 }
 
@@ -2647,18 +2647,18 @@ void PQCSettings::setDefaultForImageviewAdvancedSortDateCriteria() {
     }
 }
 
-QString PQCSettings::getImageviewAdvancedSortQuality() {
+QString PQCSettings::getImageviewAdvancedSortQuality() const {
     return m_imageviewAdvancedSortQuality;
 }
 
-void PQCSettings::setImageviewAdvancedSortQuality(QString val) {
+void PQCSettings::setImageviewAdvancedSortQuality(const QString val) {
     if(val != m_imageviewAdvancedSortQuality) {
         m_imageviewAdvancedSortQuality = val;
         Q_EMIT imageviewAdvancedSortQualityChanged();
     }
 }
 
-const QString PQCSettings::getDefaultForImageviewAdvancedSortQuality() {
+const QString PQCSettings::getDefaultForImageviewAdvancedSortQuality() const {
         return "medium";
 }
 
@@ -2669,18 +2669,18 @@ void PQCSettings::setDefaultForImageviewAdvancedSortQuality() {
     }
 }
 
-bool PQCSettings::getImageviewAlwaysActualSize() {
+bool PQCSettings::getImageviewAlwaysActualSize() const {
     return m_imageviewAlwaysActualSize;
 }
 
-void PQCSettings::setImageviewAlwaysActualSize(bool val) {
+void PQCSettings::setImageviewAlwaysActualSize(const bool val) {
     if(val != m_imageviewAlwaysActualSize) {
         m_imageviewAlwaysActualSize = val;
         Q_EMIT imageviewAlwaysActualSizeChanged();
     }
 }
 
-const bool PQCSettings::getDefaultForImageviewAlwaysActualSize() {
+const bool PQCSettings::getDefaultForImageviewAlwaysActualSize() const {
         return false;
 }
 
@@ -2691,18 +2691,18 @@ void PQCSettings::setDefaultForImageviewAlwaysActualSize() {
     }
 }
 
-int PQCSettings::getImageviewAnimationDuration() {
+int PQCSettings::getImageviewAnimationDuration() const {
     return m_imageviewAnimationDuration;
 }
 
-void PQCSettings::setImageviewAnimationDuration(int val) {
+void PQCSettings::setImageviewAnimationDuration(const int val) {
     if(val != m_imageviewAnimationDuration) {
         m_imageviewAnimationDuration = val;
         Q_EMIT imageviewAnimationDurationChanged();
     }
 }
 
-const int PQCSettings::getDefaultForImageviewAnimationDuration() {
+const int PQCSettings::getDefaultForImageviewAnimationDuration() const {
         return 3;
 }
 
@@ -2712,18 +2712,18 @@ void PQCSettings::setDefaultForImageviewAnimationDuration() {
     }
 }
 
-QString PQCSettings::getImageviewAnimationType() {
+QString PQCSettings::getImageviewAnimationType() const {
     return m_imageviewAnimationType;
 }
 
-void PQCSettings::setImageviewAnimationType(QString val) {
+void PQCSettings::setImageviewAnimationType(const QString val) {
     if(val != m_imageviewAnimationType) {
         m_imageviewAnimationType = val;
         Q_EMIT imageviewAnimationTypeChanged();
     }
 }
 
-const QString PQCSettings::getDefaultForImageviewAnimationType() {
+const QString PQCSettings::getDefaultForImageviewAnimationType() const {
         return "opacity";
 }
 
@@ -2734,18 +2734,18 @@ void PQCSettings::setDefaultForImageviewAnimationType() {
     }
 }
 
-int PQCSettings::getImageviewCache() {
+int PQCSettings::getImageviewCache() const {
     return m_imageviewCache;
 }
 
-void PQCSettings::setImageviewCache(int val) {
+void PQCSettings::setImageviewCache(const int val) {
     if(val != m_imageviewCache) {
         m_imageviewCache = val;
         Q_EMIT imageviewCacheChanged();
     }
 }
 
-const int PQCSettings::getDefaultForImageviewCache() {
+const int PQCSettings::getDefaultForImageviewCache() const {
         return 512;
 }
 
@@ -2755,18 +2755,18 @@ void PQCSettings::setDefaultForImageviewCache() {
     }
 }
 
-QStringList PQCSettings::getImageviewColorSpaceContextMenu() {
+QStringList PQCSettings::getImageviewColorSpaceContextMenu() const {
     return m_imageviewColorSpaceContextMenu;
 }
 
-void PQCSettings::setImageviewColorSpaceContextMenu(QStringList val) {
+void PQCSettings::setImageviewColorSpaceContextMenu(const QStringList val) {
     if(val != m_imageviewColorSpaceContextMenu) {
         m_imageviewColorSpaceContextMenu = val;
         Q_EMIT imageviewColorSpaceContextMenuChanged();
     }
 }
 
-const QStringList PQCSettings::getDefaultForImageviewColorSpaceContextMenu() {
+const QStringList PQCSettings::getDefaultForImageviewColorSpaceContextMenu() const {
         return QStringList() << "::0" << "::1" << "::2" << "::3" << "::4";
 }
 
@@ -2778,18 +2778,18 @@ void PQCSettings::setDefaultForImageviewColorSpaceContextMenu() {
     }
 }
 
-QString PQCSettings::getImageviewColorSpaceDefault() {
+QString PQCSettings::getImageviewColorSpaceDefault() const {
     return m_imageviewColorSpaceDefault;
 }
 
-void PQCSettings::setImageviewColorSpaceDefault(QString val) {
+void PQCSettings::setImageviewColorSpaceDefault(const QString val) {
     if(val != m_imageviewColorSpaceDefault) {
         m_imageviewColorSpaceDefault = val;
         Q_EMIT imageviewColorSpaceDefaultChanged();
     }
 }
 
-const QString PQCSettings::getDefaultForImageviewColorSpaceDefault() {
+const QString PQCSettings::getDefaultForImageviewColorSpaceDefault() const {
         return "";
 }
 
@@ -2800,18 +2800,18 @@ void PQCSettings::setDefaultForImageviewColorSpaceDefault() {
     }
 }
 
-bool PQCSettings::getImageviewColorSpaceEnable() {
+bool PQCSettings::getImageviewColorSpaceEnable() const {
     return m_imageviewColorSpaceEnable;
 }
 
-void PQCSettings::setImageviewColorSpaceEnable(bool val) {
+void PQCSettings::setImageviewColorSpaceEnable(const bool val) {
     if(val != m_imageviewColorSpaceEnable) {
         m_imageviewColorSpaceEnable = val;
         Q_EMIT imageviewColorSpaceEnableChanged();
     }
 }
 
-const bool PQCSettings::getDefaultForImageviewColorSpaceEnable() {
+const bool PQCSettings::getDefaultForImageviewColorSpaceEnable() const {
         return true;
 }
 
@@ -2822,18 +2822,18 @@ void PQCSettings::setDefaultForImageviewColorSpaceEnable() {
     }
 }
 
-bool PQCSettings::getImageviewColorSpaceLoadEmbedded() {
+bool PQCSettings::getImageviewColorSpaceLoadEmbedded() const {
     return m_imageviewColorSpaceLoadEmbedded;
 }
 
-void PQCSettings::setImageviewColorSpaceLoadEmbedded(bool val) {
+void PQCSettings::setImageviewColorSpaceLoadEmbedded(const bool val) {
     if(val != m_imageviewColorSpaceLoadEmbedded) {
         m_imageviewColorSpaceLoadEmbedded = val;
         Q_EMIT imageviewColorSpaceLoadEmbeddedChanged();
     }
 }
 
-const bool PQCSettings::getDefaultForImageviewColorSpaceLoadEmbedded() {
+const bool PQCSettings::getDefaultForImageviewColorSpaceLoadEmbedded() const {
         return true;
 }
 
@@ -2844,18 +2844,18 @@ void PQCSettings::setDefaultForImageviewColorSpaceLoadEmbedded() {
     }
 }
 
-bool PQCSettings::getImageviewEscapeExitArchive() {
+bool PQCSettings::getImageviewEscapeExitArchive() const {
     return m_imageviewEscapeExitArchive;
 }
 
-void PQCSettings::setImageviewEscapeExitArchive(bool val) {
+void PQCSettings::setImageviewEscapeExitArchive(const bool val) {
     if(val != m_imageviewEscapeExitArchive) {
         m_imageviewEscapeExitArchive = val;
         Q_EMIT imageviewEscapeExitArchiveChanged();
     }
 }
 
-const bool PQCSettings::getDefaultForImageviewEscapeExitArchive() {
+const bool PQCSettings::getDefaultForImageviewEscapeExitArchive() const {
         return true;
 }
 
@@ -2866,18 +2866,18 @@ void PQCSettings::setDefaultForImageviewEscapeExitArchive() {
     }
 }
 
-bool PQCSettings::getImageviewEscapeExitBarcodes() {
+bool PQCSettings::getImageviewEscapeExitBarcodes() const {
     return m_imageviewEscapeExitBarcodes;
 }
 
-void PQCSettings::setImageviewEscapeExitBarcodes(bool val) {
+void PQCSettings::setImageviewEscapeExitBarcodes(const bool val) {
     if(val != m_imageviewEscapeExitBarcodes) {
         m_imageviewEscapeExitBarcodes = val;
         Q_EMIT imageviewEscapeExitBarcodesChanged();
     }
 }
 
-const bool PQCSettings::getDefaultForImageviewEscapeExitBarcodes() {
+const bool PQCSettings::getDefaultForImageviewEscapeExitBarcodes() const {
         return true;
 }
 
@@ -2888,18 +2888,18 @@ void PQCSettings::setDefaultForImageviewEscapeExitBarcodes() {
     }
 }
 
-bool PQCSettings::getImageviewEscapeExitDocument() {
+bool PQCSettings::getImageviewEscapeExitDocument() const {
     return m_imageviewEscapeExitDocument;
 }
 
-void PQCSettings::setImageviewEscapeExitDocument(bool val) {
+void PQCSettings::setImageviewEscapeExitDocument(const bool val) {
     if(val != m_imageviewEscapeExitDocument) {
         m_imageviewEscapeExitDocument = val;
         Q_EMIT imageviewEscapeExitDocumentChanged();
     }
 }
 
-const bool PQCSettings::getDefaultForImageviewEscapeExitDocument() {
+const bool PQCSettings::getDefaultForImageviewEscapeExitDocument() const {
         return true;
 }
 
@@ -2910,18 +2910,18 @@ void PQCSettings::setDefaultForImageviewEscapeExitDocument() {
     }
 }
 
-bool PQCSettings::getImageviewEscapeExitFilter() {
+bool PQCSettings::getImageviewEscapeExitFilter() const {
     return m_imageviewEscapeExitFilter;
 }
 
-void PQCSettings::setImageviewEscapeExitFilter(bool val) {
+void PQCSettings::setImageviewEscapeExitFilter(const bool val) {
     if(val != m_imageviewEscapeExitFilter) {
         m_imageviewEscapeExitFilter = val;
         Q_EMIT imageviewEscapeExitFilterChanged();
     }
 }
 
-const bool PQCSettings::getDefaultForImageviewEscapeExitFilter() {
+const bool PQCSettings::getDefaultForImageviewEscapeExitFilter() const {
         return true;
 }
 
@@ -2932,18 +2932,18 @@ void PQCSettings::setDefaultForImageviewEscapeExitFilter() {
     }
 }
 
-bool PQCSettings::getImageviewEscapeExitSphere() {
+bool PQCSettings::getImageviewEscapeExitSphere() const {
     return m_imageviewEscapeExitSphere;
 }
 
-void PQCSettings::setImageviewEscapeExitSphere(bool val) {
+void PQCSettings::setImageviewEscapeExitSphere(const bool val) {
     if(val != m_imageviewEscapeExitSphere) {
         m_imageviewEscapeExitSphere = val;
         Q_EMIT imageviewEscapeExitSphereChanged();
     }
 }
 
-const bool PQCSettings::getDefaultForImageviewEscapeExitSphere() {
+const bool PQCSettings::getDefaultForImageviewEscapeExitSphere() const {
         return true;
 }
 
@@ -2954,18 +2954,18 @@ void PQCSettings::setDefaultForImageviewEscapeExitSphere() {
     }
 }
 
-bool PQCSettings::getImageviewFitInWindow() {
+bool PQCSettings::getImageviewFitInWindow() const {
     return m_imageviewFitInWindow;
 }
 
-void PQCSettings::setImageviewFitInWindow(bool val) {
+void PQCSettings::setImageviewFitInWindow(const bool val) {
     if(val != m_imageviewFitInWindow) {
         m_imageviewFitInWindow = val;
         Q_EMIT imageviewFitInWindowChanged();
     }
 }
 
-const bool PQCSettings::getDefaultForImageviewFitInWindow() {
+const bool PQCSettings::getDefaultForImageviewFitInWindow() const {
         return false;
 }
 
@@ -2976,18 +2976,18 @@ void PQCSettings::setDefaultForImageviewFitInWindow() {
     }
 }
 
-int PQCSettings::getImageviewHideCursorTimeout() {
+int PQCSettings::getImageviewHideCursorTimeout() const {
     return m_imageviewHideCursorTimeout;
 }
 
-void PQCSettings::setImageviewHideCursorTimeout(int val) {
+void PQCSettings::setImageviewHideCursorTimeout(const int val) {
     if(val != m_imageviewHideCursorTimeout) {
         m_imageviewHideCursorTimeout = val;
         Q_EMIT imageviewHideCursorTimeoutChanged();
     }
 }
 
-const int PQCSettings::getDefaultForImageviewHideCursorTimeout() {
+const int PQCSettings::getDefaultForImageviewHideCursorTimeout() const {
         return 1;
 }
 
@@ -2997,18 +2997,18 @@ void PQCSettings::setDefaultForImageviewHideCursorTimeout() {
     }
 }
 
-int PQCSettings::getImageviewInterpolationFullImage() {
+int PQCSettings::getImageviewInterpolationFullImage() const {
     return m_imageviewInterpolationFullImage;
 }
 
-void PQCSettings::setImageviewInterpolationFullImage(int val) {
+void PQCSettings::setImageviewInterpolationFullImage(const int val) {
     if(val != m_imageviewInterpolationFullImage) {
         m_imageviewInterpolationFullImage = val;
         Q_EMIT imageviewInterpolationFullImageChanged();
     }
 }
 
-const int PQCSettings::getDefaultForImageviewInterpolationFullImage() {
+const int PQCSettings::getDefaultForImageviewInterpolationFullImage() const {
         return 1;
 }
 
@@ -3018,18 +3018,18 @@ void PQCSettings::setDefaultForImageviewInterpolationFullImage() {
     }
 }
 
-bool PQCSettings::getImageviewLoopThroughFolder() {
+bool PQCSettings::getImageviewLoopThroughFolder() const {
     return m_imageviewLoopThroughFolder;
 }
 
-void PQCSettings::setImageviewLoopThroughFolder(bool val) {
+void PQCSettings::setImageviewLoopThroughFolder(const bool val) {
     if(val != m_imageviewLoopThroughFolder) {
         m_imageviewLoopThroughFolder = val;
         Q_EMIT imageviewLoopThroughFolderChanged();
     }
 }
 
-const bool PQCSettings::getDefaultForImageviewLoopThroughFolder() {
+const bool PQCSettings::getDefaultForImageviewLoopThroughFolder() const {
         return true;
 }
 
@@ -3040,18 +3040,18 @@ void PQCSettings::setDefaultForImageviewLoopThroughFolder() {
     }
 }
 
-int PQCSettings::getImageviewMargin() {
+int PQCSettings::getImageviewMargin() const {
     return m_imageviewMargin;
 }
 
-void PQCSettings::setImageviewMargin(int val) {
+void PQCSettings::setImageviewMargin(const int val) {
     if(val != m_imageviewMargin) {
         m_imageviewMargin = val;
         Q_EMIT imageviewMarginChanged();
     }
 }
 
-const int PQCSettings::getDefaultForImageviewMargin() {
+const int PQCSettings::getDefaultForImageviewMargin() const {
         return 5;
 }
 
@@ -3061,18 +3061,18 @@ void PQCSettings::setDefaultForImageviewMargin() {
     }
 }
 
-int PQCSettings::getImageviewMinimapSizeLevel() {
+int PQCSettings::getImageviewMinimapSizeLevel() const {
     return m_imageviewMinimapSizeLevel;
 }
 
-void PQCSettings::setImageviewMinimapSizeLevel(int val) {
+void PQCSettings::setImageviewMinimapSizeLevel(const int val) {
     if(val != m_imageviewMinimapSizeLevel) {
         m_imageviewMinimapSizeLevel = val;
         Q_EMIT imageviewMinimapSizeLevelChanged();
     }
 }
 
-const int PQCSettings::getDefaultForImageviewMinimapSizeLevel() {
+const int PQCSettings::getDefaultForImageviewMinimapSizeLevel() const {
         return 0;
 }
 
@@ -3082,18 +3082,18 @@ void PQCSettings::setDefaultForImageviewMinimapSizeLevel() {
     }
 }
 
-bool PQCSettings::getImageviewMirrorAnimate() {
+bool PQCSettings::getImageviewMirrorAnimate() const {
     return m_imageviewMirrorAnimate;
 }
 
-void PQCSettings::setImageviewMirrorAnimate(bool val) {
+void PQCSettings::setImageviewMirrorAnimate(const bool val) {
     if(val != m_imageviewMirrorAnimate) {
         m_imageviewMirrorAnimate = val;
         Q_EMIT imageviewMirrorAnimateChanged();
     }
 }
 
-const bool PQCSettings::getDefaultForImageviewMirrorAnimate() {
+const bool PQCSettings::getDefaultForImageviewMirrorAnimate() const {
         return true;
 }
 
@@ -3104,18 +3104,18 @@ void PQCSettings::setDefaultForImageviewMirrorAnimate() {
     }
 }
 
-int PQCSettings::getImageviewMouseWheelRepeatDelay() {
+int PQCSettings::getImageviewMouseWheelRepeatDelay() const {
     return m_imageviewMouseWheelRepeatDelay;
 }
 
-void PQCSettings::setImageviewMouseWheelRepeatDelay(int val) {
+void PQCSettings::setImageviewMouseWheelRepeatDelay(const int val) {
     if(val != m_imageviewMouseWheelRepeatDelay) {
         m_imageviewMouseWheelRepeatDelay = val;
         Q_EMIT imageviewMouseWheelRepeatDelayChanged();
     }
 }
 
-const int PQCSettings::getDefaultForImageviewMouseWheelRepeatDelay() {
+const int PQCSettings::getDefaultForImageviewMouseWheelRepeatDelay() const {
         return 0;
 }
 
@@ -3125,18 +3125,18 @@ void PQCSettings::setDefaultForImageviewMouseWheelRepeatDelay() {
     }
 }
 
-int PQCSettings::getImageviewPreloadInBackground() {
+int PQCSettings::getImageviewPreloadInBackground() const {
     return m_imageviewPreloadInBackground;
 }
 
-void PQCSettings::setImageviewPreloadInBackground(int val) {
+void PQCSettings::setImageviewPreloadInBackground(const int val) {
     if(val != m_imageviewPreloadInBackground) {
         m_imageviewPreloadInBackground = val;
         Q_EMIT imageviewPreloadInBackgroundChanged();
     }
 }
 
-const int PQCSettings::getDefaultForImageviewPreloadInBackground() {
+const int PQCSettings::getDefaultForImageviewPreloadInBackground() const {
         return 1;
 }
 
@@ -3146,18 +3146,18 @@ void PQCSettings::setDefaultForImageviewPreloadInBackground() {
     }
 }
 
-bool PQCSettings::getImageviewPreserveMirror() {
+bool PQCSettings::getImageviewPreserveMirror() const {
     return m_imageviewPreserveMirror;
 }
 
-void PQCSettings::setImageviewPreserveMirror(bool val) {
+void PQCSettings::setImageviewPreserveMirror(const bool val) {
     if(val != m_imageviewPreserveMirror) {
         m_imageviewPreserveMirror = val;
         Q_EMIT imageviewPreserveMirrorChanged();
     }
 }
 
-const bool PQCSettings::getDefaultForImageviewPreserveMirror() {
+const bool PQCSettings::getDefaultForImageviewPreserveMirror() const {
         return false;
 }
 
@@ -3168,18 +3168,18 @@ void PQCSettings::setDefaultForImageviewPreserveMirror() {
     }
 }
 
-bool PQCSettings::getImageviewPreserveRotation() {
+bool PQCSettings::getImageviewPreserveRotation() const {
     return m_imageviewPreserveRotation;
 }
 
-void PQCSettings::setImageviewPreserveRotation(bool val) {
+void PQCSettings::setImageviewPreserveRotation(const bool val) {
     if(val != m_imageviewPreserveRotation) {
         m_imageviewPreserveRotation = val;
         Q_EMIT imageviewPreserveRotationChanged();
     }
 }
 
-const bool PQCSettings::getDefaultForImageviewPreserveRotation() {
+const bool PQCSettings::getDefaultForImageviewPreserveRotation() const {
         return false;
 }
 
@@ -3190,18 +3190,18 @@ void PQCSettings::setDefaultForImageviewPreserveRotation() {
     }
 }
 
-bool PQCSettings::getImageviewPreserveZoom() {
+bool PQCSettings::getImageviewPreserveZoom() const {
     return m_imageviewPreserveZoom;
 }
 
-void PQCSettings::setImageviewPreserveZoom(bool val) {
+void PQCSettings::setImageviewPreserveZoom(const bool val) {
     if(val != m_imageviewPreserveZoom) {
         m_imageviewPreserveZoom = val;
         Q_EMIT imageviewPreserveZoomChanged();
     }
 }
 
-const bool PQCSettings::getDefaultForImageviewPreserveZoom() {
+const bool PQCSettings::getDefaultForImageviewPreserveZoom() const {
         return false;
 }
 
@@ -3212,18 +3212,18 @@ void PQCSettings::setDefaultForImageviewPreserveZoom() {
     }
 }
 
-bool PQCSettings::getImageviewRememberZoomRotationMirror() {
+bool PQCSettings::getImageviewRememberZoomRotationMirror() const {
     return m_imageviewRememberZoomRotationMirror;
 }
 
-void PQCSettings::setImageviewRememberZoomRotationMirror(bool val) {
+void PQCSettings::setImageviewRememberZoomRotationMirror(const bool val) {
     if(val != m_imageviewRememberZoomRotationMirror) {
         m_imageviewRememberZoomRotationMirror = val;
         Q_EMIT imageviewRememberZoomRotationMirrorChanged();
     }
 }
 
-const bool PQCSettings::getDefaultForImageviewRememberZoomRotationMirror() {
+const bool PQCSettings::getDefaultForImageviewRememberZoomRotationMirror() const {
         return false;
 }
 
@@ -3234,18 +3234,18 @@ void PQCSettings::setDefaultForImageviewRememberZoomRotationMirror() {
     }
 }
 
-bool PQCSettings::getImageviewRescalingSmooth() {
+bool PQCSettings::getImageviewRescalingSmooth() const {
     return m_imageviewRescalingSmooth;
 }
 
-void PQCSettings::setImageviewRescalingSmooth(bool val) {
+void PQCSettings::setImageviewRescalingSmooth(const bool val) {
     if(val != m_imageviewRescalingSmooth) {
         m_imageviewRescalingSmooth = val;
         Q_EMIT imageviewRescalingSmoothChanged();
     }
 }
 
-const bool PQCSettings::getDefaultForImageviewRescalingSmooth() {
+const bool PQCSettings::getDefaultForImageviewRescalingSmooth() const {
         return true;
 }
 
@@ -3256,18 +3256,18 @@ void PQCSettings::setDefaultForImageviewRescalingSmooth() {
     }
 }
 
-int PQCSettings::getImageviewRescalingWhichImages() {
+int PQCSettings::getImageviewRescalingWhichImages() const {
     return m_imageviewRescalingWhichImages;
 }
 
-void PQCSettings::setImageviewRescalingWhichImages(int val) {
+void PQCSettings::setImageviewRescalingWhichImages(const int val) {
     if(val != m_imageviewRescalingWhichImages) {
         m_imageviewRescalingWhichImages = val;
         Q_EMIT imageviewRescalingWhichImagesChanged();
     }
 }
 
-const int PQCSettings::getDefaultForImageviewRescalingWhichImages() {
+const int PQCSettings::getDefaultForImageviewRescalingWhichImages() const {
         return 2;
 }
 
@@ -3277,18 +3277,18 @@ void PQCSettings::setDefaultForImageviewRescalingWhichImages() {
     }
 }
 
-int PQCSettings::getImageviewResetViewAutoHideTimeout() {
+int PQCSettings::getImageviewResetViewAutoHideTimeout() const {
     return m_imageviewResetViewAutoHideTimeout;
 }
 
-void PQCSettings::setImageviewResetViewAutoHideTimeout(int val) {
+void PQCSettings::setImageviewResetViewAutoHideTimeout(const int val) {
     if(val != m_imageviewResetViewAutoHideTimeout) {
         m_imageviewResetViewAutoHideTimeout = val;
         Q_EMIT imageviewResetViewAutoHideTimeoutChanged();
     }
 }
 
-const int PQCSettings::getDefaultForImageviewResetViewAutoHideTimeout() {
+const int PQCSettings::getDefaultForImageviewResetViewAutoHideTimeout() const {
         return 1000;
 }
 
@@ -3298,18 +3298,18 @@ void PQCSettings::setDefaultForImageviewResetViewAutoHideTimeout() {
     }
 }
 
-bool PQCSettings::getImageviewResetViewShow() {
+bool PQCSettings::getImageviewResetViewShow() const {
     return m_imageviewResetViewShow;
 }
 
-void PQCSettings::setImageviewResetViewShow(bool val) {
+void PQCSettings::setImageviewResetViewShow(const bool val) {
     if(val != m_imageviewResetViewShow) {
         m_imageviewResetViewShow = val;
         Q_EMIT imageviewResetViewShowChanged();
     }
 }
 
-const bool PQCSettings::getDefaultForImageviewResetViewShow() {
+const bool PQCSettings::getDefaultForImageviewResetViewShow() const {
         return false;
 }
 
@@ -3320,18 +3320,18 @@ void PQCSettings::setDefaultForImageviewResetViewShow() {
     }
 }
 
-bool PQCSettings::getImageviewRespectDevicePixelRatio() {
+bool PQCSettings::getImageviewRespectDevicePixelRatio() const {
     return m_imageviewRespectDevicePixelRatio;
 }
 
-void PQCSettings::setImageviewRespectDevicePixelRatio(bool val) {
+void PQCSettings::setImageviewRespectDevicePixelRatio(const bool val) {
     if(val != m_imageviewRespectDevicePixelRatio) {
         m_imageviewRespectDevicePixelRatio = val;
         Q_EMIT imageviewRespectDevicePixelRatioChanged();
     }
 }
 
-const bool PQCSettings::getDefaultForImageviewRespectDevicePixelRatio() {
+const bool PQCSettings::getDefaultForImageviewRespectDevicePixelRatio() const {
         return true;
 }
 
@@ -3342,18 +3342,18 @@ void PQCSettings::setDefaultForImageviewRespectDevicePixelRatio() {
     }
 }
 
-bool PQCSettings::getImageviewShowMinimap() {
+bool PQCSettings::getImageviewShowMinimap() const {
     return m_imageviewShowMinimap;
 }
 
-void PQCSettings::setImageviewShowMinimap(bool val) {
+void PQCSettings::setImageviewShowMinimap(const bool val) {
     if(val != m_imageviewShowMinimap) {
         m_imageviewShowMinimap = val;
         Q_EMIT imageviewShowMinimapChanged();
     }
 }
 
-const bool PQCSettings::getDefaultForImageviewShowMinimap() {
+const bool PQCSettings::getDefaultForImageviewShowMinimap() const {
         return true;
 }
 
@@ -3364,18 +3364,18 @@ void PQCSettings::setDefaultForImageviewShowMinimap() {
     }
 }
 
-int PQCSettings::getImageviewSiblingFileMaxIterations() {
+int PQCSettings::getImageviewSiblingFileMaxIterations() const {
     return m_imageviewSiblingFileMaxIterations;
 }
 
-void PQCSettings::setImageviewSiblingFileMaxIterations(int val) {
+void PQCSettings::setImageviewSiblingFileMaxIterations(const int val) {
     if(val != m_imageviewSiblingFileMaxIterations) {
         m_imageviewSiblingFileMaxIterations = val;
         Q_EMIT imageviewSiblingFileMaxIterationsChanged();
     }
 }
 
-const int PQCSettings::getDefaultForImageviewSiblingFileMaxIterations() {
+const int PQCSettings::getDefaultForImageviewSiblingFileMaxIterations() const {
         return 100;
 }
 
@@ -3385,18 +3385,18 @@ void PQCSettings::setDefaultForImageviewSiblingFileMaxIterations() {
     }
 }
 
-int PQCSettings::getImageviewSiblingFileMaxLevelUp() {
+int PQCSettings::getImageviewSiblingFileMaxLevelUp() const {
     return m_imageviewSiblingFileMaxLevelUp;
 }
 
-void PQCSettings::setImageviewSiblingFileMaxLevelUp(int val) {
+void PQCSettings::setImageviewSiblingFileMaxLevelUp(const int val) {
     if(val != m_imageviewSiblingFileMaxLevelUp) {
         m_imageviewSiblingFileMaxLevelUp = val;
         Q_EMIT imageviewSiblingFileMaxLevelUpChanged();
     }
 }
 
-const int PQCSettings::getDefaultForImageviewSiblingFileMaxLevelUp() {
+const int PQCSettings::getDefaultForImageviewSiblingFileMaxLevelUp() const {
         return 8;
 }
 
@@ -3406,18 +3406,18 @@ void PQCSettings::setDefaultForImageviewSiblingFileMaxLevelUp() {
     }
 }
 
-int PQCSettings::getImageviewSiblingFilemaxLevelDown() {
+int PQCSettings::getImageviewSiblingFilemaxLevelDown() const {
     return m_imageviewSiblingFilemaxLevelDown;
 }
 
-void PQCSettings::setImageviewSiblingFilemaxLevelDown(int val) {
+void PQCSettings::setImageviewSiblingFilemaxLevelDown(const int val) {
     if(val != m_imageviewSiblingFilemaxLevelDown) {
         m_imageviewSiblingFilemaxLevelDown = val;
         Q_EMIT imageviewSiblingFilemaxLevelDownChanged();
     }
 }
 
-const int PQCSettings::getDefaultForImageviewSiblingFilemaxLevelDown() {
+const int PQCSettings::getDefaultForImageviewSiblingFilemaxLevelDown() const {
         return 2;
 }
 
@@ -3427,18 +3427,18 @@ void PQCSettings::setDefaultForImageviewSiblingFilemaxLevelDown() {
     }
 }
 
-bool PQCSettings::getImageviewSortImagesAscending() {
+bool PQCSettings::getImageviewSortImagesAscending() const {
     return m_imageviewSortImagesAscending;
 }
 
-void PQCSettings::setImageviewSortImagesAscending(bool val) {
+void PQCSettings::setImageviewSortImagesAscending(const bool val) {
     if(val != m_imageviewSortImagesAscending) {
         m_imageviewSortImagesAscending = val;
         Q_EMIT imageviewSortImagesAscendingChanged();
     }
 }
 
-const bool PQCSettings::getDefaultForImageviewSortImagesAscending() {
+const bool PQCSettings::getDefaultForImageviewSortImagesAscending() const {
         return true;
 }
 
@@ -3449,18 +3449,18 @@ void PQCSettings::setDefaultForImageviewSortImagesAscending() {
     }
 }
 
-QString PQCSettings::getImageviewSortImagesBy() {
+QString PQCSettings::getImageviewSortImagesBy() const {
     return m_imageviewSortImagesBy;
 }
 
-void PQCSettings::setImageviewSortImagesBy(QString val) {
+void PQCSettings::setImageviewSortImagesBy(const QString val) {
     if(val != m_imageviewSortImagesBy) {
         m_imageviewSortImagesBy = val;
         Q_EMIT imageviewSortImagesByChanged();
     }
 }
 
-const QString PQCSettings::getDefaultForImageviewSortImagesBy() {
+const QString PQCSettings::getDefaultForImageviewSortImagesBy() const {
         return "naturalname";
 }
 
@@ -3471,18 +3471,18 @@ void PQCSettings::setDefaultForImageviewSortImagesBy() {
     }
 }
 
-bool PQCSettings::getImageviewTransparencyMarker() {
+bool PQCSettings::getImageviewTransparencyMarker() const {
     return m_imageviewTransparencyMarker;
 }
 
-void PQCSettings::setImageviewTransparencyMarker(bool val) {
+void PQCSettings::setImageviewTransparencyMarker(const bool val) {
     if(val != m_imageviewTransparencyMarker) {
         m_imageviewTransparencyMarker = val;
         Q_EMIT imageviewTransparencyMarkerChanged();
     }
 }
 
-const bool PQCSettings::getDefaultForImageviewTransparencyMarker() {
+const bool PQCSettings::getDefaultForImageviewTransparencyMarker() const {
         return false;
 }
 
@@ -3493,18 +3493,18 @@ void PQCSettings::setDefaultForImageviewTransparencyMarker() {
     }
 }
 
-bool PQCSettings::getImageviewUseMouseLeftButtonForImageMove() {
+bool PQCSettings::getImageviewUseMouseLeftButtonForImageMove() const {
     return m_imageviewUseMouseLeftButtonForImageMove;
 }
 
-void PQCSettings::setImageviewUseMouseLeftButtonForImageMove(bool val) {
+void PQCSettings::setImageviewUseMouseLeftButtonForImageMove(const bool val) {
     if(val != m_imageviewUseMouseLeftButtonForImageMove) {
         m_imageviewUseMouseLeftButtonForImageMove = val;
         Q_EMIT imageviewUseMouseLeftButtonForImageMoveChanged();
     }
 }
 
-const bool PQCSettings::getDefaultForImageviewUseMouseLeftButtonForImageMove() {
+const bool PQCSettings::getDefaultForImageviewUseMouseLeftButtonForImageMove() const {
         return true;
 }
 
@@ -3515,18 +3515,18 @@ void PQCSettings::setDefaultForImageviewUseMouseLeftButtonForImageMove() {
     }
 }
 
-bool PQCSettings::getImageviewUseMouseWheelForImageMove() {
+bool PQCSettings::getImageviewUseMouseWheelForImageMove() const {
     return m_imageviewUseMouseWheelForImageMove;
 }
 
-void PQCSettings::setImageviewUseMouseWheelForImageMove(bool val) {
+void PQCSettings::setImageviewUseMouseWheelForImageMove(const bool val) {
     if(val != m_imageviewUseMouseWheelForImageMove) {
         m_imageviewUseMouseWheelForImageMove = val;
         Q_EMIT imageviewUseMouseWheelForImageMoveChanged();
     }
 }
 
-const bool PQCSettings::getDefaultForImageviewUseMouseWheelForImageMove() {
+const bool PQCSettings::getDefaultForImageviewUseMouseWheelForImageMove() const {
         return false;
 }
 
@@ -3537,18 +3537,18 @@ void PQCSettings::setDefaultForImageviewUseMouseWheelForImageMove() {
     }
 }
 
-int PQCSettings::getImageviewZoomMax() {
+int PQCSettings::getImageviewZoomMax() const {
     return m_imageviewZoomMax;
 }
 
-void PQCSettings::setImageviewZoomMax(int val) {
+void PQCSettings::setImageviewZoomMax(const int val) {
     if(val != m_imageviewZoomMax) {
         m_imageviewZoomMax = val;
         Q_EMIT imageviewZoomMaxChanged();
     }
 }
 
-const int PQCSettings::getDefaultForImageviewZoomMax() {
+const int PQCSettings::getDefaultForImageviewZoomMax() const {
         return 500;
 }
 
@@ -3558,18 +3558,18 @@ void PQCSettings::setDefaultForImageviewZoomMax() {
     }
 }
 
-bool PQCSettings::getImageviewZoomMaxEnabled() {
+bool PQCSettings::getImageviewZoomMaxEnabled() const {
     return m_imageviewZoomMaxEnabled;
 }
 
-void PQCSettings::setImageviewZoomMaxEnabled(bool val) {
+void PQCSettings::setImageviewZoomMaxEnabled(const bool val) {
     if(val != m_imageviewZoomMaxEnabled) {
         m_imageviewZoomMaxEnabled = val;
         Q_EMIT imageviewZoomMaxEnabledChanged();
     }
 }
 
-const bool PQCSettings::getDefaultForImageviewZoomMaxEnabled() {
+const bool PQCSettings::getDefaultForImageviewZoomMaxEnabled() const {
         return true;
 }
 
@@ -3580,18 +3580,18 @@ void PQCSettings::setDefaultForImageviewZoomMaxEnabled() {
     }
 }
 
-int PQCSettings::getImageviewZoomMin() {
+int PQCSettings::getImageviewZoomMin() const {
     return m_imageviewZoomMin;
 }
 
-void PQCSettings::setImageviewZoomMin(int val) {
+void PQCSettings::setImageviewZoomMin(const int val) {
     if(val != m_imageviewZoomMin) {
         m_imageviewZoomMin = val;
         Q_EMIT imageviewZoomMinChanged();
     }
 }
 
-const int PQCSettings::getDefaultForImageviewZoomMin() {
+const int PQCSettings::getDefaultForImageviewZoomMin() const {
         return 20;
 }
 
@@ -3601,18 +3601,18 @@ void PQCSettings::setDefaultForImageviewZoomMin() {
     }
 }
 
-bool PQCSettings::getImageviewZoomMinEnabled() {
+bool PQCSettings::getImageviewZoomMinEnabled() const {
     return m_imageviewZoomMinEnabled;
 }
 
-void PQCSettings::setImageviewZoomMinEnabled(bool val) {
+void PQCSettings::setImageviewZoomMinEnabled(const bool val) {
     if(val != m_imageviewZoomMinEnabled) {
         m_imageviewZoomMinEnabled = val;
         Q_EMIT imageviewZoomMinEnabledChanged();
     }
 }
 
-const bool PQCSettings::getDefaultForImageviewZoomMinEnabled() {
+const bool PQCSettings::getDefaultForImageviewZoomMinEnabled() const {
         return true;
 }
 
@@ -3623,18 +3623,18 @@ void PQCSettings::setDefaultForImageviewZoomMinEnabled() {
     }
 }
 
-int PQCSettings::getImageviewZoomSpeed() {
+int PQCSettings::getImageviewZoomSpeed() const {
     return m_imageviewZoomSpeed;
 }
 
-void PQCSettings::setImageviewZoomSpeed(int val) {
+void PQCSettings::setImageviewZoomSpeed(const int val) {
     if(val != m_imageviewZoomSpeed) {
         m_imageviewZoomSpeed = val;
         Q_EMIT imageviewZoomSpeedChanged();
     }
 }
 
-const int PQCSettings::getDefaultForImageviewZoomSpeed() {
+const int PQCSettings::getDefaultForImageviewZoomSpeed() const {
         return 20;
 }
 
@@ -3644,18 +3644,18 @@ void PQCSettings::setDefaultForImageviewZoomSpeed() {
     }
 }
 
-bool PQCSettings::getImageviewZoomSpeedRelative() {
+bool PQCSettings::getImageviewZoomSpeedRelative() const {
     return m_imageviewZoomSpeedRelative;
 }
 
-void PQCSettings::setImageviewZoomSpeedRelative(bool val) {
+void PQCSettings::setImageviewZoomSpeedRelative(const bool val) {
     if(val != m_imageviewZoomSpeedRelative) {
         m_imageviewZoomSpeedRelative = val;
         Q_EMIT imageviewZoomSpeedRelativeChanged();
     }
 }
 
-const bool PQCSettings::getDefaultForImageviewZoomSpeedRelative() {
+const bool PQCSettings::getDefaultForImageviewZoomSpeedRelative() const {
         return true;
 }
 
@@ -3666,18 +3666,18 @@ void PQCSettings::setDefaultForImageviewZoomSpeedRelative() {
     }
 }
 
-bool PQCSettings::getImageviewZoomToCenter() {
+bool PQCSettings::getImageviewZoomToCenter() const {
     return m_imageviewZoomToCenter;
 }
 
-void PQCSettings::setImageviewZoomToCenter(bool val) {
+void PQCSettings::setImageviewZoomToCenter(const bool val) {
     if(val != m_imageviewZoomToCenter) {
         m_imageviewZoomToCenter = val;
         Q_EMIT imageviewZoomToCenterChanged();
     }
 }
 
-const bool PQCSettings::getDefaultForImageviewZoomToCenter() {
+const bool PQCSettings::getDefaultForImageviewZoomToCenter() const {
         return false;
 }
 
@@ -3688,18 +3688,18 @@ void PQCSettings::setDefaultForImageviewZoomToCenter() {
     }
 }
 
-QString PQCSettings::getInterfaceAccentColor() {
+QString PQCSettings::getInterfaceAccentColor() const {
     return m_interfaceAccentColor;
 }
 
-void PQCSettings::setInterfaceAccentColor(QString val) {
+void PQCSettings::setInterfaceAccentColor(const QString val) {
     if(val != m_interfaceAccentColor) {
         m_interfaceAccentColor = val;
         Q_EMIT interfaceAccentColorChanged();
     }
 }
 
-const QString PQCSettings::getDefaultForInterfaceAccentColor() {
+const QString PQCSettings::getDefaultForInterfaceAccentColor() const {
         return "#222222";
 }
 
@@ -3710,18 +3710,18 @@ void PQCSettings::setDefaultForInterfaceAccentColor() {
     }
 }
 
-bool PQCSettings::getInterfaceAllowMultipleInstances() {
+bool PQCSettings::getInterfaceAllowMultipleInstances() const {
     return m_interfaceAllowMultipleInstances;
 }
 
-void PQCSettings::setInterfaceAllowMultipleInstances(bool val) {
+void PQCSettings::setInterfaceAllowMultipleInstances(const bool val) {
     if(val != m_interfaceAllowMultipleInstances) {
         m_interfaceAllowMultipleInstances = val;
         Q_EMIT interfaceAllowMultipleInstancesChanged();
     }
 }
 
-const bool PQCSettings::getDefaultForInterfaceAllowMultipleInstances() {
+const bool PQCSettings::getDefaultForInterfaceAllowMultipleInstances() const {
         return false;
 }
 
@@ -3732,18 +3732,18 @@ void PQCSettings::setDefaultForInterfaceAllowMultipleInstances() {
     }
 }
 
-bool PQCSettings::getInterfaceBackgroundCustomOverlay() {
+bool PQCSettings::getInterfaceBackgroundCustomOverlay() const {
     return m_interfaceBackgroundCustomOverlay;
 }
 
-void PQCSettings::setInterfaceBackgroundCustomOverlay(bool val) {
+void PQCSettings::setInterfaceBackgroundCustomOverlay(const bool val) {
     if(val != m_interfaceBackgroundCustomOverlay) {
         m_interfaceBackgroundCustomOverlay = val;
         Q_EMIT interfaceBackgroundCustomOverlayChanged();
     }
 }
 
-const bool PQCSettings::getDefaultForInterfaceBackgroundCustomOverlay() {
+const bool PQCSettings::getDefaultForInterfaceBackgroundCustomOverlay() const {
         return false;
 }
 
@@ -3754,18 +3754,18 @@ void PQCSettings::setDefaultForInterfaceBackgroundCustomOverlay() {
     }
 }
 
-QString PQCSettings::getInterfaceBackgroundCustomOverlayColor() {
+QString PQCSettings::getInterfaceBackgroundCustomOverlayColor() const {
     return m_interfaceBackgroundCustomOverlayColor;
 }
 
-void PQCSettings::setInterfaceBackgroundCustomOverlayColor(QString val) {
+void PQCSettings::setInterfaceBackgroundCustomOverlayColor(const QString val) {
     if(val != m_interfaceBackgroundCustomOverlayColor) {
         m_interfaceBackgroundCustomOverlayColor = val;
         Q_EMIT interfaceBackgroundCustomOverlayColorChanged();
     }
 }
 
-const QString PQCSettings::getDefaultForInterfaceBackgroundCustomOverlayColor() {
+const QString PQCSettings::getDefaultForInterfaceBackgroundCustomOverlayColor() const {
         return "";
 }
 
@@ -3776,18 +3776,18 @@ void PQCSettings::setDefaultForInterfaceBackgroundCustomOverlayColor() {
     }
 }
 
-bool PQCSettings::getInterfaceBackgroundFullyTransparent() {
+bool PQCSettings::getInterfaceBackgroundFullyTransparent() const {
     return m_interfaceBackgroundFullyTransparent;
 }
 
-void PQCSettings::setInterfaceBackgroundFullyTransparent(bool val) {
+void PQCSettings::setInterfaceBackgroundFullyTransparent(const bool val) {
     if(val != m_interfaceBackgroundFullyTransparent) {
         m_interfaceBackgroundFullyTransparent = val;
         Q_EMIT interfaceBackgroundFullyTransparentChanged();
     }
 }
 
-const bool PQCSettings::getDefaultForInterfaceBackgroundFullyTransparent() {
+const bool PQCSettings::getDefaultForInterfaceBackgroundFullyTransparent() const {
         return false;
 }
 
@@ -3798,18 +3798,18 @@ void PQCSettings::setDefaultForInterfaceBackgroundFullyTransparent() {
     }
 }
 
-bool PQCSettings::getInterfaceBackgroundImageCenter() {
+bool PQCSettings::getInterfaceBackgroundImageCenter() const {
     return m_interfaceBackgroundImageCenter;
 }
 
-void PQCSettings::setInterfaceBackgroundImageCenter(bool val) {
+void PQCSettings::setInterfaceBackgroundImageCenter(const bool val) {
     if(val != m_interfaceBackgroundImageCenter) {
         m_interfaceBackgroundImageCenter = val;
         Q_EMIT interfaceBackgroundImageCenterChanged();
     }
 }
 
-const bool PQCSettings::getDefaultForInterfaceBackgroundImageCenter() {
+const bool PQCSettings::getDefaultForInterfaceBackgroundImageCenter() const {
         return false;
 }
 
@@ -3820,18 +3820,18 @@ void PQCSettings::setDefaultForInterfaceBackgroundImageCenter() {
     }
 }
 
-QString PQCSettings::getInterfaceBackgroundImagePath() {
+QString PQCSettings::getInterfaceBackgroundImagePath() const {
     return m_interfaceBackgroundImagePath;
 }
 
-void PQCSettings::setInterfaceBackgroundImagePath(QString val) {
+void PQCSettings::setInterfaceBackgroundImagePath(const QString val) {
     if(val != m_interfaceBackgroundImagePath) {
         m_interfaceBackgroundImagePath = val;
         Q_EMIT interfaceBackgroundImagePathChanged();
     }
 }
 
-const QString PQCSettings::getDefaultForInterfaceBackgroundImagePath() {
+const QString PQCSettings::getDefaultForInterfaceBackgroundImagePath() const {
         return "";
 }
 
@@ -3842,18 +3842,18 @@ void PQCSettings::setDefaultForInterfaceBackgroundImagePath() {
     }
 }
 
-bool PQCSettings::getInterfaceBackgroundImageScale() {
+bool PQCSettings::getInterfaceBackgroundImageScale() const {
     return m_interfaceBackgroundImageScale;
 }
 
-void PQCSettings::setInterfaceBackgroundImageScale(bool val) {
+void PQCSettings::setInterfaceBackgroundImageScale(const bool val) {
     if(val != m_interfaceBackgroundImageScale) {
         m_interfaceBackgroundImageScale = val;
         Q_EMIT interfaceBackgroundImageScaleChanged();
     }
 }
 
-const bool PQCSettings::getDefaultForInterfaceBackgroundImageScale() {
+const bool PQCSettings::getDefaultForInterfaceBackgroundImageScale() const {
         return true;
 }
 
@@ -3864,18 +3864,18 @@ void PQCSettings::setDefaultForInterfaceBackgroundImageScale() {
     }
 }
 
-bool PQCSettings::getInterfaceBackgroundImageScaleCrop() {
+bool PQCSettings::getInterfaceBackgroundImageScaleCrop() const {
     return m_interfaceBackgroundImageScaleCrop;
 }
 
-void PQCSettings::setInterfaceBackgroundImageScaleCrop(bool val) {
+void PQCSettings::setInterfaceBackgroundImageScaleCrop(const bool val) {
     if(val != m_interfaceBackgroundImageScaleCrop) {
         m_interfaceBackgroundImageScaleCrop = val;
         Q_EMIT interfaceBackgroundImageScaleCropChanged();
     }
 }
 
-const bool PQCSettings::getDefaultForInterfaceBackgroundImageScaleCrop() {
+const bool PQCSettings::getDefaultForInterfaceBackgroundImageScaleCrop() const {
         return false;
 }
 
@@ -3886,18 +3886,18 @@ void PQCSettings::setDefaultForInterfaceBackgroundImageScaleCrop() {
     }
 }
 
-bool PQCSettings::getInterfaceBackgroundImageScreenshot() {
+bool PQCSettings::getInterfaceBackgroundImageScreenshot() const {
     return m_interfaceBackgroundImageScreenshot;
 }
 
-void PQCSettings::setInterfaceBackgroundImageScreenshot(bool val) {
+void PQCSettings::setInterfaceBackgroundImageScreenshot(const bool val) {
     if(val != m_interfaceBackgroundImageScreenshot) {
         m_interfaceBackgroundImageScreenshot = val;
         Q_EMIT interfaceBackgroundImageScreenshotChanged();
     }
 }
 
-const bool PQCSettings::getDefaultForInterfaceBackgroundImageScreenshot() {
+const bool PQCSettings::getDefaultForInterfaceBackgroundImageScreenshot() const {
         return false;
 }
 
@@ -3908,18 +3908,18 @@ void PQCSettings::setDefaultForInterfaceBackgroundImageScreenshot() {
     }
 }
 
-bool PQCSettings::getInterfaceBackgroundImageStretch() {
+bool PQCSettings::getInterfaceBackgroundImageStretch() const {
     return m_interfaceBackgroundImageStretch;
 }
 
-void PQCSettings::setInterfaceBackgroundImageStretch(bool val) {
+void PQCSettings::setInterfaceBackgroundImageStretch(const bool val) {
     if(val != m_interfaceBackgroundImageStretch) {
         m_interfaceBackgroundImageStretch = val;
         Q_EMIT interfaceBackgroundImageStretchChanged();
     }
 }
 
-const bool PQCSettings::getDefaultForInterfaceBackgroundImageStretch() {
+const bool PQCSettings::getDefaultForInterfaceBackgroundImageStretch() const {
         return false;
 }
 
@@ -3930,18 +3930,18 @@ void PQCSettings::setDefaultForInterfaceBackgroundImageStretch() {
     }
 }
 
-bool PQCSettings::getInterfaceBackgroundImageTile() {
+bool PQCSettings::getInterfaceBackgroundImageTile() const {
     return m_interfaceBackgroundImageTile;
 }
 
-void PQCSettings::setInterfaceBackgroundImageTile(bool val) {
+void PQCSettings::setInterfaceBackgroundImageTile(const bool val) {
     if(val != m_interfaceBackgroundImageTile) {
         m_interfaceBackgroundImageTile = val;
         Q_EMIT interfaceBackgroundImageTileChanged();
     }
 }
 
-const bool PQCSettings::getDefaultForInterfaceBackgroundImageTile() {
+const bool PQCSettings::getDefaultForInterfaceBackgroundImageTile() const {
         return false;
 }
 
@@ -3952,18 +3952,18 @@ void PQCSettings::setDefaultForInterfaceBackgroundImageTile() {
     }
 }
 
-bool PQCSettings::getInterfaceBackgroundImageUse() {
+bool PQCSettings::getInterfaceBackgroundImageUse() const {
     return m_interfaceBackgroundImageUse;
 }
 
-void PQCSettings::setInterfaceBackgroundImageUse(bool val) {
+void PQCSettings::setInterfaceBackgroundImageUse(const bool val) {
     if(val != m_interfaceBackgroundImageUse) {
         m_interfaceBackgroundImageUse = val;
         Q_EMIT interfaceBackgroundImageUseChanged();
     }
 }
 
-const bool PQCSettings::getDefaultForInterfaceBackgroundImageUse() {
+const bool PQCSettings::getDefaultForInterfaceBackgroundImageUse() const {
         return false;
 }
 
@@ -3974,18 +3974,18 @@ void PQCSettings::setDefaultForInterfaceBackgroundImageUse() {
     }
 }
 
-bool PQCSettings::getInterfaceBackgroundSolid() {
+bool PQCSettings::getInterfaceBackgroundSolid() const {
     return m_interfaceBackgroundSolid;
 }
 
-void PQCSettings::setInterfaceBackgroundSolid(bool val) {
+void PQCSettings::setInterfaceBackgroundSolid(const bool val) {
     if(val != m_interfaceBackgroundSolid) {
         m_interfaceBackgroundSolid = val;
         Q_EMIT interfaceBackgroundSolidChanged();
     }
 }
 
-const bool PQCSettings::getDefaultForInterfaceBackgroundSolid() {
+const bool PQCSettings::getDefaultForInterfaceBackgroundSolid() const {
         return false;
 }
 
@@ -3996,18 +3996,18 @@ void PQCSettings::setDefaultForInterfaceBackgroundSolid() {
     }
 }
 
-bool PQCSettings::getInterfaceBlurElementsInBackground() {
+bool PQCSettings::getInterfaceBlurElementsInBackground() const {
     return m_interfaceBlurElementsInBackground;
 }
 
-void PQCSettings::setInterfaceBlurElementsInBackground(bool val) {
+void PQCSettings::setInterfaceBlurElementsInBackground(const bool val) {
     if(val != m_interfaceBlurElementsInBackground) {
         m_interfaceBlurElementsInBackground = val;
         Q_EMIT interfaceBlurElementsInBackgroundChanged();
     }
 }
 
-const bool PQCSettings::getDefaultForInterfaceBlurElementsInBackground() {
+const bool PQCSettings::getDefaultForInterfaceBlurElementsInBackground() const {
         return true;
 }
 
@@ -4018,18 +4018,18 @@ void PQCSettings::setDefaultForInterfaceBlurElementsInBackground() {
     }
 }
 
-bool PQCSettings::getInterfaceCloseOnEmptyBackground() {
+bool PQCSettings::getInterfaceCloseOnEmptyBackground() const {
     return m_interfaceCloseOnEmptyBackground;
 }
 
-void PQCSettings::setInterfaceCloseOnEmptyBackground(bool val) {
+void PQCSettings::setInterfaceCloseOnEmptyBackground(const bool val) {
     if(val != m_interfaceCloseOnEmptyBackground) {
         m_interfaceCloseOnEmptyBackground = val;
         Q_EMIT interfaceCloseOnEmptyBackgroundChanged();
     }
 }
 
-const bool PQCSettings::getDefaultForInterfaceCloseOnEmptyBackground() {
+const bool PQCSettings::getDefaultForInterfaceCloseOnEmptyBackground() const {
         return false;
 }
 
@@ -4040,18 +4040,18 @@ void PQCSettings::setDefaultForInterfaceCloseOnEmptyBackground() {
     }
 }
 
-int PQCSettings::getInterfaceDoubleClickThreshold() {
+int PQCSettings::getInterfaceDoubleClickThreshold() const {
     return m_interfaceDoubleClickThreshold;
 }
 
-void PQCSettings::setInterfaceDoubleClickThreshold(int val) {
+void PQCSettings::setInterfaceDoubleClickThreshold(const int val) {
     if(val != m_interfaceDoubleClickThreshold) {
         m_interfaceDoubleClickThreshold = val;
         Q_EMIT interfaceDoubleClickThresholdChanged();
     }
 }
 
-const int PQCSettings::getDefaultForInterfaceDoubleClickThreshold() {
+const int PQCSettings::getDefaultForInterfaceDoubleClickThreshold() const {
         return 300;
 }
 
@@ -4061,18 +4061,18 @@ void PQCSettings::setDefaultForInterfaceDoubleClickThreshold() {
     }
 }
 
-QString PQCSettings::getInterfaceEdgeBottomAction() {
+QString PQCSettings::getInterfaceEdgeBottomAction() const {
     return m_interfaceEdgeBottomAction;
 }
 
-void PQCSettings::setInterfaceEdgeBottomAction(QString val) {
+void PQCSettings::setInterfaceEdgeBottomAction(const QString val) {
     if(val != m_interfaceEdgeBottomAction) {
         m_interfaceEdgeBottomAction = val;
         Q_EMIT interfaceEdgeBottomActionChanged();
     }
 }
 
-const QString PQCSettings::getDefaultForInterfaceEdgeBottomAction() {
+const QString PQCSettings::getDefaultForInterfaceEdgeBottomAction() const {
         return "thumbnails";
 }
 
@@ -4083,18 +4083,18 @@ void PQCSettings::setDefaultForInterfaceEdgeBottomAction() {
     }
 }
 
-QString PQCSettings::getInterfaceEdgeLeftAction() {
+QString PQCSettings::getInterfaceEdgeLeftAction() const {
     return m_interfaceEdgeLeftAction;
 }
 
-void PQCSettings::setInterfaceEdgeLeftAction(QString val) {
+void PQCSettings::setInterfaceEdgeLeftAction(const QString val) {
     if(val != m_interfaceEdgeLeftAction) {
         m_interfaceEdgeLeftAction = val;
         Q_EMIT interfaceEdgeLeftActionChanged();
     }
 }
 
-const QString PQCSettings::getDefaultForInterfaceEdgeLeftAction() {
+const QString PQCSettings::getDefaultForInterfaceEdgeLeftAction() const {
         return "metadata";
 }
 
@@ -4105,18 +4105,18 @@ void PQCSettings::setDefaultForInterfaceEdgeLeftAction() {
     }
 }
 
-QString PQCSettings::getInterfaceEdgeRightAction() {
+QString PQCSettings::getInterfaceEdgeRightAction() const {
     return m_interfaceEdgeRightAction;
 }
 
-void PQCSettings::setInterfaceEdgeRightAction(QString val) {
+void PQCSettings::setInterfaceEdgeRightAction(const QString val) {
     if(val != m_interfaceEdgeRightAction) {
         m_interfaceEdgeRightAction = val;
         Q_EMIT interfaceEdgeRightActionChanged();
     }
 }
 
-const QString PQCSettings::getDefaultForInterfaceEdgeRightAction() {
+const QString PQCSettings::getDefaultForInterfaceEdgeRightAction() const {
         return "mainmenu";
 }
 
@@ -4127,18 +4127,18 @@ void PQCSettings::setDefaultForInterfaceEdgeRightAction() {
     }
 }
 
-QString PQCSettings::getInterfaceEdgeTopAction() {
+QString PQCSettings::getInterfaceEdgeTopAction() const {
     return m_interfaceEdgeTopAction;
 }
 
-void PQCSettings::setInterfaceEdgeTopAction(QString val) {
+void PQCSettings::setInterfaceEdgeTopAction(const QString val) {
     if(val != m_interfaceEdgeTopAction) {
         m_interfaceEdgeTopAction = val;
         Q_EMIT interfaceEdgeTopActionChanged();
     }
 }
 
-const QString PQCSettings::getDefaultForInterfaceEdgeTopAction() {
+const QString PQCSettings::getDefaultForInterfaceEdgeTopAction() const {
         return "";
 }
 
@@ -4149,18 +4149,18 @@ void PQCSettings::setDefaultForInterfaceEdgeTopAction() {
     }
 }
 
-bool PQCSettings::getInterfaceFlickAdjustSpeed() {
+bool PQCSettings::getInterfaceFlickAdjustSpeed() const {
     return m_interfaceFlickAdjustSpeed;
 }
 
-void PQCSettings::setInterfaceFlickAdjustSpeed(bool val) {
+void PQCSettings::setInterfaceFlickAdjustSpeed(const bool val) {
     if(val != m_interfaceFlickAdjustSpeed) {
         m_interfaceFlickAdjustSpeed = val;
         Q_EMIT interfaceFlickAdjustSpeedChanged();
     }
 }
 
-const bool PQCSettings::getDefaultForInterfaceFlickAdjustSpeed() {
+const bool PQCSettings::getDefaultForInterfaceFlickAdjustSpeed() const {
         return true;
 }
 
@@ -4171,18 +4171,18 @@ void PQCSettings::setDefaultForInterfaceFlickAdjustSpeed() {
     }
 }
 
-int PQCSettings::getInterfaceFlickAdjustSpeedSpeedup() {
+int PQCSettings::getInterfaceFlickAdjustSpeedSpeedup() const {
     return m_interfaceFlickAdjustSpeedSpeedup;
 }
 
-void PQCSettings::setInterfaceFlickAdjustSpeedSpeedup(int val) {
+void PQCSettings::setInterfaceFlickAdjustSpeedSpeedup(const int val) {
     if(val != m_interfaceFlickAdjustSpeedSpeedup) {
         m_interfaceFlickAdjustSpeedSpeedup = val;
         Q_EMIT interfaceFlickAdjustSpeedSpeedupChanged();
     }
 }
 
-const int PQCSettings::getDefaultForInterfaceFlickAdjustSpeedSpeedup() {
+const int PQCSettings::getDefaultForInterfaceFlickAdjustSpeedSpeedup() const {
         return 1;
 }
 
@@ -4192,18 +4192,18 @@ void PQCSettings::setDefaultForInterfaceFlickAdjustSpeedSpeedup() {
     }
 }
 
-int PQCSettings::getInterfaceFontBoldWeight() {
+int PQCSettings::getInterfaceFontBoldWeight() const {
     return m_interfaceFontBoldWeight;
 }
 
-void PQCSettings::setInterfaceFontBoldWeight(int val) {
+void PQCSettings::setInterfaceFontBoldWeight(const int val) {
     if(val != m_interfaceFontBoldWeight) {
         m_interfaceFontBoldWeight = val;
         Q_EMIT interfaceFontBoldWeightChanged();
     }
 }
 
-const int PQCSettings::getDefaultForInterfaceFontBoldWeight() {
+const int PQCSettings::getDefaultForInterfaceFontBoldWeight() const {
         return 700;
 }
 
@@ -4213,18 +4213,18 @@ void PQCSettings::setDefaultForInterfaceFontBoldWeight() {
     }
 }
 
-int PQCSettings::getInterfaceFontNormalWeight() {
+int PQCSettings::getInterfaceFontNormalWeight() const {
     return m_interfaceFontNormalWeight;
 }
 
-void PQCSettings::setInterfaceFontNormalWeight(int val) {
+void PQCSettings::setInterfaceFontNormalWeight(const int val) {
     if(val != m_interfaceFontNormalWeight) {
         m_interfaceFontNormalWeight = val;
         Q_EMIT interfaceFontNormalWeightChanged();
     }
 }
 
-const int PQCSettings::getDefaultForInterfaceFontNormalWeight() {
+const int PQCSettings::getDefaultForInterfaceFontNormalWeight() const {
         return 400;
 }
 
@@ -4234,18 +4234,18 @@ void PQCSettings::setDefaultForInterfaceFontNormalWeight() {
     }
 }
 
-int PQCSettings::getInterfaceHotEdgeSize() {
+int PQCSettings::getInterfaceHotEdgeSize() const {
     return m_interfaceHotEdgeSize;
 }
 
-void PQCSettings::setInterfaceHotEdgeSize(int val) {
+void PQCSettings::setInterfaceHotEdgeSize(const int val) {
     if(val != m_interfaceHotEdgeSize) {
         m_interfaceHotEdgeSize = val;
         Q_EMIT interfaceHotEdgeSizeChanged();
     }
 }
 
-const int PQCSettings::getDefaultForInterfaceHotEdgeSize() {
+const int PQCSettings::getDefaultForInterfaceHotEdgeSize() const {
         return 4;
 }
 
@@ -4255,18 +4255,18 @@ void PQCSettings::setDefaultForInterfaceHotEdgeSize() {
     }
 }
 
-bool PQCSettings::getInterfaceKeepWindowOnTop() {
+bool PQCSettings::getInterfaceKeepWindowOnTop() const {
     return m_interfaceKeepWindowOnTop;
 }
 
-void PQCSettings::setInterfaceKeepWindowOnTop(bool val) {
+void PQCSettings::setInterfaceKeepWindowOnTop(const bool val) {
     if(val != m_interfaceKeepWindowOnTop) {
         m_interfaceKeepWindowOnTop = val;
         Q_EMIT interfaceKeepWindowOnTopChanged();
     }
 }
 
-const bool PQCSettings::getDefaultForInterfaceKeepWindowOnTop() {
+const bool PQCSettings::getDefaultForInterfaceKeepWindowOnTop() const {
         return false;
 }
 
@@ -4277,18 +4277,18 @@ void PQCSettings::setDefaultForInterfaceKeepWindowOnTop() {
     }
 }
 
-QString PQCSettings::getInterfaceLanguage() {
+QString PQCSettings::getInterfaceLanguage() const {
     return m_interfaceLanguage;
 }
 
-void PQCSettings::setInterfaceLanguage(QString val) {
+void PQCSettings::setInterfaceLanguage(const QString val) {
     if(val != m_interfaceLanguage) {
         m_interfaceLanguage = val;
         Q_EMIT interfaceLanguageChanged();
     }
 }
 
-const QString PQCSettings::getDefaultForInterfaceLanguage() {
+const QString PQCSettings::getDefaultForInterfaceLanguage() const {
         return "en";
 }
 
@@ -4299,18 +4299,18 @@ void PQCSettings::setDefaultForInterfaceLanguage() {
     }
 }
 
-bool PQCSettings::getInterfaceMinimapPopout() {
+bool PQCSettings::getInterfaceMinimapPopout() const {
     return m_interfaceMinimapPopout;
 }
 
-void PQCSettings::setInterfaceMinimapPopout(bool val) {
+void PQCSettings::setInterfaceMinimapPopout(const bool val) {
     if(val != m_interfaceMinimapPopout) {
         m_interfaceMinimapPopout = val;
         Q_EMIT interfaceMinimapPopoutChanged();
     }
 }
 
-const bool PQCSettings::getDefaultForInterfaceMinimapPopout() {
+const bool PQCSettings::getDefaultForInterfaceMinimapPopout() const {
         return false;
 }
 
@@ -4321,18 +4321,18 @@ void PQCSettings::setDefaultForInterfaceMinimapPopout() {
     }
 }
 
-bool PQCSettings::getInterfaceNavigateOnEmptyBackground() {
+bool PQCSettings::getInterfaceNavigateOnEmptyBackground() const {
     return m_interfaceNavigateOnEmptyBackground;
 }
 
-void PQCSettings::setInterfaceNavigateOnEmptyBackground(bool val) {
+void PQCSettings::setInterfaceNavigateOnEmptyBackground(const bool val) {
     if(val != m_interfaceNavigateOnEmptyBackground) {
         m_interfaceNavigateOnEmptyBackground = val;
         Q_EMIT interfaceNavigateOnEmptyBackgroundChanged();
     }
 }
 
-const bool PQCSettings::getDefaultForInterfaceNavigateOnEmptyBackground() {
+const bool PQCSettings::getDefaultForInterfaceNavigateOnEmptyBackground() const {
         return false;
 }
 
@@ -4343,18 +4343,18 @@ void PQCSettings::setDefaultForInterfaceNavigateOnEmptyBackground() {
     }
 }
 
-bool PQCSettings::getInterfaceNavigationFloating() {
+bool PQCSettings::getInterfaceNavigationFloating() const {
     return m_interfaceNavigationFloating;
 }
 
-void PQCSettings::setInterfaceNavigationFloating(bool val) {
+void PQCSettings::setInterfaceNavigationFloating(const bool val) {
     if(val != m_interfaceNavigationFloating) {
         m_interfaceNavigationFloating = val;
         Q_EMIT interfaceNavigationFloatingChanged();
     }
 }
 
-const bool PQCSettings::getDefaultForInterfaceNavigationFloating() {
+const bool PQCSettings::getDefaultForInterfaceNavigationFloating() const {
         return false;
 }
 
@@ -4365,18 +4365,18 @@ void PQCSettings::setDefaultForInterfaceNavigationFloating() {
     }
 }
 
-int PQCSettings::getInterfaceNotificationDistanceFromEdge() {
+int PQCSettings::getInterfaceNotificationDistanceFromEdge() const {
     return m_interfaceNotificationDistanceFromEdge;
 }
 
-void PQCSettings::setInterfaceNotificationDistanceFromEdge(int val) {
+void PQCSettings::setInterfaceNotificationDistanceFromEdge(const int val) {
     if(val != m_interfaceNotificationDistanceFromEdge) {
         m_interfaceNotificationDistanceFromEdge = val;
         Q_EMIT interfaceNotificationDistanceFromEdgeChanged();
     }
 }
 
-const int PQCSettings::getDefaultForInterfaceNotificationDistanceFromEdge() {
+const int PQCSettings::getDefaultForInterfaceNotificationDistanceFromEdge() const {
         return 40;
 }
 
@@ -4386,18 +4386,18 @@ void PQCSettings::setDefaultForInterfaceNotificationDistanceFromEdge() {
     }
 }
 
-QString PQCSettings::getInterfaceNotificationLocation() {
+QString PQCSettings::getInterfaceNotificationLocation() const {
     return m_interfaceNotificationLocation;
 }
 
-void PQCSettings::setInterfaceNotificationLocation(QString val) {
+void PQCSettings::setInterfaceNotificationLocation(const QString val) {
     if(val != m_interfaceNotificationLocation) {
         m_interfaceNotificationLocation = val;
         Q_EMIT interfaceNotificationLocationChanged();
     }
 }
 
-const QString PQCSettings::getDefaultForInterfaceNotificationLocation() {
+const QString PQCSettings::getDefaultForInterfaceNotificationLocation() const {
         return "center";
 }
 
@@ -4408,18 +4408,18 @@ void PQCSettings::setDefaultForInterfaceNotificationLocation() {
     }
 }
 
-bool PQCSettings::getInterfaceNotificationTryNative() {
+bool PQCSettings::getInterfaceNotificationTryNative() const {
     return m_interfaceNotificationTryNative;
 }
 
-void PQCSettings::setInterfaceNotificationTryNative(bool val) {
+void PQCSettings::setInterfaceNotificationTryNative(const bool val) {
     if(val != m_interfaceNotificationTryNative) {
         m_interfaceNotificationTryNative = val;
         Q_EMIT interfaceNotificationTryNativeChanged();
     }
 }
 
-const bool PQCSettings::getDefaultForInterfaceNotificationTryNative() {
+const bool PQCSettings::getDefaultForInterfaceNotificationTryNative() const {
         return true;
 }
 
@@ -4430,18 +4430,18 @@ void PQCSettings::setDefaultForInterfaceNotificationTryNative() {
     }
 }
 
-bool PQCSettings::getInterfacePopoutAbout() {
+bool PQCSettings::getInterfacePopoutAbout() const {
     return m_interfacePopoutAbout;
 }
 
-void PQCSettings::setInterfacePopoutAbout(bool val) {
+void PQCSettings::setInterfacePopoutAbout(const bool val) {
     if(val != m_interfacePopoutAbout) {
         m_interfacePopoutAbout = val;
         Q_EMIT interfacePopoutAboutChanged();
     }
 }
 
-const bool PQCSettings::getDefaultForInterfacePopoutAbout() {
+const bool PQCSettings::getDefaultForInterfacePopoutAbout() const {
         return false;
 }
 
@@ -4452,18 +4452,18 @@ void PQCSettings::setDefaultForInterfacePopoutAbout() {
     }
 }
 
-bool PQCSettings::getInterfacePopoutAdvancedSort() {
+bool PQCSettings::getInterfacePopoutAdvancedSort() const {
     return m_interfacePopoutAdvancedSort;
 }
 
-void PQCSettings::setInterfacePopoutAdvancedSort(bool val) {
+void PQCSettings::setInterfacePopoutAdvancedSort(const bool val) {
     if(val != m_interfacePopoutAdvancedSort) {
         m_interfacePopoutAdvancedSort = val;
         Q_EMIT interfacePopoutAdvancedSortChanged();
     }
 }
 
-const bool PQCSettings::getDefaultForInterfacePopoutAdvancedSort() {
+const bool PQCSettings::getDefaultForInterfacePopoutAdvancedSort() const {
         return true;
 }
 
@@ -4474,18 +4474,18 @@ void PQCSettings::setDefaultForInterfacePopoutAdvancedSort() {
     }
 }
 
-bool PQCSettings::getInterfacePopoutChromecast() {
+bool PQCSettings::getInterfacePopoutChromecast() const {
     return m_interfacePopoutChromecast;
 }
 
-void PQCSettings::setInterfacePopoutChromecast(bool val) {
+void PQCSettings::setInterfacePopoutChromecast(const bool val) {
     if(val != m_interfacePopoutChromecast) {
         m_interfacePopoutChromecast = val;
         Q_EMIT interfacePopoutChromecastChanged();
     }
 }
 
-const bool PQCSettings::getDefaultForInterfacePopoutChromecast() {
+const bool PQCSettings::getDefaultForInterfacePopoutChromecast() const {
         return true;
 }
 
@@ -4496,18 +4496,18 @@ void PQCSettings::setDefaultForInterfacePopoutChromecast() {
     }
 }
 
-bool PQCSettings::getInterfacePopoutExport() {
+bool PQCSettings::getInterfacePopoutExport() const {
     return m_interfacePopoutExport;
 }
 
-void PQCSettings::setInterfacePopoutExport(bool val) {
+void PQCSettings::setInterfacePopoutExport(const bool val) {
     if(val != m_interfacePopoutExport) {
         m_interfacePopoutExport = val;
         Q_EMIT interfacePopoutExportChanged();
     }
 }
 
-const bool PQCSettings::getDefaultForInterfacePopoutExport() {
+const bool PQCSettings::getDefaultForInterfacePopoutExport() const {
         return true;
 }
 
@@ -4518,18 +4518,18 @@ void PQCSettings::setDefaultForInterfacePopoutExport() {
     }
 }
 
-bool PQCSettings::getInterfacePopoutFileDelete() {
+bool PQCSettings::getInterfacePopoutFileDelete() const {
     return m_interfacePopoutFileDelete;
 }
 
-void PQCSettings::setInterfacePopoutFileDelete(bool val) {
+void PQCSettings::setInterfacePopoutFileDelete(const bool val) {
     if(val != m_interfacePopoutFileDelete) {
         m_interfacePopoutFileDelete = val;
         Q_EMIT interfacePopoutFileDeleteChanged();
     }
 }
 
-const bool PQCSettings::getDefaultForInterfacePopoutFileDelete() {
+const bool PQCSettings::getDefaultForInterfacePopoutFileDelete() const {
         return false;
 }
 
@@ -4540,18 +4540,18 @@ void PQCSettings::setDefaultForInterfacePopoutFileDelete() {
     }
 }
 
-bool PQCSettings::getInterfacePopoutFileDialog() {
+bool PQCSettings::getInterfacePopoutFileDialog() const {
     return m_interfacePopoutFileDialog;
 }
 
-void PQCSettings::setInterfacePopoutFileDialog(bool val) {
+void PQCSettings::setInterfacePopoutFileDialog(const bool val) {
     if(val != m_interfacePopoutFileDialog) {
         m_interfacePopoutFileDialog = val;
         Q_EMIT interfacePopoutFileDialogChanged();
     }
 }
 
-const bool PQCSettings::getDefaultForInterfacePopoutFileDialog() {
+const bool PQCSettings::getDefaultForInterfacePopoutFileDialog() const {
         return false;
 }
 
@@ -4562,18 +4562,18 @@ void PQCSettings::setDefaultForInterfacePopoutFileDialog() {
     }
 }
 
-bool PQCSettings::getInterfacePopoutFileDialogNonModal() {
+bool PQCSettings::getInterfacePopoutFileDialogNonModal() const {
     return m_interfacePopoutFileDialogNonModal;
 }
 
-void PQCSettings::setInterfacePopoutFileDialogNonModal(bool val) {
+void PQCSettings::setInterfacePopoutFileDialogNonModal(const bool val) {
     if(val != m_interfacePopoutFileDialogNonModal) {
         m_interfacePopoutFileDialogNonModal = val;
         Q_EMIT interfacePopoutFileDialogNonModalChanged();
     }
 }
 
-const bool PQCSettings::getDefaultForInterfacePopoutFileDialogNonModal() {
+const bool PQCSettings::getDefaultForInterfacePopoutFileDialogNonModal() const {
         return false;
 }
 
@@ -4584,18 +4584,18 @@ void PQCSettings::setDefaultForInterfacePopoutFileDialogNonModal() {
     }
 }
 
-bool PQCSettings::getInterfacePopoutFileRename() {
+bool PQCSettings::getInterfacePopoutFileRename() const {
     return m_interfacePopoutFileRename;
 }
 
-void PQCSettings::setInterfacePopoutFileRename(bool val) {
+void PQCSettings::setInterfacePopoutFileRename(const bool val) {
     if(val != m_interfacePopoutFileRename) {
         m_interfacePopoutFileRename = val;
         Q_EMIT interfacePopoutFileRenameChanged();
     }
 }
 
-const bool PQCSettings::getDefaultForInterfacePopoutFileRename() {
+const bool PQCSettings::getDefaultForInterfacePopoutFileRename() const {
         return false;
 }
 
@@ -4606,18 +4606,18 @@ void PQCSettings::setDefaultForInterfacePopoutFileRename() {
     }
 }
 
-bool PQCSettings::getInterfacePopoutFilter() {
+bool PQCSettings::getInterfacePopoutFilter() const {
     return m_interfacePopoutFilter;
 }
 
-void PQCSettings::setInterfacePopoutFilter(bool val) {
+void PQCSettings::setInterfacePopoutFilter(const bool val) {
     if(val != m_interfacePopoutFilter) {
         m_interfacePopoutFilter = val;
         Q_EMIT interfacePopoutFilterChanged();
     }
 }
 
-const bool PQCSettings::getDefaultForInterfacePopoutFilter() {
+const bool PQCSettings::getDefaultForInterfacePopoutFilter() const {
         return false;
 }
 
@@ -4628,18 +4628,18 @@ void PQCSettings::setDefaultForInterfacePopoutFilter() {
     }
 }
 
-bool PQCSettings::getInterfacePopoutFind() {
+bool PQCSettings::getInterfacePopoutFind() const {
     return m_interfacePopoutFind;
 }
 
-void PQCSettings::setInterfacePopoutFind(bool val) {
+void PQCSettings::setInterfacePopoutFind(const bool val) {
     if(val != m_interfacePopoutFind) {
         m_interfacePopoutFind = val;
         Q_EMIT interfacePopoutFindChanged();
     }
 }
 
-const bool PQCSettings::getDefaultForInterfacePopoutFind() {
+const bool PQCSettings::getDefaultForInterfacePopoutFind() const {
         return false;
 }
 
@@ -4650,18 +4650,18 @@ void PQCSettings::setDefaultForInterfacePopoutFind() {
     }
 }
 
-bool PQCSettings::getInterfacePopoutImgur() {
+bool PQCSettings::getInterfacePopoutImgur() const {
     return m_interfacePopoutImgur;
 }
 
-void PQCSettings::setInterfacePopoutImgur(bool val) {
+void PQCSettings::setInterfacePopoutImgur(const bool val) {
     if(val != m_interfacePopoutImgur) {
         m_interfacePopoutImgur = val;
         Q_EMIT interfacePopoutImgurChanged();
     }
 }
 
-const bool PQCSettings::getDefaultForInterfacePopoutImgur() {
+const bool PQCSettings::getDefaultForInterfacePopoutImgur() const {
         return true;
 }
 
@@ -4672,18 +4672,18 @@ void PQCSettings::setDefaultForInterfacePopoutImgur() {
     }
 }
 
-bool PQCSettings::getInterfacePopoutMainMenu() {
+bool PQCSettings::getInterfacePopoutMainMenu() const {
     return m_interfacePopoutMainMenu;
 }
 
-void PQCSettings::setInterfacePopoutMainMenu(bool val) {
+void PQCSettings::setInterfacePopoutMainMenu(const bool val) {
     if(val != m_interfacePopoutMainMenu) {
         m_interfacePopoutMainMenu = val;
         Q_EMIT interfacePopoutMainMenuChanged();
     }
 }
 
-const bool PQCSettings::getDefaultForInterfacePopoutMainMenu() {
+const bool PQCSettings::getDefaultForInterfacePopoutMainMenu() const {
         return false;
 }
 
@@ -4694,18 +4694,18 @@ void PQCSettings::setDefaultForInterfacePopoutMainMenu() {
     }
 }
 
-bool PQCSettings::getInterfacePopoutMapExplorer() {
+bool PQCSettings::getInterfacePopoutMapExplorer() const {
     return m_interfacePopoutMapExplorer;
 }
 
-void PQCSettings::setInterfacePopoutMapExplorer(bool val) {
+void PQCSettings::setInterfacePopoutMapExplorer(const bool val) {
     if(val != m_interfacePopoutMapExplorer) {
         m_interfacePopoutMapExplorer = val;
         Q_EMIT interfacePopoutMapExplorerChanged();
     }
 }
 
-const bool PQCSettings::getDefaultForInterfacePopoutMapExplorer() {
+const bool PQCSettings::getDefaultForInterfacePopoutMapExplorer() const {
         return true;
 }
 
@@ -4716,18 +4716,18 @@ void PQCSettings::setDefaultForInterfacePopoutMapExplorer() {
     }
 }
 
-bool PQCSettings::getInterfacePopoutMapExplorerNonModal() {
+bool PQCSettings::getInterfacePopoutMapExplorerNonModal() const {
     return m_interfacePopoutMapExplorerNonModal;
 }
 
-void PQCSettings::setInterfacePopoutMapExplorerNonModal(bool val) {
+void PQCSettings::setInterfacePopoutMapExplorerNonModal(const bool val) {
     if(val != m_interfacePopoutMapExplorerNonModal) {
         m_interfacePopoutMapExplorerNonModal = val;
         Q_EMIT interfacePopoutMapExplorerNonModalChanged();
     }
 }
 
-const bool PQCSettings::getDefaultForInterfacePopoutMapExplorerNonModal() {
+const bool PQCSettings::getDefaultForInterfacePopoutMapExplorerNonModal() const {
         return false;
 }
 
@@ -4738,18 +4738,18 @@ void PQCSettings::setDefaultForInterfacePopoutMapExplorerNonModal() {
     }
 }
 
-bool PQCSettings::getInterfacePopoutMetadata() {
+bool PQCSettings::getInterfacePopoutMetadata() const {
     return m_interfacePopoutMetadata;
 }
 
-void PQCSettings::setInterfacePopoutMetadata(bool val) {
+void PQCSettings::setInterfacePopoutMetadata(const bool val) {
     if(val != m_interfacePopoutMetadata) {
         m_interfacePopoutMetadata = val;
         Q_EMIT interfacePopoutMetadataChanged();
     }
 }
 
-const bool PQCSettings::getDefaultForInterfacePopoutMetadata() {
+const bool PQCSettings::getDefaultForInterfacePopoutMetadata() const {
         return false;
 }
 
@@ -4760,18 +4760,18 @@ void PQCSettings::setDefaultForInterfacePopoutMetadata() {
     }
 }
 
-bool PQCSettings::getInterfacePopoutSettingsManager() {
+bool PQCSettings::getInterfacePopoutSettingsManager() const {
     return m_interfacePopoutSettingsManager;
 }
 
-void PQCSettings::setInterfacePopoutSettingsManager(bool val) {
+void PQCSettings::setInterfacePopoutSettingsManager(const bool val) {
     if(val != m_interfacePopoutSettingsManager) {
         m_interfacePopoutSettingsManager = val;
         Q_EMIT interfacePopoutSettingsManagerChanged();
     }
 }
 
-const bool PQCSettings::getDefaultForInterfacePopoutSettingsManager() {
+const bool PQCSettings::getDefaultForInterfacePopoutSettingsManager() const {
         return false;
 }
 
@@ -4782,18 +4782,18 @@ void PQCSettings::setDefaultForInterfacePopoutSettingsManager() {
     }
 }
 
-bool PQCSettings::getInterfacePopoutSettingsManagerNonModal() {
+bool PQCSettings::getInterfacePopoutSettingsManagerNonModal() const {
     return m_interfacePopoutSettingsManagerNonModal;
 }
 
-void PQCSettings::setInterfacePopoutSettingsManagerNonModal(bool val) {
+void PQCSettings::setInterfacePopoutSettingsManagerNonModal(const bool val) {
     if(val != m_interfacePopoutSettingsManagerNonModal) {
         m_interfacePopoutSettingsManagerNonModal = val;
         Q_EMIT interfacePopoutSettingsManagerNonModalChanged();
     }
 }
 
-const bool PQCSettings::getDefaultForInterfacePopoutSettingsManagerNonModal() {
+const bool PQCSettings::getDefaultForInterfacePopoutSettingsManagerNonModal() const {
         return false;
 }
 
@@ -4804,18 +4804,18 @@ void PQCSettings::setDefaultForInterfacePopoutSettingsManagerNonModal() {
     }
 }
 
-bool PQCSettings::getInterfacePopoutSlideshowControls() {
+bool PQCSettings::getInterfacePopoutSlideshowControls() const {
     return m_interfacePopoutSlideshowControls;
 }
 
-void PQCSettings::setInterfacePopoutSlideshowControls(bool val) {
+void PQCSettings::setInterfacePopoutSlideshowControls(const bool val) {
     if(val != m_interfacePopoutSlideshowControls) {
         m_interfacePopoutSlideshowControls = val;
         Q_EMIT interfacePopoutSlideshowControlsChanged();
     }
 }
 
-const bool PQCSettings::getDefaultForInterfacePopoutSlideshowControls() {
+const bool PQCSettings::getDefaultForInterfacePopoutSlideshowControls() const {
         return false;
 }
 
@@ -4826,18 +4826,18 @@ void PQCSettings::setDefaultForInterfacePopoutSlideshowControls() {
     }
 }
 
-bool PQCSettings::getInterfacePopoutSlideshowSetup() {
+bool PQCSettings::getInterfacePopoutSlideshowSetup() const {
     return m_interfacePopoutSlideshowSetup;
 }
 
-void PQCSettings::setInterfacePopoutSlideshowSetup(bool val) {
+void PQCSettings::setInterfacePopoutSlideshowSetup(const bool val) {
     if(val != m_interfacePopoutSlideshowSetup) {
         m_interfacePopoutSlideshowSetup = val;
         Q_EMIT interfacePopoutSlideshowSetupChanged();
     }
 }
 
-const bool PQCSettings::getDefaultForInterfacePopoutSlideshowSetup() {
+const bool PQCSettings::getDefaultForInterfacePopoutSlideshowSetup() const {
         return true;
 }
 
@@ -4848,18 +4848,18 @@ void PQCSettings::setDefaultForInterfacePopoutSlideshowSetup() {
     }
 }
 
-bool PQCSettings::getInterfacePopoutWhenWindowIsSmall() {
+bool PQCSettings::getInterfacePopoutWhenWindowIsSmall() const {
     return m_interfacePopoutWhenWindowIsSmall;
 }
 
-void PQCSettings::setInterfacePopoutWhenWindowIsSmall(bool val) {
+void PQCSettings::setInterfacePopoutWhenWindowIsSmall(const bool val) {
     if(val != m_interfacePopoutWhenWindowIsSmall) {
         m_interfacePopoutWhenWindowIsSmall = val;
         Q_EMIT interfacePopoutWhenWindowIsSmallChanged();
     }
 }
 
-const bool PQCSettings::getDefaultForInterfacePopoutWhenWindowIsSmall() {
+const bool PQCSettings::getDefaultForInterfacePopoutWhenWindowIsSmall() const {
         return true;
 }
 
@@ -4870,18 +4870,18 @@ void PQCSettings::setDefaultForInterfacePopoutWhenWindowIsSmall() {
     }
 }
 
-bool PQCSettings::getInterfaceQuickActions() {
+bool PQCSettings::getInterfaceQuickActions() const {
     return m_interfaceQuickActions;
 }
 
-void PQCSettings::setInterfaceQuickActions(bool val) {
+void PQCSettings::setInterfaceQuickActions(const bool val) {
     if(val != m_interfaceQuickActions) {
         m_interfaceQuickActions = val;
         Q_EMIT interfaceQuickActionsChanged();
     }
 }
 
-const bool PQCSettings::getDefaultForInterfaceQuickActions() {
+const bool PQCSettings::getDefaultForInterfaceQuickActions() const {
         return false;
 }
 
@@ -4892,18 +4892,18 @@ void PQCSettings::setDefaultForInterfaceQuickActions() {
     }
 }
 
-int PQCSettings::getInterfaceQuickActionsHeight() {
+int PQCSettings::getInterfaceQuickActionsHeight() const {
     return m_interfaceQuickActionsHeight;
 }
 
-void PQCSettings::setInterfaceQuickActionsHeight(int val) {
+void PQCSettings::setInterfaceQuickActionsHeight(const int val) {
     if(val != m_interfaceQuickActionsHeight) {
         m_interfaceQuickActionsHeight = val;
         Q_EMIT interfaceQuickActionsHeightChanged();
     }
 }
 
-const int PQCSettings::getDefaultForInterfaceQuickActionsHeight() {
+const int PQCSettings::getDefaultForInterfaceQuickActionsHeight() const {
         return 40;
 }
 
@@ -4913,18 +4913,18 @@ void PQCSettings::setDefaultForInterfaceQuickActionsHeight() {
     }
 }
 
-QStringList PQCSettings::getInterfaceQuickActionsItems() {
+QStringList PQCSettings::getInterfaceQuickActionsItems() const {
     return m_interfaceQuickActionsItems;
 }
 
-void PQCSettings::setInterfaceQuickActionsItems(QStringList val) {
+void PQCSettings::setInterfaceQuickActionsItems(const QStringList val) {
     if(val != m_interfaceQuickActionsItems) {
         m_interfaceQuickActionsItems = val;
         Q_EMIT interfaceQuickActionsItemsChanged();
     }
 }
 
-const QStringList PQCSettings::getDefaultForInterfaceQuickActionsItems() {
+const QStringList PQCSettings::getDefaultForInterfaceQuickActionsItems() const {
         return QStringList() << "rename" << "delete" << "|" << "rotateleft" << "rotateright" << "mirrorhor" << "mirrorver" << "|" << "crop" << "scale" << "|" << "close";
 }
 
@@ -4936,18 +4936,18 @@ void PQCSettings::setDefaultForInterfaceQuickActionsItems() {
     }
 }
 
-bool PQCSettings::getInterfaceRememberLastImage() {
+bool PQCSettings::getInterfaceRememberLastImage() const {
     return m_interfaceRememberLastImage;
 }
 
-void PQCSettings::setInterfaceRememberLastImage(bool val) {
+void PQCSettings::setInterfaceRememberLastImage(const bool val) {
     if(val != m_interfaceRememberLastImage) {
         m_interfaceRememberLastImage = val;
         Q_EMIT interfaceRememberLastImageChanged();
     }
 }
 
-const bool PQCSettings::getDefaultForInterfaceRememberLastImage() {
+const bool PQCSettings::getDefaultForInterfaceRememberLastImage() const {
         return false;
 }
 
@@ -4958,18 +4958,18 @@ void PQCSettings::setDefaultForInterfaceRememberLastImage() {
     }
 }
 
-bool PQCSettings::getInterfaceSaveWindowGeometry() {
+bool PQCSettings::getInterfaceSaveWindowGeometry() const {
     return m_interfaceSaveWindowGeometry;
 }
 
-void PQCSettings::setInterfaceSaveWindowGeometry(bool val) {
+void PQCSettings::setInterfaceSaveWindowGeometry(const bool val) {
     if(val != m_interfaceSaveWindowGeometry) {
         m_interfaceSaveWindowGeometry = val;
         Q_EMIT interfaceSaveWindowGeometryChanged();
     }
 }
 
-const bool PQCSettings::getDefaultForInterfaceSaveWindowGeometry() {
+const bool PQCSettings::getDefaultForInterfaceSaveWindowGeometry() const {
         return false;
 }
 
@@ -4980,18 +4980,18 @@ void PQCSettings::setDefaultForInterfaceSaveWindowGeometry() {
     }
 }
 
-bool PQCSettings::getInterfaceStatusInfoAutoHide() {
+bool PQCSettings::getInterfaceStatusInfoAutoHide() const {
     return m_interfaceStatusInfoAutoHide;
 }
 
-void PQCSettings::setInterfaceStatusInfoAutoHide(bool val) {
+void PQCSettings::setInterfaceStatusInfoAutoHide(const bool val) {
     if(val != m_interfaceStatusInfoAutoHide) {
         m_interfaceStatusInfoAutoHide = val;
         Q_EMIT interfaceStatusInfoAutoHideChanged();
     }
 }
 
-const bool PQCSettings::getDefaultForInterfaceStatusInfoAutoHide() {
+const bool PQCSettings::getDefaultForInterfaceStatusInfoAutoHide() const {
         return false;
 }
 
@@ -5002,18 +5002,18 @@ void PQCSettings::setDefaultForInterfaceStatusInfoAutoHide() {
     }
 }
 
-int PQCSettings::getInterfaceStatusInfoAutoHideTimeout() {
+int PQCSettings::getInterfaceStatusInfoAutoHideTimeout() const {
     return m_interfaceStatusInfoAutoHideTimeout;
 }
 
-void PQCSettings::setInterfaceStatusInfoAutoHideTimeout(int val) {
+void PQCSettings::setInterfaceStatusInfoAutoHideTimeout(const int val) {
     if(val != m_interfaceStatusInfoAutoHideTimeout) {
         m_interfaceStatusInfoAutoHideTimeout = val;
         Q_EMIT interfaceStatusInfoAutoHideTimeoutChanged();
     }
 }
 
-const int PQCSettings::getDefaultForInterfaceStatusInfoAutoHideTimeout() {
+const int PQCSettings::getDefaultForInterfaceStatusInfoAutoHideTimeout() const {
         return 1000;
 }
 
@@ -5023,18 +5023,18 @@ void PQCSettings::setDefaultForInterfaceStatusInfoAutoHideTimeout() {
     }
 }
 
-bool PQCSettings::getInterfaceStatusInfoAutoHideTopEdge() {
+bool PQCSettings::getInterfaceStatusInfoAutoHideTopEdge() const {
     return m_interfaceStatusInfoAutoHideTopEdge;
 }
 
-void PQCSettings::setInterfaceStatusInfoAutoHideTopEdge(bool val) {
+void PQCSettings::setInterfaceStatusInfoAutoHideTopEdge(const bool val) {
     if(val != m_interfaceStatusInfoAutoHideTopEdge) {
         m_interfaceStatusInfoAutoHideTopEdge = val;
         Q_EMIT interfaceStatusInfoAutoHideTopEdgeChanged();
     }
 }
 
-const bool PQCSettings::getDefaultForInterfaceStatusInfoAutoHideTopEdge() {
+const bool PQCSettings::getDefaultForInterfaceStatusInfoAutoHideTopEdge() const {
         return false;
 }
 
@@ -5045,18 +5045,18 @@ void PQCSettings::setDefaultForInterfaceStatusInfoAutoHideTopEdge() {
     }
 }
 
-int PQCSettings::getInterfaceStatusInfoFontSize() {
+int PQCSettings::getInterfaceStatusInfoFontSize() const {
     return m_interfaceStatusInfoFontSize;
 }
 
-void PQCSettings::setInterfaceStatusInfoFontSize(int val) {
+void PQCSettings::setInterfaceStatusInfoFontSize(const int val) {
     if(val != m_interfaceStatusInfoFontSize) {
         m_interfaceStatusInfoFontSize = val;
         Q_EMIT interfaceStatusInfoFontSizeChanged();
     }
 }
 
-const int PQCSettings::getDefaultForInterfaceStatusInfoFontSize() {
+const int PQCSettings::getDefaultForInterfaceStatusInfoFontSize() const {
         return 10;
 }
 
@@ -5066,18 +5066,18 @@ void PQCSettings::setDefaultForInterfaceStatusInfoFontSize() {
     }
 }
 
-QStringList PQCSettings::getInterfaceStatusInfoList() {
+QStringList PQCSettings::getInterfaceStatusInfoList() const {
     return m_interfaceStatusInfoList;
 }
 
-void PQCSettings::setInterfaceStatusInfoList(QStringList val) {
+void PQCSettings::setInterfaceStatusInfoList(const QStringList val) {
     if(val != m_interfaceStatusInfoList) {
         m_interfaceStatusInfoList = val;
         Q_EMIT interfaceStatusInfoListChanged();
     }
 }
 
-const QStringList PQCSettings::getDefaultForInterfaceStatusInfoList() {
+const QStringList PQCSettings::getDefaultForInterfaceStatusInfoList() const {
         return QStringList() << "counter" << "filename" << "zoom" << "rotation";
 }
 
@@ -5089,18 +5089,18 @@ void PQCSettings::setDefaultForInterfaceStatusInfoList() {
     }
 }
 
-bool PQCSettings::getInterfaceStatusInfoManageWindow() {
+bool PQCSettings::getInterfaceStatusInfoManageWindow() const {
     return m_interfaceStatusInfoManageWindow;
 }
 
-void PQCSettings::setInterfaceStatusInfoManageWindow(bool val) {
+void PQCSettings::setInterfaceStatusInfoManageWindow(const bool val) {
     if(val != m_interfaceStatusInfoManageWindow) {
         m_interfaceStatusInfoManageWindow = val;
         Q_EMIT interfaceStatusInfoManageWindowChanged();
     }
 }
 
-const bool PQCSettings::getDefaultForInterfaceStatusInfoManageWindow() {
+const bool PQCSettings::getDefaultForInterfaceStatusInfoManageWindow() const {
         return false;
 }
 
@@ -5111,18 +5111,18 @@ void PQCSettings::setDefaultForInterfaceStatusInfoManageWindow() {
     }
 }
 
-QString PQCSettings::getInterfaceStatusInfoPosition() {
+QString PQCSettings::getInterfaceStatusInfoPosition() const {
     return m_interfaceStatusInfoPosition;
 }
 
-void PQCSettings::setInterfaceStatusInfoPosition(QString val) {
+void PQCSettings::setInterfaceStatusInfoPosition(const QString val) {
     if(val != m_interfaceStatusInfoPosition) {
         m_interfaceStatusInfoPosition = val;
         Q_EMIT interfaceStatusInfoPositionChanged();
     }
 }
 
-const QString PQCSettings::getDefaultForInterfaceStatusInfoPosition() {
+const QString PQCSettings::getDefaultForInterfaceStatusInfoPosition() const {
         return "left";
 }
 
@@ -5133,18 +5133,18 @@ void PQCSettings::setDefaultForInterfaceStatusInfoPosition() {
     }
 }
 
-bool PQCSettings::getInterfaceStatusInfoShow() {
+bool PQCSettings::getInterfaceStatusInfoShow() const {
     return m_interfaceStatusInfoShow;
 }
 
-void PQCSettings::setInterfaceStatusInfoShow(bool val) {
+void PQCSettings::setInterfaceStatusInfoShow(const bool val) {
     if(val != m_interfaceStatusInfoShow) {
         m_interfaceStatusInfoShow = val;
         Q_EMIT interfaceStatusInfoShowChanged();
     }
 }
 
-const bool PQCSettings::getDefaultForInterfaceStatusInfoShow() {
+const bool PQCSettings::getDefaultForInterfaceStatusInfoShow() const {
         return true;
 }
 
@@ -5155,18 +5155,18 @@ void PQCSettings::setDefaultForInterfaceStatusInfoShow() {
     }
 }
 
-bool PQCSettings::getInterfaceStatusInfoShowImageChange() {
+bool PQCSettings::getInterfaceStatusInfoShowImageChange() const {
     return m_interfaceStatusInfoShowImageChange;
 }
 
-void PQCSettings::setInterfaceStatusInfoShowImageChange(bool val) {
+void PQCSettings::setInterfaceStatusInfoShowImageChange(const bool val) {
     if(val != m_interfaceStatusInfoShowImageChange) {
         m_interfaceStatusInfoShowImageChange = val;
         Q_EMIT interfaceStatusInfoShowImageChangeChanged();
     }
 }
 
-const bool PQCSettings::getDefaultForInterfaceStatusInfoShowImageChange() {
+const bool PQCSettings::getDefaultForInterfaceStatusInfoShowImageChange() const {
         return true;
 }
 
@@ -5177,18 +5177,18 @@ void PQCSettings::setDefaultForInterfaceStatusInfoShowImageChange() {
     }
 }
 
-int PQCSettings::getInterfaceTrayIcon() {
+int PQCSettings::getInterfaceTrayIcon() const {
     return m_interfaceTrayIcon;
 }
 
-void PQCSettings::setInterfaceTrayIcon(int val) {
+void PQCSettings::setInterfaceTrayIcon(const int val) {
     if(val != m_interfaceTrayIcon) {
         m_interfaceTrayIcon = val;
         Q_EMIT interfaceTrayIconChanged();
     }
 }
 
-const int PQCSettings::getDefaultForInterfaceTrayIcon() {
+const int PQCSettings::getDefaultForInterfaceTrayIcon() const {
         return 0;
 }
 
@@ -5198,18 +5198,18 @@ void PQCSettings::setDefaultForInterfaceTrayIcon() {
     }
 }
 
-bool PQCSettings::getInterfaceTrayIconHideReset() {
+bool PQCSettings::getInterfaceTrayIconHideReset() const {
     return m_interfaceTrayIconHideReset;
 }
 
-void PQCSettings::setInterfaceTrayIconHideReset(bool val) {
+void PQCSettings::setInterfaceTrayIconHideReset(const bool val) {
     if(val != m_interfaceTrayIconHideReset) {
         m_interfaceTrayIconHideReset = val;
         Q_EMIT interfaceTrayIconHideResetChanged();
     }
 }
 
-const bool PQCSettings::getDefaultForInterfaceTrayIconHideReset() {
+const bool PQCSettings::getDefaultForInterfaceTrayIconHideReset() const {
         return false;
 }
 
@@ -5220,18 +5220,18 @@ void PQCSettings::setDefaultForInterfaceTrayIconHideReset() {
     }
 }
 
-bool PQCSettings::getInterfaceTrayIconMonochrome() {
+bool PQCSettings::getInterfaceTrayIconMonochrome() const {
     return m_interfaceTrayIconMonochrome;
 }
 
-void PQCSettings::setInterfaceTrayIconMonochrome(bool val) {
+void PQCSettings::setInterfaceTrayIconMonochrome(const bool val) {
     if(val != m_interfaceTrayIconMonochrome) {
         m_interfaceTrayIconMonochrome = val;
         Q_EMIT interfaceTrayIconMonochromeChanged();
     }
 }
 
-const bool PQCSettings::getDefaultForInterfaceTrayIconMonochrome() {
+const bool PQCSettings::getDefaultForInterfaceTrayIconMonochrome() const {
         return true;
 }
 
@@ -5242,18 +5242,18 @@ void PQCSettings::setDefaultForInterfaceTrayIconMonochrome() {
     }
 }
 
-bool PQCSettings::getInterfaceWindowButtonsAutoHide() {
+bool PQCSettings::getInterfaceWindowButtonsAutoHide() const {
     return m_interfaceWindowButtonsAutoHide;
 }
 
-void PQCSettings::setInterfaceWindowButtonsAutoHide(bool val) {
+void PQCSettings::setInterfaceWindowButtonsAutoHide(const bool val) {
     if(val != m_interfaceWindowButtonsAutoHide) {
         m_interfaceWindowButtonsAutoHide = val;
         Q_EMIT interfaceWindowButtonsAutoHideChanged();
     }
 }
 
-const bool PQCSettings::getDefaultForInterfaceWindowButtonsAutoHide() {
+const bool PQCSettings::getDefaultForInterfaceWindowButtonsAutoHide() const {
         return false;
 }
 
@@ -5264,18 +5264,18 @@ void PQCSettings::setDefaultForInterfaceWindowButtonsAutoHide() {
     }
 }
 
-int PQCSettings::getInterfaceWindowButtonsAutoHideTimeout() {
+int PQCSettings::getInterfaceWindowButtonsAutoHideTimeout() const {
     return m_interfaceWindowButtonsAutoHideTimeout;
 }
 
-void PQCSettings::setInterfaceWindowButtonsAutoHideTimeout(int val) {
+void PQCSettings::setInterfaceWindowButtonsAutoHideTimeout(const int val) {
     if(val != m_interfaceWindowButtonsAutoHideTimeout) {
         m_interfaceWindowButtonsAutoHideTimeout = val;
         Q_EMIT interfaceWindowButtonsAutoHideTimeoutChanged();
     }
 }
 
-const int PQCSettings::getDefaultForInterfaceWindowButtonsAutoHideTimeout() {
+const int PQCSettings::getDefaultForInterfaceWindowButtonsAutoHideTimeout() const {
         return 1000;
 }
 
@@ -5285,18 +5285,18 @@ void PQCSettings::setDefaultForInterfaceWindowButtonsAutoHideTimeout() {
     }
 }
 
-bool PQCSettings::getInterfaceWindowButtonsAutoHideTopEdge() {
+bool PQCSettings::getInterfaceWindowButtonsAutoHideTopEdge() const {
     return m_interfaceWindowButtonsAutoHideTopEdge;
 }
 
-void PQCSettings::setInterfaceWindowButtonsAutoHideTopEdge(bool val) {
+void PQCSettings::setInterfaceWindowButtonsAutoHideTopEdge(const bool val) {
     if(val != m_interfaceWindowButtonsAutoHideTopEdge) {
         m_interfaceWindowButtonsAutoHideTopEdge = val;
         Q_EMIT interfaceWindowButtonsAutoHideTopEdgeChanged();
     }
 }
 
-const bool PQCSettings::getDefaultForInterfaceWindowButtonsAutoHideTopEdge() {
+const bool PQCSettings::getDefaultForInterfaceWindowButtonsAutoHideTopEdge() const {
         return false;
 }
 
@@ -5307,18 +5307,18 @@ void PQCSettings::setDefaultForInterfaceWindowButtonsAutoHideTopEdge() {
     }
 }
 
-bool PQCSettings::getInterfaceWindowButtonsFollowAccentColor() {
+bool PQCSettings::getInterfaceWindowButtonsFollowAccentColor() const {
     return m_interfaceWindowButtonsFollowAccentColor;
 }
 
-void PQCSettings::setInterfaceWindowButtonsFollowAccentColor(bool val) {
+void PQCSettings::setInterfaceWindowButtonsFollowAccentColor(const bool val) {
     if(val != m_interfaceWindowButtonsFollowAccentColor) {
         m_interfaceWindowButtonsFollowAccentColor = val;
         Q_EMIT interfaceWindowButtonsFollowAccentColorChanged();
     }
 }
 
-const bool PQCSettings::getDefaultForInterfaceWindowButtonsFollowAccentColor() {
+const bool PQCSettings::getDefaultForInterfaceWindowButtonsFollowAccentColor() const {
         return false;
 }
 
@@ -5329,18 +5329,18 @@ void PQCSettings::setDefaultForInterfaceWindowButtonsFollowAccentColor() {
     }
 }
 
-QStringList PQCSettings::getInterfaceWindowButtonsItems() {
+QStringList PQCSettings::getInterfaceWindowButtonsItems() const {
     return m_interfaceWindowButtonsItems;
 }
 
-void PQCSettings::setInterfaceWindowButtonsItems(QStringList val) {
+void PQCSettings::setInterfaceWindowButtonsItems(const QStringList val) {
     if(val != m_interfaceWindowButtonsItems) {
         m_interfaceWindowButtonsItems = val;
         Q_EMIT interfaceWindowButtonsItemsChanged();
     }
 }
 
-const QStringList PQCSettings::getDefaultForInterfaceWindowButtonsItems() {
+const QStringList PQCSettings::getDefaultForInterfaceWindowButtonsItems() const {
         return QStringList() << "left_0|0|0" << "right_0|0|0" << "menu_0|0|0" << "ontop_0|1|1" << "fullscreen_0|0|1";
 }
 
@@ -5352,18 +5352,18 @@ void PQCSettings::setDefaultForInterfaceWindowButtonsItems() {
     }
 }
 
-bool PQCSettings::getInterfaceWindowButtonsShow() {
+bool PQCSettings::getInterfaceWindowButtonsShow() const {
     return m_interfaceWindowButtonsShow;
 }
 
-void PQCSettings::setInterfaceWindowButtonsShow(bool val) {
+void PQCSettings::setInterfaceWindowButtonsShow(const bool val) {
     if(val != m_interfaceWindowButtonsShow) {
         m_interfaceWindowButtonsShow = val;
         Q_EMIT interfaceWindowButtonsShowChanged();
     }
 }
 
-const bool PQCSettings::getDefaultForInterfaceWindowButtonsShow() {
+const bool PQCSettings::getDefaultForInterfaceWindowButtonsShow() const {
         return true;
 }
 
@@ -5374,18 +5374,18 @@ void PQCSettings::setDefaultForInterfaceWindowButtonsShow() {
     }
 }
 
-int PQCSettings::getInterfaceWindowButtonsSize() {
+int PQCSettings::getInterfaceWindowButtonsSize() const {
     return m_interfaceWindowButtonsSize;
 }
 
-void PQCSettings::setInterfaceWindowButtonsSize(int val) {
+void PQCSettings::setInterfaceWindowButtonsSize(const int val) {
     if(val != m_interfaceWindowButtonsSize) {
         m_interfaceWindowButtonsSize = val;
         Q_EMIT interfaceWindowButtonsSizeChanged();
     }
 }
 
-const int PQCSettings::getDefaultForInterfaceWindowButtonsSize() {
+const int PQCSettings::getDefaultForInterfaceWindowButtonsSize() const {
         return 10;
 }
 
@@ -5395,18 +5395,18 @@ void PQCSettings::setDefaultForInterfaceWindowButtonsSize() {
     }
 }
 
-bool PQCSettings::getInterfaceWindowDecoration() {
+bool PQCSettings::getInterfaceWindowDecoration() const {
     return m_interfaceWindowDecoration;
 }
 
-void PQCSettings::setInterfaceWindowDecoration(bool val) {
+void PQCSettings::setInterfaceWindowDecoration(const bool val) {
     if(val != m_interfaceWindowDecoration) {
         m_interfaceWindowDecoration = val;
         Q_EMIT interfaceWindowDecorationChanged();
     }
 }
 
-const bool PQCSettings::getDefaultForInterfaceWindowDecoration() {
+const bool PQCSettings::getDefaultForInterfaceWindowDecoration() const {
         return true;
 }
 
@@ -5417,18 +5417,18 @@ void PQCSettings::setDefaultForInterfaceWindowDecoration() {
     }
 }
 
-bool PQCSettings::getInterfaceWindowDecorationOnEmptyBackground() {
+bool PQCSettings::getInterfaceWindowDecorationOnEmptyBackground() const {
     return m_interfaceWindowDecorationOnEmptyBackground;
 }
 
-void PQCSettings::setInterfaceWindowDecorationOnEmptyBackground(bool val) {
+void PQCSettings::setInterfaceWindowDecorationOnEmptyBackground(const bool val) {
     if(val != m_interfaceWindowDecorationOnEmptyBackground) {
         m_interfaceWindowDecorationOnEmptyBackground = val;
         Q_EMIT interfaceWindowDecorationOnEmptyBackgroundChanged();
     }
 }
 
-const bool PQCSettings::getDefaultForInterfaceWindowDecorationOnEmptyBackground() {
+const bool PQCSettings::getDefaultForInterfaceWindowDecorationOnEmptyBackground() const {
         return false;
 }
 
@@ -5439,18 +5439,18 @@ void PQCSettings::setDefaultForInterfaceWindowDecorationOnEmptyBackground() {
     }
 }
 
-bool PQCSettings::getInterfaceWindowMode() {
+bool PQCSettings::getInterfaceWindowMode() const {
     return m_interfaceWindowMode;
 }
 
-void PQCSettings::setInterfaceWindowMode(bool val) {
+void PQCSettings::setInterfaceWindowMode(const bool val) {
     if(val != m_interfaceWindowMode) {
         m_interfaceWindowMode = val;
         Q_EMIT interfaceWindowModeChanged();
     }
 }
 
-const bool PQCSettings::getDefaultForInterfaceWindowMode() {
+const bool PQCSettings::getDefaultForInterfaceWindowMode() const {
         return true;
 }
 
@@ -5461,18 +5461,18 @@ void PQCSettings::setDefaultForInterfaceWindowMode() {
     }
 }
 
-bool PQCSettings::getMainmenuElementHeightDynamic() {
+bool PQCSettings::getMainmenuElementHeightDynamic() const {
     return m_mainmenuElementHeightDynamic;
 }
 
-void PQCSettings::setMainmenuElementHeightDynamic(bool val) {
+void PQCSettings::setMainmenuElementHeightDynamic(const bool val) {
     if(val != m_mainmenuElementHeightDynamic) {
         m_mainmenuElementHeightDynamic = val;
         Q_EMIT mainmenuElementHeightDynamicChanged();
     }
 }
 
-const bool PQCSettings::getDefaultForMainmenuElementHeightDynamic() {
+const bool PQCSettings::getDefaultForMainmenuElementHeightDynamic() const {
         return true;
 }
 
@@ -5483,40 +5483,40 @@ void PQCSettings::setDefaultForMainmenuElementHeightDynamic() {
     }
 }
 
-QPoint PQCSettings::getMainmenuElementPosition() {
+QPointF PQCSettings::getMainmenuElementPosition() const {
     return m_mainmenuElementPosition;
 }
 
-void PQCSettings::setMainmenuElementPosition(QPoint val) {
+void PQCSettings::setMainmenuElementPosition(const QPointF val) {
     if(val != m_mainmenuElementPosition) {
         m_mainmenuElementPosition = val;
         Q_EMIT mainmenuElementPositionChanged();
     }
 }
 
-const QPoint PQCSettings::getDefaultForMainmenuElementPosition() {
-        return QPoint(100, 100);
+const QPointF PQCSettings::getDefaultForMainmenuElementPosition() const {
+        return QPointF(100, 100);
 }
 
 void PQCSettings::setDefaultForMainmenuElementPosition() {
-    if(QPoint(100, 100) != m_mainmenuElementPosition) {
-        m_mainmenuElementPosition = QPoint(100, 100);
+    if(QPointF(100, 100) != m_mainmenuElementPosition) {
+        m_mainmenuElementPosition = QPointF(100, 100);
         Q_EMIT mainmenuElementPositionChanged();
     }
 }
 
-QSize PQCSettings::getMainmenuElementSize() {
+QSizeF PQCSettings::getMainmenuElementSize() const {
     return m_mainmenuElementSize;
 }
 
-void PQCSettings::setMainmenuElementSize(QSize val) {
+void PQCSettings::setMainmenuElementSize(const QSizeF val) {
     if(val != m_mainmenuElementSize) {
         m_mainmenuElementSize = val;
         Q_EMIT mainmenuElementSizeChanged();
     }
 }
 
-const QSize PQCSettings::getDefaultForMainmenuElementSize() {
+const QSizeF PQCSettings::getDefaultForMainmenuElementSize() const {
         return QSize(450, 900);
 }
 
@@ -5527,18 +5527,18 @@ void PQCSettings::setDefaultForMainmenuElementSize() {
     }
 }
 
-int PQCSettings::getMainmenuElementWidth() {
+int PQCSettings::getMainmenuElementWidth() const {
     return m_mainmenuElementWidth;
 }
 
-void PQCSettings::setMainmenuElementWidth(int val) {
+void PQCSettings::setMainmenuElementWidth(const int val) {
     if(val != m_mainmenuElementWidth) {
         m_mainmenuElementWidth = val;
         Q_EMIT mainmenuElementWidthChanged();
     }
 }
 
-const int PQCSettings::getDefaultForMainmenuElementWidth() {
+const int PQCSettings::getDefaultForMainmenuElementWidth() const {
         return 450;
 }
 
@@ -5548,18 +5548,18 @@ void PQCSettings::setDefaultForMainmenuElementWidth() {
     }
 }
 
-bool PQCSettings::getMainmenuShowExternal() {
+bool PQCSettings::getMainmenuShowExternal() const {
     return m_mainmenuShowExternal;
 }
 
-void PQCSettings::setMainmenuShowExternal(bool val) {
+void PQCSettings::setMainmenuShowExternal(const bool val) {
     if(val != m_mainmenuShowExternal) {
         m_mainmenuShowExternal = val;
         Q_EMIT mainmenuShowExternalChanged();
     }
 }
 
-const bool PQCSettings::getDefaultForMainmenuShowExternal() {
+const bool PQCSettings::getDefaultForMainmenuShowExternal() const {
         return false;
 }
 
@@ -5570,40 +5570,40 @@ void PQCSettings::setDefaultForMainmenuShowExternal() {
     }
 }
 
-QPoint PQCSettings::getMapviewCurrentPosition() {
+QPointF PQCSettings::getMapviewCurrentPosition() const {
     return m_mapviewCurrentPosition;
 }
 
-void PQCSettings::setMapviewCurrentPosition(QPoint val) {
+void PQCSettings::setMapviewCurrentPosition(const QPointF val) {
     if(val != m_mapviewCurrentPosition) {
         m_mapviewCurrentPosition = val;
         Q_EMIT mapviewCurrentPositionChanged();
     }
 }
 
-const QPoint PQCSettings::getDefaultForMapviewCurrentPosition() {
-        return QPoint(200, 200);
+const QPointF PQCSettings::getDefaultForMapviewCurrentPosition() const {
+        return QPointF(200, 200);
 }
 
 void PQCSettings::setDefaultForMapviewCurrentPosition() {
-    if(QPoint(200, 200) != m_mapviewCurrentPosition) {
-        m_mapviewCurrentPosition = QPoint(200, 200);
+    if(QPointF(200, 200) != m_mapviewCurrentPosition) {
+        m_mapviewCurrentPosition = QPointF(200, 200);
         Q_EMIT mapviewCurrentPositionChanged();
     }
 }
 
-QSize PQCSettings::getMapviewCurrentSize() {
+QSizeF PQCSettings::getMapviewCurrentSize() const {
     return m_mapviewCurrentSize;
 }
 
-void PQCSettings::setMapviewCurrentSize(QSize val) {
+void PQCSettings::setMapviewCurrentSize(const QSizeF val) {
     if(val != m_mapviewCurrentSize) {
         m_mapviewCurrentSize = val;
         Q_EMIT mapviewCurrentSizeChanged();
     }
 }
 
-const QSize PQCSettings::getDefaultForMapviewCurrentSize() {
+const QSizeF PQCSettings::getDefaultForMapviewCurrentSize() const {
         return QSize(400, 300);
 }
 
@@ -5614,18 +5614,18 @@ void PQCSettings::setDefaultForMapviewCurrentSize() {
     }
 }
 
-bool PQCSettings::getMapviewCurrentVisible() {
+bool PQCSettings::getMapviewCurrentVisible() const {
     return m_mapviewCurrentVisible;
 }
 
-void PQCSettings::setMapviewCurrentVisible(bool val) {
+void PQCSettings::setMapviewCurrentVisible(const bool val) {
     if(val != m_mapviewCurrentVisible) {
         m_mapviewCurrentVisible = val;
         Q_EMIT mapviewCurrentVisibleChanged();
     }
 }
 
-const bool PQCSettings::getDefaultForMapviewCurrentVisible() {
+const bool PQCSettings::getDefaultForMapviewCurrentVisible() const {
         return false;
 }
 
@@ -5636,18 +5636,18 @@ void PQCSettings::setDefaultForMapviewCurrentVisible() {
     }
 }
 
-bool PQCSettings::getMapviewExplorerThumbnailsScaleCrop() {
+bool PQCSettings::getMapviewExplorerThumbnailsScaleCrop() const {
     return m_mapviewExplorerThumbnailsScaleCrop;
 }
 
-void PQCSettings::setMapviewExplorerThumbnailsScaleCrop(bool val) {
+void PQCSettings::setMapviewExplorerThumbnailsScaleCrop(const bool val) {
     if(val != m_mapviewExplorerThumbnailsScaleCrop) {
         m_mapviewExplorerThumbnailsScaleCrop = val;
         Q_EMIT mapviewExplorerThumbnailsScaleCropChanged();
     }
 }
 
-const bool PQCSettings::getDefaultForMapviewExplorerThumbnailsScaleCrop() {
+const bool PQCSettings::getDefaultForMapviewExplorerThumbnailsScaleCrop() const {
         return true;
 }
 
@@ -5658,18 +5658,18 @@ void PQCSettings::setDefaultForMapviewExplorerThumbnailsScaleCrop() {
     }
 }
 
-int PQCSettings::getMapviewExplorerThumbnailsZoomLevel() {
+int PQCSettings::getMapviewExplorerThumbnailsZoomLevel() const {
     return m_mapviewExplorerThumbnailsZoomLevel;
 }
 
-void PQCSettings::setMapviewExplorerThumbnailsZoomLevel(int val) {
+void PQCSettings::setMapviewExplorerThumbnailsZoomLevel(const int val) {
     if(val != m_mapviewExplorerThumbnailsZoomLevel) {
         m_mapviewExplorerThumbnailsZoomLevel = val;
         Q_EMIT mapviewExplorerThumbnailsZoomLevelChanged();
     }
 }
 
-const int PQCSettings::getDefaultForMapviewExplorerThumbnailsZoomLevel() {
+const int PQCSettings::getDefaultForMapviewExplorerThumbnailsZoomLevel() const {
         return 20;
 }
 
@@ -5679,18 +5679,18 @@ void PQCSettings::setDefaultForMapviewExplorerThumbnailsZoomLevel() {
     }
 }
 
-bool PQCSettings::getMetadataAutoRotation() {
+bool PQCSettings::getMetadataAutoRotation() const {
     return m_metadataAutoRotation;
 }
 
-void PQCSettings::setMetadataAutoRotation(bool val) {
+void PQCSettings::setMetadataAutoRotation(const bool val) {
     if(val != m_metadataAutoRotation) {
         m_metadataAutoRotation = val;
         Q_EMIT metadataAutoRotationChanged();
     }
 }
 
-const bool PQCSettings::getDefaultForMetadataAutoRotation() {
+const bool PQCSettings::getDefaultForMetadataAutoRotation() const {
         return true;
 }
 
@@ -5701,18 +5701,18 @@ void PQCSettings::setDefaultForMetadataAutoRotation() {
     }
 }
 
-bool PQCSettings::getMetadataCopyright() {
+bool PQCSettings::getMetadataCopyright() const {
     return m_metadataCopyright;
 }
 
-void PQCSettings::setMetadataCopyright(bool val) {
+void PQCSettings::setMetadataCopyright(const bool val) {
     if(val != m_metadataCopyright) {
         m_metadataCopyright = val;
         Q_EMIT metadataCopyrightChanged();
     }
 }
 
-const bool PQCSettings::getDefaultForMetadataCopyright() {
+const bool PQCSettings::getDefaultForMetadataCopyright() const {
         return false;
 }
 
@@ -5723,18 +5723,18 @@ void PQCSettings::setDefaultForMetadataCopyright() {
     }
 }
 
-bool PQCSettings::getMetadataDimensions() {
+bool PQCSettings::getMetadataDimensions() const {
     return m_metadataDimensions;
 }
 
-void PQCSettings::setMetadataDimensions(bool val) {
+void PQCSettings::setMetadataDimensions(const bool val) {
     if(val != m_metadataDimensions) {
         m_metadataDimensions = val;
         Q_EMIT metadataDimensionsChanged();
     }
 }
 
-const bool PQCSettings::getDefaultForMetadataDimensions() {
+const bool PQCSettings::getDefaultForMetadataDimensions() const {
         return true;
 }
 
@@ -5745,18 +5745,18 @@ void PQCSettings::setDefaultForMetadataDimensions() {
     }
 }
 
-bool PQCSettings::getMetadataElementFloating() {
+bool PQCSettings::getMetadataElementFloating() const {
     return m_metadataElementFloating;
 }
 
-void PQCSettings::setMetadataElementFloating(bool val) {
+void PQCSettings::setMetadataElementFloating(const bool val) {
     if(val != m_metadataElementFloating) {
         m_metadataElementFloating = val;
         Q_EMIT metadataElementFloatingChanged();
     }
 }
 
-const bool PQCSettings::getDefaultForMetadataElementFloating() {
+const bool PQCSettings::getDefaultForMetadataElementFloating() const {
         return false;
 }
 
@@ -5767,18 +5767,18 @@ void PQCSettings::setDefaultForMetadataElementFloating() {
     }
 }
 
-bool PQCSettings::getMetadataElementHeightDynamic() {
+bool PQCSettings::getMetadataElementHeightDynamic() const {
     return m_metadataElementHeightDynamic;
 }
 
-void PQCSettings::setMetadataElementHeightDynamic(bool val) {
+void PQCSettings::setMetadataElementHeightDynamic(const bool val) {
     if(val != m_metadataElementHeightDynamic) {
         m_metadataElementHeightDynamic = val;
         Q_EMIT metadataElementHeightDynamicChanged();
     }
 }
 
-const bool PQCSettings::getDefaultForMetadataElementHeightDynamic() {
+const bool PQCSettings::getDefaultForMetadataElementHeightDynamic() const {
         return true;
 }
 
@@ -5789,40 +5789,40 @@ void PQCSettings::setDefaultForMetadataElementHeightDynamic() {
     }
 }
 
-QPoint PQCSettings::getMetadataElementPosition() {
+QPointF PQCSettings::getMetadataElementPosition() const {
     return m_metadataElementPosition;
 }
 
-void PQCSettings::setMetadataElementPosition(QPoint val) {
+void PQCSettings::setMetadataElementPosition(const QPointF val) {
     if(val != m_metadataElementPosition) {
         m_metadataElementPosition = val;
         Q_EMIT metadataElementPositionChanged();
     }
 }
 
-const QPoint PQCSettings::getDefaultForMetadataElementPosition() {
-        return QPoint(100, 100);
+const QPointF PQCSettings::getDefaultForMetadataElementPosition() const {
+        return QPointF(100, 100);
 }
 
 void PQCSettings::setDefaultForMetadataElementPosition() {
-    if(QPoint(100, 100) != m_metadataElementPosition) {
-        m_metadataElementPosition = QPoint(100, 100);
+    if(QPointF(100, 100) != m_metadataElementPosition) {
+        m_metadataElementPosition = QPointF(100, 100);
         Q_EMIT metadataElementPositionChanged();
     }
 }
 
-QSize PQCSettings::getMetadataElementSize() {
+QSizeF PQCSettings::getMetadataElementSize() const {
     return m_metadataElementSize;
 }
 
-void PQCSettings::setMetadataElementSize(QSize val) {
+void PQCSettings::setMetadataElementSize(const QSizeF val) {
     if(val != m_metadataElementSize) {
         m_metadataElementSize = val;
         Q_EMIT metadataElementSizeChanged();
     }
 }
 
-const QSize PQCSettings::getDefaultForMetadataElementSize() {
+const QSizeF PQCSettings::getDefaultForMetadataElementSize() const {
         return QSize(400, 700);
 }
 
@@ -5833,18 +5833,18 @@ void PQCSettings::setDefaultForMetadataElementSize() {
     }
 }
 
-bool PQCSettings::getMetadataElementVisible() {
+bool PQCSettings::getMetadataElementVisible() const {
     return m_metadataElementVisible;
 }
 
-void PQCSettings::setMetadataElementVisible(bool val) {
+void PQCSettings::setMetadataElementVisible(const bool val) {
     if(val != m_metadataElementVisible) {
         m_metadataElementVisible = val;
         Q_EMIT metadataElementVisibleChanged();
     }
 }
 
-const bool PQCSettings::getDefaultForMetadataElementVisible() {
+const bool PQCSettings::getDefaultForMetadataElementVisible() const {
         return false;
 }
 
@@ -5855,18 +5855,18 @@ void PQCSettings::setDefaultForMetadataElementVisible() {
     }
 }
 
-bool PQCSettings::getMetadataExposureTime() {
+bool PQCSettings::getMetadataExposureTime() const {
     return m_metadataExposureTime;
 }
 
-void PQCSettings::setMetadataExposureTime(bool val) {
+void PQCSettings::setMetadataExposureTime(const bool val) {
     if(val != m_metadataExposureTime) {
         m_metadataExposureTime = val;
         Q_EMIT metadataExposureTimeChanged();
     }
 }
 
-const bool PQCSettings::getDefaultForMetadataExposureTime() {
+const bool PQCSettings::getDefaultForMetadataExposureTime() const {
         return true;
 }
 
@@ -5877,18 +5877,18 @@ void PQCSettings::setDefaultForMetadataExposureTime() {
     }
 }
 
-bool PQCSettings::getMetadataFLength() {
+bool PQCSettings::getMetadataFLength() const {
     return m_metadataFLength;
 }
 
-void PQCSettings::setMetadataFLength(bool val) {
+void PQCSettings::setMetadataFLength(const bool val) {
     if(val != m_metadataFLength) {
         m_metadataFLength = val;
         Q_EMIT metadataFLengthChanged();
     }
 }
 
-const bool PQCSettings::getDefaultForMetadataFLength() {
+const bool PQCSettings::getDefaultForMetadataFLength() const {
         return true;
 }
 
@@ -5899,18 +5899,18 @@ void PQCSettings::setDefaultForMetadataFLength() {
     }
 }
 
-bool PQCSettings::getMetadataFNumber() {
+bool PQCSettings::getMetadataFNumber() const {
     return m_metadataFNumber;
 }
 
-void PQCSettings::setMetadataFNumber(bool val) {
+void PQCSettings::setMetadataFNumber(const bool val) {
     if(val != m_metadataFNumber) {
         m_metadataFNumber = val;
         Q_EMIT metadataFNumberChanged();
     }
 }
 
-const bool PQCSettings::getDefaultForMetadataFNumber() {
+const bool PQCSettings::getDefaultForMetadataFNumber() const {
         return true;
 }
 
@@ -5921,18 +5921,18 @@ void PQCSettings::setDefaultForMetadataFNumber() {
     }
 }
 
-bool PQCSettings::getMetadataFaceTagsBorder() {
+bool PQCSettings::getMetadataFaceTagsBorder() const {
     return m_metadataFaceTagsBorder;
 }
 
-void PQCSettings::setMetadataFaceTagsBorder(bool val) {
+void PQCSettings::setMetadataFaceTagsBorder(const bool val) {
     if(val != m_metadataFaceTagsBorder) {
         m_metadataFaceTagsBorder = val;
         Q_EMIT metadataFaceTagsBorderChanged();
     }
 }
 
-const bool PQCSettings::getDefaultForMetadataFaceTagsBorder() {
+const bool PQCSettings::getDefaultForMetadataFaceTagsBorder() const {
         return false;
 }
 
@@ -5943,18 +5943,18 @@ void PQCSettings::setDefaultForMetadataFaceTagsBorder() {
     }
 }
 
-QString PQCSettings::getMetadataFaceTagsBorderColor() {
+QString PQCSettings::getMetadataFaceTagsBorderColor() const {
     return m_metadataFaceTagsBorderColor;
 }
 
-void PQCSettings::setMetadataFaceTagsBorderColor(QString val) {
+void PQCSettings::setMetadataFaceTagsBorderColor(const QString val) {
     if(val != m_metadataFaceTagsBorderColor) {
         m_metadataFaceTagsBorderColor = val;
         Q_EMIT metadataFaceTagsBorderColorChanged();
     }
 }
 
-const QString PQCSettings::getDefaultForMetadataFaceTagsBorderColor() {
+const QString PQCSettings::getDefaultForMetadataFaceTagsBorderColor() const {
         return "#44ff0000";
 }
 
@@ -5965,18 +5965,18 @@ void PQCSettings::setDefaultForMetadataFaceTagsBorderColor() {
     }
 }
 
-int PQCSettings::getMetadataFaceTagsBorderWidth() {
+int PQCSettings::getMetadataFaceTagsBorderWidth() const {
     return m_metadataFaceTagsBorderWidth;
 }
 
-void PQCSettings::setMetadataFaceTagsBorderWidth(int val) {
+void PQCSettings::setMetadataFaceTagsBorderWidth(const int val) {
     if(val != m_metadataFaceTagsBorderWidth) {
         m_metadataFaceTagsBorderWidth = val;
         Q_EMIT metadataFaceTagsBorderWidthChanged();
     }
 }
 
-const int PQCSettings::getDefaultForMetadataFaceTagsBorderWidth() {
+const int PQCSettings::getDefaultForMetadataFaceTagsBorderWidth() const {
         return 3;
 }
 
@@ -5986,18 +5986,18 @@ void PQCSettings::setDefaultForMetadataFaceTagsBorderWidth() {
     }
 }
 
-bool PQCSettings::getMetadataFaceTagsEnabled() {
+bool PQCSettings::getMetadataFaceTagsEnabled() const {
     return m_metadataFaceTagsEnabled;
 }
 
-void PQCSettings::setMetadataFaceTagsEnabled(bool val) {
+void PQCSettings::setMetadataFaceTagsEnabled(const bool val) {
     if(val != m_metadataFaceTagsEnabled) {
         m_metadataFaceTagsEnabled = val;
         Q_EMIT metadataFaceTagsEnabledChanged();
     }
 }
 
-const bool PQCSettings::getDefaultForMetadataFaceTagsEnabled() {
+const bool PQCSettings::getDefaultForMetadataFaceTagsEnabled() const {
         return true;
 }
 
@@ -6008,18 +6008,18 @@ void PQCSettings::setDefaultForMetadataFaceTagsEnabled() {
     }
 }
 
-int PQCSettings::getMetadataFaceTagsFontSize() {
+int PQCSettings::getMetadataFaceTagsFontSize() const {
     return m_metadataFaceTagsFontSize;
 }
 
-void PQCSettings::setMetadataFaceTagsFontSize(int val) {
+void PQCSettings::setMetadataFaceTagsFontSize(const int val) {
     if(val != m_metadataFaceTagsFontSize) {
         m_metadataFaceTagsFontSize = val;
         Q_EMIT metadataFaceTagsFontSizeChanged();
     }
 }
 
-const int PQCSettings::getDefaultForMetadataFaceTagsFontSize() {
+const int PQCSettings::getDefaultForMetadataFaceTagsFontSize() const {
         return 10;
 }
 
@@ -6029,18 +6029,18 @@ void PQCSettings::setDefaultForMetadataFaceTagsFontSize() {
     }
 }
 
-int PQCSettings::getMetadataFaceTagsVisibility() {
+int PQCSettings::getMetadataFaceTagsVisibility() const {
     return m_metadataFaceTagsVisibility;
 }
 
-void PQCSettings::setMetadataFaceTagsVisibility(int val) {
+void PQCSettings::setMetadataFaceTagsVisibility(const int val) {
     if(val != m_metadataFaceTagsVisibility) {
         m_metadataFaceTagsVisibility = val;
         Q_EMIT metadataFaceTagsVisibilityChanged();
     }
 }
 
-const int PQCSettings::getDefaultForMetadataFaceTagsVisibility() {
+const int PQCSettings::getDefaultForMetadataFaceTagsVisibility() const {
         return 1;
 }
 
@@ -6050,18 +6050,18 @@ void PQCSettings::setDefaultForMetadataFaceTagsVisibility() {
     }
 }
 
-bool PQCSettings::getMetadataFileSize() {
+bool PQCSettings::getMetadataFileSize() const {
     return m_metadataFileSize;
 }
 
-void PQCSettings::setMetadataFileSize(bool val) {
+void PQCSettings::setMetadataFileSize(const bool val) {
     if(val != m_metadataFileSize) {
         m_metadataFileSize = val;
         Q_EMIT metadataFileSizeChanged();
     }
 }
 
-const bool PQCSettings::getDefaultForMetadataFileSize() {
+const bool PQCSettings::getDefaultForMetadataFileSize() const {
         return true;
 }
 
@@ -6072,18 +6072,18 @@ void PQCSettings::setDefaultForMetadataFileSize() {
     }
 }
 
-bool PQCSettings::getMetadataFileType() {
+bool PQCSettings::getMetadataFileType() const {
     return m_metadataFileType;
 }
 
-void PQCSettings::setMetadataFileType(bool val) {
+void PQCSettings::setMetadataFileType(const bool val) {
     if(val != m_metadataFileType) {
         m_metadataFileType = val;
         Q_EMIT metadataFileTypeChanged();
     }
 }
 
-const bool PQCSettings::getDefaultForMetadataFileType() {
+const bool PQCSettings::getDefaultForMetadataFileType() const {
         return true;
 }
 
@@ -6094,18 +6094,18 @@ void PQCSettings::setDefaultForMetadataFileType() {
     }
 }
 
-bool PQCSettings::getMetadataFilename() {
+bool PQCSettings::getMetadataFilename() const {
     return m_metadataFilename;
 }
 
-void PQCSettings::setMetadataFilename(bool val) {
+void PQCSettings::setMetadataFilename(const bool val) {
     if(val != m_metadataFilename) {
         m_metadataFilename = val;
         Q_EMIT metadataFilenameChanged();
     }
 }
 
-const bool PQCSettings::getDefaultForMetadataFilename() {
+const bool PQCSettings::getDefaultForMetadataFilename() const {
         return true;
 }
 
@@ -6116,18 +6116,18 @@ void PQCSettings::setDefaultForMetadataFilename() {
     }
 }
 
-bool PQCSettings::getMetadataFlash() {
+bool PQCSettings::getMetadataFlash() const {
     return m_metadataFlash;
 }
 
-void PQCSettings::setMetadataFlash(bool val) {
+void PQCSettings::setMetadataFlash(const bool val) {
     if(val != m_metadataFlash) {
         m_metadataFlash = val;
         Q_EMIT metadataFlashChanged();
     }
 }
 
-const bool PQCSettings::getDefaultForMetadataFlash() {
+const bool PQCSettings::getDefaultForMetadataFlash() const {
         return true;
 }
 
@@ -6138,18 +6138,18 @@ void PQCSettings::setDefaultForMetadataFlash() {
     }
 }
 
-bool PQCSettings::getMetadataGps() {
+bool PQCSettings::getMetadataGps() const {
     return m_metadataGps;
 }
 
-void PQCSettings::setMetadataGps(bool val) {
+void PQCSettings::setMetadataGps(const bool val) {
     if(val != m_metadataGps) {
         m_metadataGps = val;
         Q_EMIT metadataGpsChanged();
     }
 }
 
-const bool PQCSettings::getDefaultForMetadataGps() {
+const bool PQCSettings::getDefaultForMetadataGps() const {
         return true;
 }
 
@@ -6160,18 +6160,18 @@ void PQCSettings::setDefaultForMetadataGps() {
     }
 }
 
-QString PQCSettings::getMetadataGpsMap() {
+QString PQCSettings::getMetadataGpsMap() const {
     return m_metadataGpsMap;
 }
 
-void PQCSettings::setMetadataGpsMap(QString val) {
+void PQCSettings::setMetadataGpsMap(const QString val) {
     if(val != m_metadataGpsMap) {
         m_metadataGpsMap = val;
         Q_EMIT metadataGpsMapChanged();
     }
 }
 
-const QString PQCSettings::getDefaultForMetadataGpsMap() {
+const QString PQCSettings::getDefaultForMetadataGpsMap() const {
         return "openstreetmap.org";
 }
 
@@ -6182,18 +6182,18 @@ void PQCSettings::setDefaultForMetadataGpsMap() {
     }
 }
 
-bool PQCSettings::getMetadataImageNumber() {
+bool PQCSettings::getMetadataImageNumber() const {
     return m_metadataImageNumber;
 }
 
-void PQCSettings::setMetadataImageNumber(bool val) {
+void PQCSettings::setMetadataImageNumber(const bool val) {
     if(val != m_metadataImageNumber) {
         m_metadataImageNumber = val;
         Q_EMIT metadataImageNumberChanged();
     }
 }
 
-const bool PQCSettings::getDefaultForMetadataImageNumber() {
+const bool PQCSettings::getDefaultForMetadataImageNumber() const {
         return true;
 }
 
@@ -6204,18 +6204,18 @@ void PQCSettings::setDefaultForMetadataImageNumber() {
     }
 }
 
-bool PQCSettings::getMetadataIso() {
+bool PQCSettings::getMetadataIso() const {
     return m_metadataIso;
 }
 
-void PQCSettings::setMetadataIso(bool val) {
+void PQCSettings::setMetadataIso(const bool val) {
     if(val != m_metadataIso) {
         m_metadataIso = val;
         Q_EMIT metadataIsoChanged();
     }
 }
 
-const bool PQCSettings::getDefaultForMetadataIso() {
+const bool PQCSettings::getDefaultForMetadataIso() const {
         return true;
 }
 
@@ -6226,18 +6226,18 @@ void PQCSettings::setDefaultForMetadataIso() {
     }
 }
 
-bool PQCSettings::getMetadataKeywords() {
+bool PQCSettings::getMetadataKeywords() const {
     return m_metadataKeywords;
 }
 
-void PQCSettings::setMetadataKeywords(bool val) {
+void PQCSettings::setMetadataKeywords(const bool val) {
     if(val != m_metadataKeywords) {
         m_metadataKeywords = val;
         Q_EMIT metadataKeywordsChanged();
     }
 }
 
-const bool PQCSettings::getDefaultForMetadataKeywords() {
+const bool PQCSettings::getDefaultForMetadataKeywords() const {
         return false;
 }
 
@@ -6248,18 +6248,18 @@ void PQCSettings::setDefaultForMetadataKeywords() {
     }
 }
 
-bool PQCSettings::getMetadataLightSource() {
+bool PQCSettings::getMetadataLightSource() const {
     return m_metadataLightSource;
 }
 
-void PQCSettings::setMetadataLightSource(bool val) {
+void PQCSettings::setMetadataLightSource(const bool val) {
     if(val != m_metadataLightSource) {
         m_metadataLightSource = val;
         Q_EMIT metadataLightSourceChanged();
     }
 }
 
-const bool PQCSettings::getDefaultForMetadataLightSource() {
+const bool PQCSettings::getDefaultForMetadataLightSource() const {
         return false;
 }
 
@@ -6270,18 +6270,18 @@ void PQCSettings::setDefaultForMetadataLightSource() {
     }
 }
 
-bool PQCSettings::getMetadataLocation() {
+bool PQCSettings::getMetadataLocation() const {
     return m_metadataLocation;
 }
 
-void PQCSettings::setMetadataLocation(bool val) {
+void PQCSettings::setMetadataLocation(const bool val) {
     if(val != m_metadataLocation) {
         m_metadataLocation = val;
         Q_EMIT metadataLocationChanged();
     }
 }
 
-const bool PQCSettings::getDefaultForMetadataLocation() {
+const bool PQCSettings::getDefaultForMetadataLocation() const {
         return false;
 }
 
@@ -6292,18 +6292,18 @@ void PQCSettings::setDefaultForMetadataLocation() {
     }
 }
 
-bool PQCSettings::getMetadataMake() {
+bool PQCSettings::getMetadataMake() const {
     return m_metadataMake;
 }
 
-void PQCSettings::setMetadataMake(bool val) {
+void PQCSettings::setMetadataMake(const bool val) {
     if(val != m_metadataMake) {
         m_metadataMake = val;
         Q_EMIT metadataMakeChanged();
     }
 }
 
-const bool PQCSettings::getDefaultForMetadataMake() {
+const bool PQCSettings::getDefaultForMetadataMake() const {
         return true;
 }
 
@@ -6314,18 +6314,18 @@ void PQCSettings::setDefaultForMetadataMake() {
     }
 }
 
-bool PQCSettings::getMetadataModel() {
+bool PQCSettings::getMetadataModel() const {
     return m_metadataModel;
 }
 
-void PQCSettings::setMetadataModel(bool val) {
+void PQCSettings::setMetadataModel(const bool val) {
     if(val != m_metadataModel) {
         m_metadataModel = val;
         Q_EMIT metadataModelChanged();
     }
 }
 
-const bool PQCSettings::getDefaultForMetadataModel() {
+const bool PQCSettings::getDefaultForMetadataModel() const {
         return true;
 }
 
@@ -6336,18 +6336,18 @@ void PQCSettings::setDefaultForMetadataModel() {
     }
 }
 
-bool PQCSettings::getMetadataSceneType() {
+bool PQCSettings::getMetadataSceneType() const {
     return m_metadataSceneType;
 }
 
-void PQCSettings::setMetadataSceneType(bool val) {
+void PQCSettings::setMetadataSceneType(const bool val) {
     if(val != m_metadataSceneType) {
         m_metadataSceneType = val;
         Q_EMIT metadataSceneTypeChanged();
     }
 }
 
-const bool PQCSettings::getDefaultForMetadataSceneType() {
+const bool PQCSettings::getDefaultForMetadataSceneType() const {
         return true;
 }
 
@@ -6358,18 +6358,18 @@ void PQCSettings::setDefaultForMetadataSceneType() {
     }
 }
 
-bool PQCSettings::getMetadataSideBar() {
+bool PQCSettings::getMetadataSideBar() const {
     return m_metadataSideBar;
 }
 
-void PQCSettings::setMetadataSideBar(bool val) {
+void PQCSettings::setMetadataSideBar(const bool val) {
     if(val != m_metadataSideBar) {
         m_metadataSideBar = val;
         Q_EMIT metadataSideBarChanged();
     }
 }
 
-const bool PQCSettings::getDefaultForMetadataSideBar() {
+const bool PQCSettings::getDefaultForMetadataSideBar() const {
         return true;
 }
 
@@ -6380,18 +6380,18 @@ void PQCSettings::setDefaultForMetadataSideBar() {
     }
 }
 
-QString PQCSettings::getMetadataSideBarLocation() {
+QString PQCSettings::getMetadataSideBarLocation() const {
     return m_metadataSideBarLocation;
 }
 
-void PQCSettings::setMetadataSideBarLocation(QString val) {
+void PQCSettings::setMetadataSideBarLocation(const QString val) {
     if(val != m_metadataSideBarLocation) {
         m_metadataSideBarLocation = val;
         Q_EMIT metadataSideBarLocationChanged();
     }
 }
 
-const QString PQCSettings::getDefaultForMetadataSideBarLocation() {
+const QString PQCSettings::getDefaultForMetadataSideBarLocation() const {
         return "right";
 }
 
@@ -6402,18 +6402,18 @@ void PQCSettings::setDefaultForMetadataSideBarLocation() {
     }
 }
 
-int PQCSettings::getMetadataSideBarWidth() {
+int PQCSettings::getMetadataSideBarWidth() const {
     return m_metadataSideBarWidth;
 }
 
-void PQCSettings::setMetadataSideBarWidth(int val) {
+void PQCSettings::setMetadataSideBarWidth(const int val) {
     if(val != m_metadataSideBarWidth) {
         m_metadataSideBarWidth = val;
         Q_EMIT metadataSideBarWidthChanged();
     }
 }
 
-const int PQCSettings::getDefaultForMetadataSideBarWidth() {
+const int PQCSettings::getDefaultForMetadataSideBarWidth() const {
         return 300;
 }
 
@@ -6423,18 +6423,18 @@ void PQCSettings::setDefaultForMetadataSideBarWidth() {
     }
 }
 
-bool PQCSettings::getMetadataSoftware() {
+bool PQCSettings::getMetadataSoftware() const {
     return m_metadataSoftware;
 }
 
-void PQCSettings::setMetadataSoftware(bool val) {
+void PQCSettings::setMetadataSoftware(const bool val) {
     if(val != m_metadataSoftware) {
         m_metadataSoftware = val;
         Q_EMIT metadataSoftwareChanged();
     }
 }
 
-const bool PQCSettings::getDefaultForMetadataSoftware() {
+const bool PQCSettings::getDefaultForMetadataSoftware() const {
         return true;
 }
 
@@ -6445,18 +6445,18 @@ void PQCSettings::setDefaultForMetadataSoftware() {
     }
 }
 
-bool PQCSettings::getMetadataTime() {
+bool PQCSettings::getMetadataTime() const {
     return m_metadataTime;
 }
 
-void PQCSettings::setMetadataTime(bool val) {
+void PQCSettings::setMetadataTime(const bool val) {
     if(val != m_metadataTime) {
         m_metadataTime = val;
         Q_EMIT metadataTimeChanged();
     }
 }
 
-const bool PQCSettings::getDefaultForMetadataTime() {
+const bool PQCSettings::getDefaultForMetadataTime() const {
         return true;
 }
 
@@ -6467,18 +6467,18 @@ void PQCSettings::setDefaultForMetadataTime() {
     }
 }
 
-bool PQCSettings::getSlideshowHideLabels() {
+bool PQCSettings::getSlideshowHideLabels() const {
     return m_slideshowHideLabels;
 }
 
-void PQCSettings::setSlideshowHideLabels(bool val) {
+void PQCSettings::setSlideshowHideLabels(const bool val) {
     if(val != m_slideshowHideLabels) {
         m_slideshowHideLabels = val;
         Q_EMIT slideshowHideLabelsChanged();
     }
 }
 
-const bool PQCSettings::getDefaultForSlideshowHideLabels() {
+const bool PQCSettings::getDefaultForSlideshowHideLabels() const {
         return true;
 }
 
@@ -6489,18 +6489,18 @@ void PQCSettings::setDefaultForSlideshowHideLabels() {
     }
 }
 
-bool PQCSettings::getSlideshowHideWindowButtons() {
+bool PQCSettings::getSlideshowHideWindowButtons() const {
     return m_slideshowHideWindowButtons;
 }
 
-void PQCSettings::setSlideshowHideWindowButtons(bool val) {
+void PQCSettings::setSlideshowHideWindowButtons(const bool val) {
     if(val != m_slideshowHideWindowButtons) {
         m_slideshowHideWindowButtons = val;
         Q_EMIT slideshowHideWindowButtonsChanged();
     }
 }
 
-const bool PQCSettings::getDefaultForSlideshowHideWindowButtons() {
+const bool PQCSettings::getDefaultForSlideshowHideWindowButtons() const {
         return false;
 }
 
@@ -6511,18 +6511,18 @@ void PQCSettings::setDefaultForSlideshowHideWindowButtons() {
     }
 }
 
-int PQCSettings::getSlideshowImageTransition() {
+int PQCSettings::getSlideshowImageTransition() const {
     return m_slideshowImageTransition;
 }
 
-void PQCSettings::setSlideshowImageTransition(int val) {
+void PQCSettings::setSlideshowImageTransition(const int val) {
     if(val != m_slideshowImageTransition) {
         m_slideshowImageTransition = val;
         Q_EMIT slideshowImageTransitionChanged();
     }
 }
 
-const int PQCSettings::getDefaultForSlideshowImageTransition() {
+const int PQCSettings::getDefaultForSlideshowImageTransition() const {
         return 4;
 }
 
@@ -6532,18 +6532,18 @@ void PQCSettings::setDefaultForSlideshowImageTransition() {
     }
 }
 
-bool PQCSettings::getSlideshowIncludeSubFolders() {
+bool PQCSettings::getSlideshowIncludeSubFolders() const {
     return m_slideshowIncludeSubFolders;
 }
 
-void PQCSettings::setSlideshowIncludeSubFolders(bool val) {
+void PQCSettings::setSlideshowIncludeSubFolders(const bool val) {
     if(val != m_slideshowIncludeSubFolders) {
         m_slideshowIncludeSubFolders = val;
         Q_EMIT slideshowIncludeSubFoldersChanged();
     }
 }
 
-const bool PQCSettings::getDefaultForSlideshowIncludeSubFolders() {
+const bool PQCSettings::getDefaultForSlideshowIncludeSubFolders() const {
         return false;
 }
 
@@ -6554,18 +6554,18 @@ void PQCSettings::setDefaultForSlideshowIncludeSubFolders() {
     }
 }
 
-bool PQCSettings::getSlideshowLoop() {
+bool PQCSettings::getSlideshowLoop() const {
     return m_slideshowLoop;
 }
 
-void PQCSettings::setSlideshowLoop(bool val) {
+void PQCSettings::setSlideshowLoop(const bool val) {
     if(val != m_slideshowLoop) {
         m_slideshowLoop = val;
         Q_EMIT slideshowLoopChanged();
     }
 }
 
-const bool PQCSettings::getDefaultForSlideshowLoop() {
+const bool PQCSettings::getDefaultForSlideshowLoop() const {
         return true;
 }
 
@@ -6576,18 +6576,18 @@ void PQCSettings::setDefaultForSlideshowLoop() {
     }
 }
 
-bool PQCSettings::getSlideshowMusic() {
+bool PQCSettings::getSlideshowMusic() const {
     return m_slideshowMusic;
 }
 
-void PQCSettings::setSlideshowMusic(bool val) {
+void PQCSettings::setSlideshowMusic(const bool val) {
     if(val != m_slideshowMusic) {
         m_slideshowMusic = val;
         Q_EMIT slideshowMusicChanged();
     }
 }
 
-const bool PQCSettings::getDefaultForSlideshowMusic() {
+const bool PQCSettings::getDefaultForSlideshowMusic() const {
         return false;
 }
 
@@ -6598,18 +6598,18 @@ void PQCSettings::setDefaultForSlideshowMusic() {
     }
 }
 
-QString PQCSettings::getSlideshowMusicFile() {
+QString PQCSettings::getSlideshowMusicFile() const {
     return m_slideshowMusicFile;
 }
 
-void PQCSettings::setSlideshowMusicFile(QString val) {
+void PQCSettings::setSlideshowMusicFile(const QString val) {
     if(val != m_slideshowMusicFile) {
         m_slideshowMusicFile = val;
         Q_EMIT slideshowMusicFileChanged();
     }
 }
 
-const QString PQCSettings::getDefaultForSlideshowMusicFile() {
+const QString PQCSettings::getDefaultForSlideshowMusicFile() const {
         return "";
 }
 
@@ -6620,18 +6620,18 @@ void PQCSettings::setDefaultForSlideshowMusicFile() {
     }
 }
 
-QStringList PQCSettings::getSlideshowMusicFiles() {
+QStringList PQCSettings::getSlideshowMusicFiles() const {
     return m_slideshowMusicFiles;
 }
 
-void PQCSettings::setSlideshowMusicFiles(QStringList val) {
+void PQCSettings::setSlideshowMusicFiles(const QStringList val) {
     if(val != m_slideshowMusicFiles) {
         m_slideshowMusicFiles = val;
         Q_EMIT slideshowMusicFilesChanged();
     }
 }
 
-const QStringList PQCSettings::getDefaultForSlideshowMusicFiles() {
+const QStringList PQCSettings::getDefaultForSlideshowMusicFiles() const {
         return QStringList() << "";
 }
 
@@ -6643,18 +6643,18 @@ void PQCSettings::setDefaultForSlideshowMusicFiles() {
     }
 }
 
-bool PQCSettings::getSlideshowMusicShuffle() {
+bool PQCSettings::getSlideshowMusicShuffle() const {
     return m_slideshowMusicShuffle;
 }
 
-void PQCSettings::setSlideshowMusicShuffle(bool val) {
+void PQCSettings::setSlideshowMusicShuffle(const bool val) {
     if(val != m_slideshowMusicShuffle) {
         m_slideshowMusicShuffle = val;
         Q_EMIT slideshowMusicShuffleChanged();
     }
 }
 
-const bool PQCSettings::getDefaultForSlideshowMusicShuffle() {
+const bool PQCSettings::getDefaultForSlideshowMusicShuffle() const {
         return false;
 }
 
@@ -6665,18 +6665,18 @@ void PQCSettings::setDefaultForSlideshowMusicShuffle() {
     }
 }
 
-int PQCSettings::getSlideshowMusicVolumeVideos() {
+int PQCSettings::getSlideshowMusicVolumeVideos() const {
     return m_slideshowMusicVolumeVideos;
 }
 
-void PQCSettings::setSlideshowMusicVolumeVideos(int val) {
+void PQCSettings::setSlideshowMusicVolumeVideos(const int val) {
     if(val != m_slideshowMusicVolumeVideos) {
         m_slideshowMusicVolumeVideos = val;
         Q_EMIT slideshowMusicVolumeVideosChanged();
     }
 }
 
-const int PQCSettings::getDefaultForSlideshowMusicVolumeVideos() {
+const int PQCSettings::getDefaultForSlideshowMusicVolumeVideos() const {
         return 1;
 }
 
@@ -6686,18 +6686,18 @@ void PQCSettings::setDefaultForSlideshowMusicVolumeVideos() {
     }
 }
 
-bool PQCSettings::getSlideshowShuffle() {
+bool PQCSettings::getSlideshowShuffle() const {
     return m_slideshowShuffle;
 }
 
-void PQCSettings::setSlideshowShuffle(bool val) {
+void PQCSettings::setSlideshowShuffle(const bool val) {
     if(val != m_slideshowShuffle) {
         m_slideshowShuffle = val;
         Q_EMIT slideshowShuffleChanged();
     }
 }
 
-const bool PQCSettings::getDefaultForSlideshowShuffle() {
+const bool PQCSettings::getDefaultForSlideshowShuffle() const {
         return false;
 }
 
@@ -6708,18 +6708,18 @@ void PQCSettings::setDefaultForSlideshowShuffle() {
     }
 }
 
-int PQCSettings::getSlideshowTime() {
+int PQCSettings::getSlideshowTime() const {
     return m_slideshowTime;
 }
 
-void PQCSettings::setSlideshowTime(int val) {
+void PQCSettings::setSlideshowTime(const int val) {
     if(val != m_slideshowTime) {
         m_slideshowTime = val;
         Q_EMIT slideshowTimeChanged();
     }
 }
 
-const int PQCSettings::getDefaultForSlideshowTime() {
+const int PQCSettings::getDefaultForSlideshowTime() const {
         return 5;
 }
 
@@ -6729,18 +6729,18 @@ void PQCSettings::setDefaultForSlideshowTime() {
     }
 }
 
-QString PQCSettings::getSlideshowTypeAnimation() {
+QString PQCSettings::getSlideshowTypeAnimation() const {
     return m_slideshowTypeAnimation;
 }
 
-void PQCSettings::setSlideshowTypeAnimation(QString val) {
+void PQCSettings::setSlideshowTypeAnimation(const QString val) {
     if(val != m_slideshowTypeAnimation) {
         m_slideshowTypeAnimation = val;
         Q_EMIT slideshowTypeAnimationChanged();
     }
 }
 
-const QString PQCSettings::getDefaultForSlideshowTypeAnimation() {
+const QString PQCSettings::getDefaultForSlideshowTypeAnimation() const {
         return "opacity";
 }
 
@@ -6751,18 +6751,18 @@ void PQCSettings::setDefaultForSlideshowTypeAnimation() {
     }
 }
 
-bool PQCSettings::getThumbnailsCache() {
+bool PQCSettings::getThumbnailsCache() const {
     return m_thumbnailsCache;
 }
 
-void PQCSettings::setThumbnailsCache(bool val) {
+void PQCSettings::setThumbnailsCache(const bool val) {
     if(val != m_thumbnailsCache) {
         m_thumbnailsCache = val;
         Q_EMIT thumbnailsCacheChanged();
     }
 }
 
-const bool PQCSettings::getDefaultForThumbnailsCache() {
+const bool PQCSettings::getDefaultForThumbnailsCache() const {
         return true;
 }
 
@@ -6773,18 +6773,18 @@ void PQCSettings::setDefaultForThumbnailsCache() {
     }
 }
 
-bool PQCSettings::getThumbnailsCacheBaseDirDefault() {
+bool PQCSettings::getThumbnailsCacheBaseDirDefault() const {
     return m_thumbnailsCacheBaseDirDefault;
 }
 
-void PQCSettings::setThumbnailsCacheBaseDirDefault(bool val) {
+void PQCSettings::setThumbnailsCacheBaseDirDefault(const bool val) {
     if(val != m_thumbnailsCacheBaseDirDefault) {
         m_thumbnailsCacheBaseDirDefault = val;
         Q_EMIT thumbnailsCacheBaseDirDefaultChanged();
     }
 }
 
-const bool PQCSettings::getDefaultForThumbnailsCacheBaseDirDefault() {
+const bool PQCSettings::getDefaultForThumbnailsCacheBaseDirDefault() const {
         return true;
 }
 
@@ -6795,18 +6795,18 @@ void PQCSettings::setDefaultForThumbnailsCacheBaseDirDefault() {
     }
 }
 
-QString PQCSettings::getThumbnailsCacheBaseDirLocation() {
+QString PQCSettings::getThumbnailsCacheBaseDirLocation() const {
     return m_thumbnailsCacheBaseDirLocation;
 }
 
-void PQCSettings::setThumbnailsCacheBaseDirLocation(QString val) {
+void PQCSettings::setThumbnailsCacheBaseDirLocation(const QString val) {
     if(val != m_thumbnailsCacheBaseDirLocation) {
         m_thumbnailsCacheBaseDirLocation = val;
         Q_EMIT thumbnailsCacheBaseDirLocationChanged();
     }
 }
 
-const QString PQCSettings::getDefaultForThumbnailsCacheBaseDirLocation() {
+const QString PQCSettings::getDefaultForThumbnailsCacheBaseDirLocation() const {
         return "";
 }
 
@@ -6817,18 +6817,18 @@ void PQCSettings::setDefaultForThumbnailsCacheBaseDirLocation() {
     }
 }
 
-bool PQCSettings::getThumbnailsCenterOnActive() {
+bool PQCSettings::getThumbnailsCenterOnActive() const {
     return m_thumbnailsCenterOnActive;
 }
 
-void PQCSettings::setThumbnailsCenterOnActive(bool val) {
+void PQCSettings::setThumbnailsCenterOnActive(const bool val) {
     if(val != m_thumbnailsCenterOnActive) {
         m_thumbnailsCenterOnActive = val;
         Q_EMIT thumbnailsCenterOnActiveChanged();
     }
 }
 
-const bool PQCSettings::getDefaultForThumbnailsCenterOnActive() {
+const bool PQCSettings::getDefaultForThumbnailsCenterOnActive() const {
         return false;
 }
 
@@ -6839,18 +6839,18 @@ void PQCSettings::setDefaultForThumbnailsCenterOnActive() {
     }
 }
 
-bool PQCSettings::getThumbnailsCropToFit() {
+bool PQCSettings::getThumbnailsCropToFit() const {
     return m_thumbnailsCropToFit;
 }
 
-void PQCSettings::setThumbnailsCropToFit(bool val) {
+void PQCSettings::setThumbnailsCropToFit(const bool val) {
     if(val != m_thumbnailsCropToFit) {
         m_thumbnailsCropToFit = val;
         Q_EMIT thumbnailsCropToFitChanged();
     }
 }
 
-const bool PQCSettings::getDefaultForThumbnailsCropToFit() {
+const bool PQCSettings::getDefaultForThumbnailsCropToFit() const {
         return true;
 }
 
@@ -6861,18 +6861,18 @@ void PQCSettings::setDefaultForThumbnailsCropToFit() {
     }
 }
 
-bool PQCSettings::getThumbnailsDisable() {
+bool PQCSettings::getThumbnailsDisable() const {
     return m_thumbnailsDisable;
 }
 
-void PQCSettings::setThumbnailsDisable(bool val) {
+void PQCSettings::setThumbnailsDisable(const bool val) {
     if(val != m_thumbnailsDisable) {
         m_thumbnailsDisable = val;
         Q_EMIT thumbnailsDisableChanged();
     }
 }
 
-const bool PQCSettings::getDefaultForThumbnailsDisable() {
+const bool PQCSettings::getDefaultForThumbnailsDisable() const {
         return false;
 }
 
@@ -6883,18 +6883,18 @@ void PQCSettings::setDefaultForThumbnailsDisable() {
     }
 }
 
-QString PQCSettings::getThumbnailsExcludeDropBox() {
+QString PQCSettings::getThumbnailsExcludeDropBox() const {
     return m_thumbnailsExcludeDropBox;
 }
 
-void PQCSettings::setThumbnailsExcludeDropBox(QString val) {
+void PQCSettings::setThumbnailsExcludeDropBox(const QString val) {
     if(val != m_thumbnailsExcludeDropBox) {
         m_thumbnailsExcludeDropBox = val;
         Q_EMIT thumbnailsExcludeDropBoxChanged();
     }
 }
 
-const QString PQCSettings::getDefaultForThumbnailsExcludeDropBox() {
+const QString PQCSettings::getDefaultForThumbnailsExcludeDropBox() const {
         return "";
 }
 
@@ -6905,18 +6905,18 @@ void PQCSettings::setDefaultForThumbnailsExcludeDropBox() {
     }
 }
 
-QStringList PQCSettings::getThumbnailsExcludeFolders() {
+QStringList PQCSettings::getThumbnailsExcludeFolders() const {
     return m_thumbnailsExcludeFolders;
 }
 
-void PQCSettings::setThumbnailsExcludeFolders(QStringList val) {
+void PQCSettings::setThumbnailsExcludeFolders(const QStringList val) {
     if(val != m_thumbnailsExcludeFolders) {
         m_thumbnailsExcludeFolders = val;
         Q_EMIT thumbnailsExcludeFoldersChanged();
     }
 }
 
-const QStringList PQCSettings::getDefaultForThumbnailsExcludeFolders() {
+const QStringList PQCSettings::getDefaultForThumbnailsExcludeFolders() const {
         return QStringList() << "";
 }
 
@@ -6928,18 +6928,18 @@ void PQCSettings::setDefaultForThumbnailsExcludeFolders() {
     }
 }
 
-bool PQCSettings::getThumbnailsExcludeNetworkShares() {
+bool PQCSettings::getThumbnailsExcludeNetworkShares() const {
     return m_thumbnailsExcludeNetworkShares;
 }
 
-void PQCSettings::setThumbnailsExcludeNetworkShares(bool val) {
+void PQCSettings::setThumbnailsExcludeNetworkShares(const bool val) {
     if(val != m_thumbnailsExcludeNetworkShares) {
         m_thumbnailsExcludeNetworkShares = val;
         Q_EMIT thumbnailsExcludeNetworkSharesChanged();
     }
 }
 
-const bool PQCSettings::getDefaultForThumbnailsExcludeNetworkShares() {
+const bool PQCSettings::getDefaultForThumbnailsExcludeNetworkShares() const {
         return true;
 }
 
@@ -6950,18 +6950,18 @@ void PQCSettings::setDefaultForThumbnailsExcludeNetworkShares() {
     }
 }
 
-QString PQCSettings::getThumbnailsExcludeNextcloud() {
+QString PQCSettings::getThumbnailsExcludeNextcloud() const {
     return m_thumbnailsExcludeNextcloud;
 }
 
-void PQCSettings::setThumbnailsExcludeNextcloud(QString val) {
+void PQCSettings::setThumbnailsExcludeNextcloud(const QString val) {
     if(val != m_thumbnailsExcludeNextcloud) {
         m_thumbnailsExcludeNextcloud = val;
         Q_EMIT thumbnailsExcludeNextcloudChanged();
     }
 }
 
-const QString PQCSettings::getDefaultForThumbnailsExcludeNextcloud() {
+const QString PQCSettings::getDefaultForThumbnailsExcludeNextcloud() const {
         return "";
 }
 
@@ -6972,18 +6972,18 @@ void PQCSettings::setDefaultForThumbnailsExcludeNextcloud() {
     }
 }
 
-QString PQCSettings::getThumbnailsExcludeOwnCloud() {
+QString PQCSettings::getThumbnailsExcludeOwnCloud() const {
     return m_thumbnailsExcludeOwnCloud;
 }
 
-void PQCSettings::setThumbnailsExcludeOwnCloud(QString val) {
+void PQCSettings::setThumbnailsExcludeOwnCloud(const QString val) {
     if(val != m_thumbnailsExcludeOwnCloud) {
         m_thumbnailsExcludeOwnCloud = val;
         Q_EMIT thumbnailsExcludeOwnCloudChanged();
     }
 }
 
-const QString PQCSettings::getDefaultForThumbnailsExcludeOwnCloud() {
+const QString PQCSettings::getDefaultForThumbnailsExcludeOwnCloud() const {
         return "";
 }
 
@@ -6994,18 +6994,18 @@ void PQCSettings::setDefaultForThumbnailsExcludeOwnCloud() {
     }
 }
 
-bool PQCSettings::getThumbnailsFilename() {
+bool PQCSettings::getThumbnailsFilename() const {
     return m_thumbnailsFilename;
 }
 
-void PQCSettings::setThumbnailsFilename(bool val) {
+void PQCSettings::setThumbnailsFilename(const bool val) {
     if(val != m_thumbnailsFilename) {
         m_thumbnailsFilename = val;
         Q_EMIT thumbnailsFilenameChanged();
     }
 }
 
-const bool PQCSettings::getDefaultForThumbnailsFilename() {
+const bool PQCSettings::getDefaultForThumbnailsFilename() const {
         return true;
 }
 
@@ -7016,18 +7016,18 @@ void PQCSettings::setDefaultForThumbnailsFilename() {
     }
 }
 
-int PQCSettings::getThumbnailsFontSize() {
+int PQCSettings::getThumbnailsFontSize() const {
     return m_thumbnailsFontSize;
 }
 
-void PQCSettings::setThumbnailsFontSize(int val) {
+void PQCSettings::setThumbnailsFontSize(const int val) {
     if(val != m_thumbnailsFontSize) {
         m_thumbnailsFontSize = val;
         Q_EMIT thumbnailsFontSizeChanged();
     }
 }
 
-const int PQCSettings::getDefaultForThumbnailsFontSize() {
+const int PQCSettings::getDefaultForThumbnailsFontSize() const {
         return 7;
 }
 
@@ -7037,18 +7037,18 @@ void PQCSettings::setDefaultForThumbnailsFontSize() {
     }
 }
 
-QStringList PQCSettings::getThumbnailsHighlightAnimation() {
+QStringList PQCSettings::getThumbnailsHighlightAnimation() const {
     return m_thumbnailsHighlightAnimation;
 }
 
-void PQCSettings::setThumbnailsHighlightAnimation(QStringList val) {
+void PQCSettings::setThumbnailsHighlightAnimation(const QStringList val) {
     if(val != m_thumbnailsHighlightAnimation) {
         m_thumbnailsHighlightAnimation = val;
         Q_EMIT thumbnailsHighlightAnimationChanged();
     }
 }
 
-const QStringList PQCSettings::getDefaultForThumbnailsHighlightAnimation() {
+const QStringList PQCSettings::getDefaultForThumbnailsHighlightAnimation() const {
         return QStringList() << "liftup";
 }
 
@@ -7060,18 +7060,18 @@ void PQCSettings::setDefaultForThumbnailsHighlightAnimation() {
     }
 }
 
-int PQCSettings::getThumbnailsHighlightAnimationLiftUp() {
+int PQCSettings::getThumbnailsHighlightAnimationLiftUp() const {
     return m_thumbnailsHighlightAnimationLiftUp;
 }
 
-void PQCSettings::setThumbnailsHighlightAnimationLiftUp(int val) {
+void PQCSettings::setThumbnailsHighlightAnimationLiftUp(const int val) {
     if(val != m_thumbnailsHighlightAnimationLiftUp) {
         m_thumbnailsHighlightAnimationLiftUp = val;
         Q_EMIT thumbnailsHighlightAnimationLiftUpChanged();
     }
 }
 
-const int PQCSettings::getDefaultForThumbnailsHighlightAnimationLiftUp() {
+const int PQCSettings::getDefaultForThumbnailsHighlightAnimationLiftUp() const {
         return 15;
 }
 
@@ -7081,18 +7081,18 @@ void PQCSettings::setDefaultForThumbnailsHighlightAnimationLiftUp() {
     }
 }
 
-bool PQCSettings::getThumbnailsIconsOnly() {
+bool PQCSettings::getThumbnailsIconsOnly() const {
     return m_thumbnailsIconsOnly;
 }
 
-void PQCSettings::setThumbnailsIconsOnly(bool val) {
+void PQCSettings::setThumbnailsIconsOnly(const bool val) {
     if(val != m_thumbnailsIconsOnly) {
         m_thumbnailsIconsOnly = val;
         Q_EMIT thumbnailsIconsOnlyChanged();
     }
 }
 
-const bool PQCSettings::getDefaultForThumbnailsIconsOnly() {
+const bool PQCSettings::getDefaultForThumbnailsIconsOnly() const {
         return false;
 }
 
@@ -7103,18 +7103,18 @@ void PQCSettings::setDefaultForThumbnailsIconsOnly() {
     }
 }
 
-bool PQCSettings::getThumbnailsInactiveTransparent() {
+bool PQCSettings::getThumbnailsInactiveTransparent() const {
     return m_thumbnailsInactiveTransparent;
 }
 
-void PQCSettings::setThumbnailsInactiveTransparent(bool val) {
+void PQCSettings::setThumbnailsInactiveTransparent(const bool val) {
     if(val != m_thumbnailsInactiveTransparent) {
         m_thumbnailsInactiveTransparent = val;
         Q_EMIT thumbnailsInactiveTransparentChanged();
     }
 }
 
-const bool PQCSettings::getDefaultForThumbnailsInactiveTransparent() {
+const bool PQCSettings::getDefaultForThumbnailsInactiveTransparent() const {
         return true;
 }
 
@@ -7125,18 +7125,18 @@ void PQCSettings::setDefaultForThumbnailsInactiveTransparent() {
     }
 }
 
-int PQCSettings::getThumbnailsMaxNumberThreads() {
+int PQCSettings::getThumbnailsMaxNumberThreads() const {
     return m_thumbnailsMaxNumberThreads;
 }
 
-void PQCSettings::setThumbnailsMaxNumberThreads(int val) {
+void PQCSettings::setThumbnailsMaxNumberThreads(const int val) {
     if(val != m_thumbnailsMaxNumberThreads) {
         m_thumbnailsMaxNumberThreads = val;
         Q_EMIT thumbnailsMaxNumberThreadsChanged();
     }
 }
 
-const int PQCSettings::getDefaultForThumbnailsMaxNumberThreads() {
+const int PQCSettings::getDefaultForThumbnailsMaxNumberThreads() const {
         return 4;
 }
 
@@ -7146,18 +7146,18 @@ void PQCSettings::setDefaultForThumbnailsMaxNumberThreads() {
     }
 }
 
-bool PQCSettings::getThumbnailsSameHeightVaryWidth() {
+bool PQCSettings::getThumbnailsSameHeightVaryWidth() const {
     return m_thumbnailsSameHeightVaryWidth;
 }
 
-void PQCSettings::setThumbnailsSameHeightVaryWidth(bool val) {
+void PQCSettings::setThumbnailsSameHeightVaryWidth(const bool val) {
     if(val != m_thumbnailsSameHeightVaryWidth) {
         m_thumbnailsSameHeightVaryWidth = val;
         Q_EMIT thumbnailsSameHeightVaryWidthChanged();
     }
 }
 
-const bool PQCSettings::getDefaultForThumbnailsSameHeightVaryWidth() {
+const bool PQCSettings::getDefaultForThumbnailsSameHeightVaryWidth() const {
         return false;
 }
 
@@ -7168,18 +7168,18 @@ void PQCSettings::setDefaultForThumbnailsSameHeightVaryWidth() {
     }
 }
 
-int PQCSettings::getThumbnailsSize() {
+int PQCSettings::getThumbnailsSize() const {
     return m_thumbnailsSize;
 }
 
-void PQCSettings::setThumbnailsSize(int val) {
+void PQCSettings::setThumbnailsSize(const int val) {
     if(val != m_thumbnailsSize) {
         m_thumbnailsSize = val;
         Q_EMIT thumbnailsSizeChanged();
     }
 }
 
-const int PQCSettings::getDefaultForThumbnailsSize() {
+const int PQCSettings::getDefaultForThumbnailsSize() const {
         return 120;
 }
 
@@ -7189,18 +7189,18 @@ void PQCSettings::setDefaultForThumbnailsSize() {
     }
 }
 
-bool PQCSettings::getThumbnailsSmallThumbnailsKeepSmall() {
+bool PQCSettings::getThumbnailsSmallThumbnailsKeepSmall() const {
     return m_thumbnailsSmallThumbnailsKeepSmall;
 }
 
-void PQCSettings::setThumbnailsSmallThumbnailsKeepSmall(bool val) {
+void PQCSettings::setThumbnailsSmallThumbnailsKeepSmall(const bool val) {
     if(val != m_thumbnailsSmallThumbnailsKeepSmall) {
         m_thumbnailsSmallThumbnailsKeepSmall = val;
         Q_EMIT thumbnailsSmallThumbnailsKeepSmallChanged();
     }
 }
 
-const bool PQCSettings::getDefaultForThumbnailsSmallThumbnailsKeepSmall() {
+const bool PQCSettings::getDefaultForThumbnailsSmallThumbnailsKeepSmall() const {
         return true;
 }
 
@@ -7211,18 +7211,18 @@ void PQCSettings::setDefaultForThumbnailsSmallThumbnailsKeepSmall() {
     }
 }
 
-int PQCSettings::getThumbnailsSpacing() {
+int PQCSettings::getThumbnailsSpacing() const {
     return m_thumbnailsSpacing;
 }
 
-void PQCSettings::setThumbnailsSpacing(int val) {
+void PQCSettings::setThumbnailsSpacing(const int val) {
     if(val != m_thumbnailsSpacing) {
         m_thumbnailsSpacing = val;
         Q_EMIT thumbnailsSpacingChanged();
     }
 }
 
-const int PQCSettings::getDefaultForThumbnailsSpacing() {
+const int PQCSettings::getDefaultForThumbnailsSpacing() const {
         return 2;
 }
 
@@ -7232,18 +7232,18 @@ void PQCSettings::setDefaultForThumbnailsSpacing() {
     }
 }
 
-bool PQCSettings::getThumbnailsTooltip() {
+bool PQCSettings::getThumbnailsTooltip() const {
     return m_thumbnailsTooltip;
 }
 
-void PQCSettings::setThumbnailsTooltip(bool val) {
+void PQCSettings::setThumbnailsTooltip(const bool val) {
     if(val != m_thumbnailsTooltip) {
         m_thumbnailsTooltip = val;
         Q_EMIT thumbnailsTooltipChanged();
     }
 }
 
-const bool PQCSettings::getDefaultForThumbnailsTooltip() {
+const bool PQCSettings::getDefaultForThumbnailsTooltip() const {
         return true;
 }
 
@@ -7254,18 +7254,18 @@ void PQCSettings::setDefaultForThumbnailsTooltip() {
     }
 }
 
-int PQCSettings::getThumbnailsVisibility() {
+int PQCSettings::getThumbnailsVisibility() const {
     return m_thumbnailsVisibility;
 }
 
-void PQCSettings::setThumbnailsVisibility(int val) {
+void PQCSettings::setThumbnailsVisibility(const int val) {
     if(val != m_thumbnailsVisibility) {
         m_thumbnailsVisibility = val;
         Q_EMIT thumbnailsVisibilityChanged();
     }
 }
 
-const int PQCSettings::getDefaultForThumbnailsVisibility() {
+const int PQCSettings::getDefaultForThumbnailsVisibility() const {
         return 0;
 }
 
@@ -7799,15 +7799,15 @@ void PQCSettings::readDB() {
                 } else if(name == "ElementPosition") {
                     const QStringList parts = value.toString().split(",");
                     if(parts.length() == 2)
-                        m_mainmenuElementPosition = QPoint(parts[0].toDouble(), parts[1].toDouble());
+                        m_mainmenuElementPosition = QPointF(parts[0].toDouble(), parts[1].toDouble());
                     else
-                        m_mainmenuElementPosition = QPoint(0,0);
+                        m_mainmenuElementPosition = QPointF(0,0);
                 } else if(name == "ElementSize") {
                     const QStringList parts = value.toString().split(",");
                     if(parts.length() == 2)
-                        m_mainmenuElementSize = QSize(parts[0].toDouble(), parts[1].toDouble());
+                        m_mainmenuElementSize = QSizeF(parts[0].toDouble(), parts[1].toDouble());
                     else
-                        m_mainmenuElementSize = QSize(0,0);
+                        m_mainmenuElementSize = QSizeF(0,0);
                 } else if(name == "ElementWidth") {
                     m_mainmenuElementWidth = value.toInt();
                 } else if(name == "ShowExternal") {
@@ -7818,15 +7818,15 @@ void PQCSettings::readDB() {
                 if(name == "CurrentPosition") {
                     const QStringList parts = value.toString().split(",");
                     if(parts.length() == 2)
-                        m_mapviewCurrentPosition = QPoint(parts[0].toDouble(), parts[1].toDouble());
+                        m_mapviewCurrentPosition = QPointF(parts[0].toDouble(), parts[1].toDouble());
                     else
-                        m_mapviewCurrentPosition = QPoint(0,0);
+                        m_mapviewCurrentPosition = QPointF(0,0);
                 } else if(name == "CurrentSize") {
                     const QStringList parts = value.toString().split(",");
                     if(parts.length() == 2)
-                        m_mapviewCurrentSize = QSize(parts[0].toDouble(), parts[1].toDouble());
+                        m_mapviewCurrentSize = QSizeF(parts[0].toDouble(), parts[1].toDouble());
                     else
-                        m_mapviewCurrentSize = QSize(0,0);
+                        m_mapviewCurrentSize = QSizeF(0,0);
                 } else if(name == "CurrentVisible") {
                     m_mapviewCurrentVisible = value.toInt();
                 } else if(name == "ExplorerThumbnailsScaleCrop") {
@@ -7849,15 +7849,15 @@ void PQCSettings::readDB() {
                 } else if(name == "ElementPosition") {
                     const QStringList parts = value.toString().split(",");
                     if(parts.length() == 2)
-                        m_metadataElementPosition = QPoint(parts[0].toDouble(), parts[1].toDouble());
+                        m_metadataElementPosition = QPointF(parts[0].toDouble(), parts[1].toDouble());
                     else
-                        m_metadataElementPosition = QPoint(0,0);
+                        m_metadataElementPosition = QPointF(0,0);
                 } else if(name == "ElementSize") {
                     const QStringList parts = value.toString().split(",");
                     if(parts.length() == 2)
-                        m_metadataElementSize = QSize(parts[0].toDouble(), parts[1].toDouble());
+                        m_metadataElementSize = QSizeF(parts[0].toDouble(), parts[1].toDouble());
                     else
-                        m_metadataElementSize = QSize(0,0);
+                        m_metadataElementSize = QSizeF(0,0);
                 } else if(name == "ElementVisible") {
                     m_metadataElementVisible = value.toInt();
                 } else if(name == "ExposureTime") {
@@ -8506,14 +8506,14 @@ void PQCSettings::setupFresh() {
 
     // table: mainmenu
     m_mainmenuElementHeightDynamic = true;
-    m_mainmenuElementPosition = QPoint(100, 100);
-    m_mainmenuElementSize = QSize(450, 900);
+    m_mainmenuElementPosition = QPointF(100, 100);
+    m_mainmenuElementSize = QSizeF(450, 900);
     m_mainmenuElementWidth = 450;
     m_mainmenuShowExternal = false;
 
     // table: mapview
-    m_mapviewCurrentPosition = QPoint(200, 200);
-    m_mapviewCurrentSize = QSize(400, 300);
+    m_mapviewCurrentPosition = QPointF(200, 200);
+    m_mapviewCurrentSize = QSizeF(400, 300);
     m_mapviewCurrentVisible = false;
     m_mapviewExplorerThumbnailsScaleCrop = true;
     m_mapviewExplorerThumbnailsZoomLevel = 20;
@@ -8524,8 +8524,8 @@ void PQCSettings::setupFresh() {
     m_metadataDimensions = true;
     m_metadataElementFloating = false;
     m_metadataElementHeightDynamic = true;
-    m_metadataElementPosition = QPoint(100, 100);
-    m_metadataElementSize = QSize(400, 700);
+    m_metadataElementPosition = QPointF(100, 100);
+    m_metadataElementSize = QSizeF(400, 700);
     m_metadataElementVisible = false;
     m_metadataExposureTime = true;
     m_metadataFLength = true;
@@ -9810,14 +9810,14 @@ QStringList PQCSettings::updateFromCommandLine() {
         QStringList parts = val.split(",");
         if(parts.length() != 2)
             return ret;
-        m_mainmenuElementPosition = QPoint(parts[0].toInt(), parts[1].toInt());
+        m_mainmenuElementPosition = QPointF(parts[0].toInt(), parts[1].toInt());
         Q_EMIT mainmenuElementPositionChanged();
     }
     if(key == "mainmenuElementSize") {
         QStringList parts = val.split(",");
         if(parts.length() != 2)
             return ret;
-        m_mainmenuElementSize = QSize(parts[0].toInt(), parts[1].toInt());
+        m_mainmenuElementSize = QSizeF(parts[0].toInt(), parts[1].toInt());
         Q_EMIT mainmenuElementSizeChanged();
     }
     if(key == "mainmenuElementWidth") {
@@ -9832,14 +9832,14 @@ QStringList PQCSettings::updateFromCommandLine() {
         QStringList parts = val.split(",");
         if(parts.length() != 2)
             return ret;
-        m_mapviewCurrentPosition = QPoint(parts[0].toInt(), parts[1].toInt());
+        m_mapviewCurrentPosition = QPointF(parts[0].toInt(), parts[1].toInt());
         Q_EMIT mapviewCurrentPositionChanged();
     }
     if(key == "mapviewCurrentSize") {
         QStringList parts = val.split(",");
         if(parts.length() != 2)
             return ret;
-        m_mapviewCurrentSize = QSize(parts[0].toInt(), parts[1].toInt());
+        m_mapviewCurrentSize = QSizeF(parts[0].toInt(), parts[1].toInt());
         Q_EMIT mapviewCurrentSizeChanged();
     }
     if(key == "mapviewCurrentVisible") {
@@ -9878,14 +9878,14 @@ QStringList PQCSettings::updateFromCommandLine() {
         QStringList parts = val.split(",");
         if(parts.length() != 2)
             return ret;
-        m_metadataElementPosition = QPoint(parts[0].toInt(), parts[1].toInt());
+        m_metadataElementPosition = QPointF(parts[0].toInt(), parts[1].toInt());
         Q_EMIT metadataElementPositionChanged();
     }
     if(key == "metadataElementSize") {
         QStringList parts = val.split(",");
         if(parts.length() != 2)
             return ret;
-        m_metadataElementSize = QSize(parts[0].toInt(), parts[1].toInt());
+        m_metadataElementSize = QSizeF(parts[0].toInt(), parts[1].toInt());
         Q_EMIT metadataElementSizeChanged();
     }
     if(key == "metadataElementVisible") {

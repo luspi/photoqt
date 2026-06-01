@@ -30,7 +30,7 @@ Item {
     id: view_top
 
     y: 1
-    height: parent.height-fd_breadcrumbs.height-fd_tweaks.height-2
+    height: parent.height - PQCConstants.filedialogBreadcrumbsHeight - PQCConstants.filedialogTweaksHeight - 2
 
     onWidthChanged:
         PQCConstants.filedialogFileviewWidth = width
@@ -203,7 +203,7 @@ Item {
             iconSource: "image://svg/:/" + PQCLook.iconShade + "/star.svg"
             text: qsTranslate("filedialog", "Add to Favorites")
             onTriggered: {
-                PQCScriptsFileDialog.addPlacesEntry(fileview_entry_menu.path, fd_places.entries_favorites.length)
+                PQCScriptsFileDialog.addPlacesEntry(fileview_entry_menu.path, PQGlobalItems.filedialogPlaces.entries_favorites.length)
                 PQCNotify.filedialogReloadPlaces()
             }
         }
@@ -499,7 +499,7 @@ Item {
     function handleEntriesMouseClick(index : int, currentPath : string, isFolder : bool,
                                      mouseModifiers : int, mouseButton : int) {
 
-        fd_breadcrumbs.disableAddressEdit()
+        PQCScriptsFileDialog.disableAddressEdit()
 
         if(!fileview_entry_menu.opened)
             view_top.currentIndex = index

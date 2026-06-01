@@ -103,7 +103,7 @@ Flickable {
         id: callSetup
         interval: 50
         onTriggered: {
-            if(fd_splitview.resizing) {
+            if(PQCConstants.filedialogSplitviewResizing) {
                 callSetup.restart()
                 return
             }
@@ -427,15 +427,15 @@ Flickable {
                 drag.onActiveChanged: {
                     if(drag.active) {
                         // store which index is being dragged and that the entry comes from the userplaces (reordering only)
-                        fd_places.dragItemIndex = deleg.modelData
-                        fd_places.dragReordering = false
-                        fd_places.dragItemId = deleg.currentPath
+                        PQGlobalItems.filedialogPlaces.dragItemIndex = deleg.modelData
+                        PQGlobalItems.filedialogPlaces.dragReordering = false
+                        PQGlobalItems.filedialogPlaces.dragItemId = deleg.currentPath
                     }
                     deleg.Drag.drop();
                     if(!drag.active) {
                         // reset variables used for drag/drop
-                        fd_places.dragItemIndex = -1
-                        fd_places.dragItemId = ""
+                        PQGlobalItems.filedialogPlaces.dragItemIndex = -1
+                        PQGlobalItems.filedialogPlaces.dragItemId = ""
                     }
                 }
 

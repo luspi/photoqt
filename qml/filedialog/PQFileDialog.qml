@@ -75,6 +75,11 @@ PQTemplate {
         anchors.bottomMargin: fd_tweaks.height
 
 /*1on_Qt65+*/
+
+        onResizingChanged: {
+            PQCConstants.filedialogSplitviewResizing = resizing
+        }
+
         // Show larger handle with triple dash
         handle: Rectangle {
             implicitWidth: 8

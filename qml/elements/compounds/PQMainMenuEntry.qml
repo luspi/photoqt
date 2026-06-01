@@ -21,6 +21,7 @@
  **************************************************************************/
 
 import QtQuick
+import QtQuick.Controls
 import PhotoQt
 
 Item {
@@ -53,7 +54,7 @@ Item {
     property bool hovered: false
 
     property Rectangle mainmenuTop
-    property PQMenu mainmenuMenuItem
+    property Menu mainmenuMenuItem
 
     signal clicked()
     signal hideMainMenu()

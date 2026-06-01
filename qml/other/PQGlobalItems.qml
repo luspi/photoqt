@@ -23,6 +23,7 @@ pragma Singleton
 
 import QtQuick
 import QtQuick.Controls
+import PhotoQt
 
 QtObject {
 
@@ -30,5 +31,7 @@ QtObject {
     property Item toplevelItem
 
     property var allPopouts: ({})
+
+    property PQPlaces filedialogPlaces
 
 }
