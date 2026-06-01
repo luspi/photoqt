@@ -134,6 +134,7 @@ public:
         m_mainmenuOpacity = 0;
         m_mainmenuShowWhenReady = false;
         m_metadataShowWhenReady = false;
+        m_advancedSortQuickStart = false;
 
         m_filedialogCurrentSelection.clear();
         m_filedialogCurrentIndex = -1;
@@ -545,6 +546,7 @@ public:
     Q_PROPERTY(double metadataOpacity MEMBER m_metadataOpacity NOTIFY metadataOpacityChanged)
     Q_PROPERTY(double mainmenuShowWhenReady MEMBER m_mainmenuShowWhenReady NOTIFY mainmenuShowWhenReadyChanged)
     Q_PROPERTY(double metadataShowWhenReady MEMBER m_metadataShowWhenReady NOTIFY metadataShowWhenReadyChanged)
+    Q_PROPERTY(bool advancedSortQuickStart MEMBER m_advancedSortQuickStart NOTIFY advancedSortQuickStartChanged)
 
     Q_PROPERTY(QList<int> filedialogCurrentSelection MEMBER m_filedialogCurrentSelection NOTIFY filedialogCurrentSelectionChanged)
     Q_PROPERTY(int filedialogCurrentIndex MEMBER m_filedialogCurrentIndex NOTIFY filedialogCurrentIndexChanged)
@@ -747,6 +749,7 @@ private:
     double m_mainmenuShowWhenReady;
     double m_metadataShowWhenReady;
     int m_currentStarRating;
+    bool m_advancedSortQuickStart;
 
     QList<int> m_filedialogCurrentSelection;
     int m_filedialogCurrentIndex;
@@ -909,6 +912,7 @@ Q_SIGNALS:
     void mainmenuShowWhenReadyChanged();
     void metadataOpacityChanged();
     void metadataShowWhenReadyChanged();
+    void advancedSortQuickStartChanged();
     void showingPhotoSphereChanged();
     void motionPhotoIsPlayingChanged();
     void animatedImageIsPlayingChanged();

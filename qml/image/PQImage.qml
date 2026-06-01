@@ -155,6 +155,10 @@ Item {
 
                 required property int modelData
 
+
+                Component.onCompleted:
+                     imageTopItem = image_top
+
                 onActiveChanged: {
                     repeaterimage.allactive[modelData] = active
                 }

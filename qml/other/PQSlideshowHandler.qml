@@ -40,6 +40,8 @@ Item {
     property list<string> musicFileOrder: []
     property int currentMusicIndex: 0
 
+    property MediaPlayer audioplayerItem
+
     Loader {
 
         id: loader_audioplayer
@@ -67,7 +69,7 @@ Item {
                         slideshowhandler_top.currentMusicIndex = (slideshowhandler_top.currentMusicIndex+1)%PQCSettings.slideshowMusicFiles.length
 
                         var startingIndex = slideshowhandler_top.currentMusicIndex
-                        while(!PQCScriptsFilesPaths.doesItExist(musicFileOrder[slideshowhandler_top.currentMusicIndex]) && slideshowhandler_top.currentMusicIndex != startingIndex)
+                        while(!PQCScriptsFilesPaths.doesItExist(slideshowhandler_top.musicFileOrder[slideshowhandler_top.currentMusicIndex]) && slideshowhandler_top.currentMusicIndex != startingIndex)
                             slideshowhandler_top.currentMusicIndex += (slideshowhandler_top.currentMusicIndex+1)%PQCSettings.slideshowMusicFiles.length
 
                         audioplayer.source = encodeURI("file:" + slideshowhandler_top.musicFileOrder[slideshowhandler_top.currentMusicIndex])
@@ -78,15 +80,19 @@ Item {
             onSourceChanged:
                 play()
 
-            function checkPlayPause() {
-                if(PQCConstants.slideshowRunningAndPlaying)
-                    audioplayer.play()
-                else
-                    audioplayer.pause()
+            Component.onCompleted: {
+                slideshowhandler_top.audioplayerItem = audioplayer
             }
 
         }
 
+    }
+
+    function checkPlayPause() {
+        if(PQCConstants.slideshowRunningAndPlaying)
+            audioplayerItem.play()
+        else
+            audioplayerItem.pause()
     }
 
 
@@ -122,9 +128,9 @@ Item {
     Timer {
         id: checkAudio
         interval: 500
-        running: PQCSettings.slideshowMusic && loader_audioplayer.item.playbackState===MediaPlayer.PausedState
+        running: PQCSettings.slideshowMusic && slideshowhandler_top.audioplayerItem.playbackState===MediaPlayer.PausedState
         onTriggered:
-            loader_audioplayer.item.checkPlayPause()
+            slideshowhandler_top.checkPlayPause()
     }
 
     Connections {
@@ -133,7 +139,7 @@ Item {
 
         function onSlideshowRunningAndPlayingChanged() {
             if(PQCSettings.slideshowMusic)
-                loader_audioplayer.item.checkPlayPause()
+                slideshowhandler_top.checkPlayPause()
         }
 
     }
@@ -146,13 +152,13 @@ Item {
 
         function onCurrentlyShowingVideoPlayingChanged() {
             if(PQCSettings.slideshowMusic)
-                loader_audioplayer.item.checkPlayPause()
+                slideshowhandler_top.checkPlayPause()
             if(PQCConstants.slideshowRunningAndPlaying && !PQCConstants.currentlyShowingVideoPlaying && !slideshowhandler_top.ignoreVideoChanges) {
                 switcher.triggered()
                 slideshowhandler_top.ignoreVideoChanges = false
             }
             if(PQCSettings.slideshowMusic)
-                loader_audioplayer.item.checkPlayPause()
+                slideshowhandler_top.checkPlayPause()
         }
     }
 
@@ -164,7 +170,7 @@ Item {
         onTriggered: {
             slideshowhandler_top.loadNextImage()
             if(PQCSettings.slideshowMusic)
-                loader_audioplayer.item.checkPlayPause()
+                slideshowhandler_top.checkPlayPause()
         }
     }
 
@@ -274,8 +280,8 @@ Item {
                 shuffle(musicFileOrder)
             while(!PQCScriptsFilesPaths.doesItExist(musicFileOrder[currentMusicIndex]) && currentMusicIndex < musicFileOrder.length)
                 currentMusicIndex += 1
-            loader_audioplayer.item.position = 0
-            loader_audioplayer.item.source = encodeURI("file:" + musicFileOrder[currentMusicIndex])
+            slideshowhandler_top.audioplayerItem.position = 0
+            slideshowhandler_top.audioplayerItem.source = encodeURI("file:" + musicFileOrder[currentMusicIndex])
         }
 
         if(PQCSettings.slideshowTypeAnimation === "kenburns") {
@@ -295,7 +301,7 @@ Item {
         PQCConstants.slideshowRunning = false
         PQCConstants.slideshowRunningAndPlaying = false
         if(PQCSettings.slideshowMusic)
-            loader_audioplayer.item.checkPlayPause()
+            slideshowhandler_top.checkPlayPause()
 
         PQCSettings.imageviewAnimationType = backupAnimType
         PQCSettings.imageviewAnimationDuration = backupAnimSpeed
@@ -362,7 +368,7 @@ Item {
         // The following two lines HAVE to be in this order!!
         PQCConstants.slideshowRunningAndPlaying = !PQCConstants.slideshowRunningAndPlaying
         if(PQCSettings.slideshowMusic)
-            loader_audioplayer.item.checkPlayPause()
+            slideshowhandler_top.checkPlayPause()
         PQCNotify.playPauseAnimationVideo()
     }
 

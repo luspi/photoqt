@@ -33,6 +33,8 @@ Item {
     // the speed is depending on the user settings
     property int aniSpeed: Math.max(15-PQCSettings.slideshowImageTransition,1)*5
 
+    property PQImage imageTopItem
+
     // Animation: left to right
     SequentialAnimation {
 
@@ -331,7 +333,7 @@ Item {
 
             } else
 
-                image_top.zoomReset()
+                imageTopItem.zoomReset()
 
         }
     }
@@ -342,11 +344,11 @@ Item {
         var index = PQCFileFolderModel.getIndexOfMainView(imageloaderitem.imageSource)
 
         if(PQCConstants.showingPhotoSphere) {
-            image_top.animatePhotoSpheres(index%2)
+            imageTopItem.animatePhotoSpheres(index%2)
             return
         }
 
-        image_top.animatePhotoSpheres(-1)
+        imageTopItem.animatePhotoSpheres(-1)
 
         var fac = image_wrapper.width/image_wrapper.height
 

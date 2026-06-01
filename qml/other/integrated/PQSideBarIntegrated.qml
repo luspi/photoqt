@@ -54,7 +54,7 @@ Rectangle {
         }
         onClicked: (mouse) => {
             if(mouse.button === Qt.RightButton)
-                menu.item.popup()
+                metadata_top.menuItem.popup()
         }
     }
 
@@ -466,6 +466,8 @@ Rectangle {
         ["Copyright", qsTranslate("settingsmanager", "copyright")],
         ["Gps", qsTranslate("settingsmanager", "GPS position")]]
 
+    property PQMenu menuItem
+
     Loader {
 
         id: menu
@@ -475,6 +477,10 @@ Rectangle {
         PQMenu {
 
             id: themenu
+
+            Component.onCompleted: {
+                metadata_top.menuItem = themenu
+            }
 
             PQMenuItem {
                 enabled: false

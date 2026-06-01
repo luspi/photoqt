@@ -47,6 +47,8 @@ Item {
     property bool animationRunning: false
     property int aniDirection: -1
 
+    property PQImage imageTopItem
+
     View3D {
 
         anchors.fill: parent
@@ -286,7 +288,7 @@ Item {
 
     Connections {
 
-        target: image_top
+        target: sphere_top.imageTopItem
 
         function onAnimatePhotoSpheres(direction : int) {
 

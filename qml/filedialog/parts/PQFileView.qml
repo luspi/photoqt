@@ -50,9 +50,6 @@ Item {
         resetCurrentIndex.stop()
     }
 
-    onCurrentCutsChanged:
-        console.warn(">>> CUT:", currentCuts, "//", PQCFileFolderModel.entriesFileDialog[currentIndex], currentCuts)
-
     property PQPasteExistingConfirm pasteExisting
     property PQFileDeleteConfirm deleteConfirm
 

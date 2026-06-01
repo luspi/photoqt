@@ -557,8 +557,8 @@ Item {
                 break
             case "__advancedSortQuick":
                 if(PQCFileFolderModel.countMainView > 0 && PQCFileFolderModel.currentIndex > -1) {
+                    PQCConstants.advancedSortQuickStart = true
                     PQCNotify.loaderShow("AdvancedSort")
-                    loader_advancedsort.item.doSorting()
                 }
                 break
             case "__find":

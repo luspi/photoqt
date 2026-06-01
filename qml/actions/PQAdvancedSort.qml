@@ -62,12 +62,23 @@ PQTemplate {
         PQCConstants.modalAdvancedSortOpen = true
         working.hide()
         loadData()
+        if(PQCConstants.advancedSortQuickStart) {
+            doQuickSort.restart()
+            PQCConstants.advancedSortQuickStart = false
+        }
         return true
     }
 
     function hiding() {
         PQCConstants.modalAdvancedSortOpen = false
         return true
+    }
+
+    Timer {
+        id: doQuickSort
+        interval: 500
+        onTriggered:
+            advancedsort_top.button1.clicked()
     }
 
     content: [

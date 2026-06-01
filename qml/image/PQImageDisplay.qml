@@ -36,6 +36,8 @@ Loader {
 
     property bool thisIsStartupFile: false
 
+    property PQImage imageTopItem
+
     signal iAmReady()
 
     onImageSourceChanged: {
@@ -49,8 +51,8 @@ Loader {
 
         id: loader_top
 
-        width: image_top.width-2*PQCSettings.imageviewMargin
-        height: image_top.height-2*PQCSettings.imageviewMargin
+        width: imageloaderitem.imageTopItem.width-2*PQCSettings.imageviewMargin
+        height: imageloaderitem.imageTopItem.height-2*PQCSettings.imageviewMargin
 
         visible: false
 
@@ -618,9 +620,9 @@ Loader {
 
                     if(PQCSettings.interfaceNavigateOnEmptyBackground) {
                         if(locpos.x < 0 || (locpos.x < fw/2 && (locpos.y < 0 || locpos.y > fh)))
-                            image_top.showPrev()
+                            imageloaderitem.imageTopItem.showPrev()
                         else if(locpos.x > fw || (locpos.x > fw/2 && (locpos.y < 0 || locpos.y > fh)))
-                            image_top.showNext()
+                            imageloaderitem.imageTopItem.showNext()
                         return
                     }
 
@@ -808,7 +810,7 @@ Loader {
                     // BUSY indicator
                     PQWorking {
                         id: busyloading
-                        parent: image_top
+                        parent: imageloaderitem.imageTopItem
                         anchors.margins: -PQCSettings.imageviewMargin
                         z: PQCConstants.currentZValue+1
                     }
@@ -1256,6 +1258,7 @@ Loader {
 
                                 imageSource: imageloaderitem.imageSource
                                 isMainImage: loader_top.isMainImage
+                                imageTopItem: imageloaderitem.imageTopItem
 
                                 width: loader_top.width
                                 height: loader_top.height
@@ -1495,7 +1498,7 @@ Loader {
 
                                 resetDefaults.resetScale()
 
-                                if(!PQCSettings.imageviewRememberZoomRotationMirror || !(imageloaderitem.imageSource in image_top.rememberChanges)) {
+                                if(!PQCSettings.imageviewRememberZoomRotationMirror || !(imageloaderitem.imageSource in imageloaderitem.imageTopItem.rememberChanges)) {
                                     if(!PQCSettings.imageviewPreserveZoom && !PQCSettings.imageviewPreserveRotation)
                                         loader_top.rotationZoomResetWithoutAnimation()
                                     else {
@@ -1839,7 +1842,7 @@ Loader {
 
                             // this function might be called more than once
                             // this check makes sure that we only do this once
-                            if(image_top.width < flickable.contentWidth || image_top.height < flickable.contentHeight)
+                            if(imageloaderitem.imageTopItem.width < flickable.contentWidth || imageloaderitem.imageTopItem.height < flickable.contentHeight)
                                 return
 
                             if(PQCConstants.showingPhotoSphere)
@@ -1853,16 +1856,16 @@ Loader {
                             var facH = 1
 
                             if(flickable.contentWidth > 0)
-                                facW = image_top.width/flickable.contentWidth
+                                facW = imageloaderitem.imageTopItem.width/flickable.contentWidth
                             if(flickable.contentHeight > 0)
-                                facH = image_top.height/flickable.contentHeight
+                                facH = imageloaderitem.imageTopItem.height/flickable.contentHeight
 
                             // we zoom images in to fill the full screen
                             // UNLESS the image dimensions are rather different AND differ from the window dimensions
                             var fac = Math.max(facW, facH)
                             var rel = image_wrapper.width/image_wrapper.height
-                            if(((image_wrapper.width > image_wrapper.height && image_top.height > image_top.width) ||
-                                (image_wrapper.height > image_wrapper.width && image_top.width > image_top.height)) &&
+                            if(((image_wrapper.width > image_wrapper.height && imageloaderitem.imageTopItem.height > imageloaderitem.imageTopItem.width) ||
+                                (image_wrapper.height > image_wrapper.width && imageloaderitem.imageTopItem.width > imageloaderitem.imageTopItem.height)) &&
                                     (rel < 0.5 || rel > 1.5))
                                 fac = Math.min(facW, facH)
 
@@ -1886,15 +1889,15 @@ Loader {
                             if(PQCConstants.showingPhotoSphere)
                                 return
 
-                            if((PQCSettings.imageviewRememberZoomRotationMirror && (imageloaderitem.imageSource in image_top.rememberChanges)) ||
+                            if((PQCSettings.imageviewRememberZoomRotationMirror && (imageloaderitem.imageSource in imageloaderitem.imageTopItem.rememberChanges)) ||
                                     ((PQCSettings.imageviewPreserveZoom || PQCSettings.imageviewPreserveRotation ||
-                                      PQCSettings.imageviewPreserveMirror) && image_top.reuseChanges.length > 1)) {
+                                      PQCSettings.imageviewPreserveMirror) && imageloaderitem.imageTopItem.reuseChanges.length > 1)) {
 
                                 var vals;
-                                if(PQCSettings.imageviewRememberZoomRotationMirror && (imageloaderitem.imageSource in image_top.rememberChanges))
-                                    vals = image_top.rememberChanges[imageloaderitem.imageSource]
+                                if(PQCSettings.imageviewRememberZoomRotationMirror && (imageloaderitem.imageSource in imageloaderitem.imageTopItem.rememberChanges))
+                                    vals = imageloaderitem.imageTopItem.rememberChanges[imageloaderitem.imageSource]
                                 else
-                                    vals = image_top.reuseChanges
+                                    vals = imageloaderitem.imageTopItem.reuseChanges
 
                                 if(PQCSettings.imageviewRememberZoomRotationMirror || PQCSettings.imageviewPreserveZoom) {
                                     image_wrapper.scale = vals[2]
@@ -1914,7 +1917,7 @@ Loader {
                                 else
                                     image_wrapper.setMirrorHVToImage(false, false)
 
-                                if(!PQCSettings.imageviewAlwaysActualSize || (PQCSettings.imageviewRememberZoomRotationMirror && imageloaderitem.imageSource in image_top.rememberChanges)) {
+                                if(!PQCSettings.imageviewAlwaysActualSize || (PQCSettings.imageviewRememberZoomRotationMirror && imageloaderitem.imageSource in imageloaderitem.imageTopItem.rememberChanges)) {
                                     flickable.contentX = vals[0]
                                     flickable.contentY = vals[1]
                                     flickable.returnToBounds()
@@ -2074,13 +2077,13 @@ Loader {
                     if(locpos.x < flickable_content.x || (locpos.x < flickable_content.x+flickable_content.width/2 &&
                        (locpos.y < flickable_content.y || locpos.y > flickable_content.y+flickable_content.height))) {
 
-                        image_top.showPrev()
+                        imageloaderitem.imageTopItem.showPrev()
                         return
 
                     } else if(locpos.x > flickable_content.x+flickable_content.width || (locpos.x > flickable_content.x+flickable_content.width/2 &&
                               (locpos.y < flickable_content.y || locpos.y > flickable_content.y+flickable_content.height))) {
 
-                        image_top.showNext()
+                        imageloaderitem.imageTopItem.showNext()
                         return
 
                     }
@@ -2426,7 +2429,9 @@ Loader {
             id: loader_kenburns
             active: PQCConstants.slideshowRunning && PQCSettings.slideshowTypeAnimation === "kenburns"
             sourceComponent:
-                PQKenBurnsSlideshowEffect { }
+                PQKenBurnsSlideshowEffect {
+                    imageTopItem: imageloaderitem.imageTopItem
+                }
         }
 
         Timer {
@@ -2434,7 +2439,7 @@ Loader {
             interval: 50
             onTriggered: {
                 var animValues = ["opacity","x","y","explosion","implosion","rotation"]
-                image_top.randomAnimation = animValues[Math.floor(Math.random()*animValues.length)]
+                imageloaderitem.imageTopItem.randomAnimation = animValues[Math.floor(Math.random()*animValues.length)]
             }
         }
 
@@ -2543,10 +2548,10 @@ Loader {
 
                     var anim = PQCSettings.imageviewAnimationType
                     if(anim === "random")
-                        anim = image_top.randomAnimation
+                        anim = imageloaderitem.imageTopItem.randomAnimation
 
-                    var index0 = PQCFileFolderModel.getIndexOfMainView(image_top.visibleSourcePrevCur[0])
-                    var index1 = PQCFileFolderModel.getIndexOfMainView(image_top.visibleSourcePrevCur[1])
+                    var index0 = PQCFileFolderModel.getIndexOfMainView(imageloaderitem.imageTopItem.visibleSourcePrevCur[0])
+                    var index1 = PQCFileFolderModel.getIndexOfMainView(imageloaderitem.imageTopItem.visibleSourcePrevCur[1])
 
                     if(anim === "opacity" || anim === "explosion" || anim === "implosion") {
 
@@ -2564,7 +2569,7 @@ Loader {
 
                         // the from value depends on whether we go forwards or backwards in the folder
                         xAnimation.from = -width
-                        if(image_top.visibleSourcePrevCur[1] === "" || index0 > index1)
+                        if(imageloaderitem.imageTopItem.visibleSourcePrevCur[1] === "" || index0 > index1)
                             xAnimation.from = width
 
                         xAnimation.to = 0
@@ -2577,7 +2582,7 @@ Loader {
 
                         // the from value depends on whether we go forwards or backwards in the folder
                         yAnimation.from = -height
-                        if(image_top.visibleSourcePrevCur[1] === "" || index0 > index1)
+                        if(imageloaderitem.imageTopItem.visibleSourcePrevCur[1] === "" || index0 > index1)
                             yAnimation.from = height
 
                         yAnimation.to = 0
@@ -2591,7 +2596,7 @@ Loader {
                         rotAnimation_rotation.from = -180
                         rotAnimation_rotation.to = 0
 
-                        if(image_top.visibleSourcePrevCur[1] === "" || index0 > index1) {
+                        if(imageloaderitem.imageTopItem.visibleSourcePrevCur[1] === "" || index0 > index1) {
                             rotAnimation_rotation.from = 180
                             rotAnimation_rotation.to = 0
                         }
@@ -2636,7 +2641,7 @@ Loader {
 
                     loader_top.zoomActualWithoutAnimation()
 
-                    if(!PQCSettings.imageviewRememberZoomRotationMirror || !(imageloaderitem.imageSource in image_top.rememberChanges)) {
+                    if(!PQCSettings.imageviewRememberZoomRotationMirror || !(imageloaderitem.imageSource in imageloaderitem.imageTopItem.rememberChanges)) {
                         if(flickable.contentWidth > flickable.width)
                             flickable.contentX = Qt.binding(function() { return (flickable.contentWidth-flickable.width)/2 })
                         if(flickable.contentHeight > flickable.height)
@@ -2694,12 +2699,12 @@ Loader {
                                     loader_top.imageMirrorH,
                                     loader_top.imageMirrorV]
                         if(PQCSettings.imageviewRememberZoomRotationMirror)
-                            image_top.rememberChanges[imageloaderitem.imageSource] = vals
+                            imageloaderitem.imageTopItem.rememberChanges[imageloaderitem.imageSource] = vals
                         if(PQCSettings.imageviewPreserveZoom || PQCSettings.imageviewPreserveRotation || PQCSettings.imageviewPreserveMirror)
-                            image_top.reuseChanges = vals
+                            imageloaderitem.imageTopItem.reuseChanges = vals
                     } else
                         // don't delete reuseChanges here, we want to keep those
-                        delete image_top.rememberChanges[imageloaderitem.imageSource]
+                        delete imageloaderitem.imageTopItem.rememberChanges[imageloaderitem.imageSource]
 
                 }
 
@@ -2707,10 +2712,10 @@ Loader {
 
             var anim = PQCSettings.imageviewAnimationType
             if(anim === "random")
-                anim = image_top.randomAnimation
+                anim = imageloaderitem.imageTopItem.randomAnimation
 
-            var index0 = PQCFileFolderModel.getIndexOfMainView(image_top.visibleSourcePrevCur[0])
-            var index1 = PQCFileFolderModel.getIndexOfMainView(image_top.visibleSourcePrevCur[1])
+            var index0 = PQCFileFolderModel.getIndexOfMainView(imageloaderitem.imageTopItem.visibleSourcePrevCur[0])
+            var index1 = PQCFileFolderModel.getIndexOfMainView(imageloaderitem.imageTopItem.visibleSourcePrevCur[1])
 
             if(anim === "opacity") {
 
@@ -2728,7 +2733,7 @@ Loader {
                 xAnimation.from = 0
                 // the to value depends on whether we go forwards or backwards in the folder
                 xAnimation.to = width*(loader_top.imageScale/loader_top.defaultScale)
-                if(image_top.visibleSourcePrevCur[1] === "" || index0 > index1)
+                if(imageloaderitem.imageTopItem.visibleSourcePrevCur[1] === "" || index0 > index1)
                     xAnimation.to *= -1
 
                 xAnimation.restart()
@@ -2740,7 +2745,7 @@ Loader {
                 yAnimation.from = 0
                 // the to value depends on whether we go forwards or backwards in the folder
                 yAnimation.to = height*(loader_top.imageScale/loader_top.defaultScale)
-                if(image_top.visibleSourcePrevCur[1] === "" || index0 > index1)
+                if(imageloaderitem.imageTopItem.visibleSourcePrevCur[1] === "" || index0 > index1)
                     yAnimation.to *= -1
 
                 yAnimation.restart()
@@ -2770,7 +2775,7 @@ Loader {
                 rotAnimation_rotation.from = 0
                 rotAnimation_rotation.to = 180
 
-                if(image_top.visibleSourcePrevCur[1] === "" || index0 > index1) {
+                if(imageloaderitem.imageTopItem.visibleSourcePrevCur[1] === "" || index0 > index1) {
                     rotAnimation_rotation.from = 0
                     rotAnimation_rotation.to = -180
                 }

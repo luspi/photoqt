@@ -47,7 +47,7 @@ Item {
         id: waitForRoot
         interval: 10
         onTriggered: {
-            setBackground()
+            mwbg.setBackground()
         }
     }
 
