@@ -52,6 +52,8 @@ Item {
 
     property bool hovered: false
 
+    property PQMainMenuModern mainmenuTop
+
     signal clicked()
 
     Rectangle {
@@ -126,7 +128,7 @@ Item {
             }
 
             if(entrytop.closeMenu && !PQCSettings.interfacePopoutMainMenu)
-                mainmenu_top.hideMainMenu()
+                entrytop.mainmenuTop.hideMainMenu()
         }
     }
 
@@ -163,7 +165,7 @@ Item {
             id: touchShowMenu
             interval: 1000
             onTriggered: {
-                menu.item.popup(toucharea.mapToItem(mainmenu_top, toucharea.touchPos))
+                menu.item.popup(toucharea.mapToItem(entrytop.mainmenuTop, toucharea.touchPos))
             }
         }
 

@@ -304,6 +304,7 @@ Rectangle {
                         font.weight: PQCLook.fontWeightBold
                         alignCenter: true
                         menuColWidth: mainmenu_top.colwidth
+                        mainmenuTop: mainmenu_top
                     }
 
                     PQMainMenuEntry {
@@ -317,6 +318,7 @@ Rectangle {
                         font.weight: PQCLook.fontWeightBold
                         alignCenter: true
                         menuColWidth: mainmenu_top.colwidth
+                        mainmenuTop: mainmenu_top
                     }
 
                 }
@@ -331,6 +333,7 @@ Rectangle {
                         smallestWidth: prevarrow.width
                         alignCenter: true
                         menuColWidth: mainmenu_top.colwidth
+                        mainmenuTop: mainmenu_top
                     }
 
                     PQMainMenuEntry {
@@ -341,6 +344,7 @@ Rectangle {
                         smallestWidth: nextarrow.width
                         alignCenter: true
                         menuColWidth: mainmenu_top.colwidth
+                        mainmenuTop: mainmenu_top
                     }
 
                 }
@@ -351,6 +355,7 @@ Rectangle {
                     cmd: "__open"
                     closeMenu: true
                     menuColWidth: mainmenu_top.colwidth
+                    mainmenuTop: mainmenu_top
                     onHeightChanged:
                         mainmenu_top.normalEntryHeight = height
                 }
@@ -362,6 +367,7 @@ Rectangle {
                     closeMenu: true
                     menuColWidth: mainmenu_top.colwidth
                     visible: PQCScriptsConfig.isLocationSupportEnabled()
+                    mainmenuTop: mainmenu_top
                 }
 
             }
@@ -444,6 +450,7 @@ Rectangle {
                         smallestWidth: 10
                         active: mainmenu_top.anythingLoaded
                         menuColWidth: mainmenu_top.colwidth
+                        mainmenuTop: mainmenu_top
                     }
 
                     PQMainMenuEntry {
@@ -455,6 +462,7 @@ Rectangle {
                         smallestWidth: 10
                         active: mainmenu_top.anythingLoaded
                         menuColWidth: mainmenu_top.colwidth
+                        mainmenuTop: mainmenu_top
                     }
 
                     PQMainMenuEntry {
@@ -466,6 +474,7 @@ Rectangle {
                         tooltip: qsTranslate("MainMenu", "Enable to preserve zoom levels across images")
                         Behavior on opacity { enabled: !PQCSettings.generalDisableAllAnimations; NumberAnimation { duration: 200 } }
                         onClicked: PQCSettings.imageviewPreserveZoom = !PQCSettings.imageviewPreserveZoom
+                        mainmenuTop: mainmenu_top
                     }
 
                 }
@@ -517,6 +526,7 @@ Rectangle {
                         smallestWidth: 10
                         active: mainmenu_top.anythingLoaded
                         menuColWidth: mainmenu_top.colwidth
+                        mainmenuTop: mainmenu_top
                     }
 
                     PQMainMenuEntry {
@@ -528,6 +538,7 @@ Rectangle {
                         tooltip: qsTranslate("MainMenu", "Enable to preserve rotation angle across images")
                         Behavior on opacity { enabled: !PQCSettings.generalDisableAllAnimations; NumberAnimation { duration: 200 } }
                         onClicked: PQCSettings.imageviewPreserveRotation = !PQCSettings.imageviewPreserveRotation
+                        mainmenuTop: mainmenu_top
                     }
 
                 }
@@ -579,6 +590,7 @@ Rectangle {
                         smallestWidth: 10
                         active: mainmenu_top.anythingLoaded
                         menuColWidth: mainmenu_top.colwidth
+                        mainmenuTop: mainmenu_top
                     }
 
                     PQMainMenuEntry {
@@ -590,6 +602,7 @@ Rectangle {
                         tooltip: qsTranslate("MainMenu", "Enable to preserve mirror across images")
                         Behavior on opacity { enabled: !PQCSettings.generalDisableAllAnimations; NumberAnimation { duration: 200 } }
                         onClicked: PQCSettings.imageviewPreserveMirror = !PQCSettings.imageviewPreserveMirror
+                        mainmenuTop: mainmenu_top
                     }
 
                 }
@@ -660,6 +673,7 @@ Rectangle {
                         closeMenu: true
                         active: mainmenu_top.anythingLoaded
                         menuColWidth: mainmenu_top.colwidth
+                        mainmenuTop: mainmenu_top
                     }
 
                     PQMainMenuEntry {
@@ -671,6 +685,7 @@ Rectangle {
                         closeMenu: true
                         active: mainmenu_top.anythingLoaded
                         menuColWidth: mainmenu_top.colwidth
+                        mainmenuTop: mainmenu_top
                     }
 
                 }
@@ -705,6 +720,7 @@ Rectangle {
                         closeMenu: true
                         active: mainmenu_top.anythingLoaded
                         menuColWidth: mainmenu_top.colwidth
+                        mainmenuTop: mainmenu_top
                     }
 
                     PQMainMenuEntry {
@@ -716,6 +732,7 @@ Rectangle {
                         closeMenu: true
                         active: mainmenu_top.anythingLoaded
                         menuColWidth: mainmenu_top.colwidth
+                        mainmenuTop: mainmenu_top
                     }
 
                 }
@@ -732,6 +749,7 @@ Rectangle {
                         active: mainmenu_top.anythingLoaded
                         smallestWidth: (mainmenu_top.colwidth-20)/2
                         menuColWidth: mainmenu_top.colwidth
+                        mainmenuTop: mainmenu_top
                     }
                     PQMainMenuEntry {
                         img: "findnext.svg"
@@ -741,6 +759,7 @@ Rectangle {
                         active: mainmenu_top.anythingLoaded && PQCConstants.searchText!==""
                         smallestWidth: (mainmenu_top.colwidth-20)/2
                         menuColWidth: mainmenu_top.colwidth
+                        mainmenuTop: mainmenu_top
                     }
                 }
 
@@ -751,6 +770,7 @@ Rectangle {
                     closeMenu: true
                     active: mainmenu_top.anythingLoaded
                     menuColWidth: mainmenu_top.colwidth
+                    mainmenuTop: mainmenu_top
                 }
 
                 PQMainMenuEntry {
@@ -761,6 +781,7 @@ Rectangle {
                     closeMenu: true
                     active: mainmenu_top.anythingLoaded
                     menuColWidth: mainmenu_top.colwidth
+                    mainmenuTop: mainmenu_top
                 }
 
                 PQMainMenuEntry {
@@ -770,6 +791,7 @@ Rectangle {
                     closeMenu: true
                     active: mainmenu_top.anythingLoaded
                     menuColWidth: mainmenu_top.colwidth
+                    mainmenuTop: mainmenu_top
                 }
 
             }
@@ -842,6 +864,7 @@ Rectangle {
                             closeMenu: true
                             active: mainmenu_top.anythingLoaded
                             menuColWidth: mainmenu_top.colwidth
+                            mainmenuTop: mainmenu_top
 
                         }
 
@@ -892,6 +915,7 @@ Rectangle {
                         smallestWidth: flickable.width/2
                         closeMenu: true
                         menuColWidth: mainmenu_top.colwidth
+                        mainmenuTop: mainmenu_top
                     }
 
                     PQMainMenuEntry {
@@ -901,6 +925,7 @@ Rectangle {
                         smallestWidth: flickable.width/2
                         closeMenu: true
                         menuColWidth: mainmenu_top.colwidth
+                        mainmenuTop: mainmenu_top
                     }
 
                 }
@@ -914,6 +939,7 @@ Rectangle {
                         smallestWidth: flickable.width/2
                         closeMenu: true
                         menuColWidth: mainmenu_top.colwidth
+                        mainmenuTop: mainmenu_top
                     }
 
                     PQMainMenuEntry {
@@ -922,6 +948,7 @@ Rectangle {
                         cmd: "__quit"
                         smallestWidth: flickable.width/2
                         menuColWidth: mainmenu_top.colwidth
+                        mainmenuTop: mainmenu_top
                     }
 
                 }
@@ -990,6 +1017,7 @@ Rectangle {
                         closeMenu: true
 
                         menuColWidth: mainmenu_top.colwidth
+                        mainmenuTop: mainmenu_top
                     }
 
                 }
