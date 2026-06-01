@@ -29,4 +29,6 @@ QtObject {
     property ApplicationWindow rootWindow
     property Item toplevelItem
 
+    property var allPopouts: ({})
+
 }

@@ -76,6 +76,8 @@ Window {
 
     Component.onCompleted: {
 
+        PQGlobalItems.allPopouts[elementId] = element_top
+
         element_top.setX(defaultPopoutGeometry.x)
         element_top.setY(defaultPopoutGeometry.y)
 

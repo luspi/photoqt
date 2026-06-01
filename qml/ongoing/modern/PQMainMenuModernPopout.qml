@@ -27,6 +27,8 @@ Window {
 
     id: mainmenu_popout
 
+    property string elementId: "MainMenu"
+
     //: Window title
     title: qsTranslate("actions", "Main Menu") + " | PhotoQt"
 
@@ -75,6 +77,7 @@ Window {
     }
 
     Component.onCompleted: {
+        PQGlobalItems.allPopouts[elementId] = mainmenu_popout
         mainmenu_popout.setX(PQCSettings.mainmenuElementPosition.x)
         mainmenu_popout.setY(PQCSettings.mainmenuElementPosition.y)
         mainmenu_popout.setWidth(PQCSettings.mainmenuElementSize.width)

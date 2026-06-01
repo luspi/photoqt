@@ -43,7 +43,20 @@ Item {
         setBackground()
     }
 
+    Timer {
+        id: waitForRoot
+        interval: 10
+        onTriggered: {
+            setBackground()
+        }
+    }
+
     function setBackground() {
+
+        if(PQGlobalItems.rootWindow == undefined) {
+            waitForRoot.restart()
+            return
+        }
 
         // THIS CALL IS IMPORTANT!
         // WITHOUT THIS THE PALETTE WILL NOT BE SET UP BEFORE THE BACKGROUND IS SET!

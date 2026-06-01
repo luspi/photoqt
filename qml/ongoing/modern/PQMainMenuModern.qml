@@ -29,6 +29,8 @@ Rectangle {
 
     id: mainmenu_top
 
+    property string elementId: "MainMenu"
+
     x: setVisible ? visiblePos[0] : invisiblePos[0]
     y: (PQCSettings.mainmenuElementHeightDynamic ? statusinfoOffset : 0) + (setVisible ? visiblePos[1] : invisiblePos[1])
     Behavior on x { enabled: !PQCSettings.generalDisableAllAnimations; NumberAnimation { duration: dragrightMouse.enabled&&dragrightMouse.clickStart!=-1&&!mainmenu_top.animateResize ? 0 : 200 } }
@@ -76,7 +78,7 @@ Rectangle {
     property int parentHeight
     width: Math.max(400, PQCSettings.mainmenuElementSize.width)
     height: isPopout ?
-                mainmenu_popout.height :
+                (PQGlobalItems.allPopouts[elementId] === undefined ? parent.height : PQGlobalItems.allPopouts[elementId].height) :
                 PQCSettings.mainmenuElementHeightDynamic ?
                     PQCConstants.availableHeight-2*gap-statusinfoOffset :
                     Math.min(PQCConstants.availableHeight, PQCSettings.mainmenuElementSize.height)
@@ -93,8 +95,8 @@ Rectangle {
     property bool popoutWindowUsed: false
 
     onSetVisibleChanged: {
-        if(!setVisible && menu.item !== null)
-            menu.item.dismiss()
+        if(!setVisible && menuItem !== null)
+            menuItem.dismiss()
     }
 
     property bool isPopout: PQCSettings.interfacePopoutMainMenu||PQCWindowGeometry.mainmenuForcePopout
@@ -175,7 +177,7 @@ Rectangle {
         }
         onClicked: (mouse) => {
             if(mouse.button === Qt.RightButton)
-                menu.item.popup()
+                mainmenu_top.menuItem.popup()
         }
     }
 
@@ -210,7 +212,7 @@ Rectangle {
             id: touchShowMenu
             interval: 1000
             onTriggered: {
-                menu.item.popup(toucharea.mapToItem(mainmenu_top, toucharea.touchPos))
+                mainmenu_top.menuItem.popup(toucharea.mapToItem(mainmenu_top, toucharea.touchPos))
             }
         }
 
@@ -305,6 +307,10 @@ Rectangle {
                         alignCenter: true
                         menuColWidth: mainmenu_top.colwidth
                         mainmenuTop: mainmenu_top
+                        mainmenuMenuItem: mainmenu_top.menuItem
+                        function onHideMainMenu() {
+                            mainmenu_top.hideMainMenu()
+                        }
                     }
 
                     PQMainMenuEntry {
@@ -319,6 +325,10 @@ Rectangle {
                         alignCenter: true
                         menuColWidth: mainmenu_top.colwidth
                         mainmenuTop: mainmenu_top
+                        mainmenuMenuItem: mainmenu_top.menuItem
+                        function onHideMainMenu() {
+                            mainmenu_top.hideMainMenu()
+                        }
                     }
 
                 }
@@ -334,6 +344,10 @@ Rectangle {
                         alignCenter: true
                         menuColWidth: mainmenu_top.colwidth
                         mainmenuTop: mainmenu_top
+                        mainmenuMenuItem: mainmenu_top.menuItem
+                        function onHideMainMenu() {
+                            mainmenu_top.hideMainMenu()
+                        }
                     }
 
                     PQMainMenuEntry {
@@ -345,6 +359,10 @@ Rectangle {
                         alignCenter: true
                         menuColWidth: mainmenu_top.colwidth
                         mainmenuTop: mainmenu_top
+                        mainmenuMenuItem: mainmenu_top.menuItem
+                        function onHideMainMenu() {
+                            mainmenu_top.hideMainMenu()
+                        }
                     }
 
                 }
@@ -356,8 +374,12 @@ Rectangle {
                     closeMenu: true
                     menuColWidth: mainmenu_top.colwidth
                     mainmenuTop: mainmenu_top
+                    mainmenuMenuItem: mainmenu_top.menuItem
                     onHeightChanged:
                         mainmenu_top.normalEntryHeight = height
+                    function onHideMainMenu() {
+                        mainmenu_top.hideMainMenu()
+                    }
                 }
 
                 PQMainMenuEntry {
@@ -368,6 +390,10 @@ Rectangle {
                     menuColWidth: mainmenu_top.colwidth
                     visible: PQCScriptsConfig.isLocationSupportEnabled()
                     mainmenuTop: mainmenu_top
+                    mainmenuMenuItem: mainmenu_top.menuItem
+                    function onHideMainMenu() {
+                        mainmenu_top.hideMainMenu()
+                    }
                 }
 
             }
@@ -451,6 +477,10 @@ Rectangle {
                         active: mainmenu_top.anythingLoaded
                         menuColWidth: mainmenu_top.colwidth
                         mainmenuTop: mainmenu_top
+                        mainmenuMenuItem: mainmenu_top.menuItem
+                        function onHideMainMenu() {
+                            mainmenu_top.hideMainMenu()
+                        }
                     }
 
                     PQMainMenuEntry {
@@ -463,6 +493,10 @@ Rectangle {
                         active: mainmenu_top.anythingLoaded
                         menuColWidth: mainmenu_top.colwidth
                         mainmenuTop: mainmenu_top
+                        mainmenuMenuItem: mainmenu_top.menuItem
+                        function onHideMainMenu() {
+                            mainmenu_top.hideMainMenu()
+                        }
                     }
 
                     PQMainMenuEntry {
@@ -475,6 +509,10 @@ Rectangle {
                         Behavior on opacity { enabled: !PQCSettings.generalDisableAllAnimations; NumberAnimation { duration: 200 } }
                         onClicked: PQCSettings.imageviewPreserveZoom = !PQCSettings.imageviewPreserveZoom
                         mainmenuTop: mainmenu_top
+                        mainmenuMenuItem: mainmenu_top.menuItem
+                        function onHideMainMenu() {
+                            mainmenu_top.hideMainMenu()
+                        }
                     }
 
                 }
@@ -527,6 +565,10 @@ Rectangle {
                         active: mainmenu_top.anythingLoaded
                         menuColWidth: mainmenu_top.colwidth
                         mainmenuTop: mainmenu_top
+                        mainmenuMenuItem: mainmenu_top.menuItem
+                        function onHideMainMenu() {
+                            mainmenu_top.hideMainMenu()
+                        }
                     }
 
                     PQMainMenuEntry {
@@ -539,6 +581,10 @@ Rectangle {
                         Behavior on opacity { enabled: !PQCSettings.generalDisableAllAnimations; NumberAnimation { duration: 200 } }
                         onClicked: PQCSettings.imageviewPreserveRotation = !PQCSettings.imageviewPreserveRotation
                         mainmenuTop: mainmenu_top
+                        mainmenuMenuItem: mainmenu_top.menuItem
+                        function onHideMainMenu() {
+                            mainmenu_top.hideMainMenu()
+                        }
                     }
 
                 }
@@ -591,6 +637,10 @@ Rectangle {
                         active: mainmenu_top.anythingLoaded
                         menuColWidth: mainmenu_top.colwidth
                         mainmenuTop: mainmenu_top
+                        mainmenuMenuItem: mainmenu_top.menuItem
+                        function onHideMainMenu() {
+                            mainmenu_top.hideMainMenu()
+                        }
                     }
 
                     PQMainMenuEntry {
@@ -603,6 +653,10 @@ Rectangle {
                         Behavior on opacity { enabled: !PQCSettings.generalDisableAllAnimations; NumberAnimation { duration: 200 } }
                         onClicked: PQCSettings.imageviewPreserveMirror = !PQCSettings.imageviewPreserveMirror
                         mainmenuTop: mainmenu_top
+                        mainmenuMenuItem: mainmenu_top.menuItem
+                        function onHideMainMenu() {
+                            mainmenu_top.hideMainMenu()
+                        }
                     }
 
                 }
@@ -674,6 +728,10 @@ Rectangle {
                         active: mainmenu_top.anythingLoaded
                         menuColWidth: mainmenu_top.colwidth
                         mainmenuTop: mainmenu_top
+                        mainmenuMenuItem: mainmenu_top.menuItem
+                        function onHideMainMenu() {
+                            mainmenu_top.hideMainMenu()
+                        }
                     }
 
                     PQMainMenuEntry {
@@ -686,6 +744,10 @@ Rectangle {
                         active: mainmenu_top.anythingLoaded
                         menuColWidth: mainmenu_top.colwidth
                         mainmenuTop: mainmenu_top
+                        mainmenuMenuItem: mainmenu_top.menuItem
+                        function onHideMainMenu() {
+                            mainmenu_top.hideMainMenu()
+                        }
                     }
 
                 }
@@ -721,6 +783,10 @@ Rectangle {
                         active: mainmenu_top.anythingLoaded
                         menuColWidth: mainmenu_top.colwidth
                         mainmenuTop: mainmenu_top
+                        mainmenuMenuItem: mainmenu_top.menuItem
+                        function onHideMainMenu() {
+                            mainmenu_top.hideMainMenu()
+                        }
                     }
 
                     PQMainMenuEntry {
@@ -733,6 +799,10 @@ Rectangle {
                         active: mainmenu_top.anythingLoaded
                         menuColWidth: mainmenu_top.colwidth
                         mainmenuTop: mainmenu_top
+                        mainmenuMenuItem: mainmenu_top.menuItem
+                        function onHideMainMenu() {
+                            mainmenu_top.hideMainMenu()
+                        }
                     }
 
                 }
@@ -750,6 +820,10 @@ Rectangle {
                         smallestWidth: (mainmenu_top.colwidth-20)/2
                         menuColWidth: mainmenu_top.colwidth
                         mainmenuTop: mainmenu_top
+                        mainmenuMenuItem: mainmenu_top.menuItem
+                        function onHideMainMenu() {
+                            mainmenu_top.hideMainMenu()
+                        }
                     }
                     PQMainMenuEntry {
                         img: "findnext.svg"
@@ -760,6 +834,10 @@ Rectangle {
                         smallestWidth: (mainmenu_top.colwidth-20)/2
                         menuColWidth: mainmenu_top.colwidth
                         mainmenuTop: mainmenu_top
+                        mainmenuMenuItem: mainmenu_top.menuItem
+                        function onHideMainMenu() {
+                            mainmenu_top.hideMainMenu()
+                        }
                     }
                 }
 
@@ -771,6 +849,10 @@ Rectangle {
                     active: mainmenu_top.anythingLoaded
                     menuColWidth: mainmenu_top.colwidth
                     mainmenuTop: mainmenu_top
+                    mainmenuMenuItem: mainmenu_top.menuItem
+                    function onHideMainMenu() {
+                        mainmenu_top.hideMainMenu()
+                    }
                 }
 
                 PQMainMenuEntry {
@@ -782,6 +864,10 @@ Rectangle {
                     active: mainmenu_top.anythingLoaded
                     menuColWidth: mainmenu_top.colwidth
                     mainmenuTop: mainmenu_top
+                    mainmenuMenuItem: mainmenu_top.menuItem
+                    function onHideMainMenu() {
+                        mainmenu_top.hideMainMenu()
+                    }
                 }
 
                 PQMainMenuEntry {
@@ -792,6 +878,10 @@ Rectangle {
                     active: mainmenu_top.anythingLoaded
                     menuColWidth: mainmenu_top.colwidth
                     mainmenuTop: mainmenu_top
+                    mainmenuMenuItem: mainmenu_top.menuItem
+                    function onHideMainMenu() {
+                        mainmenu_top.hideMainMenu()
+                    }
                 }
 
             }
@@ -865,6 +955,10 @@ Rectangle {
                             active: mainmenu_top.anythingLoaded
                             menuColWidth: mainmenu_top.colwidth
                             mainmenuTop: mainmenu_top
+                            mainmenuMenuItem: mainmenu_top.menuItem
+                            function onHideMainMenu() {
+                                mainmenu_top.hideMainMenu()
+                            }
 
                         }
 
@@ -916,6 +1010,10 @@ Rectangle {
                         closeMenu: true
                         menuColWidth: mainmenu_top.colwidth
                         mainmenuTop: mainmenu_top
+                        mainmenuMenuItem: mainmenu_top.menuItem
+                        function onHideMainMenu() {
+                            mainmenu_top.hideMainMenu()
+                        }
                     }
 
                     PQMainMenuEntry {
@@ -926,6 +1024,10 @@ Rectangle {
                         closeMenu: true
                         menuColWidth: mainmenu_top.colwidth
                         mainmenuTop: mainmenu_top
+                        mainmenuMenuItem: mainmenu_top.menuItem
+                        function onHideMainMenu() {
+                            mainmenu_top.hideMainMenu()
+                        }
                     }
 
                 }
@@ -940,6 +1042,10 @@ Rectangle {
                         closeMenu: true
                         menuColWidth: mainmenu_top.colwidth
                         mainmenuTop: mainmenu_top
+                        mainmenuMenuItem: mainmenu_top.menuItem
+                        function onHideMainMenu() {
+                            mainmenu_top.hideMainMenu()
+                        }
                     }
 
                     PQMainMenuEntry {
@@ -949,6 +1055,10 @@ Rectangle {
                         smallestWidth: flickable.width/2
                         menuColWidth: mainmenu_top.colwidth
                         mainmenuTop: mainmenu_top
+                        mainmenuMenuItem: mainmenu_top.menuItem
+                        function onHideMainMenu() {
+                            mainmenu_top.hideMainMenu()
+                        }
                     }
 
                 }
@@ -1018,6 +1128,10 @@ Rectangle {
 
                         menuColWidth: mainmenu_top.colwidth
                         mainmenuTop: mainmenu_top
+                        mainmenuMenuItem: mainmenu_top.menuItem
+                        function onHideMainMenu() {
+                            mainmenu_top.hideMainMenu()
+                        }
                     }
 
                 }
@@ -1053,6 +1167,8 @@ Rectangle {
 
     }
 
+    property PQMenu menuItem
+
     Loader {
 
         id: menu
@@ -1062,6 +1178,9 @@ Rectangle {
         PQMenu {
 
             id: menudeleg
+
+            Component.onCompleted:
+                mainmenu_top.menuItem = menudeleg
 
             PQMenuItem {
                 enabled: false
@@ -1233,7 +1352,7 @@ Rectangle {
                 if(!PQCSettings.interfacePopoutMainMenu)
                     PQCSettings.interfacePopoutMainMenu = true
                 else
-                    mainmenu_popout.close()
+                    PQGlobalItems.allPopouts[mainmenu_top.elementId].close()
                 PQCScriptsShortcuts.executeInternalCommand("__showMainMenu")
             }
         }
@@ -1266,7 +1385,7 @@ Rectangle {
                 return
             }
 
-            if(menu.item != null && menu.item.opened) {
+            if(mainmenu_top.menuItem != null && mainmenu_top.menuItem.opened) {
                 mainmenu_top.setVisible = true
                 return
             }
@@ -1294,7 +1413,7 @@ Rectangle {
         }
 
         function onCloseAllContextMenus() {
-            menu.item.dismiss()
+            mainmenu_top.menuItem.dismiss()
         }
 
     }
@@ -1367,14 +1486,10 @@ Rectangle {
 
     function hideMainMenu() {
         mainmenu_top.setVisible = false
-        if(popoutWindowUsed)
-            mainmenu_popout.visible = false
     }
 
     function showMainMenu() {
         mainmenu_top.setVisible = true
-        if(popoutWindowUsed)
-            mainmenu_popout.visible = true
     }
 
 }
