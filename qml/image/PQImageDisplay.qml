@@ -324,6 +324,10 @@ Loader {
             pos.x -= image_wrapper.width/2
             pos.y -= image_wrapper.height/2
 
+            // in the integrated ui, if the sidebar is shown on the left then we need to take that into account
+            if(PQCSettings.generalInterfaceVariant==="integrated" && PQCSettings.metadataSideBar && PQCSettings.metadataSideBarLocation==="left")
+                pos.x -= PQCSettings.metadataSideBarWidth/image_wrapper.scale
+
             const currentScale = loader_top.imageScale
             const defaultScale = loader_top.defaultScale
             const dpr = PQCConstants.devicePixelRatio
