@@ -61,8 +61,8 @@ GridView {
     property real cacheContentY: 0.
 
     onCurrentIndexChanged: {
-        if(view_top.currentIndex !== currentIndex)
-            view_top.currentIndex = currentIndex
+        if(PQGlobalItems.filedialogFileview.currentIndex !== currentIndex)
+            PQGlobalItems.filedialogFileview.currentIndex = currentIndex
         if(!gridview.flicking)
             gridview.positionViewAtIndex(currentIndex, GridView.Contain)
     }
@@ -99,10 +99,12 @@ GridView {
         property int numberFilesInsideFolder: 0
         property int padding: PQCSettings.filedialogElementPadding
         property bool isFolder: modelData < PQCFileFolderModel.countFoldersFileDialog
-        property bool onNetwork: isFolder ? PQCScriptsFilesPaths.isOnNetwork(currentPath) : view_top.currentFolderOnNetwork
+        property bool onNetwork: isFolder ? PQCScriptsFilesPaths.isOnNetwork(currentPath) : PQGlobalItems.filedialogFileview.currentFolderOnNetwork
 
         property bool isHovered: gridview.currentIndex===deleg.modelData
         property bool isSelected: PQCConstants.filedialogCurrentSelection.indexOf(deleg.modelData)>-1
+
+        property bool isFileCut: PQGlobalItems.filedialogFileview.currentCuts.indexOf(deleg.modelData) > -1
 
         visible: currentPath!=""
 
@@ -130,6 +132,11 @@ GridView {
 
             gridlike: true
 
+            isFileCut: deleg.isFileCut
+            onNetwork: deleg.onNetwork
+            isFolder: deleg.isFolder
+            currentPath: deleg.currentPath
+
             x: PQCSettings.filedialogElementPadding
             y: PQCSettings.filedialogElementPadding
             width: deleg.width - 2*PQCSettings.filedialogElementPadding
@@ -142,10 +149,24 @@ GridView {
 
             id: filethumb
 
+            isFileCut: deleg.isFileCut
+            isFolder: deleg.isFolder
+            onNetwork: deleg.onNetwork
+            currentPath: deleg.currentPath
+            myIndex: deleg.modelData
+
             x: PQCSettings.filedialogElementPadding
             y: PQCSettings.filedialogElementPadding
             width: deleg.width - 2*PQCSettings.filedialogElementPadding
             height: deleg.height - 2*PQCSettings.filedialogElementPadding
+
+            function onHideFileIcon() {
+                fileicon.source = ""
+            }
+
+            function onShowFileIcon() {
+                fileicon.source = fileicon.sourceString
+            }
 
         }
 
@@ -154,10 +175,19 @@ GridView {
 
             id: folderthumb
 
+            isFileCut: deleg.isFileCut
+            myIndex: deleg.modelData
+            isFolder: deleg.isFolder
+            numberFilesInsideFolder: deleg.numberFilesInsideFolder
+
             x: PQCSettings.filedialogElementPadding
             y: PQCSettings.filedialogElementPadding
             width: deleg.width - 2*PQCSettings.filedialogElementPadding
             height: deleg.height - 2*PQCSettings.filedialogElementPadding
+
+            function onHideFileIcon() {
+                fileicon.source = ""
+            }
 
         }
 
@@ -318,29 +348,30 @@ GridView {
             onPressed: {
 
                 if(!PQCConstants.isContextmenuOpen("fileviewentry"))
-                    view_top.currentIndex = deleg.modelData
+                    PQGlobalItems.filedialogFileview.currentIndex = deleg.modelData
 
                 // we only need this when a potential drag might occur
                 // otherwise no need to load this drag thumbnail
-                deleg.dragImageSource = "image://dragthumb/" + deleg.currentPath + ":://::" + (view_top.currentFileSelected ? PQCConstants.filedialogCurrentSelection.length : 1)
+                deleg.dragImageSource = "image://dragthumb/" + deleg.currentPath + ":://::" + (PQGlobalItems.filedialogFileview.currentFileSelected ? PQCConstants.filedialogCurrentSelection.length : 1)
 
             }
 
             onEntered: {
 
-                tooltip = handleEntriesMouseEnter(deleg.modelData, deleg.currentPath, filethumb.status, fileinfo.text,
-                                        deleg.isFolder, deleg.numberFilesInsideFolder, folderthumb.curnum)
+                tooltip = ""
+                tooltip = PQGlobalItems.filedialogFileview.handleEntriesMouseEnter(deleg.modelData, deleg.currentPath, filethumb.status, fileinfo.text,
+                                                                                   deleg.isFolder, deleg.numberFilesInsideFolder, folderthumb.curnum)
 
             }
 
             onExited: {
                 if(!selectmouse.containsMouse)
-                    view_top.handleEntriesMouseExit(deleg.modelData)
+                    PQGlobalItems.filedialogFileview.handleEntriesMouseExit(deleg.modelData)
             }
 
             onClicked: (mouse) => {
 
-                view_top.handleEntriesMouseClick(deleg.modelData, deleg.currentPath, deleg.isFolder,
+                PQGlobalItems.filedialogFileview.handleEntriesMouseClick(deleg.modelData, deleg.currentPath, deleg.isFolder,
                                                  mouse.modifiers, mouse.button)
 
             }
@@ -382,7 +413,7 @@ GridView {
             color: "#bbbbbb"
             opacity: (selectmouse.containsMouse||PQCConstants.filedialogCurrentSelection.indexOf(deleg.modelData)!==-1)
                             ? 0.8
-                            : (view_top.currentIndex===deleg.modelData
+                            : (PQGlobalItems.filedialogFileview.currentIndex===deleg.modelData
                                     ? 0.8 : 0)
             Behavior on opacity { enabled: !PQCSettings.generalDisableAllAnimations; NumberAnimation { duration: 200 } }
 
@@ -398,17 +429,17 @@ GridView {
                     hoverEnabled: true
                     cursorShape: Qt.PointingHandCursor
                     onClicked: {
-                        if(!view_top.currentFileSelected) {
-                            view_top.shiftClickIndexStart = deleg.modelData
+                        if(!PQGlobalItems.filedialogFileview.currentFileSelected) {
+                            PQGlobalItems.filedialogFileview.shiftClickIndexStart = deleg.modelData
                             PQCConstants.filedialogCurrentSelection.push(deleg.modelData)
                             PQCConstants.filedialogCurrentSelectionChanged()
                         } else {
-                            view_top.shiftClickIndexStart = -1
+                            PQGlobalItems.filedialogFileview.shiftClickIndexStart = -1
                             PQCConstants.filedialogCurrentSelection = PQCConstants.filedialogCurrentSelection.filter(item => item!==deleg.modelData)
                         }
                     }
                     onEntered: {
-                        view_top.currentIndex = deleg.modelData
+                        PQGlobalItems.filedialogFileview.currentIndex = deleg.modelData
                     }
                 }
             }
@@ -417,7 +448,7 @@ GridView {
 
         Drag.active: gridmousearea.drag.active
         Drag.mimeData: {
-            if(!view_top.currentFileSelected) {
+            if(!PQGlobalItems.filedialogFileview.currentFileSelected) {
                 return ({"text/uri-list": encodeURI("file:"+deleg.currentPath)})
             } else {
                 var uris = []
@@ -452,37 +483,37 @@ GridView {
 
     function goDownARow() {
 
-        if(view_top.currentIndex === -1)
-            view_top.currentIndex = 0
+        if(PQGlobalItems.filedialogFileview.currentIndex === -1)
+            PQGlobalItems.filedialogFileview.currentIndex = 0
         else
-            view_top.currentIndex = Math.min(PQCFileFolderModel.countAllFileDialog-1, view_top.currentIndex + Math.floor(gridview.width/gridview.cellWidth))
+            PQGlobalItems.filedialogFileview.currentIndex = Math.min(PQCFileFolderModel.countAllFileDialog-1, PQGlobalItems.filedialogFileview.currentIndex + Math.floor(gridview.width/gridview.cellWidth))
 
     }
 
     function goDownSomeRows() {
 
-        if(view_top.currentIndex === -1)
-            view_top.currentIndex = Math.min(PQCFileFolderModel.countAllFileDialog-1, 4*Math.floor(gridview.width/gridview.cellWidth))
+        if(PQGlobalItems.filedialogFileview.currentIndex === -1)
+            PQGlobalItems.filedialogFileview.currentIndex = Math.min(PQCFileFolderModel.countAllFileDialog-1, 4*Math.floor(gridview.width/gridview.cellWidth))
         else
-            view_top.currentIndex = Math.min(PQCFileFolderModel.countAllFileDialog-1, view_top.currentIndex + 5*Math.floor(gridview.width/gridview.cellWidth))
+            PQGlobalItems.filedialogFileview.currentIndex = Math.min(PQCFileFolderModel.countAllFileDialog-1, PQGlobalItems.filedialogFileview.currentIndex + 5*Math.floor(gridview.width/gridview.cellWidth))
 
     }
 
     function goUpARow() {
 
-        if(view_top.currentIndex === -1)
-            view_top.currentIndex = PQCFileFolderModel.countAllFileDialog-1
+        if(PQGlobalItems.filedialogFileview.currentIndex === -1)
+            PQGlobalItems.filedialogFileview.currentIndex = PQCFileFolderModel.countAllFileDialog-1
         else
-            view_top.currentIndex = Math.max(0, view_top.currentIndex - Math.floor(gridview.width/gridview.cellWidth))
+            PQGlobalItems.filedialogFileview.currentIndex = Math.max(0, PQGlobalItems.filedialogFileview.currentIndex - Math.floor(gridview.width/gridview.cellWidth))
 
     }
 
     function goUpSomeRows() {
 
-        if(view_top.currentIndex === -1)
-            view_top.currentIndex = Math.max(0, PQCFileFolderModel.countAllFileDialog-1 - 4*Math.floor(gridview.width/gridview.cellWidth))
+        if(PQGlobalItems.filedialogFileview.currentIndex === -1)
+            PQGlobalItems.filedialogFileview.currentIndex = Math.max(0, PQCFileFolderModel.countAllFileDialog-1 - 4*Math.floor(gridview.width/gridview.cellWidth))
         else
-            view_top.currentIndex = Math.max(0, view_top.currentIndex - 5*Math.floor(gridview.width/gridview.cellWidth))
+            PQGlobalItems.filedialogFileview.currentIndex = Math.max(0, PQGlobalItems.filedialogFileview.currentIndex - 5*Math.floor(gridview.width/gridview.cellWidth))
 
     }
 

@@ -37,6 +37,8 @@ Item {
         PQCConstants.filedialogTweaksZoomMoveUpHeight = zoomMoveUpHeight
     }
 
+    signal doHandleHiding(var forceHide)
+
     Rectangle {
 
         id: leftcolrect
@@ -176,7 +178,7 @@ Item {
             text: genericStringCancel
             tooltip: qsTranslate("filedialog", "Cancel and close")
             onClicked:
-                filedialog_top.handleHiding(true)
+                tweaks_top.doHandleHiding(true)
         }
     }
 

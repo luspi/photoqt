@@ -33,5 +33,6 @@ QtObject {
     property var allPopouts: ({})
 
     property PQPlaces filedialogPlaces
+    property PQFileView filedialogFileview
 
 }

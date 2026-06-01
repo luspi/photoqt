@@ -34,6 +34,11 @@ Flickable {
 
     contentHeight: mainrow.height
 
+    signal handleEntriesMouseEnter(var index, var currentPath, var fileThumbStatus, var fileInfo, var isFolder,
+                                   var numberFilesInsideFolder, var currentFolderThumbNum)
+    signal handleEntriesMouseExit(var index)
+    signal handleEntriesMouseClick(var index, var currentPath, var isFolder, var mouseModifiers, var mouseButton)
+
     property int model: 0
     onModelChanged: {
         if(model == 0) {
@@ -62,8 +67,8 @@ Flickable {
 
     property int currentIndex: -1
     onCurrentIndexChanged: {
-        if(view_top.currentIndex !== currentIndex)
-            view_top.currentIndex = currentIndex
+        if(PQGlobalItems.filedialogFileview.currentIndex !== currentIndex)
+            PQGlobalItems.filedialogFileview.currentIndex = currentIndex
         if(!masonryview.flicking)
             ensureCurrentItemIsVisible()
     }
@@ -176,10 +181,12 @@ Flickable {
             property string fileinfoString: ""
             property int padding: PQCSettings.filedialogElementPadding
             property bool isFolder: modelData < PQCFileFolderModel.countFoldersFileDialog
-            property bool onNetwork: isFolder ? PQCScriptsFilesPaths.isOnNetwork(currentPath) : view_top.currentFolderOnNetwork
+            property bool onNetwork: isFolder ? PQCScriptsFilesPaths.isOnNetwork(currentPath) : PQGlobalItems.filedialogFileview.currentFolderOnNetwork
 
             property bool isHovered: masonryview.currentIndex===deleg.modelData
             property bool isSelected: PQCConstants.filedialogCurrentSelection.indexOf(deleg.modelData)>-1
+
+            property bool isFileCut: PQGlobalItems.filedialogFileview.currentCuts.indexOf(deleg.modelData) > -1
 
             width: masonryview.columnWidth
             height: filethumbVisible&&filethumbStatus==Image.Ready ? Math.max(30, (filethumbSourceSize.height * (width/filethumbSourceSize.width))) : masonryview.columnWidth
@@ -212,6 +219,11 @@ Flickable {
 
                 gridlike: true
 
+                isFileCut: deleg.isFileCut
+                onNetwork: deleg.onNetwork
+                isFolder: deleg.isFolder
+                currentPath: deleg.currentPath
+
                 x: PQCSettings.filedialogElementPadding
                 y: PQCSettings.filedialogElementPadding
                 width: deleg.width - 2*PQCSettings.filedialogElementPadding
@@ -237,6 +249,12 @@ Flickable {
                     width: deleg.width - 2*PQCSettings.filedialogElementPadding
                     height: deleg.height - 2*PQCSettings.filedialogElementPadding
 
+                    isFileCut: deleg.isFileCut
+                    isFolder: deleg.isFolder
+                    onNetwork: deleg.onNetwork
+                    currentPath: deleg.currentPath
+                    myIndex: deleg.modelData
+
                     clip: true
 
                     dontSetSourceSize: true
@@ -252,6 +270,14 @@ Flickable {
                         deleg.filethumbVisible = visible
                         deleg.filethumbStatus = status
                         deleg.filethumbSourceSize = sourceSize
+                    }
+
+                    function onHideFileIcon() {
+                        fileicon.source = ""
+                    }
+
+                    function onShowFileIcon() {
+                        fileicon.source = fileicon.sourceString
                     }
 
                 }
@@ -276,10 +302,17 @@ Flickable {
 
                         id: folderthumb
 
+                        isFileCut: deleg.isFileCut
+                        myIndex: deleg.modelData
+
                         anchors.fill: parent
 
                         onCurnumChanged:
                             deleg.folderthumbCurNum = curnum
+
+                        function onHideFileIcon() {
+                            fileicon.source = ""
+                        }
 
                     }
 
@@ -442,30 +475,30 @@ Flickable {
                 onPressed: {
 
                     if(!PQCConstants.isContextmenuOpen("fileviewentry"))
-                        view_top.currentIndex = deleg.modelData
+                        PQGlobalItems.filedialogFileview.currentIndex = deleg.modelData
 
                     // we only need this when a potential drag might occur
                     // otherwise no need to load this drag thumbnail
-                    deleg.dragImageSource = "image://dragthumb/" + deleg.currentPath + ":://::" + (view_top.currentFileSelected ? PQCConstants.filedialogCurrentSelection.length : 1)
+                    deleg.dragImageSource = "image://dragthumb/" + deleg.currentPath + ":://::" + (PQGlobalItems.filedialogFileview.currentFileSelected ? PQCConstants.filedialogCurrentSelection.length : 1)
 
                 }
 
                 onEntered: {
 
                     tooltip = ""
-                    tooltip = handleEntriesMouseEnter(deleg.modelData, deleg.currentPath, deleg.filethumbStatus, deleg.fileinfoString,
+                    tooltip = PQGlobalItems.filedialogFileview.handleEntriesMouseEnter(deleg.modelData, deleg.currentPath, deleg.filethumbStatus, deleg.fileinfoString,
                                             deleg.isFolder, deleg.numberFilesInsideFolder, deleg.folderthumbCurNum)
 
                 }
 
                 onExited: {
                     if(!selectmouse.containsMouse)
-                        view_top.handleEntriesMouseExit(deleg.modelData)
+                        PQGlobalItems.filedialogFileview.handleEntriesMouseExit(deleg.modelData)
                 }
 
                 onClicked: (mouse) => {
 
-                    view_top.handleEntriesMouseClick(deleg.modelData, deleg.currentPath, deleg.isFolder,
+                    PQGlobalItems.filedialogFileview.handleEntriesMouseClick(deleg.modelData, deleg.currentPath, deleg.isFolder,
                                                      mouse.modifiers, mouse.button)
 
                 }
@@ -487,7 +520,7 @@ Flickable {
                 color: "#bbbbbb"
                 opacity: (selectmouse.containsMouse||PQCConstants.filedialogCurrentSelection.indexOf(deleg.modelData)!==-1)
                                 ? 0.8
-                                : (view_top.currentIndex===deleg.modelData
+                                : (PQGlobalItems.filedialogFileview.currentIndex===deleg.modelData
                                         ? 0.8 : 0)
                 Behavior on opacity { enabled: !PQCSettings.generalDisableAllAnimations; NumberAnimation { duration: 200 } }
 
@@ -503,17 +536,17 @@ Flickable {
                         hoverEnabled: true
                         cursorShape: Qt.PointingHandCursor
                         onClicked: {
-                            if(!view_top.currentFileSelected) {
-                                view_top.shiftClickIndexStart = deleg.modelData
+                            if(!PQGlobalItems.filedialogFileview.currentFileSelected) {
+                                PQGlobalItems.filedialogFileview.shiftClickIndexStart = deleg.modelData
                                 PQCConstants.filedialogCurrentSelection.push(deleg.modelData)
                                 PQCConstants.filedialogCurrentSelectionChanged()
                             } else {
-                                view_top.shiftClickIndexStart = -1
+                                PQGlobalItems.filedialogFileview.shiftClickIndexStart = -1
                                 PQCConstants.filedialogCurrentSelection = PQCConstants.filedialogCurrentSelection.filter(item => item!==deleg.modelData)
                             }
                         }
                         onEntered: {
-                            view_top.currentIndex = deleg.modelData
+                            PQGlobalItems.filedialogFileview.currentIndex = deleg.modelData
                         }
                     }
                 }
@@ -522,7 +555,7 @@ Flickable {
 
             Drag.active: masonrymousearea.drag.active
             Drag.mimeData: {
-                if(!view_top.currentFileSelected) {
+                if(!PQGlobalItems.filedialogFileview.currentFileSelected) {
                     return ({"text/uri-list": encodeURI("file:"+deleg.currentPath)})
                 } else {
                     var uris = []
@@ -564,7 +597,7 @@ Flickable {
         property: "contentY"
     }
 
-    property list<real> columnHeights: ({})
+    property list<real> columnHeights: []
     property var columnIndices: ({})
 
     Timer {
@@ -582,6 +615,7 @@ Flickable {
         }
 
         for(var i = 0; i < masonryview.numColumns; ++i) {
+            if(listviews[i] === undefined) continue;
             listviews[i].clear()
             columnHeights[i] = 0
             columnIndices[i] = []
@@ -625,7 +659,7 @@ Flickable {
         var curCol = -1
         var curRow = -1
         for(var i = 0; i < masonryview.numColumns; ++i) {
-            curRow = columnIndices[i].indexOf(view_top.currentIndex)
+            curRow = columnIndices[i].indexOf(PQGlobalItems.filedialogFileview.currentIndex)
             if(curRow > -1) {
                 curCol = i
                 break
@@ -636,44 +670,44 @@ Flickable {
 
     function goDownARow() {
 
-        if(view_top.currentIndex === -1)
-            view_top.currentIndex = 0
+        if(PQGlobalItems.filedialogFileview.currentIndex === -1)
+            PQGlobalItems.filedialogFileview.currentIndex = 0
         else {
             var curColRow = findCurrentRowColumn()
-            view_top.currentIndex = columnIndices[curColRow[0]][Math.min(columnIndices[curColRow[0]].length-1, curColRow[1]+1)]
+            PQGlobalItems.filedialogFileview.currentIndex = columnIndices[curColRow[0]][Math.min(columnIndices[curColRow[0]].length-1, curColRow[1]+1)]
         }
 
     }
 
     function goDownSomeRows() {
 
-        if(view_top.currentIndex === -1)
-            view_top.currentIndex = columnIndices[0][Math.min(4, columnIndices[0].length)]
+        if(PQGlobalItems.filedialogFileview.currentIndex === -1)
+            PQGlobalItems.filedialogFileview.currentIndex = columnIndices[0][Math.min(4, columnIndices[0].length)]
         else {
             var curColRow = findCurrentRowColumn()
-            view_top.currentIndex = columnIndices[curColRow[0]][Math.min(curColRow[1]+5, columnIndices[curColRow[0]].length)]
+            PQGlobalItems.filedialogFileview.currentIndex = columnIndices[curColRow[0]][Math.min(curColRow[1]+5, columnIndices[curColRow[0]].length)]
         }
 
     }
 
     function goUpARow() {
 
-        if(view_top.currentIndex === -1)
-            view_top.currentIndex = columnIndices[0][columnIndices[0].length-1]
+        if(PQGlobalItems.filedialogFileview.currentIndex === -1)
+            PQGlobalItems.filedialogFileview.currentIndex = columnIndices[0][columnIndices[0].length-1]
         else {
             var curColRow = findCurrentRowColumn()
-            view_top.currentIndex = columnIndices[curColRow[0]][Math.max(0, curColRow[1]-1)]
+            PQGlobalItems.filedialogFileview.currentIndex = columnIndices[curColRow[0]][Math.max(0, curColRow[1]-1)]
         }
 
     }
 
     function goUpSomeRows() {
 
-        if(view_top.currentIndex === -1)
-            view_top.currentIndex = columnIndices[0][Math.max(0, columnIndices[0].length-5)]
+        if(PQGlobalItems.filedialogFileview.currentIndex === -1)
+            PQGlobalItems.filedialogFileview.currentIndex = columnIndices[0][Math.max(0, columnIndices[0].length-5)]
         else {
             var curColRow = findCurrentRowColumn()
-            view_top.currentIndex = columnIndices[curColRow[0]][Math.max(0, curColRow[1]-5)]
+            PQGlobalItems.filedialogFileview.currentIndex = columnIndices[curColRow[0]][Math.max(0, curColRow[1]-5)]
         }
 
     }

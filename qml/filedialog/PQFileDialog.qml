@@ -136,6 +136,12 @@ PQTemplate {
             SplitView.minimumWidth: 200
             SplitView.fillWidth: true
 /*2on_Qt65+*/
+            pasteExisting: pasteExisting
+            deleteConfirm: modal
+
+            onDoHandleHiding: (forceHide) => {
+                filedialog_top.handleHiding(forceHide)
+            }
 
         }
 
@@ -144,6 +150,9 @@ PQTemplate {
     PQTweaks {
         id: fd_tweaks
         y: parent.height-height
+        onDoHandleHiding: (forceHide) => {
+            filedialog_top.handleHiding(forceHide)
+        }
     }
 
     // this accepts files dragged into the window

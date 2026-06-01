@@ -32,14 +32,19 @@ Image {
     smooth: true
     mipmap: false
 
-    opacity: view_top.currentFileCut ? 0.3 : 1
+    property bool isFileCut
+    property bool onNetwork
+    property bool isFolder
+    property string currentPath
+
+    opacity: isFileCut ? 0.3 : 1
     Behavior on opacity { enabled: !PQCSettings.generalDisableAllAnimations; NumberAnimation { duration: 200 } }
 
     property bool gridlike: false
 
     property string _foldername: gridlike ? "folder" : (PQCSettings.filedialogZoom<35 ? "folder_listicon_verysmall" : (PQCSettings.filedialogZoom<75 ? "folder_listicon_small" : "folder_listicon"))
-    property string sourceString: ("image://icon/" + (deleg.onNetwork ? "network_" : "") + (deleg.isFolder ?
-                                        _foldername : PQCScriptsFilesPaths.getCompleteSuffixLowerCase(deleg.currentPath)))
+    property string sourceString: ("image://icon/" + (onNetwork ? "network_" : "") + (isFolder ?
+                                        _foldername : PQCScriptsFilesPaths.getCompleteSuffixLowerCase(currentPath)))
 
     source: sourceString
 

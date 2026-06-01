@@ -128,18 +128,18 @@ void PQCSettings::readDB() {
                 {prefx}if(name == \"{name}\") {{
                     const QStringList parts = value.toString().split(",");
                     if(parts.length() == 2)
-                        m_{tab}{name} = QPoint(parts[0].toDouble(), parts[1].toDouble());
+                        m_{tab}{name} = QPointF(parts[0].toDouble(), parts[1].toDouble());
                     else
-                        m_{tab}{name} = QPoint(0,0);"""
+                        m_{tab}{name} = QPointF(0,0);"""
 
             elif datatype == "size":
                 cont_SOURCE += f"""
                 {prefx}if(name == \"{name}\") {{
                     const QStringList parts = value.toString().split(",");
                     if(parts.length() == 2)
-                        m_{tab}{name} = QSize(parts[0].toDouble(), parts[1].toDouble());
+                        m_{tab}{name} = QSizeF(parts[0].toDouble(), parts[1].toDouble());
                     else
-                        m_{tab}{name} = QSize(0,0);"""
+                        m_{tab}{name} = QSizeF(0,0);"""
 
             prefx = "} else "
 

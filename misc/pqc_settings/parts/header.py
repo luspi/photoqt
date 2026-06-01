@@ -117,16 +117,16 @@ public:
             elif datatype == "list":
                 qtdatatpe = "QStringList"
             elif datatype == "point":
-                qtdatatpe = "QPoint"
+                qtdatatpe = "QPointF"
             elif datatype == "size":
-                qtdatatpe = "QSize"
+                qtdatatpe = "QSizeF"
 
             cont_HEADER += f"""
 
     Q_PROPERTY({qtdatatpe} {tab}{name} READ get{tab.capitalize()}{name} WRITE set{tab.capitalize()}{name} NOTIFY {tab}{name}Changed)
-    {qtdatatpe} get{tab.capitalize()}{name}();
-    void set{tab.capitalize()}{name}({qtdatatpe} val);
-    Q_INVOKABLE const {qtdatatpe} getDefaultFor{tab.capitalize()}{name}();
+    {qtdatatpe} get{tab.capitalize()}{name}() const;
+    void set{tab.capitalize()}{name}(const {qtdatatpe} val);
+    Q_INVOKABLE const {qtdatatpe} getDefaultFor{tab.capitalize()}{name}() const;
     Q_INVOKABLE void setDefaultFor{tab.capitalize()}{name}();"""
         cont_HEADER += "\n"
 
@@ -178,9 +178,9 @@ private:"""
             elif datatype == "list":
                 qtdatatpe = "QStringList"
             elif datatype == "point":
-                qtdatatpe = "QPoint"
+                qtdatatpe = "QPointF"
             elif datatype == "size":
-                qtdatatpe = "QSize"
+                qtdatatpe = "QSizeF"
 
             cont_HEADER += f"""
     {qtdatatpe} m_{tab}{name};"""
@@ -221,9 +221,9 @@ Q_SIGNALS:"""
             elif datatype == "list":
                 qtdatatpe = "QStringList"
             elif datatype == "point":
-                qtdatatpe = "QPoint"
+                qtdatatpe = "QPointF"
             elif datatype == "size":
-                qtdatatpe = "QSize"
+                qtdatatpe = "QSizeF"
 
             cont_HEADER += f"""
     void {tab}{name}Changed();"""

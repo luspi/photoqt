@@ -49,7 +49,7 @@ Item {
         }
 
         Connections {
-            target: view_top
+            target: PQGlobalItems.filedialogFileview
             function onCurrentIndexChanged(currentIndex : int) {
                 setBG.restart()
             }
@@ -59,23 +59,23 @@ Item {
         }
 
         function setCurrentBG() {
-            if(view_top.currentIndex === -1 || !PQCSettings.filedialogPreview ||
-                (view_top.currentIndex < PQCFileFolderModel.countFoldersFileDialog && view_top.currentFolderThumbnailIndex === -1)) {
+            if(PQGlobalItems.filedialogFileview.currentIndex === -1 || !PQCSettings.filedialogPreview ||
+                (PQGlobalItems.filedialogFileview.currentIndex < PQCFileFolderModel.countFoldersFileDialog && PQGlobalItems.filedialogFileview.currentFolderThumbnailIndex === -1)) {
                 preview.source = ""
                 return
             }
-            if(view_top.currentIndex < PQCFileFolderModel.countFoldersFileDialog) {
+            if(PQGlobalItems.filedialogFileview.currentIndex < PQCFileFolderModel.countFoldersFileDialog) {
                 if(PQCSettings.filedialogFolderContentThumbnails) {
-                    preview.source = "image://folderthumb/" + PQCFileFolderModel.entriesFileDialog[view_top.currentIndex] +
-                                            ":://::" + view_top.currentFolderThumbnailIndex
+                    preview.source = "image://folderthumb/" + PQCFileFolderModel.entriesFileDialog[PQGlobalItems.filedialogFileview.currentIndex] +
+                                            ":://::" + PQGlobalItems.filedialogFileview.currentFolderThumbnailIndex
                 } else {
                     preview.source = ""
                 }
             } else {
                 if(PQCSettings.filedialogThumbnails) {
-                    preview.source = "image://thumb/" + PQCFileFolderModel.entriesFileDialog[view_top.currentIndex]
+                    preview.source = "image://thumb/" + PQCFileFolderModel.entriesFileDialog[PQGlobalItems.filedialogFileview.currentIndex]
                 } else {
-                    preview.source = "image://icon/"+PQCScriptsFilesPaths.getCompleteSuffix(PQCFileFolderModel.entriesFileDialog[view_top.currentIndex]).toLowerCase()
+                    preview.source = "image://icon/"+PQCScriptsFilesPaths.getCompleteSuffix(PQCFileFolderModel.entriesFileDialog[PQGlobalItems.filedialogFileview.currentIndex]).toLowerCase()
                 }
             }
         }

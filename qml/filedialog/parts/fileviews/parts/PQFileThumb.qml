@@ -27,9 +27,18 @@ Image {
 
     id: filethumb
 
-    visible: !deleg.isFolder && PQCSettings.filedialogThumbnails && !view_top.currentFolderExcluded && !deleg.onNetwork
+    visible: !isFolder && PQCSettings.filedialogThumbnails && !PQGlobalItems.filedialogFileview.currentFolderExcluded && !onNetwork
 
-    opacity: view_top.currentFileCut ? 0.3 : 1
+    property bool isFileCut
+    property bool isFolder
+    property bool onNetwork
+    property string currentPath
+    property string myIndex
+
+    signal hideFileIcon()
+    signal showFileIcon()
+
+    opacity: isFileCut ? 0.3 : 1
     Behavior on opacity { enabled: !PQCSettings.generalDisableAllAnimations; NumberAnimation { duration: 200 } }
 
     // On older systems (e.g., Ubuntu 24.04), some file types cause a crash in the folder view due to some jasper/magick issues.
@@ -59,17 +68,17 @@ Image {
     fillMode: PQCSettings.filedialogThumbnailsScaleCrop ? Image.PreserveAspectCrop : Image.PreserveAspectFit
 
     // when changing this line also change the line in the Connections below
-    source: visible&&deleg.currentPath!=="" ?
-                encodeURI("image://" + (useFullImageProvider.indexOf(PQCScriptsFilesPaths.getSuffixLowerCase(deleg.currentPath)) > -1 ? "full" : "thumb") + "/" + deleg.currentPath) :
+    source: visible&&currentPath!=="" ?
+                encodeURI("image://" + (useFullImageProvider.indexOf(PQCScriptsFilesPaths.getSuffixLowerCase(currentPath)) > -1 ? "full" : "thumb") + "/" + currentPath) :
                 ""
     onSourceChanged: {
         if(!visible)
-            fileicon.source = fileicon.sourceString
+            showFileIcon()
     }
 
     onStatusChanged: {
         if(status == Image.Ready) {
-            fileicon.source = ""
+            hideFileIcon()
         }
     }
 
@@ -81,10 +90,10 @@ Image {
     Connections {
         target: PQCNotify
         function onFiledialogReloadCurrentThumbnail() {
-            if(deleg.modelData === view_top.currentIndex) {
+            if(filethumb.myIndex === PQGlobalItems.filedialogFileview.currentIndex) {
                 filethumb.source = ""
                 // when changing the following line also change the line in source: above
-                filethumb.source = Qt.binding(function() { return (filethumb.visible&&deleg.currentPath!=="" ? encodeURI("image://thumb/" + deleg.currentPath) : ""); })
+                filethumb.source = Qt.binding(function() { return (filethumb.visible&&filethumb.currentPath!=="" ? encodeURI("image://thumb/" + filethumb.currentPath) : ""); })
             }
         }
     }

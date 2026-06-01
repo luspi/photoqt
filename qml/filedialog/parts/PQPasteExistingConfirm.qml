@@ -327,7 +327,7 @@ Rectangle {
             var ind = exist_top.checkedFiles[i]
             var fln = files[ind]
             PQCScriptsFileManagement.copyFileToHere(fln, PQCFileFolderModel.folderFileDialog)
-            if(fd_fileview.cutFiles.indexOf(fln) !== -1)
+            if(PQGlobalItems.filedialogFileview.currentCuts.indexOf(fln) !== -1)
                 PQCScriptsFileManagement.deletePermanent(fln)
         }
 

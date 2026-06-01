@@ -224,9 +224,9 @@ PQCSettings::PQCSettings() {
                 elif datatype == "list":
                     qtdatatpe = "QStringList"
                 elif datatype == "point":
-                    qtdatatpe = "QPoint"
+                    qtdatatpe = "QPointF"
                 elif datatype == "size":
-                    qtdatatpe = "QSize"
+                    qtdatatpe = "QSizeF"
 
                 cont_SOURCE += f"""
     connect(this, &PQCSettings::{tab}{name}Changed, this, [={", this" if iC == 0 else ""}]() {{ saveChangedValue(\"{tab}{name}\", m_{tab}{name}); }});"""

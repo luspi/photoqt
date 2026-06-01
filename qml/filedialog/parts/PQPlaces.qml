@@ -164,7 +164,7 @@ Item {
             onClicked: {
                 PQCNotify.filedialogShowAddressEdit(false)
                 PQCFileFolderModel.loadVirtualFolderFileDialog = true
-                filedialog_top.loadNewPath(":virtual:")
+                PQCNotify.filedialogLoadNewPath(":virtual:")
             }
 
         }
@@ -420,7 +420,7 @@ Item {
                         return
 
                     if(mouse.button === Qt.LeftButton)
-                        filedialog_top.loadNewPath(deleg.path)
+                        PQCNotify.filedialogLoadNewPath(deleg.path)
                     else {
                         if(deleg.index!==0) {
                             PQCConstants.filedialogPlacesCurrentEntryId = deleg.theid
@@ -634,7 +634,7 @@ Item {
                     if(deleg.index == 0)
                         return
 
-                    filedialog_top.loadNewPath(deleg.path)
+                    PQCNotify.filedialogLoadNewPath(deleg.path)
 
                 }
 

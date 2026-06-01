@@ -67,23 +67,23 @@ def get(duplicateSettings, duplicateSettingsSignal):
             elif datatype == "list":
                 qtdatatpe = "QStringList"
             elif datatype == "point":
-                qtdatatpe = "QPoint"
+                qtdatatpe = "QPointF"
             elif datatype == "size":
-                qtdatatpe = "QSize"
+                qtdatatpe = "QSizeF"
 
             cont += f"""
-{qtdatatpe} PQCSettings::get{tab.capitalize()}{name}() {{
+{qtdatatpe} PQCSettings::get{tab.capitalize()}{name}() const {{
     return m_{tab}{name};
 }}
 
-void PQCSettings::set{tab.capitalize()}{name}({qtdatatpe} val) {{
+void PQCSettings::set{tab.capitalize()}{name}(const {qtdatatpe} val) {{
     if(val != m_{tab}{name}) {{
         m_{tab}{name} = val;
         Q_EMIT {tab}{name}Changed();
     }}
 }}
 
-const {qtdatatpe} PQCSettings::getDefaultFor{tab.capitalize()}{name}() {{"""
+const {qtdatatpe} PQCSettings::getDefaultFor{tab.capitalize()}{name}() const {{"""
 
             if datatype == "string":
                 cont += f"""
@@ -108,7 +108,7 @@ const {qtdatatpe} PQCSettings::getDefaultFor{tab.capitalize()}{name}() {{"""
             elif datatype == "point":
                 parts = defaultvalue.split(",")
                 cont += f"""
-        return QPoint({parts[0]}, {parts[1]});"""
+        return QPointF({parts[0]}, {parts[1]});"""
 
             elif datatype == "size":
                 parts = defaultvalue.split(",")
@@ -156,8 +156,8 @@ void PQCSettings::setDefaultFor{tab.capitalize()}{name}() {{"""
             elif datatype == "point":
                 parts = defaultvalue.split(",")
                 cont += f"""
-    if(QPoint({parts[0]}, {parts[1]}) != m_{tab}{name}) {{
-        m_{tab}{name} = QPoint({parts[0]}, {parts[1]});
+    if(QPointF({parts[0]}, {parts[1]}) != m_{tab}{name}) {{
+        m_{tab}{name} = QPointF({parts[0]}, {parts[1]});
         Q_EMIT {tab}{name}Changed();
     }}"""
 

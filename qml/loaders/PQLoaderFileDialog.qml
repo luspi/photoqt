@@ -47,8 +47,9 @@ Loader {
         id: comp_filedialog
         PQTemplateModal {
             id: smmod
-            function showing() { return tmpl.showing() }
-            function hiding() { return tmpl.hiding() }
+            property PQFileDialog theItem
+            function showing() { return theItem.showing() }
+            function hiding() { return theItem.hiding() }
             popInOutButton.visible: PQCSettings.generalInterfaceVariant==="modern"
             showTopBottom: false
             customSizeSet: PQCSettings.generalInterfaceVariant==="integrated"
@@ -62,6 +63,7 @@ Loader {
                 popInOutButton: smmod.popInOutButton
                 availableHeight: smmod.contentHeight
                 Component.onCompleted: {
+                    smmod.theItem = tmpl
                     smmod.elementId = elementId
                     smmod.title = title
                     smmod.letElementHandleClosing = letMeHandleClosing
@@ -76,8 +78,9 @@ Loader {
             id: smpop
             defaultPopoutGeometry: PQCWindowGeometry.filedialogGeometry
             defaultPopoutMaximized: PQCWindowGeometry.filedialogMaximized
-            function showing() { return tmpl.showing() }
-            function hiding() { return tmpl.hiding() }
+            property PQFileDialog theItem
+            function showing() { return theItem.showing() }
+            function hiding() { return theItem.hiding() }
             showTopBottom: false
             onRectUpdated: (r) => {
                 PQCWindowGeometry.filedialogGeometry = r
@@ -94,6 +97,7 @@ Loader {
                 popInOutButton: smpop.popInOutButton
                 availableHeight: smpop.contentHeight
                 Component.onCompleted: {
+                    smpop.theItem = tmpl
                     smpop.elementId = elementId
                     smpop.title = title
                     smpop.letElementHandleClosing = letMeHandleClosing

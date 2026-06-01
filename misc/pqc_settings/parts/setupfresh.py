@@ -89,17 +89,17 @@ void PQCSettings::setupFresh() {
 
                 parts = defaultvalue.split(",")
                 if len(parts) == 2:
-                    valuestring = f"QPoint({parts[0]}, {parts[1]})"
+                    valuestring = f"QPointF({parts[0]}, {parts[1]})"
                 else:
-                    valuestring = f"QPoint(0, 0)"
+                    valuestring = f"QPointF(0, 0)"
 
             elif datatype == "size":
 
                 parts = defaultvalue.split(",")
                 if len(parts) == 2:
-                    valuestring = f"QSize({parts[0]}, {parts[1]})"
+                    valuestring = f"QSizeF({parts[0]}, {parts[1]})"
                 else:
-                    valuestring = f"QSize(0, 0)"
+                    valuestring = f"QSizeF(0, 0)"
 
             cont += valuestring
             cont += ";"

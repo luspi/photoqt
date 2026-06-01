@@ -30,13 +30,26 @@ Item {
 
     visible: PQCSettings.filedialogFolderContentThumbnails
 
+    property bool isFileCut
+    property bool isFolder
+    property int numberFilesInsideFolder
+    property int myIndex
+
+    onNumberFilesInsideFolderChanged: {
+        if(PQCSettings.filedialogFolderContentThumbnailsAutoload && folderthumb.curnum === 0)
+            folderthumb_next.triggered()
+    }
+
+    opacity: isFileCut ? 0.3 : 1
+
     property int curnum: 0
     onCurnumChanged: {
-        if(deleg.modelData === view_top.currentIndex)
-            view_top.currentFolderThumbnailIndex = folderthumb.curnum
+        if(myIndex === PQGlobalItems.filedialogFileview.currentIndex)
+            PQGlobalItems.filedialogFileview.currentFolderThumbnailIndex = folderthumb.curnum
     }
 
     signal hideExcept(var n)
+    signal hideFileIcon()
 
     Repeater {
         model: ListModel { id: folderthumb_model }
@@ -52,10 +65,10 @@ Item {
             fillMode: PQCSettings.filedialogFolderContentThumbnailsScaleCrop ? Image.PreserveAspectCrop : Image.PreserveAspectFit
             onStatusChanged: {
                 if(status == Image.Ready && source !== "") {
-                    if((curindex === view_top.currentIndex || PQCSettings.filedialogFolderContentThumbnailsAutoload) && !PQCConstants.isContextmenuOpen("fileviewentry"))
+                    if((curindex === PQGlobalItems.filedialogFileview.currentIndex || PQCSettings.filedialogFolderContentThumbnailsAutoload) && !PQCConstants.isContextmenuOpen("fileviewentry"))
                         folderthumb_next.restart()
                     folderthumb.hideExcept(num)
-                    fileicon.source = ""
+                    folderthumb.hideFileIcon()
                 }
             }
             Connections {
@@ -82,32 +95,24 @@ Item {
             // if thumbnails are disabled, then do nothing here
             if(!PQCSettings.filedialogThumbnails) return
 
-            if(!deleg.isFolder)
+            if(!folderthumb.isFolder)
                 return
-            if(deleg.numberFilesInsideFolder === 0)
+            if(folderthumb.numberFilesInsideFolder === 0)
                 return
-            var fname = PQCFileFolderModel.entriesFileDialog[deleg.modelData]
+            var fname = PQCFileFolderModel.entriesFileDialog[folderthumb.myIndex]
             if(!PQCSettings.filedialogFolderContentThumbnails || PQCScriptsFilesPaths.isExcludeDirFromCaching(fname))
                 return
-            if((view_top.currentIndex===deleg.modelData || PQCSettings.filedialogFolderContentThumbnailsAutoload) && (PQCSettings.filedialogFolderContentThumbnailsLoop || folderthumb.curnum == 0)) {
-                folderthumb.curnum = (folderthumb.curnum<0 ? 1 : folderthumb.curnum%deleg.numberFilesInsideFolder +1)
-                folderthumb_model.append({"folder": fname, "num": folderthumb.curnum, "curindex": deleg.modelData})
+            if((PQGlobalItems.filedialogFileview.currentIndex===folderthumb.myIndex || PQCSettings.filedialogFolderContentThumbnailsAutoload) && (PQCSettings.filedialogFolderContentThumbnailsLoop || folderthumb.curnum == 0)) {
+                folderthumb.curnum = (folderthumb.curnum<0 ? 1 : folderthumb.curnum%folderthumb.numberFilesInsideFolder +1)
+                folderthumb_model.append({"folder": fname, "num": folderthumb.curnum, "curindex": folderthumb.myIndex})
             }
         }
     }
     Connections {
-        target: view_top
+        target: PQGlobalItems.filedialogFileview
         function onCurrentIndexChanged() {
-            if(view_top.currentIndex===deleg.modelData && !PQCSettings.filedialogFolderContentThumbnailsAutoload && PQCSettings.filedialogThumbnails)
+            if(PQGlobalItems.filedialogFileview.currentIndex===folderthumb.myIndex && !PQCSettings.filedialogFolderContentThumbnailsAutoload && PQCSettings.filedialogThumbnails)
                 folderthumb_next.restart()
-        }
-    }
-
-    Connections {
-        target: deleg
-        function onNumberFilesInsideFolderChanged() {
-            if(PQCSettings.filedialogFolderContentThumbnailsAutoload && folderthumb.curnum === 0)
-                folderthumb_next.triggered()
         }
     }
 

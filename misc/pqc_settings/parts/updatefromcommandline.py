@@ -89,13 +89,13 @@ QStringList PQCSettings::updateFromCommandLine() {
         if(parts.length() != 2)
             return ret;
         """
-                valconversion = "QPoint(parts[0].toInt(), parts[1].toInt())"
+                valconversion = "QPointF(parts[0].toInt(), parts[1].toInt())"
             elif datatype == "size":
                 prefixcont += f"""QStringList parts = val.split(\",\");
         if(parts.length() != 2)
             return ret;
         """
-                valconversion = "QSize(parts[0].toInt(), parts[1].toInt())"
+                valconversion = "QSizeF(parts[0].toInt(), parts[1].toInt())"
 
             cont += f"""
     if(key == \"{tab}{name}\") {{

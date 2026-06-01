@@ -54,8 +54,9 @@ ListView {
     property real cacheContentY: 0.
 
     onCurrentIndexChanged: {
-        if(view_top.currentIndex !== currentIndex)
-            view_top.currentIndex = currentIndex
+        if(PQGlobalItems.filedialogFileview === undefined) return
+        if(PQGlobalItems.filedialogFileview.currentIndex !== currentIndex)
+            PQGlobalItems.filedialogFileview.currentIndex = currentIndex
         if(!listview.flicking)
             listview.positionViewAtIndex(currentIndex, ListView.Contain)
     }
@@ -92,7 +93,9 @@ ListView {
         property int numberFilesInsideFolder: 0
         property int padding: PQCSettings.filedialogElementPadding
         property bool isFolder: modelData < PQCFileFolderModel.countFoldersFileDialog
-        property bool onNetwork: isFolder ? PQCScriptsFilesPaths.isOnNetwork(currentPath) : view_top.currentFolderOnNetwork
+        property bool onNetwork: isFolder ? PQCScriptsFilesPaths.isOnNetwork(currentPath) : PQGlobalItems.filedialogFileview.currentFolderOnNetwork
+
+        property bool isFileCut: PQGlobalItems.filedialogFileview.currentCuts.indexOf(deleg.modelData) > -1
 
         width: listview.width
 
@@ -124,6 +127,11 @@ ListView {
 
             id: fileicon
 
+            isFileCut: deleg.isFileCut
+            onNetwork: deleg.onNetwork
+            isFolder: deleg.isFolder
+            currentPath: deleg.currentPath
+
             x: PQCSettings.filedialogElementPadding
             y: PQCSettings.filedialogElementPadding
             width: deleg.height - 2*PQCSettings.filedialogElementPadding
@@ -136,10 +144,24 @@ ListView {
 
             id: filethumb
 
+            isFileCut: deleg.isFileCut
+            isFolder: deleg.isFolder
+            onNetwork: deleg.onNetwork
+            currentPath: deleg.currentPath
+            myIndex: deleg.modelData
+
             x: PQCSettings.filedialogElementPadding
             y: PQCSettings.filedialogElementPadding
             width: deleg.height - 2*PQCSettings.filedialogElementPadding
             height: deleg.height - 2*PQCSettings.filedialogElementPadding
+
+            function onHideFileIcon() {
+                fileicon.source = ""
+            }
+
+            function onShowFileIcon() {
+                fileicon.source = fileicon.sourceString
+            }
 
         }
 
@@ -148,10 +170,17 @@ ListView {
 
             id: folderthumb
 
+            isFileCut: deleg.isFileCut
+            myIndex: deleg.modelData
+
             x: PQCSettings.filedialogElementPadding
             y: PQCSettings.filedialogElementPadding
             width: deleg.height - 2*PQCSettings.filedialogElementPadding
             height: deleg.height - 2*PQCSettings.filedialogElementPadding
+
+            function onHideFileIcon() {
+                fileicon.source = ""
+            }
 
         }
 
@@ -170,7 +199,7 @@ ListView {
         // the filename
         PQText {
             id: filename_label
-            opacity: view_top.currentFileCut ? 0.3 : 1
+            opacity: deleg.isFileCut ? 0.3 : 1
             Behavior on opacity { enabled: !PQCSettings.generalDisableAllAnimations; NumberAnimation { duration: 200 } }
             x: fileicon.width+10
             width: deleg.width-fileicon.width-fileinfo.width-10
@@ -184,7 +213,7 @@ ListView {
         // the file size/number of images
         PQText {
             id: fileinfo
-            opacity: view_top.currentFileCut ? 0.3 : 1
+            opacity: deleg.isFileCut ? 0.3 : 1
             Behavior on opacity { enabled: !PQCSettings.generalDisableAllAnimations; NumberAnimation { duration: 200 } }
             x: deleg.width-width-10
             height: deleg.height
@@ -237,34 +266,32 @@ ListView {
             onPressed: {
 
                 if(!PQCConstants.isContextmenuOpen("fileviewentry"))
-                    view_top.currentIndex = deleg.modelData
+                    PQGlobalItems.filedialogFileview.currentIndex = deleg.modelData
 
                 // we only need this when a potential drag might occur
                 // otherwise no need to load this drag thumbnail
-                deleg.dragImageSource = "image://dragthumb/" + deleg.currentPath + ":://::" + (view_top.currentFileSelected ? PQCConstants.filedialogCurrentSelection.length : 1)
+                deleg.dragImageSource = "image://dragthumb/" + deleg.currentPath + ":://::" + (PQGlobalItems.filedialogFileview.currentFileSelected ? PQCConstants.filedialogCurrentSelection.length : 1)
 
             }
 
             onEntered: {
-                if(view_top.ignoreMouseEvents || PQCConstants.isContextmenuOpen("filedialogsettingsmenu"))
+                if(PQGlobalItems.filedialogFileview.ignoreMouseEvents || PQCConstants.isContextmenuOpen("filedialogsettingsmenu"))
                     return
 
                 if(!PQCConstants.isContextmenuOpen("fileviewentry")) {
-                    view_top.currentIndex = deleg.modelData
-                    resetCurrentIndex.stop()
+                    PQGlobalItems.filedialogFileview.currentIndex = deleg.modelData
                 }
             }
 
             onExited: {
-                view_top.handleEntriesMouseExit(deleg.modelData)
+                PQGlobalItems.filedialogFileview.handleEntriesMouseExit(deleg.modelData)
             }
 
             property var storeClicks: ({})
 
             onClicked: (mouse) => {
 
-                view_top.handleEntriesMouseClick(deleg.modelData, deleg.currentPath, deleg.isFolder,
-                                                 mouse.modifiers, mouse.button)
+                PQGlobalItems.filedialogFileview.handleEntriesMouseClick(deleg.modelData, deleg.currentPath, deleg.isFolder, mouse.modifiers, mouse.button)
 
             }
 
@@ -294,25 +321,25 @@ ListView {
             onPressed: {
 
                 if(!PQCConstants.isContextmenuOpen("fileviewentry"))
-                    view_top.currentIndex = deleg.modelData
+                    PQGlobalItems.filedialogFileview.currentIndex = deleg.modelData
 
             }
 
             onEntered: {
 
-                tooltip = handleEntriesMouseEnter(deleg.modelData, deleg.currentPath, filethumb.status, fileinfo.text,
-                                                  deleg.isFolder, deleg.numberFilesInsideFolder, folderthumb.curnum)
+                tooltip = ""
+                tooltip = PQGlobalItems.filedialogFileview.handleEntriesMouseEnter(deleg.modelData, deleg.currentPath, filethumb.status, fileinfo.text,
+                                        deleg.isFolder, deleg.numberFilesInsideFolder, folderthumb.curnum)
 
             }
 
             onExited: {
-                view_top.handleEntriesMouseExit(deleg.modelData)
+                PQGlobalItems.filedialogFileview.handleEntriesMouseExit(deleg.modelData)
             }
 
             onClicked: (mouse) => {
 
-                view_top.handleEntriesMouseClick(deleg.modelData, deleg.currentPath, deleg.isFolder,
-                                                 mouse.modifiers, mouse.button)
+                PQGlobalItems.filedialogFileview.handleEntriesMouseClick(deleg.modelData, deleg.currentPath, deleg.isFolder, mouse.modifiers, mouse.button)
 
             }
 
@@ -333,7 +360,7 @@ ListView {
             color: "#bbbbbb"
             opacity: (selectmouse.containsMouse||PQCConstants.filedialogCurrentSelection.indexOf(deleg.modelData)!==-1)
                             ? 0.8
-                            : (view_top.currentIndex===deleg.modelData
+                            : (PQGlobalItems.filedialogFileview.currentIndex===deleg.modelData
                                     ? 0.4 : 0)
             Behavior on opacity { enabled: !PQCSettings.generalDisableAllAnimations; NumberAnimation { duration: 200 } }
 
@@ -350,16 +377,16 @@ ListView {
                     cursorShape: Qt.PointingHandCursor
                     onClicked: {
                         if(PQCConstants.filedialogCurrentSelection.indexOf(deleg.modelData) === -1) {
-                            view_top.shiftClickIndexStart = deleg.modelData
+                            PQGlobalItems.filedialogFileview.shiftClickIndexStart = deleg.modelData
                             PQCConstants.filedialogCurrentSelection.push(deleg.modelData)
                             PQCConstants.filedialogCurrentSelectionChanged()
                         } else {
-                            view_top.shiftClickIndexStart = -1
+                            PQGlobalItems.filedialogFileview.shiftClickIndexStart = -1
                             PQCConstants.filedialogCurrentSelection = PQCConstants.filedialogCurrentSelection.filter(item => item!==deleg.modelData)
                         }
                     }
                     onEntered: {
-                        view_top.currentIndex = deleg.modelData
+                        PQGlobalItems.filedialogFileview.currentIndex = deleg.modelData
                     }
                 }
             }
@@ -368,7 +395,7 @@ ListView {
 
         Drag.active: listmousearea.drag.active || listthumbmousearea.drag.active
         Drag.mimeData: {
-            if(!view_top.currentFileSelected) {
+            if(!PQGlobalItems.filedialogFileview.currentFileSelected) {
                 return ({"text/uri-list": encodeURI("file:"+deleg.currentPath)})
             } else {
                 var uris = []
@@ -403,37 +430,37 @@ ListView {
 
     function goDownARow() {
 
-        if(view_top.currentIndex === -1)
-            view_top.currentIndex = 0
+        if(PQGlobalItems.filedialogFileview.currentIndex === -1)
+            PQGlobalItems.filedialogFileview.currentIndex = 0
         else
-            view_top.currentIndex = Math.min(PQCFileFolderModel.countAllFileDialog-1, view_top.currentIndex+1)
+            PQGlobalItems.filedialogFileview.currentIndex = Math.min(PQCFileFolderModel.countAllFileDialog-1, PQGlobalItems.filedialogFileview.currentIndex+1)
 
     }
 
     function goDownSomeRows() {
 
-        if(view_top.currentIndex === -1)
-            view_top.currentIndex = Math.min(PQCFileFolderModel.countAllFileDialog-1, 4)
+        if(PQGlobalItems.filedialogFileview.currentIndex === -1)
+            PQGlobalItems.filedialogFileview.currentIndex = Math.min(PQCFileFolderModel.countAllFileDialog-1, 4)
         else
-            view_top.currentIndex = Math.min(PQCFileFolderModel.countAllFileDialog-1, view_top.currentIndex + 5)
+            PQGlobalItems.filedialogFileview.currentIndex = Math.min(PQCFileFolderModel.countAllFileDialog-1, PQGlobalItems.filedialogFileview.currentIndex + 5)
 
     }
 
     function goUpARow() {
 
-        if(view_top.currentIndex === -1)
-            view_top.currentIndex = PQCFileFolderModel.countAllFileDialog-1
+        if(PQGlobalItems.filedialogFileview.currentIndex === -1)
+            PQGlobalItems.filedialogFileview.currentIndex = PQCFileFolderModel.countAllFileDialog-1
         else
-            view_top.currentIndex = Math.max(0, view_top.currentIndex-1)
+            PQGlobalItems.filedialogFileview.currentIndex = Math.max(0, PQGlobalItems.filedialogFileview.currentIndex-1)
 
     }
 
     function goUpSomeRows() {
 
-        if(view_top.currentIndex === -1)
-            view_top.currentIndex = Math.max(0, PQCFileFolderModel.countAllFileDialog-1 - 4)
+        if(PQGlobalItems.filedialogFileview.currentIndex === -1)
+            PQGlobalItems.filedialogFileview.currentIndex = Math.max(0, PQCFileFolderModel.countAllFileDialog-1 - 4)
         else
-            view_top.currentIndex = Math.max(0, view_top.currentIndex - 5)
+            PQGlobalItems.filedialogFileview.currentIndex = Math.max(0, PQGlobalItems.filedialogFileview.currentIndex - 5)
 
     }
 

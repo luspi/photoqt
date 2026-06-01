@@ -37,18 +37,24 @@ Item {
 
     // select/cut
     property int shiftClickIndexStart: -1
-    property list<string> currentCuts: []
+    property list<int> currentCuts: []
     property bool currentFileSelected: (PQCConstants.filedialogCurrentSelection.indexOf(currentIndex)!==-1)
-    property bool currentFileCut: (currentCuts.indexOf(currentIndex)!==-1)
+    property bool currentFileCut: (currentCuts.indexOf(currentIndex)>-1)
     property bool ignoreMouseEvents: false
     property list<string> navigateToFileStartingWith: []
 
     property int currentIndex: -1
     onCurrentIndexChanged: {
-        view_top.currentIndex = currentIndex
-        if(currentIndex !== fileview.item.currentIndex)
-            fileview.item.currentIndex = currentIndex
+        if(currentIndex !== fileview.currentIndex)
+            fileview.setCurrentIndex(currentIndex)
+        resetCurrentIndex.stop()
     }
+
+    onCurrentCutsChanged:
+        console.warn(">>> CUT:", currentCuts, "//", PQCFileFolderModel.entriesFileDialog[currentIndex], currentCuts)
+
+    property PQPasteExistingConfirm pasteExisting
+    property PQFileDeleteConfirm deleteConfirm
 
     // properties
     property bool currentFolderExcluded: false
@@ -58,6 +64,7 @@ Item {
     property var cacheSelection: ({})
 
     signal refreshCurrentThumbnail()
+    signal doHandleHiding(var forceHide)
 
     property var storeMouseClicks: ({})
 
@@ -76,6 +83,15 @@ Item {
     // The fileview holding one of the three layouts
     Loader {
         id: fileview
+
+        property int currentIndex: -1
+        signal setCurrentIndex(idx : int)
+
+        signal goUpARow()
+        signal goDownARow()
+        signal goUpSomeRows()
+        signal goDownSomeRows()
+
         property int fvModel: 0
         anchors.fill: parent
         sourceComponent: (PQCSettings.filedialogLayout === "grid" ? gridfileview : (PQCSettings.filedialogLayout === "masonry" ? masonryfileview : listfileview))
@@ -86,22 +102,85 @@ Item {
     Component {
         id: listfileview
         PQFileViewList {
+            id: fv_list
             model: fileview.fvModel
+            onCurrentIndexChanged:
+                fileview.currentIndex = currentIndex
+            Connections {
+                target: fileview
+                function onSetCurrentIndex(idx) {
+                    fv_list.currentIndex = idx
+                }
+                function onGoUpARow() {
+                    fv_list.goUpARow()
+                }
+                function onGoDownARow() {
+                    fv_list.goDownARow()
+                }
+                function onGoUpSomeRows() {
+                    fv_list.goUpSomeRows()
+                }
+                function onGoDownSomeRows() {
+                    fv_list.goDownSomeRows()
+                }
+            }
         }
     }
 
     Component {
         id: gridfileview
         PQFileViewGrid {
+            id: fv_grid
             model: fileview.fvModel
             ignoreMouseEvents: view_top.ignoreMouseEvents
+            onCurrentIndexChanged:
+                fileview.currentIndex = currentIndex
+            Connections {
+                target: fileview
+                function onSetCurrentIndex(idx) {
+                    fv_grid.currentIndex = idx
+                }
+                function onGoUpARow() {
+                    fv_grid.goUpARow()
+                }
+                function onGoDownARow() {
+                    fv_grid.goDownARow()
+                }
+                function onGoUpSomeRows() {
+                    fv_grid.goUpSomeRows()
+                }
+                function onGoDownSomeRows() {
+                    fv_grid.goDownSomeRows()
+                }
+            }
         }
     }
 
     Component {
         id: masonryfileview
         PQFileViewMasonry {
+            id: fv_mason
             model: fileview.fvModel
+            onCurrentIndexChanged:
+                fileview.currentIndex = currentIndex
+            Connections {
+                target: fileview
+                function onSetCurrentIndex(idx) {
+                    fv_mason.currentIndex = idx
+                }
+                function onGoUpARow() {
+                    fv_mason.goUpARow()
+                }
+                function onGoDownARow() {
+                    fv_mason.goDownARow()
+                }
+                function onGoUpSomeRows() {
+                    fv_mason.goUpSomeRows()
+                }
+                function onGoDownSomeRows() {
+                    fv_mason.goDownSomeRows()
+                }
+            }
         }
     }
 
@@ -508,7 +587,7 @@ Item {
             PQCNotify.filedialogGoBackInHistory()
             return
         } else if(mouseButton === Qt.ForwardButton) {
-            goForwardsInHistory()
+            PQCNotify.filedialogGoForwardsInHistory()
             return
         }
 
@@ -586,10 +665,10 @@ Item {
 
                     if(t-o < 300) {
                         if(isFolder)
-                            filedialog_top.loadNewPath(currentPath)
+                            PQCNotify.filedialogLoadNewPath(currentPath)
                         else {
                             PQCFileFolderModel.fileInFolderMainView = currentPath
-                            filedialog_top.handleHiding(true)
+                            view_top.doHandleHiding(true)
                         }
 
                         PQCConstants.filedialogCurrentSelection = []
@@ -627,7 +706,7 @@ Item {
         id: waitForFileviewToBeReady
         interval: 50
         onTriggered: {
-            setupNewData()
+            view_top.setupNewData()
         }
     }
 
@@ -703,6 +782,7 @@ Item {
 
     Component.onCompleted: {
         fileview.fvModel = PQCFileFolderModel.countAllFileDialog
+        PQGlobalItems.filedialogFileview = view_top
     }
 
     Connections {
@@ -882,13 +962,13 @@ Item {
     function loadOnClick(index : int) {
 
         if(index < PQCFileFolderModel.countFoldersFileDialog)
-            filedialog_top.loadNewPath(PQCFileFolderModel.entriesFileDialog[index])
+            PQCNotify.filedialogLoadNewPath(PQCFileFolderModel.entriesFileDialog[index])
         else {
             PQCFileFolderModel.ratingsFilter = 0
             PQCFileFolderModel.loadVirtualFolderMainView = PQCFileFolderModel.loadVirtualFolderFileDialog
             PQCFileFolderModel.fileInFolderMainView = PQCFileFolderModel.entriesFileDialog[index]
             if(!PQCSettings.interfacePopoutFileDialog || !PQCSettings.interfacePopoutFileDialogNonModal)
-                filedialog_top.handleHiding(true)
+                view_top.doHandleHiding(true)
 
             if(!PQCSettings.filedialogRememberSelection)
                 PQCConstants.filedialogCurrentSelection = []
@@ -920,16 +1000,23 @@ Item {
     function cutFiles(forceSelection : bool) {
 
         var urls = []
+        var idxs = []
 
         if(currentFileSelected || (view_top.currentIndex===-1 && PQCConstants.filedialogCurrentSelection.length) || (forceSelection && PQCConstants.filedialogCurrentSelection.length>0)) {
-            for(var key in PQCConstants.filedialogCurrentSelection)
-                urls.push(PQCFileFolderModel.entriesFileDialog[PQCConstants.filedialogCurrentSelection[key]])
-        } else if(view_top.currentIndex > -1)
+            for(var key in PQCConstants.filedialogCurrentSelection) {
+                const cur = PQCConstants.filedialogCurrentSelection[key]
+                urls.push(PQCFileFolderModel.entriesFileDialog[cur])
+            }
+            idxs = PQCConstants.filedialogCurrentSelection
+            console.warn(">>> idxs =", idxs)
+        } else if(view_top.currentIndex > -1) {
             urls = [PQCFileFolderModel.entriesFileDialog[view_top.currentIndex]]
+            idxs = [view_top.currentIndex]
+        }
 
         if(urls.length > 0) {
             PQCScriptsClipboard.copyFilesToClipboard(urls)
-            currentCuts = urls
+            currentCuts = idxs
         }
 
         PQCConstants.filedialogCurrentSelection = []
@@ -964,7 +1051,8 @@ Item {
             for(var f in nonexisting) {
                 var fln = nonexisting[f]
                 if(PQCScriptsFileManagement.copyFileToHere(fln, PQCFileFolderModel.folderFileDialog)) {
-                    if(currentCuts.indexOf(fln) !== -1)
+                    var idx = PQCFileFolderModel.entriesFileDialog.indexOf(fln)
+                    if(idx > -1)
                         PQCScriptsFileManagement.deletePermanent(fln)
                 }
             }
@@ -982,28 +1070,28 @@ Item {
         if(PQCConstants.shiftKeyPressed) {
 
             if(currentFileSelected || (view_top.currentIndex===-1 && PQCConstants.filedialogCurrentSelection.length))
-                modal.show("Delete permanently?",
-                           "Are you sure you want to delete all selected files/folders PERMANENTLY?",
-                           "permanent",
-                           PQCConstants.filedialogCurrentSelection)
+                deleteConfirm.show("Delete permanently?",
+                                   "Are you sure you want to delete all selected files/folders PERMANENTLY?",
+                                   "permanent",
+                                   PQCConstants.filedialogCurrentSelection)
             else
-                modal.show("Delete permanently?",
-                           "Are you sure you want to delete all selected files/folders PERMANENTLY?",
-                           "permanent",
-                           [view_top.currentIndex])
+                deleteConfirm.show("Delete permanently?",
+                                   "Are you sure you want to delete all selected files/folders PERMANENTLY?",
+                                   "permanent",
+                                   [view_top.currentIndex])
 
         } else {
 
             if(currentFileSelected || (view_top.currentIndex===-1 && PQCConstants.filedialogCurrentSelection.length))
-                modal.show("Move to Trash?",
-                           "Are you sure you want to move all selected files/folders to the trash?",
-                           "trash",
-                           PQCConstants.filedialogCurrentSelection)
+                deleteConfirm.show("Move to Trash?",
+                                   "Are you sure you want to move all selected files/folders to the trash?",
+                                   "trash",
+                                   PQCConstants.filedialogCurrentSelection)
             else
-                modal.show("Move to Trash?",
-                           "Are you sure you want to move all selected files/folders to the trash?",
-                           "trash",
-                           [view_top.currentIndex])
+                deleteConfirm.show("Move to Trash?",
+                                   "Are you sure you want to move all selected files/folders to the trash?",
+                                   "trash",
+                                   [view_top.currentIndex])
 
         }
         return
@@ -1021,15 +1109,15 @@ Item {
 
             if(modifiers & Qt.AltModifier || modifiers & Qt.ControlModifier) {
                 if(!PQCFileFolderModel.loadVirtualFolderFileDialog)
-                    filedialog_top.loadNewPath(PQCScriptsFilesPaths.goUpOneLevel(PQCFileFolderModel.folderFileDialog))
+                    PQCNotify.filedialogLoadNewPath(PQCScriptsFilesPaths.goUpOneLevel(PQCFileFolderModel.folderFileDialog))
             } else
-                fileview.item.goUpARow()
+                fileview.goUpARow()
 
             navigateToFileStartingWith = []
 
         } else if(key === Qt.Key_Down) {
 
-            fileview.item.goDownARow()
+            fileview.goDownARow()
             navigateToFileStartingWith = []
 
         } else if(key === Qt.Key_Right) {
@@ -1039,12 +1127,12 @@ Item {
                 if(!PQCFileFolderModel.loadVirtualFolderFileDialog) {
                     var nextpath = PQCScriptsFileDialog.getSiblingFolder(PQCFileFolderModel.folderFileDialog, 1)
                     if(nextpath !== "")
-                        filedialog_top.loadNewPath(nextpath)
+                        PQCNotify.filedialogLoadNewPath(nextpath)
                 }
 
             } else if(modifiers & Qt.AltModifier || modifiers & Qt.ControlModifier) {
 
-                filedialog_top.goForwardsInHistory()
+                PQCNotify.filedialogGoForwardsInHistory()
 
             } else {
 
@@ -1064,7 +1152,7 @@ Item {
                 if(!PQCFileFolderModel.loadVirtualFolderFileDialog) {
                     var prevpath = PQCScriptsFileDialog.getSiblingFolder(PQCFileFolderModel.folderFileDialog, -1)
                     if(prevpath !== "")
-                        filedialog_top.loadNewPath(prevpath)
+                        PQCNotify.filedialogLoadNewPath(prevpath)
                 }
 
             } else if(modifiers & Qt.AltModifier || modifiers & Qt.ControlModifier) {
@@ -1084,12 +1172,12 @@ Item {
 
         } else if(key === Qt.Key_PageDown) {
 
-            fileview.item.goDownSomeRows()
+            fileview.goDownSomeRows()
             navigateToFileStartingWith = []
 
         } else if(key === Qt.Key_PageUp) {
 
-            fileview.item.goUpSomeRows()
+            fileview.goUpSomeRows()
             navigateToFileStartingWith = []
 
         } else if(key === Qt.Key_End) {
@@ -1101,7 +1189,7 @@ Item {
         } else if(key === Qt.Key_Home) {
 
             if(modifiers & Qt.AltModifier || modifiers & Qt.ControlModifier)
-                filedialog_top.loadNewPath(PQCScriptsFilesPaths.getHomeDir())
+                PQCNotify.filedialogLoadNewPath(PQCScriptsFilesPaths.getHomeDir())
              else
                 view_top.currentIndex = 0
 
@@ -1113,7 +1201,7 @@ Item {
             if(view_top.currentIndex == -1) return
 
             if(view_top.currentIndex < PQCFileFolderModel.countFoldersFileDialog)
-                filedialog_top.loadNewPath(PQCFileFolderModel.entriesFileDialog[view_top.currentIndex])
+                PQCNotify.filedialogLoadNewPath(PQCFileFolderModel.entriesFileDialog[view_top.currentIndex])
             else {
                 loadOnClick(view_top.currentIndex)
             }
