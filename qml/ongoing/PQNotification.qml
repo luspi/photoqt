@@ -200,9 +200,9 @@ Item {
 
                     // use external tool if set, otherwise show integrated notification
                     if(!PQCSettings.interfaceNotificationTryNative || !PQCScriptsOther.showDesktopNotification(tit, sum)) {
-                        show()
-                        titletext = tit
-                        statustext = sum
+                        notification_top.show()
+                        notification_top.titletext = tit
+                        notification_top.statustext = sum
                     }
                 }
             }

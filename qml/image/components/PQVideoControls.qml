@@ -19,6 +19,7 @@
  ** along with PhotoQt. If not, see <http://www.gnu.org/licenses/>.      **
  **                                                                      **
  **************************************************************************/
+pragma ComponentBehavior: Bound
 
 import QtQuick
 import QtQuick.Controls
@@ -370,7 +371,7 @@ Loader {
                     hideVolume.restart()
             }
 
-            Slider {
+            PQSlider {
                 id: volumeslider
                 x: (parent.width-width)/2
                 y: 10

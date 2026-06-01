@@ -40,9 +40,9 @@ Item {
         height: 20
         opacity: hovered ? 1 : 0.5
         Behavior on opacity { enabled: !PQCSettings.generalDisableAllAnimations; NumberAnimation { duration: 200 } }
-        source: "image://svg/:/" + PQCLook.iconShade + "/reset.svg"
+        iconSource: "image://svg/:/" + PQCLook.iconShade + "/reset.svg"
         tooltip: qsTranslate("settingsmanager", "reset to default values")
-        onClicked: (pos) => {
+        onClicked: {
             resetbutton.resetToDefaults()
         }
     }

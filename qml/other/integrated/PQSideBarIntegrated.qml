@@ -19,6 +19,7 @@
  ** along with PhotoQt. If not, see <http://www.gnu.org/licenses/>.      **
  **                                                                      **
  **************************************************************************/
+pragma ComponentBehavior: Bound
 
 import QtQuick
 import QtQuick.Controls
@@ -412,7 +413,7 @@ Rectangle {
         x: parent.width-width-5
         width: 25
         height: 25
-        source: "image://svg/:/" + PQCLook.iconShade + "/menu.svg"
+        iconSource: "image://svg/:/" + PQCLook.iconShade + "/menu.svg"
         onClicked: {
             managemenu.popup(managebutton, 0, height)
         }

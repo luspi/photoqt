@@ -21,7 +21,6 @@
  **************************************************************************/
 
 import QtQuick
-import QtMultimedia
 import PhotoQt
 
 Item {
@@ -56,7 +55,7 @@ Item {
         running: true
         onTriggered: {
             mediaplayer.command(["loadfile", videotop.sourceCache])
-            videoFileLoaded = true
+            videotop.videoFileLoaded = true
             if(!PQCSettings.filetypesMotionAutoPlay) {
                 mediaplayer.command(["set", "pause", "yes"])
                 videotop.opacity = 0

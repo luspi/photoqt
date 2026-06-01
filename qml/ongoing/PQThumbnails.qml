@@ -32,8 +32,8 @@ Rectangle {
     // positioning
     x: (setVisible||holdVisible) ? visiblePos[0] : invisiblePos[0]
     y: (setVisible||holdVisible) ? visiblePos[1] : invisiblePos[1]
-    Behavior on x { enabled: !PQCSettings.generalDisableAllAnimations; NumberAnimation { duration: holdVisible ? 0 : 200 } }
-    Behavior on y { enabled: !PQCSettings.generalDisableAllAnimations; NumberAnimation { duration: holdVisible ? 0 : 200 } }
+    Behavior on x { enabled: !PQCSettings.generalDisableAllAnimations; NumberAnimation { duration: thumbnails_top.holdVisible ? 0 : 200 } }
+    Behavior on y { enabled: !PQCSettings.generalDisableAllAnimations; NumberAnimation { duration: thumbnails_top.holdVisible ? 0 : 200 } }
 
     // visibility status
     opacity: ((setVisible||holdVisible) && windowSizeOkay) ? 1 : 0
@@ -998,7 +998,7 @@ Rectangle {
 
         function onMouseMove(posx : int, posy : int) {
 
-            if(ignoreMouseMoveShortly || PQCConstants.modalWindowOpen || rightclickmenu.opened)
+            if(thumbnails_top.ignoreMouseMoveShortly || PQCConstants.modalWindowOpen || rightclickmenu.opened)
                 return
 
             if(PQCConstants.slideshowRunning || PQCConstants.faceTaggingMode) {

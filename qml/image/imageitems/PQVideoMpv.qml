@@ -157,13 +157,13 @@ Item {
     Connections {
         target: PQCScriptsShortcuts
         function onSendShortcutMirrorHorizontal() {
-            if(visible) videotop.myMirrorH = !videotop.myMirrorH
+            if(videotop.visible) videotop.myMirrorH = !videotop.myMirrorH
         }
         function onSendShortcutMirrorVertical() {
-            if(visible) videotop.myMirrorV = !videotop.myMirrorV
+            if(videotop.visible) videotop.myMirrorV = !videotop.myMirrorV
         }
         function onSendShortcutMirrorReset() {
-            if(!visible) return
+            if(!videotop.visible) return
             videotop.myMirrorH = false
             videotop.myMirrorV = false
         }

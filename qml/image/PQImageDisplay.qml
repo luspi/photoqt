@@ -84,8 +84,8 @@ Loader {
         property bool videoHasAudio: false
 
         // when switching images, either one might be set to the current index, eventually (within milliseconds) both will be
-        property bool isMainImage: (PQCConstants.currentImageSource===imageSource ||
-                                    PQCFileFolderModel.currentFile===imageSource ||
+        property bool isMainImage: (PQCConstants.currentImageSource===imageloaderitem.imageSource ||
+                                    PQCFileFolderModel.currentFile===imageloaderitem.imageSource ||
                                     imageloaderitem.thisIsStartupFile)
 
         onIsMainImageChanged: setGlobalProperties()
@@ -326,7 +326,7 @@ Loader {
 
             const currentScale = loader_top.imageScale
             const defaultScale = loader_top.defaultScale
-            const dpr = devicePixelRatio
+            const dpr = PQCConstants.devicePixelRatio
 
             var zoomfactor
 
@@ -1231,7 +1231,7 @@ Loader {
                                 Connections {
                                     target: image_wrapper
                                     function onSetMirrorHVToImage(mirH : bool, mirV : bool) {
-                                        svgtop.setMirrorHV(mirH, mirV)
+                                        svg_item.setMirrorHV(mirH, mirV)
                                     }
                                 }
 
@@ -2149,7 +2149,7 @@ Loader {
 
             enabled: !PQCConstants.faceTaggingMode && !PQCConstants.showingPhotoSphere && !PQCConstants.slideshowRunning
 
-            property list<point> initialPts: []
+            property list<point> initialPts
             property real initialScale
             property real previousLength: 0
             property int numPoints: 0
@@ -2272,7 +2272,7 @@ Loader {
                     loader_top.handleWhenCompletelyHidden()
 
                 } else
-                    imageFullyShown = true
+                    imageloaderitem.imageFullyShown = true
 
             }
         }
@@ -2357,7 +2357,7 @@ Loader {
             onStarted: {
                 loader_top.z = PQCConstants.currentZValue+1
                 if(loader_top.opacity > 0.9)
-                    imageFullyShown = false
+                    imageloaderitem.imageFullyShown = false
             }
             onFinished: {
                 if(Math.abs(loader_top.rotation%360) > 1e-6) {
@@ -2372,7 +2372,7 @@ Loader {
                     loader_top.handleWhenCompletelyHidden()
 
                 } else
-                    imageFullyShown = true
+                    imageloaderitem.imageFullyShown = true
 
             }
         }
@@ -2543,8 +2543,8 @@ Loader {
                     if(anim === "random")
                         anim = image_top.randomAnimation
 
-                    var index0 = PQCFileFolderModel.getIndexOfMainView(visibleSourcePrevCur[0])
-                    var index1 = PQCFileFolderModel.getIndexOfMainView(visibleSourcePrevCur[1])
+                    var index0 = PQCFileFolderModel.getIndexOfMainView(image_top.visibleSourcePrevCur[0])
+                    var index1 = PQCFileFolderModel.getIndexOfMainView(image_top.visibleSourcePrevCur[1])
 
                     if(anim === "opacity" || anim === "explosion" || anim === "implosion") {
 
@@ -2562,7 +2562,7 @@ Loader {
 
                         // the from value depends on whether we go forwards or backwards in the folder
                         xAnimation.from = -width
-                        if(visibleSourcePrevCur[1] === "" || index0 > index1)
+                        if(image_top.visibleSourcePrevCur[1] === "" || index0 > index1)
                             xAnimation.from = width
 
                         xAnimation.to = 0
@@ -2575,7 +2575,7 @@ Loader {
 
                         // the from value depends on whether we go forwards or backwards in the folder
                         yAnimation.from = -height
-                        if(visibleSourcePrevCur[1] === "" || index0 > index1)
+                        if(image_top.visibleSourcePrevCur[1] === "" || index0 > index1)
                             yAnimation.from = height
 
                         yAnimation.to = 0
@@ -2589,7 +2589,7 @@ Loader {
                         rotAnimation_rotation.from = -180
                         rotAnimation_rotation.to = 0
 
-                        if(visibleSourcePrevCur[1] === "" || index0 > index1) {
+                        if(image_top.visibleSourcePrevCur[1] === "" || index0 > index1) {
                             rotAnimation_rotation.from = 180
                             rotAnimation_rotation.to = 0
                         }
@@ -2707,8 +2707,8 @@ Loader {
             if(anim === "random")
                 anim = image_top.randomAnimation
 
-            var index0 = PQCFileFolderModel.getIndexOfMainView(visibleSourcePrevCur[0])
-            var index1 = PQCFileFolderModel.getIndexOfMainView(visibleSourcePrevCur[1])
+            var index0 = PQCFileFolderModel.getIndexOfMainView(image_top.visibleSourcePrevCur[0])
+            var index1 = PQCFileFolderModel.getIndexOfMainView(image_top.visibleSourcePrevCur[1])
 
             if(anim === "opacity") {
 
@@ -2726,7 +2726,7 @@ Loader {
                 xAnimation.from = 0
                 // the to value depends on whether we go forwards or backwards in the folder
                 xAnimation.to = width*(loader_top.imageScale/loader_top.defaultScale)
-                if(visibleSourcePrevCur[1] === "" || index0 > index1)
+                if(image_top.visibleSourcePrevCur[1] === "" || index0 > index1)
                     xAnimation.to *= -1
 
                 xAnimation.restart()
@@ -2738,7 +2738,7 @@ Loader {
                 yAnimation.from = 0
                 // the to value depends on whether we go forwards or backwards in the folder
                 yAnimation.to = height*(loader_top.imageScale/loader_top.defaultScale)
-                if(visibleSourcePrevCur[1] === "" || index0 > index1)
+                if(image_top.visibleSourcePrevCur[1] === "" || index0 > index1)
                     yAnimation.to *= -1
 
                 yAnimation.restart()
@@ -2768,7 +2768,7 @@ Loader {
                 rotAnimation_rotation.from = 0
                 rotAnimation_rotation.to = 180
 
-                if(visibleSourcePrevCur[1] === "" || index0 > index1) {
+                if(image_top.visibleSourcePrevCur[1] === "" || index0 > index1) {
                     rotAnimation_rotation.from = 0
                     rotAnimation_rotation.to = -180
                 }

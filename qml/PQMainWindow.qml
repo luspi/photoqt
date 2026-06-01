@@ -19,6 +19,7 @@
  ** along with PhotoQt. If not, see <http://www.gnu.org/licenses/>.      **
  **                                                                      **
  **************************************************************************/
+pragma ComponentBehavior: Bound
 
 import QtQuick
 import QtQuick.Window
@@ -151,8 +152,8 @@ ApplicationWindow {
                 opacity: 0.5
             }
         }
-        menuBar: PQMenuBarIntegrated { visible: isIntegrated }
-        footer: PQFooterIntegrated { visible: isIntegrated }
+        menuBar: PQMenuBarIntegrated { visible: toplevel.isIntegrated }
+        footer: PQFooterIntegrated { visible: toplevel.isIntegrated }
     /**************************************/
 
     Item {

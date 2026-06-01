@@ -67,7 +67,7 @@ Item {
                 minval: 0
                 maxval: 20
                 onValueChanged: {
-                    if(finishedSetup)
+                    if(set_sibl.finishedSetup)
                         set_sibl.saveChanges()
                 }
             }
@@ -84,7 +84,7 @@ Item {
                 minval: 0
                 maxval: 20
                 onValueChanged: {
-                    if(finishedSetup)
+                    if(set_sibl.finishedSetup)
                         set_sibl.saveChanges()
                 }
             }
@@ -101,7 +101,7 @@ Item {
                 minval: 10
                 maxval: 200
                 onValueChanged: {
-                    if(finishedSetup)
+                    if(set_sibl.finishedSetup)
                         set_sibl.saveChanges()
                 }
             }

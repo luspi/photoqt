@@ -19,6 +19,7 @@
  ** along with PhotoQt. If not, see <http://www.gnu.org/licenses/>.      **
  **                                                                      **
  **************************************************************************/
+pragma ComponentBehavior: Bound
 
 import QtQuick
 import PhotoQt
@@ -56,7 +57,7 @@ PQTemplate {
     property bool ignoreFilterRemoval: false
 
     Connections {
-        target: button1
+        target: filter_top.button1
         function onClicked() {
             if(!filenamecheck.checked && !rescheck.checked && !filesizecheck.checked && !ratingscheck.checked) {
                 filter_top.removeFilter()
@@ -68,14 +69,14 @@ PQTemplate {
         }
     }
     Connections {
-        target: button2
+        target: filter_top.button2
         function onClicked() {
             filter_top.hide()
             filter_top.removeFilter()
         }
     }
     Connections {
-        target: button3
+        target: filter_top.button3
         function onClicked() {
             filter_top.hide()
             filter_top.removeFilter()

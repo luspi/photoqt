@@ -43,7 +43,7 @@ PQTemplate {
     }
 
     Connections {
-        target: button1
+        target: find_top.button1
         function onClicked() {
             PQCFileFolderModel.loadNextMatchOfSearch(searchbox.text)
             find_top.hide()
@@ -51,7 +51,7 @@ PQTemplate {
     }
 
     Connections {
-        target: button2
+        target: find_top.button2
         function onClicked() {
             find_top.hide()
         }

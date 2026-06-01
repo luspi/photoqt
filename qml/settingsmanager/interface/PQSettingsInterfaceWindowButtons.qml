@@ -19,6 +19,7 @@
  ** along with PhotoQt. If not, see <http://www.gnu.org/licenses/>.      **
  **                                                                      **
  **************************************************************************/
+pragma ComponentBehavior: Bound
 
 import QtQuick
 import QtQuick.Controls
@@ -446,7 +447,7 @@ PQSetting {
                     integbut_show.checked = PQCSettings.getDefaultForInterfaceWindowButtonsShow()
                     butsize.setValue(PQCSettings.getDefaultForInterfaceWindowButtonsSize())
                     set_windowbuttons.curEntries = PQCSettings.getDefaultForInterfaceWindowButtonsItems()
-                    populateModel()
+                    set_windowbuttons.populateModel()
 
                     wb_followaccent.checked = PQCSettings.getDefaultForInterfaceWindowButtonsFollowAccentColor()
 

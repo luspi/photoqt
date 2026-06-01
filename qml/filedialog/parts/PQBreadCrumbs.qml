@@ -68,7 +68,7 @@ Item {
                 }
 
                 PQButtonIcon {
-                    source: "image://svg/:/" + PQCLook.iconShade + "/backwards.svg"
+                    iconSource: "image://svg/:/" + PQCLook.iconShade + "/backwards.svg"
                     enabled: PQCConstants.filedialogHistoryIndex>0
                     onClicked:
                         PQCNotify.filedialogGoBackInHistory()
@@ -76,14 +76,14 @@ Item {
                         navmenu.popup()
                 }
                 PQButtonIcon {
-                    source: "image://svg/:/" + PQCLook.iconShade + "/upwards.svg"
+                    iconSource: "image://svg/:/" + PQCLook.iconShade + "/upwards.svg"
                     onClicked:
                         PQCNotify.filedialogLoadNewPath(PQCScriptsFilesPaths.goUpOneLevel(PQCFileFolderModel.folderFileDialog))
                     onRightClicked:
                         navmenu.popup()
                 }
                 PQButtonIcon {
-                    source: "image://svg/:/" + PQCLook.iconShade + "/forwards.svg"
+                    iconSource: "image://svg/:/" + PQCLook.iconShade + "/forwards.svg"
                     enabled: PQCConstants.filedialogHistoryIndex<PQCConstants.filedialogHistory.length-1
                     onClicked:
                         PQCNotify.filedialogGoForwardsInHistory()
@@ -130,7 +130,7 @@ Item {
                     id: iconview
                     checkable: true
                     checked: PQCSettings.filedialogLayout==="grid"
-                    source: "image://svg/:/" + PQCLook.iconShade + "/iconview.svg"
+                    iconSource: "image://svg/:/" + PQCLook.iconShade + "/iconview.svg"
                     tooltip: qsTranslate("filedialog", "Show files as grid")
                     onCheckedChanged: {
                         breadcrumbs_top.disableAddressEdit()
@@ -143,7 +143,7 @@ Item {
                     id: listview
                     checkable: true
                     checked: PQCSettings.filedialogLayout!=="grid"&&PQCSettings.filedialogLayout!=="masonry"
-                    source: "image://svg/:/" + PQCLook.iconShade + "/listview.svg"
+                    iconSource: "image://svg/:/" + PQCLook.iconShade + "/listview.svg"
                     tooltip: qsTranslate("filedialog", "Show files as list")
                     onCheckedChanged: {
                         breadcrumbs_top.disableAddressEdit()
@@ -156,7 +156,7 @@ Item {
                     id: masonview
                     checkable: true
                     checked: PQCSettings.filedialogLayout==="masonry"
-                    source: "image://svg/:/" + PQCLook.iconShade + "/masonryview.svg"
+                    iconSource: "image://svg/:/" + PQCLook.iconShade + "/masonryview.svg"
                     tooltip: qsTranslate("filedialog", "Show files in masonry layout")
                     onCheckedChanged: {
                         breadcrumbs_top.disableAddressEdit()
@@ -182,7 +182,7 @@ Item {
                 PQButtonIcon {
                     id: settings
                     checkable: true
-                    source: "image://svg/:/" + PQCLook.iconShade + "/settings.svg"
+                    iconSource: "image://svg/:/" + PQCLook.iconShade + "/settings.svg"
                     tooltip: qsTranslate("filedialog", "Settings")
                     onCheckedChanged: {
                         breadcrumbs_top.disableAddressEdit()
@@ -672,7 +672,7 @@ Item {
                     height: rightitem.height-20
                     //: The location here is a folder path
                     tooltip: qsTranslate("filedialog", "Click to edit location")
-                    source: addressedit.visible ? ("image://svg/:/" + PQCLook.iconShade + "/checkmark.svg") : ("image://svg/:/" + PQCLook.iconShade + "/editpath.svg")
+                    iconSource: addressedit.visible ? ("image://svg/:/" + PQCLook.iconShade + "/checkmark.svg") : ("image://svg/:/" + PQCLook.iconShade + "/editpath.svg")
                     onClicked: {
                         if(!addressedit.visible)
                             addressedit.show()

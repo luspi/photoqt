@@ -22,7 +22,6 @@
 pragma ComponentBehavior: Bound
 
 import QtQuick
-import QtQuick.Controls
 import PhotoQt
 
 Item {
@@ -129,8 +128,6 @@ Item {
                 height: virtualEntry.height
 
                 PQText {
-
-                    id: entrytext
 
                     width: virtualEntry.width-virtualEntry.height-10
                     height: virtualEntry.height
@@ -368,8 +365,6 @@ Item {
 
                     PQText {
 
-                        id: entrytext
-
                         width: deleg.width-entryicon.width-10
                         height: deleg.height
 
@@ -568,8 +563,6 @@ Item {
                     height: deleg.height
 
                     PQText {
-
-                        id: entrytext
 
                         width: deleg.width-entryicon.width-(entrysize.visible ? entrysize.width : 0)-10
                         height: deleg.height

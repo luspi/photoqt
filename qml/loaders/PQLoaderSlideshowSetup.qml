@@ -19,6 +19,7 @@
  ** along with PhotoQt. If not, see <http://www.gnu.org/licenses/>.      **
  **                                                                      **
  **************************************************************************/
+pragma ComponentBehavior: Bound
 
 import QtQuick
 import PhotoQt
@@ -29,7 +30,7 @@ Loader {
 
     active: false
     anchors.fill: parent
-    sourceComponent: ((PQCSettings.interfacePopoutSlideshowSetup || PQCWindowGeometry.slideshowSetupForcePopout || PQCSettings.generalInterfaceVariant === "integrated") ? comp_slideshowsetup_popout : comp_slideshowsetup)
+    sourceComponent: ((PQCSettings.interfacePopoutSlideshowSetup || PQCWindowGeometry.slideshowsetupForcePopout || PQCSettings.generalInterfaceVariant === "integrated") ? comp_slideshowsetup_popout : comp_slideshowsetup)
 
     Component {
         id: comp_slideshowsetup

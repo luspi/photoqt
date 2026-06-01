@@ -19,6 +19,7 @@
  ** along with PhotoQt. If not, see <http://www.gnu.org/licenses/>.      **
  **                                                                      **
  **************************************************************************/
+pragma ComponentBehavior: Bound
 
 import QtQuick
 import QtQuick.Controls
@@ -323,11 +324,8 @@ PQSetting {
 
         PQSettingsResetButton {
             onResetToDefaults: {
-
-                popoutResetToDefault()
-
+                set_popo.popoutResetToDefault()
                 set_popo.checkForChanges()
-
             }
         },
 

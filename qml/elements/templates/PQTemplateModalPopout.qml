@@ -259,7 +259,7 @@ Window {
             var newm = (element_top.visibility === Window.Maximized)
             if(element_top._cacheCurrentMaxState !== newm) {
                 element_top.maximizedUpdated(newm)
-                _cacheCurrentMaxState = newm
+                element_top._cacheCurrentMaxState = newm
             }
             if(!newm)
                 element_top.rectUpdated(Qt.rect(element_top.x, element_top.y, element_top.width, element_top.height))

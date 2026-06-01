@@ -19,10 +19,10 @@
  ** along with PhotoQt. If not, see <http://www.gnu.org/licenses/>.      **
  **                                                                      **
  **************************************************************************/
+pragma ComponentBehavior: Bound
 
 import QtQuick
 import QtQuick.Controls
-import QtQuick.Layouts
 import PhotoQt
 
 Flickable {
@@ -68,7 +68,7 @@ Flickable {
             ensureCurrentItemIsVisible()
     }
 
-    ScrollBar.vertical: PQFileDialogScrollBar { id: view_scroll }
+    ScrollBar.vertical: PQVerticalScrollBar { id: view_scroll }
 
     onContentYChanged: {
         // this check makes sure that value is not reset when a directory is reloaded due to a change
@@ -137,7 +137,7 @@ Flickable {
 
                     id: lv
 
-                    width: columnWidth
+                    width: masonryview.columnWidth
                     height: childrenRect.height
                     interactive: false
 
@@ -145,7 +145,7 @@ Flickable {
 
                     Component.onCompleted: {
                         masonryview.listviews[columndeleg.index] = mdl
-                        listviewsReady = true
+                        masonryview.listviewsReady = true
                     }
 
                     delegate: viewentry
@@ -571,7 +571,7 @@ Flickable {
         id: waitForListviewsReady
         interval: 50
         onTriggered: {
-            setupData()
+            masonryview.setupData()
         }
     }
 

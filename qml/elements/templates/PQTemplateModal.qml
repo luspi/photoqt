@@ -21,7 +21,6 @@
  **************************************************************************/
 
 import QtQuick
-import QtQuick.Controls
 import PhotoQt
 
 Rectangle {
@@ -57,7 +56,7 @@ Rectangle {
     /********************/
 
     opacity: 0
-    Behavior on opacity { enabled: !PQCSettings.generalDisableAllAnimations; NumberAnimation { duration: element_top.forceShow||dontAnimateFirstShow ? 0 : 200 } }
+    Behavior on opacity { enabled: !PQCSettings.generalDisableAllAnimations; NumberAnimation { duration: element_top.forceShow||element_top.dontAnimateFirstShow ? 0 : 200 } }
     visible: opacity>0
     enabled: visible
     onOpacityChanged: {

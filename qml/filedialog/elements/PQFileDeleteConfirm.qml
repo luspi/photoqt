@@ -21,7 +21,6 @@
  **************************************************************************/
 
 import QtQuick
-import QtQuick.Controls
 import PhotoQt
 
 Item {
@@ -159,6 +158,13 @@ Item {
 
         }
 
+    }
+
+    function doAccept() {
+        okMouse.clicked()
+    }
+    function doRejest() {
+        cancelMouse.clicked()
     }
 
     function show(headertext : string, desctext : string, action : string, payload : var) {

@@ -19,6 +19,7 @@
  ** along with PhotoQt. If not, see <http://www.gnu.org/licenses/>.      **
  **                                                                      **
  **************************************************************************/
+pragma ComponentBehavior: Bound
 
 import QtQuick
 import PhotoQt
@@ -102,12 +103,12 @@ PQSetting {
                     property bool extEnabled: set_exsh.extensionsEnabled.indexOf(extensionId)>-1
 
                     property string tooltipText: (extEnabled ? "" : "<b><i>currently disabled</i></b>") +
-                                                 "<h2>" + deleg.extName + "</h2>
-                                                 <b>" + qsTranslate("settingsmanager", "Version") + ":</b> " + extVersion + "<br>
-                                                 <b>" + qsTranslate("settingsmanager", "Author") + ":</b> " + extAuthor + "<br>
-                                                 <b>" + qsTranslate("settingsmanager", "Contact") + ":</b> " + extContact + "<br>
-                                                 <b>" + qsTranslate("settingsmanager", "Website:") + "</b> " + extWebsite + "<br><br>
-                                                 <b>" + qsTranslate("settingsmanager", "Loaded from") + ":</b><br>" + extBaseDir
+                                                 "<h2>" + deleg.extName + "</h2>" +
+                                                 "<b>" + qsTranslate("settingsmanager", "Version") + ":</b> " + extVersion + "<br>" +
+                                                 "<b>" + qsTranslate("settingsmanager", "Author") + ":</b> " + extAuthor + "<br>" +
+                                                 "<b>" + qsTranslate("settingsmanager", "Contact") + ":</b> " + extContact + "<br>" +
+                                                 "<b>" + qsTranslate("settingsmanager", "Website:") + "</b> " + extWebsite + "<br><br>" +
+                                                 "<b>" + qsTranslate("settingsmanager", "Loaded from") + ":</b><br>" + extBaseDir
 
                     width: col.width
                     height: 40

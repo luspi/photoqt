@@ -91,7 +91,7 @@ Item {
             if(status == Image.Ready) {
                 // this signal is necessary, otherwise it *can* happen that the image source size is not reported correctly
                 // this then results in a 0x0 dimension reported, the fit-to-size does not work, and the image might not show up at all
-                ensureSourceSizeSet()
+                svgtop.ensureSourceSizeSet()
                 svgtop.hasAlpha = PQCScriptsImages.supportsTransparency(svgtop.imageSource)
             } else if(status == Image.Error)
                 source = "image://svg/:/other/errorimage.svg"

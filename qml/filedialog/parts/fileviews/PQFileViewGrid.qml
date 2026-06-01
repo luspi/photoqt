@@ -19,6 +19,7 @@
  ** along with PhotoQt. If not, see <http://www.gnu.org/licenses/>.      **
  **                                                                      **
  **************************************************************************/
+pragma ComponentBehavior: Bound
 
 import QtQuick
 import QtQuick.Controls
@@ -41,7 +42,7 @@ GridView {
     cellWidth: width / Math.floor(width / baseSize)
     cellHeight: baseSize
 
-    ScrollBar.vertical: PQFileDialogScrollBar { id: view_scroll }
+    ScrollBar.vertical: PQVerticalScrollBar { id: view_scroll }
 
     onContentYChanged: {
         // this check makes sure that value is not reset when a directory is reloaded due to a change

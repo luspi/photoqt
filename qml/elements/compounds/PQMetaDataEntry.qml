@@ -78,7 +78,7 @@ Row {
                 if(entry.signalClicks)
                     entry.clicked(mouse)
                 else
-                    PQCScriptsClipboard.copyTextToClipboard(valtxt)
+                    PQCScriptsClipboard.copyTextToClipboard(entry.valtxt)
             }
         }
     }

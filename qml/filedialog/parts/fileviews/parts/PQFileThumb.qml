@@ -51,8 +51,8 @@ Image {
         id: updateSizeDelay
         interval: 1000
         onTriggered: {
-            if(dontSetSourceSize) return
-            filethumb.sourceSize = Qt.size(width, height)
+            if(filethumb.dontSetSourceSize) return
+            filethumb.sourceSize = Qt.size(filethumb.width, filethumb.height)
         }
     }
 
@@ -84,7 +84,7 @@ Image {
             if(deleg.modelData === view_top.currentIndex) {
                 filethumb.source = ""
                 // when changing the following line also change the line in source: above
-                filethumb.source = Qt.binding(function() { return (visible&&deleg.currentPath!=="" ? encodeURI("image://thumb/" + deleg.currentPath) : ""); })
+                filethumb.source = Qt.binding(function() { return (filethumb.visible&&deleg.currentPath!=="" ? encodeURI("image://thumb/" + deleg.currentPath) : ""); })
             }
         }
     }

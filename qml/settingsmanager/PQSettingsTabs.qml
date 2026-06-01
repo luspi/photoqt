@@ -19,6 +19,7 @@
  ** along with PhotoQt. If not, see <http://www.gnu.org/licenses/>.      **
  **                                                                      **
  **************************************************************************/
+pragma ComponentBehavior: Bound
 
 import QtQuick
 import QtQuick.Controls
@@ -115,6 +116,7 @@ Flickable {
                     model: subtabbar_interface.entries.length
 
                     PQTabButton {
+                        id: deleg_int
                         required property int index
                         width: parent.width
                         onHeightChanged:
@@ -129,7 +131,7 @@ Flickable {
                             width: parent.width
                             height: 1
                             color: palette.text
-                            visible: subtabbar_interface.entries[index].length === 3 && subtabbar_interface.entries[index][2] === "---"
+                            visible: subtabbar_interface.entries[deleg_int.index].length === 3 && subtabbar_interface.entries[deleg_int.index][2] === "---"
                             opacity: 0.1
                         }
                     }
@@ -191,6 +193,7 @@ Flickable {
                     model: subtabbar_imageview.entries.length
 
                     PQTabButton {
+                        id: deleg_iv
                         required property int index
                         width: parent.width
                         onHeightChanged:
@@ -204,7 +207,7 @@ Flickable {
                             width: parent.width
                             height: 1
                             color: palette.text
-                            visible: subtabbar_imageview.entries[index].length === 3 && subtabbar_imageview.entries[index][2] === "---"
+                            visible: subtabbar_imageview.entries[deleg_iv.index].length === 3 && subtabbar_imageview.entries[deleg_iv.index][2] === "---"
                             opacity: 0.1
                         }
                     }
@@ -263,6 +266,7 @@ Flickable {
                     model: subtabbar_thumbnails.entries.length
 
                     PQTabButton {
+                        id: deleg_thu
                         required property int index
                         width: parent.width
                         onHeightChanged:
@@ -276,7 +280,7 @@ Flickable {
                             width: parent.width
                             height: 1
                             color: palette.text
-                            visible: subtabbar_thumbnails.entries[index].length === 3 && subtabbar_thumbnails.entries[index][2] === "---"
+                            visible: subtabbar_thumbnails.entries[deleg_thu.index].length === 3 && subtabbar_thumbnails.entries[deleg_thu.index][2] === "---"
                             opacity: 0.1
                         }
                     }
@@ -339,6 +343,7 @@ Flickable {
                     model: subtabbar_filetypes.entries.length
 
                     PQTabButton {
+                        id: deleg_ft
                         required property int index
                         width: parent.width
                         onHeightChanged:
@@ -352,7 +357,7 @@ Flickable {
                             width: parent.width
                             height: 1
                             color: palette.text
-                            visible: subtabbar_filetypes.entries[index].length === 3 && subtabbar_filetypes.entries[index][2] === "---"
+                            visible: subtabbar_filetypes.entries[deleg_ft.index].length === 3 && subtabbar_filetypes.entries[deleg_ft.index][2] === "---"
                             opacity: 0.1
                         }
                     }
@@ -412,6 +417,7 @@ Flickable {
                     model: subtabbar_mousekeys.entries.length
 
                     PQTabButton {
+                        id: deleg_mk
                         required property int index
                         width: parent.width
                         onHeightChanged:
@@ -425,7 +431,7 @@ Flickable {
                             width: parent.width
                             height: 1
                             color: palette.text
-                            visible: subtabbar_mousekeys.entries[index].length === 3 && subtabbar_mousekeys.entries[index][2] === "---"
+                            visible: subtabbar_mousekeys.entries[deleg_mk.index].length === 3 && subtabbar_mousekeys.entries[deleg_mk.index][2] === "---"
                             opacity: 0.1
                         }
                     }
@@ -483,6 +489,7 @@ Flickable {
                     model: subtabbar_manage.entries.length
 
                     PQTabButton {
+                        id: deleg_man
                         required property int index
                         width: parent.width
                         onHeightChanged:
@@ -496,7 +503,7 @@ Flickable {
                             width: parent.width
                             height: 1
                             color: palette.text
-                            visible: subtabbar_manage.entries[index].length === 3 && subtabbar_manage.entries[index][2] === "---"
+                            visible: subtabbar_manage.entries[deleg_man.index].length === 3 && subtabbar_manage.entries[deleg_man.index][2] === "---"
                             opacity: 0.1
                         }
                     }
@@ -553,6 +560,7 @@ Flickable {
                     model: subtabbar_extensions.entries.length
 
                     PQTabButton {
+                        id: deleg_ext
                         required property int index
                         width: parent.width
                         onHeightChanged:
@@ -566,7 +574,7 @@ Flickable {
                             width: parent.width
                             height: 1
                             color: palette.text
-                            visible: subtabbar_extensions.entries[index].length === 3 && subtabbar_extensions.entries[index][2] === "---"
+                            visible: subtabbar_extensions.entries[deleg_ext.index].length === 3 && subtabbar_extensions.entries[deleg_ext.index][2] === "---"
                             opacity: 0.1
                         }
                     }
@@ -623,6 +631,7 @@ Flickable {
                     model: subtabbar_other.entries.length
 
                     PQTabButton {
+                        id: deleg_oth
                         required property int index
                         width: parent.width
                         onHeightChanged:
@@ -636,7 +645,7 @@ Flickable {
                             width: parent.width
                             height: 1
                             color: palette.text
-                            visible: subtabbar_other.entries[index].length === 3 && subtabbar_other.entries[index][2] === "---"
+                            visible: subtabbar_other.entries[deleg_oth.index].length === 3 && subtabbar_other.entries[deleg_oth.index][2] === "---"
                             opacity: 0.1
                         }
                     }

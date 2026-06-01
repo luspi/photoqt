@@ -163,7 +163,7 @@ PQTemplate {
                     const mimetypes = PQCImageHandler.getMimetypes()
 
                     if(suffixes.indexOf(suffix1) > -1 || suffixes.indexOf(suffix2) > -1 || mimetypes.indexOf(mimetype) > -1) {
-                        loadNewPath(PQCScriptsFilesPaths.getDir(PQCScriptsFilesPaths.cleanPath(PQCScriptsFilesPaths.fromPercentEncoding(event.urls[i]))))
+                        filedialog_top.loadNewPath(PQCScriptsFilesPaths.getDir(PQCScriptsFilesPaths.cleanPath(PQCScriptsFilesPaths.fromPercentEncoding(event.urls[i]))))
                         found = true
                         break;
                     }
@@ -253,7 +253,7 @@ PQTemplate {
 
                         if((param[0] === Qt.Key_Enter || param[0] === Qt.Key_Return) && (pasteExisting.visible || modal.visible)) {
                             if(modal.visible)
-                                modal.button1.clicked()
+                                modal.doAccept()
                             else
                                 pasteExisting.hide()
                         } else if(param[0] === Qt.Key_L && param[1] === Qt.ControlModifier) {

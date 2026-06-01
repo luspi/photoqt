@@ -59,7 +59,7 @@ ComboBox {
         contentItem: Text {
             id: contitem
             text: control.prefix+deleg.model[control.textRole]
-            color: delegate.highlighted ? palette.highlightedText : palette.text
+            color: deleg.highlighted ? palette.highlightedText : palette.text
             font: control.font
             elide: control.elide
             verticalAlignment: Text.AlignVCenter
@@ -124,7 +124,7 @@ ComboBox {
     background: Rectangle {
         implicitWidth: 120
         implicitHeight: 40
-        color: control.transparentBackground ? "transparent" : ((control.pressed||popup.visible) ? PQCLook.baseBorder : palette.alternateBase)
+        color: control.transparentBackground ? "transparent" : ((control.pressed||control.popup.visible) ? PQCLook.baseBorder : palette.alternateBase)
         border.color: PQCLook.baseBorder
         border.width: control.transparentBackground ? 0 : (control.visualFocus ? 2 : 1)
         radius: 5

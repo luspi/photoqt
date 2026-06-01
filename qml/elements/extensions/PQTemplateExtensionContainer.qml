@@ -19,6 +19,7 @@
  ** along with PhotoQt. If not, see <http://www.gnu.org/licenses/>.      **
  **                                                                      **
  **************************************************************************/
+pragma ComponentBehavior: Bound
 
 import QtQuick
 import PhotoQt
@@ -54,7 +55,7 @@ Item {
         interval: 100
         onTriggered: {
             if(extsettings["ExtPopout"] !== undefined) {
-                setActive()
+                extension_container.setActive()
             } else {
                 loadWhenReady.restart()
             }

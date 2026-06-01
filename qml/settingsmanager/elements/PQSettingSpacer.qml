@@ -21,7 +21,6 @@
  **************************************************************************/
 
 import QtQuick
-import PhotoQt
 
 Item {
     // when this value is changed also change the negative x value in PQSettingSubTitle.qml

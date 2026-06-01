@@ -204,12 +204,6 @@ PQTemplate {
         map.resetMap();
     }
 
-    function resetWidth() {
-        smoothWidth.from = mapcont.width
-        smoothWidth.to = mapexplorer_top.width/2
-        smoothWidth.start()
-    }
-
     function clickOnImage(lat : real, lon : real) {
 
         map.hideHightlightMarker()

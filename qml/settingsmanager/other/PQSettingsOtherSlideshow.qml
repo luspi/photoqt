@@ -443,7 +443,7 @@ PQSetting {
                                     height: 40
                                     iconScale: 0.5
                                     enabled: musicdeleg.modelData>0
-                                    source: "image://svg/:/" + PQCLook.iconShade + "/upwards.svg"
+                                    iconSource: "image://svg/:/" + PQCLook.iconShade + "/upwards.svg"
                                     //: This relates to the list of music files for slideshows
                                     tooltip: qsTranslate("settingsmanager", "Move file up one position")
                                     onClicked: {
@@ -457,7 +457,7 @@ PQSetting {
                                     rotation: 180
                                     iconScale: 0.5
                                     enabled: musicdeleg.modelData < music_view.model-1
-                                    source: "image://svg/:/" + PQCLook.iconShade + "/upwards.svg"
+                                    iconSource: "image://svg/:/" + PQCLook.iconShade + "/upwards.svg"
                                     //: This relates to the list of music files for slideshows
                                     tooltip: qsTranslate("settingsmanager", "Move file down one position")
                                     onClicked: {
@@ -469,7 +469,7 @@ PQSetting {
                                     width: 40
                                     height: 40
                                     iconScale: 0.35
-                                    source: "image://svg/:/" + PQCLook.iconShade + "/x.svg"
+                                    iconSource: "image://svg/:/" + PQCLook.iconShade + "/x.svg"
                                     //: This relates to the list of music files for slideshows
                                     tooltip: qsTranslate("settingsmanager", "Delete this file from the list")
                                     onClicked: {

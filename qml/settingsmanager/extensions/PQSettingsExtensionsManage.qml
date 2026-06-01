@@ -19,6 +19,7 @@
  ** along with PhotoQt. If not, see <http://www.gnu.org/licenses/>.      **
  **                                                                      **
  **************************************************************************/
+pragma ComponentBehavior: Bound
 
 import QtQuick
 import PhotoQt
@@ -116,12 +117,12 @@ PQSetting {
 
                     property bool hasSettings: PQCExtensionsHandler.getHasSettings(extensionId)
 
-                    property string tooltipText: "<h2>" + extension_setting.extName + "</h2>
-                                                 <b>" + qsTranslate("settingsmanager", "Version") + ":</b> " + extVersion + "<br>
-                                                 <b>" + qsTranslate("settingsmanager", "Author") + ":</b> " + extAuthor + "<br>
-                                                 <b>" + qsTranslate("settingsmanager", "Contact") + ":</b> " + extContact + "<br>
-                                                 <b>" + qsTranslate("settingsmanager", "Website:") + "</b> " + extWebsite + "<br><br>
-                                                 <b>" + qsTranslate("settingsmanager", "Loaded from") + ":</b><br>" + extBaseDir
+                    property string tooltipText: "<h2>" + extension_setting.extName + "</h2>" +
+                                                 "<b>" + qsTranslate("settingsmanager", "Version") + ":</b> " + extVersion + "<br>" +
+                                                 "<b>" + qsTranslate("settingsmanager", "Author") + ":</b> " + extAuthor + "<br>" +
+                                                 "<b>" + qsTranslate("settingsmanager", "Contact") + ":</b> " + extContact + "<br>" +
+                                                 "<b>" + qsTranslate("settingsmanager", "Website:") + "</b> " + extWebsite + "<br><br>" +
+                                                 "<b>" + qsTranslate("settingsmanager", "Loaded from") + ":</b><br>" + extBaseDir
 
                     width: col.width
                     height: (set_maex.currentExpandedSetting==index ? 300 : 40)
@@ -231,9 +232,9 @@ PQSetting {
                         PQButton {
                             id: revokeTrust
                             x: desc.x+desc.width
-                            enabled: extensionTrustRevoked.indexOf(extension_setting.extensionId) === -1
+                            enabled: set_maex.extensionTrustRevoked.indexOf(extension_setting.extensionId) === -1
                             visible: PQCSettings.generalExtensionsAllowUntrusted.indexOf(extension_setting.extensionId)>-1 ||
-                                     extensionTrustRevoked.indexOf(extension_setting.extensionId) > -1
+                                     set_maex.extensionTrustRevoked.indexOf(extension_setting.extensionId) > -1
                             height: 40
                             //: Trust here refers to trusting an unverified extension to run.
                             text: qsTranslate("settingsmanager", "Revoke trust")
@@ -321,12 +322,12 @@ PQSetting {
                     property string extWebsite: PQCExtensionsHandler.getExtensionWebsite(extensionId)
                     property string extBaseDir: PQCExtensionsHandler.getExtensionLocation(extensionId)
 
-                    property string tooltipText: "<h2>" + extensionfailed_setting.extName + "</h2>
-                                                 <b>" + qsTranslate("settingsmanager", "Version") + ":</b> " + extVersion + "<br>
-                                                 <b>" + qsTranslate("settingsmanager", "Author") + ":</b> " + extAuthor + "<br>
-                                                 <b>" + qsTranslate("settingsmanager", "Contact") + ":</b> " + extContact + "<br>
-                                                 <b>" + qsTranslate("settingsmanager", "Website:") + "</b> " + extWebsite + "<br><br>
-                                                 <b>" + qsTranslate("settingsmanager", "Loaded from") + ":</b><br>" + extBaseDir
+                    property string tooltipText: "<h2>" + extensionfailed_setting.extName + "</h2>" +
+                                                 "<b>" + qsTranslate("settingsmanager", "Version") + ":</b> " + extVersion + "<br>" +
+                                                 "<b>" + qsTranslate("settingsmanager", "Author") + ":</b> " + extAuthor + "<br>" +
+                                                 "<b>" + qsTranslate("settingsmanager", "Contact") + ":</b> " + extContact + "<br>" +
+                                                 "<b>" + qsTranslate("settingsmanager", "Website:") + "</b> " + extWebsite + "<br><br>" +
+                                                 "<b>" + qsTranslate("settingsmanager", "Loaded from") + ":</b><br>" + extBaseDir
 
                     width: col_failed.width
                     height: 40

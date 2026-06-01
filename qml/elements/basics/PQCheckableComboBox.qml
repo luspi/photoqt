@@ -22,7 +22,6 @@
 pragma ComponentBehavior: Bound
 
 import QtQuick
-import QtQuick.Controls
 import PhotoQt
 
 PQComboBox {
@@ -33,15 +32,6 @@ PQComboBox {
 
     font.pointSize: PQCLook.fontSize
     font.weight: PQCLook.fontWeightNormal
-
-    implicitWidth: extrawide ? 300 : (extrasmall ? 100 : 200)
-
-    property bool extrawide: false
-    property bool extrasmall: false
-
-    property int elide: Text.ElideRight
-
-    property bool transparentBackground: false
 
     signal entryUpdated(var index)
 
@@ -110,28 +100,6 @@ PQComboBox {
         styleColor: palette.disabled.text
         verticalAlignment: Text.AlignVCenter
         elide: control.elide
-    }
-
-    property int _defaultValue
-    Component.onCompleted: {
-        _defaultValue = currentIndex
-    }
-
-    function saveDefault() {
-        _defaultValue = currentIndex
-    }
-
-    function setDefault(val : int) {
-        _defaultValue = val
-    }
-
-    function loadAndSetDefault(val : int) {
-        currentIndex = val
-        _defaultValue = val
-    }
-
-    function hasChanged() : bool {
-        return _defaultValue!==currentIndex
     }
 
 }

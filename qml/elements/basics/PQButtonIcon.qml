@@ -19,6 +19,7 @@
  ** along with PhotoQt. If not, see <http://www.gnu.org/licenses/>.      **
  **                                                                      **
  **************************************************************************/
+pragma ComponentBehavior: Bound
 
 import QtQuick
 import QtQuick.Controls
@@ -29,7 +30,7 @@ Loader {
     id: loader
 
     property string tooltip: ""
-    property string source: ""
+    property string iconSource: ""
     property real iconScale: isModern ? 0.75 : 1
     property int tooltipWidth: 0
     property int tooltipDelay: 0
@@ -73,7 +74,7 @@ Loader {
 
                 id: icon
 
-                source: loader.source
+                source: loader.iconSource
                 smooth: false
 
                 sourceSize: Qt.size(control.height*loader.iconScale,control.height*loader.iconScale)
@@ -176,7 +177,7 @@ Loader {
                 smooth: true
                 mipmap: true
                 sourceSize: Qt.size(width, height)
-                source: loader.source
+                source: loader.iconSource
                 scale: loader.iconScale
             }
 

@@ -510,7 +510,7 @@ MenuBar {
 
                 PQMenuItem {
                     enabled: deleg.isEnabled
-                    text: PQCExtensionsHandler.getExtensionModal(extensionId) ? qsTranslate("other", "Show extension") : qsTranslate("other", "Toggle extension")
+                    text: PQCExtensionsHandler.getExtensionModal(deleg.extensionId) ? qsTranslate("other", "Show extension") : qsTranslate("other", "Toggle extension")
                     onTriggered:
                         PQCNotify.loaderShowExtension(deleg.extensionId)
                 }

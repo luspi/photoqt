@@ -98,7 +98,7 @@ Item {
 
                 PQText {
                     y: (parent.height-height)/2
-                    text: (overrideMinValText==="" ? control.minval+control.suffix : overrideMinValText)
+                    text: (control.overrideMinValText==="" ? control.minval+control.suffix : control.overrideMinValText)
                 }
 
                 PQSlider {
@@ -112,8 +112,8 @@ Item {
                     tooltip: spinbox.value
                     onValueChanged: {
                         if(control.editMode) return
-                        if(logarithmicScale)
-                            spinbox.setValue(Math.ceil(minval + (maxval-minval) * Math.pow(value/1000, logarithmicScaleFactor)))
+                        if(control.logarithmicScale)
+                            spinbox.setValue(Math.ceil(control.minval + (control.maxval-control.minval) * Math.pow(value/1000, control.logarithmicScaleFactor)))
                         spinbox.setValue(value)
                     }
                     function setValue(val : int) {
@@ -126,7 +126,7 @@ Item {
 
                 PQText {
                     y: (parent.height-height)/2
-                    text: (overrideMaxValText==="" ? control.maxval+control.suffix : overrideMaxValText)
+                    text: (control.overrideMaxValText==="" ? control.maxval+control.suffix : control.overrideMaxValText)
                 }
 
             }
@@ -178,10 +178,10 @@ Item {
             sizeToText: true
             horizontalAlignment: Text.AlignLeft
             visible: !control.editMode
-            text: "(" + (overrideMinValText!==""&&spinbox.value===control.minval
-                            ? overrideMinValText
-                            : (overrideMaxValText!==""&&spinbox.value===control.maxval
-                                   ? overrideMaxValText
+            text: "(" + (control.overrideMinValText!==""&&spinbox.value===control.minval
+                            ? control.overrideMinValText
+                            : (control.overrideMaxValText!==""&&spinbox.value===control.maxval
+                                   ? control.overrideMaxValText
                                    : spinbox.value + control.suffix)) + ")"
             //: Tooltip, used as in: Click to edit this value
             tooltip: qsTranslate("settingsmanager", "Click to edit")

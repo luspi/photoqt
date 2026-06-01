@@ -68,12 +68,11 @@ Rectangle {
         id: resetbutton
         x: parent.width-width-mapexplorer_top.closebuttonWidth/2
         y: (parent.height-height)/2
-        source: "image://svg/:/" + PQCLook.iconShade + "/reset.svg"
+        iconSource: "image://svg/:/" + PQCLook.iconShade + "/reset.svg"
         //: The view here is the map layout in the map explorer
         tooltip: qsTranslate("mapexplorer", "Reset view")
         onClicked: {
             mapexplorer_top.resetMap()
-            mapexplorer_top.resetWidth()
         }
     }
 

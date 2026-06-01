@@ -121,6 +121,10 @@ Item {
 
     }
 
+    function acceptDialog() {
+        confirmApply.clicked()
+    }
+
     function cancelDialog() {
         confirmCancel.clicked()
     }

@@ -43,13 +43,13 @@ PQTemplate {
     }
 
     Connections {
-        target: button1
+        target: slideshowsettings_top.button1
         function onClicked() {
             slideshowsettings_top.startSlideshow()
         }
     }
     Connections {
-        target: button2
+        target: slideshowsettings_top.button2
         function onClicked() {
             slideshowsettings_top.hide()
         }
@@ -537,7 +537,7 @@ PQTemplate {
                                                 height: 40
                                                 iconScale: 0.5
                                                 enabled: musicdeleg.modelData>0
-                                                source: "image://svg/:/" + PQCLook.iconShade + "/upwards.svg"
+                                                iconSource: "image://svg/:/" + PQCLook.iconShade + "/upwards.svg"
                                                 //: This relates to the list of music files for slideshows
                                                 tooltip: qsTranslate("settingsmanager", "Move file up one position")
                                                 onClicked: {
@@ -552,7 +552,7 @@ PQTemplate {
                                                 rotation: 180
                                                 iconScale: 0.5
                                                 enabled: musicdeleg.modelData < music_view.model-1
-                                                source: "image://svg/:/" + PQCLook.iconShade + "/upwards.svg"
+                                                iconSource: "image://svg/:/" + PQCLook.iconShade + "/upwards.svg"
                                                 //: This relates to the list of music files for slideshows
                                                 tooltip: qsTranslate("settingsmanager", "Move file down one position")
                                                 onClicked: {
@@ -565,7 +565,7 @@ PQTemplate {
                                                 width: 40
                                                 height: 40
                                                 iconScale: 0.35
-                                                source: "image://svg/:/" + PQCLook.iconShade + "/x.svg"
+                                                iconSource: "image://svg/:/" + PQCLook.iconShade + "/x.svg"
                                                 //: This relates to the list of music files for slideshows
                                                 tooltip: qsTranslate("settingsmanager", "Delete this file from the list")
                                                 onClicked: {

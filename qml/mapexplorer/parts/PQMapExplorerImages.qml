@@ -80,7 +80,7 @@ Rectangle {
         cellWidth: width / Math.floor(width / baseSize)
         cellHeight: baseSize
 
-        property int currentIndex: -1
+        currentIndex: -1
         Timer {
             id: resetCurrentIndex
             interval: 100

@@ -42,14 +42,14 @@ PQTemplate {
     }
 
     Connections {
-        target: button1
+        target: advancedsort_top.button1
         function onClicked() {
             advancedsort_top.doSorting()
         }
     }
 
     Connections {
-        target: button2
+        target: advancedsort_top.button2
         function onClicked() {
             advancedsort_top.hide()
         }
@@ -782,10 +782,10 @@ PQTemplate {
                                 advancedsort_top.doSorting()
 
                             else if(param[0] === Qt.Key_Up || param[0] === Qt.Key_Left)
-                                bar.currentIndex = (bar.currentIndex+bar.model.length-1)%bar.model.length
+                                bar.currentIndex = (bar.currentIndex+bar.contentModel.count-1)%bar.contentModel.count
 
                             else if(param[0] === Qt.Key_Down || param[0] === Qt.Key_Right)
-                                bar.currentIndex = (bar.currentIndex+1)%bar.model.length
+                                bar.currentIndex = (bar.currentIndex+1)%bar.contentModel.count
 
                         }
 

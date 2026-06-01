@@ -19,6 +19,7 @@
  ** along with PhotoQt. If not, see <http://www.gnu.org/licenses/>.      **
  **                                                                      **
  **************************************************************************/
+pragma ComponentBehavior: Bound
 
 import QtQuick
 import QtQuick.Controls
@@ -217,7 +218,7 @@ PQSetting {
                                         onCheckedChanged: {
                                             if(!deleg.delegSetup) return
                                             var curid = PQCScriptsColorProfiles.getColorProfileID(deleg.modelData)
-                                            var arrayIndex = colorprofiles_contextmenu.indexOf(curid)
+                                            var arrayIndex = set_copr.colorprofiles_contextmenu.indexOf(curid)
                                             if(checked && arrayIndex === -1)
                                                 set_copr.colorprofiles_contextmenu.push(curid)
                                             else if(!checked && arrayIndex !== -1)
@@ -375,8 +376,8 @@ PQSetting {
         PQSettingsResetButton {
             onResetToDefaults: {
 
-                colorprofiles_contextmenu_default = PQCSettings.getDefaultForImageviewColorSpaceContextMenu()
-                colorProfileLoadDefault()
+                set_copr.colorprofiles_contextmenu_default = PQCSettings.getDefaultForImageviewColorSpaceContextMenu()
+                set_copr.colorProfileLoadDefault()
                 colorProfilesSetDefaultAfterReset.restart()
 
                 color_enable.checked = PQCSettings.getDefaultForImageviewColorSpaceEnable()
@@ -385,7 +386,7 @@ PQSetting {
                     color_defaultcombo.currentIndex = 0
                     color_default.checked = false
                 } else {
-                    color_defaultcombo.currentIndex = (colorprofiles.indexOf(PQCSettings.imageviewColorSpaceDefault)+1)
+                    color_defaultcombo.currentIndex = (set_copr.colorprofiles.indexOf(PQCSettings.imageviewColorSpaceDefault)+1)
                     color_default.loadAndSetDefault(true)
                 }
 

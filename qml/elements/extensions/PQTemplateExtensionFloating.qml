@@ -82,8 +82,8 @@ Item {
         interval: 200
         onTriggered: {
             if(PQCExtensionsHandler.getExtensionRememberGeometry(element_top.extensionId)) {
-                settings["ExtPosition"] = Qt.point(element_top.x, element_top.y)
-                settings["ExtSize"] = Qt.size(element_top.width, element_top.height)
+                element_top.settings["ExtPosition"] = Qt.point(element_top.x, element_top.y)
+                element_top.settings["ExtSize"] = Qt.size(element_top.width, element_top.height)
             }
         }
     }
@@ -250,13 +250,13 @@ Item {
 
         if(PQCExtensionsHandler.getExtensionRememberGeometry(extensionId)) {
 
-            var pos = settings["ExtPosition"]
+            var pos = element_top.settings["ExtPosition"]
             if(pos !== undefined && pos.x !== -1) {
                 x = pos.x
                 y = pos.y
             }
 
-            var sze = settings["ExtSize"]
+            var sze = element_top.settings["ExtSize"]
             if(sze !== undefined && sze.width !== -1) {
                 width = sze.width
                 height = sze.height
@@ -264,7 +264,7 @@ Item {
 
         }
 
-        if(settings["ExtShow"])
+        if(element_top.settings["ExtShow"])
             show()
 
         _recordFinishedSetup.restart()

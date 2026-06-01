@@ -19,6 +19,7 @@
  ** along with PhotoQt. If not, see <http://www.gnu.org/licenses/>.      **
  **                                                                      **
  **************************************************************************/
+pragma ComponentBehavior: Bound
 
 import QtQuick
 import QtQuick.Controls
@@ -302,8 +303,8 @@ PQSetting {
             onResetToDefaults: {
 
                 status_show.checked = PQCSettings.getDefaultForInterfaceStatusInfoShow()
-                curEntries = PQCSettings.getDefaultForInterfaceStatusInfoList()
-                populateModel()
+                set_stin.curEntries = PQCSettings.getDefaultForInterfaceStatusInfoList()
+                set_stin.populateModel()
                 fontsize.setValue(PQCSettings.getDefaultForInterfaceStatusInfoFontSize())
 
                 set_stin.checkForChanges()

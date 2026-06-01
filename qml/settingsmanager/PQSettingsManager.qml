@@ -22,7 +22,6 @@
 pragma ComponentBehavior: Bound
 
 import QtQuick
-import QtQuick.Layouts
 import QtQuick.Controls
 import PhotoQt
 
@@ -37,19 +36,19 @@ PQTemplate {
     property list<string> flickableNotInteractiveFor: []
 
     Connections {
-        target: button1
+        target: settingsmanager_top.button1
         function onClicked() {
             PQCNotify.settingsmanagerSendCommand("applychanges", []);
         }
     }
     Connections {
-        target: button2
+        target: settingsmanager_top.button2
         function onClicked() {
             PQCNotify.settingsmanagerSendCommand("loadcurrent", []);
         }
     }
     Connections {
-        target: button3
+        target: settingsmanager_top.button3
         function onClicked() {
             settingsmanager_top.hide()
         }
@@ -95,7 +94,7 @@ PQTemplate {
 
     bottomLeftContent: [
         Row {
-            y: (bottomLeft.height-height)/2
+            y: (settingsmanager_top.bottomLeft.height-height)/2
             spacing: 10
             Item {
                 width: 1
@@ -391,7 +390,7 @@ PQTemplate {
                         else if(filetypesTogglePlugins.visible)
                             filetypesTogglePlugins.hide()
                         else
-                            button3.clicked()
+                            settingsmanager_top.button3.clicked()
 
                     } else if(param[0] === Qt.Key_S && param[1] === Qt.ControlModifier) {
 
@@ -401,7 +400,7 @@ PQTemplate {
                     } else if(param[0] === Qt.Key_Enter || param[0] === Qt.Key_Return) {
 
                         if(confirmUnsaved.visible)
-                            confirmApply.clicked()
+                            confirmUnsaved.acceptDialog()
 
                     } else if(param[0] === Qt.Key_R && param[1] === Qt.ControlModifier) {
 

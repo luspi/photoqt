@@ -108,9 +108,9 @@ Item {
         target: PQCConstants
 
         function onCurrentImageSourceChanged() {
-            visibleSourcePrevCur[1] = visibleSourcePrevCur[0]
-            visibleSourcePrevCur[0] = PQCConstants.currentImageSource
-            visibleSourcePrevCurChanged()
+            image_top.visibleSourcePrevCur[1] = image_top.visibleSourcePrevCur[0]
+            image_top.visibleSourcePrevCur[0] = PQCConstants.currentImageSource
+            image_top.visibleSourcePrevCurChanged()
             PQCNotify.currentImageLoadedAndDisplayed(PQCConstants.currentImageSource)
         }
 
@@ -633,9 +633,9 @@ Item {
         }
 
         // find new image that's not the current one
-        var ran = Math.floor(Math.random() * (countMainView - 1))
+        var ran = Math.floor(Math.random() * (PQCFileFolderModel.countMainView - 1))
         // this >= check effectively creates a "hole" at currentIndex
-        if(ran >= currentIndex)
+        if(ran >= PQCFileFolderModel.currentIndex)
             ran++
         PQCFileFolderModel.currentIndex = ran
     }

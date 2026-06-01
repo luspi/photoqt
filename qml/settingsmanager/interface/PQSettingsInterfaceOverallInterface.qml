@@ -112,7 +112,7 @@ PQSetting {
 
         PQText {
             x: -set_lang.indentWidth
-            width: set_lang.rightcol
+            width: set_lang.contentWidth
             wrapMode: Text.WrapAtWordBoundaryOrAnywhere
             visible: PQCSettings.generalCompactSettings
             // font.weight: PQCLook.fontWeightBold
@@ -124,13 +124,13 @@ PQSetting {
 
                 var val = PQCSettings.getDefaultForInterfaceLanguage()
 
-                var setindex = availableLanguages.indexOf("en")
-                if(availableLanguages.indexOf(val) !== -1)
-                    setindex = availableLanguages.indexOf(val)
+                var setindex = set_lang.availableLanguages.indexOf("en")
+                if(set_lang.availableLanguages.indexOf(val) !== -1)
+                    setindex = set_lang.availableLanguages.indexOf(val)
                 else {
                     var c = val + "_" + val.toUpperCase()
-                    if(availableLanguages.indexOf(c) !== -1)
-                        setindex = availableLanguages.indexOf(c)
+                    if(set_lang.availableLanguages.indexOf(c) !== -1)
+                        setindex = set_lang.availableLanguages.indexOf(c)
                 }
                 langcombo.currentIndex = setindex
 

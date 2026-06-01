@@ -65,7 +65,6 @@ PQSetting {
             width: set_fowe.contentWidth
             spacing: 5
             PQText {
-                y: (fw_normalslider.height-height)/2
                 text: qsTranslate("settingsmanager", "normal font weight:")
             }
             PQSlider {
@@ -92,8 +91,6 @@ PQSetting {
             width: set_fowe.contentWidth
             spacing: 5
             PQText {
-                y: (fw_boldslider.height-height)/2
-                //: The weight here refers to the font weight
                 text: qsTranslate("settingsmanager", "bold font weight:")
             }
             PQSlider {

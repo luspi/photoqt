@@ -636,7 +636,6 @@ Item {
                 Repeater {
                     model: 5
                     Image {
-                        id: deleg
                         required property int modelData
                         width: 20
                         height: 20

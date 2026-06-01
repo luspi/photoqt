@@ -60,7 +60,7 @@ PQSetting {
                 movewhl.checked = PQCSettings.getDefaultForImageviewUseMouseWheelForImageMove()
                 movebut.checked = PQCSettings.getDefaultForImageviewUseMouseLeftButtonForImageMove()
 
-                checkForChanges()
+                set_exmo.checkForChanges()
 
             }
         },

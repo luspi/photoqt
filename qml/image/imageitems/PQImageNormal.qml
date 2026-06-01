@@ -168,7 +168,7 @@ Item {
             z: parent.z-1
             fillMode: Image.Tile
 
-            source: PQCSettings.imageviewTransparencyMarker&&image.hasAlpha ? "/other/checkerboard.png" : ""
+            source: PQCSettings.imageviewTransparencyMarker&&imgtop.hasAlpha ? "/other/checkerboard.png" : ""
 
         }
 

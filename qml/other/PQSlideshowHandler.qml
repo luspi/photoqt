@@ -64,13 +64,13 @@ Item {
             onPlaybackStateChanged: {
                 if(playbackState === MediaPlayer.StoppedState && PQCConstants.slideshowRunningAndPlaying && PQCConstants.slideshowRunning) {
                     if(PQCSettings.slideshowMusic) {
-                        currentMusicIndex = (currentMusicIndex+1)%PQCSettings.slideshowMusicFiles.length
+                        slideshowhandler_top.currentMusicIndex = (slideshowhandler_top.currentMusicIndex+1)%PQCSettings.slideshowMusicFiles.length
 
-                        var startingIndex = currentMusicIndex
-                        while(!PQCScriptsFilesPaths.doesItExist(musicFileOrder[currentMusicIndex]) && currentMusicIndex != startingIndex)
-                            currentMusicIndex += (currentMusicIndex+1)%PQCSettings.slideshowMusicFiles.length
+                        var startingIndex = slideshowhandler_top.currentMusicIndex
+                        while(!PQCScriptsFilesPaths.doesItExist(musicFileOrder[slideshowhandler_top.currentMusicIndex]) && slideshowhandler_top.currentMusicIndex != startingIndex)
+                            slideshowhandler_top.currentMusicIndex += (slideshowhandler_top.currentMusicIndex+1)%PQCSettings.slideshowMusicFiles.length
 
-                        audioplayer.source = encodeURI("file:" + musicFileOrder[currentMusicIndex])
+                        audioplayer.source = encodeURI("file:" + slideshowhandler_top.musicFileOrder[slideshowhandler_top.currentMusicIndex])
                     }
                 }
             }
@@ -98,14 +98,14 @@ Item {
         function onCurrentlyShowingVideoChanged() : void {
             if(PQCConstants.currentlyShowingVideo && PQCConstants.currentlyShowingVideoHasAudio) {
                 resetVolumeWithDelay.stop()
-                videoWithVolume = true
+                slideshowhandler_top.videoWithVolume = true
             } else
                 resetVolumeWithDelay.restart()
         }
         function onCurrentlyShowingVideoHasAudioChanged() : void {
             if(PQCConstants.currentlyShowingVideo && PQCConstants.currentlyShowingVideoHasAudio) {
                 resetVolumeWithDelay.stop()
-                videoWithVolume = true
+                slideshowhandler_top.videoWithVolume = true
             } else
                 resetVolumeWithDelay.restart()
         }
@@ -115,7 +115,7 @@ Item {
         id: resetVolumeWithDelay
         interval: 250
         onTriggered: {
-            videoWithVolume = (PQCConstants.currentlyShowingVideo && PQCConstants.currentlyShowingVideoHasAudio)
+            slideshowhandler_top.videoWithVolume = (PQCConstants.currentlyShowingVideo && PQCConstants.currentlyShowingVideoHasAudio)
         }
     }
 
@@ -147,9 +147,9 @@ Item {
         function onCurrentlyShowingVideoPlayingChanged() {
             if(PQCSettings.slideshowMusic)
                 loader_audioplayer.item.checkPlayPause()
-            if(PQCConstants.slideshowRunningAndPlaying && !PQCConstants.currentlyShowingVideoPlaying && !ignoreVideoChanges) {
+            if(PQCConstants.slideshowRunningAndPlaying && !PQCConstants.currentlyShowingVideoPlaying && !slideshowhandler_top.ignoreVideoChanges) {
                 switcher.triggered()
-                ignoreVideoChanges = false
+                slideshowhandler_top.ignoreVideoChanges = false
             }
             if(PQCSettings.slideshowMusic)
                 loader_audioplayer.item.checkPlayPause()

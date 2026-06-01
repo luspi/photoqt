@@ -70,19 +70,19 @@ Rectangle {
     }
 
     Connections {
-        target: button1
+        target: action_top.button1
         function onClicked() {
             action_top.button1Action()
         }
     }
     Connections {
-        target: button2
+        target: action_top.button2
         function onClicked() {
             action_top.button2Action()
         }
     }
     Connections {
-        target: button3
+        target: action_top.button3
         function onClicked() {
             action_top.button3Action()
         }

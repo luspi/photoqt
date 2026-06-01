@@ -50,7 +50,7 @@ Column {
             PQButtonIcon {
                 width: parent.width
                 height: parent.height
-                source: "image://svg/:/" + PQCLook.iconShade + "/help.svg"
+                iconSource: "image://svg/:/" + PQCLook.iconShade + "/help.svg"
                 tooltip: settitle.helptext.replace("\n", "<br>")
                 cursorShape: Qt.WhatsThisCursor
                 tooltipWidth: Math.min(500, settitle.width/2)

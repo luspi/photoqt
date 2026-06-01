@@ -19,6 +19,7 @@
  ** along with PhotoQt. If not, see <http://www.gnu.org/licenses/>.      **
  **                                                                      **
  **************************************************************************/
+pragma ComponentBehavior: Bound
 
 import QtQuick
 import QtQuick.Controls
@@ -349,7 +350,7 @@ PQSetting {
             model: 0
 
             // this ensures all entries are always set up
-            cacheBuffer: list_shortcuts.length*60
+            cacheBuffer: set_shcu.list_shortcuts.length*60
 
             ScrollBar.vertical: PQVerticalScrollBar {}
 
@@ -376,7 +377,7 @@ PQSetting {
 
                 // access and store the data for this entry
                 required property int modelData
-                property list<string> dat: list_shortcuts[modelData]
+                property list<string> dat: set_shcu.list_shortcuts[modelData]
                 property string cmd: dat[0]
                 property string desc: dat[1]
                 property string desc_en: cmd==="-" ? "" : dat[2]
@@ -500,7 +501,7 @@ PQSetting {
                                     y: (entrycomp.height-height)/2
                                     width: 25
                                     height: 25
-                                    source: "image://svg/:/" + PQCLook.iconShade + "/settings.svg"
+                                    iconSource: "image://svg/:/" + PQCLook.iconShade + "/settings.svg"
                                     onClicked: {
                                         extrasettings.show(deleg.extra)
                                     }
@@ -528,7 +529,7 @@ PQSetting {
                                 width: 20
                                 height: 20
                                 iconScale: 0.75
-                                source: "image://svg/:/" + PQCLook.iconShade + "/zoomin.svg"
+                                iconSource: "image://svg/:/" + PQCLook.iconShade + "/zoomin.svg"
                                 onClicked: {
                                     extrasettings.hide()
                                     PQCNotify.settingsmanagerSendCommand("newShortcut", [deleg.modelData])
@@ -564,7 +565,7 @@ PQSetting {
                                         // do deep copy
                                         default_combos = []
                                         for(i in combos)
-                                            default_combos.append(combos[i])
+                                            default_combos.push(combos[i])
 
                                     }
                                 }
@@ -830,7 +831,7 @@ PQSetting {
             y: 5
             width: 30
             height: 30
-            source: "image://svg/:/" + PQCLook.iconShade + "/close.svg"
+            iconSource: "image://svg/:/" + PQCLook.iconShade + "/close.svg"
             onClicked: {
                 extrasettings.hide()
             }

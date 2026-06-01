@@ -19,6 +19,7 @@
  ** along with PhotoQt. If not, see <http://www.gnu.org/licenses/>.      **
  **                                                                      **
  **************************************************************************/
+pragma ComponentBehavior: Bound
 
 import QtQuick
 import QtQuick.Controls
@@ -218,12 +219,12 @@ PQSetting {
                             function onSetEnableCategory(cat, enabled) {
                                 if(cat === deleg.category) {
                                     pluginrow.checkAll(enabled)
-                                    checkForChanges()
+                                    set_fity.checkForChanges()
                                 }
                             }
                             function onEnableEverything() {
                                 pluginrow.checkAll(true)
-                                checkForChanges()
+                                set_fity.checkForChanges()
                             }
                         }
 
@@ -308,7 +309,7 @@ PQSetting {
                                                     butdeleg.checked = check
                                                     var newchange = [butdeleg.plugin, deleg.entry, butdeleg.checked]
                                                     set_fity.changes.push(newchange)
-                                                    checkForChanges()
+                                                    set_fity.checkForChanges()
                                                 }
                                             }
                                         }

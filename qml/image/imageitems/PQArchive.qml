@@ -19,6 +19,7 @@
  ** along with PhotoQt. If not, see <http://www.gnu.org/licenses/>.      **
  **                                                                      **
  **************************************************************************/
+pragma ComponentBehavior: Bound
 
 import QtQuick
 import PhotoQt
@@ -256,7 +257,7 @@ Image {
 
         function onHaveArchiveContentFor(filename : string, content : list<string>) {
             if(filename === image.imageSource) {
-                fileList = content
+                image.fileList = content
                 image.finishSettingSource()
             }
         }

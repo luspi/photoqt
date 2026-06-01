@@ -19,6 +19,7 @@
  ** along with PhotoQt. If not, see <http://www.gnu.org/licenses/>.      **
  **                                                                      **
  **************************************************************************/
+pragma ComponentBehavior: Bound
 
 import QtQuick
 import PhotoQt
@@ -82,7 +83,7 @@ PQSetting {
                     height: 50
                     color: "transparent"
                     PQHighlightMarker {
-                        visible: topmouse.hovered||(themenu.opened&&menuedge==="top")
+                        visible: topmouse.hovered||(themenu.opened&&set_edge.menuedge==="top")
                     }
                     border.width: 1
                     border.color: PQCLook.baseBorder
@@ -119,7 +120,7 @@ PQSetting {
                     height: 200
                     color: "transparent"
                     PQHighlightMarker {
-                        visible: leftmouse.hovered||(themenu.opened&&menuedge==="left")
+                        visible: leftmouse.hovered||(themenu.opened&&set_edge.menuedge==="left")
                     }
                     border.width: 1
                     border.color: PQCLook.baseBorder
@@ -152,7 +153,7 @@ PQSetting {
                     height: 200
                     color: "transparent"
                     PQHighlightMarker {
-                        visible: rightmouse.hovered||(themenu.opened&&menuedge==="right")
+                        visible: rightmouse.hovered||(themenu.opened&&set_edge.menuedge==="right")
                     }
                     border.width: 1
                     border.color: PQCLook.baseBorder
@@ -189,7 +190,7 @@ PQSetting {
                     height: 50
                     color: "transparent"
                     PQHighlightMarker {
-                        visible: botmouse.hovered||(themenu.opened&&menuedge==="bottom")
+                        visible: botmouse.hovered||(themenu.opened&&set_edge.menuedge==="bottom")
                     }
                     border.width: 1
                     border.color: PQCLook.baseBorder
@@ -222,11 +223,11 @@ PQSetting {
         PQSettingsResetButton {
             onResetToDefaults: {
 
-                current["top"] = PQCSettings.getDefaultForInterfaceEdgeTopAction()
-                current["left"] = PQCSettings.getDefaultForInterfaceEdgeLeftAction()
-                current["right"] = PQCSettings.getDefaultForInterfaceEdgeRightAction()
-                current["bottom"] = PQCSettings.getDefaultForInterfaceEdgeBottomAction()
-                currentChanged()
+                set_edge.current["top"] = PQCSettings.getDefaultForInterfaceEdgeTopAction()
+                set_edge.current["left"] = PQCSettings.getDefaultForInterfaceEdgeLeftAction()
+                set_edge.current["right"] = PQCSettings.getDefaultForInterfaceEdgeRightAction()
+                set_edge.current["bottom"] = PQCSettings.getDefaultForInterfaceEdgeBottomAction()
+                set_edge.currentChanged()
 
                 set_edge.checkForChanges()
 
@@ -287,7 +288,7 @@ PQSetting {
                         set_edge.makeSureUnique(set_edge.menuedge, act)
                         set_edge.currentChanged()
                     }
-                    checked = Qt.binding(function() { return current[set_edge.menuedge] === act; })
+                    checked = Qt.binding(function() { return set_edge.current[set_edge.menuedge] === act; })
                     themenu.close()
                 }
             }

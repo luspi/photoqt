@@ -32,6 +32,7 @@ ScrollBar {
     position: 0.2
     active: false
     orientation: Qt.Vertical
+    minimumSize: 0.1
 
     contentItem: Rectangle {
 
@@ -39,15 +40,12 @@ ScrollBar {
         implicitHeight: 100
 
         radius: width/2
-        opacity: (control.pressed||control.active) ? 1 : 0.5
         color: (control.pressed||control.active) ? palette.highlight : palette.disabled.text
+        Behavior on color { enabled: !PQCSettings.generalDisableAllAnimations; ColorAnimation { duration: 200} }
 
         // Hide the ScrollBar when it's not needed.
         visible: control.size < 1.0
 
-        // Animate the changes in color/opacity
-        Behavior on opacity { enabled: !PQCSettings.generalDisableAllAnimations; NumberAnimation { duration: 200 } }
-        Behavior on color { enabled: !PQCSettings.generalDisableAllAnimations; ColorAnimation { duration: 200} }
     }
 
 }

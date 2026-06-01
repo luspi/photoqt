@@ -31,7 +31,7 @@ Rectangle {
 
     x: setVisible ? visiblePos[0] : invisiblePos[0]
     y: (PQCSettings.mainmenuElementHeightDynamic ? statusinfoOffset : 0) + (setVisible ? visiblePos[1] : invisiblePos[1])
-    Behavior on x { enabled: !PQCSettings.generalDisableAllAnimations; NumberAnimation { duration: dragrightMouse.enabled&&dragrightMouse.clickStart!=-1&&!animateResize ? 0 : 200 } }
+    Behavior on x { enabled: !PQCSettings.generalDisableAllAnimations; NumberAnimation { duration: dragrightMouse.enabled&&dragrightMouse.clickStart!=-1&&!mainmenu_top.animateResize ? 0 : 200 } }
 
     property bool animateResize: false
     onAnimateResizeChanged: {
@@ -1051,8 +1051,8 @@ Rectangle {
                 onCheckedChanged: {
                     mainmenu_top.animateResize = true
                     if(checked) {
-                        mainmenu_top.y = Qt.binding(function() { return (PQCSettings.mainmenuElementHeightDynamic ? statusinfoOffset : 0) + (setVisible ? visiblePos[1] : invisiblePos[1]) })
-                        mainmenu_top.height = Qt.binding(function() { return PQCConstants.availableHeight-2*gap-statusinfoOffset })
+                        mainmenu_top.y = Qt.binding(function() { return (PQCSettings.mainmenuElementHeightDynamic ? mainmenu_top.statusinfoOffset : 0) + (mainmenu_top.setVisible ? mainmenu_top.visiblePos[1] : mainmenu_top.invisiblePos[1]) })
+                        mainmenu_top.height = Qt.binding(function() { return PQCConstants.availableHeight-2*mainmenu_top.gap-mainmenu_top.statusinfoOffset })
                         PQCSettings.mainmenuElementHeightDynamic = true
                     } else {
                         mainmenu_top.y = mainmenu_top.y
@@ -1072,9 +1072,9 @@ Rectangle {
                     PQCSettings.setDefaultForMainmenuElementSize()
                     PQCSettings.setDefaultForMainmenuElementPosition()
                     mainmenu_top.animateResize = true
-                    mainmenu_top.y = Qt.binding(function() { return (PQCSettings.mainmenuElementHeightDynamic ? statusinfoOffset : 0) + (setVisible ? visiblePos[1] : invisiblePos[1]) })
+                    mainmenu_top.y = Qt.binding(function() { return (PQCSettings.mainmenuElementHeightDynamic ? mainmenu_top.statusinfoOffset : 0) + (mainmenu_top.setVisible ? mainmenu_top.visiblePos[1] : mainmenu_top.invisiblePos[1]) })
                     mainmenu_top.width = Qt.binding(function() { return Math.max(400, PQCSettings.mainmenuElementSize.width) })
-                    mainmenu_top.height = Qt.binding(function() { return PQCConstants.availableHeight-2*gap-statusinfoOffset })
+                    mainmenu_top.height = Qt.binding(function() { return PQCConstants.availableHeight-2*mainmenu_top.gap-mainmenu_top.statusinfoOffset })
                     PQCSettings.mainmenuElementHeightDynamic = true
                 }
             }
@@ -1230,7 +1230,7 @@ Rectangle {
 
         function onMouseMove(posx : int, posy : int) {
 
-            if(ignoreMouseMoveShortly || PQCConstants.modalWindowOpen)
+            if(mainmenu_top.ignoreMouseMoveShortly || PQCConstants.modalWindowOpen)
                 return
 
             if(PQCConstants.slideshowRunning || PQCConstants.faceTaggingMode) {

@@ -21,7 +21,6 @@
  **************************************************************************/
 
 import QtQuick
-import QtQuick.Dialogs
 import PhotoQt
 
 PQMessageBox {

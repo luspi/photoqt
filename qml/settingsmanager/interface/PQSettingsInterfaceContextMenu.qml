@@ -19,6 +19,7 @@
  ** along with PhotoQt. If not, see <http://www.gnu.org/licenses/>.      **
  **                                                                      **
  **************************************************************************/
+pragma ComponentBehavior: Bound
 
 import QtQuick
 import QtCore
@@ -90,8 +91,8 @@ PQSetting {
                             PQButtonIcon {
                                 id: appicon
                                 iconScale: 0.5
-                                source: (deleg.curData[0]==="" ? ("image://svg/:/" + PQCLook.iconShade + "/application.svg") : ("data:image/png;base64," + set_come.entries[deleg.modelData][0]))
-                                onSourceChanged:
+                                iconSource: (deleg.curData[0]==="" ? ("image://svg/:/" + PQCLook.iconShade + "/application.svg") : ("data:image/png;base64," + set_come.entries[deleg.modelData][0]))
+                                onIconSourceChanged:
                                     set_come.checkForChanges()
                                 onClicked: {
                                                                                         //: written on button for selecting a file from the file dialog

@@ -21,7 +21,6 @@
  **************************************************************************/
 
 import QtQuick
-import QtQuick.Controls
 import PhotoQt
 
 Item {
@@ -750,12 +749,12 @@ Item {
 
         function hideElement(item : string) {
             if(item === "") return
-            PQCNotify.loaderPassOn("forcehide", [trans[item]])
+            PQCNotify.loaderPassOn("forcehide", [bgmsg.trans[item]])
         }
 
         function showElement(item : string) {
             if(item === "") return
-            PQCNotify.loaderPassOn("forceshow", [trans[item]])
+            PQCNotify.loaderPassOn("forceshow", [bgmsg.trans[item]])
         }
 
         onReleased: (points) => {

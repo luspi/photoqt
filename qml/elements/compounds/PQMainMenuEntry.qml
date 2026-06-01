@@ -120,12 +120,12 @@ Item {
             } else if(!entrytop.customEntry || entrytop.cmd.startsWith("__")) {
                 PQCScriptsShortcuts.executeInternalCommand(entrytop.cmd)
             } else {
-                PQCScriptsShortcuts.executeExternal(cmd, custom_args, PQCFileFolderModel.currentFile);
-                if(custom_close == "1")
+                PQCScriptsShortcuts.executeExternal(entrytop.cmd, entrytop.custom_args, PQCFileFolderModel.currentFile);
+                if(entrytop.custom_close == "1")
                     PQCNotify.windowClose()
             }
 
-            if(closeMenu && !PQCSettings.interfacePopoutMainMenu)
+            if(entrytop.closeMenu && !PQCSettings.interfacePopoutMainMenu)
                 mainmenu_top.hideMainMenu()
         }
     }

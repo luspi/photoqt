@@ -31,7 +31,7 @@ Rectangle {
 
     x: (setVisible ? visiblePos[0] : invisiblePos[0])
     y: (PQCSettings.metadataElementHeightDynamic ? statusinfoOffset : 0) + (setVisible ? visiblePos[1] : invisiblePos[1])
-    Behavior on x { enabled: !PQCSettings.generalDisableAllAnimations; NumberAnimation { duration: dragrightMouse.enabled&&dragrightMouse.clickStart!=-1&&!animateResize ? 0 : 200 } }
+    Behavior on x { enabled: !PQCSettings.generalDisableAllAnimations; NumberAnimation { duration: dragrightMouse.enabled&&dragrightMouse.clickStart!=-1&&!metadata_top.animateResize ? 0 : 200 } }
 
     property bool animateResize: false
     onAnimateResizeChanged: {
@@ -806,9 +806,9 @@ Rectangle {
                 onCheckedChanged: {
                     metadata_top.animateResize = true
                     if(checked) {
-                        metadata_top.y = Qt.binding(function() { return statusinfoOffset + (setVisible ? visiblePos[1] : invisiblePos[1]) })
+                        metadata_top.y = Qt.binding(function() { return metadata_top.statusinfoOffset + (metadata_top.setVisible ? metadata_top.visiblePos[1] : metadata_top.invisiblePos[1]) })
                         if(!metadata_top.isPopout)
-                            metadata_top.height = Qt.binding(function() { return PQCConstants.availableHeight-2*gap-statusinfoOffset })
+                            metadata_top.height = Qt.binding(function() { return PQCConstants.availableHeight-2*metadata_top.gap-metadata_top.statusinfoOffset })
                         PQCSettings.metadataElementHeightDynamic = true
                     } else {
                         metadata_top.y = metadata_top.y
@@ -829,10 +829,10 @@ Rectangle {
                     PQCSettings.setDefaultForMetadataElementSize()
                     PQCSettings.setDefaultForMetadataElementPosition()
                     metadata_top.animateResize = true
-                    metadata_top.y = Qt.binding(function() { return (PQCSettings.metadataElementHeightDynamic ? statusinfoOffset : 0) + (setVisible ? visiblePos[1] : invisiblePos[1]) })
+                    metadata_top.y = Qt.binding(function() { return (PQCSettings.metadataElementHeightDynamic ? metadata_top.statusinfoOffset : 0) + (metadata_top.setVisible ? metadata_top.visiblePos[1] : metadata_top.invisiblePos[1]) })
                     metadata_top.width = Qt.binding(function() { return Math.max(400, PQCSettings.metadataElementSize.width) })
                     if(!metadata_top.isPopout)
-                        metadata_top.height = Qt.binding(function() { return PQCConstants.availableHeight-2*gap-statusinfoOffset })
+                        metadata_top.height = Qt.binding(function() { return PQCConstants.availableHeight-2*metadata_top.gap-metadata_top.statusinfoOffset })
                     PQCSettings.metadataElementHeightDynamic = true
                 }
             }
@@ -958,7 +958,7 @@ Rectangle {
 
         function onMouseMove(posx : int, posy : int) {
 
-            if(ignoreMouseMoveShortly || PQCConstants.modalWindowOpen)
+            if(metadata_top.ignoreMouseMoveShortly || PQCConstants.modalWindowOpen)
                 return
 
             if(PQCConstants.slideshowRunning || PQCConstants.faceTaggingMode) {

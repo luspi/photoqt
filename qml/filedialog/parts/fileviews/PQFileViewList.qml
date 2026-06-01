@@ -19,6 +19,7 @@
  ** along with PhotoQt. If not, see <http://www.gnu.org/licenses/>.      **
  **                                                                      **
  **************************************************************************/
+pragma ComponentBehavior: Bound
 
 import QtQuick
 import QtQuick.Controls
@@ -34,7 +35,7 @@ ListView {
 
     model: 0
 
-    ScrollBar.vertical: PQFileDialogScrollBar { id: view_scroll }
+    ScrollBar.vertical: PQVerticalScrollBar { id: view_scroll }
 
     onContentYChanged: {
         // this check makes sure that value is not reset when a directory is reloaded due to a change
@@ -104,7 +105,7 @@ ListView {
 
         Rectangle {
             anchors.fill: parent
-            color: modelData%2 ? palette.base : palette.alternateBase
+            color: deleg.modelData%2 ? palette.base : palette.alternateBase
             opacity: 0.5
         }
 
