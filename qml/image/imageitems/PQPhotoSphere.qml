@@ -47,8 +47,6 @@ Item {
     property bool animationRunning: false
     property int aniDirection: -1
 
-    property PQImage imageTopItem
-
     View3D {
 
         anchors.fill: parent
@@ -222,6 +220,34 @@ Item {
 
         }
 
+        function onAnimatePhotoSphere(direction : int) {
+
+            if(!sphere_top.isMainImage)
+                return
+
+            sphere_top.aniDirection = direction
+
+            if(direction === 0) {
+                kb_right.stop()
+                if(kb_left.paused)
+                    kb_left.resume()
+                else
+                    kb_left.start()
+            } else if(direction === 1) {
+                kb_left.stop()
+                if(kb_right.paused)
+                    kb_right.resume()
+                else
+                    kb_right.start()
+            } else {
+                if(kb_left.running)
+                    kb_left.pause()
+                if(kb_right.running)
+                    kb_right.pause()
+            }
+
+        }
+
     }
 
     // these are not handled with the behavior above because key events are handled smoother than mouse events
@@ -284,39 +310,6 @@ Item {
         if(dir === "left" || dir === "right" || dir === "reset")
             animatedAzimuth.restart()
 
-    }
-
-    Connections {
-
-        target: sphere_top.imageTopItem
-
-        function onAnimatePhotoSpheres(direction : int) {
-
-            if(!sphere_top.isMainImage)
-                return
-
-            sphere_top.aniDirection = direction
-
-            if(direction === 0) {
-                kb_right.stop()
-                if(kb_left.paused)
-                    kb_left.resume()
-                else
-                    kb_left.start()
-            } else if(direction === 1) {
-                kb_left.stop()
-                if(kb_right.paused)
-                    kb_right.resume()
-                else
-                    kb_right.start()
-            } else {
-                if(kb_left.running)
-                    kb_left.pause()
-                if(kb_right.running)
-                    kb_right.pause()
-            }
-
-        }
     }
 
     // slideshow paused/resumed

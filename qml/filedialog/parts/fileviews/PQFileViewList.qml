@@ -54,7 +54,7 @@ ListView {
     property real cacheContentY: 0.
 
     onCurrentIndexChanged: {
-        if(PQGlobalItems.filedialogFileview === undefined) return
+        if(PQGlobalItems.filedialogFileview === null) return
         if(PQGlobalItems.filedialogFileview.currentIndex !== currentIndex)
             PQGlobalItems.filedialogFileview.currentIndex = currentIndex
         if(!listview.flicking)

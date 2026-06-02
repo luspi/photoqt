@@ -43,6 +43,11 @@ Item {
     property bool integratedInterface: PQCSettings.generalInterfaceVariant==="integrated"
     property int integratedXOffset: ((integratedInterface&&PQCSettings.metadataSideBar&&PQCSettings.metadataSideBarLocation==="left") ? PQCSettings.metadataSideBarWidth : 0)
 
+    Item {
+        id: image_top_geo
+        anchors.fill: parent
+    }
+
     // this mouse area will catch mouse movements AFTER a file has been selected and BEFORE it is loaded
     // that time gap can be long, e.g., for very large archives with very many files
     PQMouseArea {
@@ -122,8 +127,6 @@ Item {
 
     property point extraControlsLocation: Qt.point(-1,-1)
 
-    signal animatePhotoSpheres(var direction)
-
     property var rememberChanges: ({})
     property list<var> reuseChanges: []
 
@@ -155,9 +158,11 @@ Item {
 
                 required property int modelData
 
-
-                Component.onCompleted:
-                     imageTopItem = image_top
+                rememberChanges: image_top.rememberChanges
+                reuseChanges: image_top.reuseChanges
+                imageTopGeometryItem: image_top_geo
+                visibleSourcePrevCur: image_top.visibleSourcePrevCur
+                randomAnimation: image_top.randomAnimation
 
                 onActiveChanged: {
                     repeaterimage.allactive[modelData] = active
@@ -555,6 +560,24 @@ Item {
             newimg.item.showImage()
             newimg.thisIsStartupFile = false
 
+        }
+
+    }
+
+    Connections {
+
+        target: PQCNotify
+
+        function onImageShowNext() {
+            image_top.showNext()
+        }
+
+        function onImageShowPrev() {
+            image_top.showPrev()
+        }
+
+        function onImageSetRandomAnimation(val) {
+            image_top.randomAnimation = val
         }
 
     }

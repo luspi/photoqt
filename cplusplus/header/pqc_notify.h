@@ -124,6 +124,7 @@ Q_SIGNALS:
     // some image signals
     void enterPhotoSphere();
     void exitPhotoSphere();
+    void animatePhotoSphere(int direction);
     void currentViewFlick(QString direction);
     void currentViewMove(QString direction);
     void currentFlickableSetContentX(int x);
@@ -147,6 +148,10 @@ Q_SIGNALS:
     void stopFaceTagging();
     void applyZoomLevel(double fact);
     void newImageHasBeenDisplayed();
+
+    void imageShowNext();
+    void imageShowPrev();
+    void imageSetRandomAnimation(QString val);
 
     // context menu properties
     void closeAllContextMenus();

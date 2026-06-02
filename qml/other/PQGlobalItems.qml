@@ -27,12 +27,12 @@ import PhotoQt
 
 QtObject {
 
-    property ApplicationWindow rootWindow
-    property Item toplevelItem
+    property ApplicationWindow rootWindow: null
+    property Item toplevelItem: null
 
     property var allPopouts: ({})
 
-    property PQPlaces filedialogPlaces
-    property PQFileView filedialogFileview
+    property PQPlaces filedialogPlaces: null
+    property PQFileView filedialogFileview: null
 
 }

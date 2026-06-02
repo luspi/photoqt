@@ -53,7 +53,7 @@ Item {
 
     function setBackground() {
 
-        if(PQGlobalItems.rootWindow == undefined) {
+        if(PQGlobalItems.rootWindow === null) {
             waitForRoot.restart()
             return
         }
