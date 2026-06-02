@@ -175,7 +175,7 @@ Item {
         source: Math.abs(1-svgtop.currentScale) > 0.01 ? svgtop.source : ""
         visible: source !== Qt.url("") && status == Image.Ready
         cache: false
-        smooth: false
+        smooth: true
         mipmap: false
         z: parent.z+1
         sourceSize: Qt.size(svgtop.sourceSize.width*svgtop.currentScale, svgtop.sourceSize.height*svgtop.currentScale)

@@ -218,7 +218,7 @@ Image {
             source: image.source
             visible: image.status == Image.Ready && !scaledloader.manualHidden
             cache: false
-            smooth: false
+            smooth: true
             mipmap: false
             z: parent.z+1
             asynchronous: false
