@@ -30,6 +30,7 @@ Loader {
 
     property string imageSource
     property bool isMainImage
+    property Item imageWrapperGeometry
 
     asynchronous: true
 
@@ -134,7 +135,7 @@ Loader {
 
                     function onMouseMove(x : int, y : int) {
 
-                        var pos = image_wrapper.mapFromItem(PQGlobalItems.toplevelItem, Qt.point(x,y))
+                        var pos = ldr_top.imageWrapperGeometry.mapFromItem(PQGlobalItems.toplevelItem, Qt.point(x,y))
 
                         facedeleg.hovered = false
 

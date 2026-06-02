@@ -25,7 +25,6 @@ import PhotoQt
 
 PQMouseArea {
     anchors.fill: parent
-    drag.target: statusinfo_top
     drag.onActiveChanged: {
         if(drag.active)
             PQCConstants.statusInfoMovedManually = true

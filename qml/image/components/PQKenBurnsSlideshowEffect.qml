@@ -31,7 +31,23 @@ Item {
     property int aniIndex: -1
 
     // the speed is depending on the user settings
-    property int aniSpeed: Math.max(15-PQCSettings.slideshowImageTransition,1)*5
+    property int aniSpeed: Math.min(15,PQCSettings.slideshowImageTransition)*5
+
+    property real loaderTopOpacity
+    property bool loaderTopVideoLoaded
+    property real loaderTopDefaultScale
+    property bool isMainImage
+    property Item imageWrapper
+    property Flickable flickable
+    property real kenBurnsZoomFactor
+    property string imageSource
+
+    signal zoomInForKenBurns()
+
+    // if we become the current image, make sure an animation is running
+    onIsMainImageChanged: {
+        manageAni()
+    }
 
     // Animation: left to right
     SequentialAnimation {
@@ -43,32 +59,32 @@ Item {
 
         // this keeps the image vertically centered
         onStarted:
-            flickable.contentY = Qt.binding(function() { return -(flickable.height-flickable.contentHeight)/2 })
+            aniDeleg.flickable.contentY = Qt.binding(function() { return -(aniDeleg.flickable.height-aniDeleg.flickable.contentHeight)/2 })
 
         // animate from middle to the right
         NumberAnimation {
-            target: flickable;
+            target: aniDeleg.flickable;
             property: "contentX";
-            from: -(flickable.width-flickable.contentWidth)/2
-            to: -(flickable.width-flickable.contentWidth)
+            from: -(aniDeleg.flickable.width-aniDeleg.flickable.contentWidth)/2
+            to: -(aniDeleg.flickable.width-aniDeleg.flickable.contentWidth)
             duration: Math.abs(from-to)*aniDeleg.aniSpeed
         }
 
         // animate to the left
         NumberAnimation {
-            target: flickable;
+            target: aniDeleg.flickable;
             property: "contentX";
-            from: -(flickable.width-flickable.contentWidth)
+            from: -(aniDeleg.flickable.width-aniDeleg.flickable.contentWidth)
             to: 0
             duration: Math.abs(from-to)*aniDeleg.aniSpeed
         }
 
         // animate from right to the middle
         NumberAnimation {
-            target: flickable;
+            target: aniDeleg.flickable;
             property: "contentX";
             from: 0
-            to: -(flickable.width-flickable.contentWidth)/2
+            to: -(aniDeleg.flickable.width-aniDeleg.flickable.contentWidth)/2
             duration: Math.abs(from-to)*aniDeleg.aniSpeed
         }
 
@@ -84,32 +100,32 @@ Item {
 
         // this keeps the image vertically centered
         onStarted:
-            flickable.contentY = Qt.binding(function() { return -(flickable.height-flickable.contentHeight)/2 })
+            aniDeleg.flickable.contentY = Qt.binding(function() { return -(aniDeleg.flickable.height-aniDeleg.flickable.contentHeight)/2 })
 
         // animate from middle to the left
         NumberAnimation {
-            target: flickable;
+            target: aniDeleg.flickable;
             property: "contentX";
-            from: -(flickable.width-flickable.contentWidth)/2
+            from: -(aniDeleg.flickable.width-aniDeleg.flickable.contentWidth)/2
             to: 0
             duration: Math.abs(from-to)*aniDeleg.aniSpeed
         }
 
         // animate to the right
         NumberAnimation {
-            target: flickable;
+            target: aniDeleg.flickable;
             property: "contentX";
             from: 0
-            to: -(flickable.width-flickable.contentWidth)
+            to: -(aniDeleg.flickable.width-aniDeleg.flickable.contentWidth)
             duration: Math.abs(from-to)*aniDeleg.aniSpeed
         }
 
         // animate from right to the middle
         NumberAnimation {
-            target: flickable;
+            target: aniDeleg.flickable;
             property: "contentX";
-            from: -(flickable.width-flickable.contentWidth)
-            to: -(flickable.width-flickable.contentWidth)/2
+            from: -(aniDeleg.flickable.width-aniDeleg.flickable.contentWidth)
+            to: -(aniDeleg.flickable.width-aniDeleg.flickable.contentWidth)/2
             duration: Math.abs(from-to)*aniDeleg.aniSpeed
         }
 
@@ -125,32 +141,32 @@ Item {
 
         // this keeps the image horizontally centered
         onStarted:
-            flickable.contentX = Qt.binding(function() { return -(flickable.width-flickable.contentWidth)/2 })
+            aniDeleg.flickable.contentX = Qt.binding(function() { return -(aniDeleg.flickable.width-aniDeleg.flickable.contentWidth)/2 })
 
         // animate from middle to the bottom
         NumberAnimation {
-            target: flickable;
+            target: aniDeleg.flickable;
             property: "contentY";
-            from: -(flickable.height-flickable.contentHeight)/2
-            to: -(flickable.height-flickable.contentHeight)
+            from: -(aniDeleg.flickable.height-aniDeleg.flickable.contentHeight)/2
+            to: -(aniDeleg.flickable.height-aniDeleg.flickable.contentHeight)
             duration: Math.abs(from-to)*aniDeleg.aniSpeed
         }
 
         // animate to the top
         NumberAnimation {
-            target: flickable;
+            target: aniDeleg.flickable;
             property: "contentY";
-            from: -(flickable.height-flickable.contentHeight)
+            from: -(aniDeleg.flickable.height-aniDeleg.flickable.contentHeight)
             to: 0
             duration: Math.abs(from-to)*aniDeleg.aniSpeed
         }
 
         // animate from bottom to the middle
         NumberAnimation {
-            target: flickable;
+            target: aniDeleg.flickable;
             property: "contentY";
             from: 0
-            to: -(flickable.height-flickable.contentHeight)/2
+            to: -(aniDeleg.flickable.height-aniDeleg.flickable.contentHeight)/2
             duration: Math.abs(from-to)*aniDeleg.aniSpeed
         }
 
@@ -166,38 +182,38 @@ Item {
 
         // this keeps the image horizontally centered
         onStarted:
-            flickable.contentX = Qt.binding(function() { return -(flickable.width-flickable.contentWidth)/2 })
+            aniDeleg.flickable.contentX = Qt.binding(function() { return -(aniDeleg.flickable.width-aniDeleg.flickable.contentWidth)/2 })
 
         // animate from middle to the top
         NumberAnimation {
-            target: flickable;
+            target: aniDeleg.flickable;
             property: "contentY";
-            from: -(flickable.height-flickable.contentHeight)/2
+            from: -(aniDeleg.flickable.height-aniDeleg.flickable.contentHeight)/2
             to: 0
             duration: Math.abs(from-to)*aniDeleg.aniSpeed
         }
 
         // animate to the bottom
         NumberAnimation {
-            target: flickable;
+            target: aniDeleg.flickable;
             property: "contentY";
             from: 0
-            to: -(flickable.height-flickable.contentHeight)
+            to: -(aniDeleg.flickable.height-aniDeleg.flickable.contentHeight)
             duration: Math.abs(from-to)*aniDeleg.aniSpeed
         }
 
         // animate from bottom to the middle
         NumberAnimation {
-            target: flickable;
+            target: aniDeleg.flickable;
             property: "contentY";
-            from: -(flickable.height-flickable.contentHeight)
-            to: -(flickable.height-flickable.contentHeight)/2
+            from: -(aniDeleg.flickable.height-aniDeleg.flickable.contentHeight)
+            to: -(aniDeleg.flickable.height-aniDeleg.flickable.contentHeight)/2
             duration: Math.abs(from-to)*aniDeleg.aniSpeed
         }
 
     }
 
-    // Animation: zoom in the out
+    // Animation: zoom in then out
     SequentialAnimation {
 
         id: kb_zoominout
@@ -207,31 +223,31 @@ Item {
 
         // this keeps the image centered
         onStarted: {
-            flickable.contentX = Qt.binding(function() { return -(flickable.width-flickable.contentWidth)/2 })
-            flickable.contentY = Qt.binding(function() { return -(flickable.height-flickable.contentHeight)/2 })
+            aniDeleg.flickable.contentX = Qt.binding(function() { return -(aniDeleg.flickable.width-aniDeleg.flickable.contentWidth)/2 })
+            aniDeleg.flickable.contentY = Qt.binding(function() { return -(aniDeleg.flickable.height-aniDeleg.flickable.contentHeight)/2 })
         }
 
         // zoom in
         NumberAnimation {
-            target: image_wrapper;
+            target: aniDeleg.imageWrapper;
             property: "scale";
-            from: image_wrapper.kenBurnsZoomFactor
-            to: image_wrapper.kenBurnsZoomFactor*1.5
+            from: aniDeleg.kenBurnsZoomFactor
+            to: aniDeleg.kenBurnsZoomFactor*1.5
             duration: aniDeleg.aniSpeed*250
         }
 
         // zoom out
         NumberAnimation {
-            target: image_wrapper;
+            target: aniDeleg.imageWrapper;
             property: "scale";
-            from: image_wrapper.kenBurnsZoomFactor*1.5
-            to: image_wrapper.kenBurnsZoomFactor
+            from: aniDeleg.kenBurnsZoomFactor*1.5
+            to: aniDeleg.kenBurnsZoomFactor
             duration: aniDeleg.aniSpeed*250
         }
 
     }
 
-    // Animation: zoom out the in
+    // Animation: zoom out then in
     SequentialAnimation {
 
         id: kb_zoomoutin
@@ -240,42 +256,33 @@ Item {
         running: false
 
         onStarted: {
-            flickable.contentX = Qt.binding(function() { return -(flickable.width-flickable.contentWidth)/2 })
-            flickable.contentY = Qt.binding(function() { return -(flickable.height-flickable.contentHeight)/2 })
+            aniDeleg.flickable.contentX = Qt.binding(function() { return -(aniDeleg.flickable.width-aniDeleg.flickable.contentWidth)/2 })
+            aniDeleg.flickable.contentY = Qt.binding(function() { return -(aniDeleg.flickable.height-aniDeleg.flickable.contentHeight)/2 })
         }
 
         // zoom out
         NumberAnimation {
-            target: image_wrapper;
+            target: aniDeleg.imageWrapper;
             property: "scale";
-            from: image_wrapper.kenBurnsZoomFactor*1.5
-            to: image_wrapper.kenBurnsZoomFactor
+            from: aniDeleg.kenBurnsZoomFactor*1.5
+            to: aniDeleg.kenBurnsZoomFactor
             duration: aniDeleg.aniSpeed*250
         }
 
         // zoom in
         NumberAnimation {
-            target: image_wrapper;
+            target: aniDeleg.imageWrapper;
             property: "scale";
-            from: image_wrapper.kenBurnsZoomFactor
-            to: image_wrapper.kenBurnsZoomFactor*1.5
+            from: aniDeleg.kenBurnsZoomFactor
+            to: aniDeleg.kenBurnsZoomFactor*1.5
             duration: aniDeleg.aniSpeed*250
         }
 
     }
 
     Connections {
-        target: loader_top
 
-        // if we become the current image, make sure an animation is running
-        function onIsMainImageChanged() {
-            aniDeleg.manageAni()
-        }
-    }
-
-    Connections {
-
-        target: flickable
+        target: aniDeleg.flickable
 
         // a change in the content width/height necessitates handling the animation
 
@@ -325,8 +332,8 @@ Item {
             if(PQCConstants.slideshowRunning) {
 
                 if(!PQCConstants.currentlyShowingVideo && !PQCConstants.showingPhotoSphere)
-                    loader_top.zoomInForKenBurns()
-                flickable.returnToBounds()
+                    aniDeleg.zoomInForKenBurns()
+                aniDeleg.flickable.returnToBounds()
                 aniDeleg.manageAni()
 
             } else
@@ -339,7 +346,7 @@ Item {
     // calculate the animation to be used for this image
     function figureOutAniIndex() {
 
-        var index = PQCFileFolderModel.getIndexOfMainView(imageloaderitem.imageSource)
+        var index = PQCFileFolderModel.getIndexOfMainView(aniDeleg.imageSource)
 
         if(PQCConstants.showingPhotoSphere) {
             PQCNotify.animatePhotoSphere(index%2)
@@ -348,7 +355,7 @@ Item {
 
         PQCNotify.animatePhotoSphere(-1)
 
-        var fac = image_wrapper.width/image_wrapper.height
+        var fac = aniDeleg.imageWrapper.width/aniDeleg.imageWrapper.height
 
         // image is much higher than wide
         if(fac < 0.75)
@@ -369,7 +376,7 @@ Item {
         id: stopAfterFadeOut
         interval: PQCSettings.imageviewAnimationDuration*100
         onTriggered: {
-            if(loader_top.opacity > 1e-6)
+            if(aniDeleg.loaderTopOpacity > 1e-6)
                 stopAfterFadeOut.restart()
             else
                 aniDeleg.stopAni()
@@ -399,15 +406,15 @@ Item {
     function manageAni() {
 
         // no animation should be running -> stop!
-        if(!loader_top.isMainImage || !PQCConstants.slideshowRunning ||
-                PQCSettings.slideshowTypeAnimation!=="kenburns" || loader_top.videoLoaded ||
-                loader_top.defaultScale >= 1 || !PQCConstants.slideshowRunningAndPlaying) {
+        if(!aniDeleg.isMainImage || !PQCConstants.slideshowRunning ||
+                PQCSettings.slideshowTypeAnimation!=="kenburns" || loaderTopVideoLoaded ||
+                loaderTopDefaultScale >= 1 || !PQCConstants.slideshowRunningAndPlaying) {
             stopAfterFadeOut.restart()
             return
         }
 
         // make sure image is well positioned
-        flickable.returnToBounds()
+        aniDeleg.flickable.returnToBounds()
 
         // get animation index if needed
         if(aniIndex == -1)

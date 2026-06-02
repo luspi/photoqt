@@ -36,9 +36,10 @@ Loader {
         id: comp_mapexplorer
         PQTemplateModal {
             id: smmod
+            property PQMapExplorer theItem
             showTopBottom: false
-            function showing() { return tmpl.showing() }
-            function hiding() { return tmpl.hiding() }
+            function showing() { return theItem.showing() }
+            function hiding() { return theItem.hiding() }
             content: PQMapExplorer {
                 id: tmpl
                 button1: smmod.button1
@@ -48,6 +49,7 @@ Loader {
                 popInOutButton: smmod.popInOutButton
                 availableHeight: smmod.contentHeight
                 Component.onCompleted: {
+                    smmod.theItem = tmpl
                     smmod.elementId = elementId
                     smmod.title = title
                     smmod.letElementHandleClosing = letMeHandleClosing
@@ -60,11 +62,12 @@ Loader {
         id: comp_mapexplorer_popout
         PQTemplateModalPopout {
             id: smpop
+            property PQMapExplorer theItem
             showTopBottom: false
             defaultPopoutGeometry: PQCWindowGeometry.mapexplorerGeometry
             defaultPopoutMaximized: PQCWindowGeometry.mapexplorerMaximized
-            function showing() { return tmpl.showing() }
-            function hiding() { return tmpl.hiding() }
+            function showing() { return theItem.showing() }
+            function hiding() { return theItem.hiding() }
             onRectUpdated: (r) => {
                 PQCWindowGeometry.mapexplorerGeometry = r
             }
@@ -80,6 +83,7 @@ Loader {
                 popInOutButton: smpop.popInOutButton
                 availableHeight: smpop.contentHeight
                 Component.onCompleted: {
+                    smpop.theItem = tmpl
                     smpop.elementId = elementId
                     smpop.title = title
                     smpop.letElementHandleClosing = letMeHandleClosing

@@ -356,7 +356,7 @@ PQSetting {
 
                         Image {
                             id: verified_failed
-                            visible: !extensionfailed_setting.isDebugBuild
+                            visible: !PQCScriptsConfig.isDebugBuild()
                             x: nametxt.x+nametxt.width+5
                             y: (parent.height-height)/2
                             width: visible ? nametxt.height*0.75 : 0

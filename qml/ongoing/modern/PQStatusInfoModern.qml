@@ -76,7 +76,7 @@ Item {
         acceptedButtons: Qt.AllButtons
         onPressed: (mouse) => {
             if(mouse.button === Qt.RightButton)
-                menu.item.popup()
+                statusinfo_top.menuItem.popup()
         }
     }
 
@@ -85,8 +85,8 @@ Item {
                "hidden"
 
     onStateChanged: {
-        if(state === "hidden" && menu.item !== null)
-            menu.item.dismiss()
+        if(state === "hidden" && statusinfo_top.menuItem !== null)
+            statusinfo_top.menuItem.dismiss()
     }
 
     states: [
@@ -440,7 +440,9 @@ Item {
         PQText {
             text: qsTranslate("statusinfo", "Click anywhere to open a file")
             font.pointSize: PQCSettings.interfaceStatusInfoFontSize
-            PQStatusInfoMouseAreaModern {}
+            PQStatusInfoMouseAreaModern {
+                drag.target: statusinfo_top
+            }
         }
     }
 
@@ -449,7 +451,9 @@ Item {
         PQText {
             text: (PQCFileFolderModel.currentIndexNoDelay+1) + "/" + PQCFileFolderModel.countMainView
             font.pointSize: PQCSettings.interfaceStatusInfoFontSize
-            PQStatusInfoMouseAreaModern {}
+            PQStatusInfoMouseAreaModern {
+                drag.target: statusinfo_top
+            }
         }
     }
 
@@ -458,7 +462,9 @@ Item {
         PQText {
             text: PQCScriptsFilesPaths.getFilename(PQCFileFolderModel.currentFileNoDelay)
             font.pointSize: PQCSettings.interfaceStatusInfoFontSize
-            PQStatusInfoMouseAreaModern {}
+            PQStatusInfoMouseAreaModern {
+                drag.target: statusinfo_top
+            }
         }
     }
 
@@ -469,7 +475,9 @@ Item {
                         ? PQCScriptsFilesPaths.getFullArchivePath(PQCFileFolderModel.currentFileNoDelay)
                         : PQCFileFolderModel.currentFileNoDelay
             font.pointSize: PQCSettings.interfaceStatusInfoFontSize
-            PQStatusInfoMouseAreaModern {}
+            PQStatusInfoMouseAreaModern {
+                drag.target: statusinfo_top
+            }
         }
     }
 
@@ -479,6 +487,7 @@ Item {
             text: Math.round((PQCConstants.showingPhotoSphere ? 1 : PQCConstants.devicePixelRatio) * PQCConstants.currentImageScale*100)+"%"
             font.pointSize: PQCSettings.interfaceStatusInfoFontSize
             PQStatusInfoMouseAreaModern {
+                drag.target: statusinfo_top
                 cursorShape: Qt.PointingHandCursor
                 onClicked: {
                     PQCNotify.loaderShow("EnterZoom")
@@ -492,7 +501,9 @@ Item {
         PQText {
             text: (Math.round(PQCConstants.currentImageRotation)%360+360)%360 + "°"
             font.pointSize: PQCSettings.interfaceStatusInfoFontSize
-            PQStatusInfoMouseAreaModern {}
+            PQStatusInfoMouseAreaModern {
+                drag.target: statusinfo_top
+            }
         }
     }
 
@@ -503,18 +514,24 @@ Item {
             PQText {
                 text: PQCConstants.currentImageResolution.width
                 font.pointSize: PQCSettings.interfaceStatusInfoFontSize
-                PQStatusInfoMouseAreaModern {}
+                PQStatusInfoMouseAreaModern {
+                    drag.target: statusinfo_top
+                }
             }
             PQText {
                 opacity: 0.7
                 text: "x"
                 font.pointSize: PQCSettings.interfaceStatusInfoFontSize
-                PQStatusInfoMouseAreaModern {}
+                PQStatusInfoMouseAreaModern {
+                    drag.target: statusinfo_top
+                }
             }
             PQText {
                 text: PQCConstants.currentImageResolution.height
                 font.pointSize: PQCSettings.interfaceStatusInfoFontSize
-                PQStatusInfoMouseAreaModern {}
+                PQStatusInfoMouseAreaModern {
+                    drag.target: statusinfo_top
+                }
             }
         }
     }
@@ -524,7 +541,9 @@ Item {
         PQText {
             text: PQCScriptsFilesPaths.getFileSizeHumanReadable(PQCFileFolderModel.currentFileNoDelay)
             font.pointSize: PQCSettings.interfaceStatusInfoFontSize
-            PQStatusInfoMouseAreaModern {}
+            PQStatusInfoMouseAreaModern {
+                drag.target: statusinfo_top
+            }
         }
     }
 
@@ -592,7 +611,9 @@ Item {
                     csptxt.text = val
                 }
             }
-            PQStatusInfoMouseAreaModern {}
+            PQStatusInfoMouseAreaModern {
+                drag.target: statusinfo_top
+            }
         }
     }
 
@@ -644,7 +665,9 @@ Item {
                     }
                 }
             }
-            PQStatusInfoMouseAreaModern {}
+            PQStatusInfoMouseAreaModern {
+                drag.target: statusinfo_top
+            }
 
         }
     }
@@ -687,7 +710,7 @@ Item {
             id: touchShowMenu
             interval: 1000
             onTriggered: {
-                menu.item.popup(toucharea.mapToItem(statusinfo_top, toucharea.touchPos))
+                statusinfo_top.menuItem.popup(toucharea.mapToItem(statusinfo_top, toucharea.touchPos))
             }
         }
 
@@ -695,6 +718,7 @@ Item {
 
     ButtonGroup { id: grp }
 
+    property PQMenu menuItem: null
     Loader {
         id: menu
         asynchronous: true
@@ -702,6 +726,9 @@ Item {
             PQMenu {
 
                 id: menuitem
+
+                Component.onCompleted:
+                    statusinfo_top.menuItem = menuitem
 
                 PQMenuItem {
                     enabled: false
@@ -861,7 +888,7 @@ Item {
         }
 
         function onCloseAllContextMenus() {
-            menu.item.dismiss()
+            statusinfo_top.menuItem.dismiss()
         }
 
     }
@@ -909,7 +936,7 @@ Item {
             if(PQCConstants.statusInfoMovedManually) {
                 statusinfo_top.x = Math.min(PQCConstants.availableWidth-statusinfo_top.width, Math.max(0, statusinfo_top.x))
             } else
-                statusinfo_top.y = distanceFromEdge+computeYOffset()
+                statusinfo_top.y = statusinfo_top.distanceFromEdge+statusinfo_top.computeYOffset()
         }
 
         function onAvailableHeightChanged() {
@@ -938,7 +965,7 @@ Item {
         repeat: false
         running: false
         onTriggered: {
-            if((!statusinfo_top.nearTopEdge || !PQCSettings.interfaceStatusInfoAutoHideTopEdge) && !menu.item.opened)
+            if((!statusinfo_top.nearTopEdge || !PQCSettings.interfaceStatusInfoAutoHideTopEdge) && !statusinfo_top.menuItem.opened)
                 statusinfo_top.state = "hidden"
         }
     }

@@ -60,6 +60,7 @@ Rectangle {
 
     property alias imageContextMenu: contextmenu
 
+    signal showHighlightMarkerAt(var lat, var lon)
     signal mapHideHighlightMarker()
     signal clickOnImage(var lat, var lon)
     signal hideExplorer()
@@ -215,7 +216,7 @@ Rectangle {
                     resetCurrentIndex.stop()
                     gridview.currentIndex = maindeleg.modelData
 
-                    map.showHighlightMarkerAt(maindeleg.latitude, maindeleg.longitude)
+                    visibleimages_top.showHighlightMarkerAt(maindeleg.latitude, maindeleg.longitude)
 
                     if(!tooltipSetup) {
 
@@ -302,8 +303,10 @@ Rectangle {
             //: The location here is the GPS location
             text: qsTranslate("mapexplorer", "Zoom to location")
             onTriggered: {
-                if(contextmenu.activeIndex != -1)
-                    mapexplorer_top.clickOnImage(visibleimages_top.visibleImagesWithLocation[contextmenu.activeIndex][1], visibleimages_top.visibleImagesWithLocation[contextmenu.activeIndex][2])
+                if(contextmenu.activeIndex != -1) {
+                    const cur = visibleimages_top.visibleImagesWithLocation[contextmenu.activeIndex]
+                    visibleimages_top.clickOnImage(cur[1], cur[2])
+                }
             }
         }
 
@@ -312,7 +315,7 @@ Rectangle {
             onTriggered: {
                 PQCFileFolderModel.fileInFolderMainView = visibleimages_top.visibleImagesWithLocation[contextmenu.activeIndex][0]
                 if(!PQCSettings.interfacePopoutMapExplorerNonModal) {
-                    mapexplorer_top.hideExplorer()
+                    visibleimages_top.hideExplorer()
                 }
             }
         }
@@ -321,7 +324,8 @@ Rectangle {
             //: The location here is the GPS location
             text: qsTranslate("mapexplorer", "Copy location to clipboard")
             onTriggered: {
-                PQCScriptsClipboard.copyTextToClipboard(visibleimages_top.visibleImagesWithLocation[contextmenu.activeIndex][1] + " " + visibleimages_top.visibleImagesWithLocation[contextmenu.activeIndex][2])
+                const cur = visibleimages_top.visibleImagesWithLocation[contextmenu.activeIndex]
+                PQCScriptsClipboard.copyTextToClipboard(cur[1] + " " + cur[2])
             }
         }
 

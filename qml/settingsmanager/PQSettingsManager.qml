@@ -308,6 +308,9 @@ PQTemplate {
 
     PQSettingsConfirmUnsaved {
         id: confirmUnsaved
+        onHideSettingsManager: {
+            settingsmanager_top.hide()
+        }
     }
 
     PQSettingsShortcutsDetectNew {

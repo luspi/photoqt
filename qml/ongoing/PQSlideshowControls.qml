@@ -42,6 +42,8 @@ Item {
     // this is a way to reliably detect whether it is used
     property bool popoutWindowUsed: false
 
+    property string elementId: ""
+
     state: "hidden"
 
     states: [
@@ -424,14 +426,10 @@ Item {
     function show() {
         opacity = 1
         PQCConstants.modalSlideshowControlsOpen = true
-        if(popoutWindowUsed)
-            slideshowcontrols_popout.visible = true
     }
 
     function hide() {
         opacity = 0
-        if(popoutWindowUsed)
-            slideshowcontrols_popout.visible = false
         PQCConstants.modalSlideshowControlsOpen = false
     }
 

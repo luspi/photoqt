@@ -164,6 +164,21 @@ Item {
                 visibleSourcePrevCur: image_top.visibleSourcePrevCur
                 randomAnimation: image_top.randomAnimation
 
+                onTellAboutReuseChanged: (changes) => {
+                    image_top.reuseChanges = changes
+                }
+                onTellAboutRememberChanged: (changes) => {
+                    image_top.rememberChanges[imageSource] = changes
+                }
+                onDeleteRememberChanges: {
+                    delete image_top.rememberChanges[imageSource]
+                }
+
+                onReloadMinimap: {
+                    minimap_loader.active = false
+                    minimap_loader.active = true
+                }
+
                 onActiveChanged: {
                     repeaterimage.allactive[modelData] = active
                 }
@@ -490,7 +505,7 @@ Item {
             if(PQCFileFolderModel.countMainView === 0) {
                 for(var i = 0; i < loaderCount; ++i) {
                     var curimg = repeaterimage.itemAt(i)
-                    if(curimg.item)
+                    if(curimg.item !== null)
                         curimg.item.hideImage()
                 }
                 return
@@ -543,7 +558,7 @@ Item {
                     var spare = repeaterimage.itemAt(j)
 
                     // this is a spare item
-                    if((image_top.bgFiles.indexOf(spare.imageSource) === -1 || spare.imageSource !== newFile) && (!spare.active || !spare.item.visible)) {
+                    if((image_top.bgFiles.indexOf(spare.imageSource) === -1 || spare.containingFolder !== newFolder || spare.lastModified !== newModified || spare.imageSource !== newFile) && (!spare.active || !spare.item.visible)) {
                         spare.containingFolder = newFolder
                         spare.lastModified = newModified
                         spare.imageSource = newFile

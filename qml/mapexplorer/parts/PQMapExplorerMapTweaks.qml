@@ -32,6 +32,12 @@ Rectangle {
     property real minZoomLevel: 0
     property real maxZoomLevel: 1
 
+    property real mapZoomLevel
+    property int closebuttonWidth
+
+    signal setMapZoomLevel(var lvl)
+    signal resetMap()
+
     Row {
 
         x: 10
@@ -55,10 +61,10 @@ Rectangle {
             from: explorertweaks.minZoomLevel
             to: explorertweaks.maxZoomLevel
             stepSize: 0.1
-            value: mapexplorer_top.mapZoomLevel
+            value: explorertweaks.mapZoomLevel
 
             onValueChanged: {
-                mapexplorer_top.mapZoomLevel = value
+                explorertweaks.setMapZoomLevel(value)
             }
         }
 
@@ -66,13 +72,13 @@ Rectangle {
 
     PQButtonIcon {
         id: resetbutton
-        x: parent.width-width-mapexplorer_top.closebuttonWidth/2
+        x: parent.width-width-explorertweaks.closebuttonWidth/2
         y: (parent.height-height)/2
         iconSource: "image://svg/:/" + PQCLook.iconShade + "/reset.svg"
         //: The view here is the map layout in the map explorer
         tooltip: qsTranslate("mapexplorer", "Reset view")
         onClicked: {
-            mapexplorer_top.resetMap()
+            explorertweaks.resetMap()
         }
     }
 

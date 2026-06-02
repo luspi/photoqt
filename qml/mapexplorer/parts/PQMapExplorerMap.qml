@@ -52,6 +52,11 @@ Item {
     property bool gpsContextMenuIsOpen: false
     signal closeMenus()
 
+    property bool mapVisible
+    property real mapZoomLevel
+    signal setZoomLevel(var lvl)
+    signal setMinMaxZoomlevel(var minlvl, var maxlvl)
+
     Plugin {
 
         id: osmPlugin
@@ -82,7 +87,7 @@ Item {
         anchors.fill: parent
 
         center: QtPositioning.coordinate(49.01, 8.40)
-        zoomLevel: mapexplorer_top.mapZoomLevel
+        zoomLevel: map_top.mapZoomLevel
 
         property int curZ: 0
 
@@ -124,15 +129,15 @@ Item {
 
         onZoomLevelChanged: (zoomLevel) => {
             map_top.computeDetailLevel()
-            if(zoomLevel !== mapexplorer_top.mapZoomLevel)
-                mapexplorer_top.mapZoomLevel = zoomLevel
+            if(zoomLevel !== map_top.mapZoomLevel)
+                map_top.setZoomLevel(zoomLevel)
         }
 
         Timer {
             id: updateVisibleRegion
             interval: 500
             repeat: true
-            running: mapexplorer_top.visible
+            running: map_top.mapVisible
             onTriggered: {
                 execute()
             }
@@ -546,8 +551,7 @@ Item {
         }
 
         Component.onCompleted:  {
-            maptweaks.minZoomLevel = minimumZoomLevel
-            maptweaks.maxZoomLevel = maximumZoomLevel
+            map_top.setMinMaxZoomlevel(minimumZoomLevel, maximumZoomLevel)
         }
 
         Connections {

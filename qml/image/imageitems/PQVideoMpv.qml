@@ -207,38 +207,34 @@ Item {
             video.command(["seek", pos, "absolute"])
     }
 
-    Connections {
 
-        target: loader_top
+    function stopVideoAndReset() {
+        if(!videotop.isMainImage)
+            return
+        if(videotop.videoPlaying) {
+            videotop.videoPlaying = false
+            video.command(["seek", 0, "absolute"])
+        }
+    }
+    function restartVideoIfAutoplay() {
 
-        function onStopVideoAndReset() {
-            if(!videotop.isMainImage)
-                return
-            if(videotop.videoPlaying) {
+        if(!videotop.isMainImage)
+            return
+
+        if(videotop.videoPlaying) {
+
+            if(!PQCSettings.filetypesVideoAutoplay && !PQCConstants.slideshowRunning) {
                 videotop.videoPlaying = false
+            } else
                 video.command(["seek", 0, "absolute"])
+
+        } else {
+            if(PQCSettings.filetypesVideoAutoplay || PQCConstants.slideshowRunning) {
+                video.command(["seek", 0, "absolute"])
+                videotop.videoPlaying = true
             }
         }
-        function onRestartVideoIfAutoplay() {
 
-            if(!videotop.isMainImage)
-                return
-
-            if(videotop.videoPlaying) {
-
-                if(!PQCSettings.filetypesVideoAutoplay && !PQCConstants.slideshowRunning) {
-                    videotop.videoPlaying = false
-                } else
-                    video.command(["seek", 0, "absolute"])
-
-            } else {
-                if(PQCSettings.filetypesVideoAutoplay || PQCConstants.slideshowRunning) {
-                    video.command(["seek", 0, "absolute"])
-                    videotop.videoPlaying = true
-                }
-            }
-
-        }
     }
 
     Connections {

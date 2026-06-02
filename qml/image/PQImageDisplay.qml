@@ -45,6 +45,11 @@ Loader {
     property string randomAnimation
 
     signal iAmReady()
+    signal reloadMinimap()
+    signal kenBurnsStopAni()
+    signal tellAboutRememberChanged(var changes)
+    signal deleteRememberChanges()
+    signal tellAboutReuseChanged(var changes)
 
     onImageSourceChanged: {
         imageLoadedAndReady = false
@@ -487,8 +492,7 @@ Loader {
                 image_loader_img.active = true
             }
 
-            minimap_loader.active = false
-            minimap_loader.active = true
+            imageloaderitem.reloadMinimap()
         }
 
         Flickable {
@@ -705,6 +709,11 @@ Loader {
                 Item {
 
                     id: image_wrapper
+
+                    Item {
+                        id: image_wrapper_geo
+                        anchors.fill: parent
+                    }
 
                     y: Math.round(loader_top.rotatedUpright ?
                                     (height*scale-height)/2 :
@@ -1036,6 +1045,12 @@ Loader {
                                     }
                                     function onImageClicked() {
                                         mpv_item.videoClicked()
+                                    }
+                                    function onStopVideoAndReset() {
+                                        mpv_item.stopVideoAndReset()
+                                    }
+                                    function onRestartVideoIfAutoplay() {
+                                        mpv_item.restartVideoIfAutoplay()
                                     }
                                 }
 
@@ -1426,6 +1441,7 @@ Loader {
                     PQFaceTracker {
                         isMainImage: loader_top.isMainImage
                         imageSource: imageloaderitem.imageSource
+                        imageWrapperGeometry: image_wrapper_geo
                     }
 
                     PQFaceTagger {
@@ -2246,7 +2262,7 @@ Loader {
                 interval: 1000
                 property point touchPos: Qt.point(-1,-1)
                 onTriggered: {
-                    shortcuts.item.executeInternalFunction("__contextMenuTouch", touchPos)
+                    PQCScriptsShortcuts.executeInternalCommandWithMousePos("__contextMenuTouch", touchPos)
                 }
             }
 
@@ -2274,8 +2290,7 @@ Loader {
                     loader_top.stopVideoAndReset()
 
                     // stop any ken burns animations if running
-                    if(loader_kenburns.item != null)
-                        loader_kenburns.item.stopAni()
+                    imageloaderitem.kenBurnsStopAni()
 
                     loader_top.visible = false
 
@@ -2434,7 +2449,30 @@ Loader {
             id: loader_kenburns
             active: PQCConstants.slideshowRunning && PQCSettings.slideshowTypeAnimation === "kenburns"
             sourceComponent:
-                PQKenBurnsSlideshowEffect { }
+                PQKenBurnsSlideshowEffect {
+
+                    id: effect
+
+                    isMainImage: loader_top.isMainImage
+                    imageWrapper: image_wrapper
+                    flickable: flickable
+                    kenBurnsZoomFactor: image_wrapper.kenBurnsZoomFactor
+                    loaderTopOpacity: loader_top.opacity
+                    loaderTopVideoLoaded: loader_top.videoLoaded
+                    loaderTopDefaultScale: loader_top.defaultScale
+                    imageSource: imageloaderitem.imageSource
+
+                    function onZoomInForKenBurns() {
+                        loader_top.zoomInForKenBurns()
+                    }
+
+                    Connections {
+                        target: imageloaderitem
+                        function onKenBurnsStopAni() {
+                            effect.stopAni()
+                        }
+                    }
+                }
         }
 
         Timer {
@@ -2686,6 +2724,8 @@ Loader {
         // hide the image
         function hideImage() {
 
+            console.warn(">>> HIDIING IMAGE:", imageloaderitem.imageSource)
+
             imageloaderitem.thisIsStartupFile = false
 
             // ignore anything that happened during a slideshow
@@ -2702,12 +2742,12 @@ Loader {
                                     loader_top.imageMirrorH,
                                     loader_top.imageMirrorV]
                         if(PQCSettings.imageviewRememberZoomRotationMirror)
-                            imageloaderitem.rememberChanges[imageloaderitem.imageSource] = vals
+                            imageloaderitem.tellAboutRememberChanged(vals)
                         if(PQCSettings.imageviewPreserveZoom || PQCSettings.imageviewPreserveRotation || PQCSettings.imageviewPreserveMirror)
-                            imageloaderitem.reuseChanges = vals
+                            imageloaderitem.tellAboutReuseChanged(vals)
                     } else
                         // don't delete reuseChanges here, we want to keep those
-                        delete imageloaderitem.rememberChanges[imageloaderitem.imageSource]
+                        imageloaderitem.deleteRememberChanges()
 
                 }
 

@@ -31,14 +31,16 @@ Loader {
     active: false
     anchors.fill: parent
 
-    sourceComponent: ((PQCSettings.interfacePopoutAbout || PQCWindowGeometry.aboutForcePopout || loader_top.isIntegrated) ? comp_about_popout : comp_about)
+    sourceComponent: ((PQCSettings.interfacePopoutAbout || PQCWindowGeometry.aboutForcePopout ||
+                       PQCSettings.generalInterfaceVariant==="integrated") ? comp_about_popout : comp_about)
 
     Component {
         id: comp_about
         PQTemplateModal {
             id: smmod
-            function showing() { return tmpl.showing() }
-            function hiding() { return tmpl.hiding() }
+            property PQAbout theItem
+            function showing() { return theItem.showing() }
+            function hiding() { return theItem.hiding() }
             content: PQAbout {
                 id: tmpl
                 button1: smmod.button1
@@ -48,6 +50,7 @@ Loader {
                 popInOutButton: smmod.popInOutButton
                 availableHeight: smmod.contentHeight
                 Component.onCompleted: {
+                    smmod.theItem = tmpl
                     smmod.elementId = elementId
                     smmod.title = title
                     smmod.letElementHandleClosing = letMeHandleClosing
@@ -60,10 +63,11 @@ Loader {
         id: comp_about_popout
         PQTemplateModalPopout {
             id: smpop
+            property PQAbout theItem
             defaultPopoutGeometry: PQCWindowGeometry.aboutGeometry
             defaultPopoutMaximized: PQCWindowGeometry.aboutMaximized
-            function showing() { return tmpl.showing() }
-            function hiding() { return tmpl.hiding() }
+            function showing() { return theItem.showing() }
+            function hiding() { return theItem.hiding() }
             onRectUpdated: (r) => {
                 PQCWindowGeometry.aboutGeometry = r
             }
@@ -79,6 +83,7 @@ Loader {
                 popInOutButton: smpop.popInOutButton
                 availableHeight: smpop.contentHeight
                 Component.onCompleted: {
+                    smpop.theItem = tmpl
                     smpop.elementId = elementId
                     smpop.title = title
                     smpop.letElementHandleClosing = letMeHandleClosing

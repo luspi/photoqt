@@ -37,8 +37,9 @@ Loader {
         id: comp_find
         PQTemplateModal {
             id: smmod
-            function showing() { return tmpl.showing() }
-            function hiding() { return tmpl.hiding() }
+            property PQFind theItem
+            function showing() { return theItem.showing() }
+            function hiding() { return theItem.hiding() }
             content: PQFind {
                 id: tmpl
                 button1: smmod.button1
@@ -48,6 +49,7 @@ Loader {
                 popInOutButton: smmod.popInOutButton
                 availableHeight: smmod.contentHeight
                 Component.onCompleted: {
+                    smmod.theItem = tmpl
                     smmod.elementId = elementId
                     smmod.title = title
                     smmod.letElementHandleClosing = letMeHandleClosing
@@ -60,10 +62,11 @@ Loader {
         id: comp_find_popout
         PQTemplateModalPopout {
             id: smpop
+            property PQFind theItem
             defaultPopoutGeometry: PQCWindowGeometry.findGeometry
             defaultPopoutMaximized: PQCWindowGeometry.findMaximized
-            function showing() { return tmpl.showing() }
-            function hiding() { return tmpl.hiding() }
+            function showing() { return theItem.showing() }
+            function hiding() { return theItem.hiding() }
             onRectUpdated: (r) => {
                 PQCWindowGeometry.findGeometry = r
             }
@@ -79,6 +82,7 @@ Loader {
                 popInOutButton: smpop.popInOutButton
                 availableHeight: smpop.contentHeight
                 Component.onCompleted: {
+                    smpop.theItem = tmpl
                     smpop.elementId = elementId
                     smpop.title = title
                     smpop.letElementHandleClosing = letMeHandleClosing

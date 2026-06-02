@@ -71,7 +71,7 @@ Rectangle {
     property int parentWidth
     property int parentHeight
     width: Math.max(300, PQCSettings.metadataElementSize.width)
-    height: isPopout ? metadata_popout.height :
+    height: isPopout ? PQCSettings.metadataElementSize.height :
                 PQCSettings.metadataElementHeightDynamic ?
                             PQCConstants.availableHeight-2*gap-statusinfoOffset :
                             Math.min(PQCConstants.availableHeight, PQCSettings.metadataElementSize.height)
@@ -97,8 +97,8 @@ Rectangle {
     property bool popoutWindowUsed: false
 
     onSetVisibleChanged: {
-        if(!setVisible && menu.item !== null)
-            menu.item.dismiss()
+        if(!setVisible && metadata_top.menuItem !== null)
+            metadata_top.menuItem.dismiss()
     }
 
     PQShadowEffect { masterItem: metadata_top }
@@ -194,7 +194,7 @@ Rectangle {
         }
         onClicked: (mouse) => {
             if(mouse.button === Qt.RightButton)
-                menu.item.popup()
+                metadata_top.menuItem.popup()
         }
     }
 
@@ -581,7 +581,7 @@ Rectangle {
             id: touchShowMenu
             interval: 1000
             onTriggered: {
-                menu.item.popup(toucharea.mapToItem(metadata_top, toucharea.touchPos))
+                metadata_top.menuItem.popup(toucharea.mapToItem(metadata_top, toucharea.touchPos))
             }
         }
 
@@ -694,6 +694,7 @@ Rectangle {
         ["Copyright", qsTranslate("settingsmanager", "copyright")],
         ["Gps", qsTranslate("settingsmanager", "GPS position")]]
 
+    property PQMenu menuItem: null
     Loader {
 
         id: menu
@@ -703,6 +704,9 @@ Rectangle {
         PQMenu {
 
             id: themenu
+
+            Component.onCompleted:
+                metadata_top.menuItem = themenu
 
             PQMenuItem {
                 enabled: false
@@ -887,10 +891,10 @@ Rectangle {
                       //: Tooltip of small button to show an element in its own window (i.e., not merged into main interface)
                       qsTranslate("popinpopout", "Move to its own window")
             onClicked: {
-                if(!PQCSettings.interfacePopoutMetadata)
-                    PQCSettings.interfacePopoutMetadata = true
-                else
-                    metadata_popout.close()
+                // if(!PQCSettings.interfacePopoutMetadata)
+                    PQCSettings.interfacePopoutMetadata = !PQCSettings.interfacePopoutMetadata
+                // else
+                    // metadata_popout.close()
                 PQCScriptsShortcuts.executeInternalCommand("__showMetaData")
             }
         }
@@ -938,11 +942,7 @@ Rectangle {
 
         function onLoaderPassOn(what : string, param : list<var>) {
 
-            if(what === "show") {
-                if(param[0] === "MetaData") {
-                    metadata_popout.visible = true
-                }
-            } else if(what === "toggle" && param[0] === "MetaData") {
+            if(what === "toggle" && param[0] === "MetaData") {
                 metadata_top.toggle()
             } else if(what === "forceshow" && param[0] === "MetaData") {
                 metadata_top.ignoreMouseMoveShortly = true
@@ -969,7 +969,7 @@ Rectangle {
             if(PQCSettings.metadataElementFloating)
                 return
 
-            if(menu.item != null && menu.item.opened) {
+            if(metadata_top.menuItem !== null && metadata_top.menuItem.opened) {
                 metadata_top.setVisible = true
                 return
             }
@@ -992,7 +992,7 @@ Rectangle {
         }
 
         function onCloseAllContextMenus() {
-            menu.item.dismiss()
+            metadata_top.menuItem.dismiss()
         }
 
     }
@@ -1006,8 +1006,6 @@ Rectangle {
     }
 
     function hideMetaData() {
-        if(popoutWindowUsed)
-            metadata_popout.visible = false
         metadata_top.setVisible = false
     }
 

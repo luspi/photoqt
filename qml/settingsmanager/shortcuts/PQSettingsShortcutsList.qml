@@ -564,8 +564,8 @@ PQSetting {
 
                                         // do deep copy
                                         default_combos = []
-                                        for(i in combos)
-                                            default_combos.push(combos[i])
+                                        for(let i = 0; i < comboview.combos.length; ++i)
+                                            default_combos.push(comboview.combos[i])
 
                                     }
                                 }
@@ -810,18 +810,25 @@ PQSetting {
         }
 
         Flickable {
+
+            id: subflickable
+
             anchors.fill: parent
             anchors.margins: 5
             anchors.bottomMargin: 0
 
             ScrollBar.vertical: PQVerticalScrollBar {}
 
-            contentHeight: loadSubSettings.item!==null ? loadSubSettings.item.height : 0
+            contentHeight: subSettingsItem!==null ? subSettingsItem.height : 0
             clip: true
 
+            property Item subSettingsItem: null
             Loader {
                 id: loadSubSettings
                 width: parent.width
+                onItemChanged: {
+                    subflickable.subSettingsItem = item
+                }
             }
 
         }

@@ -214,8 +214,9 @@ Rectangle {
                             anchors.fill: parent
                             hoverEnabled: true
                             cursorShape: Qt.PointingHandCursor
-                            onEntered:
-                            view.currentIndex = deleg.modelData
+                            onEntered: {
+                                view.currentIndex = deleg.modelData
+                            }
                             onExited: {
                                 resetCurrentIndex.oldIndex = deleg.modelData
                                 resetCurrentIndex.restart()
@@ -226,7 +227,7 @@ Rectangle {
                                     exist_top.checkedFilesChanged()
                                 } else
                                     exist_top.checkedFiles = exist_top.checkedFiles.filter(item => item!==deleg.modelData)
-                                    exist_top.checkedFilesChanged
+                                    exist_top.checkedFilesChanged()
                             }
                         }
 

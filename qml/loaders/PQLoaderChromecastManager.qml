@@ -34,8 +34,9 @@ Loader {
         id: comp_chromecastmanager
         PQTemplateModal {
             id: smmod
-            function showing() { return tmpl.showing() }
-            function hiding() { return tmpl.hiding() }
+            property PQChromeCastManager theItem
+            function showing() { return theItem.showing() }
+            function hiding() { return theItem.hiding() }
             content: PQChromeCastManager {
                 id: tmpl
                 button1: smmod.button1
@@ -45,6 +46,7 @@ Loader {
                 popInOutButton: smmod.popInOutButton
                 availableHeight: smmod.contentHeight
                 Component.onCompleted: {
+                    smmod.theItem = tmpl
                     smmod.elementId = elementId
                     smmod.title = title
                     smmod.letElementHandleClosing = letMeHandleClosing
@@ -57,10 +59,11 @@ Loader {
         id: comp_chromecastmanager_popout
         PQTemplateModalPopout {
             id: smpop
+            property PQChromeCastManager theItem
             defaultPopoutGeometry: PQCWindowGeometry.chromecastmanagerGeometry
             defaultPopoutMaximized: PQCWindowGeometry.chromecastmanagerMaximized
-            function showing() { return tmpl.showing() }
-            function hiding() { return tmpl.hiding() }
+            function showing() { return theItem.showing() }
+            function hiding() { return theItem.hiding() }
             onRectUpdated: (r) => {
                 PQCWindowGeometry.chromecastmanagerGeometry = r
             }
@@ -76,6 +79,7 @@ Loader {
                 popInOutButton: smpop.popInOutButton
                 availableHeight: smpop.contentHeight
                 Component.onCompleted: {
+                    smpop.theItem = tmpl
                     smpop.elementId = elementId
                     smpop.title = title
                     smpop.letElementHandleClosing = letMeHandleClosing

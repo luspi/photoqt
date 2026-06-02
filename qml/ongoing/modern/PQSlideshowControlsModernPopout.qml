@@ -72,6 +72,7 @@ Window {
     }
 
     Component.onCompleted: {
+        PQGlobalItems.allPopouts["SlideshowControls"] = slideshow_popout
         slideshow_popout.setX(PQCWindowGeometry.slideshowcontrolsGeometry.x)
         slideshow_popout.setY(PQCWindowGeometry.slideshowcontrolsGeometry.y)
         slideshow_popout.setWidth(PQCWindowGeometry.slideshowcontrolsGeometry.width)

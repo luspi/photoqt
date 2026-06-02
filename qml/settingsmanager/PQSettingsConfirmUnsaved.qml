@@ -27,8 +27,9 @@ Item {
 
     id: confirmUnsaved
 
-    parent: settingsmanager_top
     anchors.fill: parent
+
+    signal hideSettingsManager()
 
     Rectangle {
         anchors.fill: parent
@@ -82,7 +83,7 @@ Item {
                     PQCNotify.settingsmanagerSendCommand("applychanges", []);
 
                     if(confirmUnsaved.cat == "-") {
-                        settingsmanager_top.hide()
+                        confirmUnsaved.hideSettingsManager()
                     } else {
                         confirmUnsaved.updateTabTo(confirmUnsaved.ind, confirmUnsaved.cat, confirmUnsaved.catIndex)
                     }
@@ -99,7 +100,7 @@ Item {
                 onClicked: {
                     if(confirmUnsaved.cat == "-") {
                         PQCConstants.settingsManagerSettingChanged = false
-                        settingsmanager_top.hide()
+                        confirmUnsaved.hideSettingsManager()
                     } else {
                         confirmUnsaved.updateTabTo(confirmUnsaved.ind, confirmUnsaved.cat, confirmUnsaved.catIndex)
                     }

@@ -29,11 +29,13 @@ Rectangle {
 
     color: palette.base
 
+    property int closeButtonWidth
+
     Row {
 
         id: row
 
-        x: 10+closebutton.width/2
+        x: 10+explorertweaks.closeButtonWidth/2
         y: (parent.height-height)/2
         spacing: 10
 

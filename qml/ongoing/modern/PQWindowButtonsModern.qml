@@ -80,8 +80,8 @@ Item {
                "hidden"
 
     onStateChanged: {
-        if(state === "hidden" && menu.item !== null)
-            menu.item.dismiss()
+        if(state === "hidden" && wb_top.menuItem !== null)
+            wb_top.menuItem.dismiss()
     }
 
     states: [
@@ -116,7 +116,7 @@ Item {
         acceptedButtons: Qt.AllButtons
         onClicked: (mouse) => {
             if(mouse.button === Qt.RightButton)
-                menu.item.popup()
+                wb_top.menuItem.popup()
         }
     }
 
@@ -224,7 +224,7 @@ Item {
                     if(button === Qt.LeftButton)
                         PQCScriptsShortcuts.executeInternalCommand("__prev")
                     else if(button === Qt.RightButton)
-                        menu.item.popup()
+                        wb_top.menuItem.popup()
                 }
             }
 
@@ -252,7 +252,7 @@ Item {
 
                 onReleased: {
                     touchShowMenu.stop()
-                    if(!menu.item.opened)
+                    if(!wb_top.menuItem.opened)
                         left_mouse.executeClick(Qt.LeftButton)
                 }
 
@@ -260,7 +260,7 @@ Item {
                     id: touchShowMenu
                     interval: 1000
                     onTriggered: {
-                        menu.item.popup(toucharea.mapToItem(wb_top, toucharea.touchPos))
+                        wb_top.menuItem.popup(toucharea.mapToItem(wb_top, toucharea.touchPos))
                     }
                 }
 
@@ -299,7 +299,7 @@ Item {
                     if(button === Qt.LeftButton)
                         PQCScriptsShortcuts.executeInternalCommand("__next")
                     else if(button === Qt.RightButton)
-                        menu.item.popup()
+                        wb_top.menuItem.popup()
                 }
             }
 
@@ -327,7 +327,7 @@ Item {
 
                 onReleased: {
                     touchShowMenu.stop()
-                    if(!menu.item.opened)
+                    if(!wb_top.menuItem.opened)
                         right_mouse.executeClick(Qt.LeftButton)
                 }
 
@@ -335,7 +335,7 @@ Item {
                     id: touchShowMenu
                     interval: 1000
                     onTriggered: {
-                        menu.item.popup(toucharea.mapToItem(wb_top, toucharea.touchPos))
+                        wb_top.menuItem.popup(toucharea.mapToItem(wb_top, toucharea.touchPos))
                     }
                 }
 
@@ -376,7 +376,7 @@ Item {
                     if(button === Qt.LeftButton)
                         PQCScriptsShortcuts.executeInternalCommand("__toggleMainMenu")
                     else if(button === Qt.RightButton)
-                        menu.item.popup()
+                        wb_top.menuItem.popup()
                 }
             }
 
@@ -404,7 +404,7 @@ Item {
 
                 onReleased: {
                     touchShowMenu.stop()
-                    if(!menu.item.opened)
+                    if(!wb_top.menuItem.opened)
                         mainmenu_mouse.executeClick(Qt.LeftButton)
                 }
 
@@ -412,7 +412,7 @@ Item {
                     id: touchShowMenu
                     interval: 1000
                     onTriggered: {
-                        menu.item.popup(toucharea.mapToItem(wb_top, toucharea.touchPos))
+                        wb_top.menuItem.popup(toucharea.mapToItem(wb_top, toucharea.touchPos))
                     }
                 }
 
@@ -450,7 +450,7 @@ Item {
                     if(button === Qt.LeftButton)
                         PQCSettings.interfaceKeepWindowOnTop = !PQCSettings.interfaceKeepWindowOnTop
                     else if(button === Qt.RightButton)
-                        menu.item.popup()
+                        wb_top.menuItem.popup()
                 }
             }
 
@@ -478,7 +478,7 @@ Item {
 
                 onReleased: {
                     touchShowMenu.stop()
-                    if(!menu.item.opened)
+                    if(!wb_top.menuItem.opened)
                         fore_mouse.executeClick(Qt.LeftButton)
                 }
 
@@ -486,7 +486,7 @@ Item {
                     id: touchShowMenu
                     interval: 1000
                     onTriggered: {
-                        menu.item.popup(toucharea.mapToItem(wb_top, toucharea.touchPos))
+                        wb_top.menuItem.popup(toucharea.mapToItem(wb_top, toucharea.touchPos))
                     }
                 }
 
@@ -528,7 +528,7 @@ Item {
                     if(button === Qt.LeftButton)
                         PQCSettings.interfaceWindowMode = !PQCSettings.interfaceWindowMode
                     else if(button === Qt.RightButton)
-                        menu.item.popup()
+                        wb_top.menuItem.popup()
                 }
             }
 
@@ -556,7 +556,7 @@ Item {
 
                 onReleased: {
                     touchShowMenu.stop()
-                    if(!menu.item.opened)
+                    if(!wb_top.menuItem.opened)
                         fullscreen_mouse.executeClick(Qt.LeftButton)
                 }
 
@@ -564,7 +564,7 @@ Item {
                     id: touchShowMenu
                     interval: 1000
                     onTriggered: {
-                        menu.item.popup(toucharea.mapToItem(wb_top, toucharea.touchPos))
+                        wb_top.menuItem.popup(toucharea.mapToItem(wb_top, toucharea.touchPos))
                     }
                 }
 
@@ -604,7 +604,7 @@ Item {
                     if(button === Qt.LeftButton)
                         PQCNotify.setWindowState(Window.Minimized)
                     else if(button === Qt.RightButton)
-                        menu.item.popup()
+                        wb_top.menuItem.popup()
                 }
             }
 
@@ -632,7 +632,7 @@ Item {
 
                 onReleased: {
                     touchShowMenu.stop()
-                    if(!menu.item.opened)
+                    if(!wb_top.menuItem.opened)
                         mini_mouse.executeClick(Qt.LeftButton)
                 }
 
@@ -640,7 +640,7 @@ Item {
                     id: touchShowMenu
                     interval: 1000
                     onTriggered: {
-                        menu.item.popup(toucharea.mapToItem(wb_top, toucharea.touchPos))
+                        wb_top.menuItem.popup(toucharea.mapToItem(wb_top, toucharea.touchPos))
                     }
                 }
 
@@ -689,7 +689,7 @@ Item {
                         else
                             PQCNotify.setWindowState(Window.Windowed)
                     } else if(button === Qt.RightButton)
-                        menu.item.popup()
+                        wb_top.menuItem.popup()
                 }
             }
 
@@ -717,7 +717,7 @@ Item {
 
                 onReleased: {
                     touchShowMenu.stop()
-                    if(!menu.item.opened)
+                    if(!wb_top.menuItem.opened)
                         minimaxi_mouse.executeClick(Qt.LeftButton)
                 }
 
@@ -725,7 +725,7 @@ Item {
                     id: touchShowMenu
                     interval: 1000
                     onTriggered: {
-                        menu.item.popup(toucharea.mapToItem(wb_top, toucharea.touchPos))
+                        wb_top.menuItem.popup(toucharea.mapToItem(wb_top, toucharea.touchPos))
                     }
                 }
 
@@ -763,7 +763,7 @@ Item {
                     if(button === Qt.LeftButton)
                         PQCNotify.windowClose()
                     else if(button === Qt.RightButton)
-                        menu.item.popup()
+                        wb_top.menuItem.popup()
                 }
             }
 
@@ -791,7 +791,7 @@ Item {
 
                 onReleased: {
                     touchShowMenu.stop()
-                    if(!menu.item.opened)
+                    if(!wb_top.menuItem.opened)
                         closemouse.executeClick(Qt.LeftButton)
                 }
 
@@ -799,7 +799,7 @@ Item {
                     id: touchShowMenu
                     interval: 1000
                     onTriggered: {
-                        menu.item.popup(toucharea.mapToItem(wb_top, toucharea.touchPos))
+                        wb_top.menuItem.popup(toucharea.mapToItem(wb_top, toucharea.touchPos))
                     }
                 }
 
@@ -811,12 +811,16 @@ Item {
 
     ButtonGroup { id: grp }
 
+    property PQMenu menuItem
     Loader {
         id: menu
         asynchronous: true
         sourceComponent:
             PQMenu {
                 id: menucomponent
+
+                Component.onCompleted:
+                    wb_top.menuItem = menucomponent
 
                 PQMenuItem {
                     enabled: false
@@ -943,7 +947,7 @@ Item {
         }
 
         function onCloseAllContextMenus() {
-            menu.item.dismiss()
+            wb_top.menuItem.dismiss()
         }
 
     }
@@ -965,7 +969,7 @@ Item {
         repeat: false
         running: false
         onTriggered: {
-            if((!wb_top.nearTopEdge || !PQCSettings.interfaceWindowButtonsAutoHideTopEdge) && !menu.item.opened)
+            if((!wb_top.nearTopEdge || !PQCSettings.interfaceWindowButtonsAutoHideTopEdge) && !wb_top.menuItem.opened)
                 wb_top.state = "hidden"
         }
     }

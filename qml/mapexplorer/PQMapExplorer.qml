@@ -76,6 +76,9 @@ PQTemplate {
                     width: parent.width
                     height: parent.height-maptweaks.height
 
+                    mapVisible: mapexplorer_top.visible
+                    mapZoomLevel: mapexplorer_top.mapZoomLevel
+
                     onVisibleLatitudeLeftChanged:
                         visibleimages.mapVisibleLatitudeLeft = map.visibleLatitudeLeft
                     onVisibleLatitudeRightChanged:
@@ -85,11 +88,12 @@ PQTemplate {
                     onVisibleLongitudeRightChanged:
                         visibleimages.mapVisibleLongitudeRight = map.visibleLongitudeRight
 
-                    Connections {
-                        target: visibleimages
-                        function onMapHideHighlightMarker() {
-                            map.hideHightlightMarker()
-                        }
+                    onSetZoomLevel: (lvl) => {
+                        mapexplorer_top.mapZoomLevel = lvl
+                    }
+                    onSetMinMaxZoomlevel: (minlvl, maxlvl) => {
+                        maptweaks.minZoomLevel = minlvl
+                        maptweaks.maxZoomLevel = maxlvl
                     }
 
                 }
@@ -99,6 +103,14 @@ PQTemplate {
                     y: parent.height-height
                     width: map.width
                     height: 50
+                    mapZoomLevel: mapexplorer_top.mapZoomLevel
+                    closebuttonWidth: closebutton.width
+                    onSetMapZoomLevel: (lvl) => {
+                        mapexplorer_top.mapZoomLevel = lvl
+                    }
+                    onResetMap: {
+                        mapexplorer_top.resetMap()
+                    }
                 }
 
                 Item {
@@ -123,6 +135,22 @@ PQTemplate {
                     id: visibleimages
                     width: parent.width
                     height: parent.height-explorertweaks.height
+
+                    function onMapHideHighlightMarker() {
+                        map.hideHightlightMarker()
+                    }
+
+                    function onShowHighlightMarkerAt(lat, lon) {
+                        map.showHighlightMarkerAt(lat, lon)
+                    }
+
+                    function onClickOnImage(lat : real, lon : real) {
+                        mapexplorer_top.clickOnImage(lat, lon)
+                    }
+
+                    function onHideExplorer() {
+                        mapexplorer_top.hide()
+                    }
                 }
 
                 PQMapExplorerImagesTweaks {
@@ -130,6 +158,7 @@ PQTemplate {
                     y: parent.height-height
                     width: visibleimages.width
                     height: 50
+                    closeButtonWidth: closebutton.width
                 }
 
             }
@@ -171,20 +200,6 @@ PQTemplate {
 
             }
 
-        }
-
-    }
-
-    Connections {
-
-        target: visibleimages
-
-        function onClickOnImage(lat : real, lon : real) {
-            mapexplorer_top.clickOnImage(lat, lon)
-        }
-
-        function onHideExplorer() {
-            mapexplorer_top.hide()
         }
 
     }
