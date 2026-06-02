@@ -112,6 +112,9 @@ ComboBox {
         leftPadding: 5
         rightPadding: control.indicator.width + control.spacing
 
+        // this is a dummy function to avoid warnings when running on KDE Plasma
+        function positionToRectangle(ss) { return Qt.rect(0,0,0,0) }
+
         text: control.selectedPrefix + control.textAt(control.currentIndex)
         font: control.font
         color: palette.text
