@@ -432,7 +432,9 @@ Loader {
             var newval_adjusted = newval*dpr;
             var default_adjusted = defaultScale*dpr;
 
-            const SNAP_EPSILON = 0.05
+            // if the zoom speed is very small then we need to be careful here as the change in zoom level might be SMALLER than
+            // the snap epsilon, but we still want to zoom. So we take the smaller one of 0.05 and half the zoomspeed
+            const SNAP_EPSILON = Math.min(0.05, PQCSettings.imageviewZoomSpeed/(2*100*dpr))
             const FLOAT_EPSILON = 0.00001
 
             // if we are either passing by 100% zoom or end up very close to it, then we 'snap into place' at 100%
