@@ -27,6 +27,7 @@
 #include <pqc_extensionshandler.h>
 #include <pqc_imagehandler.h>
 #include <QImage>
+#include <QFileDialog>
 
 PQCExtensionMethods::PQCExtensionMethods(QObject *parent) : QObject(parent) {
 
@@ -165,4 +166,20 @@ bool PQCExtensionMethods::writeImage(const QString sourceFile, const QString tar
     // write image if possible
     return PQCImageHandler::get().writeImage(img, targetFile);
 
+}
+
+QString PQCExtensionMethods::getExistingDirectory(const QString caption, const QString dir) {
+    return QFileDialog::getExistingDirectory(nullptr, caption, dir);
+}
+
+QString PQCExtensionMethods::getOpenFileName(const QString caption, const QString dir, const QString filter) {
+    return QFileDialog::getOpenFileName(nullptr, caption, dir, filter);
+}
+
+QStringList PQCExtensionMethods::getOpenFileNames(const QString caption, const QString dir, const QString filter) {
+    return QFileDialog::getOpenFileNames(nullptr, caption, dir, filter);
+}
+
+QString PQCExtensionMethods::getSaveFileName(const QString caption, const QString dir, const QString filter) {
+    return QFileDialog::getSaveFileName(nullptr, caption, dir, filter);
 }

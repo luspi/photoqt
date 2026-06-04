@@ -55,7 +55,7 @@ public:
     Q_INVOKABLE void showSettingsFor(const QString &id);
 
     /**********************************/
-    // some general image formats
+    // some general requests
 
     // get all enabled formats
     Q_INVOKABLE const QSet<QString> getEnabledFormats();
@@ -72,6 +72,8 @@ public:
     // get all suffixes for any given format
     Q_INVOKABLE const QSet<QString> getSuffixesForFormat(const QString format);
 
+    /**********/
+
     // get the format of any given file (if known)
     Q_INVOKABLE const QString getFormatOfFile(const QString file);
 
@@ -83,6 +85,20 @@ public:
 
     // take a source image and write it to a target with optional clipping/cropping/resizing
     Q_INVOKABLE bool writeImage(const QString sourceFile, const QString targetFile, const QRect sourceRect = QRect(), const QSize targetSize = QSize());
+
+    /**********/
+
+    // prompt user to select an existing directory using a file dialog
+    Q_INVOKABLE QString getExistingDirectory(const QString caption, const QString dir);
+
+    // prompt user to select an existing file using a file dialog
+    Q_INVOKABLE QString getOpenFileName(const QString caption = QString(), const QString dir = QString(), const QString filter = QString());
+
+    // prompt user to select existing files using a file dialog
+    Q_INVOKABLE QStringList getOpenFileNames(const QString caption = QString(), const QString dir = QString(), const QString filter = QString());
+
+    // prompt user to select an existing or new file using a file dialog
+    Q_INVOKABLE QString getSaveFileName(const QString caption = QString(), const QString dir = QString(), const QString filter = QString());
 
     /*******************************************/
     // no-op to ensure this class is setup
