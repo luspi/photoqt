@@ -167,7 +167,7 @@ public:
 #else
         connect(this, &PQCConstants::currentImageResolutionChanged, this, [=]{
 #endif
-            if(m_currentImageResolution.height() > 0 && m_currentImageResolution.width() > 0)
+            if(!m_currentImageResolution.isEmpty())
                 PQCResolutionCache::get().saveResolution(PQCFileFolderModelCPP::get().getCurrentFile(), m_currentImageResolution);
         });
 

@@ -29,6 +29,10 @@
 #include <QImage>
 #include <QFileDialog>
 
+#ifdef PQMEXIV2
+#include <exiv2/exiv2.hpp>
+#endif
+
 PQCExtensionMethods::PQCExtensionMethods(QObject *parent) : QObject(parent) {
 
     connect(&PQCExtensionsHandler::get(), &PQCExtensionsHandler::replyForAction, this, &PQCExtensionMethods::replyForAction);
@@ -131,6 +135,52 @@ QSize PQCExtensionMethods::getSizeOfImage(const QString file) {
 
 bool PQCExtensionMethods::writeImage(const QString sourceFile, const QString targetFile, const QRect sourceRect, const QSize targetSize) {
 
+#ifdef PQMEXIV2
+
+    // This will store all the exif data
+    Exiv2::ExifData exifData;
+    Exiv2::IptcData iptcData;
+    Exiv2::XmpData xmpData;
+    bool gotExifData = false;
+
+#if EXIV2_TEST_VERSION(0, 28, 0)
+    Exiv2::Image::UniquePtr image_read;
+#else
+    Exiv2::Image::AutoPtr image_read;
+#endif
+
+    try {
+
+        // Open image for exif reading
+        image_read = Exiv2::ImageFactory::open(sourceFile.toStdString());
+
+        if(image_read.get() != 0) {
+            // YAY, WE FOUND SOME!!!!!
+            gotExifData = true;
+            image_read->readMetadata();
+        }
+
+    }
+
+    catch (Exiv2::Error& e) {
+        qDebug() << "ERROR reading exif data (caught exception):" << e.what();
+    }
+
+    if(gotExifData) {
+
+        // read exif
+        exifData = image_read->exifData();
+        iptcData = image_read->iptcData();
+        xmpData = image_read->xmpData();
+
+        // Update dimensions
+        exifData["Exif.Photo.PixelXDimension"] = int32_t(targetSize.width());
+        exifData["Exif.Photo.PixelYDimension"] = int32_t(targetSize.height());
+
+    }
+
+#endif
+
     QSize origSize;
     QString err;
     QImage img;
@@ -164,7 +214,38 @@ bool PQCExtensionMethods::writeImage(const QString sourceFile, const QString tar
         return false;
 
     // write image if possible
-    return PQCImageHandler::get().writeImage(img, targetFile);
+    bool ret = PQCImageHandler::get().writeImage(img, targetFile);
+    if(!ret)
+        return false;
+
+#ifdef PQMEXIV2
+
+    if(gotExifData) {
+
+        try {
+
+            // And write exif data to new image file
+#if EXIV2_TEST_VERSION(0, 28, 0)
+            Exiv2::Image::UniquePtr image_write = Exiv2::ImageFactory::open(targetFile.toStdString());
+#else
+            Exiv2::Image::AutoPtr image_write = Exiv2::ImageFactory::open(targetFile.toStdString());
+#endif
+            image_write->setExifData(exifData);
+            image_write->setIptcData(iptcData);
+            image_write->setXmpData(xmpData);
+            image_write->writeMetadata();
+
+        }
+
+        catch (Exiv2::Error& e) {
+            qWarning() << "ERROR writing exif data (caught exception):" << e.what();
+        }
+
+    }
+
+#endif
+
+    return true;
 
 }
 
