@@ -209,8 +209,8 @@ Item {
 
             if(event.hasUrls) {
 
-                const suffixes = PQCImageHandler.getSuffixes()
-                const mimetypes = PQCImageHandler.getMimetypes()
+                const suffixes = PQCImageHandler.getEnabledSuffixes()
+                const mimetypes = PQCImageHandler.getEnabledMimetypes()
 
                 for(let i = 0; i < event.urls.length; ++i) {
 
@@ -241,8 +241,8 @@ Item {
             // if there are urls:
             if(event.hasUrls) {
 
-                const suffixes = PQCImageHandler.getSuffixes()
-                const mimetypes = PQCImageHandler.getMimetypes()
+                const suffixes = PQCImageHandler.getEnabledSuffixes()
+                const mimetypes = PQCImageHandler.getEnabledMimetypes()
 
                 // we look for the first url that is supported and load that one
                 for(var i in event.urls) {

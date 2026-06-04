@@ -173,8 +173,8 @@ PQTemplate {
                     var suffix2 = PQCScriptsFilesPaths.getCompleteSuffixLowerCase(event.urls[i])
                     var mimetype = PQCScriptsImages.getMimetypeForFile(event.urls[i])
 
-                    const suffixes = PQCImageHandler.getSuffixes()
-                    const mimetypes = PQCImageHandler.getMimetypes()
+                    const suffixes = PQCImageHandler.getEnabledSuffixes()
+                    const mimetypes = PQCImageHandler.getEnabledMimetypes()
 
                     if(suffixes.indexOf(suffix1) > -1 || suffixes.indexOf(suffix2) > -1 || mimetypes.indexOf(mimetype) > -1) {
                         filedialog_top.loadNewPath(PQCScriptsFilesPaths.getDir(PQCScriptsFilesPaths.cleanPath(PQCScriptsFilesPaths.fromPercentEncoding(event.urls[i]))))
@@ -206,8 +206,8 @@ PQTemplate {
                     var suffix2 = PQCScriptsFilesPaths.getCompleteSuffixLowerCase(event.urls[i])
                     var mimetype = PQCScriptsImages.getMimetypeForFile(event.urls[i])
 
-                    const suffixes = PQCImageHandler.getSuffixes()
-                    const mimetypes = PQCImageHandler.getMimetypes()
+                    const suffixes = PQCImageHandler.getEnabledSuffixes()
+                    const mimetypes = PQCImageHandler.getEnabledMimetypes()
 
                     if(suffixes.indexOf(suffix1) > -1 || suffixes.indexOf(suffix2) > -1 || mimetypes.indexOf(mimetype) > -1) {
                         found = true

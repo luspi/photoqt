@@ -331,8 +331,8 @@ Item {
 
                         if(ft_combo.countEnabled === mdl.count) {
 
-                            PQCFileFolderModel.restrictToSuffixes = PQCImageHandler.getSuffixes()
-                            PQCFileFolderModel.restrictToMimeTypes = PQCImageHandler.getMimetypes()
+                            PQCFileFolderModel.restrictToSuffixes = PQCImageHandler.getEnabledSuffixes()
+                            PQCFileFolderModel.restrictToMimeTypes = PQCImageHandler.getEnabledMimetypes()
 
                             PQCNotify.filedialogTweaksSetFiletypesButtonText(qsTranslate("filedialog", "All supported images"))
 
@@ -425,8 +425,8 @@ Item {
 
                             PQCNotify.filedialogTweaksSetFiletypesButtonText(txts.join(", "))
 
-                            PQCFileFolderModel.restrictToSuffixes = PQCImageHandler.getSuffixes(toCollect)
-                            PQCFileFolderModel.restrictToMimeTypes = PQCImageHandler.getMimetypes(toCollect)
+                            PQCFileFolderModel.restrictToSuffixes = PQCImageHandler.getEnabledSuffixes(toCollect)
+                            PQCFileFolderModel.restrictToMimeTypes = PQCImageHandler.getEnabledMimetypes(toCollect)
 
                         }
 

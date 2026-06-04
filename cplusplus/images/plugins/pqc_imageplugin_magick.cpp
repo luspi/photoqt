@@ -282,26 +282,27 @@ PQCImagePluginMagick::PQCImagePluginMagick() {
     };
 
     QHash<QString,QList<QSet<QString> > > finalData;
-    QSet<QString> finalWritableSuffixes;
+    QSet<QString> finalWritableFormats;
 #if defined(PQMIMAGEMAGICK) || defined(PQMGRAPHICSMAGICK)
 
     for(const auto &[key, value] : std::as_const(candidateData).asKeyValueRange()) {
 
         QSet<QString> finalS;
-        QSet<QString> finalW;
+        bool canWrite = false;
         const QSet<QString> allS = value.at(0);
         for(const QString &s : allS) {
             try {
                 Magick::CoderInfo magickCoderInfo(m_suffix2magick.value(s, s.toUpper()).toStdString());
                 if(magickCoderInfo.isReadable())
                     finalS.insert(s);
-                if(magickCoderInfo.isWritable())
-                    finalW.insert(s);
+                if(!canWrite && magickCoderInfo.isWritable())
+                    canWrite = true;
             } catch(...) {
                 // do nothing here
             }
         }
-        finalWritableSuffixes += finalW;
+        if(canWrite)
+            finalWritableFormats.insert(key);
         if(finalS.size())
             finalData.insert(key, {finalS, value[1]});
 
@@ -326,7 +327,7 @@ PQCImagePluginMagick::PQCImagePluginMagick() {
 #endif
             );
 
-    setWritableSuffixes(finalWritableSuffixes);
+    setWritableFormats(finalWritableFormats);
 
 }
 

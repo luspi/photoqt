@@ -190,7 +190,7 @@ PQSetting {
                         //: Tooltip for a mouse area, a click on which opens a file dialog for selecting an image
                         text: qsTranslate("settingsmanager", "Click to select an image")
                         onClicked: {
-                            var path = PQCScriptsFilesPaths.openFileFromDialog("Select", PQCScriptsFilesPaths.getHomeDir(), PQCImageHandler.getSuffixes())
+                            var path = PQCScriptsFilesPaths.openFileFromDialog("Select", PQCScriptsFilesPaths.getHomeDir(), PQCImageHandler.getEnabledSuffixes())
                             if(path !== "")
                                 previewimage.source = encodeURI("file:" + path)
                         }

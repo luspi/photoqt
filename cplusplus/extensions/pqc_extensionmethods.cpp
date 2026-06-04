@@ -25,6 +25,8 @@
 #include <scripts/pqc_scriptsshortcuts.h>
 #include <scripts/pqc_scriptsconfig.h>
 #include <pqc_extensionshandler.h>
+#include <pqc_imagehandler.h>
+#include <QImage>
 
 PQCExtensionMethods::PQCExtensionMethods(QObject *parent) : QObject(parent) {
 
@@ -82,4 +84,85 @@ void PQCExtensionMethods::runExtension(const QString &id) {
 
 void PQCExtensionMethods::showSettingsFor(const QString &id) {
     Q_EMIT PQCNotifyCPP::get().showSettingsForExtension(id);
+}
+
+const QSet<QString> PQCExtensionMethods::getEnabledFormats() {
+    return PQCImageHandler::get().getEnabledFormats();
+}
+
+const QSet<QString> PQCExtensionMethods::getEnabledSuffixes() {
+    return PQCImageHandler::get().getEnabledSuffixes();
+}
+
+const QSet<QString> PQCExtensionMethods::getEnabledMimetypes() {
+    return PQCImageHandler::get().getEnabledMimetypes();
+}
+
+const QSet<QString> PQCExtensionMethods::getWritableFormats() {
+    return PQCImageHandler::get().getWritableFormats();
+}
+
+const QSet<QString> PQCExtensionMethods::getWritableSuffixes() {
+    return PQCImageHandler::get().getWritableSuffixes();
+}
+
+const QSet<QString> PQCExtensionMethods::getSuffixesForFormat(const QString format) {
+    return PQCImageHandler::get().getAllSuffixesForFormat(format);
+}
+
+const QString PQCExtensionMethods::getFormatOfFile(const QString file) {
+    QFileInfo info(file);
+    const QString f1 = PQCImageHandler::get().getFormatName(info.suffix().toLower());
+    if(f1 != "")
+        return f1;
+    return PQCImageHandler::get().getFormatName(info.completeSuffix().toLower());
+}
+
+QString PQCExtensionMethods::path2ImageProvider(QString path, bool thumb) {
+    if(path.isEmpty()) return "";
+    if(thumb) return "image://thumb/" % path;
+    return "image://full/" % path;
+}
+
+QSize PQCExtensionMethods::getSizeOfImage(const QString file) {
+    return PQCImageHandler::get().getSize(file);
+}
+
+bool PQCExtensionMethods::writeImage(const QString sourceFile, const QString targetFile, const QRect sourceRect, const QSize targetSize) {
+
+    QSize origSize;
+    QString err;
+    QImage img;
+
+    // if both source rect and target size are empty then it is a simple conversion
+    if(sourceRect.isEmpty() && targetSize.isEmpty()) {
+
+        img = PQCImageHandler::get().getImage(sourceFile, QSize(), origSize, err);
+
+    // if only a source rect is specified, then we extract and save the extracted image as is
+    } else if(targetSize.isEmpty()) {
+
+        img = PQCImageHandler::get().getImage(sourceFile, QSize(), origSize, err)
+                  .copy(sourceRect);
+
+    // if only a target size is specified, simply resize the image and save it
+    } else if(sourceRect.isEmpty()) {
+
+        img = PQCImageHandler::get().getImage(sourceFile, QSize(), origSize, err)
+                  .scaled(targetSize, Qt::IgnoreAspectRatio, Qt::SmoothTransformation);
+
+    // if both are specified, then extract a rectangle and store it at the specified size
+    } else {
+        img = PQCImageHandler::get().getImage(sourceFile, QSize(), origSize, err)
+                  .copy(sourceRect)
+                  .scaled(targetSize, Qt::IgnoreAspectRatio, Qt::SmoothTransformation);
+    }
+
+    // failed :/
+    if(img.isNull())
+        return false;
+
+    // write image if possible
+    return PQCImageHandler::get().writeImage(img, targetFile);
+
 }

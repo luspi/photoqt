@@ -181,8 +181,8 @@ PQSetting {
                         property list<int> entrystatus: listview.entry2status[entry]
                         property list<string> supportedPlugins: listview.entry2plugins[entry]
 
-                        property list<string> formatSuffixes: PQCImageHandler.getAllSuffixesForFormatByDescription(entry)
-                        property string category: PQCImageHandler.getCategoryForFormatByDescription(entry)
+                        property list<string> formatSuffixes: PQCImageHandler.getAllSuffixesForFormat(entry)
+                        property string category: PQCImageHandler.getCategoryForFormat(entry)
 
                         width: listview.width-listScrollbar.width
                         height: {
@@ -435,7 +435,7 @@ PQSetting {
 
         listview.entries = []
 
-        var descs = PQCImageHandler.getAllDescriptions()
+        var descs = PQCImageHandler.getEnabledFormats().concat(PQCImageHandler.getDisabledFormats())
         descs.sort()
         var plugins = PQCImageHandler.getPluginNames()
         var stat = ({})
@@ -444,7 +444,7 @@ PQSetting {
         for(var iD in descs) {
             var d = descs[iD]
             if(d in stat) continue;
-            var supported = PQCImageHandler.getPluginsForFormatByDescription(d)
+            var supported = PQCImageHandler.getPluginsForFormat(d)
             var cur = []
             for(var iPl in plugins) {
                 cur.push(PQCImageHandler.isEnabled(plugins[iPl], d) ? 1 : 0)

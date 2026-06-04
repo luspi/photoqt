@@ -2491,8 +2491,8 @@ Loader {
             var suffix1 = PQCScriptsFilesPaths.getSuffix(PQCFileFolderModel.currentFile)
             var suffix2 = PQCScriptsFilesPaths.getCompleteSuffix(PQCFileFolderModel.currentFile)
 
-            var libarchiveSuffixes = PQCImageHandler.getSuffixes("libarchive")
-            var popplerSuffixes    = PQCImageHandler.getSuffixes("poppler")
+            var libarchiveSuffixes = PQCImageHandler.getEnabledSuffixes("libarchive")
+            var popplerSuffixes    = PQCImageHandler.getEnabledSuffixes("poppler")
 
             var comicbookSuffix = ["cbt", "cbr", "cbz", "cb7"]
             if((PQCSettings.filetypesComicBookAlwaysEnterAutomatically &&

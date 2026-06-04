@@ -62,7 +62,7 @@ Item {
         if(PQCFileFolderModel.currentIndex !== -1 && PQCFileFolderModel.currentFile !== "")
             startname = PQCScriptsFilesPaths.getDir(PQCFileFolderModel.currentFile)
 
-        var fname = PQCScriptsFilesPaths.openFileFromDialog("Open", startname, PQCImageHandler.getSuffixes())
+        var fname = PQCScriptsFilesPaths.openFileFromDialog("Open", startname, PQCImageHandler.getEnabledSuffixes())
 
         if(fname !== "") {
             PQCScriptsFileDialog.setLastLocation(PQCScriptsFilesPaths.getDir(fname))

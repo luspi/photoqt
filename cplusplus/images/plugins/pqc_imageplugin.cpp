@@ -67,28 +67,34 @@ void PQCImagePlugin::setData(const QHash<QString, QList<QSet<QString> > > dat, c
              QSet<QString> defaultDisabledSuffixes, QSet<QString> defaultDisabledMimetypes) {
 
     m_settingsPrefix = settingsPrefix;
-    m_description2data = dat;
+    m_format2data = dat;
     m_defaultDisabledSuffixes = defaultDisabledSuffixes;
     m_defaultDisabledMimetypes = defaultDisabledMimetypes;
 
     // this is VERY cheap and will make looking up a description much faster
-    for(const auto &[key, value] : std::as_const(m_description2data).asKeyValueRange()) {
+    for(const auto &[key, value] : std::as_const(m_format2data).asKeyValueRange()) {
         for(const QString &suffix : value[0])
-            m_suffix2description.insert(suffix, key);
-        m_allSuffixes += value[0];
-        m_allMimetypes += value[1];
+            m_suffix2format.insert(suffix, key);
     }
 
     loadSetttingsFromFiles();
 
 }
 
-void PQCImagePlugin::setEnabled(QString description, bool enabled) {
+void PQCImagePlugin::setWritableFormats(const QSet<QString> formats)  {
+    m_writableFormats = formats;
+    for(const QString &f : formats) {
+        const QList<QSet<QString> > cur = m_format2data.value(f);
+        m_writableSuffixes += cur[0];
+    }
+}
+
+void PQCImagePlugin::setEnabled(QString format, bool enabled) {
 
     m_delayWriteToFile->stop();
 
-    QHash<QString, QList<QSet<QString> > >::Iterator iter = m_description2data.find(description);
-    if(iter == m_description2data.end())
+    QHash<QString, QList<QSet<QString> > >::Iterator iter = m_format2data.find(format);
+    if(iter == m_format2data.end())
         return;
 
     const QList<QSet<QString> > &cur = iter.value();
@@ -139,9 +145,6 @@ void PQCImagePlugin::loadSetttingsFromFiles() {
 
     }
 
-    // these are the currently enabled ones
-    m_suffixes = m_allSuffixes - m_disabledSuffixes;
-
     /********************************/
 
     const QString mimeFilename = PQCConfigFiles::get().CONFIG_DIR() % "/imageplugins/" % m_settingsPrefix % "_mimetypes";
@@ -167,8 +170,18 @@ void PQCImagePlugin::loadSetttingsFromFiles() {
 
     }
 
+
     // these are the currently enabled ones
-    m_mimetypes = m_allMimetypes - m_disabledMimetypes;
+    for(const auto &[key, value] : std::as_const(m_format2data).asKeyValueRange()) {
+        const QList<QSet<QString> > lst = value.toList();
+        if(m_disabledSuffixes.contains(*(lst.value(0).begin()))) {
+            m_disabledFormats.insert(key);
+        } else {
+            m_enabledFormats.insert(key);
+            m_enabledSuffixes += lst.value(0);
+            m_enabledMimetypes += lst.value(1);
+        }
+    }
 
     Q_EMIT formatsUpdated();
 

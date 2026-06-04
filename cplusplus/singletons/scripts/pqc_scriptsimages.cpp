@@ -268,7 +268,7 @@ QStringList PQCScriptsImages::listArchiveContentWithoutThread(QString path, QStr
         return archiveContentCache[cacheKey];
     }
 
-    const QSet<QString> enabledFormats = PQCImageHandler::get().getSuffixes();
+    const QSet<QString> enabledFormats = PQCImageHandler::get().getEnabledSuffixes();
 
 #ifndef Q_OS_WIN
 
@@ -411,7 +411,7 @@ bool PQCScriptsImages::isMpvVideo(QString path) {
 #ifdef PQMVIDEOMPV
 
     QFileInfo info(path);
-    const QSet<QString> suffixes = PQCImageHandler::get().getSuffixes("libmpv");
+    const QSet<QString> suffixes = PQCImageHandler::get().getEnabledSuffixes("libmpv");
     if(suffixes.contains(info.suffix().toLower()) || suffixes.contains(info.completeSuffix().toLower())) {
 
         supported = true;
@@ -419,7 +419,7 @@ bool PQCScriptsImages::isMpvVideo(QString path) {
     } else {
 
         QMimeDatabase db;
-        if(PQCImageHandler::get().getMimetypes("libmpv").contains(db.mimeTypeForFile(path).name()))
+        if(PQCImageHandler::get().getEnabledMimetypes("libmpv").contains(db.mimeTypeForFile(path).name()))
             supported = true;
 
     }
@@ -446,7 +446,7 @@ bool PQCScriptsImages::isQtVideo(QString path) {
 #ifdef PQMVIDEOQT
 
     QFileInfo info = QFileInfo(path);
-    const QSet<QString> suffixes = PQCImageHandler::get().getSuffixes("video");
+    const QSet<QString> suffixes = PQCImageHandler::get().getEnabledSuffixes("video");
     if(suffixes.contains(info.suffix().toLower()) || suffixes.contains(info.completeSuffix().toLower())) {
 
         supported = true;
@@ -454,7 +454,7 @@ bool PQCScriptsImages::isQtVideo(QString path) {
     } else {
 
         QMimeDatabase db;
-        if(PQCImageHandler::get().getMimetypes("video").contains(db.mimeTypeForFile(path).name()))
+        if(PQCImageHandler::get().getEnabledMimetypes("video").contains(db.mimeTypeForFile(path).name()))
             supported = true;
 
     }
@@ -478,12 +478,12 @@ bool PQCScriptsImages::isPDFDocument(QString path) {
 
 #if defined(PQMPOPPLER) || defined(PQMQTPDF)
     QFileInfo info(path);
-    const QSet<QString> set = PQCImageHandler::get().getSuffixes("pdf");
+    const QSet<QString> set = PQCImageHandler::get().getEnabledSuffixes("pdf");
     if(set.contains(info.suffix().toLower()) || set.contains(info.completeSuffix().toLower()))
         return true;
 
     QMimeDatabase db;
-    if(PQCImageHandler::get().getMimetypes("pdf").contains(db.mimeTypeForFile(path).name()))
+    if(PQCImageHandler::get().getEnabledMimetypes("pdf").contains(db.mimeTypeForFile(path).name()))
         return true;
 #endif
 
@@ -494,13 +494,13 @@ bool PQCScriptsImages::isPDFDocument(QString path) {
 bool PQCScriptsImages::isArchive(QString path, bool insideArchive) {
 
     QFileInfo info(path);
-    const QSet<QString> set = PQCImageHandler::get().getSuffixes("libarchive");
+    const QSet<QString> set = PQCImageHandler::get().getEnabledSuffixes("libarchive");
     if(set.contains(info.suffix().toLower()) || set.contains(info.completeSuffix().toLower()))
         return true;
 
     if(!insideArchive) {
         QMimeDatabase db;
-        if(PQCImageHandler::get().getMimetypes("libarchive").contains(db.mimeTypeForFile(path).name()))
+        if(PQCImageHandler::get().getEnabledMimetypes("libarchive").contains(db.mimeTypeForFile(path).name()))
             return true;
     }
 
@@ -1494,7 +1494,7 @@ QString PQCScriptsImages::getNameFromMimetype(QString mimetype, QString filename
 
     QString val = db.mimeTypeForName(mimetype).comment();
     if(val.isEmpty())
-        val = PQCImageHandler::get().getDescription(QFileInfo(filename).suffix());
+        val = PQCImageHandler::get().getFormatName(QFileInfo(filename).suffix());
 
     return val;
 

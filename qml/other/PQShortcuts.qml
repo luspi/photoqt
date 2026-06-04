@@ -310,8 +310,8 @@ Item {
             var suffix1 = PQCScriptsFilesPaths.getSuffix(PQCFileFolderModel.currentFile)
             var suffix2 = PQCScriptsFilesPaths.getCompleteSuffix(PQCFileFolderModel.currentFile)
 
-            const libmpvSuffixes = PQCImageHandler.getSuffixes("libmpv")
-            const videoSuffixes  = PQCImageHandler.getSuffixes("video")
+            const libmpvSuffixes = PQCImageHandler.getEnabledSuffixes("libmpv")
+            const videoSuffixes  = PQCImageHandler.getEnabledSuffixes("video")
 
             var isVideo = (PQCScriptsConfig.isMPVSupportEnabled() &&
                                 (libmpvSuffixes.indexOf(suffix1)>-1 || libmpvSuffixes.indexOf(suffix2)>-1)) ||

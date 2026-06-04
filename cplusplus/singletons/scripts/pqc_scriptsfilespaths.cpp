@@ -897,12 +897,12 @@ QString PQCScriptsFilesPaths::_findFirstFileinFolderAndSubFolder(const QString f
             const QString fullPath = dir.absolutePath() % "/" % f;
 
             const QString suffix = QFileInfo(fullPath).suffix().toLower();
-            if(PQCImageHandler::get().getSuffixes().contains(suffix)) {
+            if(PQCImageHandler::get().getEnabledSuffixes().contains(suffix)) {
                 ret = fullPath;
                 break;
             } else {
                 QString mimetype = db.mimeTypeForFile(fullPath).name();
-                if(PQCImageHandler::get().getMimetypes().contains(mimetype)) {
+                if(PQCImageHandler::get().getEnabledMimetypes().contains(mimetype)) {
                     ret = fullPath;
                     break;
                 }

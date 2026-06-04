@@ -27,6 +27,27 @@
 #include <QMutex>
 #include <imageplugins/pqc_imageplugin.h>
 
+/**********************************************
+ *
+ * THE API IS DESIGNED TO BE USED THIS WAY:
+ *
+ * All supported formats are identified by their description
+ * Each format is associated with a bunch of plugins, suffixes and mimetypes
+ * To Access the data, use these methods
+ *
+ * getEnabledFormats() / getDisabledFormats()
+ *      -> get the list of enabled and disabled formats
+ *
+ * getEnabledSuffixes() / getDisabledSuffixes()
+ *      -> get the list of enabled and disabled suffixes
+ * getEnabledMimetypes() / getDisabledMimetypes()
+ *      -> get the list of enabled and disabled mimetypes
+ *
+ * getWritableFormats() / getWritableSuffixes()
+ *      -> get the list of formats/suffixes that can be written
+ *
+ **********************************************/
+
 class PQCImageHandler : public QObject {
 
     Q_OBJECT
@@ -48,19 +69,29 @@ public:
     bool writeImage(QImage img, QString targetPath);
 
     int getNumFormatsEnabled() { return m_numEnabled; }
-    QSet<QString> getSuffixes(QString category = "all");
-    QSet<QString> getMimetypes(QString category = "all");
-    QSet<QString> getSuffixes(QStringList categories);
-    QSet<QString> getMimetypes(QStringList categories);
+
+    QSet<QString> getEnabledFormats(QString category = "all");
+    QSet<QString> getDisabledFormats(QString category = "all");
+
+    QSet<QString> getEnabledSuffixes(QString category = "all");
+    QSet<QString> getEnabledMimetypes(QString category = "all");
+    QSet<QString> getEnabledSuffixes(QStringList categories);
+    QSet<QString> getEnabledMimetypes(QStringList categories);
+    QSet<QString> getDisabledSuffixes(QString category = "all");
+    QSet<QString> getDisabledMimetypes(QString category = "all");
+
+    QSet<QString> getWritableFormats(QString category = "all");
     QSet<QString> getWritableSuffixes(QString category = "all");
+    QSet<QString> getWritableFormats(QStringList categories);
     QSet<QString> getWritableSuffixes(QStringList categories);
-    QString getDescription(QString suffix);
+
+    QString getFormatName(QString suffix);
 
     QStringList getPluginNames();
-    QStringList getAllDescriptions();
-    QStringList getPluginsForFormatByDescription(QString description);
-    QStringList getAllSuffixesForFormatByDescription(QString description);
-    QString getCategoryForFormatByDescription(QString description);
+
+    QSet<QString> getPluginsForFormat(QString format);
+    QSet<QString> getAllSuffixesForFormat(QString format);
+    QString getCategoryForFormat(QString format);
 
     bool isEnabled(QString plugin, QString description);
     void setEnabled(QString pluginName, QString description, bool enabled);
@@ -77,8 +108,16 @@ private:
     QHash<QString, PQCImagePlugin*> m_plugins;
 
     int m_numEnabled;
-    QSet<QString> m_suffixes;
-    QSet<QString> m_mimetypes;
+
+    QSet<QString> m_enabledFormats;
+    QSet<QString> m_enabledSuffixes;
+    QSet<QString> m_enabledMimetypes;
+
+    QSet<QString> m_disabledFormats;
+    QSet<QString> m_disabledSuffixes;
+    QSet<QString> m_disabledMimetypes;
+
+    QSet<QString> m_writableFormats;
     QSet<QString> m_writableSuffixes;
 
     QSet<QString> m_doNotThreadFormats;

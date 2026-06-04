@@ -80,9 +80,9 @@ PQCFileFolderModel::PQCFileFolderModel(QObject *parent) : QObject(parent) {
     m_entriesFileDialog.clear();
 
     m_nameFilters = QStringList();
-    m_restrictToSuffixes = PQCImageHandler::get().getSuffixes();
+    m_restrictToSuffixes = PQCImageHandler::get().getEnabledSuffixes();
     m_filenameFilters = QStringList();
-    m_restrictToMimeTypes = PQCImageHandler::get().getMimetypes();
+    m_restrictToMimeTypes = PQCImageHandler::get().getEnabledMimetypes();
     m_imageResolutionFilter = QSize(0,0);
     m_fileSizeFilter = 0;
     m_justLeftViewerMode = false;

@@ -69,80 +69,82 @@ public:
     /****************************************************/
     /****************************************************/
 
-    // get the formats and mime types that are supported for READING
-    const QSet<QString> getSuffixes() { return m_suffixes; }
-    const QSet<QString> getMimetypes() { return m_mimetypes; }
-    const QSet<QString> getToggledSuffixes()  { return m_disabledSuffixes; }
-    const QSet<QString> getToggledMimetypes() { return m_disabledMimetypes; }
-    const QSet<QString> getAllSuffixes()  { return m_allSuffixes; }
-    const QSet<QString> getAllMimetypes() { return m_allMimetypes; }
-    void setSuffixes(const QSet<QString> val) { m_suffixes = val; }
-    void setMimetypes(const QSet<QString> val) { m_mimetypes = val; }
-    void setToggledSuffixes(const QSet<QString> val) { m_disabledSuffixes = val; }
-    void setToggledMimetypes(const QSet<QString> val) { m_disabledMimetypes = val; }
-    void setAllSuffixes(const QSet<QString> val) { m_allSuffixes = val; }
-    void setAllMimetypes(const QSet<QString> val) { m_allMimetypes = val; }
-    void insertIntoSuffixes(const QString suf) { m_suffixes.insert(suf); };
-    void insertIntoMimetypes(const QString suf) { m_mimetypes.insert(suf); };
-    void insertIntoToggledSuffixes(const QString suf) { m_disabledSuffixes.insert(suf); };
-    void insertIntoToggledMimetypes(const QString suf) { m_disabledMimetypes.insert(suf); };
-    void insertIntoAllSuffixes(const QString suf) { m_allSuffixes.insert(suf); };
-    void insertIntoAllMimetypes(const QString suf) { m_allMimetypes.insert(suf); };
-    void clearSuffixes() { m_suffixes.clear(); }
-    void clearMimetypes() { m_mimetypes.clear(); }
-    void clearToggledSuffixes() { m_disabledSuffixes.clear(); }
-    void clearToggledMimetypes() { m_disabledMimetypes.clear(); }
-    void clearAllSuffixes() { m_allSuffixes.clear(); }
-    void clearAllMimetypes() { m_allMimetypes.clear(); }
+    const QSet<QString> getEnabledFormats()    { return m_enabledFormats; }
+    const QSet<QString> getDisabledFormats()   { return m_disabledFormats; }
+    const QSet<QString> getEnabledSuffixes()   { return m_enabledSuffixes; }
+    const QSet<QString> getDisabledSuffixes()  { return m_disabledSuffixes; }
+    const QSet<QString> getEnabledMimetypes()  { return m_enabledMimetypes; }
+    const QSet<QString> getDisabledMimetypes() { return m_disabledMimetypes; }
+
+    void setEnabledFormats(const QSet<QString> val)    { m_enabledFormats = val; }
+    void setDisabledFormats(const QSet<QString> val)   { m_disabledFormats = val; }
+    void setEnabledSuffixes(const QSet<QString> val)   { m_enabledSuffixes = val; }
+    void setDisabledSuffixes(const QSet<QString> val)  { m_disabledSuffixes = val; }
+    void setEnabledMimetypes(const QSet<QString> val)  { m_enabledMimetypes = val; }
+    void setDisabledMimetypes(const QSet<QString> val) { m_disabledMimetypes = val; }
+
+    void insertIntoEnabledFormats(const QString format)  { m_enabledFormats.insert(format); };
+    void insertIntoDisabledFormats(const QString format) { m_disabledFormats.insert(format); };
+    void insertIntoEnabledSuffixes(const QString suf)    { m_enabledSuffixes.insert(suf); };
+    void insertIntoDisabledSuffixes(const QString suf)   { m_disabledSuffixes.insert(suf); };
+    void insertIntoEnabledMimetypes(const QString mime)  { m_enabledMimetypes.insert(mime); };
+    void insertIntoDisabledMimetypes(const QString mime) { m_disabledMimetypes.insert(mime); };
+
+    void clearEnabledFormats()    { m_enabledFormats.clear(); }
+    void clearDisabledFormats()   { m_disabledFormats.clear(); }
+    void clearEnabledSuffixes()   { m_enabledSuffixes.clear(); }
+    void clearDisabledSuffixes()  { m_disabledSuffixes.clear(); }
+    void clearEnabledMimetypes()  { m_enabledMimetypes.clear(); }
+    void clearDisabledMimetypes() { m_disabledMimetypes.clear(); }
 
     /****************************************************/
     /****************************************************/
 
-    void setWritableSuffixes(QSet<QString> val) { m_writableSuffixes = val; }
-    // all formats that can be written
+    void setWritableFormats(const QSet<QString> formats);
+    QSet<QString> getWritableFormats() { return m_writableFormats; }
     QSet<QString> getWritableSuffixes() { return m_writableSuffixes; }
 
 
     /****************************************************/
     /****************************************************/
 
-    // the description for a suffix
-    const QString getDescription(QString suffix) { return m_suffix2description.value(suffix, ""); }
-    const QStringList getAllDescriptions() { return m_description2data.keys(); }
+    // the format for a suffix
+    const QString getFormat(QString suffix) { return m_suffix2format.value(suffix, ""); }
+    const QStringList getAllFormats() { return m_format2data.keys(); }
 
     /****************************************************/
     /****************************************************/
-    // the suffixes for a description
+    // the suffixes for a format
 
-    const QSet<QString> getSuffixesForFormatByDescription(QString description) {
-        if(m_description2data.contains(description))
-            return m_description2data[description][0];
+    const QSet<QString> getSuffixesForFormat(QString format) {
+        if(m_format2data.contains(format))
+            return m_format2data[format][0];
         return {};
     }
 
     /****************************************************/
     /****************************************************/
 
-    // whether this plugin supports the format based on its description
-    const bool supportsFormatByDescription(QString description) {
-        return m_description2data.contains(description);
+    // whether this plugin supports the format based on its format
+    const bool supportsFormat(QString format) {
+        return m_format2data.contains(format);
     }
 
     /****************************************************/
     /****************************************************/
 
-    // whether this format is supported and enabled based on its description
-    const bool isEnabled(QString description) {
-        if(!m_description2data.contains(description))
+    // whether this format is supported and enabled based on its format
+    const bool isEnabled(QString format) {
+        if(!m_format2data.contains(format))
             return false;
-        return m_suffixes.contains(*m_description2data[description][0].begin());
+        return m_enabledSuffixes.contains(*m_format2data[format][0].begin());
     }
 
     /****************************************************/
     /****************************************************/
 
     // toggle the enabled status of the specified formats
-    void setEnabled(QString description, bool enabled);
+    void setEnabled(QString format, bool enabled);
 
     /****************************************************/
     /****************************************************/
@@ -153,19 +155,22 @@ public:
     /****************************************************/
 
 private:
-    QHash<QString, QList<QSet<QString>> > m_description2data;
-    QHash<QString,QString> m_suffix2description;
+    QHash<QString, QList<QSet<QString>> > m_format2data;
+    QHash<QString,QString> m_suffix2format;
 
-    QSet<QString> m_suffixes;
-    QSet<QString> m_mimetypes;
+    QSet<QString> m_enabledFormats;
+    QSet<QString> m_disabledFormats;
+
+    QSet<QString> m_enabledSuffixes;
     QSet<QString> m_disabledSuffixes;
+
+    QSet<QString> m_enabledMimetypes;
     QSet<QString> m_disabledMimetypes;
-    QSet<QString> m_allSuffixes;
-    QSet<QString> m_allMimetypes;
 
     QSet<QString> m_defaultDisabledSuffixes;
     QSet<QString> m_defaultDisabledMimetypes;
 
+    QSet<QString> m_writableFormats;
     QSet<QString> m_writableSuffixes;
 
     QString m_settingsPrefix;

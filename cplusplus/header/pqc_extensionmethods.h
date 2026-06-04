@@ -23,6 +23,7 @@
 
 #include <QObject>
 #include <QQmlEngine>
+#include <QRect>
 
 class PQCExtensionMethods : public QObject {
 
@@ -52,6 +53,36 @@ public:
 
     // open settings for extension
     Q_INVOKABLE void showSettingsFor(const QString &id);
+
+    /**********************************/
+    // some general image formats
+
+    // get all enabled formats
+    Q_INVOKABLE const QSet<QString> getEnabledFormats();
+    // get all enabled suffixes
+    Q_INVOKABLE const QSet<QString> getEnabledSuffixes();
+    // get all enabled mimetypes
+    Q_INVOKABLE const QSet<QString> getEnabledMimetypes();
+
+    // get all writable formats
+    Q_INVOKABLE const QSet<QString> getWritableFormats();
+    // get all writable suffixes
+    Q_INVOKABLE const QSet<QString> getWritableSuffixes();
+
+    // get all suffixes for any given format
+    Q_INVOKABLE const QSet<QString> getSuffixesForFormat(const QString format);
+
+    // get the format of any given file (if known)
+    Q_INVOKABLE const QString getFormatOfFile(const QString file);
+
+    // compose the image provider string to take advantage of PhotoQt's image engine for showing images/thumbs
+    Q_INVOKABLE QString path2ImageProvider(QString path, bool thumb = false);
+
+    // get the size of any image (if known)
+    Q_INVOKABLE QSize getSizeOfImage(const QString file);
+
+    // take a source image and write it to a target with optional clipping/cropping/resizing
+    Q_INVOKABLE bool writeImage(const QString sourceFile, const QString targetFile, const QRect sourceRect = QRect(), const QSize targetSize = QSize());
 
     /*******************************************/
     // no-op to ensure this class is setup

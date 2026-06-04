@@ -129,15 +129,17 @@ PQCImagePluginQt::PQCImagePluginQt() {
             "qt",
             {"jpeg2000", "j2k", "jp2", "jpc", "jpx", "jpf", "j2c"}, {"image/jp2", "image/jpx", "image/jpm"});
 
-    QSet<QString> writableSuffixes;
+    QSet<QString> writableFormats;
     QImageWriter writer;
     const QString tmpPath = QDir::tempPath();
-    for(const QString &suf : getAllSuffixes()) {
-        writer.setFileName(tmpPath % "/temp." % suf);
-        if(writer.canWrite())
-            writableSuffixes.insert(suf);
+    for(const QString &format : getEnabledFormats()) {
+        const QSet<QString> allsuf = getSuffixesForFormat(format);
+        writer.setFileName(tmpPath % "/temp." % *allsuf.begin());
+        if(writer.canWrite()) {
+            writableFormats.insert(format);
+        }
     }
-    setWritableSuffixes(writableSuffixes);
+    setWritableFormats(writableFormats);
 
 }
 

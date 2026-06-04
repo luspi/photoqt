@@ -117,7 +117,7 @@ void PQCAsyncImageResponseFolderThumb::run() {
         QDir dir(m_folder);
 
         QStringList checkForTheseFormats(checknum);
-        const QSet<QString> lst = PQCImageHandler::get().getSuffixes();
+        const QSet<QString> lst = PQCImageHandler::get().getEnabledSuffixes();
         for(const QString &c : lst)
             checkForTheseFormats << QString("*.%1").arg(c);
 
