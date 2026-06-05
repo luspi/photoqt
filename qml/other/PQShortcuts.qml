@@ -304,8 +304,9 @@ Item {
         }
 
         // Left/Right/Space when video is loaded might have special actions
-        if(((combo === "Left" || combo === "Right") && PQCSettings.filetypesVideoLeftRightJumpVideo) ||
-                (combo === "Space" && PQCSettings.filetypesVideoSpacePause)) {
+        if(PQCConstants.currentlyShowingVideo &&
+                (((combo === "Left" || combo === "Right") && PQCSettings.filetypesVideoLeftRightJumpVideo) ||
+                  (combo === "Space" && PQCSettings.filetypesVideoSpacePause))) {
 
             var suffix1 = PQCScriptsFilesPaths.getSuffix(PQCFileFolderModel.currentFile)
             var suffix2 = PQCScriptsFilesPaths.getCompleteSuffix(PQCFileFolderModel.currentFile)
@@ -344,8 +345,9 @@ Item {
         }
 
         // Left/Right/Space when animated image is loaded might have special actions
-        if(((combo === "Left" || combo === "Right") && PQCSettings.filetypesAnimatedLeftRight) ||
-                (combo === "Space" && PQCSettings.filetypesAnimatedSpacePause)) {
+        if(PQCConstants.currentImageIsAnimated &&
+                (((combo === "Left" || combo === "Right") && PQCSettings.filetypesAnimatedLeftRight) ||
+                  (combo === "Space" && PQCSettings.filetypesAnimatedSpacePause))) {
 
             if(PQCScriptsImages.isItAnimated(PQCFileFolderModel.currentFile)) {
 
@@ -373,7 +375,8 @@ Item {
         }
 
         // Space when motion photo is loaded might have special actions
-        if(combo === "Space" && PQCConstants.currentImageIsMotionPhoto && PQCSettings.filetypesMotionSpacePause) {
+        if(PQCConstants.currentImageIsMotionPhoto &&
+                combo === "Space" && PQCSettings.filetypesMotionSpacePause) {
 
             PQCNotify.playPauseAnimationVideo()
             return
@@ -381,7 +384,8 @@ Item {
         }
 
         // Left/Right when document is loaded might have special actions
-        if((combo === "Left" || combo === "Right") && PQCSettings.filetypesDocumentLeftRight && !PQCFileFolderModel.isPDF) {
+        if(PQCConstants.currentImageIsDocument &&
+                ((combo === "Left" || combo === "Right") && PQCSettings.filetypesDocumentLeftRight && !PQCFileFolderModel.isPDF)) {
 
             if(PQCScriptsImages.isPDFDocument(PQCFileFolderModel.currentFile)) {
 
@@ -400,7 +404,8 @@ Item {
         }
 
         // Left/Right when archive is loaded might have special actions
-        if((combo === "Left" || combo === "Right") && PQCSettings.filetypesArchiveLeftRight && !PQCFileFolderModel.isARC) {
+        if(PQCConstants.currentImageIsArchive &&
+                ((combo === "Left" || combo === "Right") && PQCSettings.filetypesArchiveLeftRight && !PQCFileFolderModel.isARC)) {
 
             if(PQCScriptsImages.isArchive(PQCFileFolderModel.currentFile)) {
 
@@ -418,7 +423,7 @@ Item {
 
         }
 
-        // Left/Right when archive is loaded might have special actions
+        // Left/Right when photo sphere is loaded might have special actions
         if(PQCConstants.showingPhotoSphere) {
             if(PQCSettings.filetypesPhotoSphereArrowKeys &&
                     (combo === "Left" || combo === "Right" || combo === "Up" || combo === "Down")) {
