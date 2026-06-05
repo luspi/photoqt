@@ -49,8 +49,8 @@ public:
     Q_INVOKABLE QString     getColorProfileID(int index) {
         return PQCScriptsColorProfiles::get().getColorProfileID(index);
     }
-    Q_INVOKABLE void        setColorProfile(QString path, int index) {
-        PQCScriptsColorProfiles::get().setColorProfile(path, index);
+    Q_INVOKABLE void        setColorProfileById(QString path, int index) {
+        PQCScriptsColorProfiles::get().setColorProfileById(path, index);
     }
     Q_INVOKABLE QString     getColorProfileFor(QString path) {
         return PQCScriptsColorProfiles::get().getColorProfileFor(path);

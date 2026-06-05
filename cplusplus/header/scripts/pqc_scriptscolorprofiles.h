@@ -57,7 +57,7 @@ public:
     Q_INVOKABLE QStringList getColorProfiles();
     Q_INVOKABLE QStringList getColorProfileDescriptions();
     Q_INVOKABLE QString getColorProfileID(int index);
-    Q_INVOKABLE void setColorProfile(QString path, int index);
+    Q_INVOKABLE void setColorProfileById(QString path, int index);
     Q_INVOKABLE QString getColorProfileFor(QString path);
     Q_INVOKABLE bool importColorProfile();
     Q_INVOKABLE bool removeImportedColorProfile(int index);
@@ -82,7 +82,7 @@ private:
     QStringList m_importedColorProfileDescriptions;
 
     mutable QMutex iccMmutex;
-    QHash<QString, QString> m_iccColorProfiles;
+    QHash<QString, QString> m_colorProfileCache;
 
     QFile *m_colorlastlocation;
 

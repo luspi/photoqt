@@ -24,6 +24,14 @@ PQCScriptsColorProfiles::PQCScriptsColorProfiles() {
 
     m_lcms2CountFailedApplications = 0;
 
+#if __cplusplus >= 202002L
+    connect(&PQCNotifyCPP::get(), &PQCNotifyCPP::setColorProfileFor, this, [=, this](QString path, QString val) {
+#else
+    connect(&PQCNotifyCPP::get(), &PQCNotifyCPP::setColorProfileFor, this, [=](QString path, QString val) {
+#endif
+        m_colorProfileCache[path] = val;
+    });
+
 }
 
 PQCScriptsColorProfiles::~PQCScriptsColorProfiles() {
@@ -200,18 +208,18 @@ QString PQCScriptsColorProfiles::getColorProfileID(int index) {
 
 }
 
-void PQCScriptsColorProfiles::setColorProfile(QString path, int index) {
+void PQCScriptsColorProfiles::setColorProfileById(QString path, int index) {
 
     qDebug() << "args: path =" << path;
     qDebug() << "args: index =" << index;
 
-    // protect writes to m_iccColorProfiles
+    // protect writes to m_colorProfileCache
     QMutexLocker locker(&iccMmutex);
 
     if(index == -1)
-        m_iccColorProfiles.remove(path);
+        m_colorProfileCache.remove(path);
     else
-        m_iccColorProfiles[path] = getColorProfileID(index);
+        m_colorProfileCache[path] = getColorProfileID(index);
 
 }
 
@@ -219,7 +227,7 @@ QString PQCScriptsColorProfiles::getColorProfileFor(QString path) {
 
     qDebug() << "args: path =" << path;
 
-    return m_iccColorProfiles.value(path, "");
+    return m_colorProfileCache.value(path, "");
 
 }
 
@@ -402,9 +410,10 @@ QString PQCScriptsColorProfiles::applyColorProfile(QString filename, QImage &img
 
         if(index < m_integratedColorProfiles.length()) {
             const QString desc = _applyColorSpaceQt(img, filename, QColorSpace(m_integratedColorProfiles[index]));
-            if(desc != "")
+            if(desc != "") {
+                Q_EMIT PQCNotifyCPP::get().setColorProfileFor(filename, desc);
                 return desc;
-            else
+            } else
                 manualSelectionCausedError = true;
         }
 
@@ -421,9 +430,10 @@ QString PQCScriptsColorProfiles::applyColorProfile(QString filename, QImage &img
             sp = QColorSpace::fromIccProfile(f.readAll());
 
         const QString desc = _applyColorSpaceQt(img, filename, sp);
-        if(desc != "")
+        if(desc != "") {
+            Q_EMIT PQCNotifyCPP::get().setColorProfileFor(filename, desc);
             return desc;
-        else
+        } else
             manualSelectionCausedError = true;
 
 #endif
@@ -454,6 +464,7 @@ QString PQCScriptsColorProfiles::applyColorProfile(QString filename, QImage &img
                 if(desc != "") {
                     m_lcms2CountFailedApplications = 0;
                     cmsCloseProfile(targetProfile);
+                    Q_EMIT PQCNotifyCPP::get().setColorProfileFor(filename, desc);
                     return desc;
                 }
             } else {
@@ -480,6 +491,7 @@ QString PQCScriptsColorProfiles::applyColorProfile(QString filename, QImage &img
             if(desc != "") {
                 m_lcms2CountFailedApplications = 0;
                 cmsCloseProfile(targetProfile);
+                Q_EMIT PQCNotifyCPP::get().setColorProfileFor(filename, desc);
                 return desc;
             }
             cmsCloseProfile(targetProfile);
@@ -505,8 +517,10 @@ QString PQCScriptsColorProfiles::applyColorProfile(QString filename, QImage &img
 
             if(index < m_integratedColorProfiles.length()) {
                 const QString desc = _applyColorSpaceQt(img, filename, QColorSpace(m_integratedColorProfiles[index]));
-                if(desc != "")
+                if(desc != "") {
+                    Q_EMIT PQCNotifyCPP::get().setColorProfileFor(filename, desc);
                     return desc;
+                }
             }
 
 #ifdef PQMLCMS2
@@ -525,6 +539,7 @@ QString PQCScriptsColorProfiles::applyColorProfile(QString filename, QImage &img
                     if(desc != "") {
                         m_lcms2CountFailedApplications = 0;
                         cmsCloseProfile(targetProfile);
+                        Q_EMIT PQCNotifyCPP::get().setColorProfileFor(filename, desc);
                         return desc;
                     }
                     cmsCloseProfile(targetProfile);
@@ -545,8 +560,10 @@ QString PQCScriptsColorProfiles::applyColorProfile(QString filename, QImage &img
                 sp = QColorSpace::fromIccProfile(f.readAll());
 
             const QString desc = _applyColorSpaceQt(img, filename, sp);
-            if(desc != "")
+            if(desc != "") {
+                Q_EMIT PQCNotifyCPP::get().setColorProfileFor(filename, desc);
                 return desc;
+            }
 
 #endif
 

@@ -2726,8 +2726,6 @@ Loader {
         // hide the image
         function hideImage() {
 
-            console.warn(">>> HIDIING IMAGE:", imageloaderitem.imageSource)
-
             imageloaderitem.thisIsStartupFile = false
 
             // ignore anything that happened during a slideshow

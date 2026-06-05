@@ -236,7 +236,7 @@ Loader {
                     text: qsTranslate("contextmenu", "Default color profile")
                     font.bold: true
                     onTriggered: {
-                        PQCScriptsColorProfiles.setColorProfile(PQCFileFolderModel.currentFile, -1)
+                        PQCScriptsColorProfiles.setColorProfileById(PQCFileFolderModel.currentFile, -1)
                         PQCNotify.currentImageReload()
                         PQCFileFolderModel.currentFileChanged()
                     }
@@ -253,7 +253,7 @@ Loader {
                         visible: PQCSettings.imageviewColorSpaceContextMenu.indexOf(PQCScriptsColorProfiles.getColorProfileID(modelData))>-1
                         height: visible ? 30 : 0
                         onTriggered: {
-                            PQCScriptsColorProfiles.setColorProfile(PQCFileFolderModel.currentFile, deleg.modelData)
+                            PQCScriptsColorProfiles.setColorProfileById(PQCFileFolderModel.currentFile, deleg.modelData)
                             PQCNotify.currentImageReload()
                             PQCFileFolderModel.currentFileChanged()
                         }
