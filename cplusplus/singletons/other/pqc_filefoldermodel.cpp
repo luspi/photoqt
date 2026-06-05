@@ -63,6 +63,7 @@ PQCFileFolderModel::PQCFileFolderModel(QObject *parent) : QObject(parent) {
 
     m_fileInFolderMainView = "";
     m_folderFileDialog = "";
+    m_folderFileDialogExists = false;
     m_currentIndex = -1;
     m_countMainView = 0;
     m_countFoldersFileDialog = 0;
@@ -270,7 +271,9 @@ void PQCFileFolderModel::setFolderFileDialog(QString val) {
     if(m_folderFileDialog == val)
         return;
     m_folderFileDialog = val;
+    m_folderFileDialogExists = QFileInfo::exists(val);
     Q_EMIT folderFileDialogChanged();
+    Q_EMIT folderFileDialogExistsChanged();
     loadDelayFileDialog->start();
 
     if(!val.isEmpty()) {

@@ -846,7 +846,9 @@ Item {
         wrapMode: Text.WordWrap
         enabled: false
         visible: PQCFileFolderModel.countAllFileDialog===0
-        text: qsTranslate("filedialog", "no supported files/folders found")
+        text: PQCFileFolderModel.folderFileDialogExists ?
+                  qsTranslate("filedialog", "no supported files/folders found") :
+                  qsTranslate("filedialog", "folder does not exist")
         color: palette.text
     }
 

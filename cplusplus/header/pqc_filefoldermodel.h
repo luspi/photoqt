@@ -58,6 +58,9 @@ public:
     bool getFirstFolderMainViewLoaded();
     void setFirstFolderMainViewLoaded(bool val);
 
+    // read-only property
+    Q_PROPERTY(bool folderFileDialogExists MEMBER m_folderFileDialogExists NOTIFY folderFileDialogExistsChanged)
+
     /********************************************/
     /********************************************/
 
@@ -226,6 +229,8 @@ private:
     int m_countFilesFileDialog;
     int m_countAllFileDialog;
 
+    bool m_folderFileDialogExists;
+
     bool m_readDocumentOnly;
     bool m_readArchiveOnly;
     bool m_includeFilesInSubFolders;
@@ -307,6 +312,7 @@ Q_SIGNALS:
     void fileInFolderMainViewChanged();
     void firstFolderMainViewLoadedChanged();
     void folderFileDialogChanged();
+    void folderFileDialogExistsChanged();
     void nameFiltersChanged();
     void restrictToSuffixesChanged();
     void filenameFiltersChanged();
