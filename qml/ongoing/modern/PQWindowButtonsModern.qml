@@ -845,8 +845,6 @@ Item {
                     }
                 }
 
-                PQMenuSeparator {}
-
                 PQMenu {
 
                     title: qsTranslate("settingsmanager", "visibility")
