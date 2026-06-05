@@ -69,6 +69,8 @@ Rectangle {
     property int extraSpacing: Math.max(20,2*effectiveThumbnailLiftup)
     property bool windowSizeOkay: true
 
+    property int effectiveThumbnailSize: 50+PQCSettings.thumbnailsSize*5
+
     color: palette.base
 
     PQShadowEffect { masterItem: thumbnails_top }
@@ -96,7 +98,7 @@ Rectangle {
                 thumbnails_top.invisiblePos: [0, PQCConstants.availableHeight]
                 thumbnails_top.hotArea: Qt.rect(0, PQCConstants.availableHeight-thumbnails_top.hotAreaSize, PQCConstants.availableWidth, thumbnails_top.hotAreaSize)
                 thumbnails_top.width: PQCConstants.availableWidth
-                thumbnails_top.height: PQCSettings.thumbnailsSize+thumbnails_top.extraSpacing
+                thumbnails_top.height: thumbnails_top.effectiveThumbnailSize+thumbnails_top.extraSpacing
                 thumbnails_top.windowSizeOkay: PQCConstants.availableHeight>500
             }
         },
@@ -106,7 +108,7 @@ Rectangle {
                 thumbnails_top.visiblePos: [0,0]
                 thumbnails_top.invisiblePos: [-thumbnails_top.width,0]
                 thumbnails_top.hotArea: Qt.rect(0,0,thumbnails_top.hotAreaSize,PQCConstants.availableHeight)
-                thumbnails_top.width: PQCSettings.thumbnailsSize+thumbnails_top.extraSpacing
+                thumbnails_top.width: thumbnails_top.effectiveThumbnailSize+thumbnails_top.extraSpacing
                 thumbnails_top.height: PQCConstants.availableHeight
                 thumbnails_top.windowSizeOkay: PQCConstants.availableWidth>500
             }
@@ -117,7 +119,7 @@ Rectangle {
                 thumbnails_top.visiblePos: [PQCConstants.availableWidth-thumbnails_top.width,0]
                 thumbnails_top.invisiblePos: [PQCConstants.availableWidth,0]
                 thumbnails_top.hotArea: Qt.rect(PQCConstants.availableWidth-thumbnails_top.hotAreaSize,0,thumbnails_top.hotAreaSize,PQCConstants.availableHeight)
-                thumbnails_top.width: PQCSettings.thumbnailsSize+thumbnails_top.extraSpacing
+                thumbnails_top.width: thumbnails_top.effectiveThumbnailSize+thumbnails_top.extraSpacing
                 thumbnails_top.height: PQCConstants.availableHeight
                 thumbnails_top.windowSizeOkay: PQCConstants.availableWidth>500
             }
@@ -129,7 +131,7 @@ Rectangle {
                 thumbnails_top.invisiblePos: [0,-thumbnails_top.height]
                 thumbnails_top.hotArea: Qt.rect(0,0,PQCConstants.availableWidth,thumbnails_top.hotAreaSize)
                 thumbnails_top.width: PQCConstants.availableWidth
-                thumbnails_top.height: PQCSettings.thumbnailsSize+thumbnails_top.extraSpacing
+                thumbnails_top.height: thumbnails_top.effectiveThumbnailSize+thumbnails_top.extraSpacing
                 thumbnails_top.windowSizeOkay: PQCConstants.availableHeight>500
             }
         },
@@ -335,14 +337,14 @@ Rectangle {
         highlightFollowsCurrentItem: true
         highlightMoveDuration: previousIndexWithinView ? 200 : 0
         preferredHighlightBegin: PQCSettings.thumbnailsCenterOnActive
-                                 ? ((orientation==Qt.Horizontal ? view.width : view.height)-PQCSettings.thumbnailsSize)/2
-                                 : PQCSettings.thumbnailsSize/2
+                                 ? ((orientation==Qt.Horizontal ? view.width : view.height)-thumbnails_top.effectiveThumbnailSize)/2
+                                 : thumbnails_top.effectiveThumbnailSize/2
         preferredHighlightEnd: PQCSettings.thumbnailsCenterOnActive
-                               ? ((orientation==Qt.Horizontal ? view.width : view.height)-PQCSettings.thumbnailsSize)/2+PQCSettings.thumbnailsSize
-                               : ((orientation==Qt.Horizontal ? view.width : view.height)-PQCSettings.thumbnailsSize/2)
+                               ? ((orientation==Qt.Horizontal ? view.width : view.height)-thumbnails_top.effectiveThumbnailSize)/2+thumbnails_top.effectiveThumbnailSize
+                               : ((orientation==Qt.Horizontal ? view.width : view.height)-thumbnails_top.effectiveThumbnailSize/2)
         highlightRangeMode: PQCSettings.thumbnailsCenterOnActive && viewSizeLargerThanBarSize ? ListView.StrictlyEnforceRange : ListView.ApplyRange
 
-        maximumFlickVelocity: 5000 * Math.max(1, PQCSettings.thumbnailsSize/250)
+        maximumFlickVelocity: 5000 * Math.max(1, thumbnails_top.effectiveThumbnailSize/250)
 
         Component.onCompleted: {
             if(currentIndex > -1)
@@ -373,7 +375,7 @@ Rectangle {
         ScrollBar.horizontal: thumbnails_top.state==="bottom" ? scrollbar_bottom : scrollbar_top
 
         // left scroll bar
-        ScrollBar {
+        PQVerticalScrollBar {
             id: scrollbar_left
             orientation: Qt.Vertical
             parent: view.parent
@@ -385,7 +387,7 @@ Rectangle {
         }
 
         // right scroll bar
-        ScrollBar {
+        PQVerticalScrollBar {
             id: scrollbar_right
             orientation: Qt.Vertical
             parent: view.parent
@@ -488,37 +490,37 @@ Rectangle {
                 State {
                     name: "bottom"
                     PropertyChanges {
-                        deleg.width: PQCSettings.thumbnailsSameHeightVaryWidth ? img.width : PQCSettings.thumbnailsSize
-                        deleg.height: PQCSettings.thumbnailsSize
-                        img.width: PQCSettings.thumbnailsSameHeightVaryWidth ? ((img.height/img.sourceSize.height) * img.sourceSize.width) : PQCSettings.thumbnailsSize
-                        img.height: PQCSettings.thumbnailsSize
+                        deleg.width: PQCSettings.thumbnailsSameHeightVaryWidth ? img.width : thumbnails_top.effectiveThumbnailSize
+                        deleg.height: thumbnails_top.effectiveThumbnailSize
+                        img.width: PQCSettings.thumbnailsSameHeightVaryWidth ? ((img.height/img.sourceSize.height) * img.sourceSize.width) : thumbnails_top.effectiveThumbnailSize
+                        img.height: thumbnails_top.effectiveThumbnailSize
                     }
                 },
                 State {
                     name: "left"
                     PropertyChanges {
-                        deleg.width: PQCSettings.thumbnailsSize
-                        deleg.height: PQCSettings.thumbnailsSameHeightVaryWidth ? img.height : PQCSettings.thumbnailsSize
-                        img.width: PQCSettings.thumbnailsSize
-                        img.height: PQCSettings.thumbnailsSameHeightVaryWidth ? ((img.width/img.sourceSize.width) * img.sourceSize.height) : PQCSettings.thumbnailsSize
+                        deleg.width: thumbnails_top.effectiveThumbnailSize
+                        deleg.height: PQCSettings.thumbnailsSameHeightVaryWidth ? img.height : thumbnails_top.effectiveThumbnailSize
+                        img.width: thumbnails_top.effectiveThumbnailSize
+                        img.height: PQCSettings.thumbnailsSameHeightVaryWidth ? ((img.width/img.sourceSize.width) * img.sourceSize.height) : thumbnails_top.effectiveThumbnailSize
                     }
                 },
                 State {
                     name: "right"
                     PropertyChanges {
-                        deleg.width: PQCSettings.thumbnailsSize
-                        deleg.height: PQCSettings.thumbnailsSameHeightVaryWidth ? img.height : PQCSettings.thumbnailsSize
-                        img.width: PQCSettings.thumbnailsSize
-                        img.height: PQCSettings.thumbnailsSameHeightVaryWidth ? ((img.width/img.sourceSize.width) * img.sourceSize.height) : PQCSettings.thumbnailsSize
+                        deleg.width: thumbnails_top.effectiveThumbnailSize
+                        deleg.height: PQCSettings.thumbnailsSameHeightVaryWidth ? img.height : thumbnails_top.effectiveThumbnailSize
+                        img.width: thumbnails_top.effectiveThumbnailSize
+                        img.height: PQCSettings.thumbnailsSameHeightVaryWidth ? ((img.width/img.sourceSize.width) * img.sourceSize.height) : thumbnails_top.effectiveThumbnailSize
                     }
                 },
                 State {
                     name: "top"
                     PropertyChanges {
-                        deleg.width: PQCSettings.thumbnailsSameHeightVaryWidth ? img.width : PQCSettings.thumbnailsSize
-                        deleg.height: PQCSettings.thumbnailsSize
-                        img.width: PQCSettings.thumbnailsSameHeightVaryWidth ? ((img.height/img.sourceSize.height) * img.sourceSize.width) : PQCSettings.thumbnailsSize
-                        img.height: PQCSettings.thumbnailsSize
+                        deleg.width: PQCSettings.thumbnailsSameHeightVaryWidth ? img.width : thumbnails_top.effectiveThumbnailSize
+                        deleg.height: thumbnails_top.effectiveThumbnailSize
+                        img.width: PQCSettings.thumbnailsSameHeightVaryWidth ? ((img.height/img.sourceSize.height) * img.sourceSize.width) : thumbnails_top.effectiveThumbnailSize
+                        img.height: thumbnails_top.effectiveThumbnailSize
                     }
                 }
             ]
@@ -783,7 +785,7 @@ Rectangle {
                 if(Math.abs(event.angleDelta.x) > 5) return
 
                 if(PQCSettings.thumbnailsCenterOnActive)
-                    view.contentX = Math.max(-view.width/2, Math.min(view.contentWidth-view.width/2-PQCSettings.thumbnailsSize/2, view.contentX-event.angleDelta.y))
+                    view.contentX = Math.max(-view.width/2, Math.min(view.contentWidth-view.width/2-thumbnails_top.effectiveThumbnailSize/2, view.contentX-event.angleDelta.y))
                 else
                     view.contentX = Math.max(0, Math.min(view.contentWidth-view.width, view.contentX-event.angleDelta.y))
 
@@ -792,7 +794,7 @@ Rectangle {
                 if(Math.abs(event.angleDelta.y) > 5) return
 
                 if(PQCSettings.thumbnailsCenterOnActive)
-                    view.contentY = Math.max(-view.height/2, Math.min(view.contentHeight-view.height/2-PQCSettings.thumbnailsSize/2, view.contentY-event.angleDelta.x))
+                    view.contentY = Math.max(-view.height/2, Math.min(view.contentHeight-view.height/2-thumbnails_top.effectiveThumbnailSize/2, view.contentY-event.angleDelta.x))
                 else
                     view.contentY = Math.max(0, Math.min(view.contentHeight-view.height, view.contentY-event.angleDelta.x))
 

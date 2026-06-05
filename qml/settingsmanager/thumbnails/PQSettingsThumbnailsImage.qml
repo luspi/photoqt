@@ -45,8 +45,8 @@ PQSetting {
             id: thumb_size
             width: set_thumb.contentWidth
             sliderExtraWide: true
-            minval: 32
-            maxval: 4000
+            minval: 50
+            maxval: 800
             logarithmicScale: true
             title: ""
             suffix: " px"
@@ -57,7 +57,7 @@ PQSetting {
         PQSettingsResetButton {
             onResetToDefaults: {
 
-                thumb_size.setValue(PQCSettings.getDefaultForThumbnailsSize())
+                thumb_size.setValue(50+PQCSettings.getDefaultForThumbnailsSize()*5)
 
                 set_thumb.checkForChanges()
 
@@ -200,7 +200,7 @@ PQSetting {
 
         settingsLoaded = false
 
-        thumb_size.loadAndSetDefault(PQCSettings.thumbnailsSize)
+        thumb_size.loadAndSetDefault(50+PQCSettings.thumbnailsSize*5)
 
         thumb_fit.loadAndSetDefault(!PQCSettings.thumbnailsCropToFit && !PQCSettings.thumbnailsSameHeightVaryWidth)
         thumb_crop.loadAndSetDefault(PQCSettings.thumbnailsCropToFit)
@@ -217,7 +217,7 @@ PQSetting {
 
     function applyChanges() {
 
-        PQCSettings.thumbnailsSize = thumb_size.value
+        PQCSettings.thumbnailsSize = thumb_size.value/5 - 50
         thumb_size.saveDefault()
 
         PQCSettings.thumbnailsCropToFit = thumb_crop.checked

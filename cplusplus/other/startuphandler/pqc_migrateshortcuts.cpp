@@ -43,9 +43,7 @@ void PQCMigrateShortcuts::migrate(const QString &oldVersion, const QStringList &
     }
 
     int iVersion = 0;
-    if(oldVersion == "dev")
-        iVersion = allVersions.length()-1;
-    else if(!oldVersion.isEmpty() && allVersions.contains(oldVersion))
+    if(!oldVersion.isEmpty() && allVersions.contains(oldVersion))
         // we do a +1 as we are on the found version and don't need to migrate to it
         iVersion = allVersions.indexOf(oldVersion)+1;
 

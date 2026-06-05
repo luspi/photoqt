@@ -1603,12 +1603,12 @@ void PQCSettings::setFiledialogZoom(const int val) {
 }
 
 const int PQCSettings::getDefaultForFiledialogZoom() const {
-        return 40;
+        return 12;
 }
 
 void PQCSettings::setDefaultForFiledialogZoom() {
-    if(40 != m_filedialogZoom) {
-        m_filedialogZoom = 40;
+    if(12 != m_filedialogZoom) {
+        m_filedialogZoom = 12;
     }
 }
 
@@ -7180,12 +7180,12 @@ void PQCSettings::setThumbnailsSize(const int val) {
 }
 
 const int PQCSettings::getDefaultForThumbnailsSize() const {
-        return 120;
+        return 14;
 }
 
 void PQCSettings::setDefaultForThumbnailsSize() {
-    if(120 != m_thumbnailsSize) {
-        m_thumbnailsSize = 120;
+    if(14 != m_thumbnailsSize) {
+        m_thumbnailsSize = 14;
     }
 }
 
@@ -8318,7 +8318,7 @@ void PQCSettings::setupFresh() {
     m_filedialogThumbnails = true;
     m_filedialogThumbnailsScaleCrop = true;
     m_filedialogUseNativeFileDialog = false;
-    m_filedialogZoom = 40;
+    m_filedialogZoom = 12;
 
     // table: filetypes
     m_filetypesAnimatedControls = true;
@@ -8591,7 +8591,7 @@ void PQCSettings::setupFresh() {
     m_thumbnailsInactiveTransparent = true;
     m_thumbnailsMaxNumberThreads = 4;
     m_thumbnailsSameHeightVaryWidth = false;
-    m_thumbnailsSize = 120;
+    m_thumbnailsSize = 14;
     m_thumbnailsSmallThumbnailsKeepSmall = true;
     m_thumbnailsSpacing = 2;
     m_thumbnailsTooltip = true;

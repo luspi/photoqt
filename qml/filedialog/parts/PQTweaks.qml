@@ -79,21 +79,29 @@ Item {
                 y: (parent.height-height)/2
 
                 minVal: 1
-                maxVal: 4000
+                maxVal: 100
 
                 stepSize: 1
 
                 onRealValueChanged: {
                     if(!isSetup) return
-                    var newval = Math.round(realValue)
-                    if(PQCSettings.filedialogThumbnailSizeFollowsGlobalThumbnails) {
-                        if(newval !== PQCSettings.thumbnailsSize)
-                            PQCSettings.thumbnailsSize = newval
-                    } else {
-                        if(newval !== PQCSettings.filedialogZoom)
-                            PQCSettings.filedialogZoom = newval
+                    saveSizeChange.restart()
+                }
+
+                Timer {
+                    id: saveSizeChange
+                    interval: 200
+                    onTriggered: {
+                        var newval = Math.round(zoomslider.realValue)
+                        if(PQCSettings.filedialogThumbnailSizeFollowsGlobalThumbnails) {
+                            if(newval !== PQCSettings.thumbnailsSize)
+                                PQCSettings.thumbnailsSize = newval
+                        } else {
+                            if(newval !== PQCSettings.filedialogZoom)
+                                PQCSettings.filedialogZoom = newval
+                        }
+                        tweaks_top.forceActiveFocus()
                     }
-                    tweaks_top.forceActiveFocus()
                 }
 
                 // without this delay the value would be stored BEFORE it was actually set up
@@ -118,20 +126,29 @@ Item {
                     function onThumbnailsSizeChanged() {
                         if(!PQCSettings.filedialogThumbnailSizeFollowsGlobalThumbnails) return
                         if(zoomslider.realValue !== PQCSettings.thumbnailsSize)
-                            zoomslider.setValue(PQCSettings.thumbnailsSize)
+                            zoomslider.setValue(Math.min(100, PQCSettings.thumbnailsSize))
+                    }
+
+                    function onFiledialogThumbnailSizeFollowsGlobalThumbnailsChanged() {
+                        if(!PQCSettings.filedialogThumbnailSizeFollowsGlobalThumbnails) {
+                            PQCSettings.filedialogZoom = PQCSettings.thumbnailsSize
+                            zoomslider.setValue(PQCSettings.filedialogZoom)
+                        } else {
+                            zoomslider.setValue(Math.min(100,PQCSettings.thumbnailsSize))
+                        }
                     }
 
                 }
 
                 Component.onCompleted: {
-                    setValue(PQCSettings.filedialogThumbnailSizeFollowsGlobalThumbnails ? PQCSettings.thumbnailsSize : PQCSettings.filedialogZoom)
+                    setValue(PQCSettings.filedialogThumbnailSizeFollowsGlobalThumbnails ? Math.min(100,PQCSettings.thumbnailsSize) : PQCSettings.filedialogZoom)
                 }
 
             }
 
             Text {
                 y: (parent.height-height)/2
-                text: Math.round(zoomslider.realValue/40) + "%"
+                text: Math.round(zoomslider.realValue) + "%"
                 font.pointSize: PQCLook.fontSize
                 color: palette.text
             }

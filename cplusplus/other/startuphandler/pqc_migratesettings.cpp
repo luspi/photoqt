@@ -42,9 +42,7 @@ void PQCMigrateSettings::migrate(const QString &oldVersion, const QStringList al
     }
 
     int iVersion = 0;
-    if(oldVersion == "dev")
-        iVersion = allVersions.length()-1;
-    else if(!oldVersion.isEmpty() && allVersions.contains(oldVersion))
+    if(!oldVersion.isEmpty() && allVersions.contains(oldVersion))
         // we do a +1 as we are on the found version and don't need to migrate to it
         iVersion = allVersions.indexOf(oldVersion)+1;
 
@@ -87,9 +85,27 @@ void PQCMigrateSettings::migrate(const QString &oldVersion, const QStringList al
         else if(curVer == "5.3")
             migrate530();
 
+        else if(curVer == "5.4")
+            migrate540();
+
     }
 
     db.commit();
+
+}
+
+/******************************************************/
+/******************************************************/
+
+void PQCMigrateSettings::migrate540() {
+
+    qDebug() << "";
+
+    const int oldVal = migrationHelperGetOldValue("thumbnails", "Size").toInt();
+    migrationHelperSetNewValue("thumbnails", "Size", (oldVal-50)/5);
+
+    const int oldVal2 = migrationHelperGetOldValue("filedialog", "Zoom").toInt();
+    migrationHelperSetNewValue("filedialog", "Zoom", (oldVal-50)/5);
 
 }
 
@@ -106,8 +122,8 @@ void PQCMigrateSettings::migrate530() {
     migrationHelperRemoveValue("filetypes", "VideoPreferLibmpv");
     migrationHelperInsertValue("filetypes", "VideoBackend", {newVal, "", "list"});
 
-    const int oldThumbSize = migrationHelperGetOldValue("filedialog", "FiledialogZoom").toInt();
-    migrationHelperSetNewValue("filedialog", "FiledialogZoom", oldThumbSize*40);
+    const int oldThumbSize = migrationHelperGetOldValue("filedialog", "Zoom").toInt();
+    migrationHelperSetNewValue("filedialog", "Zoom", oldThumbSize*40);
 
     const bool oldDisableInterpSmall = migrationHelperGetOldValue("imageview", "InterpolationDisableForSmallImages").toBool();
     migrationHelperRemoveValue("imageview", "InterpolationDisableForSmallImages");

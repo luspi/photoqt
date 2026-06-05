@@ -231,8 +231,6 @@ int main(int argc, char **argv) {
         PQCExtensionsHandler::get().installExtension(app.installExtensionFileName);
     }
 
-    // setting up databases needs to happen here for the Release build
-    startupHandler.setupDatabases();
     int updateStatus = startupHandler.performChecksAndUpdates();
 
     /***************************************/
@@ -250,6 +248,9 @@ int main(int argc, char **argv) {
         dbtmp.close();
         PQCSettingsCPP::get().forceInterfaceVariant((useModernInterface ? "modern" : "integrated"));
     }
+
+    // this is important as otherwise the interface variant might not be set up properly leading to a mixed interface (ugly)
+    PQCSettingsCPP::get().readDB();
 
     /***************************************/
 

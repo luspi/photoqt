@@ -201,14 +201,14 @@ Item {
             if(wheel.modifiers === Qt.ControlModifier) {
                 if(PQCSettings.filedialogThumbnailSizeFollowsGlobalThumbnails) {
                     if(wheel.angleDelta.y < 0)
-                        PQCSettings.thumbnailsSize = Math.max(PQCSettings.thumbnailsSize-10, 32)
+                        PQCSettings.thumbnailsSize = Math.max(PQCSettings.thumbnailsSize-1, 1)
                     else
-                        PQCSettings.thumbnailsSize = Math.min(PQCSettings.thumbnailsSize+10, 4000)
+                        PQCSettings.thumbnailsSize = Math.min(PQCSettings.thumbnailsSize+1, 100)
                 } else {
                     if(wheel.angleDelta.y < 0)
-                        PQCSettings.filedialogZoom = Math.max(PQCSettings.filedialogZoom-10, 32)
+                        PQCSettings.filedialogZoom = Math.max(PQCSettings.filedialogZoom-1, 1)
                     else
-                        PQCSettings.filedialogZoom = Math.min(PQCSettings.filedialogZoom+10, 4000)
+                        PQCSettings.filedialogZoom = Math.min(PQCSettings.filedialogZoom+1, 100)
                 }
                 wheel.accepted = true
                 return

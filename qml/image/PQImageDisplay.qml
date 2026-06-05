@@ -1409,7 +1409,8 @@ Loader {
                                 loader_top.listenToClicksOnImage = true
                             } else if(PQCScriptsImages.isSVG(imageloaderitem.imageSource)) {
                                 image_loader_svg.active = true
-                            } else if(PQCConstants.openGLAvailableForSpheres && (loader_top.photoSphereManuallyEntered || PQCScriptsImages.isPhotoSphere(imageloaderitem.imageSource) && (loader_top.photoSphereManuallyEntered || PQCSettings.filetypesPhotoSphereAutoLoad))) {
+                            } else if(loader_top.photoSphereManuallyEntered ||
+                                      (PQCSettings.filetypesPhotoSphereAutoLoad && PQCScriptsImages.isPhotoSphere(imageloaderitem.imageSource))) {
                                 loader_top.thisIsAPhotoSphere = true
                                 image_loader_sph.active = true
                             } else {

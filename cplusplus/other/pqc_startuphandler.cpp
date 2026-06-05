@@ -121,6 +121,8 @@ int PQCStartupHandler::performChecksAndUpdates() {
 
     if(settingsChecker == PQEUpdateCheck::SameVersion) {
 
+        setupDatabases();
+
         // last time a dev version was run
         // we need to figure this out WITHOUT using the PQCSettings class
         QSqlDatabase dbtmp;
@@ -161,7 +163,7 @@ int PQCStartupHandler::performChecksAndUpdates() {
     if(settingsChecker == PQEUpdateCheck::FreshInstall) {
 
         setupFresh();
-        setupDatabases();   // ... again.
+        setupDatabases();
 
         if(!m_forceSkipWizard)
             showStartupWizard(true);
@@ -170,6 +172,8 @@ int PQCStartupHandler::performChecksAndUpdates() {
         return PQEUpdateCheck::FreshInstall;
 
     } else if(settingsChecker == PQEUpdateCheck::Update) {
+
+        setupDatabases();
 
         // do migrations
         PQCMigrateSettings::migrate(oldSettingsVersion, m_allVersions);
