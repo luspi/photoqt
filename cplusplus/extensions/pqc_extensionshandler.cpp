@@ -150,7 +150,8 @@ void PQCExtensionsHandler::setup() {
             for(const QString &nameId : dirlist) {
 
                 const QString extensionDir = QDir(baseDir).absoluteFilePath(nameId);
-                const QString hashId = (m_systemExtensionDir == baseDir ?
+                const bool isSystemExtension = (m_systemExtensionDir == baseDir);
+                const QString hashId = (isSystemExtension ?
                                             QCryptographicHash::hash(nameId.toUtf8(), QCryptographicHash::Md5).toHex() :
                                             QCryptographicHash::hash(extensionDir.toUtf8(), QCryptographicHash::Md5).toHex());
                 const QString identifyName = nameId % " (" % extensionDir % ")";
@@ -165,7 +166,7 @@ void PQCExtensionsHandler::setup() {
 
                 }
 
-                bool verificationPassed = verifyExtension(extensionDir, nameId);
+                bool verificationPassed = (isSystemExtension ? true : verifyExtension(extensionDir, nameId));
                 bool allowUntrusted = false;
                 if(!verificationPassed) {
 
@@ -188,7 +189,7 @@ void PQCExtensionsHandler::setup() {
                     continue;
                 }
 
-                if(!PQCSettingsCPP::get().getGeneralExtensionsEnabled().contains(hashId) && !(baseDir == m_systemExtensionDir && PQCSettingsCPP::get().getGeneralExtensionsEnabled().contains(nameId))) {
+                if(!PQCSettingsCPP::get().getGeneralExtensionsEnabled().contains(hashId) && !(isSystemExtension && PQCSettingsCPP::get().getGeneralExtensionsEnabled().contains(nameId))) {
                     qDebug() << "Extension" << identifyName << "is disabled.";
                     extEnabled = false;
                 }
@@ -233,6 +234,8 @@ void PQCExtensionsHandler::setup() {
                         m_extensionsFailed.append(hashId);
                 }
                 m_allextensions.insert(hashId, extinfo);
+
+                if(isSystemExtension) m_extensionsSystem.append(hashId);
 
             }
 
@@ -673,6 +676,10 @@ QStringList PQCExtensionsHandler::getFailedExtensions() {
 
 QStringList PQCExtensionsHandler::getExtensionsEnabledAndDisabld() {
     return QStringList() << m_extensions << m_extensionsDisabled;
+}
+
+bool PQCExtensionsHandler::isSystemExtension(const QString id) {
+    return m_extensionsSystem.contains(id);
 }
 
 /****************************************/

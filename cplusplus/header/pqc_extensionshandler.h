@@ -181,6 +181,9 @@ public:
     // get a list of all extensions ids, enabled AND disabled
     QStringList getExtensionsEnabledAndDisabld();
 
+    // is this a system extensions (no need to verify)
+    bool isSystemExtension(const QString id);
+
     // get the base dir of the extension
     QString getExtensionLocation(QString id);
     QString getExtensionConfigLocation(QString id);
@@ -223,6 +226,7 @@ private:
     QStringList m_extensions;
     QStringList m_extensionsDisabled;
     QStringList m_extensionsFailed;
+    QStringList m_extensionsSystem;
 
     QMap<QString, PQCExtensionActions*> m_actions;
 

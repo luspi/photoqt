@@ -110,7 +110,8 @@ PQSetting {
                     property string extWebsite: PQCExtensionsHandler.getExtensionWebsite(extensionId)
                     property string extBaseDir: PQCExtensionsHandler.getExtensionLocation(extensionId)
 
-                    property bool isVerified: PQCScriptsConfig.isDebugBuild() ?
+                    property bool isSystemExtension: PQCExtensionsHandler.isSystemExtension(extensionId)
+                    property bool isVerified: isSystemExtension||PQCScriptsConfig.isDebugBuild() ?
                                                   true :
                                                   PQCExtensionsHandler.verifyExtension(extBaseDir, "")
                     property bool isDebugBuild: PQCScriptsConfig.isDebugBuild()
@@ -122,7 +123,11 @@ PQSetting {
                                                  "<b>" + qsTranslate("settingsmanager", "Author") + ":</b> " + extAuthor + "<br>" +
                                                  "<b>" + qsTranslate("settingsmanager", "Contact") + ":</b> " + extContact + "<br>" +
                                                  "<b>" + qsTranslate("settingsmanager", "Website:") + "</b> " + extWebsite + "<br><br>" +
-                                                 "<b>" + qsTranslate("settingsmanager", "Loaded from") + ":</b><br>" + extBaseDir
+                                                 "<b>" + qsTranslate("settingsmanager", "Loaded from") + ":</b><br>" + extBaseDir +
+                                                 (isSystemExtension ? "<br><br><i>" +
+                                                                      qsTranslate("settingsmanager", "This is a system extension.") +
+                                                                      "</i>"
+                                                                    : "")
 
                     width: col.width
                     height: (set_maex.currentExpandedSetting==index ? 300 : 40)
@@ -139,6 +144,8 @@ PQSetting {
                     }
 
                     Item {
+
+                        id: cont
 
                         width: parent.width
                         height: 40
@@ -208,10 +215,24 @@ PQSetting {
                             }
                         }
 
+                        property int iconWidth: (verified.visible ? verified.width : 0) + (systemext.visible ? systemext.width : 0)
+                        property int iconX: check.x+check.width+5
+
+                        Image {
+                            id: systemext
+                            visible: extension_setting.isSystemExtension
+                            x: check.x+check.width+5
+                            y: (parent.height-height)/2
+                            width: visible ? check.height*0.75 : 0
+                            height: visible ? check.height*0.75 : 0
+                            source: "image://svg/:/" + PQCLook.iconShade + "/computer.svg"
+                            sourceSize: Qt.size(width, height)
+                        }
+
                         Image {
                             id: verified
                             visible: !extension_setting.isDebugBuild
-                            x: check.x+check.width+5
+                            x: check.x+check.width+5 + (systemext.visible ? systemext.width+5 : 0)
                             y: (parent.height-height)/2
                             width: visible ? check.height*0.75 : 0
                             height: visible ? check.height*0.75 : 0
@@ -221,9 +242,9 @@ PQSetting {
 
                         PQText {
                             id: desc
-                            x: verified.x+verified.width+10
+                            x: cont.iconX+cont.iconWidth + 10
                             y: (parent.height-height)/2
-                            width: extension_setting.width-verified.width-setupButton.width-(revokeTrust.visible ? revokeTrust.width : 0)-check.width-40
+                            width: extension_setting.width-cont.iconWidth-setupButton.width-(revokeTrust.visible ? revokeTrust.width : 0)-check.width-40
                             opacity: 0.8
                             text: extension_setting.extDesc
                             elide: Text.ElideRight

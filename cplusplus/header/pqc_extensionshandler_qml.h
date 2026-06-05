@@ -202,6 +202,11 @@ public:
         return PQCExtensionsHandler::get().getFailedExtensions();
     }
 
+    // is this a system extensions (no need to verify)
+    Q_INVOKABLE bool isSystemExtension(const QString id) {
+        return PQCExtensionsHandler::get().isSystemExtension(id);
+    }
+
     // get a list of all extensions ids, enabled AND disabled
     Q_INVOKABLE QStringList getExtensionsEnabledAndDisabld() {
         return PQCExtensionsHandler::get().getExtensionsEnabledAndDisabld();

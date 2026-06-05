@@ -116,7 +116,7 @@ PQCImageHandler::PQCImageHandler() {
 
     m_plugins.insert("qt", new PQCImagePluginQt);
 #ifdef PQMRESVG
-    plugins.insert("resvg", new PQCImagePluginResvg);
+    m_plugins.insert("resvg", new PQCImagePluginResvg);
 #endif
 #if defined(PQMPOPPLER) || defined(PQMQTPDF)
     m_plugins.insert("pdf", new PQCImagePluginPDF);
