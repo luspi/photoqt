@@ -337,7 +337,7 @@ PQSetting {
                                                 id:  buttxt
                                                 width: parent.width
                                                 height: parent.height
-                                                font.pointSize: pluginrow.width/listview.plugins.length < 50 ? PQCLook.fontSizeS : PQCLook.fontSize
+                                                font.pointSize: pluginrow.width/listview.plugins.length < 75 ? PQCLook.fontSizeS : PQCLook.fontSize
                                                 horizontalAlignment: Text.AlignHCenter
                                                 elide: Text.ElideMiddle
                                                 verticalAlignment: Text.AlignVCenter
