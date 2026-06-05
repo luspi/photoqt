@@ -827,7 +827,7 @@ Loader {
                     // BUSY indicator
                     PQWorking {
                         id: busyloading
-                        parent: imageloaderitem.imageTopGeometryItem
+                        parent: imageloaderitem.imageTopGeometryItem.parent
                         anchors.margins: -PQCSettings.imageviewMargin
                         z: PQCConstants.currentZValue+1
                     }
