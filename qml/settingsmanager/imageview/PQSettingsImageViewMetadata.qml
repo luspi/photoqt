@@ -31,8 +31,6 @@ PQSetting {
 
     property list<var> labels: [
         //: Part of the meta information about the current image.
-        ["Filename", qsTranslate("settingsmanager", "file name")],
-        //: Part of the meta information about the current image.
         ["FileType", qsTranslate("settingsmanager", "file type")],
         //: Part of the meta information about the current image.
         ["FileSize", qsTranslate("settingsmanager", "file size")],
@@ -216,8 +214,7 @@ PQSetting {
 
                                     var m = set_meta.labels[deleg.modelData][0]
 
-                                         if(m === "Filename")     check.checked = PQCSettings.getDefaultForMetadataFilename()
-                                    else if(m === "FileType")     check.checked = PQCSettings.getDefaultForMetadataFileType()
+                                         if(m === "FileType")     check.checked = PQCSettings.getDefaultForMetadataFileType()
                                     else if(m === "FileSize")     check.checked = PQCSettings.getDefaultForMetadataFileSize()
                                     else if(m === "ImageNumber")  check.checked = PQCSettings.getDefaultForMetadataImageNumber()
                                     else if(m === "Dimensions")   check.checked = PQCSettings.getDefaultForMetadataDimensions()

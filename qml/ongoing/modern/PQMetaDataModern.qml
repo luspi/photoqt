@@ -673,7 +673,6 @@ Rectangle {
     ButtonGroup { id: grp2 }
 
     property list<var> labels: [
-        ["Filename", qsTranslate("settingsmanager", "file name")],
         ["Dimensions", qsTranslate("settingsmanager", "dimensions")],
         ["ImageNumber", qsTranslate("settingsmanager", "image #/#")],
         ["FileSize", qsTranslate("settingsmanager", "file size")],
