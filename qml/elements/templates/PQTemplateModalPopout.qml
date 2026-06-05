@@ -71,7 +71,8 @@ Window {
 
     onClosing: {
         _hideNoCheck()
-        cont.item.hiding()
+        if(cont.item.hiding() === false)
+            close.accepted = false
     }
 
     Component.onCompleted: {
