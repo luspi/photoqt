@@ -16,6 +16,7 @@ SET(photoqt_SOURCES cplusplus/main.cpp
 
                     cplusplus/other/startuphandler/pqc_migratesettings.cpp
                     cplusplus/other/startuphandler/pqc_migrateshortcuts.cpp
+                    cplusplus/other/startuphandler/pqc_migrateimageplugins.cpp
                     cplusplus/other/startuphandler/pqc_validate.cpp
                     cplusplus/other/startuphandler/pqc_wizard.cpp
 
@@ -48,6 +49,7 @@ SET(photoqt_SOURCES cplusplus/main.cpp
                     cplusplus/header/pqc_notify_cpp.h
                     cplusplus/header/pqc_helper.h
                     cplusplus/header/pqc_imagehandler.h
+                    cplusplus/header/pqc_migrateimageplugins.h
 
                     cplusplus/images/pqc_imagecache.cpp
                     cplusplus/images/pqc_imagehandler.cpp

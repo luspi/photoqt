@@ -78,10 +78,6 @@ public:
         return m_CONTEXTMENU_DB;
     }
 
-    const QString IMAGEFORMATS_DB() {
-        return m_IMAGEFORMATS_DB;
-    }
-
     const QString DEFAULTSETTINGS_DB() {
         return m_DEFAULTSETTINGS_DB;
     }
@@ -192,7 +188,6 @@ private:
 #endif
 
         m_CONTEXTMENU_DB = QString("%1/contextmenu.db").arg(CONFIG_DIR());
-        m_IMAGEFORMATS_DB = QString("%1/imageformats.db").arg(CONFIG_DIR());
         m_DEFAULTSETTINGS_DB = QString("%1/defaultsettings.db").arg(CACHE_DIR());
         m_USERSETTINGS_DB = QString("%1/usersettings.db").arg(CONFIG_DIR());
         m_QUICKUSERSETTINGS_FILE = QString("%1/quickusersettings").arg(CACHE_DIR());
@@ -217,7 +212,6 @@ private:
     QString m_USER_PLACES_XBEL;
     QString m_THUMBNAIL_CACHE_DIR;
     QString m_CONTEXTMENU_DB;
-    QString m_IMAGEFORMATS_DB;
     QString m_DEFAULTSETTINGS_DB;
     QString m_USERSETTINGS_DB;
     QString m_QUICKUSERSETTINGS_FILE;

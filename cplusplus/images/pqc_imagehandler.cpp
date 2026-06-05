@@ -509,11 +509,22 @@ bool PQCImageHandler::isEnabled(QString plugin, QString description) {
     return false;
 }
 
-void PQCImageHandler::setEnabled(QString pluginName, QString description, bool enabled) {
+void PQCImageHandler::setEnabled(QString pluginName, QString format, bool enabled) {
 
     for(PQCImagePlugin *plugin : std::as_const(m_plugins)) {
         if(plugin->name() == pluginName)
-            plugin->setEnabled(description, enabled);
+            plugin->setEnabled(format, enabled);
+    }
+
+}
+
+void PQCImageHandler::setAllEnabled(QString format, bool enabled) {
+
+    qDebug() << "args: format =" << format;
+    qDebug() << "args: enabled =" << enabled;
+
+    for(PQCImagePlugin *plugin : std::as_const(m_plugins)) {
+        plugin->setEnabled(format, enabled);
     }
 
 }

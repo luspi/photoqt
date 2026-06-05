@@ -23,20 +23,14 @@
 
 #include <QObject>
 
-class PQCValidate : public QObject {
+class PQCMigrateImagePlugins : public QObject {
 
     Q_OBJECT
 
 public:
-    PQCValidate(QObject *parent = nullptr);
+    static void migrate(const QString &oldVersion, const QStringList &allVersions);
 
-    bool validate();
-
-    bool validateContextMenuDatabase();
-    bool validateSettingsDatabase();
-    bool validateSettingsValues();
-    bool validateShortcutsDatabase();
-    bool validateDirectories(const QString &thumb_cache_basedir);
-    bool validateLocationDatabase();
+private:
+    static void migrate540();
 
 };

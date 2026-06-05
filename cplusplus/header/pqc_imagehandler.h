@@ -94,7 +94,8 @@ public:
     QString getCategoryForFormat(QString format);
 
     bool isEnabled(QString plugin, QString description);
-    void setEnabled(QString pluginName, QString description, bool enabled);
+    void setEnabled(QString pluginName, QString format, bool enabled);
+    void setAllEnabled(QString format, bool enabled);
 
     const QSet<QString> getDoNotThreadFormats() { return m_doNotThreadFormats; };
 

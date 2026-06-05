@@ -27,6 +27,7 @@
 #include <pqc_validate.h>
 #include <pqc_migratesettings.h>
 #include <pqc_migrateshortcuts.h>
+#include <pqc_migrateimageplugins.h>
 #include <pqc_wizard.h>
 #include <pqc_singleinstance.h>
 #include <QtDebug>
@@ -53,7 +54,7 @@ PQCStartupHandler::PQCStartupHandler(bool forceShowWizard, bool forceSkipWizard,
     }
 
     m_allVersions << "4.0" << "4.1" << "4.2" << "4.3" << "4.4" << "4.5" << "4.6" << "4.7" << "4.8" << "4.8.1" << "4.9" << "4.9.1" << "4.9.2"
-                  << "5.0" << "5.1" << "5.2" << "5.3";
+                  << "5.0" << "5.1" << "5.2" << "5.3" << "5.4";
 
 }
 
@@ -64,7 +65,7 @@ void PQCStartupHandler::setupDatabases() {
 
     // it is possible that a connection to the settings db already exists
 
-    QSqlDatabase dbcontextmenu, dbimageformats, dblocation, dbshortcuts, dbsettings;
+    QSqlDatabase dbcontextmenu, dblocation, dbshortcuts, dbsettings;
 
     if(QSqlDatabase::isDriverAvailable("QSQLITE3")) {
 
@@ -72,7 +73,6 @@ void PQCStartupHandler::setupDatabases() {
             dbsettings = QSqlDatabase::addDatabase("QSQLITE3", "settings");
         dbshortcuts = QSqlDatabase::addDatabase("QSQLITE3", "shortcuts");
         dblocation = QSqlDatabase::addDatabase("QSQLITE3", "location");
-        dbimageformats = QSqlDatabase::addDatabase("QSQLITE3", "imageformats");
         dbcontextmenu = QSqlDatabase::addDatabase("QSQLITE3", "contextmenu");
 
     } else if(QSqlDatabase::isDriverAvailable("QSQLITE")) {
@@ -81,7 +81,6 @@ void PQCStartupHandler::setupDatabases() {
             dbsettings = QSqlDatabase::addDatabase("QSQLITE", "settings");
         dbshortcuts = QSqlDatabase::addDatabase("QSQLITE", "shortcuts");
         dblocation = QSqlDatabase::addDatabase("QSQLITE", "location");
-        dbimageformats = QSqlDatabase::addDatabase("QSQLITE", "imageformats");
         dbcontextmenu = QSqlDatabase::addDatabase("QSQLITE", "contextmenu");
 
     }
@@ -89,7 +88,6 @@ void PQCStartupHandler::setupDatabases() {
     dbsettings.setDatabaseName(PQCConfigFiles::get().USERSETTINGS_DB());
     dbshortcuts.setDatabaseName(PQCConfigFiles::get().SHORTCUTS_DB());
     dblocation.setDatabaseName(PQCConfigFiles::get().LOCATION_DB());
-    dbimageformats.setDatabaseName(PQCConfigFiles::get().IMAGEFORMATS_DB());
     dbcontextmenu.setDatabaseName(PQCConfigFiles::get().CONTEXTMENU_DB());
 
 }
@@ -100,6 +98,7 @@ int PQCStartupHandler::performChecksAndUpdates() {
 
     // first we validate the structure of folder, files, and databases
     PQCValidate validate;
+    validate.validateDirectories(PQCSettingsCPP::get().getThumbnailsCacheBaseDirLocation());
 
     /********************************************************************/
     /********************************************************************/
@@ -176,6 +175,9 @@ int PQCStartupHandler::performChecksAndUpdates() {
         PQCMigrateSettings::migrate(oldSettingsVersion, m_allVersions);
         validate.validateSettingsDatabase();
         validate.validateSettingsValues();
+
+        // here we also do the image plugins migrations
+        PQCMigrateImagePlugins::migrate(oldSettingsVersion, m_allVersions);
 
         if(!m_forceSkipWizard || m_forceShowWizard)
             showStartupWizard(false);
@@ -465,17 +467,6 @@ void PQCStartupHandler::setupFresh() {
     dir.mkpath(PQCConfigFiles::get().THUMBNAIL_CACHE_DIR() % "/large/");
     dir.mkpath(PQCConfigFiles::get().THUMBNAIL_CACHE_DIR() % "/x-large/");
     dir.mkpath(PQCConfigFiles::get().THUMBNAIL_CACHE_DIR() % "/xx-large/");
-
-    /**************************************************************/
-    // create default imageformats database
-    if(QFile::exists(PQCConfigFiles::get().IMAGEFORMATS_DB()))
-        QFile::remove(PQCConfigFiles::get().IMAGEFORMATS_DB());
-    if(!QFile::copy(":/imageformats.db", PQCConfigFiles::get().IMAGEFORMATS_DB()))
-        qWarning() << "Unable to create default imageformats database";
-    else {
-        QFile file(PQCConfigFiles::get().IMAGEFORMATS_DB());
-        file.setPermissions(file.permissions()|QFileDevice::WriteOwner);
-    }
 
     /**************************************************************/
     // create default settings database

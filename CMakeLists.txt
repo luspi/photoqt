@@ -31,7 +31,7 @@ project(photoqt LANGUAGES C CXX)
 ####  GLOBAL VERSION STRING FOR ALL FILES (INCLUDING CPP/QML) ####
 ##################################################################
 
-SET(APPVERSION "5.3")
+SET(APPVERSION "dev")
 
 ###################################
 ####  ENSURE BUILD TYPE IS SET ####
@@ -76,7 +76,7 @@ option(WITH_LOCATION              "Configure with support for the QtPositioning/
 option(WITH_LCMS2                 "Configure with support for the Little CMS library (advanced color management)" ON)
 option(WITH_MOTIONPHOTO           "Configure with support for Google Motion Photos and Apple Live Photos" ON)
 option(WITH_PHOTOSPHERE           "Configure with support for photo spheres and 360 degree panoramic views" ON)
-option(WITH_PHOTOSPHERE_QRHI       "Use private Qt6 Gui header QRhi to figure our maximum possible texture size" OFF)
+option(WITH_PHOTOSPHERE_QRHI      "Use private Qt6 Gui header QRhi to figure our maximum possible texture size" OFF)
 option(WITH_PUGIXML               "Configure with support for the pugixml library (in place of Qt's XML support)" OFF)
 option(WITH_FFMPEGTHUMBNAILER     "Use ffmpegthumbnailer's C++ API instead of calling the executable" OFF)
 

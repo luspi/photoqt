@@ -37,8 +37,9 @@ PQCImagePlugin::PQCImagePlugin(QObject *parent) : QObject(parent) {
 
         const QString suffixFilename = PQCConfigFiles::get().CONFIG_DIR() % "/imageplugins/" % m_settingsPrefix % "_suffixes";
         QFile outSuffixFile(suffixFilename);
-        if(!outSuffixFile.open(QIODevice::WriteOnly|QIODevice::Text|QIODevice::Truncate)) {
+        if(!outSuffixFile.open(QIODevice::WriteOnly)) {
             qDebug() << "Failed to open settings file at:" << suffixFilename;
+            qDebug() << outSuffixFile.errorString();
         } else {
             QTextStream suffixOut(&outSuffixFile);
             suffixOut << PQCHelper::setJoin(m_disabledSuffixes, "\n");
@@ -47,8 +48,9 @@ PQCImagePlugin::PQCImagePlugin(QObject *parent) : QObject(parent) {
 
         const QString mimeFilename = PQCConfigFiles::get().CONFIG_DIR() % "/imageplugins/" % m_settingsPrefix % "_mimetypes";
         QFile outMimeFile(mimeFilename);
-        if(!outMimeFile.open(QIODevice::WriteOnly|QIODevice::Text|QIODevice::Truncate)) {
+        if(!outMimeFile.open(QIODevice::WriteOnly)) {
             qDebug() << "Failed to open settings file at:" << mimeFilename;
+            qDebug() << outMimeFile.errorString();
         } else {
             QTextStream mimeOut(&outMimeFile);
             mimeOut << PQCHelper::setJoin(m_disabledMimetypes, "\n");
@@ -91,11 +93,11 @@ void PQCImagePlugin::setWritableFormats(const QSet<QString> formats)  {
 
 void PQCImagePlugin::setEnabled(QString format, bool enabled) {
 
-    m_delayWriteToFile->stop();
-
     QHash<QString, QList<QSet<QString> > >::Iterator iter = m_format2data.find(format);
     if(iter == m_format2data.end())
         return;
+
+    m_delayWriteToFile->stop();
 
     const QList<QSet<QString> > &cur = iter.value();
 
