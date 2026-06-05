@@ -40,6 +40,8 @@ PQSetting {
     onExtensionsEnabledChanged: checkForChanges()
 
     signal loadCheckedStatus()
+    signal disableAllExtensions()
+    signal enableAllExtensions()
 
     property list<string> extensionTrustRevoked: []
 
@@ -77,6 +79,28 @@ PQSetting {
                 enabled: false
                 font.italic: true
                 text: qsTranslate("settingsmanager", "No extensions installed")
+            }
+
+        },
+
+        Row {
+
+            spacing: 10
+
+            PQButton {
+                extraSmall: true
+                text: qsTranslate("settingsmanager", "Enable all")
+                enabled: set_maex.allExtensions.length>0
+                onClicked:
+                    set_maex.enableAllExtensions()
+            }
+
+            PQButton {
+                extraSmall: true
+                text: qsTranslate("settingsmanager", "Disable all")
+                enabled: set_maex.allExtensions.length>0
+                onClicked:
+                    set_maex.disableAllExtensions()
             }
 
         },
@@ -199,6 +223,12 @@ PQSetting {
                                 target: set_maex
                                 function onLoadCheckedStatus() {
                                     check.loadAndSetDefault(set_maex.extensionsEnabled.indexOf(extension_setting.extensionId)>-1)
+                                }
+                                function onEnableAllExtensions() {
+                                    check.checked = true
+                                }
+                                function onDisableAllExtensions() {
+                                    check.checked = false
                                 }
                             }
 
