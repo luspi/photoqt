@@ -847,6 +847,7 @@ Rectangle {
                         PQCSettings.thumbnailsCropToFit = false
                         PQCSettings.thumbnailsSameHeightVaryWidth = false
                     }
+                    checked = Qt.binding(function() { return (!PQCSettings.thumbnailsCropToFit && !PQCSettings.thumbnailsSameHeightVaryWidth) })
                 }
             }
 
@@ -861,6 +862,7 @@ Rectangle {
                         PQCSettings.thumbnailsCropToFit = true
                         PQCSettings.thumbnailsSameHeightVaryWidth = false
                     }
+                    checked = Qt.binding(function() { return PQCSettings.thumbnailsCropToFit })
                 }
             }
 
@@ -879,6 +881,7 @@ Rectangle {
                         } else
                             PQCSettings.thumbnailsSameHeightVaryWidth = true
                     }
+                    checked = Qt.binding(function() { return PQCSettings.thumbnailsSameHeightVaryWidth })
                 }
                 // When switching from CropToFit to SameHeightVaryWidth we can't go immediately there
                 // If we do then the padding/sourceSize of the images might not cooperate well
