@@ -76,7 +76,7 @@ PQCImagePluginMagick::PQCImagePluginMagick() {
         {"avifs",    "AVIF"}
     };
 
-    QHash<QString, QList<QSet<QString> > > candidateData = {
+    QHash<QString, QList<QStringList > > candidateData = {
         {"BMP: Microsoft Windows bitmap",
                 {{"bmp", "dib"}, {"image/bmp", "image/x-ms-bmp"}}},
         {"CUR: Microsoft Windows cursor format",
@@ -281,20 +281,20 @@ PQCImagePluginMagick::PQCImagePluginMagick() {
                 {{"ai"}, {}}}
     };
 
-    QHash<QString,QList<QSet<QString> > > finalData;
+    QHash<QString,QList<QStringList > > finalData;
     QSet<QString> finalWritableFormats;
 #if defined(PQMIMAGEMAGICK) || defined(PQMGRAPHICSMAGICK)
 
     for(const auto &[key, value] : std::as_const(candidateData).asKeyValueRange()) {
 
-        QSet<QString> finalS;
+        QStringList finalS;
         bool canWrite = false;
-        const QSet<QString> allS = value.at(0);
+        const QStringList allS = value.at(0);
         for(const QString &s : allS) {
             try {
                 Magick::CoderInfo magickCoderInfo(m_suffix2magick.value(s, s.toUpper()).toStdString());
-                if(magickCoderInfo.isReadable())
-                    finalS.insert(s);
+                if(magickCoderInfo.isReadable() && !finalS.contains(s))
+                        finalS.append(s);
                 if(!canWrite && magickCoderInfo.isWritable())
                     canWrite = true;
             } catch(...) {

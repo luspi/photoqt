@@ -133,7 +133,7 @@ PQCImagePluginQt::PQCImagePluginQt() {
     QImageWriter writer;
     const QString tmpPath = QDir::tempPath();
     for(const QString &format : getEnabledFormats()) {
-        const QSet<QString> allsuf = getSuffixesForFormat(format);
+        const QStringList allsuf = getSuffixesForFormat(format);
         writer.setFileName(tmpPath % "/temp." % *allsuf.begin());
         if(writer.canWrite()) {
             writableFormats.insert(format);

@@ -103,11 +103,11 @@ public:
         return PQCImageHandler::get().getPluginNames();
     }
 
-    Q_INVOKABLE QSet<QString> getPluginsForFormat(QString format) {
+    Q_INVOKABLE QStringList getPluginsForFormat(QString format) {
         return PQCImageHandler::get().getPluginsForFormat(format);
     }
 
-    Q_INVOKABLE QSet<QString> getAllSuffixesForFormat(QString format) {
+    Q_INVOKABLE QStringList getAllSuffixesForFormat(QString format) {
         return PQCImageHandler::get().getAllSuffixesForFormat(format);
     }
 

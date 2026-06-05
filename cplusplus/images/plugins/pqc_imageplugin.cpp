@@ -65,7 +65,7 @@ PQCImagePlugin::~PQCImagePlugin() {
     m_delayWriteToFile->deleteLater();
 }
 
-void PQCImagePlugin::setData(const QHash<QString, QList<QSet<QString> > > dat, const QString settingsPrefix,
+void PQCImagePlugin::setData(const QHash<QString, QList<QStringList > > dat, const QString settingsPrefix,
              QSet<QString> defaultDisabledSuffixes, QSet<QString> defaultDisabledMimetypes) {
 
     m_settingsPrefix = settingsPrefix;
@@ -86,32 +86,37 @@ void PQCImagePlugin::setData(const QHash<QString, QList<QSet<QString> > > dat, c
 void PQCImagePlugin::setWritableFormats(const QSet<QString> formats)  {
     m_writableFormats = formats;
     for(const QString &f : formats) {
-        const QList<QSet<QString> > cur = m_format2data.value(f);
-        m_writableSuffixes += cur[0];
+        const QList<QStringList > cur = m_format2data.value(f);
+        for(const QString &s : cur[0])
+            m_writableSuffixes.insert(s);
     }
 }
 
 void PQCImagePlugin::setEnabled(QString format, bool enabled) {
 
-    QHash<QString, QList<QSet<QString> > >::Iterator iter = m_format2data.find(format);
+    QHash<QString, QList<QStringList> >::Iterator iter = m_format2data.find(format);
     if(iter == m_format2data.end())
         return;
 
     m_delayWriteToFile->stop();
 
-    const QList<QSet<QString> > &cur = iter.value();
+    const QList<QStringList > &cur = iter.value();
 
     // if we toggle this format then we only need to make sure they are added to the list, nothing else
     if(!enabled) {
 
-        m_disabledSuffixes += cur[0];
-        m_disabledMimetypes += cur[1];
+        for(const QString &s : cur[0])
+            m_disabledSuffixes.insert(s);
+        for(const QString &m : cur[1])
+            m_disabledMimetypes .insert(m);
 
         // otherwise we need to make sure that no suffix is part of the list
     } else {
 
-        m_disabledSuffixes.subtract(cur[0]);
-        m_disabledMimetypes.subtract(cur[1]);
+        for(const QString &s : cur[0])
+            m_disabledSuffixes.remove(s);
+        for(const QString &m : cur[1])
+            m_disabledMimetypes .remove(m);
 
     }
 
@@ -175,13 +180,15 @@ void PQCImagePlugin::loadSetttingsFromFiles() {
 
     // these are the currently enabled ones
     for(const auto &[key, value] : std::as_const(m_format2data).asKeyValueRange()) {
-        const QList<QSet<QString> > lst = value.toList();
+        const QList<QStringList> lst = value.toList();
         if(m_disabledSuffixes.contains(*(lst.value(0).begin()))) {
             m_disabledFormats.insert(key);
         } else {
             m_enabledFormats.insert(key);
-            m_enabledSuffixes += lst.value(0);
-            m_enabledMimetypes += lst.value(1);
+            for(const QString &s : lst.value(0))
+                m_enabledSuffixes.insert(s);
+            for(const QString &m : lst.value(1))
+                m_enabledMimetypes.insert(m);
         }
     }
 

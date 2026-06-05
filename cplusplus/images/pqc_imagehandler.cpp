@@ -471,23 +471,31 @@ QStringList PQCImageHandler::getPluginNames() {
     return ret;
 }
 
-QSet<QString> PQCImageHandler::getPluginsForFormat(QString format) {
+QStringList PQCImageHandler::getPluginsForFormat(QString format) {
 
-    QSet<QString> ret;
+    QStringList ret;
     for(const QString &plugin: std::as_const(m_pluginOrder)) {
-        if(m_plugins[plugin]->supportsFormat(format))
-            ret.insert(m_plugins[plugin]->name());
+        if(m_plugins[plugin]->supportsFormat(format)) {
+            const QString name = m_plugins[plugin]->name();
+            if(!ret.contains(name))
+                ret.append(name);
+        }
     }
     return ret;
 
 }
 
-QSet<QString> PQCImageHandler::getAllSuffixesForFormat(QString format) {
+QStringList PQCImageHandler::getAllSuffixesForFormat(QString format) {
 
-    QSet<QString> ret;
+    QStringList ret;
     for(const QString &plugin: std::as_const(m_pluginOrder)) {
-        if(m_plugins[plugin]->supportsFormat(format))
-            ret += m_plugins[plugin]->getSuffixesForFormat(format);
+        if(m_plugins[plugin]->supportsFormat(format)) {
+            const QStringList lst = m_plugins[plugin]->getSuffixesForFormat(format);
+            for(const QString &l : lst) {
+                if(!ret.contains(l))
+                    ret.append(l);
+            }
+        }
     }
     return ret;
 

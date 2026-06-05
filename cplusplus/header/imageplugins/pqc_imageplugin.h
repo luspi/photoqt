@@ -63,7 +63,7 @@ public:
 
     // sets the data for this plugin
     // if there are any writable suffixes they need to be set separately with the appropriate member function
-    void setData(const QHash<QString, QList<QSet<QString> > > dat, const QString settingsPrefix,
+    void setData(const QHash<QString, QList<QStringList> > dat, const QString settingsPrefix,
                  QSet<QString> defaultDisabledSuffixes = {}, QSet<QString> defaultDisabledMimetypes = {});
 
     /****************************************************/
@@ -116,7 +116,7 @@ public:
     /****************************************************/
     // the suffixes for a format
 
-    const QSet<QString> getSuffixesForFormat(QString format) {
+    const QStringList getSuffixesForFormat(QString format) {
         if(m_format2data.contains(format))
             return m_format2data[format][0];
         return {};
@@ -155,7 +155,7 @@ public:
     /****************************************************/
 
 private:
-    QHash<QString, QList<QSet<QString>> > m_format2data;
+    QHash<QString, QList<QStringList> > m_format2data;
     QHash<QString,QString> m_suffix2format;
 
     QSet<QString> m_enabledFormats;

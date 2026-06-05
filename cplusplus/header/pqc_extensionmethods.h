@@ -70,7 +70,7 @@ public:
     Q_INVOKABLE const QSet<QString> getWritableSuffixes();
 
     // get all suffixes for any given format
-    Q_INVOKABLE const QSet<QString> getSuffixesForFormat(const QString format);
+    Q_INVOKABLE const QStringList getSuffixesForFormat(const QString format);
 
     /**********/
 

@@ -111,7 +111,7 @@ const QSet<QString> PQCExtensionMethods::getWritableSuffixes() {
     return PQCImageHandler::get().getWritableSuffixes();
 }
 
-const QSet<QString> PQCExtensionMethods::getSuffixesForFormat(const QString format) {
+const QStringList PQCExtensionMethods::getSuffixesForFormat(const QString format) {
     return PQCImageHandler::get().getAllSuffixesForFormat(format);
 }
 

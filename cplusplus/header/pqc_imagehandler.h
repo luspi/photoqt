@@ -89,8 +89,8 @@ public:
 
     QStringList getPluginNames();
 
-    QSet<QString> getPluginsForFormat(QString format);
-    QSet<QString> getAllSuffixesForFormat(QString format);
+    QStringList getPluginsForFormat(QString format);
+    QStringList getAllSuffixesForFormat(QString format);
     QString getCategoryForFormat(QString format);
 
     bool isEnabled(QString plugin, QString description);
