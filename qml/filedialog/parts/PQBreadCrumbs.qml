@@ -322,7 +322,7 @@ Item {
                             onClicked: (mouse) => {
                                 if(crumbs.parts.length > 0) {
                                     if(crumbs.windows)
-                                    PQCNotify.filedialogLoadNewPath(crumbs.parts[0])
+                                        PQCNotify.filedialogLoadNewPath(crumbs.parts[0])
                                     else
                                         PQCNotify.filedialogLoadNewPath("/")
                                 }
@@ -580,11 +580,16 @@ Item {
                             lineedit.insert(text.length, PQCScriptsFilesPaths.pathWithNativeSeparators(completedPath).replace(text, ""))
                     }
 
-                    onTextChanged:
+                    onTextChanged: {
                         breadcrumbs_top.checkValidEditPath()
+                    }
 
                     onRightClicked: {
                         editcontextmenu.popup()
+                    }
+
+                    onAccepted: {
+                        breadcrumbs_top.loadEditPath()
                     }
 
                 }
@@ -727,12 +732,14 @@ Item {
             path = PQCFileFolderModel.folderFileDialog + "/" + path
         }
 
+        if(txt.endsWith("/") && !path.endsWith("/"))
+            path += "/"
+
         if(PQCScriptsFilesPaths.doesItExist(path)) {
-            if(addressedit.completedPath === txt) {
-                addressedit.completedPath = ""
-            }
+            addressedit.completedPath = ""
             addressedit.warning = false
-            return
+            if(!path.endsWith("/"))
+                return
         }
 
         var firstmatch = PQCFileFolderModel.getFirstMatchFileDialog(PQCScriptsFilesPaths.pathFromNativeSeparators(path))
@@ -740,9 +747,9 @@ Item {
         if(firstmatch !== "") {
             addressedit.warning = false
             if(completeWithoutFolder) {
-                addressedit.completedPath = PQCScriptsFilesPaths.pathWithNativeSeparators(firstmatch.replace(PQCFileFolderModel.folderFileDialog+"/", ""))
+                addressedit.completedPath = PQCScriptsFilesPaths.cleanPath(PQCScriptsFilesPaths.pathWithNativeSeparators(firstmatch.replace(PQCFileFolderModel.folderFileDialog, "")))
             } else {
-                addressedit.completedPath = PQCScriptsFilesPaths.pathWithNativeSeparators(firstmatch)
+                addressedit.completedPath = PQCScriptsFilesPaths.cleanPath(PQCScriptsFilesPaths.pathWithNativeSeparators(firstmatch))
             }
             return
         }
@@ -773,21 +780,6 @@ Item {
             PQCFileFolderModel.fileInFolderMainView = path
             PQCNotify.filedialogClose()
         }
-    }
-
-    function handleKeyEvent(key : int, mod : int) {
-
-        // load new path
-        if(key === Qt.Key_Enter || key === Qt.Key_Return) {
-            if(addressedit.warning)
-                return
-            loadEditPath()
-            addressedit.hide()
-
-        // handle text events
-        } else
-            addressedit.handleKeyEvents(key, mod)
-
     }
 
     function isEditVisible() : bool {

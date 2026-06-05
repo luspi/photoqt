@@ -1099,7 +1099,7 @@ Item {
 
     function handleKeyEvent(key : int, modifiers : int) {
 
-        if(PQCConstants.whichContextMenusOpen.length > 0)
+        if(PQCConstants.whichContextMenusOpen.length > 0 || PQCConstants.filedialogAddressEditVisible)
             return
 
         ignoreMouseEvents = true
