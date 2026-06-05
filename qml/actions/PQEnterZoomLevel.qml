@@ -58,6 +58,8 @@ ApplicationWindow {
             PQSpinBox {
                 id: zoomedit
                 width: zoom_top.width-suffix.width-20
+                from: PQCSettings.imageviewZoomMinEnabled ? PQCSettings.imageviewZoomMin*PQCConstants.currentImageDefaultScale : 1
+                to: PQCSettings.imageviewZoomMaxEnabled ? PQCSettings.imageviewZoomMax : 500
 /*1on_Qt66+*/
                 // the live property was added with Qt 6.6
                 live: true
