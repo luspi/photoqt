@@ -124,9 +124,21 @@ const QString PQCExtensionMethods::getFormatOfFile(const QString file) {
 }
 
 QString PQCExtensionMethods::path2ImageProvider(QString path, bool thumb) {
-    if(path.isEmpty()) return "";
-    if(thumb) return "image://thumb/" % path;
+
+    if(path.isEmpty())
+        return "";
+
+    if(thumb)
+        return "image://thumb/" % path;
+
+    QFileInfo info(path);
+    const QString suf = info.suffix().toLower();
+
+    if(suf == "svg" || suf == "svgz")
+        return "image://svg/" % path;
+
     return "image://full/" % path;
+
 }
 
 QSize PQCExtensionMethods::getSizeOfImage(const QString file) {
