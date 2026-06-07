@@ -78,6 +78,9 @@ PQCImagePluginMagick::PQCImagePluginMagick() {
         {"avifs",    "AVIF"}
     };
 
+    const QSet<int> formatsToDisable = {45612, 15687, 23556, 13477, 27272, 56789, 13245};
+    QSet<int> finalFormatsToDisable;
+
     QHash<int, QList<QStringList > > candidateData = {
         {46588,
              {{"AAI Dune image"}, {"aai"}, {}}},
@@ -298,7 +301,7 @@ PQCImagePluginMagick::PQCImagePluginMagick() {
             try {
                 Magick::CoderInfo magickCoderInfo(m_suffix2magick.value(s, s.toUpper()).toStdString());
                 if(magickCoderInfo.isReadable() && !finalS.contains(s))
-                        finalS.append(s);
+                    finalS.append(s);
                 if(!canWrite && magickCoderInfo.isWritable()) {
                     canWrite = true;
                     break;
@@ -309,8 +312,11 @@ PQCImagePluginMagick::PQCImagePluginMagick() {
         }
         if(canWrite)
             finalWritableFormats.insert(key);
-        if(finalS.size())
+        if(finalS.size()) {
             finalData.insert(key, {value[0], finalS, value[2]});
+            if(formatsToDisable.contains(key))
+                finalFormatsToDisable.insert(key);
+        }
 
     }
 
@@ -318,11 +324,10 @@ PQCImagePluginMagick::PQCImagePluginMagick() {
     setData(finalData,
 #ifdef PQMIMAGEMAGICK
             "imagemagick",
-            {45612, 15687, 23556, 13477, 27272, 56789, 13245}
 #else
             "graphicsmagick",
-            {45612, 15687, 23556, 13477, 13245}
 #endif
+            finalFormatsToDisable
             );
 
     setWritableFormats(finalWritableFormats);
