@@ -165,7 +165,6 @@ PQCImageHandler::PQCImageHandler() {
 
     }
 
-
     m_numEnabled = m_enabledSuffixes.size();
 
 }

@@ -96,7 +96,7 @@ PQSetting {
                     PQText {
                         id: countEnabled
                         property int num: 0
-                        //: The %1 will be replaced with the number of file formats, please don't forget to add it.
+                        //: The %1/%2 will be replaced with the number of file formats and plugins, please don't forget to add it.
                         text: qsTranslate("settingsmanager", "%1 file formats are enabled across %2 plugins.").arg("<b>"+num+"</b>").arg("<b>"+listview.plugins.length+"</b>")
                     }
 
@@ -255,13 +255,26 @@ PQSetting {
                                         return Qt.Checked
                                     }
                                 }
+
                                 property bool setup: false
-                                onCheckedChanged: {
-                                    if(!setup) return
-                                    countEnabled.num += (checked ? 1 : -1)
+                                Timer {
+                                    interval: 500
+                                    running: true
+                                    onTriggered: {
+                                        formatcheck.prevState = formatcheck.checkState
+                                        formatcheck.setup = true
+                                    }
                                 }
-                                Component.onCompleted:
-                                    setup = true
+                                property int prevState
+                                onCheckStateChanged: {
+                                    if(!setup) return
+                                    if(checkState == Qt.Unchecked && prevState != Qt.Unchecked)
+                                        countEnabled.num -= 1
+                                    else if(prevState == Qt.Unchecked)
+                                        countEnabled.num += 1
+                                    prevState = checkState
+                                }
+
                             }
 
                             Row {
@@ -446,7 +459,6 @@ PQSetting {
         var stat = ({})
         var pluginstat = ({})
         allids = []
-        countEnabled.num = 0
         for(let j = 0; j < descs.length; ++j) {
             var d = descs[j]
             var fid = PQCImageHandler.getFormatIdFromName(d)
@@ -457,13 +469,14 @@ PQSetting {
                 cur.push(PQCImageHandler.isEnabled(plugins[iPl], fid) ? 1 : 0)
             }
             stat[fid] = cur
-            countEnabled.num += (cur.reduce((partialSum, a) => partialSum + a, 0) ? 1 : 0)
             pluginstat[fid] = supported
         }
         listview.plugins = plugins
         listview.entry2status = stat
         listview.entry2plugins = pluginstat
         listview.entries = allids
+
+        countEnabled.num = PQCImageHandler.getEnabledFormats().length
 
         PQCConstants.settingsManagerSettingChanged = false
         settingsLoaded = true

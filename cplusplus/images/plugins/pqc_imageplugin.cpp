@@ -90,12 +90,9 @@ void PQCImagePlugin::setWritableFormats(const QSet<int> formats)  {
 
 void PQCImagePlugin::setEnabled(int format, bool enabled) {
 
-
     QHash<int, QList<QStringList> >::Iterator iter = m_id2data.find(format);
     if(iter == m_id2data.end())
         return;
-
-    qWarning() << ">>>" << format << enabled;
 
     m_delayWriteToFile->stop();
 
