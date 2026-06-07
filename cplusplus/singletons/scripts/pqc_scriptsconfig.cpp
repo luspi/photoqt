@@ -622,8 +622,8 @@ bool PQCScriptsConfig::isJasperWorkaroundsEnabled() {
     return false;
 }
 
-bool PQCScriptsConfig::isExtensionLibraryVerificationEnabled() {
-#ifdef PQMEXTENSIONSLIBRARYVERIFICATION
+bool PQCScriptsConfig::isExternalExtensionLibraryVerificationEnabled() {
+#ifdef PQMEXTENSIONS_NONSYS_LIBRARYVERIFICATION
     return true;
 #endif
     return false;

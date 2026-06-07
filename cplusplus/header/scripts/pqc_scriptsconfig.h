@@ -71,7 +71,7 @@ public:
     bool isLCMS2SupportEnabled();
     bool isICUSupportEnabled();
     bool isJasperWorkaroundsEnabled();
-    bool isExtensionLibraryVerificationEnabled();
+    bool isExternalExtensionLibraryVerificationEnabled();
 
     // other methods
     QString getLastLoadedImage();

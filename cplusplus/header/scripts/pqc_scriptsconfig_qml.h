@@ -135,8 +135,8 @@ public:
     Q_INVOKABLE bool isJasperWorkaroundsEnabled() {
         return PQCScriptsConfig::get().isJasperWorkaroundsEnabled();
     }
-    Q_INVOKABLE bool isExtensionLibraryVerificationEnabled() {
-        return PQCScriptsConfig::get().isExtensionLibraryVerificationEnabled();
+    Q_INVOKABLE bool isExternalExtensionLibraryVerificationEnabled() {
+        return PQCScriptsConfig::get().isExternalExtensionLibraryVerificationEnabled();
     }
 
     // other methods

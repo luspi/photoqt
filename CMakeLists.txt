@@ -66,7 +66,8 @@ option(WITH_RESVG                 "Configure with support for the resvg library 
 option(WITH_LIBSAI                "Configure with support for the libsai library (requires C++20 support)" OFF)
 
 option(WITH_EXTENSIONS_SUPPORT    "Enable support for extensions (requires yaml-cpp and qca)" ON)
-option(WITH_EXTENSIONS_LIBRARY_VERIFICATION "Include the shared library (.so/.dll) in the verification check" ON)
+option(WITH_EXTENSIONS_NONSYS_OPENSSL              "Verify non-system (external) extensions using OpenSSL" ON)
+option(WITH_EXTENSIONS_NONSYS_LIBRARY_VERIFICATION "Include the shared library (.so/.dll) when verifying non-system extensions" ON)
 option(WITH_EXIV2                 "Configure with support for the Exiv2 library" ON)
 option(WITH_EXIV2_ENABLE_BMFF     "Configure with BMFF format support in Exiv2 (if available) - only needed for Exiv2 0.27.x and before" ON)
 option(WITH_ZXING                 "Configure with support for the ZXing library (QR and barcodes detection)" ON)
@@ -90,7 +91,7 @@ option(WITH_ADAPTSOURCE           "Adapt and change the source files for the cur
 option(WITHOUT_ICU                "Enable this option if your Qt6 setup has no ICU support" OFF)
 option(WITH_PORTABLETWEAKS        "Apply tweaks for a build of a portable version" OFF)
 
-set(EXTENSIONS_CUSTOM_PUBLIC_KEY "" CACHE STRING "Add a custom public key to be used for extension verification.")
+set(EXTENSIONS_NONSYS_CUSTOM_PUBLIC_KEY "" CACHE STRING "Add a custom public key to be used for extension verification.")
 
 #####################################
 #### RESOLVE CONFLICTING OPTIONS ####
@@ -135,7 +136,8 @@ set(_WITH_RESVG                 ${WITH_RESVG})
 set(_WITH_LIBSAI                ${WITH_LIBSAI})
 
 set(_WITH_EXTENSIONS_SUPPORT    ${WITH_EXTENSIONS_SUPPORT})
-set(_WITH_EXTENSIONS_LIBRARY_VERIFICATION ${WITH_EXTENSIONS_LIBRARY_VERIFICATION})
+set(_WITH_EXTENSIONS_NONSYS_OPENSSL              ${WITH_EXTENSIONS_NONSYS_OPENSSL})
+set(_WITH_EXTENSIONS_NONSYS_LIBRARY_VERIFICATION ${WITH_EXTENSIONS_NONSYS_LIBRARY_VERIFICATION})
 set(_WITH_EXIV2                 ${WITH_EXIV2})
 set(_WITH_EXIV2_ENABLE_BMFF     ${WITH_EXIV2_ENABLE_BMFF})
 set(_WITH_ZXING                 ${WITH_ZXING})
@@ -299,10 +301,20 @@ if(_WITH_EXTENSIONS_SUPPORT)
     else()
         SET(_WITH_EXTENSIONS_SUPPORT ON)
     endif()
-    find_package(Qca)
-    if(NOT ${Qca_FOUND})
-        message("** QCA not found. Disabling extensions.")
-        SET(_WITH_EXTENSIONS_SUPPORT OFF)
+endif()
+
+if(NOT _WITH_EXTENSIONS_SUPPORT)
+    message("** since extensions are disabled, also disabling OpenSSL verification")
+    SET(_WITH_EXTENSIONS_NONSYS_OPENSSL OFF)
+endif()
+
+if(_WITH_EXTENSIONS_NONSYS_OPENSSL)
+    find_package(OpenSSL REQUIRED)
+    if(NOT ${OpenSSL_FOUND})
+        message("** OpenSSL not found. Disabling non-system extensions verification.")
+        SET(_WITH_EXTENSIONS_NONSYS_OPENSSL OFF)
+    else()
+        SET(_WITH_EXTENSIONS_NONSYS_OPENSSL ON)
     endif()
 endif()
 
@@ -426,18 +438,18 @@ SET(photoqt_QML ${photoqt_QML} ${photoqt_QML_ADDITIONAL} ${photoqt_QML_SINGLETON
 #################################
 
 file(COPY misc/extensions/extensions.key DESTINATION "${CMAKE_BINARY_DIR}")
-if(EXTENSIONS_CUSTOM_PUBLIC_KEY STREQUAL "")
-    message(" ** Using only built-in public key for extension verification.")
+if(EXTENSIONS_NONSYS_CUSTOM_PUBLIC_KEY STREQUAL "")
+    message(" ** Using only built-in public key for non-system extension verification.")
     file(COPY misc/extensions/extensions_nocustom.qrc DESTINATION "${CMAKE_BINARY_DIR}")
     file(RENAME "${CMAKE_BINARY_DIR}/extensions_nocustom.qrc" "${CMAKE_BINARY_DIR}/extensions.qrc")
 else()
     message(" ** Adding custom RSA public key for extension verification.")
     message(" ** This allows signing the extensions with the corresponding private key for verification.")
     # get filename
-    get_filename_component(keyfn "${EXTENSIONS_CUSTOM_PUBLIC_KEY}" NAME)
+    get_filename_component(keyfn "${EXTENSIONS_NONSYS_CUSTOM_PUBLIC_KEY}" NAME)
     # copy custom key to tmp directory
     file(MAKE_DIRECTORY "${CMAKE_BINARY_DIR}/extensionstmp")
-    file(COPY "${EXTENSIONS_CUSTOM_PUBLIC_KEY}" DESTINATION "${CMAKE_BINARY_DIR}/extensionstmp/")
+    file(COPY "${EXTENSIONS_NONSYS_CUSTOM_PUBLIC_KEY}" DESTINATION "${CMAKE_BINARY_DIR}/extensionstmp/")
     # rename to standard filename
     file(RENAME "${CMAKE_BINARY_DIR}/extensionstmp/${keyfn}" "${CMAKE_BINARY_DIR}/extensionstmp/custom_extensions.key")
     # copy to bin dir
@@ -892,13 +904,12 @@ else()
 endif()
 
 if(_WITH_EXTENSIONS_SUPPORT)
-    list(APPEND STATUS_ENABLED "Extensions (yaml-cpp/qac)")
+
+    list(APPEND STATUS_ENABLED "Extensions (yaml-cpp)")
+
     target_compile_definitions(photoqt PRIVATE PQMINSTALLPREFIX="${CMAKE_INSTALL_PREFIX}")
     target_compile_definitions(photoqt PRIVATE PQMBUILDDIR="${CMAKE_BINARY_DIR}")
     target_compile_definitions(photoqt PRIVATE PQMEXTENSIONS)
-    if(_WITH_EXTENSIONS_LIBRARY_VERIFICATION)
-        target_compile_definitions(photoqt PRIVATE PQMEXTENSIONSLIBRARYVERIFICATION)
-    endif()
 
     # This avoids hardcoding 'lib' as subdir for the shared libraries
     include(GNUInstallDirs)
@@ -909,13 +920,35 @@ if(_WITH_EXTENSIONS_SUPPORT)
     else()
         target_link_libraries(photoqt PRIVATE yaml-cpp)
     endif()
-    target_link_libraries(photoqt PRIVATE ${Qca_LIBRARY})
-    target_include_directories(photoqt PRIVATE "${Qca_INCLUDE_DIR}")
 else()
     if(WITH_EXTENSIONS_SUPPORT)
-        list(APPEND STATUS_FAILED "Extensions (yaml-cpp/qca)")
+        list(APPEND STATUS_FAILED "Extensions (yaml-cpp)")
     else()
-        list(APPEND STATUS_DISABLED "Extensions (yaml-cpp/qca)")
+        list(APPEND STATUS_DISABLED "Extensions (yaml-cpp)")
+    endif()
+endif()
+
+if(_WITH_EXTENSIONS_NONSYS_OPENSSL)
+
+    list(APPEND STATUS_ENABLED "Non-system extensions verification (OpenSSL)")
+
+    target_compile_definitions(photoqt PRIVATE PQMEXTENSIONS_NONSYS_OPENSSL)
+    if(TARGET OpenSSL::Crypto)
+        target_link_libraries(photoqt PRIVATE OpenSSL::Crypto)
+        target_link_libraries(photoqt PRIVATE OpenSSL::SSL)
+    else()
+         target_link_libraries(photoqt PRIVATE ${OPENSSL_LIBRARIES})
+    endif()
+
+    if(_WITH_EXTENSIONS_LIBRARY_VERIFICATION)
+        target_compile_definitions(photoqt PRIVATE PQMEXTENSIONS_NONSYS_LIBRARYVERIFICATION)
+    endif()
+
+else()
+    if(WITH_EXTENSIONS_NONSYS_OPENSSL)
+        list(APPEND STATUS_FAILED "Non-system extensions verification (OpenSSL)")
+    else()
+        list(APPEND STATUS_DISABLED "Non-system extensions verification (OpenSSL)")
     endif()
 endif()
 

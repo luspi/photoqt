@@ -78,6 +78,7 @@ PQCImagePluginMagick::PQCImagePluginMagick() {
         {"avifs",    "AVIF"}
     };
 
+    // setting a format as disabled that is not even supported can mess with the settings
     const QSet<int> formatsToDisable = {45612, 15687, 23556, 13477, 27272, 56789, 13245};
     QSet<int> finalFormatsToDisable;
 

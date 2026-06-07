@@ -90,10 +90,6 @@
 #include <gio/gio.h>
 #endif
 
-#ifdef PQMEXTENSIONS
-#include <QtCrypto>
-#endif
-
 #ifdef PQMPHOTOSPHEREQRHI
 #include <rhi/qrhi.h>
 #include <QQuickWindow>
@@ -162,12 +158,6 @@ int main(int argc, char **argv) {
 
     // custom message handler for qDebug/qLog/qInfo/etc.
     qInstallMessageHandler(pqcMessageHandler);
-
-    /******************************************/
-
-#ifdef PQMEXTENSIONS
-    QCA::Initializer init;
-#endif
 
     /******************************************/
 

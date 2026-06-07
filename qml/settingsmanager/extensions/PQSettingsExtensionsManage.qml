@@ -59,9 +59,8 @@ PQSetting {
         },
 
         PQText {
-            text: qsTranslate("settingsmanager", "Note that the shared library files are not part of the verification!")
-            font.weight: PQCLook.fontWeightBold
-            visible: !PQCScriptsConfig.isExtensionLibraryVerificationEnabled()
+            text: qsTranslate("settingsmanager", "Note that for non-system extensions the shared library files are not part of the verification!")
+            visible: !PQCScriptsConfig.isExternalExtensionLibraryVerificationEnabled()
             width: parent.width
         },
 
