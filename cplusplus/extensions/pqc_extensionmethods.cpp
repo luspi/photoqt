@@ -91,7 +91,7 @@ void PQCExtensionMethods::showSettingsFor(const QString &id) {
     Q_EMIT PQCNotifyCPP::get().showSettingsForExtension(id);
 }
 
-const QSet<QString> PQCExtensionMethods::getEnabledFormats() {
+const QSet<int> PQCExtensionMethods::getEnabledFormats() {
     return PQCImageHandler::get().getEnabledFormats();
 }
 
@@ -103,24 +103,20 @@ const QSet<QString> PQCExtensionMethods::getEnabledMimetypes() {
     return PQCImageHandler::get().getEnabledMimetypes();
 }
 
-const QSet<QString> PQCExtensionMethods::getWritableFormats() {
+const QSet<int> PQCExtensionMethods::getWritableFormats() {
     return PQCImageHandler::get().getWritableFormats();
 }
 
-const QSet<QString> PQCExtensionMethods::getWritableSuffixes() {
-    return PQCImageHandler::get().getWritableSuffixes();
-}
-
-const QStringList PQCExtensionMethods::getSuffixesForFormat(const QString format) {
+const QStringList PQCExtensionMethods::getSuffixesForFormat(const int format) {
     return PQCImageHandler::get().getAllSuffixesForFormat(format);
 }
 
+const QStringList PQCExtensionMethods::getMimetypesForFormat(const int format) {
+    return PQCImageHandler::get().getAllMimetypesForFormat(format);
+}
+
 const QString PQCExtensionMethods::getFormatOfFile(const QString file) {
-    QFileInfo info(file);
-    const QString f1 = PQCImageHandler::get().getFormatName(info.suffix().toLower());
-    if(f1 != "")
-        return f1;
-    return PQCImageHandler::get().getFormatName(info.completeSuffix().toLower());
+    return PQCImageHandler::get().getFormatName(file);
 }
 
 QString PQCExtensionMethods::path2ImageProvider(QString path, bool thumb) {

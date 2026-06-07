@@ -177,7 +177,8 @@ PQSetting {
                         id: deleg
 
                         required property int modelData
-                        property string entry: listview.entries[deleg.modelData]
+                        property int entry: listview.entries[deleg.modelData]
+                        property string description: PQCImageHandler.getFormatName(entry)
                         property list<int> entrystatus: listview.entry2status[entry]
                         property list<string> supportedPlugins: listview.entry2plugins[entry]
 
@@ -193,7 +194,7 @@ PQSetting {
 
                             if(txtL === "") {
                                 const str_suffixes = formatSuffixes.join("\n")
-                                return (entry.toLowerCase().indexOf(txtF) > -1 || str_suffixes.indexOf(txtF) > -1) ? 50 : 0
+                                return (description.toLowerCase().indexOf(txtF) > -1 || str_suffixes.indexOf(txtF) > -1) ? 50 : 0
                             } else if(txtF === "") {
                                 const str_plugins = supportedPlugins.join("\n").toLowerCase()
                                 return (str_plugins.indexOf(txtL) > -1) ? 50 : 0
@@ -201,7 +202,7 @@ PQSetting {
 
                             const str_suffixes = formatSuffixes.join("\n")
                             const str_plugins = supportedPlugins.join("\n")
-                            return ((entry.toLowerCase().indexOf(txtF) > -1 || str_suffixes.indexOf(txtF) > -1) &&
+                            return ((description.toLowerCase().indexOf(txtF) > -1 || str_suffixes.indexOf(txtF) > -1) &&
                                     str_plugins.indexOf(txtL) > -1) ? 50 : 0
 
                         }
@@ -239,7 +240,7 @@ PQSetting {
                                 id: formatcheck
                                 width: (listview.width-30)/3
                                 height: deleg.height
-                                text: deleg.entry
+                                text: deleg.description
                                 tooltip: "<b>" + text + "</b><br>*." + deleg.formatSuffixes.join(", *.")
                                 elide: Text.ElideMiddle
                                 font.strikeout: (checkState == Qt.Unchecked)
@@ -435,28 +436,34 @@ PQSetting {
 
         listview.entries = []
 
-        var descs = PQCImageHandler.getEnabledFormats().concat(PQCImageHandler.getDisabledFormats())
+        var allids = PQCImageHandler.getEnabledFormats().concat(PQCImageHandler.getDisabledFormats())
+        var descs = []
+        for(let i = 0; i < allids.length; ++i)
+            descs.push(PQCImageHandler.getFormatName(allids[i]))
         descs.sort()
+
         var plugins = PQCImageHandler.getPluginNames()
         var stat = ({})
         var pluginstat = ({})
+        allids = []
         countEnabled.num = 0
-        for(var iD in descs) {
-            var d = descs[iD]
-            if(d in stat) continue;
-            var supported = PQCImageHandler.getPluginsForFormat(d)
+        for(let j = 0; j < descs.length; ++j) {
+            var d = descs[j]
+            var fid = PQCImageHandler.getFormatIdFromName(d)
+            allids.push(fid)
+            var supported = PQCImageHandler.getPluginsForFormat(fid)
             var cur = []
             for(var iPl in plugins) {
-                cur.push(PQCImageHandler.isEnabled(plugins[iPl], d) ? 1 : 0)
+                cur.push(PQCImageHandler.isEnabled(plugins[iPl], fid) ? 1 : 0)
             }
-            stat[d] = cur
+            stat[fid] = cur
             countEnabled.num += (cur.reduce((partialSum, a) => partialSum + a, 0) ? 1 : 0)
-            pluginstat[d] = supported
+            pluginstat[fid] = supported
         }
         listview.plugins = plugins
         listview.entry2status = stat
         listview.entry2plugins = pluginstat
-        listview.entries = descs
+        listview.entries = allids
 
         PQCConstants.settingsManagerSettingChanged = false
         settingsLoaded = true

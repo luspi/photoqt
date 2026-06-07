@@ -59,7 +59,7 @@ public:
         return PQCImageHandler::get().getNumFormatsEnabled();
     }
 
-    Q_INVOKABLE QSet<QString> getEnabledFormats(QString category = "all") {
+    Q_INVOKABLE QSet<int> getEnabledFormats(QString category = "all") {
         return PQCImageHandler::get().getEnabledFormats(category);
     }
 
@@ -79,13 +79,21 @@ public:
         return PQCImageHandler::get().getEnabledMimetypes(categories);
     }
 
-    Q_INVOKABLE QString getFormatName(QString suffix) {
-        return PQCImageHandler::get().getFormatName(suffix);
+    Q_INVOKABLE QString getFormatName(int format) {
+        return PQCImageHandler::get().getFormatName(format);
+    }
+
+    Q_INVOKABLE QString getFormatName(QString file) {
+        return PQCImageHandler::get().getFormatName(file);
+    }
+
+    Q_INVOKABLE int getFormatIdFromName(QString name) {
+        return PQCImageHandler::get().getFormatIdFromName(name);
     }
 
     /*****************************************************/
 
-    Q_INVOKABLE QSet<QString> getDisabledFormats(QString category = "all") {
+    Q_INVOKABLE QSet<int> getDisabledFormats(QString category = "all") {
         return PQCImageHandler::get().getDisabledFormats(category);
     }
 
@@ -103,24 +111,24 @@ public:
         return PQCImageHandler::get().getPluginNames();
     }
 
-    Q_INVOKABLE QStringList getPluginsForFormat(QString format) {
+    Q_INVOKABLE QStringList getPluginsForFormat(int format) {
         return PQCImageHandler::get().getPluginsForFormat(format);
     }
 
-    Q_INVOKABLE QStringList getAllSuffixesForFormat(QString format) {
+    Q_INVOKABLE QStringList getAllSuffixesForFormat(int format) {
         return PQCImageHandler::get().getAllSuffixesForFormat(format);
     }
 
-    Q_INVOKABLE QString getCategoryForFormat(QString format) {
+    Q_INVOKABLE QString getCategoryForFormat(int format) {
         return PQCImageHandler::get().getCategoryForFormat(format);
     }
 
-    Q_INVOKABLE bool isEnabled(QString plugin, QString description) {
-        return PQCImageHandler::get().isEnabled(plugin, description);
+    Q_INVOKABLE bool isEnabled(QString plugin, int format) {
+        return PQCImageHandler::get().isEnabled(plugin, format);
     }
 
-    Q_INVOKABLE void setEnabled(QString pluginName, QString description, bool enabled) {
-               PQCImageHandler::get().setEnabled(pluginName, description, enabled);
+    Q_INVOKABLE void setEnabled(QString pluginName, int format, bool enabled) {
+               PQCImageHandler::get().setEnabled(pluginName, format, enabled);
     }
 
     /*****************************************************/

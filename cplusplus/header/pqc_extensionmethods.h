@@ -58,19 +58,20 @@ public:
     // some general requests
 
     // get all enabled formats
-    Q_INVOKABLE const QSet<QString> getEnabledFormats();
+    Q_INVOKABLE const QSet<int> getEnabledFormats();
     // get all enabled suffixes
     Q_INVOKABLE const QSet<QString> getEnabledSuffixes();
     // get all enabled mimetypes
     Q_INVOKABLE const QSet<QString> getEnabledMimetypes();
 
     // get all writable formats
-    Q_INVOKABLE const QSet<QString> getWritableFormats();
-    // get all writable suffixes
-    Q_INVOKABLE const QSet<QString> getWritableSuffixes();
+    Q_INVOKABLE const QSet<int> getWritableFormats();
 
     // get all suffixes for any given format
-    Q_INVOKABLE const QStringList getSuffixesForFormat(const QString format);
+    Q_INVOKABLE const QStringList getSuffixesForFormat(const int format);
+
+    // get all mimetypes for any given format
+    Q_INVOKABLE const QStringList getMimetypesForFormat(const int format);
 
     /**********/
 

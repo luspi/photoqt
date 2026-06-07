@@ -43,40 +43,41 @@ void PQCMigrateImagePlugins::migrate540() {
 
     qDebug() << "";
 
-    const QString fn = PQCConfigFiles::get().CONFIG_DIR() % "/imageformats.db";
-    if(!QFileInfo::exists(fn))
-        return;
+    // TODO!!!
+    // const QString fn = PQCConfigFiles::get().CONFIG_DIR() % "/imageformats.db";
+    // if(!QFileInfo::exists(fn))
+    //     return;
 
-    QSqlDatabase db;
-    if(QSqlDatabase::isDriverAvailable("QSQLITE3"))
-        db = QSqlDatabase::addDatabase("QSQLITE3", "oldimageformats");
-    else if(QSqlDatabase::isDriverAvailable("QSQLITE"))
-        db = QSqlDatabase::addDatabase("QSQLITE", "oldimageformats");
+    // QSqlDatabase db;
+    // if(QSqlDatabase::isDriverAvailable("QSQLITE3"))
+    //     db = QSqlDatabase::addDatabase("QSQLITE3", "oldimageformats");
+    // else if(QSqlDatabase::isDriverAvailable("QSQLITE"))
+    //     db = QSqlDatabase::addDatabase("QSQLITE", "oldimageformats");
 
-    db.setDatabaseName(fn);
-    if(!db.open())
-        return;
+    // db.setDatabaseName(fn);
+    // if(!db.open())
+    //     return;
 
-    QSqlQuery query(db);
-    if(!query.exec("SELECT description,enabled FROM imageformats"))
-        return;
+    // QSqlQuery query(db);
+    // if(!query.exec("SELECT description,enabled FROM imageformats"))
+    //     return;
 
-    while(query.next()) {
+    // while(query.next()) {
 
-        const QString description = query.value("description").toString();
-        const int enabled = query.value("enabled").toInt();
+    //     const QString description = query.value("description").toString();
+    //     const int enabled = query.value("enabled").toInt();
 
-        PQCImageHandler::get().setAllEnabled(description, enabled);
+    //     PQCImageHandler::get().setAllEnabled(description, enabled);
 
-    }
+    // }
 
-    query.clear();
-    db.close();
-    QSqlDatabase::removeDatabase("oldimageformats");
+    // query.clear();
+    // db.close();
+    // QSqlDatabase::removeDatabase("oldimageformats");
 
-    // try to backup file and remove it then to never re-migrate it
-    QFile::remove(fn % ".bak");
-    QFile::copy(fn, fn % ".bak");
-    QFile::remove(fn);
+    // // try to backup file and remove it then to never re-migrate it
+    // QFile::remove(fn % ".bak");
+    // QFile::copy(fn, fn % ".bak");
+    // QFile::remove(fn);
 
 }

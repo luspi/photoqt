@@ -223,15 +223,11 @@ int PQCStartupHandler::performChecksAndUpdates() {
             else {
                 if(query.next()) {
                     oldShortcutsVersion = query.value(0).toString();
-#ifdef NDEBUG
                     if(oldShortcutsVersion != QString(PQMVERSION)) {
-#endif
                         query.clear();
                         dbtmp.close();
                         shortcutsChecker = PQEUpdateCheck::Update;
-#ifdef NDEBUG
                     }
-#endif
                 }
             }
             query.clear();

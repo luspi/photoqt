@@ -37,6 +37,7 @@
 #include <QMimeDatabase>
 #include <QCollator>
 #include <QCryptographicHash>
+#include <QPainter>
 
 #include <scripts/pqc_scriptsimages.h>
 #include <scripts/pqc_scriptsfilespaths.h>

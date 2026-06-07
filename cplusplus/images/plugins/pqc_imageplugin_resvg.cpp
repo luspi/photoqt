@@ -34,9 +34,10 @@
 
 PQCImagePluginResvg::PQCImagePluginResvg() {
 
-    setData({{"SVG: Scalable Vector Graphics",
-                    {{"svg", "svgz"}, {"image/svg+xml"}}}},
+#ifdef PQMRESVG
+    setData({{26112, {{"SVG: Scalable Vector Graphics"}, {"svg", "svgz"}, {"image/svg+xml"}}}},
             "resvg");
+#endif
 
 }
 
@@ -56,8 +57,7 @@ const QSize PQCImagePluginResvg::loadSize(QString path) {
 
 const QImage PQCImagePluginResvg::loadImage(QString path, QSize requestedSize, QSize &origSize, QString &error) {
 
-    qDebug() << "args: path =" << path;
-    qDebug() << "args: requestedSize =" << requestedSize;
+    // we don't write output here as this plugin is also used for all ui icons and thus would produce a LOT of output
 
 #ifdef PQMRESVG
 

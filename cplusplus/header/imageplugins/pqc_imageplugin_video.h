@@ -27,14 +27,17 @@
 class PQCImagePluginVideo : public PQCImagePlugin {
 
 public:
-    PQCImagePluginVideo();
+    PQCImagePluginVideo(bool mpvNotQt);
 
-    const QString name() override { return "Video"; }
+    const QString name() override { return (m_mpvNotQt ? "libmpv" : "Qt Video"); }
     const QString category() override { return "video"; }
     const bool canPreload() override { return true; }
 
     const QSize loadSize(QString path) override;
     const QImage loadImage(QString path, QSize requestedSize, QSize &origSize, QString &error) override;
     const bool writeImage(QImage img, QString targetPath) override;
+
+private:
+    bool m_mpvNotQt;
 
 };

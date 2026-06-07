@@ -70,8 +70,8 @@ public:
 
     int getNumFormatsEnabled() { return m_numEnabled; }
 
-    QSet<QString> getEnabledFormats(QString category = "all");
-    QSet<QString> getDisabledFormats(QString category = "all");
+    QSet<int> getEnabledFormats(QString category = "all");
+    QSet<int> getDisabledFormats(QString category = "all");
 
     QSet<QString> getEnabledSuffixes(QString category = "all");
     QSet<QString> getEnabledMimetypes(QString category = "all");
@@ -80,24 +80,25 @@ public:
     QSet<QString> getDisabledSuffixes(QString category = "all");
     QSet<QString> getDisabledMimetypes(QString category = "all");
 
-    QSet<QString> getWritableFormats(QString category = "all");
-    QSet<QString> getWritableSuffixes(QString category = "all");
-    QSet<QString> getWritableFormats(QStringList categories);
-    QSet<QString> getWritableSuffixes(QStringList categories);
+    QSet<int> getWritableFormats(QString category = "all");
+    QSet<int> getWritableFormats(QStringList categories);
 
-    QString getFormatName(QString suffix);
+    QString getFormatName(int format);
+    QString getFormatName(QString file);
+    int getFormatIdFromName(QString name);
 
     QStringList getPluginNames();
 
-    QStringList getPluginsForFormat(QString format);
-    QStringList getAllSuffixesForFormat(QString format);
-    QString getCategoryForFormat(QString format);
+    QStringList getPluginsForFormat(int format);
+    QStringList getAllSuffixesForFormat(int format);
+    QStringList getAllMimetypesForFormat(int format);
+    QString getCategoryForFormat(int format);
 
-    bool isEnabled(QString plugin, QString description);
-    void setEnabled(QString pluginName, QString format, bool enabled);
-    void setAllEnabled(QString format, bool enabled);
+    bool isEnabled(QString plugin, int format);
+    void setEnabled(QString pluginName, int format, bool enabled);
+    void setAllEnabled(int format, bool enabled);
 
-    const QSet<QString> getDoNotThreadFormats() { return m_doNotThreadFormats; };
+    const QSet<int> getDoNotThreadFormats() { return m_doNotThreadFormats; };
 
     QMutex providerMutex;
 
@@ -110,18 +111,20 @@ private:
 
     int m_numEnabled;
 
-    QSet<QString> m_enabledFormats;
+    QSet<int> m_enabledIds;
     QSet<QString> m_enabledSuffixes;
     QSet<QString> m_enabledMimetypes;
 
-    QSet<QString> m_disabledFormats;
+    QSet<int> m_disabledIds;
     QSet<QString> m_disabledSuffixes;
     QSet<QString> m_disabledMimetypes;
 
-    QSet<QString> m_writableFormats;
+    QSet<int> m_writableIds;
     QSet<QString> m_writableSuffixes;
 
-    QSet<QString> m_doNotThreadFormats;
+    QHash<QString, int> m_suffix2id;
+    QHash<QString, int> m_desc2id;
+    QSet<int> m_doNotThreadFormats;
 
 Q_SIGNALS:
     void formatsUpdated();

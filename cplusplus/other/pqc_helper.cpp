@@ -43,6 +43,17 @@ qsizetype PQCHelper::setAccumulatedSize(QSet<QString> set, qsizetype seplen) {
     return result;
 
 }
+qsizetype PQCHelper::setAccumulatedSize(QSet<int> set, qsizetype seplen) {
+
+    qsizetype result = 0;
+    if(!set.isEmpty()) {
+        for(const int &e : set)
+            result += static_cast<int>(std::log10(e)) + seplen;
+        result -= seplen;
+    }
+    return result;
+
+}
 
 // adapted from:
 // https://codebrowser.dev/qt6/qtbase/src/corelib/text/qstringlist.cpp.html#_ZN9QtPrivate16QStringList_joinERK5QListI7QStringE13QLatin1String
@@ -57,6 +68,23 @@ QString PQCHelper::setJoin(QSet<QString> set, QString sep) {
         while(++it != end) {
             result += sep;
             result += *it;
+        }
+    }
+    return result;
+
+}
+
+QString PQCHelper::setJoin(QSet<int> set, QString sep) {
+
+    QString result;
+    if(!set.isEmpty()) {
+        result.reserve(setAccumulatedSize(set, sep.size()));
+        const auto end = set.end();
+        auto it = set.begin();
+        result += QString::number(*it);
+        while(++it != end) {
+            result += sep;
+            result += QString::number(*it);
         }
     }
     return result;

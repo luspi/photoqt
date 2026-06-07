@@ -28,7 +28,9 @@ class PQCHelper {
 public:
 
     static qsizetype setAccumulatedSize(QSet<QString> set, qsizetype seplen);
+    static qsizetype setAccumulatedSize(QSet<int> set, qsizetype seplen);
     static QString setJoin(QSet<QString> set, QString sep);
+    static QString setJoin(QSet<int> set, QString sep);
 
     static QString extractInsideFilename(QString path);
     static QString extractInsidePDFFilename(QString path);

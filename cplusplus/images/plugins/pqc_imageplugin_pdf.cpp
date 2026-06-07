@@ -40,11 +40,9 @@
 
 PQCImagePluginPDF::PQCImagePluginPDF() {
 
-    setData({{"PDF: Adobe Portable Document Format",
-                    {{"pdf"}, {"application/pdf", "application/x-pdf", "application/x-bzpdf", "application/x-gzpdf"}}}
-            },
+    setData({{54321, {{"PDF: Adobe Portable Document Format"}, {"pdf"}, {"application/pdf", "application/x-pdf", "application/x-bzpdf", "application/x-gzpdf"}}}},
             "pdf",
-            {"pdf"}, {"application/pdf", "application/x-pdf", "application/x-bzpdf", "application/x-gzpdf"});
+            {54321});
 
 }
 
@@ -145,8 +143,7 @@ const QImage PQCImagePluginPDF::loadImage(QString path, QSize requestedSize, QSi
     QImage img = p->renderToImage(useQuality, useQuality);
 
     if(!img.isNull() || requestedSize.isEmpty())
-            PQCImageCache::get().saveImageToCache(path, "", img);
-    }
+        PQCImageCache::get().saveImageToCache(path, "", img);
 
     origSize = p->pageSize()*(quality/72.0);
 

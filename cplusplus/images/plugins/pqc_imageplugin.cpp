@@ -35,26 +35,15 @@ PQCImagePlugin::PQCImagePlugin(QObject *parent) : QObject(parent) {
     connect(m_delayWriteToFile, &QTimer::timeout, this, [=]() {
 #endif
 
-        const QString suffixFilename = PQCConfigFiles::get().CONFIG_DIR() % "/imageplugins/" % m_settingsPrefix % "_suffixes";
-        QFile outSuffixFile(suffixFilename);
-        if(!outSuffixFile.open(QIODevice::WriteOnly)) {
-            qDebug() << "Failed to open settings file at:" << suffixFilename;
-            qDebug() << outSuffixFile.errorString();
+        const QString filename = PQCConfigFiles::get().CONFIG_DIR() % "/imageplugins/" % m_settingsPrefix;
+        QFile outFile(filename);
+        if(!outFile.open(QIODevice::WriteOnly)) {
+            qDebug() << "Failed to open settings file at:" << filename;
+            qDebug() << outFile.errorString();
         } else {
-            QTextStream suffixOut(&outSuffixFile);
-            suffixOut << PQCHelper::setJoin(m_disabledSuffixes, "\n");
-            outSuffixFile.close();
-        }
-
-        const QString mimeFilename = PQCConfigFiles::get().CONFIG_DIR() % "/imageplugins/" % m_settingsPrefix % "_mimetypes";
-        QFile outMimeFile(mimeFilename);
-        if(!outMimeFile.open(QIODevice::WriteOnly)) {
-            qDebug() << "Failed to open settings file at:" << mimeFilename;
-            qDebug() << outMimeFile.errorString();
-        } else {
-            QTextStream mimeOut(&outMimeFile);
-            mimeOut << PQCHelper::setJoin(m_disabledMimetypes, "\n");
-            outMimeFile.close();
+            QTextStream out(&outFile);
+            out << PQCHelper::setJoin(m_disabledIds, "\n");
+            outFile.close();
         }
 
     });
@@ -65,38 +54,48 @@ PQCImagePlugin::~PQCImagePlugin() {
     m_delayWriteToFile->deleteLater();
 }
 
-void PQCImagePlugin::setData(const QHash<QString, QList<QStringList > > dat, const QString settingsPrefix,
-             QSet<QString> defaultDisabledSuffixes, QSet<QString> defaultDisabledMimetypes) {
+void PQCImagePlugin::setData(const QHash<int, QList<QStringList > > dat, const QString settingsPrefix,
+             QSet<int> defaultDisabledFormats) {
 
     m_settingsPrefix = settingsPrefix;
-    m_format2data = dat;
-    m_defaultDisabledSuffixes = defaultDisabledSuffixes;
-    m_defaultDisabledMimetypes = defaultDisabledMimetypes;
+    m_id2data = dat;
+    m_defaultDisabledIds = defaultDisabledFormats;
 
     // this is VERY cheap and will make looking up a description much faster
-    for(const auto &[key, value] : std::as_const(m_format2data).asKeyValueRange()) {
-        for(const QString &suffix : value[0])
-            m_suffix2format.insert(suffix, key);
+    for(const auto &[key, value] : std::as_const(m_id2data).asKeyValueRange()) {
+        m_desc2id.insert(value[0][0], key);
+        m_enabledIds.insert(key);
+        for(const QString &suffix : value[1]) {
+            m_suffix2id.insert(suffix, key);
+            m_enabledSuffixes.insert(suffix);
+        }
+        for(const QString &mime : value[2]) {
+            m_mime2id.insert(mime, key);
+            m_enabledMimetypes.insert(mime);
+        }
     }
 
     loadSetttingsFromFiles();
 
 }
 
-void PQCImagePlugin::setWritableFormats(const QSet<QString> formats)  {
-    m_writableFormats = formats;
-    for(const QString &f : formats) {
-        const QList<QStringList > cur = m_format2data.value(f);
-        for(const QString &s : cur[0])
+void PQCImagePlugin::setWritableFormats(const QSet<int> formats)  {
+    m_writableIds = formats;
+    for(const int &f : formats) {
+        const QList<QStringList > cur = m_id2data.value(f);
+        for(const QString &s : cur[1])
             m_writableSuffixes.insert(s);
     }
 }
 
-void PQCImagePlugin::setEnabled(QString format, bool enabled) {
+void PQCImagePlugin::setEnabled(int format, bool enabled) {
 
-    QHash<QString, QList<QStringList> >::Iterator iter = m_format2data.find(format);
-    if(iter == m_format2data.end())
+
+    QHash<int, QList<QStringList> >::Iterator iter = m_id2data.find(format);
+    if(iter == m_id2data.end())
         return;
+
+    qWarning() << ">>>" << format << enabled;
 
     m_delayWriteToFile->stop();
 
@@ -105,18 +104,32 @@ void PQCImagePlugin::setEnabled(QString format, bool enabled) {
     // if we toggle this format then we only need to make sure they are added to the list, nothing else
     if(!enabled) {
 
-        for(const QString &s : cur[0])
+        m_disabledIds.insert(format);
+        m_enabledIds.remove(format);
+
+        for(const QString &s : cur[1]) {
             m_disabledSuffixes.insert(s);
-        for(const QString &m : cur[1])
+            m_enabledSuffixes.remove(s);
+        }
+        for(const QString &m : cur[2]) {
             m_disabledMimetypes .insert(m);
+            m_enabledMimetypes .remove(m);
+        }
 
         // otherwise we need to make sure that no suffix is part of the list
     } else {
 
-        for(const QString &s : cur[0])
+        m_disabledIds.remove(format);
+        m_enabledIds.insert(format);
+
+        for(const QString &s : cur[1]) {
             m_disabledSuffixes.remove(s);
-        for(const QString &m : cur[1])
-            m_disabledMimetypes .remove(m);
+            m_enabledSuffixes.insert(s);
+        }
+        for(const QString &m : cur[2]) {
+            m_disabledMimetypes.remove(m);
+            m_enabledMimetypes.insert(m);
+        }
 
     }
 
@@ -129,14 +142,25 @@ void PQCImagePlugin::loadSetttingsFromFiles() {
     /********************************/
 
     // first we read the toggled suffixes from the settings file
-    const QString suffixFilename = PQCConfigFiles::get().CONFIG_DIR() % "/imageplugins/" % m_settingsPrefix % "_suffixes";
+    const QString suffixFilename = PQCConfigFiles::get().CONFIG_DIR() % "/imageplugins/" % m_settingsPrefix;
     QFile suffixFile(suffixFilename);
     if(!suffixFile.open(QIODevice::ReadOnly|QIODevice::Text)) {
 
         qDebug() << "Failed to open settings file at:" << suffixFilename;
 
         // these are the ones DISABLED BY DEFAULT
-        m_disabledSuffixes = m_defaultDisabledSuffixes;
+        m_disabledIds = m_defaultDisabledIds;
+        for(const int &id : std::as_const(m_defaultDisabledIds)) {
+            m_enabledIds.remove(id);
+            for(const QString &suf : std::as_const(m_id2data.value(id, {{},{}})[1])) {
+                m_disabledSuffixes.insert(suf);
+                m_enabledSuffixes.remove(suf);
+            }
+            for(const QString &mime : std::as_const(m_id2data.value(id, {{},{},{}})[2])) {
+                m_disabledMimetypes.insert(mime);
+                m_enabledMimetypes.remove(mime);
+            }
+        }
 
     } else {
 
@@ -144,52 +168,23 @@ void PQCImagePlugin::loadSetttingsFromFiles() {
 
         while(!suffixIn.atEnd()) {
             QString line = suffixIn.readLine().trimmed();
-            if(!line.isEmpty())
-                m_disabledSuffixes.insert(line);
+            if(!line.isEmpty()) {
+                const int id = line.toInt();
+                m_disabledIds.insert(id);
+                m_enabledIds.remove(id);
+                for(const QString &suf : std::as_const(m_id2data.value(id, {{},{}})[1])) {
+                    m_disabledSuffixes.insert(suf);
+                    m_enabledSuffixes.remove(suf);
+                }
+                for(const QString &mime : std::as_const(m_id2data.value(id, {{},{},{}})[2])) {
+                    m_disabledMimetypes.insert(mime);
+                    m_enabledMimetypes.remove(mime);
+                }
+            }
         }
 
         suffixFile.close();
 
-    }
-
-    /********************************/
-
-    const QString mimeFilename = PQCConfigFiles::get().CONFIG_DIR() % "/imageplugins/" % m_settingsPrefix % "_mimetypes";
-    QFile mimeFile(mimeFilename);
-    if(!mimeFile.open(QIODevice::ReadOnly|QIODevice::Text)) {
-
-        qDebug() << "Failed to open settings file at:" << mimeFilename;
-
-        // these are the ones DISABLED BY DEFAULT
-        m_disabledMimetypes = m_defaultDisabledMimetypes;
-
-    } else {
-
-        QTextStream mimeIn(&mimeFile);
-
-        while(!mimeIn.atEnd()) {
-            QString line = mimeIn.readLine().trimmed();
-            if(!line.isEmpty())
-                m_disabledMimetypes.insert(line);
-        }
-
-        mimeFile.close();
-
-    }
-
-
-    // these are the currently enabled ones
-    for(const auto &[key, value] : std::as_const(m_format2data).asKeyValueRange()) {
-        const QList<QStringList> lst = value.toList();
-        if(m_disabledSuffixes.contains(*(lst.value(0).begin()))) {
-            m_disabledFormats.insert(key);
-        } else {
-            m_enabledFormats.insert(key);
-            for(const QString &s : lst.value(0))
-                m_enabledSuffixes.insert(s);
-            for(const QString &m : lst.value(1))
-                m_enabledMimetypes.insert(m);
-        }
     }
 
     Q_EMIT formatsUpdated();

@@ -36,103 +36,103 @@
 
 PQCImagePluginQt::PQCImagePluginQt() {
 
-    setData({{"Animated Windows cursors",
-                    {{"ani"}, {"application/x-navi-animation"}}},
-             {"AVIF: AV1 Image File Format",
-                    {{"avif", "avifs"}, {"image/avif", "image/avif-sequence"}}},
-             {"BMP: Microsoft Windows bitmap",
-                    {{"bmp", "dib"}, {"image/bmp", "image/x-ms-bmp"}}},
-             {"Cine File Format",
-                    {{"cine"}, {}}},
-             {"CUR: Microsoft Windows cursor format",
-                    {{"cur"}, {"image/x-win-bitmap"}}},
-             {"DirectDraw Surface",
-                    {{"dds"}, {}}},
-             {"OpenEXR",
-                    {{"exr"}, {"image/x-exr"}}},
-             {"GIF: Graphics Interchange Format",
-                    {{"gif"}, {"image/gif"}}},
-             {"HEIF: High Efficiency Image Format",
-                    {{"heif", "heic"}, {"image/heif", "image/heic"}}},
-             {"Microsoft Windows icon format",
-                    {{"ico"}, {"image/vnd.microsoft.icon", "image/x-icon"}}},
-             {"JPEG File Interchange Format",
-                    {{"jfif"}, {}}},
-             {"JPEG: Joint Photographic Experts Group JFIF format",
-                    {{"jpeg", "jpg", "jpe", "jif"}, {"image/jpeg"}}},
-             {"JPEG-2000",
-                    {{"jpeg2000", "j2k", "jp2", "jpc", "jpx", "jpf", "j2c"}, {"image/jp2", "image/jpx", "image/jpm"}}},
-             {"JPEG XL",
-                    {{"jxl"}, {"image/jxl"}}},
-             {"JPEG-XR",
-                    {{"jxr", "hdp", "wdp"}, {}}},
-             {"Krita Document",
-                    {{"kra"}, {"application/x-krita"}}},
-             {"MNG: Multiple-image Network Graphics",
-                    {{"mng"}, {"video/x-mng"}}},
-             {"OBM file",
-                    {{"obm"}, {}}},
-             {"OpenRaster",
-                    {{"ora"}, {"image/openraster"}}},
-             {"PBM: Portable bitmap format (black and white)",
-                    {{"pbm"}, {"image/x-portable-anymap"}}},
-             {"PCX: ZSoft PiCture eXchange",
-                    {{"pcx"}, {"image/vnd.zbrush.pcx", "image/x-pcx"}}},
-             {"Adobe PhotoDeluxe",
-                    {{"pdd"}, {}}},
-             {"Portable Float Map",
-                    {{"pfm"}, {}}},
-             {"PGM: Portable graymap format (gray scale)",
-                    {{"pgm"}, {"image/x-portable-greymap", "image/x-portable-anymap"}}},
-             {"Portable float map format 16-bit half",
-                    {{"phm"}, {}}},
-             {"Softimage PIC",
-                    {{"pic"}, {}}},
-             {"PNG: Portable Network Graphics",
-                    {{"png"}, {"image/png"}}},
-             {"PPM: Portable pixmap format (color)",
-                    {{"ppm", "pnm"}, {"image/x-portable-pixmap", "image/x-portable-anymap"}}},
-             {"Adobe PhotoShop",
-                    {{"psd", "psb", "psdt"}, {"image/vnd.adobe.photoshop"}}},
-             {"PIXAR format",
-                    {{"PIXAR format"}, {}}},
-             {"Quite OK image format",
-                    {{"qoi"}, {}}},
-             {"Apple QuickTake Picture",
-                    {{"qtk"}, {}}},
-             {"RED R3D file format",
-                    {{"r3d"}, {}}},
-             {"SGI images",
-                    {{"rgba", "rgb", "sgi", "bw"}, {"image/sgi"}}},
-             {"HDR: Radiance RGBE image format",
-                    {{"rgbe", "hdr", "rad"}, {}}},
-             {"Scitex Continuous Tone Picture",
-                    {{"sct", "ch", "ct"}, {}}},
-             {"SUN Rasterfile",
-                    {{"sun", "ras", "sr", "im1", "im24", "im32", "im8", "rast", "rs", "scr"}, {}}},
-             {"SVG: Scalable Vector Graphics",
-                    {{"svg", "svgz"}, {"image/svg+xml"}}},
-             {"TGA: Truevision Targa image",
-                    {{"tga", "icb", "vda", "vst"}, {"image/x-targa", "image/x-tga"}}},
-             {"TIFF: Tagged Image File Format",
-                    {{"tiff", "tif"}, {"image/tiff", "image/tiff-fx"}}},
-             {"Wireless Bitmap",
-                    {{"wbmp"}, {"image/vnd.wap.wbmp"}}},
-             {"WEBP: Google web image format",
-                    {{"webp"}, {"image/webp"}}},
-             {"X BitMap",
-                    {{"xbm", "bm"}, {"image/x-xbitmap", "image/x-xbm"}}},
-             {"Gimp XCF",
-                    {{"xcf"}, {"image/x-xcf"}}},
-             {"X PixMap",
-                    {{"xpm", "pm"}, {"image/x-xpixmap", "image/x-xpmi"}}}},
+    setData({{53218,
+                    {{"Animated Windows cursors"}, {"ani"}, {"application/x-navi-animation"}}},
+             {66696,
+                    {{"AVIF: AV1 Image File Format"}, {"avif", "avifs"}, {"image/avif", "image/avif-sequence"}}},
+             {45621,
+                    {{"BMP: Microsoft Windows bitmap"}, {"bmp", "dib"}, {"image/bmp", "image/x-ms-bmp"}}},
+             {54432,
+                    {{"Cine File Format"}, {"cine"}, {}}},
+             {58156,
+                    {{"CUR: Microsoft Windows cursor format"}, {"cur"}, {"image/x-win-bitmap"}}},
+             {74447,
+                    {{"DirectDraw Surface"}, {"dds"}, {}}},
+             {74586,
+                    {{"OpenEXR"}, {"exr"}, {"image/x-exr"}}},
+             {52412,
+                    {{"GIF: Graphics Interchange Format"}, {"gif"}, {"image/gif"}}},
+             {22226,
+                    {{"HEIF: High Efficiency Image Format"}, {"heif", "heic"}, {"image/heif", "image/heic"}}},
+             {66646,
+                    {{"Microsoft Windows icon format"}, {"ico"}, {"image/vnd.microsoft.icon", "image/x-icon"}}},
+             {12454,
+                    {{"JPEG File Interchange Format"}, {"jfif"}, {}}},
+             {11485,
+                    {{"JPEG: Joint Photographic Experts Group JFIF format"}, {"jpeg", "jpg", "jpe", "jif"}, {"image/jpeg"}}},
+             {13245,
+                    {{"JPEG-2000"}, {"jpeg2000", "j2k", "jp2", "jpc", "jpx", "jpf", "j2c"}, {"image/jp2", "image/jpx", "image/jpm"}}},
+             {34567,
+                    {{"JPEG XL"}, {"jxl"}, {"image/jxl"}}},
+             {44445,
+                    {{"JPEG-XR"}, {"jxr", "hdp", "wdp"}, {}}},
+             {97621,
+                    {{"Krita Document"}, {"kra"}, {"application/x-krita"}}},
+             {13695,
+                    {{"MNG: Multiple-image Network Graphics"}, {"mng"}, {"video/x-mng"}}},
+             {77332,
+                    {{"OBM file"}, {"obm"}, {}}},
+             {84523,
+                    {{"OpenRaster"}, {"ora"}, {"image/openraster"}}},
+             {16685,
+                    {{"PBM: Portable bitmap format (black and white)"}, {"pbm"}, {"image/x-portable-anymap"}}},
+             {25566,
+                    {{"PCX: ZSoft PiCture eXchange"}, {"pcx"}, {"image/vnd.zbrush.pcx", "image/x-pcx"}}},
+             {33344,
+                    {{"Adobe PhotoDeluxe"}, {"pdd"}, {}}},
+             {44444,
+                    {{"Portable Float Map"}, {"pfm"}, {}}},
+             {85444,
+                    {{"PGM: Portable graymap format (gray scale)"}, {"pgm"}, {"image/x-portable-greymap", "image/x-portable-anymap"}}},
+             {98765,
+                    {{"Portable float map format 16-bit half"}, {"phm"}, {}}},
+             {55585,
+                    {{"Softimage PIC"}, {"pic"}, {}}},
+             {46215,
+                    {{"PNG: Portable Network Graphics"}, {"png"}, {"image/png"}}},
+             {77521,
+                    {{"PPM: Portable pixmap format (color)"}, {"ppm", "pnm"}, {"image/x-portable-pixmap", "image/x-portable-anymap"}}},
+             {26486,
+                    {{"Adobe PhotoShop"}, {"psd", "psb", "psdt"}, {"image/vnd.adobe.photoshop"}}},
+             {11278,
+                    {{"PIXAR format"}, {"PIXAR format"}, {}}},
+             {31111,
+                    {{"Quite OK image format"}, {"qoi"}, {}}},
+             {99344,
+                    {{"Apple QuickTake Picture"}, {"qtk"}, {}}},
+             {22255,
+                    {{"RED R3D file format"}, {"r3d"}, {}}},
+             {33352,
+                    {{"SGI images"}, {"rgba", "rgb", "sgi", "bw"}, {"image/sgi"}}},
+             {11113,
+                    {{"HDR: Radiance RGBE image format"}, {"rgbe", "hdr", "rad"}, {}}},
+             {56223,
+                    {{"Scitex Continuous Tone Picture"}, {"sct", "ch", "ct"}, {}}},
+             {91919,
+                    {{"SUN Rasterfile"}, {"sun", "ras", "sr", "im1", "im24", "im32", "im8", "rast", "rs", "scr"}, {}}},
+             {26112,
+                    {{"SVG: Scalable Vector Graphics"}, {"svg", "svgz"}, {"image/svg+xml"}}},
+             {85621,
+                    {{"TGA: Truevision Targa image"}, {"tga", "icb", "vda", "vst"}, {"image/x-targa", "image/x-tga"}}},
+             {44462,
+                    {{"TIFF: Tagged Image File Format"}, {"tiff", "tif"}, {"image/tiff", "image/tiff-fx"}}},
+             {12788,
+                    {{"Wireless Bitmap"}, {"wbmp"}, {"image/vnd.wap.wbmp"}}},
+             {28282,
+                    {{"WEBP: Google web image format"}, {"webp"}, {"image/webp"}}},
+             {87775,
+                    {{"X BitMap"}, {"xbm", "bm"}, {"image/x-xbitmap", "image/x-xbm"}}},
+             {16443,
+                    {{"Gimp XCF"}, {"xcf"}, {"image/x-xcf"}}},
+             {44474,
+                    {{"X PixMap"}, {"xpm", "pm"}, {"image/x-xpixmap", "image/x-xpmi"}}}},
             "qt",
-            {"jpeg2000", "j2k", "jp2", "jpc", "jpx", "jpf", "j2c"}, {"image/jp2", "image/jpx", "image/jpm"});
+            {13245});
 
-    QSet<QString> writableFormats;
+    QSet<int> writableFormats;
     QImageWriter writer;
     const QString tmpPath = QDir::tempPath();
-    for(const QString &format : getEnabledFormats()) {
+    for(const int &format : getEnabledFormats()) {
         const QStringList allsuf = getSuffixesForFormat(format);
         writer.setFileName(tmpPath % "/temp." % *allsuf.begin());
         if(writer.canWrite()) {
@@ -279,7 +279,8 @@ const QImage PQCImagePluginQt::loadImage(QString path, QSize requestedSize, QSiz
             origSize = img.size();
             if(!img.isNull()) {
                 colorProfileAlreadyApplied = true;
-                PQCImageCache::get().saveImageToCache(path, PQCScriptsColorProfiles::get().applyColorProfile(path, img), img);
+                const QString prf = PQCScriptsColorProfiles::get().applyColorProfile(path, img);
+                PQCImageCache::get().saveImageToCache(path, prf, img);
             }
         }
 
@@ -301,7 +302,8 @@ const QImage PQCImagePluginQt::loadImage(QString path, QSize requestedSize, QSiz
             } else {
                 error = "";
                 colorProfileAlreadyApplied = true;
-                PQCImageCache::get().saveImageToCache(path, PQCScriptsColorProfiles::get().applyColorProfile(path, img), img);
+                const QString prf = PQCScriptsColorProfiles::get().applyColorProfile(path, img);
+                PQCImageCache::get().saveImageToCache(path, prf, img);
             }
         }
 
@@ -326,7 +328,8 @@ const QImage PQCImagePluginQt::loadImage(QString path, QSize requestedSize, QSiz
             reader.read(&img);
             if(!img.isNull() && !imageIsScaled) {
                 colorProfileAlreadyApplied = true;
-                PQCImageCache::get().saveImageToCache(path, PQCScriptsColorProfiles::get().applyColorProfile(path, img), img);
+                const QString prf = PQCScriptsColorProfiles::get().applyColorProfile(path, img);
+                PQCImageCache::get().saveImageToCache(path, prf, img);
             }
         }
 

@@ -62,7 +62,7 @@ QImage PQCProviderFull::requestImage(const QString &url, QSize *origSize, const 
     if(ret.isNull()) {
 
         if(error == "")
-            error = "Unknown error";
+            error = "Unknown error\n";
 
         // get the widht of the text
         // this class assumes everything is a single line of text
@@ -71,7 +71,7 @@ QImage PQCProviderFull::requestImage(const QString &url, QSize *origSize, const 
         QFontMetrics metrics(ft);
         // get the bounding rect and do a rough conversion to a string with line breaks
         QRect rect = metrics.boundingRect(error);
-        const int lineCount = error.count("\n");
+        const int lineCount = qMax(1,error.count("\n"));
         const int eH = qMin(1200, qMax(600, rect.height()/lineCount + (lineCount+5)*metrics.lineSpacing()+20))+300;
         const int eW = qMin(1500, qMax(rect.width()/lineCount+100, static_cast<int>(eH*1.25)));
         QImage img(eW, eH, QImage::Format_ARGB32_Premultiplied);
