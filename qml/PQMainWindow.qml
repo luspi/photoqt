@@ -62,7 +62,7 @@ ApplicationWindow {
     }
     onHeightChanged: {
         storeWindowGeometry.restart()
-        PQCConstants.availableHeight = height-(isIntegrated ? ((footer.visible?footer.height:0)+menuBar.height) : 0)
+        PQCConstants.availableHeight = height-(isIntegrated ? ((footer.visible?footer.height:0)+(menuBar.visible?menuBar.height:0)) : 0)
         PQCConstants.mainWindowBeingResized = true
         resetResizing.restart()
     }
@@ -85,9 +85,10 @@ ApplicationWindow {
                 PQCConstants.availableWidth = toplevel.width - (PQCSettings.metadataSideBar ? PQCSettings.metadataSideBarWidth : 0)
             }
             function onInterfaceStatusInfoShowChanged() {
-                PQCConstants.availableHeight = toplevel.height-(toplevel.isIntegrated ? ((footer.visible?footer.height:0)+menuBar.height) : 0)
+                PQCConstants.availableHeight = toplevel.height-(toplevel.isIntegrated ? ((footer.visible?footer.height:0)+(menuBar.visible?menuBar.height:0)) : 0)
             }
         }
+
     /**************************************/
 
     Timer {
@@ -155,8 +156,8 @@ ApplicationWindow {
                 opacity: 0.5
             }
         }
-        menuBar: PQMenuBarIntegrated { visible: toplevel.isIntegrated }
-        footer: PQFooterIntegrated { visible: toplevel.isIntegrated&&PQCSettings.interfaceStatusInfoShow }
+        menuBar: PQMenuBarIntegrated { visible: toplevel.isIntegrated&&!toplevel.isFullscreen }
+        footer: PQFooterIntegrated { visible: toplevel.isIntegrated&&PQCSettings.interfaceStatusInfoShow&&!toplevel.isFullscreen }
     /**************************************/
 
     Item {
