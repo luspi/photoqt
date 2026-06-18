@@ -171,6 +171,8 @@ PQSetting {
             id: thumb_enable
             visible: PQCSettings.generalInterfaceVariant==="integrated"
             text: qsTranslate("settingsmanager", "Enable thumbnail bar")
+            onCheckedChanged:
+                set_bar.checkForChanges()
         },
 
         Column {
@@ -184,12 +186,16 @@ PQSetting {
                 id: thumb_top
                 //: as in: the top edge of the window (for thumbnails bar)
                 text: qsTranslate("settingsmanager", "top edge")
+                onCheckedChanged:
+                    set_bar.checkForChanges()
             }
 
             PQRadioButton {
                 id: thumb_bot
                 //: as in: the bottom edge of the window (for thumbnails bar)
                 text: qsTranslate("settingsmanager", "bottom edge")
+                onCheckedChanged:
+                    set_bar.checkForChanges()
             }
 
         },
