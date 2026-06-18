@@ -459,7 +459,6 @@ void PQCStartupHandler::setupFresh() {
     // make sure necessary folder exist
     QDir dir;
     dir.mkpath(PQCConfigFiles::get().CONFIG_DIR());
-    dir.mkpath(PQCConfigFiles::get().CONFIG_DIR() % "/imageplugins");
     dir.mkpath(PQCConfigFiles::get().CACHE_DIR());
     dir.mkpath(QFileInfo(PQCConfigFiles::get().USER_PLACES_XBEL()).absolutePath());
     dir.mkpath(PQCConfigFiles::get().THUMBNAIL_CACHE_DIR());
@@ -513,6 +512,13 @@ void PQCStartupHandler::setupFresh() {
     }
 
     /**************************************************************/
+    // make sure no old image format settings remain
+    const QString imageplugindir = PQCConfigFiles::get().CONFIG_DIR() % "/imageplugins";
+    if(QFileInfo::exists(imageplugindir)) {
+        dir.setPath(imageplugindir);
+        dir.removeRecursively();
+    }
+    dir.mkpath(imageplugindir);
 
 }
 
