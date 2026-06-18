@@ -272,6 +272,13 @@ ToolBar {
         }
     }
 
+    Connections {
+        target: PQCSettings
+        function onInterfaceStatusInfoShowChanged() {
+            ftr.craftString()
+        }
+    }
+
     function craftString() {
 
         if(!isIntegrated) return
