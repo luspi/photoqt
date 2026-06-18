@@ -62,7 +62,7 @@ ApplicationWindow {
     }
     onHeightChanged: {
         storeWindowGeometry.restart()
-        PQCConstants.availableHeight = height-(isIntegrated ? (footer.height+menuBar.height) : 0)
+        PQCConstants.availableHeight = height-(isIntegrated ? ((footer.visible?footer.height:0)+menuBar.height) : 0)
         PQCConstants.mainWindowBeingResized = true
         resetResizing.restart()
     }
@@ -83,6 +83,9 @@ ApplicationWindow {
             }
             function onMetadataSideBarChanged() {
                 PQCConstants.availableWidth = toplevel.width - (PQCSettings.metadataSideBar ? PQCSettings.metadataSideBarWidth : 0)
+            }
+            function onInterfaceStatusInfoShowChanged() {
+                PQCConstants.availableHeight = toplevel.height-(toplevel.isIntegrated ? ((footer.visible?footer.height:0)+menuBar.height) : 0)
             }
         }
     /**************************************/
@@ -153,7 +156,7 @@ ApplicationWindow {
             }
         }
         menuBar: PQMenuBarIntegrated { visible: toplevel.isIntegrated }
-        footer: PQFooterIntegrated { visible: toplevel.isIntegrated }
+        footer: PQFooterIntegrated { visible: toplevel.isIntegrated&&PQCSettings.interfaceStatusInfoShow }
     /**************************************/
 
     Item {

@@ -30,8 +30,9 @@ ToolBar {
 
     id: ftr
 
-    onHeightChanged:
-        PQCConstants.footerHeight = height
+    onHeightChanged: {
+        PQCConstants.footerHeight = (visible ? height : 0)
+    }
 
     property bool isIntegrated: PQCSettings.generalInterfaceVariant==="integrated"
 
@@ -280,6 +281,9 @@ ToolBar {
             return
         }
 
+        if(!PQCSettings.interfaceStatusInfoShow)
+            return;
+
         if(isNaN(PQCConstants.currentImageScale)) {
             retryForAdditionalInfo.restart()
             return
@@ -335,8 +339,8 @@ ToolBar {
             } else if(cur === "rating") {
 
                 var tmp = ""
-                for(var i = 0; i < 5; ++i)
-                    tmp += (i<ftr.currentRating ? "★" : "☆")
+                for(let j = 0; j < 5; ++j)
+                    tmp += (j<ftr.currentRating ? "★" : "☆")
 
                 str.push(tmp)
 
