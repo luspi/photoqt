@@ -127,9 +127,8 @@ PQSetting {
                             PQCSettings.resetToDefault()
                         else if(cancel.action === "shortcuts")
                             PQCShortcuts.resetToDefault()
-                        // TODO
-                        // else if(cancel.action === "formats")
-                            // PQCImageFormats.resetToDefault()
+                        else if(cancel.action === "formats")
+                            PQCImageHandler.resetAllToDefaultEnabled()
 
                         cancel.action = ""
 

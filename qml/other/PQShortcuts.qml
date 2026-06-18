@@ -242,7 +242,6 @@ Item {
 
                 PQCSettings.closeDatabase()
                 PQCShortcuts.closeDatabase()
-                // PQCImageFormats.closeDatabase() // TODO
                 PQCLocation.closeDatabase()
                 PQCScriptsContextMenu.closeDatabase()
 

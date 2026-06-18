@@ -567,3 +567,14 @@ void PQCImageHandler::setAllEnabled(int format, bool enabled) {
     }
 
 }
+
+void PQCImageHandler::resetAllToDefaultEnabled() {
+
+    QDir dir(PQCConfigFiles::get().IMAGEPLUGINS_SETTINGS_DIR());
+    if(!dir.exists())
+        return;
+
+    dir.removeRecursively();
+    dir.mkpath(PQCConfigFiles::get().IMAGEPLUGINS_SETTINGS_DIR());
+
+}

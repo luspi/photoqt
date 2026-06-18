@@ -98,6 +98,8 @@ public:
     void setEnabled(QString pluginName, int format, bool enabled);
     void setAllEnabled(int format, bool enabled);
 
+    void resetAllToDefaultEnabled();
+
     const QSet<int> getDoNotThreadFormats() { return m_doNotThreadFormats; };
 
     QMutex providerMutex;

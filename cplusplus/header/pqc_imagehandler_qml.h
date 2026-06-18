@@ -131,6 +131,10 @@ public:
                PQCImageHandler::get().setEnabled(pluginName, format, enabled);
     }
 
+    Q_INVOKABLE void resetAllToDefaultEnabled() {
+               PQCImageHandler::get().resetAllToDefaultEnabled();
+    }
+
     /*****************************************************/
 
 Q_SIGNALS:
