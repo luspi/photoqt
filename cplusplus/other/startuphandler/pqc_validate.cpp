@@ -214,7 +214,7 @@ bool PQCValidate::validateContextMenuDatabase() {
 
                     QString icn = PQCScriptsImages::get().getIconPathFromTheme(cmd);
                     if(!icn.isEmpty())
-                        icn = PQCScriptsImages::get().loadImageAndConvertToBase64(icn);
+                        icn = PQCScriptsImages::get().loadIconAndConvertToBase64(icn);
 
                     const QStringList cur = {cmd,
                                              args,

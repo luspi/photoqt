@@ -87,16 +87,19 @@ public:
     }
 
     // do with image
-    Q_INVOKABLE QString      loadImageAndConvertToBase64(QString filename) {
-        return PQCScriptsImages::get().loadImageAndConvertToBase64(filename);
+    Q_INVOKABLE QString loadIconAndConvertToBase64(QString filename) {
+        return PQCScriptsImages::get().loadIconAndConvertToBase64(filename);
     }
-    Q_INVOKABLE QString      extractMotionPhoto(QString path) {
+    Q_INVOKABLE QString loadImageAndConvertToBase64(QString filename, QSize sze) {
+        return PQCScriptsImages::get().loadImageAndConvertToBase64(filename, sze);
+    }
+    Q_INVOKABLE QString extractMotionPhoto(QString path) {
         return PQCScriptsImages::get().extractMotionPhoto(path);
     }
     Q_INVOKABLE QVariantList getZXingData(QString path) {
         return PQCScriptsImages::get().getZXingData(path);
     }
-    Q_INVOKABLE bool         extractFrameAndSave(QString path, int frameNumber) {
+    Q_INVOKABLE bool extractFrameAndSave(QString path, int frameNumber) {
         return PQCScriptsImages::get().extractFrameAndSave(path, frameNumber);
     }
     Q_INVOKABLE bool canHaveStarRating(const QString path) {

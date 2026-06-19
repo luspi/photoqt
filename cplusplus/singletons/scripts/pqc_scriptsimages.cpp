@@ -171,7 +171,7 @@ QString PQCScriptsImages::getIconPathFromTheme(QString binary) {
 
 }
 
-QString PQCScriptsImages::loadImageAndConvertToBase64(QString filename) {
+QString PQCScriptsImages::loadIconAndConvertToBase64(QString filename) {
 
     qDebug() << "args: filename =" << filename;
 
@@ -192,6 +192,31 @@ QString PQCScriptsImages::loadImageAndConvertToBase64(QString filename) {
         return "";
 
     if(!pix.save(&buffer, "PNG"))
+        return "";
+
+    return QString::fromLatin1(bytes.toBase64());
+
+}
+
+QString PQCScriptsImages::loadImageAndConvertToBase64(QString filename, QSize sze) {
+
+    qDebug() << "args: filename =" << filename;
+    qDebug() << "args: sze =" << sze;
+
+    QSize origSize;
+    QString err;
+    QImage img = PQCImageHandler::get().getImage(filename, sze, origSize, err);
+
+    if(img.isNull())
+        return "";
+
+    QByteArray bytes;
+    QBuffer buffer(&bytes);
+
+    if(!buffer.open(QIODevice::WriteOnly))
+        return "";
+
+    if(!img.save(&buffer, "PNG"))
         return "";
 
     return QString::fromLatin1(bytes.toBase64());

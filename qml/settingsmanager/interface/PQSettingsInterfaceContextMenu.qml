@@ -98,7 +98,7 @@ PQSetting {
                                                                                         //: written on button for selecting a file from the file dialog
                                     var newicn = PQCScriptsFilesPaths.openFileFromDialog(qsTranslate("settingsmanager", "Select"), (PQCScriptsConfig.amIOnWindows() ? PQCScriptsFilesPaths.getHomeDir() : "/usr/share/icons/hicolor/32x32/apps"), PQCImageHandler.getEnabledSuffixes("qt"));
                                     if(newicn !== "")
-                                        deleg.curData[0] = PQCScriptsImages.loadImageAndConvertToBase64(newicn)
+                                        deleg.curData[0] = PQCScriptsImages.loadIconAndConvertToBase64(newicn)
                                     else
                                         deleg.curData[0] = ""
                                     deleg.curDataChanged()
@@ -152,7 +152,7 @@ PQSetting {
                                             deleg.curData[1] = PQCScriptsFilesPaths.cleanPath(newexe)
 
                                         if(icn !== "" && deleg.curData[0] === "") {
-                                            deleg.curData[0] = PQCScriptsImages.loadImageAndConvertToBase64(icn)
+                                            deleg.curData[0] = PQCScriptsImages.loadIconAndConvertToBase64(icn)
                                         }
 
                                         deleg.curDataChanged()

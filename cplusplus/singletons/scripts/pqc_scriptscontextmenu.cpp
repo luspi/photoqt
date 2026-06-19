@@ -187,7 +187,7 @@ QVariantList PQCScriptsContextMenu::detectSystemEntries() {
 
             QString icn = PQCScriptsImages::get().getIconPathFromTheme(m[2*i+1]);
             if(!icn.isEmpty())
-                icn = PQCScriptsImages::get().loadImageAndConvertToBase64(icn);
+                icn = PQCScriptsImages::get().loadIconAndConvertToBase64(icn);
 
             thisentry << icn
                       << m[2*i+1]

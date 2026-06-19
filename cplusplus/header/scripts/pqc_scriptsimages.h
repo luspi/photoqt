@@ -68,7 +68,8 @@ public:
     QString getMimetypeForFile(QString path);
 
     // do with image
-    QString loadImageAndConvertToBase64(QString filename);
+    QString loadIconAndConvertToBase64(QString filename);
+    QString loadImageAndConvertToBase64(QString filename, QSize sze);
     QString extractMotionPhoto(QString path);
     QVariantList getZXingData(QString path);
     bool extractFrameAndSave(QString path, int frameNumber);
