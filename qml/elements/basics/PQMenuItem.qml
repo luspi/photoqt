@@ -28,7 +28,7 @@ import "../../other/PQCommonFunctions.js" as PQF
 MenuItem {
     id: control
     implicitWidth: 250
-    implicitHeight: 30
+    implicitHeight: 32
 
     height: visible ? implicitHeight : 0
 
