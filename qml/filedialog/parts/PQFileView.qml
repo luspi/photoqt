@@ -100,7 +100,9 @@ Item {
         id: listfileview
         PQFileViewList {
             id: fv_list
-            model: fileview.fvModel
+            // 100000000 is the maximum allowed number of entries
+            // without this check there might be a race condition where either a negative of too large is set for a split second
+            model: Math.max(0, Math.min(100000000, fileview.fvModel))
             onCurrentIndexChanged:
                 fileview.currentIndex = currentIndex
             Connections {
@@ -128,7 +130,9 @@ Item {
         id: gridfileview
         PQFileViewGrid {
             id: fv_grid
-            model: fileview.fvModel
+            // 100000000 is the maximum allowed number of entries
+            // without this check there might be a race condition where either a negative of too large is set for a split second
+            model: Math.max(0, Math.min(100000000, fileview.fvModel))
             ignoreMouseEvents: view_top.ignoreMouseEvents
             onCurrentIndexChanged:
                 fileview.currentIndex = currentIndex
@@ -157,7 +161,9 @@ Item {
         id: masonryfileview
         PQFileViewMasonry {
             id: fv_mason
-            model: fileview.fvModel
+            // 100000000 is the maximum allowed number of entries
+            // without this check there might be a race condition where either a negative of too large is set for a split second
+            model: Math.max(0, Math.min(100000000, fileview.fvModel))
             onCurrentIndexChanged:
                 fileview.currentIndex = currentIndex
             Connections {
