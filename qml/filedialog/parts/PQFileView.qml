@@ -498,8 +498,6 @@ Item {
             var ftype = PQCScriptsFilesPaths.getFileType(currentPath)
             var currentFile = decodeURIComponent(PQCScriptsFilesPaths.getFilename(currentPath))
 
-            var str = ""
-
             if(isFolder) {
 
                 if(!view_top.currentFolderExcluded && PQCSettings.filedialogFolderContentThumbnails && numberFilesInsideFolder>0) {
@@ -507,52 +505,20 @@ Item {
                     var n = currentFolderThumbNum
                     if(n === 0 && numberFilesInsideFolder > 0)
                         n = 1
-                    str += "<img width=256 src=\"image://folderthumb/" + currentPath + ":://::" + n + "\"><br><br>"
                 }
 
-                str += "<span style='font-size: " + PQCLook.fontSizeL + "pt; font-weight: bold'>" + currentFile + "</span><br><br>" +
-                       (numberFilesInsideFolder===0 ? "" : (qsTranslate("filedialog", "# images")+": <b>" + numberFilesInsideFolder + "</b><br>")) +
-                        qsTranslate("filedialog", "Date:")+" <b>" + fmodi.toLocaleDateString() + "</b><br>" +
-                        qsTranslate("filedialog", "Time:")+" <b>" + fmodi.toLocaleTimeString() + "</b>"
-
-                ret = str
+                ret = "<big><big><b>" + currentFile + "</b></big></big><br><br>" +
+                        "<b>"+(numberFilesInsideFolder===0 ? "" : (qsTranslate("filedialog", "# images")+":</b><br>" + numberFilesInsideFolder + "<br>")) +
+                        "<b>"+qsTranslate("filedialog", "Date:")+"</b><br>" + fmodi.toLocaleDateString() + "<br>" +
+                        "<b>"+qsTranslate("filedialog", "Time:")+"</b><br>" + fmodi.toLocaleTimeString()
 
             } else {
 
-                str = "<table><tr>"
-
-                // if we do not cache this directory, we do not show a thumbnail image
-                if(!view_top.currentFolderExcluded && fileThumbStatus === Image.Ready && PQCSettings.filedialogThumbnails) {
-                    str += "<td valign=middle><img width=256 src=\"" + encodeURI("image://tooltipthumb/" + currentPath) + "\"></td>"
-                    str += "<td>&nbsp;</td>"
-                }
-
-                // This breaks the filename into multiple lines if it is too long
-                var usefilename = [currentFile]
-                var lim = 35
-                if(currentFile.length > lim) {
-                    // this helps to avoid having one very long line and one line with almost nothing
-                    if(currentFile.length%lim < 5)
-                        lim -= 2
-                    usefilename = []
-                    for(var i = 0; i <= currentFile.length; i += lim)
-                        usefilename.push(currentFile.substring(i, i+lim))
-                }
-
-                // add details
-                str += "<td valign=middle>";
-                for(var f in usefilename) {
-                    str += "<div style='font-size: " + PQCLook.fontSizeL + "pt; font-weight: bold'>" + usefilename[f] + "</div>"
-                }
-                str += "<br><br>" +
-                          qsTranslate("filedialog", "File size:")+" <b>" + fileInfo + "</b><br>" +
-                          qsTranslate("filedialog", "File type:")+" <b>" + ftype + "</b><br>" +
-                          qsTranslate("filedialog", "Date:")+" <b>" + fmodi.toLocaleDateString() + "</b><br>" +
-                          qsTranslate("filedialog", "Time:")+" <b>" + fmodi.toLocaleTimeString()+ "</b></td></tr></table>"
-
-                ret = str
-
-                // if the thumbnail is not yet loaded and a temp icon is shown, we want to check again for the thumbnail the next time the tooltip is shown
+                ret = "<big><big><b>" + currentFile + "</b></big></big><br><br>" +
+                        "<b>"+qsTranslate("filedialog", "File size:")+"</b><br>" + (fileInfo==="" ? "---" : fileInfo) + "<br>" +
+                        "<b>"+qsTranslate("filedialog", "File type:")+"</b><br>" + ftype + "<br>" +
+                        "<b>"+qsTranslate("filedialog", "Date:")+"</b><br>" + fmodi.toLocaleDateString() + "<br>" +
+                        "<b>"+qsTranslate("filedialog", "Time:")+"</b><br>" + fmodi.toLocaleTimeString()
 
             }
 
