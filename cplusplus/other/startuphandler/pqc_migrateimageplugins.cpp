@@ -63,7 +63,7 @@ void PQCMigrateImagePlugins::migrate540() {
 
     while(query.next()) {
 
-        const int uniqueid = query.value("description").toInt();
+        const int uniqueid = query.value("uniqueid").toInt();
         const int enabled = query.value("enabled").toInt();
 
         PQCImageHandler::get().setAllEnabled(uniqueid, enabled);
