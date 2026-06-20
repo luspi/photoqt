@@ -260,7 +260,7 @@ PQSetting {
 
                         Image {
                             id: verified
-                            visible: !extension_setting.isDebugBuild
+                            visible: !extension_setting.isDebugBuild && !extension_setting.isSystemExtension
                             x: check.x+check.width+5 + (systemext.visible ? systemext.width+5 : 0)
                             y: (parent.height-height)/2
                             width: visible ? check.height*0.75 : 0
