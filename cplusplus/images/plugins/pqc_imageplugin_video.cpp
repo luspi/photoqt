@@ -71,9 +71,10 @@ PQCImagePluginVideo::PQCImagePluginVideo(bool mpvNotQt) : m_mpvNotQt(mpvNotQt) {
             {99929,
                  {{"WebM"}, {"webm"}, {"video/webm"}}},
             {16452,
-                 {{"Windows Media Video"}, {"wmv"}, {"video/x-ms-wmv"}}}},
+                 {{"Windows Media Video"}, {"wmv"}, {"video/x-ms-wmv"}}},
+            {33332,
+                 {{"JPEG-2000 MJ2 video"}, {"mj2"}, {"video/mj2"}}}},
             (mpvNotQt ? "libmpv" : "video"));
-
 }
 
 const QSize PQCImagePluginVideo::loadSize(QString path) {

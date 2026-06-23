@@ -149,11 +149,14 @@ void PQCImagePlugin::loadSetttingsFromFiles() {
         m_disabledIds = m_defaultDisabledIds;
         for(const int &id : std::as_const(m_defaultDisabledIds)) {
             m_enabledIds.remove(id);
-            for(const QString &suf : std::as_const(m_id2data.value(id, {{},{}})[1])) {
+            const QList<QStringList> tmp = m_id2data.value(id, {{},{},{}});
+            const QStringList &tmp1 = tmp[1];
+            for(const QString &suf : tmp1) {
                 m_disabledSuffixes.insert(suf);
                 m_enabledSuffixes.remove(suf);
             }
-            for(const QString &mime : std::as_const(m_id2data.value(id, {{},{},{}})[2])) {
+            const QStringList &tmp2 = tmp[2];
+            for(const QString &mime : tmp2) {
                 m_disabledMimetypes.insert(mime);
                 m_enabledMimetypes.remove(mime);
             }
@@ -169,11 +172,14 @@ void PQCImagePlugin::loadSetttingsFromFiles() {
                 const int id = line.toInt();
                 m_disabledIds.insert(id);
                 m_enabledIds.remove(id);
-                for(const QString &suf : std::as_const(m_id2data.value(id, {{},{}})[1])) {
+                const QList<QStringList> tmp = m_id2data.value(id, {{},{},{}});
+                const QStringList tmp1 = tmp[1];
+                for(const QString &suf : tmp1) {
                     m_disabledSuffixes.insert(suf);
                     m_enabledSuffixes.remove(suf);
                 }
-                for(const QString &mime : std::as_const(m_id2data.value(id, {{},{},{}})[2])) {
+                const QStringList tmp2 = tmp[2];
+                for(const QString &mime : tmp2) {
                     m_disabledMimetypes.insert(mime);
                     m_enabledMimetypes.remove(mime);
                 }

@@ -92,7 +92,7 @@ PQCImagePluginMagick::PQCImagePluginMagick() {
         {66696,
              {{"AVIF: AV1 Image File Format"}, {"avif","avifs"}, {"image/avif","image/avif-sequence"}}},
         {11322,
-             {{"AVS X image"}, {"avs","x","mbfavs"}, {"application/x-fpt"}}},
+             {{"AVS X image"}, {"avs","mbfavs"}, {"application/x-fpt"}}},
         {19119,
              {{"Adobe Digital Negative Raw Image Format"}, {"dng"}, {}}},
         {15687,
