@@ -1,6 +1,49 @@
 Changelog PhotoQt - Copyright (C) 2011-2026, Lukas Spies (Lukas@photoqt.org), License: GPLv2 (or later)
 ----------------------------------------------------------------------------------------------------------
 
+Release 5.4 - 2026-06-23
+----------------------------
+- add: mj2 image format
+- improve: rework image plugin handling including more fine-grained format/plugin management
+- improve: more efficient filtering of key/mouse events
+- improve: widen use of QHash and QSet for performance critical code
+- improve: general performance improvements, better safety handling, and tweaks to all C++ code
+- improve: system extensions are always trusted automatically
+- improve: improve performance of loading extensions
+- improve: extension API is now more flexible and powerful
+- improve: screenshots for fake transparency only taken when needed and properly cleaned up at session end
+- improve: actually perform requested import of backup not until next startup
+- improve: more robust scroll manager with new debug statements
+- improve: more reliable and better archive handling
+- improve: show more detailed error image on failure
+- improve: figure out maximum texture size and ensure panoramas fall within limit
+- improve: zoom/scale handling for all thumbnails (filedialog and bar)
+- improve: extend and improve libsai image plugin
+- improve: when calculating string widths use proper font metrics
+- improve: when requesting a folder in the file dialog that does not exist, show proper error message
+- improve: address all issues and most warnings identified by qmllint
+- improve: address clazy recommendations
+- improve: replace deprecated Qca with direct calls to OpenSSL
+- improve: hide footer in integrated UI when status info disabled
+- hide footer and menu bar when window put into fullscreen
+- fix: execution with Qt 6.4/6.5
+- fix/improve: jpeg2000 when using openjasper does not like multi-threading (would crash)
+- fix: the headers in the favorites column of the file dialog should never be highlighted
+- fix: proper exception handling with ffmpegthumbnailer API
+- fix: runtime localization change
+- fix: certain configuration combinations might not show all thumbnails in thumbnail bar
+- fix: height of menu items when hidden/shown at runtime
+- fix: zooming to cursor position with sidebar on the left
+- fix: proper smoothing of scaled down images
+- fix: very small zoom speeds can cause zoom to get stuck
+- fix: entering specific zoom level did not work
+- fix: special actions are only considered when such an item is actually visible
+- fix: image caching with associated color profile information
+- fix: handling of address text editing in file dialog
+- fix: only ever allow checking one option in the thubmnail bar settings context menu for image option
+- fix: faulty thumbnail image in tooltip in file browser
+- fix: Windows: don't lock file by properly releasing property store after use
+
 Release 5.3 - 2026-05-11
 ----------------------------
 - add: new photo sphere renderer
