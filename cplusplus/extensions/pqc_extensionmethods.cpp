@@ -58,7 +58,7 @@ PQCExtensionMethods::PQCExtensionMethods(QObject *parent) : QObject(parent) {
 #if __cplusplus >= 202002L
     connect(m_writeImageFutureWatcher, &QFutureWatcher<bool>::finished, this, [=, this]() {
 #else
-    connect(m_futureWatcher, &QFutureWatcher<bool>::finished, this, [=]() {
+    connect(m_writeImageFutureWatcher, &QFutureWatcher<bool>::finished, this, [=]() {
 #endif
         const bool result = m_writeImageFutureWatcher->result();
         Q_EMIT writeImageSuccess(result);
