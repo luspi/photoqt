@@ -573,7 +573,7 @@
         <file>filetypes/network_tar.lzma.svg</file>
         <file>filetypes/network_tar.lzo.svg</file>
         <file>filetypes/network_tar.xz.svg</file>
-        <file>filetypes/network_tar.Z.svg</file>
+        <file>filetypes/network_tar.z.svg</file>
         <file>filetypes/network_tar.zst.svg</file>
         <file>filetypes/network_taz.svg</file>
         <file>filetypes/network_tb2.svg</file>
@@ -592,7 +592,7 @@
         <file>filetypes/tar.lzma.svg</file>
         <file>filetypes/tar.lzo.svg</file>
         <file>filetypes/tar.xz.svg</file>
-        <file>filetypes/tar.Z.svg</file>
+        <file>filetypes/tar.z.svg</file>
         <file>filetypes/tar.zst.svg</file>
         <file>filetypes/taz.svg</file>
         <file>filetypes/tb2.svg</file>
