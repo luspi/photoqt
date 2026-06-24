@@ -24,6 +24,7 @@
 #include <QObject>
 #include <QQmlEngine>
 #include <QRect>
+#include <QFutureWatcher>
 
 class PQCExtensionMethods : public QObject {
 
@@ -33,6 +34,7 @@ class PQCExtensionMethods : public QObject {
 
 public:
     PQCExtensionMethods(QObject *parent = 0);
+    ~PQCExtensionMethods();
 
     // request that one of the custom cpp actions is implemented
     Q_INVOKABLE QVariant callAction(const QString &id, QVariant additional = QVariant());
@@ -73,10 +75,13 @@ public:
     // get all mimetypes for any given format
     Q_INVOKABLE const QStringList getMimetypesForFormat(const int format);
 
+    // get description of format
+    Q_INVOKABLE const QString getDescriptionOfFormat(const int format);
+
     /**********/
 
     // get the format of any given file (if known)
-    Q_INVOKABLE const QString getFormatOfFile(const QString file);
+    Q_INVOKABLE const int getFormatOfFile(const QString file);
 
     // compose the image provider string to take advantage of PhotoQt's image engine for showing images/thumbs
     Q_INVOKABLE QString path2ImageProvider(QString path, bool thumb = false);
@@ -85,7 +90,9 @@ public:
     Q_INVOKABLE QSize getSizeOfImage(const QString file);
 
     // take a source image and write it to a target with optional clipping/cropping/resizing
-    Q_INVOKABLE bool writeImage(const QString sourceFile, const QString targetFile, const QRect sourceRect = QRect(), const QSize targetSize = QSize());
+    Q_INVOKABLE bool writeImage(const QString sourceFile, const QString targetFile, const QRect sourceRect = QRect(), const QSize targetSize = QSize(), const bool async = false);
+    Q_INVOKABLE bool writeImage(const QString sourceFile, const QString targetFile, bool async);
+    static bool _writeImage(const QString sourceFile, const QString targetFile, const QRect sourceRect, const QSize targetSize, const bool async);
 
     /**********/
 
@@ -105,6 +112,9 @@ public:
     // no-op to ensure this class is setup
     Q_INVOKABLE void setup() {}
 
+private:
+    QFutureWatcher<bool>* m_writeImageFutureWatcher;
+
 Q_SIGNALS:
     // communicate between two currently active extensions
     Q_INVOKABLE void communicateBetweenExtensions(const QString &fromId, const QString &toId, QVariant arguments);
@@ -120,5 +130,7 @@ Q_SIGNALS:
     // When a shortcut happened while a modal extension is visible
     void receivedShortcut(QString combo);
     void receivedMessage(const QString id, QVariant val);
+
+    void writeImageSuccess(bool success);
 
 };

@@ -499,5 +499,34 @@ const QImage PQCImagePluginMagick::loadImage(QString path, QSize requestedSize, 
 }
 
 const bool PQCImagePluginMagick::writeImage(QImage img, QString targetPath) {
+
+#if defined(PQMIMAGEMAGICK) || defined(PQMGRAPHICSMAGICK)
+
+    const int targetFormat = getFormat(QFileInfo(targetPath).suffix());
+
+    if(!getWritableFormats().contains(targetFormat)) {
+        qDebug() << "Magick plugin does not support writing this format";
+        return false;
+    }
+
+    qDebug() << "Attempting to write image with Magick plugin";
+
+    try {
+
+        QImage src = img.convertToFormat(QImage::Format_RGBA8888);
+        Magick::Image magick(src.width(), src.height(), "RGBA", Magick::CharPixel, src.constBits());
+
+        QFileInfo info(targetPath);
+        const QString suf = info.suffix();
+
+        magick.magick(m_suffix2magick.value(suf.toLower(), suf.toUpper()).toStdString());
+        magick.write(targetPath.toStdString());
+
+        return true;
+
+    } catch(Magick::Exception &) { }
+
+#endif
+
     return false;
 }

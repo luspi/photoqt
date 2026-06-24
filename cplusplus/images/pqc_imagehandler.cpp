@@ -479,6 +479,16 @@ int PQCImageHandler::getFormatIdFromName(QString name) {
     return m_desc2id.value(name, -1);
 }
 
+int PQCImageHandler::getFormatOfFile(QString file) {
+    const QString suffix = QFileInfo(file).suffix().toLower();
+    for(PQCImagePlugin *plugin : std::as_const(m_plugins)) {
+        const int id = plugin->getFormat(suffix);
+        if(id != -1)
+            return id;
+    }
+    return -1;
+}
+
 QStringList PQCImageHandler::getPluginNames() {
     QStringList ret;
     for(const QString &plugin: std::as_const(m_pluginOrderForSettings))
