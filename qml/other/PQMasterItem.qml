@@ -231,42 +231,7 @@ Loader {
             target: masteritemloader
 
             function onShowExtension(ele : string) {
-
-                console.log("args: ele =", ele)
-
-                var ind = PQCExtensionsHandler.getExtensions().indexOf(ele)
-                if(ind === -1) {
-                    console.warn("Unknown extension requested:", ele)
-                    return
-                }
-
-                if(PQCExtensionsHandler.getExtensionModal(ele)) {
-                    if(PQCConstants.isModalOpen)
-                        return
-                }
-
-                loader_extensions.itemAt(ind).active = true
-
-                // modal elements need to be shown on top, above things like mainmenu or metadata
-                // The value should be high but lower than that of the window buttons that are shown on top (currently set to 999)
-                if(PQCExtensionsHandler.getExtensionModal(ele))
-                    loader_extensions.itemAt(ind).z = 888
-
-                if(!loader_extensions.itemAt(ind).item) {
-                    if(showExtensionWhenReady.args.length == 0) {
-                        showExtensionWhenReady.theloader = loader_extensions.itemAt(ind)
-                        showExtensionWhenReady.args = [ele]
-                        showExtensionWhenReady.start()
-                    } else if(showExtensionWhenReady2.args.length == 0) {
-                        showExtensionWhenReady2.theloader = loader_extensions.itemAt(ind)
-                        showExtensionWhenReady2.args = [ele]
-                        showExtensionWhenReady2.start()
-                    } else
-                        console.error("Unable to set up extension, too few timers available.")
-                } else {
-                    PQCNotify.loaderPassOn("show", [ele])
-                }
-
+                masteritem.doShowExtension(ele)
             }
 
         }
@@ -283,7 +248,46 @@ Loader {
             }
 
             function onLoaderShowExtension(ele : string) {
-                PQCNotify.loaderShow(ele)
+                masteritem.doShowExtension(ele)
+            }
+
+        }
+
+        function doShowExtension(ele : string) {
+
+            console.log("args: ele =", ele)
+
+            var ind = PQCExtensionsHandler.getExtensions().indexOf(ele)
+            if(ind === -1) {
+                console.warn("Unknown extension requested:", ele)
+                return
+            }
+
+            if(PQCExtensionsHandler.getExtensionModal(ele)) {
+                if(PQCConstants.isModalOpen)
+                    return
+            }
+
+            loader_extensions.itemAt(ind).active = true
+
+            // modal elements need to be shown on top, above things like mainmenu or metadata
+            // The value should be high but lower than that of the window buttons that are shown on top (currently set to 999)
+            if(PQCExtensionsHandler.getExtensionModal(ele))
+                loader_extensions.itemAt(ind).z = 888
+
+            if(!loader_extensions.itemAt(ind).item) {
+                if(showExtensionWhenReady.args.length == 0) {
+                    showExtensionWhenReady.theloader = loader_extensions.itemAt(ind)
+                    showExtensionWhenReady.args = [ele]
+                    showExtensionWhenReady.start()
+                } else if(showExtensionWhenReady2.args.length == 0) {
+                    showExtensionWhenReady2.theloader = loader_extensions.itemAt(ind)
+                    showExtensionWhenReady2.args = [ele]
+                    showExtensionWhenReady2.start()
+                } else
+                    console.error("Unable to set up extension, too few timers available.")
+            } else {
+                PQCNotify.loaderPassOn("show", [ele])
             }
 
         }
