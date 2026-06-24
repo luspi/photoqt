@@ -49,7 +49,7 @@ appimage:
     - cd photoqt-extensions/scripts
     - python update_localizations.py --ext-dir .. --lrelease /usr/lib/qt6/bin/lrelease
     - cd ../build
-    - cmake .. -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=/usr -DWITH_GRAPHICSMAGICK=OFF -DWITH_IMAGEMAGICK=ON
+    - cmake .. -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=/usr
     - make DESTDIR=../../photoqt/appdir -j$(nproc) install
     - cd ../../photoqt # build and install PhotoQt
     - export QT_SELECT=qt6
@@ -115,7 +115,7 @@ releaseappimage:
     - cd photoqt-extensions/scripts
     - python update_localizations.py --ext-dir .. --lrelease /usr/lib/qt6/bin/lrelease
     - cd ../build
-    - cmake .. -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=/usr -DWITH_GRAPHICSMAGICK=OFF -DWITH_IMAGEMAGICK=ON
+    - cmake .. -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=/usr
     - make DESTDIR=../../photoqt/appdir -j$(nproc) install
     - cd ../scripts
     - echo "$PRIV_KEY" | base64 -d > private.key
