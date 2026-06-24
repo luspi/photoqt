@@ -108,6 +108,16 @@ public:
 
     void readDB() {
 
+        if(!QFile::exists(PQCConfigFiles::get().USERSETTINGS_DB())) {
+            qDebug() << "settings database does not exist yet, checking again in one moment...";
+#if __cplusplus >= 202002L
+            QTimer::singleShot(50, this, [=, this]() { readDB(); });
+#else
+            QTimer::singleShot(50, this, [=]() { readDB(); });
+#endif
+            return;
+        }
+
         QSqlDatabase db = QSqlDatabase::database("settings");
 
         if(!db.open()) {

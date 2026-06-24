@@ -354,8 +354,12 @@ const bool PQCImagePluginQt::writeImage(QImage img, QString targetPath) {
 
     QImageWriter writer(targetPath);
 
-    if(!writer.canWrite())
+    if(!writer.canWrite()) {
+        qDebug() << "Qt plugin cannot write this format:" << targetPath;
         return false;
+    }
+
+    qDebug() << "Attempting to write image with Qt plugin";
 
     return writer.write(img);
 

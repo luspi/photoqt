@@ -30,7 +30,7 @@ appimage:
     - wget -qO - http://archive.neon.kde.org/public.key | apt-key add -
     - apt-get update -qq && apt-get -y upgrade
     - apt-get -y install qt6-base-dev qt6-positioning-dev qt6-image-formats-plugins qt6-image-formats-plugin-pdf libqt6svg6-dev libqt6chartsqml6 qml6-module-qt-labs-platform qml6-module-qtcharts qml6-module-qtcore qml6-module-qtmultimedia qml6-module-qtpositioning qml6-module-qtqml qml6-module-qtquick-controls qml6-module-qtquick-layouts qml6-module-qtquick-window qt6-multimedia-dev qml6-module-qtqml-workerscript qml6-module-qtquick-templates qml6-module-qtquick-dialogs qt6-tools-dev qt6-l10n-tools qt6-tools-dev-tools qt6-pdf-dev qml6-module-qtlocation qt6-l10n-tools qml-module-org-kde-qqc2breezestyle
-    - apt-get -y install libarchive-dev libraw-dev libfreeimage-dev libfreeimageplus-dev libdevil-dev libpugixml-dev gstreamer1.0-tools libexiv2-dev libmpv-dev python-is-python3 python3-pychromecast python3-requests libffmpegthumbnailer-dev gstreamer1.0-libav libopenh264-6 libzxingcore-dev libdjvulibre-dev libheif-dev libjxl-dev liblqr-1-0-dev libopenexr-dev libopenjp2-7-dev libraqm-dev libwebp-dev libxml2-dev libzip-dev libbz2-dev libgraphviz-dev libyaml-cpp-dev libqca-qt6-2-dev libwayland-dev libwmf-dev librsvg2-dev libfftw3-dev python3-git python3-ruamel.yaml
+    - apt-get -y install libarchive-dev libraw-dev libfreeimage-dev libfreeimageplus-dev libdevil-dev libpugixml-dev gstreamer1.0-tools libexiv2-dev libmpv-dev python-is-python3 python3-pychromecast python3-requests libffmpegthumbnailer-dev gstreamer1.0-libav libopenh264-6 libzxingcore-dev libdjvulibre-dev libheif-dev libjxl-dev liblqr-1-0-dev libopenexr-dev libopenjp2-7-dev libraqm-dev libwebp-dev libxml2-dev libzip-dev libbz2-dev libgraphviz-dev libyaml-cpp-dev libwayland-dev libwmf-dev librsvg2-dev libfftw3-dev python3-git python3-ruamel.yaml
     - cd ..
     - git clone https://github.com/ImageMagick/ImageMagick  # Install up-to-date ImageMagick
     - cd ImageMagick
@@ -49,7 +49,7 @@ appimage:
     - cd photoqt-extensions/scripts
     - python update_localizations.py --ext-dir .. --lrelease /usr/lib/qt6/bin/lrelease
     - cd ../build
-    - cmake .. -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=/usr -DWITH_GRAPHICSMAGICK=OFF -DWITH_IMAGEMAGICK=ON
+    - cmake .. -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=/usr
     - make DESTDIR=../../photoqt/appdir -j$(nproc) install
     - cd ../../photoqt # build and install PhotoQt
     - export QT_SELECT=qt6
@@ -70,7 +70,6 @@ appimage:
     - export EXTRA_PLATFORM_PLUGINS=libqwayland-generic.so
     - export EXTRA_QT_MODULES="waylandcompositor;svg"
     - LD_LIBRARY_PATH=appdir/usr/lib QML_SOURCES_PATHS=./qml ./squashfs-root/AppRun --appdir ./appdir/ --plugin=qt --output appimage
-    - cp -r /usr/lib/x86_64-linux-gnu/qca-qt6/crypto/ ./appdir/usr/plugins/   # This makes QCA plugins available
     - cp -r /usr/lib/x86_64-linux-gnu/qt6/qml/QtCharts/ ./appdir/usr/qml/   # This makes sure that QtCharts is available
     - mkdir -p ./appdir/usr/qml/org/kde
     - cp -r /usr/lib/x86_64-linux-gnu/qt6/qml/org/kde/breeze ./appdir/usr/qml/org/kde
@@ -96,7 +95,7 @@ releaseappimage:
     - wget -qO - http://archive.neon.kde.org/public.key | apt-key add -
     - apt-get update -qq && apt-get -y upgrade
     - apt-get -y install qt6-base-dev qt6-positioning-dev qt6-image-formats-plugins qt6-image-formats-plugin-pdf libqt6svg6-dev libqt6chartsqml6 qml6-module-qt-labs-platform qml6-module-qtcharts qml6-module-qtcore qml6-module-qtmultimedia qml6-module-qtpositioning qml6-module-qtqml qml6-module-qtquick-controls qml6-module-qtquick-layouts qml6-module-qtquick-window qt6-multimedia-dev qml6-module-qtqml-workerscript qml6-module-qtquick-templates qml6-module-qtquick-dialogs qt6-tools-dev qt6-l10n-tools qt6-tools-dev-tools qt6-pdf-dev qml6-module-qtlocation qt6-l10n-tools qml-module-org-kde-qqc2breezestyle
-    - apt-get -y install libarchive-dev libraw-dev libfreeimage-dev libfreeimageplus-dev libdevil-dev libpugixml-dev gstreamer1.0-tools libexiv2-dev libmpv-dev python-is-python3 python3-pychromecast python3-requests libffmpegthumbnailer-dev gstreamer1.0-libav libopenh264-6 libzxingcore-dev libdjvulibre-dev libheif-dev libjxl-dev liblqr-1-0-dev libopenexr-dev libopenjp2-7-dev libraqm-dev libwebp-dev libxml2-dev libzip-dev libbz2-dev libgraphviz-dev libyaml-cpp-dev libqca-qt6-2-dev libwayland-dev libwmf-dev librsvg2-dev libfftw3-dev python3-git python3-ruamel.yaml
+    - apt-get -y install libarchive-dev libraw-dev libfreeimage-dev libfreeimageplus-dev libdevil-dev libpugixml-dev gstreamer1.0-tools libexiv2-dev libmpv-dev python-is-python3 python3-pychromecast python3-requests libffmpegthumbnailer-dev gstreamer1.0-libav libopenh264-6 libzxingcore-dev libdjvulibre-dev libheif-dev libjxl-dev liblqr-1-0-dev libopenexr-dev libopenjp2-7-dev libraqm-dev libwebp-dev libxml2-dev libzip-dev libbz2-dev libgraphviz-dev libyaml-cpp-dev libwayland-dev libwmf-dev librsvg2-dev libfftw3-dev python3-git python3-ruamel.yaml
     - cd ..
     - git clone https://github.com/ImageMagick/ImageMagick  # Install up-to-date ImageMagick
     - cd ImageMagick
@@ -112,15 +111,9 @@ releaseappimage:
     - cd ../..
     - git clone https://gitlab.com/lspies/photoqt-extensions    # Install extensions
     - mkdir -p photoqt-extensions/build
-    - cd photoqt-extensions/scripts
-    - python update_localizations.py --ext-dir .. --lrelease /usr/lib/qt6/bin/lrelease
-    - cd ../build
-    - cmake .. -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=/usr -DWITH_GRAPHICSMAGICK=OFF -DWITH_IMAGEMAGICK=ON
+    - cd photoqt-extensions/build
+    - cmake .. -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=/usr
     - make DESTDIR=../../photoqt/appdir -j$(nproc) install
-    - cd ../scripts
-    - echo "$PRIV_KEY" | base64 -d > private.key
-    - python generate_verification.py --private-key private.key --ext-dir ../../photoqt/appdir/usr/lib/x86_64-linux-gnu/PhotoQt/extensions
-    - rm private.key
     - cd ../../photoqt # build and install PhotoQt
     - export QT_SELECT=qt6
     - mkdir -p build && cd build/
@@ -137,7 +130,6 @@ releaseappimage:
     - export EXTRA_PLATFORM_PLUGINS=libqwayland-generic.so
     - export EXTRA_QT_MODULES="waylandcompositor;svg"
     - LD_LIBRARY_PATH=appdir/usr/lib QML_SOURCES_PATHS=./qml ./squashfs-root/AppRun --appdir ./appdir/ --plugin=qt --output appimage
-    - cp -r /usr/lib/x86_64-linux-gnu/qca-qt6/crypto/ ./appdir/usr/plugins/   # This makes QCA plugins available
     - cp -r /usr/lib/x86_64-linux-gnu/qt6/qml/QtCharts/ ./appdir/usr/qml/   # This makes sure that QtCharts is available
     - mkdir -p ./appdir/usr/qml/org/kde
     - cp -r /usr/lib/x86_64-linux-gnu/qt6/qml/org/kde/breeze ./appdir/usr/qml/org/kde

@@ -54,17 +54,13 @@ void PQTScriptsFilesPaths::init() {
     dir.mkpath(PQCConfigFiles::get().CACHE_DIR());
     dir.mkpath(QDir::tempPath() + "/photoqt_test");
 
-    QFile::copy(":/imageformats.db", PQCConfigFiles::get().IMAGEFORMATS_DB());
     QFile::copy(":/defaultsettings.db", PQCConfigFiles::get().DEFAULTSETTINGS_DB());
     QFile::copy(":/usersettings.db", PQCConfigFiles::get().USERSETTINGS_DB());
     QFile::copy(":/location.db", PQCConfigFiles::get().LOCATION_DB());
     QFile::copy(":/contextmenu.db", PQCConfigFiles::get().CONTEXTMENU_DB());
     QFile::copy(":/shortcuts.db", PQCConfigFiles::get().SHORTCUTS_DB());
 
-    QFile file(PQCConfigFiles::get().IMAGEFORMATS_DB());
-    file.setPermissions(file.permissions()|QFileDevice::WriteOwner);
-
-    file.setFileName(PQCConfigFiles::get().DEFAULTSETTINGS_DB());
+    QFile file(PQCConfigFiles::get().DEFAULTSETTINGS_DB());
     file.setPermissions(file.permissions()|QFileDevice::WriteOwner);
 
     file.setFileName(PQCConfigFiles::get().USERSETTINGS_DB());
@@ -85,7 +81,6 @@ void PQTScriptsFilesPaths::init() {
 
 void PQTScriptsFilesPaths::cleanup() {
 
-    QFile::remove(PQCConfigFiles::get().IMAGEFORMATS_DB());
     QFile::remove(PQCConfigFiles::get().DEFAULTSETTINGS_DB());
     QFile::remove(PQCConfigFiles::get().USERSETTINGS_DB());
     QFile::remove(PQCConfigFiles::get().LOCATION_DB());

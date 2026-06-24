@@ -86,6 +86,7 @@ public:
     QString getFormatName(int format);
     QString getFormatName(QString file);
     int getFormatIdFromName(QString name);
+    int getFormatOfFile(QString file);
 
     QStringList getPluginNames();
 

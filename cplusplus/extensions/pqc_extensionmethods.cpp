@@ -28,6 +28,7 @@
 #include <pqc_imagehandler.h>
 #include <QImage>
 #include <QFileDialog>
+#include <QtConcurrent/QtConcurrentRun>
 
 #ifdef PQMEXIV2
 #include <exiv2/exiv2.hpp>
@@ -52,6 +53,21 @@ PQCExtensionMethods::PQCExtensionMethods(QObject *parent) : QObject(parent) {
         Q_EMIT receivedShortcut(combo);
     });
 
+    m_writeImageFutureWatcher = new QFutureWatcher<bool>(this);
+
+#if __cplusplus >= 202002L
+    connect(m_writeImageFutureWatcher, &QFutureWatcher<bool>::finished, this, [=, this]() {
+#else
+    connect(m_writeImageFutureWatcher, &QFutureWatcher<bool>::finished, this, [=]() {
+#endif
+        const bool result = m_writeImageFutureWatcher->result();
+        Q_EMIT writeImageSuccess(result);
+    });
+
+}
+
+PQCExtensionMethods::~PQCExtensionMethods() {
+    m_writeImageFutureWatcher->deleteLater();
 }
 
 QVariant PQCExtensionMethods::callAction(const QString &id, QVariant additional) {
@@ -115,8 +131,12 @@ const QStringList PQCExtensionMethods::getMimetypesForFormat(const int format) {
     return PQCImageHandler::get().getAllMimetypesForFormat(format);
 }
 
-const QString PQCExtensionMethods::getFormatOfFile(const QString file) {
-    return PQCImageHandler::get().getFormatName(file);
+const QString PQCExtensionMethods::getDescriptionOfFormat(const int format) {
+    return PQCImageHandler::get().getFormatName(format);
+}
+
+const int PQCExtensionMethods::getFormatOfFile(const QString file) {
+    return PQCImageHandler::get().getFormatOfFile(file);
 }
 
 QString PQCExtensionMethods::path2ImageProvider(QString path, bool thumb) {
@@ -141,7 +161,37 @@ QSize PQCExtensionMethods::getSizeOfImage(const QString file) {
     return PQCImageHandler::get().getSize(file);
 }
 
-bool PQCExtensionMethods::writeImage(const QString sourceFile, const QString targetFile, const QRect sourceRect, const QSize targetSize) {
+bool PQCExtensionMethods::writeImage(const QString sourceFile, const QString targetFile, const QRect sourceRect, const QSize targetSize, const bool async) {
+
+    if(!async) {
+        return _writeImage(sourceFile, targetFile, sourceRect, targetSize, async);
+    } else {
+        m_writeImageFutureWatcher->setFuture(QtConcurrent::run([=]() {
+            return _writeImage(sourceFile, targetFile, sourceRect, targetSize, async);
+        }));
+
+    }
+
+    return true;
+
+}
+
+bool PQCExtensionMethods::writeImage(const QString sourceFile, const QString targetFile, const bool async) {
+
+    if(!async) {
+        return _writeImage(sourceFile, targetFile, QRect(), QSize(), async);
+    } else {
+        m_writeImageFutureWatcher->setFuture(QtConcurrent::run([=]() {
+            return _writeImage(sourceFile, targetFile, QRect(), QSize(), async);
+        }));
+
+    }
+
+    return true;
+
+}
+
+bool PQCExtensionMethods::_writeImage(const QString sourceFile, const QString targetFile, const QRect sourceRect, const QSize targetSize, const bool async) {
 
 #ifdef PQMEXIV2
 
@@ -196,10 +246,14 @@ bool PQCExtensionMethods::writeImage(const QString sourceFile, const QString tar
     // if both source rect and target size are empty then it is a simple conversion
     if(sourceRect.isEmpty() && targetSize.isEmpty()) {
 
+        qDebug() << "write image only";
+
         img = PQCImageHandler::get().getImage(sourceFile, QSize(), origSize, err);
 
     // if only a source rect is specified, then we extract and save the extracted image as is
     } else if(targetSize.isEmpty()) {
+
+        qDebug() << "write subrect of image";
 
         img = PQCImageHandler::get().getImage(sourceFile, QSize(), origSize, err)
                   .copy(sourceRect);
@@ -207,24 +261,33 @@ bool PQCExtensionMethods::writeImage(const QString sourceFile, const QString tar
     // if only a target size is specified, simply resize the image and save it
     } else if(sourceRect.isEmpty()) {
 
+        qDebug() << "write image with new size";
+
         img = PQCImageHandler::get().getImage(sourceFile, QSize(), origSize, err)
                   .scaled(targetSize, Qt::IgnoreAspectRatio, Qt::SmoothTransformation);
 
     // if both are specified, then extract a rectangle and store it at the specified size
     } else {
+
+        qDebug() << "write subrect of image with new size";
+
         img = PQCImageHandler::get().getImage(sourceFile, QSize(), origSize, err)
                   .copy(sourceRect)
                   .scaled(targetSize, Qt::IgnoreAspectRatio, Qt::SmoothTransformation);
     }
 
     // failed :/
-    if(img.isNull())
+    if(img.isNull()) {
+        qWarning() << "FAILED to load image, null image";
         return false;
+    }
 
     // write image if possible
     bool ret = PQCImageHandler::get().writeImage(img, targetFile);
-    if(!ret)
+    if(!ret) {
+        qWarning() << "FAILED to write image";
         return false;
+    }
 
 #ifdef PQMEXIV2
 

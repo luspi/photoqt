@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!-- Created with Inkscape (http://www.inkscape.org/) -->
-<svg width="4e3" height="4e3" version="1.1" viewBox="0 0 1058.3 1058.3" xmlns="http://www.w3.org/2000/svg">
- <g transform="matrix(1.1128 0 0 1.1128 -59.706 -59.706)">
-  <rect x="53.654" y="53.654" width="951.03" height="951.03" rx="0" ry="0" fill="#662f65" stroke="#662f65" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="0" stroke-width="107.31" style="paint-order:stroke fill markers"/>
-  <text x="378.4613" y="827.80219" fill="#000000" font-family="sans-serif" font-size="167.57px" stroke-width=".26458" style="line-height:1.25" xml:space="preserve"><tspan x="378.4613" y="827.80219" fill="#ffffff" font-family="'DejaVu Sans Mono'" font-size="167.57px" font-weight="bold" stroke-width=".26458">TAZ</tspan></text>
-  <path d="m540.45 439.06v-22.558h22.558v-22.558h-22.558v-22.558h22.558v-22.558h-22.558v-22.558h22.558v-22.558h-22.558v-22.558h22.558v-22.558h-22.558v-22.558h-22.558v22.558h-22.558v22.558h22.558v22.558h-22.558v22.558h22.558v22.558h-22.558v22.558h22.558v22.558h-22.558v22.558h22.558v22.558h-45.117v56.396c0 31.096 25.299 56.395 56.396 56.395s56.396-25.299 56.396-56.395v-56.396zm22.558 56.396c0 18.656-15.182 33.837-33.837 33.837-18.656 0-33.837-15.182-33.837-33.837v-33.837h67.675z" fill="#fff" stroke-width="11.279"/>
- </g>
-</svg>
