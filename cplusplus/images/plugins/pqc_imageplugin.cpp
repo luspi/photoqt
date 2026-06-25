@@ -82,7 +82,7 @@ void PQCImagePlugin::setData(const QHash<int, QList<QStringList > > dat, const Q
 void PQCImagePlugin::setWritableFormats(const QSet<int> formats)  {
     m_writableIds = formats;
     for(const int &f : formats) {
-        const QList<QStringList > cur = m_id2data.value(f);
+        const QList<QStringList > cur = m_id2data.value(f, {{}, {}});
         for(const QString &s : cur[1])
             m_writableSuffixes.insert(s);
     }
