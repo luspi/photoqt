@@ -303,10 +303,8 @@ PQCImagePluginMagick::PQCImagePluginMagick() {
                 Magick::CoderInfo magickCoderInfo(m_suffix2magick.value(s, s.toUpper()).toStdString());
                 if(magickCoderInfo.isReadable() && !finalS.contains(s))
                     finalS.append(s);
-                if(!canWrite && magickCoderInfo.isWritable()) {
+                if(!canWrite && magickCoderInfo.isWritable())
                     canWrite = true;
-                    break;
-                }
             } catch(...) {
                 // do nothing here
             }
