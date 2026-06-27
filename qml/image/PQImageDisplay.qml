@@ -1412,7 +1412,12 @@ Loader {
                             } else if(loader_top.photoSphereManuallyEntered ||
                                       (PQCSettings.filetypesPhotoSphereAutoLoad && PQCScriptsImages.isPhotoSphere(imageloaderitem.imageSource))) {
                                 loader_top.thisIsAPhotoSphere = true
-                                image_loader_sph.active = true
+                                // we wait to activate a sphere UNTIL the texture limit has been detected
+                                // if this functionality is not enabled, then the texture limit is set to 0 and this check is skipped
+                                if(PQCScriptsImages.getMaxTextureLimit() < 0)
+                                    photosphereWaitForTextureLimit.restart()
+                                else
+                                    image_loader_sph.active = true
                             } else {
                                 loader_top.thisIsAPhotoSphere = PQCScriptsImages.isPhotoSphere(imageloaderitem.imageSource)
                                 image_loader_img.active = true
@@ -1422,6 +1427,18 @@ Loader {
 
                         }
 
+                    }
+
+                    Timer {
+                        id: photosphereWaitForTextureLimit
+                        interval: 10
+                        onTriggered: {
+                            if(PQCScriptsImages.getMaxTextureLimit() < 0) {
+                                photosphereWaitForTextureLimit.restart()
+                                return
+                            }
+                            image_loader_sph.active = true
+                        }
                     }
 
                     PQBarCodes {

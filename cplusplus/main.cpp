@@ -294,6 +294,66 @@ int main(int argc, char **argv) {
 
     QObject::connect(&engine, &QQmlApplicationEngine::objectCreationFailed, &app, []() { QApplication::exit(-1); }, Qt::QueuedConnection);
 
+#ifdef PQMPHOTOSPHEREQRHI
+    // The max texture limit is read from the Rhi class (available in GuiPrivate)
+    // this needs to be done in two nested steps:
+    // 1) wait until the qml application engine has been created -> have access to window
+    // 2) wait until scene graph of said window has been initialized
+    // once the second condition is met the limit can be read.
+    QObject::connect(&engine, &QQmlApplicationEngine::objectCreated, &app, [&app, &engine]() {
+
+        // no root objects -> something went wrong!
+        if(engine.rootObjects().isEmpty()) {
+            qWarning() << "no root object found";
+            PQCScriptsImages::get().setMaxTextureLimit(0);
+            return;
+        }
+
+        // find the top level window
+        QQuickWindow *window = nullptr;
+        const QList<QObject*> lst = engine.rootObjects();
+        for(QObject *obj : lst) {
+            window = qobject_cast<QQuickWindow *>(obj);
+            if(window) break;
+        }
+
+        // no window found -> something went wrong!
+        if(!window) {
+            qWarning() << "no window found";
+            PQCScriptsImages::get().setMaxTextureLimit(0);
+            return;
+        }
+
+        // wait until the scene graph has been initialized
+        QObject::connect(window, &QQuickWindow::sceneGraphInitialized, &app, [window]() {
+
+            // get renderer interface
+            auto *rif = window->rendererInterface();
+            if(!rif) {
+                qWarning() << "invalid renderer interface";
+                PQCScriptsImages::get().setMaxTextureLimit(0);
+                return;
+            }
+
+            // get rhi resource
+            void *ptr = rif->getResource(window, QSGRendererInterface::RhiResource);
+            auto *rhi = static_cast<QRhi *>(ptr);
+            if(!rhi) {
+                qWarning() << "invalid rhi resource";
+                PQCScriptsImages::get().setMaxTextureLimit(0);
+                return;
+            }
+
+            // read out texture max size limit
+            const int limit = rhi->resourceLimit(QRhi::TextureSizeMax);
+            qDebug() << "setting maximum texture limit to" << limit;
+            PQCScriptsImages::get().setMaxTextureLimit(limit);
+
+        }, Qt::DirectConnection);
+
+    }, Qt::QueuedConnection);
+#endif
+
     engine.addImageProvider("icon", new PQCProviderIcon);
     engine.addImageProvider("theme", new PQCProviderTheme);
     engine.addImageProvider("thumb", new PQCAsyncImageProviderThumb);
@@ -318,20 +378,6 @@ int main(int argc, char **argv) {
 #endif
 
     PQCScriptsLocalization::get().setQmlEngine(&engine);
-
-#ifdef PQMPHOTOSPHEREQRHI
-    QTimer::singleShot(1000, nullptr, [&](){
-        const QList<QObject *> objects = engine.rootObjects();
-        if(!objects.length()) return;
-        auto *window = qobject_cast<QQuickWindow *>(objects.first());
-        auto *rif = window->rendererInterface();
-        QRhi *rhi = static_cast<QRhi *>(rif->getResource(window, QSGRendererInterface::RhiResource));
-        if(!rhi) return;
-        const int limit = rhi->resourceLimit(QRhi::TextureSizeMax);
-        qDebug() << "Setting maximum texture limit to" << limit;
-        PQCScriptsImages::get().setMaxTextureLimit(limit);
-    });
-#endif
 
     int currentExitCode = app.exec();
 
