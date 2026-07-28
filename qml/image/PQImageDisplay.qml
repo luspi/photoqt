@@ -34,9 +34,6 @@ Loader {
     property bool imageFullyShown: false
     property string imageSource: ""
 
-    property var rememberChanges: ({})
-    property list<var> reuseChanges: []
-
     property bool thisIsStartupFile: false
 
     // these are read-only passed on
@@ -47,9 +44,6 @@ Loader {
     signal iAmReady()
     signal reloadMinimap()
     signal kenBurnsStopAni()
-    signal tellAboutRememberChanged(var changes)
-    signal deleteRememberChanges()
-    signal tellAboutReuseChanged(var changes)
 
     onImageSourceChanged: {
         imageLoadedAndReady = false
@@ -1539,7 +1533,7 @@ Loader {
 
                                 resetDefaults.resetScale()
 
-                                if(!PQCSettings.imageviewRememberZoomRotationMirror || !(imageloaderitem.imageSource in imageloaderitem.rememberChanges)) {
+                                if(!PQCSettings.imageviewRememberZoomRotationMirror || !(imageloaderitem.imageSource in PQCConstants.cacheCurrentViewPosScaleMirrorPerImage)) {
                                     if(!PQCSettings.imageviewPreserveZoom && !PQCSettings.imageviewPreserveRotation)
                                         loader_top.rotationZoomResetWithoutAnimation()
                                     else {
@@ -1930,15 +1924,15 @@ Loader {
                             if(PQCConstants.showingPhotoSphere)
                                 return
 
-                            if((PQCSettings.imageviewRememberZoomRotationMirror && (imageloaderitem.imageSource in imageloaderitem.rememberChanges)) ||
+                            if((PQCSettings.imageviewRememberZoomRotationMirror && (imageloaderitem.imageSource in PQCConstants.cacheCurrentViewPosScaleMirrorPerImage)) ||
                                     ((PQCSettings.imageviewPreserveZoom || PQCSettings.imageviewPreserveRotation ||
-                                      PQCSettings.imageviewPreserveMirror) && imageloaderitem.reuseChanges.length > 1)) {
+                                      PQCSettings.imageviewPreserveMirror) && PQCConstants.cacheCurrentViewPosScaleMirrorGlobal.length > 1)) {
 
                                 var vals;
-                                if(PQCSettings.imageviewRememberZoomRotationMirror && (imageloaderitem.imageSource in imageloaderitem.rememberChanges))
-                                    vals = imageloaderitem.rememberChanges[imageloaderitem.imageSource]
+                                if(PQCSettings.imageviewRememberZoomRotationMirror && (imageloaderitem.imageSource in PQCConstants.cacheCurrentViewPosScaleMirrorPerImage))
+                                    vals = PQCConstants.cacheCurrentViewPosScaleMirrorPerImage[imageloaderitem.imageSource]
                                 else
-                                    vals = imageloaderitem.reuseChanges
+                                    vals = PQCConstants.cacheCurrentViewPosScaleMirrorGlobal
 
                                 if(PQCSettings.imageviewRememberZoomRotationMirror || PQCSettings.imageviewPreserveZoom) {
                                     image_wrapper.scale = vals[2]
@@ -1958,7 +1952,7 @@ Loader {
                                 else
                                     image_wrapper.setMirrorHVToImage(false, false)
 
-                                if(!PQCSettings.imageviewAlwaysActualSize || (PQCSettings.imageviewRememberZoomRotationMirror && imageloaderitem.imageSource in imageloaderitem.rememberChanges)) {
+                                if(!PQCSettings.imageviewAlwaysActualSize || (PQCSettings.imageviewRememberZoomRotationMirror && imageloaderitem.imageSource in PQCConstants.cacheCurrentViewPosScaleMirrorPerImage)) {
                                     flickable.contentX = vals[0]
                                     flickable.contentY = vals[1]
                                     flickable.returnToBounds()
@@ -2702,7 +2696,7 @@ Loader {
 
                     loader_top.zoomActualWithoutAnimation()
 
-                    if(!PQCSettings.imageviewRememberZoomRotationMirror || !(imageloaderitem.imageSource in imageloaderitem.rememberChanges)) {
+                    if(!PQCSettings.imageviewRememberZoomRotationMirror || !(imageloaderitem.imageSource in PQCConstants.cacheCurrentViewPosScaleMirrorPerImage)) {
                         if(flickable.contentWidth > flickable.width)
                             flickable.contentX = Qt.binding(function() { return (flickable.contentWidth-flickable.width)/2 })
                         if(flickable.contentHeight > flickable.height)
@@ -2760,12 +2754,12 @@ Loader {
                                     loader_top.imageMirrorH,
                                     loader_top.imageMirrorV]
                         if(PQCSettings.imageviewRememberZoomRotationMirror)
-                            imageloaderitem.tellAboutRememberChanged(vals)
+                            PQCConstants.cacheCurrentViewPosScaleMirrorPerImage[imageSource] = vals
                         if(PQCSettings.imageviewPreserveZoom || PQCSettings.imageviewPreserveRotation || PQCSettings.imageviewPreserveMirror)
-                            imageloaderitem.tellAboutReuseChanged(vals)
+                            PQCConstants.cacheCurrentViewPosScaleMirrorGlobal = vals
                     } else
-                        // don't delete reuseChanges here, we want to keep those
-                        imageloaderitem.deleteRememberChanges()
+                        // don't delete global variant here, we want to keep those
+                        delete PQCConstants.cacheCurrentViewPosScaleMirrorPerImage[imageSource]
 
                 }
 

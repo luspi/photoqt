@@ -119,6 +119,8 @@ public:
         m_currentImageIsAnimated = false;
         m_currentImageIsDocument = false;
         m_currentImageIsArchive = false;
+        m_cacheCurrentViewPosScaleMirrorPerImage = {};
+        m_cacheCurrentViewPosScaleMirrorGlobal = {};
         m_showingPhotoSphere = false;
         m_motionPhotoIsPlaying = false;
         m_animatedImageIsPlaying = false;
@@ -606,6 +608,9 @@ public:
     Q_PROPERTY(bool currentImageIsDocument MEMBER m_currentImageIsDocument NOTIFY currentImageIsDocumentChanged)
     Q_PROPERTY(bool currentImageIsArchive MEMBER m_currentImageIsArchive NOTIFY currentImageIsArchiveChanged)
 
+    Q_PROPERTY(QVariantMap cacheCurrentViewPosScaleMirrorPerImage MEMBER m_cacheCurrentViewPosScaleMirrorPerImage NOTIFY cacheCurrentViewPosScaleMirrorPerImageChanged)
+    Q_PROPERTY(QVariantList cacheCurrentViewPosScaleMirrorGlobal MEMBER m_cacheCurrentViewPosScaleMirrorGlobal NOTIFY cacheCurrentViewPosScaleMirrorGlobalChanged)
+
     Q_PROPERTY(bool showingPhotoSphere MEMBER m_showingPhotoSphere NOTIFY showingPhotoSphereChanged)
     Q_PROPERTY(bool motionPhotoIsPlaying MEMBER m_motionPhotoIsPlaying NOTIFY motionPhotoIsPlayingChanged)
     Q_PROPERTY(bool animatedImageIsPlaying MEMBER m_animatedImageIsPlaying NOTIFY animatedImageIsPlayingChanged)
@@ -781,6 +786,8 @@ private:
     bool m_currentImageIsAnimated;
     bool m_currentImageIsDocument;
     bool m_currentImageIsArchive;
+    QVariantMap m_cacheCurrentViewPosScaleMirrorPerImage;
+    QVariantList m_cacheCurrentViewPosScaleMirrorGlobal;
     bool m_showingPhotoSphere;
     bool m_motionPhotoIsPlaying;
     bool m_animatedImageIsPlaying;
@@ -921,6 +928,8 @@ Q_SIGNALS:
     void currentImageIsAnimatedChanged();
     void currentImageIsDocumentChanged();
     void currentImageIsArchiveChanged();
+    void cacheCurrentViewPosScaleMirrorPerImageChanged();
+    void cacheCurrentViewPosScaleMirrorGlobalChanged();
     void barcodeDisplayedChanged();
     void currentZValueChanged();
     void colorProfileCacheChanged();

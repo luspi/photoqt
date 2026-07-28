@@ -127,9 +127,6 @@ Item {
 
     property point extraControlsLocation: Qt.point(-1,-1)
 
-    property var rememberChanges: ({})
-    property list<var> reuseChanges: []
-
     property int howManyLoaders: 2*PQCSettings.imageviewPreloadInBackground+2
     property int bgOffset: 0
     property list<string> bgFiles: []
@@ -158,21 +155,9 @@ Item {
 
                 required property int modelData
 
-                rememberChanges: image_top.rememberChanges
-                reuseChanges: image_top.reuseChanges
                 imageTopGeometryItem: image_top_geo
                 visibleSourcePrevCur: image_top.visibleSourcePrevCur
                 randomAnimation: image_top.randomAnimation
-
-                onTellAboutReuseChanged: (changes) => {
-                    image_top.reuseChanges = changes
-                }
-                onTellAboutRememberChanged: (changes) => {
-                    image_top.rememberChanges[imageSource] = changes
-                }
-                onDeleteRememberChanges: {
-                    delete image_top.rememberChanges[imageSource]
-                }
 
                 onReloadMinimap: {
                     minimap_loader.active = false
