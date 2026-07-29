@@ -519,6 +519,7 @@ bool PQCScriptsImages::isPDFDocument(QString path) {
 
 bool PQCScriptsImages::isArchive(QString path, bool insideArchive) {
 
+#ifdef PQMLIBARCHIVE
     QFileInfo info(path);
     const QSet<QString> set = PQCImageHandler::get().getEnabledSuffixes("libarchive");
     if(set.contains(info.suffix().toLower()) || set.contains(info.completeSuffix().toLower()))
@@ -529,6 +530,7 @@ bool PQCScriptsImages::isArchive(QString path, bool insideArchive) {
         if(PQCImageHandler::get().getEnabledMimetypes("libarchive").contains(db.mimeTypeForFile(path).name()))
             return true;
     }
+#endif
 
     return false;
 
@@ -597,7 +599,7 @@ int PQCScriptsImages::isMotionPhoto(QString path) {
 
         if(PQCSettingsCPP::get().getFiletypesLoadAppleLivePhotos()) {
 
-            QString videopath = QString("%1/%2.mov").arg(info.absolutePath(), info.baseName());
+            const QString videopath = info.absolutePath() % "/" % info.baseName();
             QFileInfo videoinfo(videopath);
             if(videoinfo.exists())
                 return 1;
@@ -872,9 +874,18 @@ bool PQCScriptsImages::isComicBook(QString path) {
 
     qDebug() << "args: path =" << path;
 
+#ifdef PQMLIBARCHIVE
+
     const QString suffix = QFileInfo(path).suffix().toLower();
 
-    return (suffix=="cbt" || suffix=="cbr" || suffix=="cbz" || suffix=="cb7");
+    return (suffix.compare("cbt", Qt::CaseInsensitive) == 0 ||
+            suffix.compare("cbr", Qt::CaseInsensitive) == 0 ||
+            suffix.compare("cbz", Qt::CaseInsensitive) == 0 ||
+            suffix.compare("cb7", Qt::CaseInsensitive) == 0);
+
+#endif
+
+    return false;
 
 }
 
@@ -1285,9 +1296,9 @@ int PQCScriptsImages::getDocumentPageCount(QString path) {
 
     qDebug() << "args: path =" << path;
 
-#ifdef PQMQTPDF
-
     path = PQCHelper::extractInsidePDFFilename(path);
+
+#ifdef PQMQTPDF
 
     QPdfDocument doc;
 
@@ -1319,7 +1330,7 @@ bool PQCScriptsImages::isSVG(QString path) {
     qDebug() << "args: path =" << path;
 
     const QString suffix = QFileInfo(path).suffix().toLower();
-    return (suffix == "svg" || suffix == "svgz");
+    return (suffix.compare("svg", Qt::CaseInsensitive) == 0 || suffix.compare("svgz", Qt::CaseInsensitive) == 0);
 
 }
 

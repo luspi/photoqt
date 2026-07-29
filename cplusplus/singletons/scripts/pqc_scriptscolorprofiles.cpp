@@ -386,8 +386,6 @@ QString PQCScriptsColorProfiles::applyColorProfile(QString filename, QImage &img
         return csp;
     }
 
-    bool manualSelectionCausedError = false;
-
     bool attemptedToSetLCMS2Profile = false;
 
     // check if a color profile has been set by the user for this file
@@ -413,8 +411,7 @@ QString PQCScriptsColorProfiles::applyColorProfile(QString filename, QImage &img
             if(desc != "") {
                 Q_EMIT PQCNotifyCPP::get().setColorProfileFor(filename, desc);
                 return desc;
-            } else
-                manualSelectionCausedError = true;
+            }
         }
 
 #ifndef PQMLCMS2
@@ -433,8 +430,7 @@ QString PQCScriptsColorProfiles::applyColorProfile(QString filename, QImage &img
         if(desc != "") {
             Q_EMIT PQCNotifyCPP::get().setColorProfileFor(filename, desc);
             return desc;
-        } else
-            manualSelectionCausedError = true;
+        }
 
 #endif
 
@@ -470,7 +466,6 @@ QString PQCScriptsColorProfiles::applyColorProfile(QString filename, QImage &img
             } else {
                 if(targetProfile)
                     cmsCloseProfile(targetProfile);
-                manualSelectionCausedError = true;
             }
 
         }

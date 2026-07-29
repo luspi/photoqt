@@ -362,7 +362,7 @@ const QImage PQCImagePluginLibarchive::loadImage(QString path, QSize requestedSi
                     return QImage();
                 }
 
-                if (chunk == 0) {
+                if(chunk == 0) {
                     break;
                 }
 
