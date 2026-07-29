@@ -94,11 +94,7 @@ private:
         m_haveScreenshots = false;
         m_settingUpdate.clear();
         m_shuttingDown = false;
-#if __cplusplus >= 202002L
-        connect(this, &PQCNotifyCPP::photoqtShuttingDown, this, [=, this]() { m_shuttingDown = true; });
-#else
-        connect(this, &PQCNotifyCPP::photoqtShuttingDown, this, [=]() { m_shuttingDown = true; });
-#endif
+        connect(this, &PQCNotifyCPP::photoqtShuttingDown, this, [this]() { m_shuttingDown = true; });
     }
 
     /******************************************************/

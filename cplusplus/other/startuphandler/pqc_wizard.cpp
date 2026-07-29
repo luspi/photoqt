@@ -110,12 +110,10 @@ void PQCWizard::newPageShown(int id) {
         m_ui->notice->setVisible(false);
         m_ui->noticeLine->setVisible(false);
 
-#if __cplusplus >= 202002L
-        connect(&PQCExtensionsHandler::get(), &PQCExtensionsHandler::numExtensionsAllChanged, this, [=, this]() { if(!m_selfTestPerformed) performSelftest(); });
-#else
-        connect(&PQCExtensionsHandler::get(), &PQCExtensionsHandler::numExtensionsAllChanged, this, [=]() { if(!m_selfTestPerformed) performSelftest(); });
-#endif
+        connect(&PQCExtensionsHandler::get(), &PQCExtensionsHandler::numExtensionsAllChanged, this, [this]() { if(!m_selfTestPerformed) performSelftest(); });
+
         PQCExtensionsHandler::get().setup();
+
     }
 
 }

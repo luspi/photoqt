@@ -150,11 +150,7 @@ PQCSettings::PQCSettings() {
     dbCommitTimer = new QTimer();
     dbCommitTimer->setSingleShot(true);
     dbCommitTimer->setInterval(400);
-#if __cplusplus >= 202002L
-    connect(dbCommitTimer, &QTimer::timeout, this, [=, this]() {
-#else
-    connect(dbCommitTimer, &QTimer::timeout, this, [=]() {
-#endif
+    connect(dbCommitTimer, &QTimer::timeout, this, [this]() {
         QSqlDatabase db = QSqlDatabase::database("settings");
         db.commit();
         PQCSettingsCPP::get().readDB();
@@ -189,60 +185,42 @@ PQCSettings::PQCSettings() {
     # CHANGED SIGNAL CONNECTIONS
     ########################################
 
-    for iC in range(2):
+    for tab in dbtables:
 
-        if iC == 0:
-            cont_SOURCE += """
-#if __cplusplus >= 202002L
-"""
-        else:
-            cont_SOURCE += """
+        c = conn.cursor()
+        c.execute(f"SELECT `name`,`datatype` FROM {tab} ORDER BY `name`")
+        data = c.fetchall()
 
-#else
-"""
+        cont_SOURCE += f"""
+    // table: {tab}"""
+        for row in data:
 
-        for tab in dbtables:
+            name = row[0]
+            datatype = row[1]
 
-            c = conn.cursor()
-            c.execute(f"SELECT `name`,`datatype` FROM {tab} ORDER BY `name`")
-            data = c.fetchall()
+            qtdatatpe = "QString"
+            if datatype == "bool":
+                qtdatatpe = "bool"
+            elif datatype == "int":
+                qtdatatpe = "int"
+            elif datatype == "double":
+                qtdatatpe = "double"
+            elif datatype == "list":
+                qtdatatpe = "QStringList"
+            elif datatype == "point":
+                qtdatatpe = "QPointF"
+            elif datatype == "size":
+                qtdatatpe = "QSizeF"
 
             cont_SOURCE += f"""
-    // table: {tab}"""
-            for row in data:
-
-                name = row[0]
-                datatype = row[1]
-
-                qtdatatpe = "QString"
-                if datatype == "bool":
-                    qtdatatpe = "bool"
-                elif datatype == "int":
-                    qtdatatpe = "int"
-                elif datatype == "double":
-                    qtdatatpe = "double"
-                elif datatype == "list":
-                    qtdatatpe = "QStringList"
-                elif datatype == "point":
-                    qtdatatpe = "QPointF"
-                elif datatype == "size":
-                    qtdatatpe = "QSizeF"
-
-                cont_SOURCE += f"""
-    connect(this, &PQCSettings::{tab}{name}Changed, this, [={", this" if iC == 0 else ""}]() {{ saveChangedValue(\"{tab}{name}\", m_{tab}{name}); }});"""
+    connect(this, &PQCSettings::{tab}{name}Changed, this, [this]() {{ saveChangedValue(\"{tab}{name}\", m_{tab}{name}); }});"""
 
 
     cont_SOURCE += """
 
-#endif
-
     /******************************************************/
 
-#if __cplusplus >= 202002L
-    connect(&PQCNotifyCPP::get(), &PQCNotifyCPP::disableColorSpaceSupport, this, [=, this]() {{ setImageviewColorSpaceEnable(false); }});
-#else
-    connect(&PQCNotifyCPP::get(), &PQCNotifyCPP::disableColorSpaceSupport, this, [=]() {{ setImageviewColorSpaceEnable(false); }});
-#endif
+    connect(&PQCNotifyCPP::get(), &PQCNotifyCPP::disableColorSpaceSupport, this, [this]() {{ setImageviewColorSpaceEnable(false); }});
 
 }
 

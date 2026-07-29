@@ -42,11 +42,7 @@ PQCExtensionMethods::PQCExtensionMethods(QObject *parent) : QObject(parent) {
 
     connect(this, &PQCExtensionMethods::resetGeometry, &PQCExtensionsHandler::get(), &PQCExtensionsHandler::resetGeometry);
 
-#if __cplusplus >= 202002L
-    connect(&PQCNotifyCPP::get(), &PQCNotifyCPP::keyPress, this, [=, this](int key, int modifiers) {
-#else
-    connect(&PQCNotifyCPP::get(), &PQCNotifyCPP::keyPress, this, [=](int key, int modifiers) {
-#endif
+    connect(&PQCNotifyCPP::get(), &PQCNotifyCPP::keyPress, this, [this](int key, int modifiers) {
         QString combo = PQCScriptsShortcuts::get().analyzeModifier(static_cast<Qt::KeyboardModifiers>(modifiers)).join("+");
         if(!combo.isEmpty()) combo.append("+");
         combo += PQCScriptsShortcuts::get().analyzeKeyPress(static_cast<Qt::Key>(key));
@@ -55,11 +51,7 @@ PQCExtensionMethods::PQCExtensionMethods(QObject *parent) : QObject(parent) {
 
     m_writeImageFutureWatcher = new QFutureWatcher<bool>(this);
 
-#if __cplusplus >= 202002L
-    connect(m_writeImageFutureWatcher, &QFutureWatcher<bool>::finished, this, [=, this]() {
-#else
-    connect(m_writeImageFutureWatcher, &QFutureWatcher<bool>::finished, this, [=]() {
-#endif
+    connect(m_writeImageFutureWatcher, &QFutureWatcher<bool>::finished, this, [this]() {
         const bool result = m_writeImageFutureWatcher->result();
         Q_EMIT writeImageSuccess(result);
     });

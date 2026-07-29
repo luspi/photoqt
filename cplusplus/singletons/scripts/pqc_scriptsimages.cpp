@@ -106,11 +106,7 @@ PQCScriptsImages &PQCScriptsImages::get() {
 PQCScriptsImages::PQCScriptsImages() {
 
     // if the formats changed then we can't rely on the archive cache anymore
-#if __cplusplus >= 202002L
-    connect(&PQCImageHandler::get(), &PQCImageHandler::formatsUpdated, this, [=, this]() {archiveContentCache.clear();});
-#else
-    connect(&PQCImageHandler::get(), &PQCImageHandler::formatsUpdated, this, [=]() {archiveContentCache.clear();});
-#endif
+    connect(&PQCImageHandler::get(), &PQCImageHandler::formatsUpdated, this, [this]() {archiveContentCache.clear();});
 
     devicePixelRatioCachedWhen = 0;
     m_maxTextureLimit = 0;

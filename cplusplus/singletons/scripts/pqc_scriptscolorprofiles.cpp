@@ -24,11 +24,7 @@ PQCScriptsColorProfiles::PQCScriptsColorProfiles() {
 
     m_lcms2CountFailedApplications = 0;
 
-#if __cplusplus >= 202002L
-    connect(&PQCNotifyCPP::get(), &PQCNotifyCPP::setColorProfileFor, this, [=, this](QString path, QString val) {
-#else
-    connect(&PQCNotifyCPP::get(), &PQCNotifyCPP::setColorProfileFor, this, [=](QString path, QString val) {
-#endif
+    connect(&PQCNotifyCPP::get(), &PQCNotifyCPP::setColorProfileFor, this, [this](QString path, QString val) {
         m_colorProfileCache[path] = val;
     });
 

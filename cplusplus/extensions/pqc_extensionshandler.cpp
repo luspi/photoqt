@@ -69,11 +69,7 @@ PQCExtensionsHandler::PQCExtensionsHandler() {
     resetNumExtensionsAll = new QTimer;
     resetNumExtensionsAll->setInterval(250);
     resetNumExtensionsAll->setSingleShot(false);
-#if __cplusplus >= 202002L
-    connect(resetNumExtensionsAll, &QTimer::timeout, this, [=, this]() {
-#else
-    connect(resetNumExtensionsAll, &QTimer::timeout, this, [=]() {
-#endif
+    connect(resetNumExtensionsAll, &QTimer::timeout, this, [this]() {
         m_numExtensionsEnabled = m_extensions.length();
         m_numExtensionsAll = m_extensions.length()+m_extensionsDisabled.length();
         m_numExtensionsFailed = m_extensionsFailed.length();
@@ -108,11 +104,7 @@ void PQCExtensionsHandler::setup() {
     if(m_isSetup) return;
     m_isSetup = true;
 
-#if __cplusplus >= 202002L
-    QFuture<void> future = QtConcurrent::run([=, this] {
-#else
-    QFuture<void> future = QtConcurrent::run([=] {
-#endif
+    QFuture<void> future = QtConcurrent::run([this] {
 
 #ifdef PQMEXTENSIONS
 
@@ -604,7 +596,7 @@ bool PQCExtensionsHandler::loadExtension(std::shared_ptr<PQCExtensionInfo> &exti
 
                     if(actions) {
 #if __cplusplus >= 202002L
-                        connect(actions, &PQCExtensionActions::sendMessage, this, [=, this](QVariant val) { Q_EMIT receivedMessage(hashId, val); });
+                        connect(actions, &PQCExtensionActions::sendMessage, this, [hashId, this](QVariant val) { Q_EMIT receivedMessage(hashId, val); });
 #else
                         connect(actions, &PQCExtensionActions::sendMessage, this, [=](QVariant val) { Q_EMIT receivedMessage(hashId, val); });
 #endif

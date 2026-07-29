@@ -164,11 +164,7 @@ public:
         m_currentlyShowingVideoPlaying = false;
 
         // cache any possible resolution change
-#if __cplusplus >= 202002L
-        connect(this, &PQCConstants::currentImageResolutionChanged, this, [=, this]{
-#else
-        connect(this, &PQCConstants::currentImageResolutionChanged, this, [=]{
-#endif
+        connect(this, &PQCConstants::currentImageResolutionChanged, this, [this]{
             if(!m_currentImageResolution.isEmpty())
                 PQCResolutionCache::get().saveResolution(PQCFileFolderModelCPP::get().getCurrentFile(), m_currentImageResolution);
         });
@@ -188,11 +184,7 @@ public:
         m_updateDevicePixelRatio = new QTimer;
         m_updateDevicePixelRatio->setInterval(1000*60*5);
         m_updateDevicePixelRatio->setSingleShot(false);
-#if __cplusplus >= 202002L
-        connect(m_updateDevicePixelRatio, &QTimer::timeout, this, [=, this]() {
-#else
-        connect(m_updateDevicePixelRatio, &QTimer::timeout, this, [=]() {
-#endif
+        connect(m_updateDevicePixelRatio, &QTimer::timeout, this, [this]() {
             double bak = m_devicePixelRatio;
             m_devicePixelRatio = 1.0;
             if(PQCSettingsCPP::get().getImageviewRespectDevicePixelRatio() && !m_currentScreenModelName.isEmpty())
@@ -202,11 +194,7 @@ public:
         });
         m_updateDevicePixelRatio->start();
 
-#if __cplusplus >= 202002L
-        connect(this, &PQCConstants::currentScreenModelNameChanged, this, [=, this]() {
-#else
-        connect(this, &PQCConstants::currentScreenModelNameChanged, this, [=]() {
-#endif
+        connect(this, &PQCConstants::currentScreenModelNameChanged, this, [this]() {
             double bak = m_devicePixelRatio;
             m_devicePixelRatio = 1.0;
             if(PQCSettingsCPP::get().getImageviewRespectDevicePixelRatio() && !m_currentScreenModelName.isEmpty())
@@ -240,11 +228,7 @@ public:
 
         // anything picked up from PQCNotify
 
-#if __cplusplus >= 202002L
-        connect(&PQCNotifyCPP::get(), &PQCNotifyCPP::setColorProfileFor, this, [=, this](QString path, QString val) {
-#else
-        connect(&PQCNotifyCPP::get(), &PQCNotifyCPP::setColorProfileFor, this, [=](QString path, QString val) {
-#endif
+        connect(&PQCNotifyCPP::get(), &PQCNotifyCPP::setColorProfileFor, this, [this](QString path, QString val) {
             m_colorProfileCache[path] = val;
             Q_EMIT colorProfileCacheChanged();
         });
@@ -265,11 +249,7 @@ public:
         m_startupHaveScreenshots = PQCNotifyCPP::get().getHaveScreenshots();
         m_startupHaveSettingUpdate = PQCNotifyCPP::get().getSettingUpdate();
 
-#if __cplusplus >= 202002L
-        connect(&PQCNotifyCPP::get(), &PQCNotifyCPP::filePathChanged, this, [=, this](QString val) {
-#else
-        connect(&PQCNotifyCPP::get(), &PQCNotifyCPP::filePathChanged, this, [=](QString val) {
-#endif
+        connect(&PQCNotifyCPP::get(), &PQCNotifyCPP::filePathChanged, this, [this](QString val) {
             m_startupFilePath = val;
             if(!m_startupFilePath.isEmpty()) {
                 QFileInfo info(m_startupFilePath);
@@ -280,191 +260,94 @@ public:
             Q_EMIT startupFileIsFolderChanged();
         });
 
-#if __cplusplus >= 202002L
         connect(&PQCNotifyCPP::get(), &PQCNotifyCPP::debugChanged,
-                this, [=, this](bool val) { m_debugMode = val; Q_EMIT debugModeChanged(); });
+                this, [this](bool val) { m_debugMode = val; Q_EMIT debugModeChanged(); });
         connect(&PQCNotifyCPP::get(), &PQCNotifyCPP::addDebugLogMessages,
                 this, &PQCConstants::addDebugLogMessages);
         connect(&PQCNotifyCPP::get(), &PQCNotifyCPP::startInTrayChanged,
-                this, [=, this](bool val) { m_startupStartInTray = val; Q_EMIT startupStartInTrayChanged(); });
+                this, [this](bool val) { m_startupStartInTray = val; Q_EMIT startupStartInTrayChanged(); });
         connect(&PQCNotifyCPP::get(), &PQCNotifyCPP::haveScreenshotsChanged,
-                this, [=, this](bool val) { m_startupHaveScreenshots = val; Q_EMIT startupHaveScreenshotsChanged(); });
+                this, [this](bool val) { m_startupHaveScreenshots = val; Q_EMIT startupHaveScreenshotsChanged(); });
         connect(&PQCNotifyCPP::get(), &PQCNotifyCPP::settingUpdateChanged,
-                this, [=, this](QStringList val) { m_startupHaveSettingUpdate = val; Q_EMIT startupHaveSettingUpdateChanged(); });
-#else
-        connect(&PQCNotifyCPP::get(), &PQCNotifyCPP::debugChanged,
-                this, [=](bool val) { m_debugMode = val; Q_EMIT debugModeChanged(); });
-        connect(&PQCNotifyCPP::get(), &PQCNotifyCPP::addDebugLogMessages,
-                this, &PQCConstants::addDebugLogMessages);
-        connect(&PQCNotifyCPP::get(), &PQCNotifyCPP::startInTrayChanged,
-                this, [=](bool val) { m_startupStartInTray = val; Q_EMIT startupStartInTrayChanged(); });
-        connect(&PQCNotifyCPP::get(), &PQCNotifyCPP::haveScreenshotsChanged,
-                this, [=](bool val) { m_startupHaveScreenshots = val; Q_EMIT startupHaveScreenshotsChanged(); });
-        connect(&PQCNotifyCPP::get(), &PQCNotifyCPP::settingUpdateChanged,
-                this, [=](QStringList val) { m_startupHaveSettingUpdate = val; Q_EMIT startupHaveSettingUpdateChanged(); });
-#endif
+                this, [this](QStringList val) { m_startupHaveSettingUpdate = val; Q_EMIT startupHaveSettingUpdateChanged(); });
 
-#if __cplusplus >= 202002L
         // update currently visible area (used, e.g., by extensions)
-        connect(this, &PQCConstants::currentVisibleAreaXChanged, this, [=, this]() {
+        connect(this, &PQCConstants::currentVisibleAreaXChanged, this, [this]() {
             Q_EMIT PQCNotifyCPP::get().currentlyVisibleAreaChanged(QRectF(m_currentVisibleAreaX,
                                                                           m_currentVisibleAreaY,
                                                                           m_currentVisibleAreaWidthRatio,
                                                                           m_currentVisibleAreaHeightRatio));
         });
-        connect(this, &PQCConstants::currentVisibleAreaYChanged, this, [=, this]() {
+        connect(this, &PQCConstants::currentVisibleAreaYChanged, this, [this]() {
             Q_EMIT PQCNotifyCPP::get().currentlyVisibleAreaChanged(QRectF(m_currentVisibleAreaX,
                                                                           m_currentVisibleAreaY,
                                                                           m_currentVisibleAreaWidthRatio,
                                                                           m_currentVisibleAreaHeightRatio));
         });
-        connect(this, &PQCConstants::currentVisibleAreaWidthRatioChanged, this, [=, this]() {
+        connect(this, &PQCConstants::currentVisibleAreaWidthRatioChanged, this, [this]() {
             Q_EMIT PQCNotifyCPP::get().currentlyVisibleAreaChanged(QRectF(m_currentVisibleAreaX,
                                                                           m_currentVisibleAreaY,
                                                                           m_currentVisibleAreaWidthRatio,
                                                                           m_currentVisibleAreaHeightRatio));
         });
-        connect(this, &PQCConstants::currentVisibleAreaHeightRatioChanged, this, [=, this]() {
+        connect(this, &PQCConstants::currentVisibleAreaHeightRatioChanged, this, [this]() {
             Q_EMIT PQCNotifyCPP::get().currentlyVisibleAreaChanged(QRectF(m_currentVisibleAreaX,
                                                                           m_currentVisibleAreaY,
                                                                           m_currentVisibleAreaWidthRatio,
                                                                           m_currentVisibleAreaHeightRatio));
         });
-#else
-        // update currently visible area (used, e.g., by extensions)
-        connect(this, &PQCConstants::currentVisibleAreaXChanged, this, [=]() {
-            Q_EMIT PQCNotifyCPP::get().currentlyVisibleAreaChanged(QRectF(m_currentVisibleAreaX,
-                                                                          m_currentVisibleAreaY,
-                                                                          m_currentVisibleAreaWidthRatio,
-                                                                          m_currentVisibleAreaHeightRatio));
-        });
-        connect(this, &PQCConstants::currentVisibleAreaYChanged, this, [=]() {
-            Q_EMIT PQCNotifyCPP::get().currentlyVisibleAreaChanged(QRectF(m_currentVisibleAreaX,
-                                                                          m_currentVisibleAreaY,
-                                                                          m_currentVisibleAreaWidthRatio,
-                                                                          m_currentVisibleAreaHeightRatio));
-        });
-        connect(this, &PQCConstants::currentVisibleAreaWidthRatioChanged, this, [=]() {
-            Q_EMIT PQCNotifyCPP::get().currentlyVisibleAreaChanged(QRectF(m_currentVisibleAreaX,
-                                                                          m_currentVisibleAreaY,
-                                                                          m_currentVisibleAreaWidthRatio,
-                                                                          m_currentVisibleAreaHeightRatio));
-        });
-        connect(this, &PQCConstants::currentVisibleAreaHeightRatioChanged, this, [=]() {
-            Q_EMIT PQCNotifyCPP::get().currentlyVisibleAreaChanged(QRectF(m_currentVisibleAreaX,
-                                                                          m_currentVisibleAreaY,
-                                                                          m_currentVisibleAreaWidthRatio,
-                                                                          m_currentVisibleAreaHeightRatio));
-        });
-#endif
 
-#if __cplusplus >= 202002L
         // update current window size (used, e.g., by extensions)
-        connect(this, &PQCConstants::availableWidthChanged, this, [=, this]() {
+        connect(this, &PQCConstants::availableWidthChanged, this, [this]() {
             Q_EMIT PQCNotifyCPP::get().currentWindowSizeChanged(QSize(m_availableWidth, m_availableHeight));
         });
-        connect(this, &PQCConstants::availableHeightChanged, this, [=, this]() {
+        connect(this, &PQCConstants::availableHeightChanged, this, [this]() {
             Q_EMIT PQCNotifyCPP::get().currentWindowSizeChanged(QSize(m_availableWidth, m_availableHeight));
         });
-#else
-        // update current window size (used, e.g., by extensions)
-        connect(this, &PQCConstants::availableWidthChanged, this, [=]() {
-            Q_EMIT PQCNotifyCPP::get().currentWindowSizeChanged(QSize(m_availableWidth, m_availableHeight));
-        });
-        connect(this, &PQCConstants::availableHeightChanged, this, [=]() {
-            Q_EMIT PQCNotifyCPP::get().currentWindowSizeChanged(QSize(m_availableWidth, m_availableHeight));
-        });
-#endif
 
-#if __cplusplus >= 202002L
         // update some image properties
-        connect(this, &PQCConstants::currentImageResolutionChanged, this, [=, this]() {
+        connect(this, &PQCConstants::currentImageResolutionChanged, this, [this]() {
             Q_EMIT PQCNotifyCPP::get().currentImageResolutionChanged(m_currentImageResolution);
         });
-        connect(this, &PQCConstants::currentImageRotationChanged, this, [=, this]() {
+        connect(this, &PQCConstants::currentImageRotationChanged, this, [this]() {
             Q_EMIT PQCNotifyCPP::get().currentImageRotationChanged(m_currentImageRotation);
         });
-        connect(this, &PQCConstants::currentImageScaleChanged, this, [=, this]() {
+        connect(this, &PQCConstants::currentImageScaleChanged, this, [this]() {
             Q_EMIT PQCNotifyCPP::get().currentImageScaleChanged(m_currentImageScale);
         });
-        connect(this, &PQCConstants::currentlyShowingVideoChanged, this, [=, this]() {
+        connect(this, &PQCConstants::currentlyShowingVideoChanged, this, [this]() {
             Q_EMIT PQCNotifyCPP::get().currentImageIsVideoChanged(m_currentlyShowingVideo);
         });
-        connect(this, &PQCConstants::currentImageIsAnimatedChanged, this, [=, this]() {
+        connect(this, &PQCConstants::currentImageIsAnimatedChanged, this, [this]() {
             Q_EMIT PQCNotifyCPP::get().currentImageIsAnimatedChanged(m_currentImageIsAnimated);
         });
-        connect(this, &PQCConstants::currentImageIsArchiveChanged, this, [=, this]() {
+        connect(this, &PQCConstants::currentImageIsArchiveChanged, this, [this]() {
             Q_EMIT PQCNotifyCPP::get().currentImageIsArchiveChanged(m_currentImageIsArchive);
         });
-        connect(this, &PQCConstants::currentImageIsDocumentChanged, this, [=, this]() {
+        connect(this, &PQCConstants::currentImageIsDocumentChanged, this, [this]() {
             Q_EMIT PQCNotifyCPP::get().currentImageIsDocumentChanged(m_currentImageIsDocument);
         });
-        connect(this, &PQCConstants::currentImageIsMotionPhotoChanged, this, [=, this]() {
+        connect(this, &PQCConstants::currentImageIsMotionPhotoChanged, this, [this]() {
             Q_EMIT PQCNotifyCPP::get().currentImageIsMotionPhotoChanged(m_currentImageIsMotionPhoto);
         });
-        connect(this, &PQCConstants::currentImageIsPhotoSphereChanged, this, [=, this]() {
+        connect(this, &PQCConstants::currentImageIsPhotoSphereChanged, this, [this]() {
             Q_EMIT PQCNotifyCPP::get().currentImageIsPhotoSphereChanged(m_currentImageIsPhotoSphere);
         });
-        connect(this, &PQCConstants::showingPhotoSphereChanged, this, [=, this]() {
+        connect(this, &PQCConstants::showingPhotoSphereChanged, this, [this]() {
             Q_EMIT PQCNotifyCPP::get().insidePhotoSphereChanged(m_showingPhotoSphere);
         });
-        connect(this, &PQCConstants::motionPhotoIsPlayingChanged, this, [=, this]() {
+        connect(this, &PQCConstants::motionPhotoIsPlayingChanged, this, [this]() {
             Q_EMIT PQCNotifyCPP::get().motionPhotoIsPlayingChanged(m_motionPhotoIsPlaying);
         });
-        connect(this, &PQCConstants::animatedImageIsPlayingChanged, this, [=, this]() {
+        connect(this, &PQCConstants::animatedImageIsPlayingChanged, this, [this]() {
             Q_EMIT PQCNotifyCPP::get().animatedImageIsPlayingChanged(m_animatedImageIsPlaying);
         });
-        connect(this, &PQCConstants::barcodeDisplayedChanged, this, [=, this]() {
+        connect(this, &PQCConstants::barcodeDisplayedChanged, this, [this]() {
             Q_EMIT PQCNotifyCPP::get().barcodesAreDisplayedChanged(m_barcodeDisplayed);
         });
-        connect(this, &PQCConstants::slideshowRunningChanged, this, [=, this]() {
+        connect(this, &PQCConstants::slideshowRunningChanged, this, [this]() {
             Q_EMIT PQCNotifyCPP::get().slideshowActiveChanged(m_slideshowRunning);
         });
-#else
-        // update some image properties
-        connect(this, &PQCConstants::currentImageResolutionChanged, this, [=]() {
-            Q_EMIT PQCNotifyCPP::get().currentImageResolutionChanged(m_currentImageResolution);
-        });
-        connect(this, &PQCConstants::currentImageRotationChanged, this, [=]() {
-            Q_EMIT PQCNotifyCPP::get().currentImageRotationChanged(m_currentImageRotation);
-        });
-        connect(this, &PQCConstants::currentImageScaleChanged, this, [=]() {
-            Q_EMIT PQCNotifyCPP::get().currentImageScaleChanged(m_currentImageScale);
-        });
-        connect(this, &PQCConstants::currentlyShowingVideoChanged, this, [=]() {
-            Q_EMIT PQCNotifyCPP::get().currentImageIsVideoChanged(m_currentlyShowingVideo);
-        });
-        connect(this, &PQCConstants::currentImageIsAnimatedChanged, this, [=]() {
-            Q_EMIT PQCNotifyCPP::get().currentImageIsAnimatedChanged(m_currentImageIsAnimated);
-        });
-        connect(this, &PQCConstants::currentImageIsArchiveChanged, this, [=]() {
-            Q_EMIT PQCNotifyCPP::get().currentImageIsArchiveChanged(m_currentImageIsArchive);
-        });
-        connect(this, &PQCConstants::currentImageIsDocumentChanged, this, [=]() {
-            Q_EMIT PQCNotifyCPP::get().currentImageIsDocumentChanged(m_currentImageIsDocument);
-        });
-        connect(this, &PQCConstants::currentImageIsMotionPhotoChanged, this, [=]() {
-            Q_EMIT PQCNotifyCPP::get().currentImageIsMotionPhotoChanged(m_currentImageIsMotionPhoto);
-        });
-        connect(this, &PQCConstants::currentImageIsPhotoSphereChanged, this, [=]() {
-            Q_EMIT PQCNotifyCPP::get().currentImageIsPhotoSphereChanged(m_currentImageIsPhotoSphere);
-        });
-        connect(this, &PQCConstants::showingPhotoSphereChanged, this, [=]() {
-            Q_EMIT PQCNotifyCPP::get().insidePhotoSphereChanged(m_showingPhotoSphere);
-        });
-        connect(this, &PQCConstants::motionPhotoIsPlayingChanged, this, [=]() {
-            Q_EMIT PQCNotifyCPP::get().motionPhotoIsPlayingChanged(m_motionPhotoIsPlaying);
-        });
-        connect(this, &PQCConstants::animatedImageIsPlayingChanged, this, [=]() {
-            Q_EMIT PQCNotifyCPP::get().animatedImageIsPlayingChanged(m_animatedImageIsPlaying);
-        });
-        connect(this, &PQCConstants::barcodeDisplayedChanged, this, [=]() {
-            Q_EMIT PQCNotifyCPP::get().barcodesAreDisplayedChanged(m_barcodeDisplayed);
-        });
-        connect(this, &PQCConstants::slideshowRunningChanged, this, [=]() {
-            Q_EMIT PQCNotifyCPP::get().slideshowActiveChanged(m_slideshowRunning);
-        });
-#endif
 
     }
 

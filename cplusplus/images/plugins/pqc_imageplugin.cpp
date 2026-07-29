@@ -29,11 +29,7 @@ PQCImagePlugin::PQCImagePlugin(QObject *parent) : QObject(parent) {
     m_delayWriteToFile->setInterval(500);
     m_delayWriteToFile->setSingleShot(true);
 
-#if __cplusplus >= 202002L
-    connect(m_delayWriteToFile, &QTimer::timeout, this, [=, this]() {
-#else
-    connect(m_delayWriteToFile, &QTimer::timeout, this, [=]() {
-#endif
+    connect(m_delayWriteToFile, &QTimer::timeout, this, [this]() {
 
         const QString filename = PQCConfigFiles::get().CONFIG_DIR() % "/imageplugins/" % m_settingsPrefix;
         QFile outFile(filename);

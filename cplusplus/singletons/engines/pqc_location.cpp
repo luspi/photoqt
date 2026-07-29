@@ -65,11 +65,7 @@ PQCLocation::PQCLocation(QObject *parent) : QObject(parent) {
     dbCommitTimer = new QTimer();
     dbCommitTimer->setSingleShot(true);
     dbCommitTimer->setInterval(400);
-#if __cplusplus >= 202002L
-    connect(dbCommitTimer, &QTimer::timeout, this, [=, this](){
-#else
-    connect(dbCommitTimer, &QTimer::timeout, this, [=](){
-#endif
+    connect(dbCommitTimer, &QTimer::timeout, this, [this](){
         db.commit();
         dbIsTransaction = false;
         if(db.lastError().text().trimmed().length())

@@ -110,11 +110,7 @@ PQCFileFolderModel::PQCFileFolderModel(QObject *parent) : QObject(parent) {
     timerNotifyCurrentIndexChanged = new QTimer;
     timerNotifyCurrentIndexChanged->setInterval(100);
     timerNotifyCurrentIndexChanged->setSingleShot(true);
-#if __cplusplus >= 202002L
-    connect(timerNotifyCurrentIndexChanged, &QTimer::timeout, this, [=, this]() {
-#else
-    connect(timerNotifyCurrentIndexChanged, &QTimer::timeout, this, [=]() {
-#endif
+    connect(timerNotifyCurrentIndexChanged, &QTimer::timeout, this, [this]() {
 
         Q_EMIT currentIndexChanged();
         Q_EMIT currentFileChanged();
@@ -151,23 +147,14 @@ PQCFileFolderModel::PQCFileFolderModel(QObject *parent) : QObject(parent) {
     timerResetJustLeftViewerMode = new QTimer;
     timerResetJustLeftViewerMode->setInterval(100);
     timerResetJustLeftViewerMode->setSingleShot(true);
-#if __cplusplus >= 202002L
-    connect(timerResetJustLeftViewerMode, &QTimer::timeout, this, [=, this]() {
-#else
-    connect(timerResetJustLeftViewerMode, &QTimer::timeout, this, [=]() {
-#endif
+    connect(timerResetJustLeftViewerMode, &QTimer::timeout, this, [this]() {
         m_justLeftViewerMode = false;
     });
 
     // we add a tiny delay to this signal to make sure that when the directory has changed all files are fully written
     // not having this delay can cause faulty thumbnails to be loaded
-#if __cplusplus >= 202002L
-    connect(watcherMainView, &QFileSystemWatcher::directoryChanged, this, [=, this]() { m_fileInFolderMainView = m_currentFile; loadDelayMainView->start(500); });
-    connect(watcherFileDialog, &QFileSystemWatcher::directoryChanged, this, [=, this]() { loadDelayFileDialog->start(500); });
-#else
-    connect(watcherMainView, &QFileSystemWatcher::directoryChanged, this, [=]() { m_fileInFolderMainView = m_currentFile; loadDelayMainView->start(500); });
-    connect(watcherFileDialog, &QFileSystemWatcher::directoryChanged, this, [=]() { loadDelayFileDialog->start(500); });
-#endif
+    connect(watcherMainView, &QFileSystemWatcher::directoryChanged, this, [this]() { m_fileInFolderMainView = m_currentFile; loadDelayMainView->start(500); });
+    connect(watcherFileDialog, &QFileSystemWatcher::directoryChanged, this, [this]() { loadDelayFileDialog->start(500); });
 
     m_advancedSortDone = 0;
 
@@ -182,37 +169,21 @@ PQCFileFolderModel::PQCFileFolderModel(QObject *parent) : QObject(parent) {
 
     connect(&PQCNotifyCPP::get(), &PQCNotifyCPP::resetSessionData, this, &PQCFileFolderModel::resetModel);
 
-#if __cplusplus >= 202002L
     connect(&PQCNotifyCPP::get(), &PQCNotifyCPP::virtualFoldersChanged,
-            this, [=, this](QStringList val) { m_virtualFolders = val; Q_EMIT virtualFoldersChanged(); });
+            this, [this](QStringList val) { m_virtualFolders = val; Q_EMIT virtualFoldersChanged(); });
     connect(&PQCNotifyCPP::get(), &PQCNotifyCPP::virtualFilesChanged,
-            this, [=, this](QStringList val) { m_virtualFiles = val; Q_EMIT virtualFilesChanged(); });
-#else
-    connect(&PQCNotifyCPP::get(), &PQCNotifyCPP::virtualFoldersChanged,
-            this, [=](QStringList val) { m_virtualFolders = val; Q_EMIT virtualFoldersChanged(); });
-    connect(&PQCNotifyCPP::get(), &PQCNotifyCPP::virtualFilesChanged,
-            this, [=](QStringList val) { m_virtualFiles = val; Q_EMIT virtualFilesChanged(); });
-#endif
+            this, [this](QStringList val) { m_virtualFiles = val; Q_EMIT virtualFilesChanged(); });
 
     /********************************************/
     /********************************************/
 
     // these are READ FROM PQCFileFolderModelCPP
-
-#if __cplusplus >= 202002L
-    connect(&PQCFileFolderModelCPP::get(), &PQCFileFolderModelCPP::setFileInFolderMainView, this, [=, this](QString val) { setFileInFolderMainView(val); });
-#else
-    connect(&PQCFileFolderModelCPP::get(), &PQCFileFolderModelCPP::setFileInFolderMainView, this, [=](QString val) { setFileInFolderMainView(val); });
-#endif
+    connect(&PQCFileFolderModelCPP::get(), &PQCFileFolderModelCPP::setFileInFolderMainView, this, [this](QString val) { setFileInFolderMainView(val); });
 
     /********************************************/
     /********************************************/
 
-#if __cplusplus >= 202002L
-    connect(this, &PQCFileFolderModel::ratingsFilterChanged, this, [=, this]() {
-#else
-    connect(this, &PQCFileFolderModel::ratingsFilterChanged, this, [=]() {
-#endif
+    connect(this, &PQCFileFolderModel::ratingsFilterChanged, this, [this]() {
         loadDelayMainView->start();
         loadDelayFileDialog->start();
         checkFilterActive();
