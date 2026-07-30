@@ -202,13 +202,13 @@ Loader {
         }
 
         function finishSetup_part1() {
-            finishSetupCalled += 1
+            finishSetupCalled = 1
             masteritem.readyToContinueLoading = true
         }
 
         function finishSetup_part2() {
 
-            finishSetupCalled += 1
+            finishSetupCalled = 2
 
             PQCExtensionsHandler.setup()
             PQCExtensionMethods.setup()
