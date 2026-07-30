@@ -69,16 +69,19 @@ appimage:
     - cp /usr/bin/qmake6 /usr/bin/qmake # This file is needed for appimage build to succeed
     - export EXTRA_PLATFORM_PLUGINS=libqwayland-generic.so
     - export EXTRA_QT_MODULES="waylandcompositor;svg"
+    - export UPDATE_INFORMATION="zsync|https://photoqt.org/downloads/appimages/PhotoQt-nightly.AppImage.zsync"
     - LD_LIBRARY_PATH=appdir/usr/lib QML_SOURCES_PATHS=./qml ./squashfs-root/AppRun --appdir ./appdir/ --plugin=qt --output appimage
     - cp -r /usr/lib/x86_64-linux-gnu/qt6/qml/QtCharts/ ./appdir/usr/qml/   # This makes sure that QtCharts is available
     - mkdir -p ./appdir/usr/qml/org/kde
     - cp -r /usr/lib/x86_64-linux-gnu/qt6/qml/org/kde/breeze ./appdir/usr/qml/org/kde
     - LD_LIBRARY_PATH=appdir/usr/lib QML_SOURCES_PATHS=./qml ./squashfs-root/AppRun --appdir ./appdir/ --plugin=qt --output appimage # rebuild appimage to pick up changes above
     - mv PhotoQt*.AppImage PhotoQt-nightly.AppImage
+    - mv PhotoQt*.AppImage.zsync PhotoQt-nightly.AppImage.zsync
 
   artifacts:
     paths:
       - PhotoQt-nightly.AppImage
+      - PhotoQt-nightly.AppImage.zsync
 
 
 releaseappimage:
@@ -129,15 +132,18 @@ releaseappimage:
     - cp /usr/bin/qmake6 /usr/bin/qmake # This file is needed for appimage build to succeed
     - export EXTRA_PLATFORM_PLUGINS=libqwayland-generic.so
     - export EXTRA_QT_MODULES="waylandcompositor;svg"
+    - export UPDATE_INFORMATION="zsync|https://photoqt.org/downloads/appimages/PhotoQt.AppImage.zsync"
     - LD_LIBRARY_PATH=appdir/usr/lib QML_SOURCES_PATHS=./qml ./squashfs-root/AppRun --appdir ./appdir/ --plugin=qt --output appimage
     - cp -r /usr/lib/x86_64-linux-gnu/qt6/qml/QtCharts/ ./appdir/usr/qml/   # This makes sure that QtCharts is available
     - mkdir -p ./appdir/usr/qml/org/kde
     - cp -r /usr/lib/x86_64-linux-gnu/qt6/qml/org/kde/breeze ./appdir/usr/qml/org/kde
     - LD_LIBRARY_PATH=appdir/usr/lib QML_SOURCES_PATHS=./qml ./squashfs-root/AppRun --appdir ./appdir/ --plugin=qt --output appimage # rebuild appimage to pick up changes above
-    - mv PhotoQt*.AppImage PhotoQt-latesttag.AppImage
+    - mv PhotoQt*.AppImage PhotoQt.AppImage
+    - mv PhotoQt*.AppImage.zsync PhotoQt.AppImage.zsync
 
   artifacts:
     paths:
-      - PhotoQt-latesttag.AppImage
+      - PhotoQt.AppImage
+      - PhotoQt.AppImage.zsync
 
 
