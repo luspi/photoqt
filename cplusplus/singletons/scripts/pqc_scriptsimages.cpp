@@ -689,7 +689,7 @@ QString PQCScriptsImages::extractMotionPhoto(QString path) {
     if(!info.exists())
         return "";
 
-    const QString videofilename = PQCConfigFiles::get().CACHE_DIR() % "/motionphotos/" % QString::number(qHash(info.baseName())) % ".mp4";
+    const QString videofilename = PQCConfigFiles::get().CACHE_DIR() % "/motionphotos/" % QString::number(qHash(path)) % ".mp4";
     if(QFileInfo::exists(videofilename)) {
         return videofilename;
     }

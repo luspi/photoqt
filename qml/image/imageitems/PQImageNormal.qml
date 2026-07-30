@@ -290,7 +290,7 @@ Item {
                     var src = ""
 
                     if(what === 1)
-                        src = PQCScriptsFilesPaths.getDir(imgtop.imageSource) + "/" + PQCScriptsFilesPaths.getBasename(imgtop.imageSource) + ".mov"
+                        src = PQCScriptsFilesPaths.getDir(imgtop.imageSource) + "/" + imgtop.imageSource + ".mov"
                     else if(what === 2 || what === 3)
                         src = PQCScriptsImages.extractMotionPhoto(imgtop.imageSource)
 
@@ -302,7 +302,7 @@ Item {
                         // We need to ignore this value as the Exif orientation might not be correct
                         // See also: https://github.com/Exiv2/exiv2/issues/2958
                         var suf = PQCScriptsFilesPaths.getSuffixLowerCase(imgtop.imageSource)
-                        if(PQCSettings.metadataAutoRotation && suf !== "heic" && suf !== "heif") {
+                        if(PQCSettings.metadataAutoRotation) {
 
                             var orientation = PQCScriptsMetaData.getExifOrientation(imgtop.imageSource)
                             switch(orientation) {
@@ -397,17 +397,11 @@ Item {
 
             width: image.width
             height: image.height
-
-            transform:
-                Rotation {
-                    origin.x: motionphoto_img.width / 2
-                    axis { x: 0; y: 1; z: 0 }
-                    angle: videoloader.forceMirror ? 180 : 0
-                }
+            forcedMirror: videoloader.forceMirror
+            forceRotation: videoloader.forceRotation
 
             sourceCache: videoloader.mediaSrc
             isMainImage: imgtop.isMainImage
-            forceRotation: videoloader.forceRotation
         }
 
     }
@@ -420,10 +414,8 @@ Item {
 
             id: motionphoto_img
 
-            x: (forceRotation%180==0 ? 0 : -(image.height-image.width)/2)
-            y: (forceRotation%180==0 ? 0 : -(image.height-image.width)/2)
-            width: image.width + (forceRotation%180==0 ? 0 : -2*x)
-            height: image.height + (forceRotation%180==0 ? 0 : -2*y)
+            width: image.width
+            height: image.height
 
             transform:
                 Rotation {

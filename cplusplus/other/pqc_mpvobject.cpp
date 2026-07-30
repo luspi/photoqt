@@ -165,6 +165,10 @@ QVariant PQCMPVObject::getProperty(const QString& name) {
     return mpv::qt::get_property(mpv, name);
 }
 
+bool PQCMPVObject::isError(const QVariant& v) {
+    return mpv::qt::is_error(v);
+}
+
 QQuickFramebufferObject::Renderer *PQCMPVObject::createRenderer() const {
     window()->setPersistentSceneGraph(true);
     return new PQCMPVRenderer(const_cast<PQCMPVObject *>(this));

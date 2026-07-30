@@ -51,6 +51,7 @@ public Q_SLOTS:
     void command(const QVariant& params);
     void setProperty(const QString& name, const QVariant& value);
     QVariant getProperty(const QString& name);
+    bool isError(const QVariant& v);
 
 Q_SIGNALS:
     void onUpdate();
