@@ -113,6 +113,14 @@
         <content_attribute id="money-gambling">none</content_attribute>
     </content_rating>
     <releases>
+        <release version="5.4.1" date="2026-07-31">
+            <description>
+                <p>About a month after the last release, this is a smaller bug fix release. With less available time to work on PhotoQt over the summer, this delivers the bug that have been fixed.</p>
+            </description>
+            <url>
+                https://photoqt.org/news/photoqt-5.4.1
+            </url>
+        </release>
         <release version="5.4" date="2026-06-24">
             <description>
                 <p>Another few weeks have passed and a wide range of changes and improvement have found their way into PhotoQt. This release focuses almost entirely on improving the performance and reliability of existing code, with most of the code revisited, some of it restructured for easier maintenance, and all of it touched up for improvements all around.</p>
