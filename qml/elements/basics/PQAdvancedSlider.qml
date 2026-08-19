@@ -114,7 +114,8 @@ Item {
                         if(control.editMode) return
                         if(control.logarithmicScale)
                             spinbox.setValue(Math.ceil(control.minval + (control.maxval-control.minval) * Math.pow(value/1000, control.logarithmicScaleFactor)))
-                        spinbox.setValue(value)
+                        else
+                            spinbox.setValue(value)
                     }
                     function setValue(val : int) {
                         if(control.logarithmicScale) {

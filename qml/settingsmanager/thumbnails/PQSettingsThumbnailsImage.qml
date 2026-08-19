@@ -200,7 +200,7 @@ PQSetting {
 
         settingsLoaded = false
 
-        thumb_size.loadAndSetDefault(50+PQCSettings.thumbnailsSize*5)
+        thumb_size.loadAndSetDefault(PQCSettings.thumbnailsSize*5)
 
         thumb_fit.loadAndSetDefault(!PQCSettings.thumbnailsCropToFit && !PQCSettings.thumbnailsSameHeightVaryWidth)
         thumb_crop.loadAndSetDefault(PQCSettings.thumbnailsCropToFit)
@@ -217,7 +217,7 @@ PQSetting {
 
     function applyChanges() {
 
-        PQCSettings.thumbnailsSize = thumb_size.value/5 - 50
+        PQCSettings.thumbnailsSize = thumb_size.value/5
         thumb_size.saveDefault()
 
         PQCSettings.thumbnailsCropToFit = thumb_crop.checked
