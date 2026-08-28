@@ -89,6 +89,23 @@ PQCImagePluginDevIL::PQCImagePluginDevIL() {
             "devil");
 #endif
 
+    setWritableFormats({
+        45621,  // Windows Bitmap
+        74447,  // DirectDraw Surface
+        11113,  // HDR
+        11485,  // JPEG
+        13444,  // Dr. Halo
+        46215,  // Portable Network Graphics
+        16685,  // Portable bitmap format
+        85444,  // Portable graymap format
+        77521,  // Portable pixmap format
+        26486,  // Adobe PhotoShop
+        33352,  // Silicon Graphics
+        85621,  // Truevision Targa
+        44462,  // Tagged Image File Format
+        46664   // Valve Texture Format
+    });
+
 }
 
 const QSize PQCImagePluginDevIL::loadSize(QString path) {
@@ -236,7 +253,30 @@ const QImage PQCImagePluginDevIL::loadImage(QString path, QSize requestedSize, Q
 }
 
 const bool PQCImagePluginDevIL::writeImage(QImage img, QString targetPath) {
+
+#ifdef PQMDEVIL
+
+    QImage converted = img.convertToFormat(QImage::Format_RGBA8888);
+
+    ILuint imageId;
+    ilGenImages(1, &imageId);
+    ilBindImage(imageId);
+
+    ilTexImage(converted.width(), converted.height(),
+               1, // depth
+               4, // channels
+               IL_RGBA, IL_UNSIGNED_BYTE,
+               converted.bits());
+
+    const bool success = ilSaveImage(reinterpret_cast<const ILstring>(targetPath.toLocal8Bit().constData()));
+    ilDeleteImages(1, &imageId);
+
+    return success;
+
+#endif
+
     return false;
+
 }
 
 #ifdef PQMDEVIL

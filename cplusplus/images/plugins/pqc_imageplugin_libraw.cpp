@@ -382,6 +382,7 @@ const QImage PQCImagePluginLibraw::loadImage(QString path, QSize requestedSize, 
 
 }
 
+// LibRaw is a decoder only
 const bool PQCImagePluginLibraw::writeImage(QImage img, QString targetPath) {
     return false;
 }
