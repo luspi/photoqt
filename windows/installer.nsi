@@ -27,7 +27,7 @@ Unicode True
 
 Name "PhotoQt"
 OutFile "photoqt-${VERSION}.exe"
-InstallDir "$LOCALAPPDATA\PhotoQt"
+InstallDir "$LOCALAPPDATA\Programs\PhotoQt"
 
 ; ------------------------------------------------------------
 ; NsisMultiUser configuration
