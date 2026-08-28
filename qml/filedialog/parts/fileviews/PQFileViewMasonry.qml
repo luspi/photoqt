@@ -272,11 +272,11 @@ Flickable {
                         deleg.filethumbSourceSize = sourceSize
                     }
 
-                    function onHideFileIcon() {
+                    onHideFileIcon: {
                         fileicon.source = ""
                     }
 
-                    function onShowFileIcon() {
+                    onShowFileIcon: {
                         fileicon.source = fileicon.sourceString
                     }
 
@@ -310,7 +310,7 @@ Flickable {
                         onCurnumChanged:
                             deleg.folderthumbCurNum = curnum
 
-                        function onHideFileIcon() {
+                        onHideFileIcon: {
                             fileicon.source = ""
                         }
 

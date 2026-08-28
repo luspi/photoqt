@@ -160,11 +160,11 @@ GridView {
             width: deleg.width - 2*PQCSettings.filedialogElementPadding
             height: deleg.height - 2*PQCSettings.filedialogElementPadding
 
-            function onHideFileIcon() {
+            onHideFileIcon: {
                 fileicon.source = ""
             }
 
-            function onShowFileIcon() {
+            onShowFileIcon: {
                 fileicon.source = fileicon.sourceString
             }
 
@@ -185,7 +185,7 @@ GridView {
             width: deleg.width - 2*PQCSettings.filedialogElementPadding
             height: deleg.height - 2*PQCSettings.filedialogElementPadding
 
-            function onHideFileIcon() {
+            onHideFileIcon: {
                 fileicon.source = ""
             }
 
