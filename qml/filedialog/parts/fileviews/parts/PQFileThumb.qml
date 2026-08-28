@@ -27,7 +27,7 @@ Image {
 
     id: filethumb
 
-    visible: !isFolder && PQCSettings.filedialogThumbnails && !PQGlobalItems.filedialogFileview.currentFolderExcluded && !onNetwork
+    visible: !isFolder && !PQCSettings.thumbnailsIconsOnly && !PQGlobalItems.filedialogFileview.currentFolderExcluded && !onNetwork
 
     property bool isFileCut
     property bool isFolder
@@ -67,10 +67,22 @@ Image {
 
     fillMode: PQCSettings.filedialogThumbnailsScaleCrop ? Image.PreserveAspectCrop : Image.PreserveAspectFit
 
-    // when changing this line also change the line in the Connections below
-    source: visible&&currentPath!=="" ?
-                encodeURI("image://" + (useFullImageProvider.indexOf(PQCScriptsFilesPaths.getSuffixLowerCase(currentPath)) > -1 ? "full" : "thumb") + "/" + currentPath) :
-                ""
+    property string sourceString: visible&&currentPath!=="" ?
+            encodeURI("image://" + (useFullImageProvider.indexOf(PQCScriptsFilesPaths.getSuffixLowerCase(currentPath)) > -1 ? "full" : "thumb") + "/" + currentPath) :
+            ""
+    onSourceStringChanged: updateSource.restart()
+    // The delay is necessary as the thumbnailIconOnly property needs a few ms to be updated in PQCSettingsCPP used in the thumb image provider
+    Timer {
+        id: updateSource
+        interval: 0
+        onTriggered: {
+            interval = 0
+            filethumb.source = ""
+            filethumb.source = filethumb.sourceString
+        }
+    }
+
+    source: ""
     onSourceChanged: {
         if(!visible)
             showFileIcon()
@@ -83,8 +95,17 @@ Image {
     }
 
     Component.onCompleted: {
+        source = sourceString
         if(dontSetSourceSize) return
         sourceSize = Qt.size(width, height)
+    }
+
+    Connections {
+        target: PQCSettings
+        function onThumbnailsIconsOnlyChanged() {
+            if(!PQCSettings.thumbnailsIconsOnly)
+                updateSource.interval = 500
+        }
     }
 
     Connections {
@@ -93,7 +114,7 @@ Image {
             if(filethumb.myIndex === PQGlobalItems.filedialogFileview.currentIndex) {
                 filethumb.source = ""
                 // when changing the following line also change the line in source: above
-                filethumb.source = Qt.binding(function() { return (filethumb.visible&&filethumb.currentPath!=="" ? encodeURI("image://thumb/" + filethumb.currentPath) : ""); })
+                filethumb.source = Qt.binding(function() { return sourceString })
             }
         }
     }

@@ -562,7 +562,32 @@ Rectangle {
                 asynchronous: true
                 cache: false
                 fillMode: (PQCSettings.thumbnailsCropToFit && !PQCSettings.thumbnailsSameHeightVaryWidth) ? Image.PreserveAspectCrop : Image.PreserveAspectFit
-                source: "image://thumb/" + deleg.filepath
+
+                property string sourceString: "image://thumb/" + deleg.filepath
+                source: ""
+                onSourceStringChanged: updateSource.restart()
+                // The delay is necessary as the thumbnailIconOnly property needs a few ms to be updated in PQCSettingsCPP used in the thumb image provider
+                Timer {
+                    id: updateSource
+                    interval: 0
+                    onTriggered: {
+                        interval = 0
+                        img.source = ""
+                        img.source = img.sourceString
+                    }
+                }
+
+                Connections {
+                    target: PQCSettings
+                    function onThumbnailsIconsOnlyChanged() {
+                        updateSource.interval = 500
+                        updateSource.restart()
+                    }
+                }
+
+                Component.onCompleted: {
+                    source = sourceString
+                }
 
                 onWidthChanged: {
                     if(view.state === "left" || view.state === "right") return
@@ -725,7 +750,7 @@ Rectangle {
                 function onThumbnailReloadImage(ind : int) {
                     if(deleg.modelData === ind) {
                         img.source = ""
-                        img.source = "image://thumb/" + deleg.filepath
+                        img.source = Qt.binding(function() { return img.sourceString })
                     }
                 }
             }

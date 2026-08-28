@@ -172,7 +172,6 @@ PQCSettings::PQCSettings() {
     connect(this, &PQCSettings::filedialogStartupRestoreHomeChanged, this, [this]() { saveChangedValue("filedialogStartupRestoreHome", m_filedialogStartupRestoreHome); });
     connect(this, &PQCSettings::filedialogStartupRestorePreviousChanged, this, [this]() { saveChangedValue("filedialogStartupRestorePrevious", m_filedialogStartupRestorePrevious); });
     connect(this, &PQCSettings::filedialogThumbnailSizeFollowsGlobalThumbnailsChanged, this, [this]() { saveChangedValue("filedialogThumbnailSizeFollowsGlobalThumbnails", m_filedialogThumbnailSizeFollowsGlobalThumbnails); });
-    connect(this, &PQCSettings::filedialogThumbnailsChanged, this, [this]() { saveChangedValue("filedialogThumbnails", m_filedialogThumbnails); });
     connect(this, &PQCSettings::filedialogThumbnailsScaleCropChanged, this, [this]() { saveChangedValue("filedialogThumbnailsScaleCrop", m_filedialogThumbnailsScaleCrop); });
     connect(this, &PQCSettings::filedialogUseNativeFileDialogChanged, this, [this]() { saveChangedValue("filedialogUseNativeFileDialog", m_filedialogUseNativeFileDialog); });
     connect(this, &PQCSettings::filedialogZoomChanged, this, [this]() { saveChangedValue("filedialogZoom", m_filedialogZoom); });
@@ -1200,28 +1199,6 @@ void PQCSettings::setDefaultForFiledialogThumbnailSizeFollowsGlobalThumbnails() 
     if(true != m_filedialogThumbnailSizeFollowsGlobalThumbnails) {
         m_filedialogThumbnailSizeFollowsGlobalThumbnails = true;
         Q_EMIT filedialogThumbnailSizeFollowsGlobalThumbnailsChanged();
-    }
-}
-
-bool PQCSettings::getFiledialogThumbnails() const {
-    return m_filedialogThumbnails;
-}
-
-void PQCSettings::setFiledialogThumbnails(const bool val) {
-    if(val != m_filedialogThumbnails) {
-        m_filedialogThumbnails = val;
-        Q_EMIT filedialogThumbnailsChanged();
-    }
-}
-
-const bool PQCSettings::getDefaultForFiledialogThumbnails() const {
-        return true;
-}
-
-void PQCSettings::setDefaultForFiledialogThumbnails() {
-    if(true != m_filedialogThumbnails) {
-        m_filedialogThumbnails = true;
-        Q_EMIT filedialogThumbnailsChanged();
     }
 }
 
@@ -7043,8 +7020,6 @@ void PQCSettings::readDB() {
                     m_filedialogStartupRestorePrevious = value.toInt();
                 } else if(name == "ThumbnailSizeFollowsGlobalThumbnails") {
                     m_filedialogThumbnailSizeFollowsGlobalThumbnails = value.toInt();
-                } else if(name == "Thumbnails") {
-                    m_filedialogThumbnails = value.toInt();
                 } else if(name == "ThumbnailsScaleCrop") {
                     m_filedialogThumbnailsScaleCrop = value.toInt();
                 } else if(name == "UseNativeFileDialog") {
@@ -7993,7 +7968,6 @@ void PQCSettings::setupFresh() {
     m_filedialogStartupRestoreHome = false;
     m_filedialogStartupRestorePrevious = true;
     m_filedialogThumbnailSizeFollowsGlobalThumbnails = true;
-    m_filedialogThumbnails = true;
     m_filedialogThumbnailsScaleCrop = true;
     m_filedialogUseNativeFileDialog = false;
     m_filedialogZoom = 12;
@@ -8325,7 +8299,6 @@ void PQCSettings::resetToDefault() {
     setDefaultForFiledialogStartupRestoreHome();
     setDefaultForFiledialogStartupRestorePrevious();
     setDefaultForFiledialogThumbnailSizeFollowsGlobalThumbnails();
-    setDefaultForFiledialogThumbnails();
     setDefaultForFiledialogThumbnailsScaleCrop();
     setDefaultForFiledialogUseNativeFileDialog();
     setDefaultForFiledialogZoom();
@@ -8758,10 +8731,6 @@ QStringList PQCSettings::updateFromCommandLine() {
     if(key == "filedialogThumbnailSizeFollowsGlobalThumbnails") {
         m_filedialogThumbnailSizeFollowsGlobalThumbnails = (val.toInt()==1);
         Q_EMIT filedialogThumbnailSizeFollowsGlobalThumbnailsChanged();
-    }
-    if(key == "filedialogThumbnails") {
-        m_filedialogThumbnails = (val.toInt()==1);
-        Q_EMIT filedialogThumbnailsChanged();
     }
     if(key == "filedialogThumbnailsScaleCrop") {
         m_filedialogThumbnailsScaleCrop = (val.toInt()==1);

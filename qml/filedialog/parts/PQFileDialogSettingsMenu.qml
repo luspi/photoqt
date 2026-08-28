@@ -247,10 +247,10 @@ PQMenu {
             //: file manager settings popdown: show thumbnails
             text: qsTranslate("filedialog", "show")
             checkable: true
-            checked: PQCSettings.filedialogThumbnails
+            checked: !PQCSettings.thumbnailsIconsOnly
             onCheckedChanged: {
-                PQCSettings.filedialogThumbnails = checked
-                checked = Qt.binding(function() { return PQCSettings.filedialogThumbnails })
+                PQCSettings.thumbnailsIconsOnly = !checked
+                checked = Qt.binding(function() { return !PQCSettings.thumbnailsIconsOnly })
             }
         }
         PQMenuItem {

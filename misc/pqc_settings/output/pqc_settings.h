@@ -256,12 +256,6 @@ public:
     Q_INVOKABLE const bool getDefaultForFiledialogThumbnailSizeFollowsGlobalThumbnails() const;
     Q_INVOKABLE void setDefaultForFiledialogThumbnailSizeFollowsGlobalThumbnails();
 
-    Q_PROPERTY(bool filedialogThumbnails READ getFiledialogThumbnails WRITE setFiledialogThumbnails NOTIFY filedialogThumbnailsChanged)
-    bool getFiledialogThumbnails() const;
-    void setFiledialogThumbnails(const bool val);
-    Q_INVOKABLE const bool getDefaultForFiledialogThumbnails() const;
-    Q_INVOKABLE void setDefaultForFiledialogThumbnails();
-
     Q_PROPERTY(bool filedialogThumbnailsScaleCrop READ getFiledialogThumbnailsScaleCrop WRITE setFiledialogThumbnailsScaleCrop NOTIFY filedialogThumbnailsScaleCropChanged)
     bool getFiledialogThumbnailsScaleCrop() const;
     void setFiledialogThumbnailsScaleCrop(const bool val);
@@ -1919,7 +1913,6 @@ private:
     bool m_filedialogStartupRestoreHome;
     bool m_filedialogStartupRestorePrevious;
     bool m_filedialogThumbnailSizeFollowsGlobalThumbnails;
-    bool m_filedialogThumbnails;
     bool m_filedialogThumbnailsScaleCrop;
     bool m_filedialogUseNativeFileDialog;
     int m_filedialogZoom;
@@ -2245,7 +2238,6 @@ Q_SIGNALS:
     void filedialogStartupRestoreHomeChanged();
     void filedialogStartupRestorePreviousChanged();
     void filedialogThumbnailSizeFollowsGlobalThumbnailsChanged();
-    void filedialogThumbnailsChanged();
     void filedialogThumbnailsScaleCropChanged();
     void filedialogUseNativeFileDialogChanged();
     void filedialogZoomChanged();

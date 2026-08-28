@@ -93,7 +93,7 @@ Item {
         onTriggered: {
 
             // if thumbnails are disabled, then do nothing here
-            if(!PQCSettings.filedialogThumbnails) return
+            if(PQCSettings.thumbnailsIconsOnly) return
 
             if(!folderthumb.isFolder)
                 return
@@ -111,7 +111,7 @@ Item {
     Connections {
         target: PQGlobalItems.filedialogFileview
         function onCurrentIndexChanged() {
-            if(PQGlobalItems.filedialogFileview.currentIndex===folderthumb.myIndex && !PQCSettings.filedialogFolderContentThumbnailsAutoload && PQCSettings.filedialogThumbnails)
+            if(PQGlobalItems.filedialogFileview.currentIndex===folderthumb.myIndex && !PQCSettings.filedialogFolderContentThumbnailsAutoload && !PQCSettings.thumbnailsIconsOnly)
                 folderthumb_next.restart()
         }
     }

@@ -419,7 +419,7 @@ PQSetting {
 
         PQSettingsResetButton {
             onResetToDefaults: {
-                thumb_show.checked = PQCSettings.getDefaultForFiledialogThumbnails()
+                thumb_show.checked = !PQCSettings.getDefaultForThumbnailsIconsOnly()
                 thumb_scalecrop.checked = PQCSettings.getDefaultForFiledialogThumbnailsScaleCrop()
                 thbsze_indep.checked = !PQCSettings.getDefaultForFiledialogThumbnailSizeFollowsGlobalThumbnails()
                 thbsze_glob.checked = PQCSettings.getDefaultForFiledialogThumbnailSizeFollowsGlobalThumbnails()
@@ -741,7 +741,7 @@ PQSetting {
         drag_list.loadAndSetDefault(PQCSettings.filedialogDragDropFileviewList)
         drag_bookmarks.loadAndSetDefault(PQCSettings.filedialogDragDropPlaces)
 
-        thumb_show.loadAndSetDefault(PQCSettings.filedialogThumbnails)
+        thumb_show.loadAndSetDefault(!PQCSettings.thumbnailsIconsOnly)
         thumb_scalecrop.loadAndSetDefault(PQCSettings.filedialogThumbnailsScaleCrop)
         thbsze_indep.loadAndSetDefault(!PQCSettings.filedialogThumbnailSizeFollowsGlobalThumbnails)
         thbsze_glob.loadAndSetDefault(PQCSettings.filedialogThumbnailSizeFollowsGlobalThumbnails)
@@ -814,7 +814,7 @@ PQSetting {
         drag_list.saveDefault()
         drag_bookmarks.saveDefault()
 
-        PQCSettings.filedialogThumbnails = thumb_show.checked
+        PQCSettings.thumbnailsIconsOnly = !thumb_show.checked
         PQCSettings.filedialogThumbnailsScaleCrop = thumb_scalecrop.checked
         PQCSettings.filedialogThumbnailSizeFollowsGlobalThumbnails = thbsze_glob.checked
         if(thbsze_glob.checked)
