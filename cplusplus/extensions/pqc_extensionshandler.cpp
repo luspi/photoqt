@@ -125,7 +125,8 @@ void PQCExtensionsHandler::setup() {
         m_systemExtensionDir = QString(PQMBUILDDIR) %  ("/extensions");
         const QStringList checkDirs = {m_systemExtensionDir,
                                        PQCConfigFiles::get().EXTENSION_DATA_DIR(),
-                                       QCoreApplication::applicationDirPath() % "/" % QString(PQMSHAREDLIBDIR) % "/PhotoQt/extensions"};
+                                       QCoreApplication::applicationDirPath() % "/" % QString(PQMSHAREDLIBDIR) % "/PhotoQt/extensions",
+                                       QString(PQMINSTALLPREFIX) % "/" % QString(PQMSHAREDLIBDIR) % "/PhotoQt/extensions"};
     #endif
 #else
         m_systemExtensionDir = QCoreApplication::applicationDirPath() % "/extensions";
