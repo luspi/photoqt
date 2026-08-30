@@ -36,7 +36,8 @@
 
 PQCImagePluginQt::PQCImagePluginQt() {
 
-    setData({{53218,
+    setData({
+             {53218,
                     {{"Animated Windows cursors"}, {"ani"}, {"application/x-navi-animation"}}},
              {66696,
                     {{"AVIF: AV1 Image File Format"}, {"avif", "avifs"}, {"image/avif", "image/avif-sequence"}}},
@@ -95,7 +96,7 @@ PQCImagePluginQt::PQCImagePluginQt() {
              {26486,
                     {{"Adobe PhotoShop"}, {"psd", "psb", "psdt"}, {"image/vnd.adobe.photoshop"}}},
              {11278,
-                    {{"PIXAR format"}, {"PIXAR format"}, {}}},
+                    {{"PIXAR format"}, {"pxr"}, {}}},
              {31111,
                     {{"Quite OK image format"}, {"qoi"}, {}}},
              {99344,
