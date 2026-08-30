@@ -76,6 +76,7 @@ SET(photoqt_SOURCES cplusplus/main.cpp
                     cplusplus/images/plugins/pqc_imageplugin_magick.cpp
                     cplusplus/images/plugins/pqc_imageplugin_devil.cpp
                     cplusplus/images/plugins/pqc_imageplugin_libvips.cpp
+                    cplusplus/images/plugins/pqc_imageplugin_openslide.cpp
 
                     cplusplus/extensions/pqc_extensionshandler.cpp
                     cplusplus/extensions/pqc_extensionmethods.cpp
@@ -122,6 +123,7 @@ SET(photoqt_SOURCES cplusplus/main.cpp
                     cplusplus/header/imageplugins/pqc_imageplugin_magick.h
                     cplusplus/header/imageplugins/pqc_imageplugin_devil.h
                     cplusplus/header/imageplugins/pqc_imageplugin_libvips.h
+                    cplusplus/header/imageplugins/pqc_imageplugin_openslide.h
 
                     cplusplus/header/pqc_imagehandler_qml.h
                     cplusplus/header/pqc_filefoldermodel.h

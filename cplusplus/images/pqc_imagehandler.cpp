@@ -36,6 +36,7 @@
 #include <imageplugins/pqc_imageplugin_magick.h>
 #include <imageplugins/pqc_imageplugin_devil.h>
 #include <imageplugins/pqc_imageplugin_libvips.h>
+#include <imageplugins/pqc_imageplugin_openslide.h>
 
 #include <QMimeDatabase>
 
@@ -49,6 +50,9 @@ PQCImageHandler::PQCImageHandler() {
 #endif
 #if defined(PQMPOPPLER) || defined(PQMQTPDF)
         << "pdf"
+#endif
+#ifdef PQMOPENSLIDE
+        << "openslide"
 #endif
         << "qt"
 #ifdef PQMRAW
@@ -105,6 +109,9 @@ PQCImageHandler::PQCImageHandler() {
 #ifdef PQMLIBSAI
                     << "libsai"
 #endif
+#ifdef PQMOPENSLIDE
+                    << "openslide"
+#endif
 #ifdef PQMVIDEOQT
                     << "video"
 #endif
@@ -145,6 +152,9 @@ PQCImageHandler::PQCImageHandler() {
 #endif
 #ifdef PQMLIBVIPS
     m_plugins.insert("libvips", new PQCImagePluginLibVips);
+#endif
+#ifdef PQMOPENSLIDE
+    m_plugins.insert("openslide", new PQCImagePluginOpenSlide);
 #endif
 
     /*******************************************************/
