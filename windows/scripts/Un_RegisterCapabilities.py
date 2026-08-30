@@ -130,6 +130,7 @@ for file in os.listdir(directory):
 WriteRegStr ShCtx "Software\\PhotoQt\\Capabilities\\FileAssociations" ".{endg}" "photoqt.AssocFile.{endg.upper()}"
 WriteRegStr ShCtx "Software\\Classes\\photoqt.AssocFile.{endg.upper()}" "" "{line[0]}"
 WriteRegStr ShCtx "Software\\Classes\\photoqt.AssocFile.{endg.upper()}" "PerceivedType" "{line[3]}"
+WriteRegStr ShCtx "Software\\Classes\\photoqt.AssocFile.{endg.upper()}\\Application" "ApplicationName" "PhotoQt"
 WriteRegStr ShCtx "Software\\Classes\\photoqt.AssocFile.{endg.upper()}\\DefaultIcon" "" "$INSTDIR\\filetypes\\{endg}.ico"
 WriteRegStr ShCtx "Software\\Classes\\photoqt.AssocFile.{endg.upper()}\\shell\\open\\command" "" '"$INSTDIR\\files\\photoqt.exe" "%1"'
 """

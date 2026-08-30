@@ -68,10 +68,10 @@ Section
 
     ; Sign executable
     !ifdef SIGN_EXE_AUTOMATICALLY
-        !system "signtool sign -v -tr http://time.certum.pl -fd SHA256 -td SHA256 app\files\photoqt.exe" = 0
+        !system "signtool sign -v -tr http://time.certum.pl -fd SHA256 -td SHA256 app_portable\photoqt.exe" = 0
     !endif
 
-    File /r "app\files\"
+    File /r "app_portable\*"
 
     !ifdef SIGN_EXE_AUTOMATICALLY
         !finalize 'signtool sign -v -tr http://time.certum.pl -fd SHA256 -td SHA256 "%1"' = 0

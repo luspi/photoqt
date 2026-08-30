@@ -639,7 +639,7 @@ set(photoqt_SOURCES ${photoqt_SOURCES} ${photoqt_HEADER_ui})
 #############################
 
 if(WIN32)
-    qt_add_executable(photoqt ${photoqt_SOURCES} windowsicons.rc)
+    qt_add_executable(photoqt ${photoqt_SOURCES} windows/windows.rc)
 else()
     qt_add_executable(photoqt ${photoqt_SOURCES})
 endif()

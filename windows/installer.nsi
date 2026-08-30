@@ -84,7 +84,7 @@ InstallDir "$LOCALAPPDATA\Programs\PhotoQt"
 
 !define MUI_WELCOMEPAGE_TEXT "This installer will guide you through the installation of the PhotoQt. It is recommended that you close all other applications before starting the installer. $\r$\n$\r$\nIf you have any questions or concerns, please contact the developer through their website:$\r$\n$\r$\nhttps://photoqt.org$\r$\n$\r$\n$\r$\n Click Next to continue."
 
-!define MUI_FINISHPAGE_RUN "$INSTDIR/photoqt.exe"
+!define MUI_FINISHPAGE_RUN "$INSTDIR\files\photoqt.exe"
 !define MUI_FINISHPAGE_RUN_TEXT "Open PhotoQt"
 
 !define MUI_FINISHPAGE_LINK "PhotoQt website: https://photoqt.org"
@@ -115,7 +115,7 @@ Page custom OptionsPage OptionsPageLeave
 Function WelcomeLeaveNotSilent
     IfSilent doNothing 0
         ; in this case we have an install from the older NSIS scripts
-        ; since a lot has changed we call the uninstaller and ask the 
+        ; since a lot has changed we call the uninstaller and ask the
         ; user to restart this installer
         IfFileExists "$INSTDIR\Uninstall.exe" 0 doNothing
         IfFileExists "$INSTDIR\files\*.*" doNothing 0
