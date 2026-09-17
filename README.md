@@ -1,5 +1,3 @@
-**IMPORTANT NOTE: The server hosting PhotoQt has experienced a cyberattack and for safety reasons has been temporarily taken offline. It will be restored again very soon. My apologies for the inconveniences.**
-
 # PhotoQt
 
 PhotoQt is a simple yet powerful and good looking **image viewer**, based on Qt/QML, published as **open-source**, and **completely free**. It is fast and highly configurable with a wide range of features and a large number of supported image formats.
