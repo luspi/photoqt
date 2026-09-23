@@ -51,7 +51,7 @@ Section "Application"
     !endif
 
     ; Application files.
-    File /r /x *qmlc "app\*exe"
+    File /r /x *qmlc "app\*"
 
     ; --------------------------------------------------------
     ; Uninstall registry information

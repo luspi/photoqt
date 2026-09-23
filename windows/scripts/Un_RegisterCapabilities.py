@@ -6,6 +6,75 @@
 # checking manually, these are the file endings that are actually ENABLED on Windows, excluding some that are to specialized for PhotoQt to be the default (e.g., videos, archives, ...)
 FORMATS_AVAILABLE = ["aai", "ai", "apng", "ari", "avif", "avifs", "avs", "dng", "pdd", "psd", "psb", "psdt", "pix", "als", "alias", "ani", "qtk", "bmp", "dib", "cals", "cal", "ras", "cur", "crw", "crr", "cr2", "cr3", "cs1", "bay", "cine", "cb7", "cbr", "cbt", "cbz", "cube", "sixel", "dcm", "dic", "dpx", "dds", "cut", "pal", "dxo", "pes", "erf", "g3", "fits", "fts", "fit", "fl32", "raf", "gif", "xcf", "gpr", "rgbe", "hdr", "rad", "heif", "heic", "3fr", "fff", "ftx", "iff", "lbm", "pgx", "jfif", "jng", "jxl", "jxr", "hdp", "wdp", "jpeg", "jpg", "jpe", "jif", "viff", "xv", "dcr", "kdc", "drf", "k25", "dcs", "dc2", "kc2", "kra", "rgf", "mos", "raw", "rwl", "pxn", "mat", "mng", "mtv", "mpc", "mvg", "miff", "mef", "mfw", "ico", "mdc", "dfont", "nef", "nrw", "bmq", "obm", "orf", "ori", "otb", "exr", "ora", "otf", "ttf", "ttc", "pbm", "pcx", "art", "pgm", "pxr", "png", "ppm", "pnm", "tim", "sai", "pdb", "palm", "rw2", "pef", "ptx", "picon", "cap", "eip", "liq", "iiq", "pcd", "pcds", "pam", "pfm", "phm", "pfb", "pfm", "pfa", "ptif", "pict", "pct", "qoi", "r3d", "rwz", "rdc", "rgba", "rgb", "sgi", "bw", "sun", "ras", "sr", "im1", "im24", "im32", "im8", "rast", "rs", "scr", "svg", "svgz", "srw", "sct", "ch", "sfw", "pwp", "x3f", "sti", "hrz", "pic", "srf", "mrw", "sr2", "arq", "arw", "tga", "icb", "vda", "vst", "tiff", "tif", "rle", "vicar", "vtf", "webp", "rla", "wmf", "wbmp", "wpg", "xbm", "bm", "xpm", "pm", "dcx", "ff"]
 
+MIMETYPES = {
+    "avif": "image/avif",
+    "avifs": "image/avif-sequence",
+    "psd": "image/vnd.adobe.photoshop",
+    "psb": "image/vnd.adobe.photoshop",
+    "psdt": "image/vnd.adobe.photoshop",
+    "ani": "application/x-navi-animation",
+    "bmp": "image/bmp",
+    "dib": "image/bmp",
+    "cur": "image/x-win-bitmap",
+    "crw": "image/x-canon-crw",
+    "crr": "image/x-canon-cr2",
+    "cr2": "image/x-canon-cr2",
+    "dcm": "application/dicom",
+    "dic": "application/dicom",
+    "dpx": "image/x-dpx",
+    "gif": "image/gif",
+    "xcf": "image/x-xcf",
+    "heif": "image/heif",
+    "heic": "image/heic",
+    "jng": "video/x-jng",
+    "jxl": "image/jxl",
+    "jpeg": "image/jpeg",
+    "jpg": "image/jpeg",
+    "jpe": "image/jpeg",
+    "jif": "image/jpeg",
+    "kra": "application/x-krita",
+    "mng": "video/x-mng",
+    "mvg": "image/x-mvg",
+    "miff": "image/x-miff",
+    "ico": "image/x-icon",
+    "orf": "image/x-olympus-orf",
+    "ori": "image/x-olympus-orf",
+    "exr": "image/x-exr",
+    "ora": "image/openraster",
+    "otf": "font/opentype",
+    "ttf": "font/opentype",
+    "ttc": "font/opentype",
+    "pbm": "image/x-portable-bitmap",
+    "pcx": "image/x-pcx",
+    "pgm": "image/x-portable-greymap",
+    "png": "image/png",
+    "ppm": "image/x-portable-pixmap",
+    "pnm": "image/x-portable-anymap",
+    "pef": "image/x-pentax-pef",
+    "ptx": "image/x-pentax-pef",
+    "picon": "image/x-xpmi",
+    "pam": "image/x-portable-arbitrarymap",
+    "ptif": "image/tiff",
+    "rgba": "image/sgi",
+    "rgb": "image/sgi",
+    "sgi": "image/sgi",
+    "bw": "image/sgi",
+    "svg": "image/svg+xml",
+    "svgz": "image/svg+xml",
+    "tga": "image/x-tga",
+    "icb": "image/x-tga",
+    "vda": "image/x-tga",
+    "vst": "image/x-tga",
+    "tiff": "image/tiff",
+    "tif": "image/tiff",
+    "webp": "image/webp",
+    "wbmp": "image/vnd.wap.wbmp",
+    "xbm": "image/x-xbm",
+    "bm": "image/x-xbm",
+    "xpm": "image/x-xpixmap",
+    "pm": "image/x-xpixmap"
+    }
+
 import os
 
 recorded = []
@@ -129,7 +198,12 @@ for file in os.listdir(directory):
                 FINAL_CONT += f"""
 WriteRegStr ShCtx "Software\\PhotoQt\\Capabilities\\FileAssociations" ".{endg}" "photoqt.AssocFile.{endg.upper()}"
 WriteRegStr ShCtx "Software\\Classes\\photoqt.AssocFile.{endg.upper()}" "" "{line[0]}"
-WriteRegStr ShCtx "Software\\Classes\\photoqt.AssocFile.{endg.upper()}" "PerceivedType" "{line[3]}"
+WriteRegStr ShCtx "Software\\Classes\\photoqt.AssocFile.{endg.upper()}" "PerceivedType" "{line[3]}\""""
+                if endg in MIMETYPES:
+                    FINAL_CONT += f"""
+WriteRegStr ShCtx "Software\\Classes\\photoqt.AssocFile.{endg.upper()}" "Content Type" "{MIMETYPES[endg]}\""""
+
+                FINAL_CONT += f"""
 WriteRegStr ShCtx "Software\\Classes\\photoqt.AssocFile.{endg.upper()}\\Application" "ApplicationName" "PhotoQt"
 WriteRegStr ShCtx "Software\\Classes\\photoqt.AssocFile.{endg.upper()}\\DefaultIcon" "" "$INSTDIR\\filetypes\\{endg}.ico"
 WriteRegStr ShCtx "Software\\Classes\\photoqt.AssocFile.{endg.upper()}\\shell\\open\\command" "" '"$INSTDIR\\files\\photoqt.exe" "%1"'
