@@ -150,6 +150,7 @@ Q_SIGNALS:
 
     // command line signals
     void cmdOpen();
+    void cmdBrowse(QString folder);
     void cmdShow();
     void cmdHide();
     void cmdQuit();

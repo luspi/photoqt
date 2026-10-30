@@ -47,6 +47,10 @@ PQCCommandLineParser::PQCCommandLineParser(QApplication &app, QObject *parent) :
                    //: Command line option
         {{"o", "open"}, QApplication::translate("commandlineparser", "Make PhotoQt ask for a new file.")},
                    //: Command line option
+        {"b", "browse", QApplication::translate("commandlineparser", "Open the file browser at the specified folder."),
+                   //: Command line option
+                   QApplication::translate("commandlineparser", "folder")},
+                   //: Command line option
         {{"s", "show"}, QApplication::translate("commandlineparser", "Shows PhotoQt from system tray.")},
                    //: Command line option
         {"hide", QApplication::translate("commandlineparser", "Hides PhotoQt to system tray.")},
@@ -139,6 +143,11 @@ PQCCommandLineResult PQCCommandLineParser::getResult() {
 
     if(isSet("o") || isSet("open"))
         ret = ret|PQCCommandLineOpen;
+
+    if(isSet("browse")) {
+        browseFolder = value("browse");
+        ret = ret|PQCCommandLineBrowse;
+    }
 
     if(isSet("s") || isSet("show"))
         ret = ret|PQCCommandLineShow;

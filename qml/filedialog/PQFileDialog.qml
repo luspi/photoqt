@@ -452,14 +452,23 @@ PQTemplate {
 
         fd_fileview.ignoreMouseEvents = true
 
-        // check that the correct folder is loaded
-        if(PQCFileFolderModel.currentIndex !== -1 && PQCFileFolderModel.currentFile !== "") {
-            var mv_folder = PQCScriptsFilesPaths.getDir(PQCFileFolderModel.currentFile)
-            if(PQCFileFolderModel.folderFileDialog !== mv_folder)
-                loadNewPath(mv_folder)
+        var preselectIndex = true
+
+        // this is only set if passed on from command line (see PQMainWindow.qml)
+        if(PQCConstants.filedialogOverwriteFolderToShow !== "") {
+            if(PQCFileFolderModel.folderFileDialog !== PQCConstants.filedialogOverwriteFolderToShow)
+                loadNewPath(PQCConstants.filedialogOverwriteFolderToShow)
+            preselectIndex = false
+        } else {
+            // check that the correct folder is loaded
+            if(PQCFileFolderModel.currentIndex !== -1 && PQCFileFolderModel.currentFile !== "") {
+                var mv_folder = PQCScriptsFilesPaths.getDir(PQCFileFolderModel.currentFile)
+                if(PQCFileFolderModel.folderFileDialog !== mv_folder)
+                    loadNewPath(mv_folder)
+            }
         }
 
-        if(PQCFileFolderModel.currentFile !== "")
+        if(PQCFileFolderModel.currentFile !== "" && preselectIndex)
             fd_fileview.setCurrentIndexToCurrentFile()
 
     }

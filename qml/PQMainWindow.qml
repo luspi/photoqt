@@ -376,7 +376,18 @@ ApplicationWindow {
 
         function onCmdOpen() : void {
             console.log("")
+            PQCConstants.filedialogOverwriteFolderToShow = ""
             PQCNotify.loaderShow("FileDialog")
+        }
+
+        function onCmdBrowse(folder) : void {
+            console.log("args: folder =", folder)
+            if(PQCConstants.modalFileDialogOpen)
+                PQCNotify.filedialogLoadNewPath(folder)
+            else {
+                PQCConstants.filedialogOverwriteFolderToShow = folder
+                PQCNotify.loaderShow("FileDialog")
+            }
         }
 
         function onCmdShow() : void {

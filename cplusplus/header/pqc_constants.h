@@ -152,6 +152,7 @@ public:
         m_filedialogTweaksHeight = 0;
         m_filedialogTweaksZoomMoveUpHeight = 0;
         m_filedialogSplitviewResizing = false;
+        m_filedialogOverwriteFolderToShow = "";
 
         m_settingsManagerSettingChanged = false;
         m_settingsManagerCacheShortcutNames.clear();
@@ -447,6 +448,7 @@ public:
     Q_PROPERTY(int filedialogTweaksHeight MEMBER m_filedialogTweaksHeight NOTIFY filedialogTweaksHeightChanged)
     Q_PROPERTY(int filedialogTweaksZoomMoveUpHeight MEMBER m_filedialogTweaksZoomMoveUpHeight NOTIFY filedialogTweaksZoomMoveUpHeightChanged)
     Q_PROPERTY(bool filedialogSplitviewResizing MEMBER m_filedialogSplitviewResizing NOTIFY filedialogSplitviewResizingChanged)
+    Q_PROPERTY(QString filedialogOverwriteFolderToShow MEMBER m_filedialogOverwriteFolderToShow NOTIFY filedialogOverwriteFolderToShowChanged)
 
     Q_PROPERTY(bool settingsManagerSettingChanged MEMBER m_settingsManagerSettingChanged NOTIFY settingsManagerSettingChangedChanged)
     Q_PROPERTY(QString settingsManagerStartWithExtensionOpen MEMBER m_settingsManagerStartWithExtensionOpen NOTIFY settingsManagerStartWithExtensionOpenChanged)
@@ -653,6 +655,7 @@ private:
     int m_filedialogTweaksHeight;
     int m_filedialogTweaksZoomMoveUpHeight;
     bool m_filedialogSplitviewResizing;
+    QString m_filedialogOverwriteFolderToShow;
 
     bool m_settingsManagerSettingChanged;
     QString m_settingsManagerStartWithExtensionOpen;
@@ -842,5 +845,6 @@ Q_SIGNALS:
     void filedialogTweaksHeightChanged();
     void filedialogTweaksZoomMoveUpHeightChanged();
     void filedialogSplitviewResizingChanged();
+    void filedialogOverwriteFolderToShowChanged();
 
 };

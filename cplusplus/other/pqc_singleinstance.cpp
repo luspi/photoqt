@@ -56,6 +56,7 @@ PQCSingleInstance::PQCSingleInstance(int &argc, char *argv[]) : QApplication(arg
     QStringList receivedFiles;
     QString receivedShortcut = "";
     QString receivedSetting[2] = {"", ""};
+    QString receivedBrowseFolder;
 
     socket = nullptr;
     server = nullptr;
@@ -77,6 +78,11 @@ PQCSingleInstance::PQCSingleInstance(int &argc, char *argv[]) : QApplication(arg
 
     if(result & PQCCommandLineOpen) {
         msg << Actions::Open;
+    }
+
+    if(result & PQCCommandLineBrowse) {
+        msg << Actions::Browse;
+        receivedBrowseFolder = parser.browseFolder;
     }
 
     if(result & PQCCommandLineShow) {
@@ -210,6 +216,8 @@ PQCSingleInstance::PQCSingleInstance(int &argc, char *argv[]) : QApplication(arg
                         m_receivedFiles = receivedFiles;
                         if(!receivedShortcut.isEmpty())
                             m_receivedShortcut = receivedShortcut;
+                        if(!receivedBrowseFolder.isEmpty())
+                            m_receivedBrowseFolder = receivedBrowseFolder;
                         if(!receivedSetting[0].isEmpty()) {
                             m_receivedSetting[0] = receivedSetting[0];
                             m_receivedSetting[1] = receivedSetting[1];
@@ -265,6 +273,8 @@ PQCSingleInstance::PQCSingleInstance(int &argc, char *argv[]) : QApplication(arg
             writeMessage.append(("_F_I_L_E_" % receivedFiles.join(":://:://::") % "\n").toUtf8());
         if(!receivedShortcut.isEmpty())
             writeMessage.append(("_S_H_O_R_T_C_U_T_" % receivedShortcut % "\n").toUtf8());
+        if(!receivedBrowseFolder.isEmpty())
+            writeMessage.append(("_B_R_O_W_S_E_" % receivedBrowseFolder % "\n").toUtf8());
         if(!receivedSetting[0].isEmpty())
             writeMessage.append(("_S_E_T_T_I_N_G_" % receivedSetting[0] % ":" % receivedSetting[1] % "\n").toUtf8());
 
@@ -298,6 +308,7 @@ PQCSingleInstance::PQCSingleInstance(int &argc, char *argv[]) : QApplication(arg
         m_receivedSetting[0] = receivedSetting[0];
         m_receivedSetting[1] = receivedSetting[1];
         m_receivedShortcut = receivedShortcut;
+        m_receivedBrowseFolder = receivedBrowseFolder;
 
         handleMessage(msg);
         m_startupMessageForProcessing = msg;
@@ -321,6 +332,9 @@ void PQCSingleInstance::newConnection() {
             } else if(rep.startsWith("_S_H_O_R_T_C_U_T_")) {
                 m_receivedShortcut = rep.last(rep.length()-17);
                 handleAll.append(Actions::Shortcut);
+            } else if(rep.startsWith("_B_R_O_W_S_E_")) {
+                m_receivedBrowseFolder = rep.last(rep.length()-13);
+                handleAll.append(Actions::Browse);
             } else if(rep.startsWith("_S_E_T_T_I_N_G_")) {
                 const QList<QByteArray> tmp = rep.last(rep.length()-15).split(':');
                 m_receivedSetting[0] = tmp[0];
@@ -387,6 +401,12 @@ void PQCSingleInstance::handleMessage(const QList<Actions> msg, bool includeFile
 
             qDebug() << "request action: open";
             Q_EMIT PQCNotifyCPP::get().cmdOpen();
+            break;
+
+        case Actions::Browse:
+
+            qDebug() << "request action: browse";
+            Q_EMIT PQCNotifyCPP::get().cmdBrowse(m_receivedBrowseFolder.isEmpty() ? "" : m_receivedBrowseFolder);
             break;
 
         case Actions::Show:

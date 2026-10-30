@@ -58,6 +58,7 @@ public:
         connect(&PQCNotifyCPP::get(), &PQCNotifyCPP::showNotificationMessage, this, &PQCNotify::showNotificationMessage);
 
         connect(&PQCNotifyCPP::get(), &PQCNotifyCPP::cmdOpen, this, &PQCNotify::cmdOpen);
+        connect(&PQCNotifyCPP::get(), &PQCNotifyCPP::cmdBrowse, this, &PQCNotify::cmdBrowse);
         connect(&PQCNotifyCPP::get(), &PQCNotifyCPP::cmdShow, this, &PQCNotify::cmdShow);
         connect(&PQCNotifyCPP::get(), &PQCNotifyCPP::cmdHide, this, &PQCNotify::cmdHide);
         connect(&PQCNotifyCPP::get(), &PQCNotifyCPP::cmdQuit, this, &PQCNotify::cmdQuit);
@@ -100,6 +101,7 @@ Q_SIGNALS:
 
     // command line signals, received from C++ via PQCNotify
     void cmdOpen();
+    void cmdBrowse(QString folder);
     void cmdShow();
     void cmdHide();
     void cmdQuit();

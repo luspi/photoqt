@@ -41,6 +41,7 @@ class PQCSingleInstance : public QApplication {
     enum class Actions {
         File = Qt::UserRole+1,
         Open,
+        Browse,
         Show,
         Hide,
         Quit,
@@ -95,6 +96,7 @@ private:
     QStringList m_receivedFiles;
     QString m_receivedShortcut;
     QString m_receivedSetting[2];
+    QString m_receivedBrowseFolder;
 
     bool m_forceShowWizard;
     bool m_forceSkipWizard;

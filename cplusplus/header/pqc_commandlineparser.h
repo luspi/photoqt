@@ -51,7 +51,8 @@ enum PQCCommandLineResult {
     PQCCommandLineIntegratedInterface = 4194304,
     PQCCommandLineShowStartupWizard = 8388608,
     PQCCommandLineDontShowStartupWizard = 16777216,
-    PQCCommandLineInstallExtension = 33554432
+    PQCCommandLineInstallExtension = 33554432,
+    PQCCommandLineBrowse = 67108864
 };
 inline PQCCommandLineResult operator|(PQCCommandLineResult a, PQCCommandLineResult b) {
     return static_cast<PQCCommandLineResult>(static_cast<int>(a) | static_cast<int>(b));
@@ -70,6 +71,7 @@ public:
     QString exportFileName;
     QString importFileName;
     QStringList filenames;
+    QString browseFolder;
     QString shortcutSequence;
     QString settingUpdate[2];
     QString extensionFileName;
