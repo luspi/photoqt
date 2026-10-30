@@ -161,6 +161,13 @@ Function .onInit
         StrCpy $INSTDIR "$PROGRAMFILES64\PhotoQt"
     ${EndIf}
 
+    ; read the previous InstallDir to re-select the same folder
+    ClearErrors
+    EnumRegKey $0 ShCtx "Software\Microsoft\Windows\CurrentVersion\Uninstall\PhotoQt" 0
+    IfErrors keydoesnotexist 0
+        ReadRegStr $INSTDIR ShCtx "Software\Microsoft\Windows\CurrentVersion\Uninstall\PhotoQt" "InstallDir"
+    keydoesnotexist:
+
     InitPluginsDir
     File "/oname=$PLUGINSDIR\filetypes_default.bmp" "assets\filetypes_default.bmp"
     File "/oname=$PLUGINSDIR\filetypes_xmha97.bmp" "assets\filetypes_xmha97.bmp"
