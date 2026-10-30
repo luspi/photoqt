@@ -254,6 +254,19 @@ MenuBar {
                         PQCScriptsShortcuts.executeInternalCommand("__zoomReset")
                 }
             }
+
+            PQMenuSeparator {}
+
+            PQMenuItem {
+                //: This refers to preserving any change in zoom/mirror/rotation even when switching images. Please keep short.
+                text: qsTranslate("other", "Preserve across images")
+                checkable: true
+                checked: PQCSettings.imageviewPreserveZoom
+                onCheckedChanged: {
+                    PQCSettings.imageviewPreserveZoom = checked
+                    checked = Qt.binding(function() { return PQCSettings.imageviewPreserveZoom })
+                }
+            }
         }
 
         PQMenu {
@@ -295,6 +308,19 @@ MenuBar {
                         PQCScriptsShortcuts.executeInternalCommand("__rotate0")
                 }
             }
+
+            PQMenuSeparator {}
+
+            PQMenuItem {
+                //: This refers to preserving any change in zoom/mirror/rotation even when switching images. Please keep short.
+                text: qsTranslate("other", "Preserve across images")
+                checkable: true
+                checked: PQCSettings.imageviewPreserveRotation
+                onCheckedChanged: {
+                    PQCSettings.imageviewPreserveRotation = checked
+                    checked = Qt.binding(function() { return PQCSettings.imageviewPreserveRotation })
+                }
+            }
         }
 
         PQMenu {
@@ -329,6 +355,30 @@ MenuBar {
                     onClicked:
                         PQCScriptsShortcuts.executeInternalCommand("__flipReset")
                 }
+            }
+
+            PQMenuSeparator {}
+
+            PQMenuItem {
+                //: This refers to preserving any change in zoom/mirror/rotation even when switching images. Please keep short.
+                text: qsTranslate("other", "Preserve across images")
+                checkable: true
+                checked: PQCSettings.imageviewPreserveMirror
+                onCheckedChanged: {
+                    PQCSettings.imageviewPreserveMirror = checked
+                    checked = Qt.binding(function() { return PQCSettings.imageviewPreserveMirror })
+                }
+            }
+        }
+
+        PQMenuItem {
+            //: This refers to remembering the individual zoom/rotation/mirror settings for each image. Please keep short.
+            text: qsTranslate("other", "Remember for each image")
+            checkable: true
+            checked: PQCSettings.imageviewRememberZoomRotationMirror
+            onCheckedChanged: {
+                PQCSettings.imageviewRememberZoomRotationMirror = checked
+                checked = Qt.binding(function() { return PQCSettings.imageviewRememberZoomRotationMirror })
             }
         }
 
