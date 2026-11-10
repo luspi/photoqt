@@ -72,6 +72,26 @@ Item {
                 }
             }
 
+            // PQSlider2 {
+
+            //     id: new_slider
+
+            //     y: (parent.height-height)/2
+
+            //     value: 20
+            //     suffix: " %"
+
+            //     logarithmicScale: false
+
+            //     from: 1
+            //     to: 100
+
+            // }
+
+            // PQText {
+            //     text: Math.round(new_slider.value)
+            // }
+
             PQFileDialogSlider {
 
                 id: zoomslider

@@ -21,6 +21,7 @@ SET(photoqt_QML qml/PQMainWindow.qml
                 qml/elements/basics/PQMouseArea.qml
                 qml/elements/basics/PQRadioButton.qml
                 qml/elements/basics/PQSlider.qml
+                qml/elements/basics/PQSlider2.qml
                 qml/elements/basics/PQSpinBox.qml
                 qml/elements/basics/PQTabBar.qml
                 qml/elements/basics/PQTabButton.qml
