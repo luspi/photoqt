@@ -220,6 +220,8 @@ public:
         updateMetadata();
     }
 
+    Q_INVOKABLE void setup() {};
+
 private:
     QTimer *loadDelay;
 

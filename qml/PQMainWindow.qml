@@ -307,6 +307,9 @@ ApplicationWindow {
         if(toplevel.screen !== undefined)
             PQCConstants.currentScreenModelName = toplevel.screen.name
 
+        // we need to call it once here to make sure it is set up and listens to any file changes
+        PQCMetaData.setup()
+
         if(PQCConstants.startupFilePath !== "") {
 
             // in the case of a FOLDER passed on we actually need to load the files first to get the first one:

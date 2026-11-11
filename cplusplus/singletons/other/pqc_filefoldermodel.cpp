@@ -212,11 +212,13 @@ QString PQCFileFolderModel::getFileInFolderMainView() {
 }
 void PQCFileFolderModel::setFileInFolderMainView(QString val) {
 
+    qDebug() << "args: val = " << val;
+
     if(m_fileInFolderMainView == val)
         return;
     QFileInfo oldfile(m_fileInFolderMainView);
     QFileInfo newfile(val);
-    if(oldfile.dir() == newfile.dir() && !m_fileInFolderMainView.isEmpty()) {
+    if(m_fileInFolderMainView != "" && oldfile.dir() == newfile.dir() && !m_fileInFolderMainView.isEmpty()) {
         m_currentFile = val;
         PQCFileFolderModelCPP::get().setCurrentFile(m_currentFile);
         m_currentFileNoDelay = m_currentFile;
@@ -239,6 +241,7 @@ QString PQCFileFolderModel::getFolderFileDialog() {
     return m_folderFileDialog;
 }
 void PQCFileFolderModel::setFolderFileDialog(QString val) {
+    qDebug() << "args: val = " << val;
     if(m_folderFileDialog == val)
         return;
     m_folderFileDialog = val;
@@ -262,6 +265,7 @@ bool PQCFileFolderModel::getFirstFolderMainViewLoaded() {
     return m_firstFolderMainViewLoaded;
 }
 void PQCFileFolderModel::setFirstFolderMainViewLoaded(bool val) {
+    qDebug() << "args: val = " << val;
     if(val != m_firstFolderMainViewLoaded) {
         m_firstFolderMainViewLoaded = val;
         Q_EMIT firstFolderMainViewLoadedChanged();
@@ -276,6 +280,8 @@ int PQCFileFolderModel::getCountMainView() {
 }
 void PQCFileFolderModel::setCountMainView(int c) {
 
+    qDebug() << "args: c = " << c;
+
     PQCFileFolderModelCPP::get().setCountMainView(c);
 
     if(m_countMainView == c)
@@ -288,6 +294,7 @@ int PQCFileFolderModel::getCountFoldersFileDialog() {
     return m_countFoldersFileDialog;
 }
 void PQCFileFolderModel::setCountFoldersFileDialog(int c) {
+    qDebug() << "args: c = " << c;
     if(m_countFoldersFileDialog == c)
         return;
     m_countFoldersFileDialog = c;
@@ -300,6 +307,7 @@ int PQCFileFolderModel::getCountFilesFileDialog() {
     return m_countFilesFileDialog;
 }
 void PQCFileFolderModel::setCountFilesFileDialog(int c) {
+    qDebug() << "args: c = " << c;
     if(m_countFilesFileDialog == c)
         return;
     m_countFilesFileDialog = c;
@@ -327,6 +335,7 @@ bool PQCFileFolderModel::getIncludeFilesInSubFolders() {
     return m_includeFilesInSubFolders;
 }
 void PQCFileFolderModel::setIncludeFilesInSubFolders(bool c) {
+    qDebug() << "args: c = " << c;
     if(m_includeFilesInSubFolders == c)
         return;
     m_includeFilesInSubFolders = c;
@@ -338,6 +347,7 @@ bool PQCFileFolderModel::getReadDocumentOnly() {
     return m_readDocumentOnly;
 }
 void PQCFileFolderModel::setReadDocumentOnly(bool c) {
+    qDebug() << "args: c = " << c;
     if(m_readDocumentOnly == c)
         return;
     m_readDocumentOnly = c;
@@ -349,6 +359,7 @@ bool PQCFileFolderModel::getReadArchiveOnly() {
     return m_readArchiveOnly;
 }
 void PQCFileFolderModel::setReadArchiveOnly(bool c) {
+    qDebug() << "args: c = " << c;
     if(m_readArchiveOnly == c)
         return;
     m_readArchiveOnly = c;
@@ -360,6 +371,7 @@ QStringList PQCFileFolderModel::getVirtualFolders() {
     return m_virtualFolders;
 }
 void PQCFileFolderModel::setVirtualFolders(QStringList val) {
+    qDebug() << "args: val = " << val;
     m_virtualFolders = val;
     Q_EMIT virtualFoldersChanged();
 }
@@ -368,6 +380,7 @@ QStringList PQCFileFolderModel::getVirtualFiles() {
     return m_virtualFiles;
 }
 void PQCFileFolderModel::setVirtualFiles(QStringList val) {
+    qDebug() << "args: val = " << val;
     m_virtualFiles = val;
     Q_EMIT virtualFilesChanged();
 }
@@ -376,6 +389,7 @@ bool PQCFileFolderModel::getLoadVirtualFolderFileDialog() {
     return m_loadVirtualFolderFileDialog;
 }
 void PQCFileFolderModel::setLoadVirtualFolderFileDialog(bool val) {
+    qDebug() << "args: val = " << val;
     m_loadVirtualFolderFileDialog = val;
     Q_EMIT loadVirtualFolderFileDialogChanged();
 }
@@ -384,6 +398,7 @@ bool PQCFileFolderModel::getLoadVirtualFolderMainView() {
     return m_loadVirtualFolderMainView;
 }
 void PQCFileFolderModel::setLoadVirtualFolderMainView(bool val) {
+    qDebug() << "args: val = " << val;
     m_loadVirtualFolderMainView = val;
     Q_EMIT loadVirtualFolderMainViewChanged();
 }
@@ -395,6 +410,7 @@ QSet<QString> PQCFileFolderModel::getRestrictToSuffixes() {
     return m_restrictToSuffixes;
 }
 void PQCFileFolderModel::setRestrictToSuffixes(QSet<QString> val) {
+    qDebug() << "args: val = " << val;
     if(m_restrictToSuffixes == val)
         return;
     m_restrictToSuffixes = val;
@@ -407,6 +423,7 @@ QStringList PQCFileFolderModel::getNameFilters() {
     return m_nameFilters;
 }
 void PQCFileFolderModel::setNameFilters(QStringList val) {
+    qDebug() << "args: val = " << val;
     if(m_nameFilters == val)
         return;
     m_nameFilters = val;
@@ -420,6 +437,7 @@ QStringList PQCFileFolderModel::getFilenameFilters() {
     return m_filenameFilters;
 }
 void PQCFileFolderModel::setFilenameFilters(QStringList val) {
+    qDebug() << "args: val = " << val;
     if(m_filenameFilters == val)
         return;
     m_filenameFilters = val;
@@ -433,6 +451,7 @@ QSet<QString> PQCFileFolderModel::getRestrictToMimeTypes() {
     return m_restrictToMimeTypes;
 }
 void PQCFileFolderModel::setRestrictToMimeTypes(QSet<QString> val) {
+    qDebug() << "args: val = " << val;
     if(m_restrictToMimeTypes == val)
         return;
     m_restrictToMimeTypes = val;
@@ -445,6 +464,7 @@ QSize PQCFileFolderModel::getImageResolutionFilter() {
     return m_imageResolutionFilter;
 }
 void PQCFileFolderModel::setImageResolutionFilter(QSize val) {
+    qDebug() << "args: val = " << val;
     if(m_imageResolutionFilter == val)
         return;
     m_imageResolutionFilter = val;
@@ -458,6 +478,7 @@ qint64 PQCFileFolderModel::getFileSizeFilter() {
     return m_fileSizeFilter;
 }
 void PQCFileFolderModel::setFileSizeFilter(qint64 val) {
+    qDebug() << "args: val = " << val;
     if(m_fileSizeFilter == val)
         return;
     m_fileSizeFilter = val;
@@ -928,6 +949,8 @@ int PQCFileFolderModel::getCurrentIndexNoDelay() {
 }
 
 void PQCFileFolderModel::setCurrentIndex(int val) {
+
+    qDebug() << "args: val =" << val;
 
     PQCFileFolderModelCPP::get().setCurrentIndex(val);
 
@@ -1758,10 +1781,11 @@ void PQCFileFolderModel::loadNextMatchOfSearch(const QString search) {
 
 QString PQCFileFolderModel::getFilenameOfMostRecentFile(const QString folder) {
 
+    qDebug() << "args: folder = " << folder;
+
     QDir dir(folder);
     const QStringList lst = dir.entryList(QDir::Files|QDir::NoDotAndDotDot, QDir::Time);
-    qDebug() << folder;
-    qDebug() << lst;
+    qDebug() << "lst =" << lst;
     if(lst.length()) return QString("%1/%2").arg(folder, lst[0]);
 
     return "";
