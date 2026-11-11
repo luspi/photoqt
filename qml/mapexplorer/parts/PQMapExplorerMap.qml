@@ -58,26 +58,12 @@ Item {
     signal setMinMaxZoomlevel(var minlvl, var maxlvl)
 
     Plugin {
-
-        id: osmPlugin
-
-        name: "osm"
-
+        id: mapPlugin
+        name: "maplibre"
         PluginParameter {
-            name: "osm.useragent"
-            value: "PhotoQt Image Viewer"
+            name: "maplibre.map.styles"
+            value: "https://osm.photoqt.org/style.json"
         }
-
-        PluginParameter {
-            name: "osm.mapping.providersrepository.address"
-            value: "https://osm.photoqt.org"
-        }
-
-        PluginParameter {
-            name: "osm.mapping.highdpi_tiles";
-            value: true
-        }
-
     }
 
     Map {
@@ -91,9 +77,7 @@ Item {
 
         property int curZ: 0
 
-        plugin: osmPlugin
-
-        activeMapType: supportedMapTypes[supportedMapTypes.length > 5 ? 5 : (supportedMapTypes.length-1)]
+        plugin: mapPlugin
 
         property geoCoordinate startCentroid
 
