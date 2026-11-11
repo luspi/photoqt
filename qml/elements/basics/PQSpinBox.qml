@@ -28,9 +28,11 @@ SpinBox {
 
     id: control
 
-    property int liveValue: value
-    property string tooltip: liveValue + tooltipSuffix
+    property string tooltip: value + tooltipSuffix
     property string tooltipSuffix: ""
+/*1on_Qt66+*/
+    live: true
+/*2on_Qt66+*/
 
     background: Rectangle {
         implicitWidth: 140
@@ -103,7 +105,7 @@ SpinBox {
         text: control.tooltip
     }
 
-    property int _defaultValue
+    property real _defaultValue
     Component.onCompleted: {
         _defaultValue = value
     }
@@ -118,17 +120,15 @@ SpinBox {
 
     function loadAndSetDefault(val : int) {
         value = val
-        liveValue = val
         _defaultValue = val
     }
 
     function setValue(val : int) {
         value = val
-        liveValue = val
     }
 
     function hasChanged() : bool {
-        return _defaultValue!==liveValue
+        return _defaultValue!==value
     }
 
 }
