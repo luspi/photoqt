@@ -69,7 +69,7 @@ Rectangle {
     property int extraSpacing: Math.max(20,2*effectiveThumbnailLiftup)
     property bool windowSizeOkay: true
 
-    property int effectiveThumbnailSize: 50+PQCSettings.thumbnailsSize*5
+    property int effectiveThumbnailSize: PQCSettings.thumbnailsSize
 
     color: palette.base
 

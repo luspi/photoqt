@@ -88,9 +88,27 @@ void PQCMigrateSettings::migrate(const QString &oldVersion, const QStringList al
         else if(curVer == "5.4")
             migrate540();
 
+        else if(curVer == "5.5")
+            migrate550();
+
     }
 
     db.commit();
+
+}
+
+/******************************************************/
+/******************************************************/
+
+void PQCMigrateSettings::migrate550() {
+
+    qDebug() << "";
+
+    const int oldVal = migrationHelperGetOldValue("thumbnails", "Size").toInt();
+    migrationHelperSetNewValue("thumbnails", "Size", oldVal*5);
+
+    const int oldVal2 = migrationHelperGetOldValue("filedialog", "Zoom").toInt();
+    migrationHelperSetNewValue("filedialog", "Zoom", oldVal*5);
 
 }
 

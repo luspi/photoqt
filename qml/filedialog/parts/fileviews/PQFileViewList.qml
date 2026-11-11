@@ -100,7 +100,7 @@ ListView {
         width: listview.width
 
         // without the parseInt() the value is taken for some reason as string resulting in a height of "15" + "xx" = "15xx"
-        height: 20+(PQCSettings.filedialogThumbnailSizeFollowsGlobalThumbnails ? PQCSettings.thumbnailsSize : PQCSettings.filedialogZoom)*5
+        height: 20+(PQCSettings.filedialogThumbnailSizeFollowsGlobalThumbnails ? PQCSettings.thumbnailsSize : PQCSettings.filedialogZoom)
 
         color: palette.base
         border.width: 1

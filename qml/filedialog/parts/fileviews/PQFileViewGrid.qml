@@ -33,7 +33,7 @@ GridView {
 
     model: 0
 
-    property int baseSize: 50 + (PQCSettings.filedialogThumbnailSizeFollowsGlobalThumbnails ? PQCSettings.thumbnailsSize : PQCSettings.filedialogZoom)*5
+    property int baseSize: 50 + (PQCSettings.filedialogThumbnailSizeFollowsGlobalThumbnails ? PQCSettings.thumbnailsSize : PQCSettings.filedialogZoom)
 
     property bool ignoreMouseEvents: false
     interactive: !ignoreMouseEvents
