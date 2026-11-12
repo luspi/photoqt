@@ -508,6 +508,54 @@ endif()
 #### Handle Qt<6.4/5 specific stuff ####
 ########################################
 
+# we need to use <6.5 as ==6.4 would not match, e.g., 6.4.2
+if(Qt6_VERSION VERSION_LESS 6.5)
+
+    # we need to modify the code slightly to make it work with Qt 6.x-
+    foreach(QMLFILE ${photoqt_QML})
+
+        file(READ ${QMLFILE} FILE_CONTENTS)
+
+        set(anything_changed FALSE)
+
+        # pragma ComponentBehavior causes issues with Qt 6.4 (and isn't supported before)
+        if(FILE_CONTENTS MATCHES "pragma ComponentBehavior: Bound")
+            string(REPLACE "pragma ComponentBehavior: Bound" "/*Qt64:pragma/ComponentBehavior:/Bound*/" FILE_CONTENTS "${FILE_CONTENTS}")
+        endif()
+
+        # Qt 6.4 struggles with properties of type list somewhat randomly
+        # Replacing them all by var keeps the code working and avoids any issues
+        if(FILE_CONTENTS MATCHES "list\\<")
+            set(anything_changed TRUE)
+            string(REPLACE "property list<int>" "property var" FILE_CONTENTS "${FILE_CONTENTS}")
+            string(REPLACE "property list<string>" "property var" FILE_CONTENTS "${FILE_CONTENTS}")
+            string(REPLACE "property list<double>" "property var" FILE_CONTENTS "${FILE_CONTENTS}")
+            string(REPLACE "property list<real>" "property var" FILE_CONTENTS "${FILE_CONTENTS}")
+            string(REPLACE "property list<var>" "property var" FILE_CONTENTS "${FILE_CONTENTS}")
+            string(REPLACE "property list<bool>" "property var" FILE_CONTENTS "${FILE_CONTENTS}")
+            string(REPLACE "property list<point>" "property var" FILE_CONTENTS "${FILE_CONTENTS}")
+            string(REPLACE "property list<PQMenu>" "property var" FILE_CONTENTS "${FILE_CONTENTS}")
+            string(REPLACE "property list<PQButton>" "property var" FILE_CONTENTS "${FILE_CONTENTS}")
+            string(REPLACE "property list<PQButtonElement>" "property var" FILE_CONTENTS "${FILE_CONTENTS}")
+            string(REPLACE "property list<PQComboBox>" "property var" FILE_CONTENTS "${FILE_CONTENTS}")
+            string(REPLACE "property list<PQSliderSpinBox>" "property var" FILE_CONTENTS "${FILE_CONTENTS}")
+            # a list<string> is used in a few places as type in function definitions
+            string(REPLACE ": list<string>" ": var" FILE_CONTENTS "${FILE_CONTENTS}")
+        endif()
+
+        if(anything_changed)
+            if(_WITH_ADAPTSOURCE)
+                file(WRITE ${QMLFILE} "${FILE_CONTENTS}")
+            else()
+                message("File to be changed: ${QMLFILE}")
+                message(FATAL_ERROR "Error: Source files are not adapted for Qt older than ${QTV}. You need to enable the WITH_ADAPTSOURCE option to automatically convert them!")
+            endif()
+        endif()
+
+    endforeach()
+
+endif()
+
 # there are some QML properties and items that were added with later versions of Qt
 # since QML does not support macros, we need to make do with adjusting the source code if needed
 # this is of course guarded behind an opt-in option presented to the user
@@ -526,15 +574,21 @@ foreach(QTV 6.5 6.6 6.7 6.8 6.9 6.10 6.11 6.12 6.13)
 
             set(anything_changed FALSE)
 
-            # switch on Qt 6.x- specific code
-            if(FILE_CONTENTS MATCHES "/\\*1off_Qt${QTVnodotMINUS1}")
-                set(anything_changed TRUE)
-                string(REGEX REPLACE "/\\*1off_Qt${QTVnodotMINUS1}\n" "/*1on_Qt${QTVnodotMINUS1}*/\n" FILE_CONTENTS "${FILE_CONTENTS}")
-            endif()
-            if(FILE_CONTENTS MATCHES "2off_Qt${QTVnodotMINUS1}\\*/")
-                set(anything_changed TRUE)
-                string(REGEX REPLACE "2off_Qt${QTVnodotMINUS1}\\*/\n" "/*2on_Qt${QTVnodotMINUS1}*/\n" FILE_CONTENTS "${FILE_CONTENTS}")
-            endif()
+            foreach(MARKER "-" "")
+
+                message("***: ${MARKER}")
+
+                # switch on Qt 6.x- specific code
+                if(FILE_CONTENTS MATCHES "/\\*1off_Qt${QTVnodotMINUS1}${MARKER}")
+                    set(anything_changed TRUE)
+                    string(REGEX REPLACE "/\\*1off_Qt${QTVnodotMINUS1}${MARKER}\n" "/*1on_Qt${QTVnodotMINUS1}${MARKER}*/\n" FILE_CONTENTS "${FILE_CONTENTS}")
+                endif()
+                if(FILE_CONTENTS MATCHES "2off_Qt${QTVnodotMINUS1}${MARKER}\\*/")
+                    set(anything_changed TRUE)
+                    string(REGEX REPLACE "2off_Qt${QTVnodotMINUS1}${MARKER}\\*/\n" "/*2on_Qt${QTVnodotMINUS1}${MARKER}*/\n" FILE_CONTENTS "${FILE_CONTENTS}")
+                endif()
+
+            endforeach()
 
             # switch off Qt 6.x specific code
             if(FILE_CONTENTS MATCHES "/\\*1on_Qt${QTVnodot}\\+\\*/")
@@ -544,35 +598,6 @@ foreach(QTV 6.5 6.6 6.7 6.8 6.9 6.10 6.11 6.12 6.13)
             if(FILE_CONTENTS MATCHES "/\\*2on_Qt${QTVnodot}\\+\\*/")
                 set(anything_changed TRUE)
                 string(REGEX REPLACE "/\\*2on_Qt${QTVnodot}\\+\\*/\n" "2off_Qt${QTVnodot}+*/\n" FILE_CONTENTS "${FILE_CONTENTS}")
-            endif()
-
-            if(Qt6_VERSION VERSION_EQUAL 6.4)
-
-                # pragma ComponentBehavior causes issues with Qt 6.4 (and isn't supported before)
-                if(FILE_CONTENTS MATCHES "pragma ComponentBehavior: Bound")
-                    string(REPLACE "pragma ComponentBehavior: Bound" "/*Qt64:pragma/ComponentBehavior:/Bound*/" FILE_CONTENTS "${FILE_CONTENTS}")
-                endif()
-
-                # Qt 6.4 struggles with properties of type list somewhat randomly
-                # Replacing them all by var keeps the code working and avoids any issues
-                if(FILE_CONTENTS MATCHES "list\\<")
-                    set(anything_changed TRUE)
-                    string(REPLACE "property list<int>" "property var" FILE_CONTENTS "${FILE_CONTENTS}")
-                    string(REPLACE "property list<string>" "property var" FILE_CONTENTS "${FILE_CONTENTS}")
-                    string(REPLACE "property list<double>" "property var" FILE_CONTENTS "${FILE_CONTENTS}")
-                    string(REPLACE "property list<real>" "property var" FILE_CONTENTS "${FILE_CONTENTS}")
-                    string(REPLACE "property list<var>" "property var" FILE_CONTENTS "${FILE_CONTENTS}")
-                    string(REPLACE "property list<bool>" "property var" FILE_CONTENTS "${FILE_CONTENTS}")
-                    string(REPLACE "property list<point>" "property var" FILE_CONTENTS "${FILE_CONTENTS}")
-                    string(REPLACE "property list<PQMenu>" "property var" FILE_CONTENTS "${FILE_CONTENTS}")
-                    string(REPLACE "property list<PQButton>" "property var" FILE_CONTENTS "${FILE_CONTENTS}")
-                    string(REPLACE "property list<PQButtonElement>" "property var" FILE_CONTENTS "${FILE_CONTENTS}")
-                    string(REPLACE "property list<PQComboBox>" "property var" FILE_CONTENTS "${FILE_CONTENTS}")
-                    string(REPLACE "property list<PQSliderSpinBox>" "property var" FILE_CONTENTS "${FILE_CONTENTS}")
-                    # a list<string> is used in a few places as type in function definitions
-                    string(REPLACE ": list<string>" ": var" FILE_CONTENTS "${FILE_CONTENTS}")
-                endif()
-
             endif()
 
             if(anything_changed)
@@ -595,15 +620,19 @@ foreach(QTV 6.5 6.6 6.7 6.8 6.9 6.10 6.11 6.12 6.13)
 
             set(anything_changed FALSE)
 
-            # switch off Qt 6.x- specific code
-            if(FILE_CONTENTS MATCHES "/\\*1on_Qt${QTVnodotMINUS1}\\*/")
-                set(anything_changed TRUE)
-                string(REGEX REPLACE "/\\*1on_Qt${QTVnodotMINUS1}\\*/\n" "/*1off_Qt${QTVnodotMINUS1}\n" FILE_CONTENTS "${FILE_CONTENTS}")
-            endif()
-            if(FILE_CONTENTS MATCHES "/\\*2on_Qt${QTVnodotMINUS1}\\*/")
-                set(anything_changed TRUE)
-                string(REGEX REPLACE "/\\*2on_Qt${QTVnodotMINUS1}\\*/\n" "2off_Qt${QTVnodotMINUS1}*/\n" FILE_CONTENTS "${FILE_CONTENTS}")
-            endif()
+            foreach(MARKER "-" "")
+
+                # switch off Qt 6.x- specific code
+                if(FILE_CONTENTS MATCHES "/\\*1on_Qt${QTVnodotMINUS1}${MARKER}\\*/")
+                    set(anything_changed TRUE)
+                    string(REGEX REPLACE "/\\*1on_Qt${QTVnodotMINUS1}${MARKER}\\*/\n" "/*1off_Qt${QTVnodotMINUS1}${MARKER}\n" FILE_CONTENTS "${FILE_CONTENTS}")
+                endif()
+                if(FILE_CONTENTS MATCHES "/\\*2on_Qt${QTVnodotMINUS1}${MARKER}\\*/")
+                    set(anything_changed TRUE)
+                    string(REGEX REPLACE "/\\*2on_Qt${QTVnodotMINUS1}${MARKER}\\*/\n" "2off_Qt${QTVnodotMINUS1}${MARKER}*/\n" FILE_CONTENTS "${FILE_CONTENTS}")
+                endif()
+
+            endforeach()
 
             # switch on Qt 6.x specific code
             if(FILE_CONTENTS MATCHES "/\\*1off_Qt${QTVnodot}\\+")
