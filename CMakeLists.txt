@@ -576,8 +576,6 @@ foreach(QTV 6.5 6.6 6.7 6.8 6.9 6.10 6.11 6.12 6.13)
 
             foreach(MARKER "-" "")
 
-                message("***: ${MARKER}")
-
                 # switch on Qt 6.x- specific code
                 if(FILE_CONTENTS MATCHES "/\\*1off_Qt${QTVnodotMINUS1}${MARKER}")
                     set(anything_changed TRUE)
