@@ -520,6 +520,7 @@ if(Qt6_VERSION VERSION_LESS 6.5)
 
         # pragma ComponentBehavior causes issues with Qt 6.4 (and isn't supported before)
         if(FILE_CONTENTS MATCHES "pragma ComponentBehavior: Bound")
+            set(anything_changed TRUE)
             string(REPLACE "pragma ComponentBehavior: Bound" "/*Qt64:pragma/ComponentBehavior:/Bound*/" FILE_CONTENTS "${FILE_CONTENTS}")
         endif()
 
