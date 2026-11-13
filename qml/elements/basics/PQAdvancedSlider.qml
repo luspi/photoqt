@@ -37,6 +37,7 @@ Item {
 
     property int minval: 1
     property int maxval: 10
+    property int stepSize: 1
 
     property bool logarithmicScale: false
     property real logarithmicScaleFactor: 2.5
