@@ -58,12 +58,36 @@ Item {
     signal setMinMaxZoomlevel(var minlvl, var maxlvl)
 
     Plugin {
+
         id: mapPlugin
-        name: "maplibre"
+
+        name: "osm"
+
         PluginParameter {
-            name: "maplibre.map.styles"
-            value: "https://osm.photoqt.org/style.json"
+            name: "osm.useragent"
+            value: "PhotoQt Image Viewer"
         }
+        PluginParameter {
+            name: "osm.mapping.providersrepository.disabled"
+            value: true
+        }
+        PluginParameter {
+            name: "osm.mapping.custom.host"
+            value: "https://osm.photoqt.org/"
+        }
+        PluginParameter {
+            name: "osm.mapping.custom.mapcopyright"
+            value: ""
+        }
+        PluginParameter {
+            name: "osm.mapping.custom.datacopyright"
+            value: "OpenStreetMap contributors"
+        }
+        PluginParameter {
+            name: "osm.mapping.highdpi_tiles"
+            value: true
+        }
+
     }
 
     Map {
@@ -80,6 +104,15 @@ Item {
         plugin: mapPlugin
 
         property geoCoordinate startCentroid
+
+        onSupportedMapTypesChanged: {
+            for(let i = 0; i < supportedMapTypes.length; ++i) {
+                if(supportedMapTypes[i].style === MapType.CustomMap) {
+                    activeMapType = supportedMapTypes[i]
+                    break
+                }
+            }
+        }
 
         PinchHandler {
             id: pinch
