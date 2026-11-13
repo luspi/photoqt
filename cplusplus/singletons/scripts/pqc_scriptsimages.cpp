@@ -420,7 +420,7 @@ QStringList PQCScriptsImages::listArchiveContentWithoutThread(QString path, QStr
 
 QString PQCScriptsImages::convertSecondsToPosition(int t) {
 
-    return QString("%1:%2").arg(t/60, 2, 10, '0').arg(t%60, 2, 10, '0');
+    return QString("%1:%2").arg(t/60, 2, 10, QChar(u'0')).arg(t%60, 2, 10, QChar(u'0'));
 
 }
 

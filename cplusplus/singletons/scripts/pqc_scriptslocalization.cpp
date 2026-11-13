@@ -8,6 +8,7 @@
 #include <QSqlQuery>
 #include <QSqlDatabase>
 #include <QSqlError>
+#include <QStringBuilder>
 #include <pqc_notify_cpp.h>
 
 PQCScriptsLocalization::PQCScriptsLocalization() {

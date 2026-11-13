@@ -26,6 +26,7 @@
 #include <QFile>
 #include <QPainter>
 #include <QSvgRenderer>
+#include <QStringBuilder>
 
 PQCProviderIcon::PQCProviderIcon() : QQuickImageProvider(QQuickImageProvider::Image) {
     svg = new PQCProviderSVG;
