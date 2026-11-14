@@ -72,48 +72,32 @@ Item {
                 }
             }
 
-            // PQSlider2 {
-
-            //     id: new_slider
-
-            //     y: (parent.height-height)/2
-
-            //     value: 20
-            //     suffix: " %"
-
-            //     logarithmicScale: false
-
-            //     from: 1
-            //     to: 100
-
-            // }
-
-            // PQText {
-            //     text: Math.round(new_slider.value)
-            // }
-
-            PQFileDialogSlider {
+            PQSlider2 {
 
                 id: zoomslider
 
                 y: (parent.height-height)/2
 
-                minVal: 1
-                maxVal: 100
+                from: 1
+                to: 100
 
                 stepSize: 1
+                logarithmicScale: true
 
-                onRealValueChanged: {
+                onValueChanged: {
                     if(!isSetup) return
                     saveSizeChange.restart()
                 }
+
+                property int maxThumb: 40 // = 4000/100%
 
                 Timer {
                     id: saveSizeChange
                     interval: 200
                     onTriggered: {
-                        var newval = Math.round(zoomslider.realValue)
+                        var newval = Math.round(zoomslider.value)
                         if(PQCSettings.filedialogThumbnailSizeFollowsGlobalThumbnails) {
+                            newval *= zoomslider.maxThumb
                             if(newval !== PQCSettings.thumbnailsSize)
                                 PQCSettings.thumbnailsSize = newval
                         } else {
@@ -139,36 +123,40 @@ Item {
 
                     function onFiledialogZoomChanged() {
                         if(PQCSettings.filedialogThumbnailSizeFollowsGlobalThumbnails) return
-                        if(zoomslider.realValue !== PQCSettings.filedialogZoom)
-                            zoomslider.setValue(PQCSettings.filedialogZoom)
+                        console.warn("**1")
+                        if(zoomslider.value !== PQCSettings.filedialogZoom)
+                            zoomslider.value = PQCSettings.filedialogZoom
                     }
 
                     function onThumbnailsSizeChanged() {
                         if(!PQCSettings.filedialogThumbnailSizeFollowsGlobalThumbnails) return
-                        if(zoomslider.realValue !== PQCSettings.thumbnailsSize)
-                            zoomslider.setValue(Math.min(100, PQCSettings.thumbnailsSize))
+                        var v = PQCSettings.thumbnailsSize/zoomslider.maxThumb
+                        console.warn("**2:", v)
+                        if(zoomslider.value !== v)
+                            zoomslider.value = Math.min(100, v)
                     }
 
                     function onFiledialogThumbnailSizeFollowsGlobalThumbnailsChanged() {
+                        console.warn("**3")
                         if(!PQCSettings.filedialogThumbnailSizeFollowsGlobalThumbnails) {
-                            PQCSettings.filedialogZoom = PQCSettings.thumbnailsSize
-                            zoomslider.setValue(PQCSettings.filedialogZoom)
+                            PQCSettings.filedialogZoom = PQCSettings.thumbnailsSize/zoomslider.maxThumb
+                            zoomslider.value = PQCSettings.filedialogZoom
                         } else {
-                            zoomslider.setValue(Math.min(100,PQCSettings.thumbnailsSize))
+                            zoomslider.value = Math.min(100,PQCSettings.thumbnailsSize/zoomslider.maxThumb)
                         }
                     }
 
                 }
 
                 Component.onCompleted: {
-                    setValue(PQCSettings.filedialogThumbnailSizeFollowsGlobalThumbnails ? Math.min(100,PQCSettings.thumbnailsSize) : PQCSettings.filedialogZoom)
+                    value = PQCSettings.filedialogThumbnailSizeFollowsGlobalThumbnails ? Math.min(100,PQCSettings.thumbnailsSize/zoomslider.maxThumb) : PQCSettings.filedialogZoom
                 }
 
             }
 
             Text {
                 y: (parent.height-height)/2
-                text: Math.round(zoomslider.realValue) + "%"
+                text: Math.round(zoomslider.value) + "%"
                 font.pointSize: PQCLook.fontSize
                 color: palette.text
             }

@@ -313,4 +313,26 @@ Control {
         }
     }
 
+    property int _defaultValue
+    Component.onCompleted: {
+        _defaultValue = value
+    }
+
+    function saveDefault() {
+        _defaultValue = value
+    }
+
+    function setDefault(val : int) {
+        _defaultValue = val
+    }
+
+    function loadAndSetDefault(val : int) {
+        value = val
+        _defaultValue = val
+    }
+
+    function hasChanged() : bool {
+        return _defaultValue!==value
+    }
+
 }

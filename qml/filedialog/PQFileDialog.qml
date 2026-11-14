@@ -252,16 +252,16 @@ PQTemplate {
                     } else if((param[0] === Qt.Key_Plus || param[0] === Qt.Key_Equal) && param[1] === Qt.ControlModifier) {
 
                         if(PQCSettings.filedialogThumbnailSizeFollowsGlobalThumbnails)
-                            PQCSettings.thumbnailsSize = Math.min(PQCSettings.thumbnailsSize+10, 4000)
+                            PQCSettings.thumbnailsSize = Math.min(PQCSettings.thumbnailsSize+5, 4000)
                         else
-                            PQCSettings.filedialogZoom = Math.min(PQCSettings.filedialogZoom+10, 4000)
+                            PQCSettings.filedialogZoom = Math.min(PQCSettings.filedialogZoom+1, 100)
 
                     } else if(param[0] === Qt.Key_Minus && param[1] === Qt.ControlModifier) {
 
                         if(PQCSettings.filedialogThumbnailSizeFollowsGlobalThumbnails)
-                            PQCSettings.thumbnailsSize = Math.max(PQCSettings.thumbnailsSize-10, 32)
+                            PQCSettings.thumbnailsSize = Math.max(PQCSettings.thumbnailsSize-5, 0)
                         else
-                            PQCSettings.filedialogZoom = Math.max(PQCSettings.filedialogZoom-10, 32)
+                            PQCSettings.filedialogZoom = Math.max(PQCSettings.filedialogZoom-1, 0)
 
                     } else {
 

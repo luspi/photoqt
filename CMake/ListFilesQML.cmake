@@ -64,7 +64,6 @@ SET(photoqt_QML qml/PQMainWindow.qml
                 qml/filedialog/parts/PQBreadCrumbs.qml
 
                 qml/filedialog/elements/PQFileDeleteConfirm.qml
-                qml/filedialog/elements/PQFileDialogSlider.qml
 
                 qml/filedialog/parts/fileviews/PQFileViewList.qml
                 qml/filedialog/parts/fileviews/PQFileViewGrid.qml

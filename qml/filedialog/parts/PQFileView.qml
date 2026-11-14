@@ -207,9 +207,9 @@ Item {
             if(wheel.modifiers === Qt.ControlModifier) {
                 if(PQCSettings.filedialogThumbnailSizeFollowsGlobalThumbnails) {
                     if(wheel.angleDelta.y < 0)
-                        PQCSettings.thumbnailsSize = Math.max(PQCSettings.thumbnailsSize-1, 1)
+                        PQCSettings.thumbnailsSize = Math.max(PQCSettings.thumbnailsSize-5, 1)
                     else
-                        PQCSettings.thumbnailsSize = Math.min(PQCSettings.thumbnailsSize+1, 100)
+                        PQCSettings.thumbnailsSize = Math.min(PQCSettings.thumbnailsSize+5, 4000)
                 } else {
                     if(wheel.angleDelta.y < 0)
                         PQCSettings.filedialogZoom = Math.max(PQCSettings.filedialogZoom-1, 1)
@@ -1181,13 +1181,21 @@ Item {
 
         } else if((key === Qt.Key_Plus || key === Qt.Key_Equal) && modifiers & Qt.ControlModifier) {
 
-            PQCSettings.filedialogZoom = Math.min(100, PQCSettings.filedialogZoom+1)
+            if(PQCSettings.filedialogThumbnailSizeFollowsGlobalThumbnails)
+                PQCSettings.thumbnailsSize = Math.min(4000, PQCSettings.thumbnailsSize+5)
+            else
+                PQCSettings.filedialogZoom = Math.min(100, PQCSettings.filedialogZoom+1)
 
             navigateToFileStartingWith = []
 
         } else if(key === Qt.Key_Minus && modifiers & Qt.ControlModifier) {
 
-            PQCSettings.filedialogZoom = Math.max(0, PQCSettings.filedialogZoom-1)
+            console.warn(">>>", PQCSettings.thumbnailsSize, "/", PQCSettings.filedialogZoom)
+
+            if(PQCSettings.filedialogThumbnailSizeFollowsGlobalThumbnails)
+                PQCSettings.thumbnailsSize = Math.max(0, PQCSettings.thumbnailsSize-5)
+            else
+                PQCSettings.filedialogZoom = Math.max(0, PQCSettings.filedialogZoom-1)
 
             navigateToFileStartingWith = []
 
