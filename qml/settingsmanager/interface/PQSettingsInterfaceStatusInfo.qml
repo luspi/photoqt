@@ -288,13 +288,15 @@ PQSetting {
                 id: fontsize
                 width: set_stin.contentWidth
                 visible: set_stin.modernInterface
-                minval: 5
-                maxval: 30
+                from: 5
+                to: 30
                 title: qsTranslate("settingsmanager", "Font size:")
                 suffix: " pt"
                 enabled: status_show.checked
                 onValueChanged:
                     set_stin.checkForChanges()
+                onEditModeChanged:
+                    PQCConstants.settingsManagerAdvancedSliderEditMode += (editMode ? 1 : -1)
             }
 
         },
@@ -357,33 +359,24 @@ PQSetting {
             PQAdvancedSlider {
                 id: autohide_timeout
                 width: set_stin.contentWidth
-                minval: 0
-                maxval: 10
+                from: 0
+                to: 10
                 title: qsTranslate("settingsmanager", "hide again after timeout:")
                 suffix: " s"
                 enabled: !autohide_always.checked
                 onValueChanged:
                     set_stin.checkForChanges()
+                onEditModeChanged:
+                    PQCConstants.settingsManagerAdvancedSliderEditMode += (editMode ? 1 : -1)
             }
 
-            Item {
-
-                clip: true
-                width: imgchange.width
+            PQCheckBox {
+                id: imgchange
                 enabled: !autohide_always.checked
-                height: enabled ? imgchange.height : 0
-                Behavior on height { enabled: !PQCSettings.generalDisableAllAnimations; NumberAnimation { duration: 200 } }
-                opacity: enabled ? 1 : 0
-                Behavior on opacity { enabled: !PQCSettings.generalDisableAllAnimations; NumberAnimation { duration: 150 } }
-
-                PQCheckBox {
-                    id: imgchange
-                    enforceMaxWidth: set_stin.contentWidth
-                    //: Refers to the status information's auto-hide feature, this is an additional case it can be shown
-                    text: qsTranslate("settingsmanager", "also show when image changes")
-                    onCheckedChanged: set_stin.checkForChanges()
-                }
-
+                enforceMaxWidth: set_stin.contentWidth
+                //: Refers to the status information's auto-hide feature, this is an additional case it can be shown
+                text: qsTranslate("settingsmanager", "also show when image changes")
+                onCheckedChanged: set_stin.checkForChanges()
             }
 
         },
@@ -471,6 +464,16 @@ PQSetting {
         }
 
     ]
+
+    Connections {
+        target: PQCNotify
+        function onSettingsmanagerSendCommand(what : string, args : list<var>) : void {
+            if(what === "advancedSlider" && args[0] === "cancel") {
+                fontsize.acceptValue()
+                autohide_timeout.acceptValue()
+            }
+        }
+    }
 
     function populateModel() {
         themodel.clear()

@@ -112,12 +112,14 @@ PQSetting {
         PQAdvancedSlider {
             id: fontsize
             width: set_fata.contentWidth
-            minval: 5
-            maxval: 50
+            from: 5
+            to: 50
             title: qsTranslate("settingsmanager", "font size:")
             suffix: " pt"
             onValueChanged:
                 set_fata.checkForChanges()
+            onEditModeChanged:
+                PQCConstants.settingsManagerAdvancedSliderEditMode += (editMode ? 1 : -1)
         },
 
         PQCheckBox {
@@ -140,12 +142,14 @@ PQSetting {
                 PQAdvancedSlider {
                     id: border_slider
                     width: set_fata.contentWidth - parent.x
-                    minval: 1
-                    maxval: 20
+                    from: 1
+                    to: 20
                     title: qsTranslate("settingsmanager", "border width:")
                     suffix: " px"
                     onValueChanged:
                         set_fata.checkForChanges()
+                    onEditModeChanged:
+                        PQCConstants.settingsManagerAdvancedSliderEditMode += (editMode ? 1 : -1)
                 }
 
                 Row {
@@ -203,6 +207,16 @@ PQSetting {
         modality: Qt.ApplicationModal
         onAccepted: {
             border_color.rgba = [255*coldiag.currentColor.r, 255*coldiag.currentColor.g, 255*coldiag.currentColor.b, 255*coldiag.currentColor.a]
+        }
+    }
+
+    Connections {
+        target: PQCNotify
+        function onSettingsmanagerSendCommand(what : string, args : list<var>) : void {
+            if(what === "advancedSlider" && args[0] === "cancel") {
+                fontsize.acceptValue()
+                border_slider.acceptValue()
+            }
         }
     }
 

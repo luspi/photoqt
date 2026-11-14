@@ -191,11 +191,10 @@ Loader {
                 text: PQCScriptsImages.convertSecondsToPosition(PQCConstants.currentlyShowingVideoPosition)
             }
 
-            Slider {
+            PQSlider {
                 id: posslider
                 y: (parent.height-height)/2
                 width: 300
-                live: false
                 from: 0
                 to: PQCConstants.currentlyShowingVideoDuration
 

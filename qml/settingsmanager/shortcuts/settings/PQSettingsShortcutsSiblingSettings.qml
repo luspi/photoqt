@@ -59,54 +59,74 @@ Item {
         Row {
             spacing: 5
             PQText {
+                y: (maxLevelUp.height-height)/2
                 text: qsTranslate("settingsmanager", "Maximum number of levels up:")
             }
 
             PQAdvancedSlider {
                 id: maxLevelUp
-                minval: 0
-                maxval: 20
+                from: 0
+                to: 20
                 onValueChanged: {
                     if(set_sibl.finishedSetup)
                         set_sibl.saveChanges()
                 }
+                onEditModeChanged:
+                    PQCConstants.settingsManagerAdvancedSliderEditMode += (editMode ? 1 : -1)
             }
         }
 
         Row {
             spacing: 5
             PQText {
+                y: (maxLevelDown.height-height)/2
                 text: qsTranslate("settingsmanager", "Maximum number of levels down:")
             }
 
             PQAdvancedSlider {
                 id: maxLevelDown
-                minval: 0
-                maxval: 20
+                from: 0
+                to: 20
                 onValueChanged: {
                     if(set_sibl.finishedSetup)
                         set_sibl.saveChanges()
                 }
+                onEditModeChanged:
+                    PQCConstants.settingsManagerAdvancedSliderEditMode += (editMode ? 1 : -1)
             }
         }
 
         Row {
             spacing: 5
             PQText {
+                y: (maxIterations.height-height)/2
                 text: qsTranslate("settingsmanager", "Maximum number of iterations in total:")
             }
 
             PQAdvancedSlider {
                 id: maxIterations
-                minval: 10
-                maxval: 200
+                from: 10
+                to: 200
                 onValueChanged: {
                     if(set_sibl.finishedSetup)
                         set_sibl.saveChanges()
                 }
+                onEditModeChanged:
+                    PQCConstants.settingsManagerAdvancedSliderEditMode += (editMode ? 1 : -1)
             }
         }
 
+    }
+
+    Connections {
+        target: PQCNotify
+        function onSettingsmanagerSendCommand(what : string, args : list<var>) : void {
+            if(what === "advancedSlider" && args[0] === "cancel") {
+                maxLevelUp.acceptValue()
+                maxLevelDown.acceptValue()
+                maxIterations.acceptValue()
+            }
+        }
     }
 
     // load

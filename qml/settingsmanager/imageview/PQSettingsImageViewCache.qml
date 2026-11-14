@@ -43,12 +43,14 @@ PQSetting {
         PQAdvancedSlider {
             id: cache_slider
             width: set_capr.contentWidth
-            minval: 256
-            maxval: 5120
+            from: 256
+            to: 5120
             title: qsTranslate("settingsmanager", "cache size:")
             suffix: " MB"
             onValueChanged:
                 set_capr.checkForChanges()
+            onEditModeChanged:
+                PQCConstants.settingsManagerAdvancedSliderEditMode += (editMode ? 1 : -1)
         },
 
         PQSettingsResetButton {
@@ -78,12 +80,14 @@ PQSetting {
             PQAdvancedSlider {
                 id: preload
                 width: set_capr.contentWidth
-                minval: 0
-                maxval: 5
+                from: 0
+                to: 5
                 title: ""
                 suffix: ""
                 onValueChanged:
                     set_capr.checkForChanges()
+                onEditModeChanged:
+                    PQCConstants.settingsManagerAdvancedSliderEditMode += (editMode ? 1 : -1)
             }
 
             PQText {
@@ -110,6 +114,16 @@ PQSetting {
         }
 
     ]
+
+    Connections {
+        target: PQCNotify
+        function onSettingsmanagerSendCommand(what : string, args : list<var>) : void {
+            if(what === "advancedSlider" && args[0] === "cancel") {
+                cache_slider.acceptValue()
+                preload.acceptValue()
+            }
+        }
+    }
 
     function handleEscape() {
         cache_slider.acceptValue()

@@ -97,9 +97,11 @@ PQTemplate {
                 PQAdvancedSlider {
                     id: interval_slider
                     y: (interval_txt.height-height)/2
-                    minval: 1
-                    maxval: 300
+                    from: 1
+                    to: 300
                     suffix: " s"
+                    onEditModeChanged:
+                        PQCConstants.settingsManagerAdvancedSliderEditMode += (editMode ? 1 : -1)
                 }
 
             }
@@ -176,6 +178,7 @@ PQTemplate {
                     Row {
 
                         PQText {
+                            y: (transition_slider.height-height)/2
                             //: Used as in: slow animation
                             text: qsTranslate("slideshow", "slow")
                         }
@@ -186,7 +189,6 @@ PQTemplate {
                             from: 1
                             to: 15
                             tooltip: ""
-                            extraSmall: true
 
                             onValueChanged: {
                                 if(value > 14)
@@ -206,6 +208,7 @@ PQTemplate {
                         }
 
                         PQText {
+                            y: (transition_slider.height-height)/2
                             //: Used as in: fast animation
                             text: qsTranslate("slideshow", "fast")
                         }
@@ -633,6 +636,12 @@ PQTemplate {
                         slideshowsettings_top.startSlideshow()
                 }
 
+            }
+        }
+
+        function onSettingsmanagerSendCommand(what : string, args : list<var>) : void {
+            if(what === "advancedSlider" && args[0] === "cancel") {
+                interval_slider.acceptValue()
             }
         }
     }

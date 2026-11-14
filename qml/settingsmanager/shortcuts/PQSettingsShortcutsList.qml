@@ -783,7 +783,7 @@ PQSetting {
             }
 
             loadSubSettings.active = true
-            height = Math.min(250, set_shcu.availableHeight/2)
+            height = Math.min(300, set_shcu.availableHeight/2)
 
         }
 
@@ -807,6 +807,7 @@ PQSetting {
             anchors.fill: parent
             hoverEnabled: true
             acceptedButtons: Qt.AllButtons
+            onWheel: {}
         }
 
         Flickable {

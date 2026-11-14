@@ -127,11 +127,13 @@ PQSetting {
         PQAdvancedSlider {
             id: archive_ignoresize
             enabled: archive_ignoresizecheck.checked
-            minval: 128
-            maxval: 10240
+            from: 128
+            to: 10240
             suffix: "MB"
             value: PQCSettings.filetypesArchiveIgnoreLargerThanSize
             onValueChanged: set_arc.checkForChanges()
+            onEditModeChanged:
+                PQCConstants.settingsManagerAdvancedSliderEditMode += (editMode ? 1 : -1)
         },
 
         PQCheckBox {
@@ -144,10 +146,12 @@ PQSetting {
         PQAdvancedSlider {
             id: archive_ignorecount
             enabled: archive_ignorecountcheck.checked
-            minval: 1
-            maxval: 10000
+            from: 1
+            to: 10000
             value: PQCSettings.filetypesArchiveIgnoreLargerThanSize
             onValueChanged: set_arc.checkForChanges()
+            onEditModeChanged:
+                PQCConstants.settingsManagerAdvancedSliderEditMode += (editMode ? 1 : -1)
         },
 
         PQSettingsResetButton {
@@ -164,6 +168,16 @@ PQSetting {
         }
 
     ]
+
+    Connections {
+        target: PQCNotify
+        function onSettingsmanagerSendCommand(what : string, args : list<var>) : void {
+            if(what === "advancedSlider" && args[0] === "cancel") {
+                archive_ignoresize.acceptValue()
+                archive_ignorecount.acceptValue()
+            }
+        }
+    }
 
     function handleEscape() {}
 

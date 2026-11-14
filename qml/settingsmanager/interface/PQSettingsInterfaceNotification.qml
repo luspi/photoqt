@@ -313,12 +313,14 @@ PQSetting {
         PQAdvancedSlider {
             id: notif_dist
             width: set_noti.width
-            minval: 0
-            maxval: 200
+            from: 0
+            to: 200
             title: qsTranslate("settingsmanager", "Distance from edge:")
             suffix: " px"
             onValueChanged:
                 set_noti.checkForChanges()
+            onEditModeChanged:
+                PQCConstants.settingsManagerAdvancedSliderEditMode += (editMode ? 1 : -1)
         },
 
         PQCheckBox {
@@ -342,6 +344,15 @@ PQSetting {
         }
 
     ]
+
+    Connections {
+        target: PQCNotify
+        function onSettingsmanagerSendCommand(what : string, args : list<var>) : void {
+            if(what === "advancedSlider" && args[0] === "cancel") {
+                notif_dist.acceptValue()
+            }
+        }
+    }
 
     function handleEscape() {
         notif_dist.acceptValue()

@@ -248,11 +248,13 @@ PQSetting {
         PQAdvancedSlider {
             id: sensitivity
             width: set_edge.contentWidth
-            minval: 5
-            maxval: 100
+            from: 5
+            to: 100
             suffix: " px"
             onValueChanged:
                 set_edge.checkForChanges()
+            onEditModeChanged:
+                PQCConstants.settingsManagerAdvancedSliderEditMode += (editMode ? 1 : -1)
         },
 
         PQSettingsResetButton {
@@ -291,6 +293,15 @@ PQSetting {
                     checked = Qt.binding(function() { return set_edge.current[set_edge.menuedge] === act; })
                     themenu.close()
                 }
+            }
+        }
+    }
+
+    Connections {
+        target: PQCNotify
+        function onSettingsmanagerSendCommand(what : string, args : list<var>) : void {
+            if(what === "advancedSlider" && args[0] === "cancel") {
+                sensitivity.acceptValue()
             }
         }
     }

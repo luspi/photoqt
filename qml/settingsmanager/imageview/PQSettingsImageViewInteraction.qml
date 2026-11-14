@@ -54,12 +54,14 @@ PQSetting {
                 id: zoomspeed
                 enabled: !PQCSettings.generalDisableAllAnimations
                 width: set_inte.contentWidth
-                minval: 1
-                maxval: 100
+                from: 1
+                to: 100
                 title: qsTranslate("settingsmanager", "zoom speed:")
                 suffix: " %"
                 onValueChanged:
                     set_inte.checkForChanges()
+                onEditModeChanged:
+                    PQCConstants.settingsManagerAdvancedSliderEditMode += (editMode ? 1 : -1)
             }
 
             Flow {
@@ -98,13 +100,15 @@ PQSetting {
                 PQAdvancedSlider {
                     id: minzoom_slider
                     width: set_inte.contentWidth - minzoom_check.width - 10
-                    minval: 1
-                    maxval: 100
+                    from: 1
+                    to: 100
                     enabled: minzoom_check.checked
                     title: ""
                     suffix: " %"
                     onValueChanged:
                         set_inte.checkForChanges()
+                    onEditModeChanged:
+                        PQCConstants.settingsManagerAdvancedSliderEditMode += (editMode ? 1 : -1)
                 }
 
             }
@@ -123,13 +127,15 @@ PQSetting {
                 PQAdvancedSlider {
                     id: maxzoom_slider
                     width: set_inte.contentWidth - maxzoom_check.width - 10
-                    minval: 100
-                    maxval: 10000
+                    from: 100
+                    to: 10000
                     enabled: maxzoom_check.checked
                     title: ""
                     suffix: " %"
                     onValueChanged:
                         set_inte.checkForChanges()
+                    onEditModeChanged:
+                        PQCConstants.settingsManagerAdvancedSliderEditMode += (editMode ? 1 : -1)
                 }
 
             }
@@ -290,12 +296,14 @@ PQSetting {
                 PQAdvancedSlider {
                     id: anispeed
                     width: set_inte.contentWidth
-                    minval: 1
-                    maxval: 10
+                    from: 1
+                    to: 10
                     title: qsTranslate("settingsmanager", "speed:")
                     suffix: ""
                     onValueChanged:
                         set_inte.checkForChanges()
+                    onEditModeChanged:
+                        PQCConstants.settingsManagerAdvancedSliderEditMode += (editMode ? 1 : -1)
                 }
 
                 PQText {
@@ -365,6 +373,18 @@ PQSetting {
         }
 
     ]
+
+    Connections {
+        target: PQCNotify
+        function onSettingsmanagerSendCommand(what : string, args : list<var>) : void {
+            if(what === "advancedSlider" && args[0] === "cancel") {
+                anispeed.acceptValue()
+                zoomspeed.acceptValue()
+                minzoom_slider.acceptValue()
+                maxzoom_slider.acceptValue()
+            }
+        }
+    }
 
     function handleEscape() {
         anispeed.acceptValue()

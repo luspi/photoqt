@@ -72,7 +72,7 @@ Item {
                 }
             }
 
-            PQSlider2 {
+            PQSlider {
 
                 id: zoomslider
 

@@ -44,12 +44,14 @@ PQSetting {
         PQAdvancedSlider {
             id: marginslider
             width: set_look.contentWidth
-            minval: 0
-            maxval: 100
+            from: 0
+            to: 100
             title: qsTranslate("settingsmanager", "margin:")
             suffix: " px"
             onValueChanged:
                 set_look.checkForChanges()
+            onEditModeChanged:
+                PQCConstants.settingsManagerAdvancedSliderEditMode += (editMode ? 1 : -1)
         },
 
         PQSettingsResetButton {
@@ -267,8 +269,13 @@ PQSetting {
 
     ]
 
-    function handleEscape() {
-        marginslider.acceptValue()
+    Connections {
+        target: PQCNotify
+        function onSettingsmanagerSendCommand(what : string, args : list<var>) : void {
+            if(what === "advancedSlider" && args[0] === "cancel") {
+                marginslider.acceptValue()
+            }
+        }
     }
 
     function checkForChanges() {

@@ -409,10 +409,12 @@ PQSetting {
                 }
                 PQAdvancedSlider {
                     id: thbsze_slider
-                    minval: 1
-                    maxval: 100
+                    from: 1
+                    to: 100
                     suffix: "%"
                     onValueChanged: set_fd.checkForChanges()
+                    onEditModeChanged:
+                        PQCConstants.settingsManagerAdvancedSliderEditMode += (editMode ? 1 : -1)
                 }
             }
         },
@@ -443,12 +445,14 @@ PQSetting {
         PQAdvancedSlider {
             id: padding
             width: set_fd.contentWidth
-            minval: 0
-            maxval: 10
+            from: 0
+            to: 10
             title: ""
             suffix: " px"
             onValueChanged:
                 set_fd.checkForChanges()
+            onEditModeChanged:
+                PQCConstants.settingsManagerAdvancedSliderEditMode += (editMode ? 1 : -1)
         },
 
         PQSettingsResetButton {
@@ -599,69 +603,63 @@ PQSetting {
             onCheckedChanged: set_fd.checkForChanges()
         },
 
-        Item {
+        Column {
 
-            clip: true
-            enabled: preview_check.checked
-            width: previewcol.width
-            height: enabled ? previewcol.height : 0
-            opacity: enabled ? 1 : 0
+            id: previewcol
 
-            Behavior on height { enabled: !PQCSettings.generalDisableAllAnimations; NumberAnimation { duration: 200 } }
-            Behavior on opacity { enabled: !PQCSettings.generalDisableAllAnimations; NumberAnimation { duration: 150 } }
+            spacing: 10
 
-            Column {
-
-                id: previewcol
-
-                spacing: 10
-
-                Row {
-                    Item {
-                        width: 30
-                        height: 1
-                    }
-
-                    PQAdvancedSlider {
-                        id: preview_colintspin
-                        width: set_fd.contentWidth - 30
-                        title: qsTranslate("settingsmanager", "color intensity:")
-                        titleWeight: PQCLook.fontWeightNormal
-                        minval: 10
-                        maxval: 100
-                        suffix: " %"
-                        onValueChanged: set_fd.checkForChanges()
-                    }
+            Row {
+                Item {
+                    width: 30
+                    height: 1
                 }
 
-                PQCheckBox {
-                    id: preview_blur
-                    enforceMaxWidth: set_fd.contentWidth
-                    text: qsTranslate("settingsmanager", "Blur the preview")
-                    onCheckedChanged: set_fd.checkForChanges()
+                PQAdvancedSlider {
+                    id: preview_colintspin
+                    enabled: preview_check.checked
+                    width: set_fd.contentWidth - 30
+                    title: qsTranslate("settingsmanager", "color intensity:")
+                    titleWeight: PQCLook.fontWeightNormal
+                    from: 10
+                    to: 100
+                    suffix: " %"
+                    onValueChanged: set_fd.checkForChanges()
+                    onEditModeChanged:
+                        PQCConstants.settingsManagerAdvancedSliderEditMode += (editMode ? 1 : -1)
                 }
+            }
 
-                PQCheckBox {
-                    id: preview_mute
-                    enforceMaxWidth: set_fd.contentWidth
-                    text: qsTranslate("settingsmanager", "Mute its colors")
-                    onCheckedChanged: set_fd.checkForChanges()
-                }
+            PQCheckBox {
+                id: preview_blur
+                enabled: preview_check.checked
+                enforceMaxWidth: set_fd.contentWidth
+                text: qsTranslate("settingsmanager", "Blur the preview")
+                onCheckedChanged: set_fd.checkForChanges()
+            }
 
-                PQCheckBox {
-                    id: preview_resolution
-                    enforceMaxWidth: set_fd.contentWidth
-                    text: qsTranslate("settingsmanager", "Higher resolution")
-                    onCheckedChanged: set_fd.checkForChanges()
-                }
+            PQCheckBox {
+                id: preview_mute
+                enabled: preview_check.checked
+                enforceMaxWidth: set_fd.contentWidth
+                text: qsTranslate("settingsmanager", "Mute its colors")
+                onCheckedChanged: set_fd.checkForChanges()
+            }
 
-                PQCheckBox {
-                    id: preview_scalecrop
-                    enforceMaxWidth: set_fd.contentWidth
-                    text: qsTranslate("settingsmanager", "Scale and crop")
-                    onCheckedChanged: set_fd.checkForChanges()
-                }
+            PQCheckBox {
+                id: preview_resolution
+                enabled: preview_check.checked
+                enforceMaxWidth: set_fd.contentWidth
+                text: qsTranslate("settingsmanager", "Higher resolution")
+                onCheckedChanged: set_fd.checkForChanges()
+            }
 
+            PQCheckBox {
+                id: preview_scalecrop
+                enabled: preview_check.checked
+                enforceMaxWidth: set_fd.contentWidth
+                text: qsTranslate("settingsmanager", "Scale and crop")
+                onCheckedChanged: set_fd.checkForChanges()
             }
 
         },
@@ -678,6 +676,17 @@ PQSetting {
         }
 
     ]
+
+    Connections {
+        target: PQCNotify
+        function onSettingsmanagerSendCommand(what : string, args : list<var>) : void {
+            if(what === "advancedSlider" && args[0] === "cancel") {
+                thbsze_slider.acceptValue()
+                padding.acceptValue()
+                preview_colintspin.acceptValue()
+            }
+        }
+    }
 
     function handleEscape() {
         sortcriteria.popup.close()

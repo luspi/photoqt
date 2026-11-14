@@ -172,12 +172,15 @@ PQSetting {
         PQAdvancedSlider {
             id: interval
             width: set_slsh.contentWidth
-            minval: 1
-            maxval: 300
+            from: 1
+            to: 300
+            logarithmicScale: true
             title: qsTranslate("settingsmanager", "interval:")
             suffix: " s"
             onValueChanged:
                 set_slsh.checkForChanges()
+            onEditModeChanged:
+                PQCConstants.settingsManagerAdvancedSliderEditMode += (editMode ? 1 : -1)
         },
 
         PQSettingsResetButton {
@@ -520,6 +523,15 @@ PQSetting {
         }
 
     ]
+
+    Connections {
+        target: PQCNotify
+        function onSettingsmanagerSendCommand(what : string, args : list<var>) : void {
+            if(what === "advancedSlider" && args[0] === "cancel") {
+                interval.acceptValue()
+            }
+        }
+    }
 
     Component.onCompleted:
         load()

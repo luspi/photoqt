@@ -35,12 +35,10 @@ Item {
     property alias spinboxItem: spinbox
     property int spinboxItemHeight: spinbox.height
 
-    property int minval: 1
-    property int maxval: 10
-    property int stepSize: 1
+    property int from: 1
+    property int to: 10
 
     property bool logarithmicScale: false
-    property real logarithmicScaleFactor: 2.5
 
     property alias title: pretext.text
     property int value: spinbox.value
@@ -50,8 +48,7 @@ Item {
     property string overrideMaxValText: ""
 
     property bool showSlider: true
-    property bool sliderExtraSmall: true
-    property bool sliderExtraWide: false
+    property bool sliderExtraBig: false
 
     property int titleWeight: PQCLook.fontWeightNormal
 
@@ -99,36 +96,27 @@ Item {
 
                 PQText {
                     y: (parent.height-height)/2
-                    text: (control.overrideMinValText==="" ? control.minval+control.suffix : control.overrideMinValText)
+                    text: (control.overrideMinValText==="" ? control.from+control.suffix : control.overrideMinValText)
                 }
 
                 PQSlider {
                     id: slidervalue
                     y: (parent.height-height)/2
-                    extraSmall: control.sliderExtraSmall
-                    extraWide: control.sliderExtraWide
-                    from: control.logarithmicScale ? 0 : control.minval
-                    to: control.logarithmicScale ? 1000 : control.maxval
+                    extraBig: control.sliderExtraBig
+                    from: control.from
+                    to: control.to
                     suffix: control.suffix
                     tooltip: spinbox.value
+                    logarithmicScale: control.logarithmicScale
                     onValueChanged: {
                         if(control.editMode) return
-                        if(control.logarithmicScale)
-                            spinbox.setValue(Math.ceil(control.minval + (control.maxval-control.minval) * Math.pow(value/1000, control.logarithmicScaleFactor)))
-                        else
-                            spinbox.setValue(value)
-                    }
-                    function setValue(val : int) {
-                        if(control.logarithmicScale) {
-                            value = to * Math.pow((val - control.minval)/(control.maxval-control.minval), 1/control.logarithmicScaleFactor)
-                        } else
-                            value = val
+                        spinbox.setValue(Math.round(value))
                     }
                 }
 
                 PQText {
                     y: (parent.height-height)/2
-                    text: (control.overrideMaxValText==="" ? control.maxval+control.suffix : control.overrideMaxValText)
+                    text: (control.overrideMaxValText==="" ? control.to+control.suffix : control.overrideMaxValText)
                 }
 
             }
@@ -142,8 +130,8 @@ Item {
 
                 PQSpinBox {
                     id: spinbox
-                    from: control.minval
-                    to: control.maxval
+                    from: control.from
+                    to: control.to
                     width: sliderrow.width-(control.showSlider ? acceptbut.width : 0)
                     //: Tooltip, The value here is a number.
                     tooltip: qsTranslate("settingsmanager", "Enter a value")
@@ -180,9 +168,9 @@ Item {
             sizeToText: true
             horizontalAlignment: Text.AlignLeft
             visible: !control.editMode
-            text: "(" + (control.overrideMinValText!==""&&spinbox.value===control.minval
+            text: "(" + (control.overrideMinValText!==""&&spinbox.value===control.from
                             ? control.overrideMinValText
-                            : (control.overrideMaxValText!==""&&spinbox.value===control.maxval
+                            : (control.overrideMaxValText!==""&&spinbox.value===control.to
                                    ? control.overrideMaxValText
                                    : spinbox.value + control.suffix)) + ")"
             //: Tooltip, used as in: Click to edit this value
@@ -220,6 +208,7 @@ Item {
     }
 
     function acceptValue() {
+        slidervalue.setValue(spinbox.value)
         control.editMode = false
     }
 

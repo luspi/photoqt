@@ -44,15 +44,16 @@ PQSetting {
         PQAdvancedSlider {
             id: thumb_size
             width: set_thumb.contentWidth
-            sliderExtraWide: true
-            minval: 50
-            maxval: 4000
-            stepSize: 5
+            sliderExtraBig: true
+            from: 50
+            to: 4000
             logarithmicScale: true
             title: ""
             suffix: " px"
             onValueChanged:
                 set_thumb.checkForChanges()
+            onEditModeChanged:
+                PQCConstants.settingsManagerAdvancedSliderEditMode += (editMode ? 1 : -1)
         },
 
         PQSettingsResetButton {
@@ -178,6 +179,15 @@ PQSetting {
         }
 
     ]
+
+    Connections {
+        target: PQCNotify
+        function onSettingsmanagerSendCommand(what : string, args : list<var>) : void {
+            if(what === "advancedSlider" && args[0] === "cancel") {
+                thumb_size.acceptValue()
+            }
+        }
+    }
 
     function handleEscape() {
         thumb_size.acceptValue()

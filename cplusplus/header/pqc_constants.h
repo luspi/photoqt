@@ -157,6 +157,7 @@ public:
         m_settingsManagerSettingChanged = false;
         m_settingsManagerCacheShortcutNames.clear();
         m_settingsManagerStartWithExtensionOpen = "";
+        m_settingsManagerAdvancedSliderEditMode = 0;
 
         m_currentlyShowingVideo = false;
         m_currentlyShowingVideoPosition = 0;
@@ -454,6 +455,7 @@ public:
     Q_PROPERTY(QString settingsManagerStartWithExtensionOpen MEMBER m_settingsManagerStartWithExtensionOpen NOTIFY settingsManagerStartWithExtensionOpenChanged)
     // The following property can only be reliably used from all subtabs of Tab 4 (Shortcuts) of the settings manager
     Q_PROPERTY(QVariantList settingsManagerCacheShortcutNames MEMBER m_settingsManagerCacheShortcutNames NOTIFY settingsManagerCacheShortcutNamesChanged)
+    Q_PROPERTY(int settingsManagerAdvancedSliderEditMode MEMBER m_settingsManagerAdvancedSliderEditMode NOTIFY settingsManagerAdvancedSliderEditModeChanged)
 
 
     /******************************************************/
@@ -660,6 +662,7 @@ private:
     bool m_settingsManagerSettingChanged;
     QString m_settingsManagerStartWithExtensionOpen;
     QVariantList m_settingsManagerCacheShortcutNames;
+    int m_settingsManagerAdvancedSliderEditMode;
 
     bool m_currentlyShowingVideo;
     bool m_currentlyShowingVideoHasAudio;
@@ -837,6 +840,7 @@ Q_SIGNALS:
     void settingsManagerSettingChangedChanged();
     void settingsManagerCacheShortcutNamesChanged();
     void settingsManagerStartWithExtensionOpenChanged();
+    void settingsManagerAdvancedSliderEditModeChanged();
     void searchTextChanged();
     void openGLAvailableForSpheresChanged();
     void currentFilterStringChanged();

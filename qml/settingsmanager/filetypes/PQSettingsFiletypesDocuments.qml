@@ -43,12 +43,14 @@ PQSetting {
         PQAdvancedSlider {
             id: pdf_quality
             width: set_docu.contentWidth
-            minval: 50
-            maxval: 300
+            from: 50
+            to: 300
             title: qsTranslate("settingsmanager", "quality:")
             suffix: " dpi"
             onValueChanged:
                 set_docu.checkForChanges()
+            onEditModeChanged:
+                PQCConstants.settingsManagerAdvancedSliderEditMode += (editMode ? 1 : -1)
         },
 
         PQCheckBox {
@@ -119,6 +121,15 @@ PQSetting {
         }
 
     ]
+
+    Connections {
+        target: PQCNotify
+        function onSettingsmanagerSendCommand(what : string, args : list<var>) : void {
+            if(what === "advancedSlider" && args[0] === "cancel") {
+                pdf_quality.acceptValue()
+            }
+        }
+    }
 
     function handleEscape() {
         pdf_quality.acceptValue()

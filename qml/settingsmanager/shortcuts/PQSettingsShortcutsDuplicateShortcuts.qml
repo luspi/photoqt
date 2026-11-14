@@ -159,8 +159,8 @@ PQSetting {
                         PQAdvancedSlider {
                             id: timeout_spin
                             enabled: cycle_check.checked
-                            minval: 0
-                            maxval: 10
+                            from: 0
+                            to: 10
                             suffix: "s"
                             title: qsTranslate("settingsmanager", "reset after:")
                             value: deleg.cycletimeout
@@ -169,6 +169,8 @@ PQSetting {
                                 set_dush.currentData[deleg.combo][2] = timeout_spin.value
                                 set_dush.currentDataChanged()
                             }
+                            onEditModeChanged:
+                                PQCConstants.settingsManagerAdvancedSliderEditMode += (editMode ? 1 : -1)
                         }
                     }
 
@@ -333,6 +335,15 @@ PQSetting {
 
                     }
 
+                }
+
+                Connections {
+                    target: PQCNotify
+                    function onSettingsmanagerSendCommand(what : string, args : list<var>) : void {
+                        if(what === "advancedSlider" && args[0] === "cancel") {
+                            timeout_spin.acceptValue()
+                        }
+                    }
                 }
 
             }

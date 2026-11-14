@@ -78,12 +78,14 @@ PQSetting {
         PQAdvancedSlider {
             id: dblclk
             width: set_exmo.contentWidth
-            minval: 0
-            maxval: 1000
+            from: 0
+            to: 1000
             title: qsTranslate("settingsmanager", "threshold:")
             suffix: " ms"
             onValueChanged:
                 set_exmo.checkForChanges()
+            onEditModeChanged:
+                PQCConstants.settingsManagerAdvancedSliderEditMode += (editMode ? 1 : -1)
         },
 
         PQSettingsResetButton {
@@ -116,13 +118,15 @@ PQSetting {
         PQAdvancedSlider {
             id: scrollspeed_value
             width: set_exmo.contentWidth
-            minval: 1
-            maxval: 10
+            from: 1
+            to: 10
             title: "Scaling factor"
             suffix: ""
             enabled: scrollspeed.checked
             onValueChanged:
                 set_exmo.checkForChanges()
+            onEditModeChanged:
+                PQCConstants.settingsManagerAdvancedSliderEditMode += (editMode ? 1 : -1)
 
         },
 
@@ -143,12 +147,14 @@ PQSetting {
         PQAdvancedSlider {
             id: repeatdelay_value
             width: set_exmo.contentWidth
-            minval: 0
-            maxval: 250
+            from: 0
+            to: 250
             title: "Repeat delay"
             suffix: "ms"
             onValueChanged:
                 set_exmo.checkForChanges()
+            onEditModeChanged:
+                PQCConstants.settingsManagerAdvancedSliderEditMode += (editMode ? 1 : -1)
 
         },
 
@@ -178,20 +184,22 @@ PQSetting {
         PQCheckBox {
             id: hidetimeout_check
             enforceMaxWidth: set_exmo.contentWidth
-            text: qsTranslate("settingsmanager", "hide cursor after timeout") + (checked ? ": " : "  ")
+            text: qsTranslate("settingsmanager", "hide cursor after timeout") + ":"
             checked: PQCSettings.imageviewHideCursorTimeout===0
         },
 
         PQAdvancedSlider {
             id: hidetimeout
             width: set_exmo.contentWidth
-            minval: 1
-            maxval: 10
+            from: 1
+            to: 10
             title: ""
             suffix: " s"
             enabled: hidetimeout_check.checked
             onValueChanged:
                 set_exmo.checkForChanges()
+            onEditModeChanged:
+                PQCConstants.settingsManagerAdvancedSliderEditMode += (editMode ? 1 : -1)
         },
 
         PQSettingsResetButton {
@@ -206,6 +214,18 @@ PQSetting {
         }
 
     ]
+
+    Connections {
+        target: PQCNotify
+        function onSettingsmanagerSendCommand(what : string, args : list<var>) : void {
+            if(what === "advancedSlider" && args[0] === "cancel") {
+                dblclk.acceptValue()
+                scrollspeed_value.acceptValue()
+                repeatdelay_value.acceptValue()
+                hidetimeout.acceptValue()
+            }
+        }
+    }
 
     function handleEscape() {
         dblclk.acceptValue()

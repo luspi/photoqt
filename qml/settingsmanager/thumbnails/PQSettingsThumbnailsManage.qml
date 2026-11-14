@@ -228,12 +228,14 @@ PQSetting {
         PQAdvancedSlider {
             id: threads
             width: set_mana.contentWidth
-            minval: 1
-            maxval: 32
+            from: 1
+            to: 32
             title: ""
             suffix: " threads"
             onValueChanged:
                 set_mana.checkForChanges()
+            onEditModeChanged:
+                PQCConstants.settingsManagerAdvancedSliderEditMode += (editMode ? 1 : -1)
         },
 
         PQSettingsResetButton {
@@ -247,6 +249,15 @@ PQSetting {
         }
 
     ]
+
+    Connections {
+        target: PQCNotify
+        function onSettingsmanagerSendCommand(what : string, args : list<var>) : void {
+            if(what === "advancedSlider" && args[0] === "cancel") {
+                threads.acceptValue()
+            }
+        }
+    }
 
     function handleEscape() {
         threads.acceptValue()

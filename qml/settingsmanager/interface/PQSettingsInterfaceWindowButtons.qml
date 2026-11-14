@@ -420,12 +420,14 @@ PQSetting {
             PQAdvancedSlider {
                 id: butsize
                 width: set_windowbuttons.contentWidth
-                minval: 5
-                maxval: 50
+                from: 5
+                to: 50
                 title: qsTranslate("settingsmanager", "Size:")
                 suffix: " px"
                 onValueChanged:
                     set_windowbuttons.checkForChanges()
+                onEditModeChanged:
+                    PQCConstants.settingsManagerAdvancedSliderEditMode += (editMode ? 1 : -1)
             }
 
             Item {
@@ -500,13 +502,15 @@ PQSetting {
             PQAdvancedSlider {
                 id: autohide_timeout
                 width: set_windowbuttons.contentWidth
-                minval: 0
-                maxval: 10
+                from: 0
+                to: 10
                 title: qsTranslate("settingsmanager", "hide again after timeout:")
                 suffix: " s"
                 enabled: !autohide_always.checked
                 onValueChanged:
                     set_windowbuttons.checkForChanges()
+                onEditModeChanged:
+                    PQCConstants.settingsManagerAdvancedSliderEditMode += (editMode ? 1 : -1)
             }
 
         },
@@ -532,6 +536,15 @@ PQSetting {
 
     ]
 
+    Connections {
+        target: PQCNotify
+        function onSettingsmanagerSendCommand(what : string, args : list<var>) : void {
+            if(what === "advancedSlider" && args[0] === "cancel") {
+                butsize.acceptValue()
+                autohide_timeout.acceptValue()
+            }
+        }
+    }
 
     function handleEscape() {
         butsize.acceptValue()

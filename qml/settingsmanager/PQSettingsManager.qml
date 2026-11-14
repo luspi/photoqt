@@ -392,6 +392,8 @@ PQTemplate {
                             filetypesToggleCategory.hide()
                         else if(filetypesTogglePlugins.visible)
                             filetypesTogglePlugins.hide()
+                        else if(PQCConstants.settingsManagerAdvancedSliderEditMode > 0)
+                            PQCNotify.settingsmanagerSendCommand("advancedSlider", ["cancel"])
                         else
                             settingsmanager_top.button3.clicked()
 

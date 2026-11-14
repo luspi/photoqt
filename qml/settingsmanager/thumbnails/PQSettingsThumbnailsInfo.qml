@@ -61,12 +61,14 @@ PQSetting {
                 id: label_fontsize
                 width: set_info.contentWidth - 32
                 enabled: label_enable.checked
-                minval: 5
-                maxval: 20
+                from: 5
+                to: 20
                 title: qsTranslate("settingsmanager", "Font size:")
                 suffix: " pt"
                 onValueChanged:
                     set_info.checkForChanges()
+                onEditModeChanged:
+                    PQCConstants.settingsManagerAdvancedSliderEditMode += (editMode ? 1 : -1)
             }
 
         },
@@ -120,6 +122,15 @@ PQSetting {
         }
 
     ]
+
+    Connections {
+        target: PQCNotify
+        function onSettingsmanagerSendCommand(what : string, args : list<var>) : void {
+            if(what === "advancedSlider" && args[0] === "cancel") {
+                label_fontsize.acceptValue()
+            }
+        }
+    }
 
     function handleEscape() {
         label_fontsize.acceptValue()

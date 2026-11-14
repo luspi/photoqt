@@ -43,12 +43,14 @@ PQSetting {
         PQAdvancedSlider {
             id: spacing_slider
             width: set_bar.contentWidth
-            minval: 0
-            maxval: 100
+            from: 0
+            to: 100
             title: ""
             suffix: " px"
             onValueChanged:
                 set_bar.checkForChanges()
+            onEditModeChanged:
+                PQCConstants.settingsManagerAdvancedSliderEditMode += (editMode ? 1 : -1)
         },
 
         PQSettingsResetButton {
@@ -125,13 +127,15 @@ PQSetting {
                 PQAdvancedSlider {
                     id: highlight_liftup_slider
                     width: set_bar.contentWidth - highlight_liftup_check.width
-                    minval: 0
-                    maxval: 100
+                    from: 0
+                    to: 100
                     title: ""
                     suffix: " px"
                     enabled: highlight_liftup_check.checked
                     onValueChanged:
                         set_bar.checkForChanges()
+                    onEditModeChanged:
+                        PQCConstants.settingsManagerAdvancedSliderEditMode += (editMode ? 1 : -1)
                 }
 
             }
@@ -299,6 +303,16 @@ PQSetting {
         }
 
     ]
+
+    Connections {
+        target: PQCNotify
+        function onSettingsmanagerSendCommand(what : string, args : list<var>) : void {
+            if(what === "advancedSlider" && args[0] === "cancel") {
+                spacing_slider.acceptValue()
+                highlight_liftup_slider.acceptValue()
+            }
+        }
+    }
 
     function handleEscape() {
         spacing_slider.acceptValue()
