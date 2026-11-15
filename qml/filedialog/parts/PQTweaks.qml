@@ -79,7 +79,7 @@ Item {
                 y: (parent.height-height)/2
 
                 from: 1
-                to: 100
+                to: PQCSettings.filedialogThumbnailSizeFollowsGlobalThumbnails&&PQCSettings.thumbnailsSizeExtendUpperLimit ? 400 : 100
 
                 stepSize: 1
                 logarithmicScale: true
@@ -89,7 +89,7 @@ Item {
                     saveSizeChange.restart()
                 }
 
-                property int maxThumb: 40 // = 4000/100%
+                property int maxThumb: 10 // = 4000/400% or 1000/100%
 
                 Timer {
                     id: saveSizeChange
@@ -123,7 +123,6 @@ Item {
 
                     function onFiledialogZoomChanged() {
                         if(PQCSettings.filedialogThumbnailSizeFollowsGlobalThumbnails) return
-                        console.warn("**1")
                         if(zoomslider.value !== PQCSettings.filedialogZoom)
                             zoomslider.value = PQCSettings.filedialogZoom
                     }
@@ -131,9 +130,8 @@ Item {
                     function onThumbnailsSizeChanged() {
                         if(!PQCSettings.filedialogThumbnailSizeFollowsGlobalThumbnails) return
                         var v = PQCSettings.thumbnailsSize/zoomslider.maxThumb
-                        console.warn("**2:", v)
                         if(zoomslider.value !== v)
-                            zoomslider.value = Math.min(100, v)
+                            zoomslider.value = Math.min(zoomslider.to, v)
                     }
 
                     function onFiledialogThumbnailSizeFollowsGlobalThumbnailsChanged() {
@@ -142,14 +140,14 @@ Item {
                             PQCSettings.filedialogZoom = PQCSettings.thumbnailsSize/zoomslider.maxThumb
                             zoomslider.value = PQCSettings.filedialogZoom
                         } else {
-                            zoomslider.value = Math.min(100,PQCSettings.thumbnailsSize/zoomslider.maxThumb)
+                            zoomslider.value = Math.min(zoomslider.to,PQCSettings.thumbnailsSize/zoomslider.maxThumb)
                         }
                     }
 
                 }
 
                 Component.onCompleted: {
-                    value = PQCSettings.filedialogThumbnailSizeFollowsGlobalThumbnails ? Math.min(100,PQCSettings.thumbnailsSize/zoomslider.maxThumb) : PQCSettings.filedialogZoom
+                    value = PQCSettings.filedialogThumbnailSizeFollowsGlobalThumbnails ? Math.min(zoomslider.to,PQCSettings.thumbnailsSize/zoomslider.maxThumb) : PQCSettings.filedialogZoom
                 }
 
             }

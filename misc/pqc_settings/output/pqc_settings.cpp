@@ -439,6 +439,7 @@ PQCSettings::PQCSettings() {
     connect(this, &PQCSettings::thumbnailsMaxNumberThreadsChanged, this, [this]() { saveChangedValue("thumbnailsMaxNumberThreads", m_thumbnailsMaxNumberThreads); });
     connect(this, &PQCSettings::thumbnailsSameHeightVaryWidthChanged, this, [this]() { saveChangedValue("thumbnailsSameHeightVaryWidth", m_thumbnailsSameHeightVaryWidth); });
     connect(this, &PQCSettings::thumbnailsSizeChanged, this, [this]() { saveChangedValue("thumbnailsSize", m_thumbnailsSize); });
+    connect(this, &PQCSettings::thumbnailsSizeExtendUpperLimitChanged, this, [this]() { saveChangedValue("thumbnailsSizeExtendUpperLimit", m_thumbnailsSizeExtendUpperLimit); });
     connect(this, &PQCSettings::thumbnailsSmallThumbnailsKeepSmallChanged, this, [this]() { saveChangedValue("thumbnailsSmallThumbnailsKeepSmall", m_thumbnailsSmallThumbnailsKeepSmall); });
     connect(this, &PQCSettings::thumbnailsSpacingChanged, this, [this]() { saveChangedValue("thumbnailsSpacing", m_thumbnailsSpacing); });
     connect(this, &PQCSettings::thumbnailsTooltipChanged, this, [this]() { saveChangedValue("thumbnailsTooltip", m_thumbnailsTooltip); });
@@ -6835,12 +6836,34 @@ void PQCSettings::setThumbnailsSize(const int val) {
 }
 
 const int PQCSettings::getDefaultForThumbnailsSize() const {
-        return 14;
+        return 120;
 }
 
 void PQCSettings::setDefaultForThumbnailsSize() {
-    if(14 != m_thumbnailsSize) {
-        m_thumbnailsSize = 14;
+    if(120 != m_thumbnailsSize) {
+        m_thumbnailsSize = 120;
+    }
+}
+
+bool PQCSettings::getThumbnailsSizeExtendUpperLimit() const {
+    return m_thumbnailsSizeExtendUpperLimit;
+}
+
+void PQCSettings::setThumbnailsSizeExtendUpperLimit(const bool val) {
+    if(val != m_thumbnailsSizeExtendUpperLimit) {
+        m_thumbnailsSizeExtendUpperLimit = val;
+        Q_EMIT thumbnailsSizeExtendUpperLimitChanged();
+    }
+}
+
+const bool PQCSettings::getDefaultForThumbnailsSizeExtendUpperLimit() const {
+        return false;
+}
+
+void PQCSettings::setDefaultForThumbnailsSizeExtendUpperLimit() {
+    if(false != m_thumbnailsSizeExtendUpperLimit) {
+        m_thumbnailsSizeExtendUpperLimit = false;
+        Q_EMIT thumbnailsSizeExtendUpperLimitChanged();
     }
 }
 
@@ -7659,6 +7682,8 @@ void PQCSettings::readDB() {
                     m_thumbnailsSameHeightVaryWidth = value.toInt();
                 } else if(name == "Size") {
                     m_thumbnailsSize = value.toInt();
+                } else if(name == "SizeExtendUpperLimit") {
+                    m_thumbnailsSizeExtendUpperLimit = value.toInt();
                 } else if(name == "SmallThumbnailsKeepSmall") {
                     m_thumbnailsSmallThumbnailsKeepSmall = value.toInt();
                 } else if(name == "Spacing") {
@@ -8243,7 +8268,8 @@ void PQCSettings::setupFresh() {
     m_thumbnailsInactiveTransparent = true;
     m_thumbnailsMaxNumberThreads = 4;
     m_thumbnailsSameHeightVaryWidth = false;
-    m_thumbnailsSize = 14;
+    m_thumbnailsSize = 120;
+    m_thumbnailsSizeExtendUpperLimit = false;
     m_thumbnailsSmallThumbnailsKeepSmall = true;
     m_thumbnailsSpacing = 2;
     m_thumbnailsTooltip = true;
@@ -8575,6 +8601,7 @@ void PQCSettings::resetToDefault() {
     setDefaultForThumbnailsMaxNumberThreads();
     setDefaultForThumbnailsSameHeightVaryWidth();
     setDefaultForThumbnailsSize();
+    setDefaultForThumbnailsSizeExtendUpperLimit();
     setDefaultForThumbnailsSmallThumbnailsKeepSmall();
     setDefaultForThumbnailsSpacing();
     setDefaultForThumbnailsTooltip();
@@ -9782,6 +9809,10 @@ QStringList PQCSettings::updateFromCommandLine() {
     if(key == "thumbnailsSize") {
         m_thumbnailsSize = val.toInt();
         Q_EMIT thumbnailsSizeChanged();
+    }
+    if(key == "thumbnailsSizeExtendUpperLimit") {
+        m_thumbnailsSizeExtendUpperLimit = (val.toInt()==1);
+        Q_EMIT thumbnailsSizeExtendUpperLimitChanged();
     }
     if(key == "thumbnailsSmallThumbnailsKeepSmall") {
         m_thumbnailsSmallThumbnailsKeepSmall = (val.toInt()==1);

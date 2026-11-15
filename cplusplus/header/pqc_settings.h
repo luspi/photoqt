@@ -1831,6 +1831,12 @@ public:
     Q_INVOKABLE const int getDefaultForThumbnailsSize() const;
     Q_INVOKABLE void setDefaultForThumbnailsSize();
 
+    Q_PROPERTY(bool thumbnailsSizeExtendUpperLimit READ getThumbnailsSizeExtendUpperLimit WRITE setThumbnailsSizeExtendUpperLimit NOTIFY thumbnailsSizeExtendUpperLimitChanged)
+    bool getThumbnailsSizeExtendUpperLimit() const;
+    void setThumbnailsSizeExtendUpperLimit(const bool val);
+    Q_INVOKABLE const bool getDefaultForThumbnailsSizeExtendUpperLimit() const;
+    Q_INVOKABLE void setDefaultForThumbnailsSizeExtendUpperLimit();
+
     Q_PROPERTY(bool thumbnailsSmallThumbnailsKeepSmall READ getThumbnailsSmallThumbnailsKeepSmall WRITE setThumbnailsSmallThumbnailsKeepSmall NOTIFY thumbnailsSmallThumbnailsKeepSmallChanged)
     bool getThumbnailsSmallThumbnailsKeepSmall() const;
     void setThumbnailsSmallThumbnailsKeepSmall(const bool val);
@@ -2189,6 +2195,7 @@ private:
     int m_thumbnailsMaxNumberThreads;
     bool m_thumbnailsSameHeightVaryWidth;
     int m_thumbnailsSize;
+    bool m_thumbnailsSizeExtendUpperLimit;
     bool m_thumbnailsSmallThumbnailsKeepSmall;
     int m_thumbnailsSpacing;
     bool m_thumbnailsTooltip;
@@ -2514,6 +2521,7 @@ Q_SIGNALS:
     void thumbnailsMaxNumberThreadsChanged();
     void thumbnailsSameHeightVaryWidthChanged();
     void thumbnailsSizeChanged();
+    void thumbnailsSizeExtendUpperLimitChanged();
     void thumbnailsSmallThumbnailsKeepSmallChanged();
     void thumbnailsSpacingChanged();
     void thumbnailsTooltipChanged();

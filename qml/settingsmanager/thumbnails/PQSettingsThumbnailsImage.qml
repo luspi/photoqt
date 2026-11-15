@@ -46,7 +46,7 @@ PQSetting {
             width: set_thumb.contentWidth
             sliderExtraBig: true
             from: 50
-            to: 4000
+            to: thumb_uppersize.checked ? 4000 : 1000
             logarithmicScale: true
             title: ""
             suffix: " px"
@@ -56,10 +56,19 @@ PQSetting {
                 PQCConstants.settingsManagerAdvancedSliderEditMode += (editMode ? 1 : -1)
         },
 
+        PQCheckBox {
+            id: thumb_uppersize
+            //: The size limit here refers to the size of thumbnails and what maximum size they can be set to
+            text: qsTranslate("settingsmanager", "extend upper size limit")
+            onCheckedChanged:
+                set_thumb.checkForChanges()
+        },
+
         PQSettingsResetButton {
             onResetToDefaults: {
 
                 thumb_size.setValue(PQCSettings.getDefaultForThumbnailsSize())
+                thumb_uppersize.checked = PQCSettings.thumbnailsSizeExtendUpperLimit
 
                 set_thumb.checkForChanges()
 
@@ -203,7 +212,8 @@ PQSetting {
         }
 
         PQCConstants.settingsManagerSettingChanged = thumb_size.hasChanged() || thumb_fit.hasChanged() || thumb_crop.hasChanged() || thumb_small.hasChanged() ||
-                                                     thumb_sameheight.hasChanged() || thumb_actual.hasChanged() || thumb_icon.hasChanged()
+                                                     thumb_sameheight.hasChanged() || thumb_actual.hasChanged() || thumb_icon.hasChanged() ||
+                                                     thumb_uppersize.hasChanged()
 
     }
 
@@ -212,6 +222,7 @@ PQSetting {
         settingsLoaded = false
 
         thumb_size.loadAndSetDefault(PQCSettings.thumbnailsSize)
+        thumb_uppersize.loadAndSetDefault(PQCSettings.thumbnailsSizeExtendUpperLimit)
 
         thumb_fit.loadAndSetDefault(!PQCSettings.thumbnailsCropToFit && !PQCSettings.thumbnailsSameHeightVaryWidth)
         thumb_crop.loadAndSetDefault(PQCSettings.thumbnailsCropToFit)
@@ -229,7 +240,9 @@ PQSetting {
     function applyChanges() {
 
         PQCSettings.thumbnailsSize = thumb_size.value
+        PQCSettings.thumbnailsSizeExtendUpperLimit = thumb_uppersize.checked
         thumb_size.saveDefault()
+        thumb_uppersize.saveDefault()
 
         PQCSettings.thumbnailsCropToFit = thumb_crop.checked
         PQCSettings.thumbnailsSameHeightVaryWidth = thumb_sameheight.checked
