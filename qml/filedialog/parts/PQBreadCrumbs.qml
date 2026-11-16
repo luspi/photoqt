@@ -144,7 +144,7 @@ Item {
                 PQButtonIcon {
                     id: listview
                     checkable: true
-                    checked: PQCSettings.filedialogLayout!=="grid"&&PQCSettings.filedialogLayout!=="masonry"
+                    checked: PQCSettings.filedialogLayout!=="grid"&&PQCSettings.filedialogLayout!=="masonry"&&PQCSettings.filedialogLayout!=="masonryNew"
                     iconSource: "image://svg/:/" + PQCLook.iconShade + "/listview.svg"
                     tooltip: qsTranslate("filedialog", "Show files as list")
                     onCheckedChanged: {
@@ -164,6 +164,19 @@ Item {
                         breadcrumbs_top.disableAddressEdit()
                         if(checked) PQCSettings.filedialogLayout = "masonry"
                         checked = Qt.binding(function() { return PQCSettings.filedialogLayout==="masonry" })
+                    }
+                }
+
+                PQButtonIcon {
+                    id: masonviewNew
+                    checkable: true
+                    checked: PQCSettings.filedialogLayout==="masonryNew"
+                    iconSource: "image://svg/:/" + PQCLook.iconShade + "/masonryview.svg"
+                    tooltip: qsTranslate("filedialog", "Show files in NEW masonry layout")
+                    onCheckedChanged: {
+                        breadcrumbs_top.disableAddressEdit()
+                        if(checked) PQCSettings.filedialogLayout = "masonryNew"
+                        checked = Qt.binding(function() { return PQCSettings.filedialogLayout==="masonryNew" })
                     }
                 }
 

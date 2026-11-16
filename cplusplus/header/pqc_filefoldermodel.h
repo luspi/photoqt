@@ -27,6 +27,7 @@
 #include <QMimeDatabase>
 #include <QSize>
 #include <QQmlEngine>
+#include <QFuture>
 
 #include <pqc_filefoldermodelCPP.h>
 
@@ -211,6 +212,10 @@ public:
 
     /********************************************/
 
+    Q_INVOKABLE void generateDataForMasonryView(QString folder, int numCol, int colWidth);
+
+    /********************************************/
+
     Q_INVOKABLE void resetModel();
 
     /********************************************/
@@ -292,6 +297,9 @@ private:
 
     void checkFilterActive();
 
+    QFuture<void> m_masonryFuture;
+    QMap<QString,QVariantMap> m_masonryCache;
+
 private Q_SLOTS:
     void loadDataMainView();
     void loadDataFileDialog();
@@ -343,5 +351,8 @@ Q_SIGNALS:
     void arcFileChanged();
     void justLeftViewerModeChanged();
     void activeViewerModeChanged();
+
+    void newMasonryData(int col, QVariantMap val);
+    void masonryDataReady(QList<QVariantList> val);
 
 };

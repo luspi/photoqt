@@ -91,7 +91,7 @@ Item {
 
         property int fvModel: 0
         anchors.fill: parent
-        sourceComponent: (PQCSettings.filedialogLayout === "grid" ? gridfileview : (PQCSettings.filedialogLayout === "masonry" ? masonryfileview : listfileview))
+        sourceComponent: (PQCSettings.filedialogLayout === "grid" ? gridfileview : (PQCSettings.filedialogLayout === "masonry" ? masonryfileview : (PQCSettings.filedialogLayout === "masonryNew" ? masonryfileviewNEW : listfileview)))
         Component.onCompleted:
             view_top.setupNewData()
     }
@@ -182,6 +182,36 @@ Item {
                 }
                 function onGoDownSomeRows() {
                     fv_mason.goDownSomeRows()
+                }
+            }
+        }
+    }
+
+    Component {
+        id: masonryfileviewNEW
+        PQFileViewMasonryNew {
+            id: fv_masonNew
+            // 100000000 is the maximum allowed number of entries
+            // without this check there might be a race condition where either a negative of too large is set for a split second
+            model: Math.max(0, Math.min(100000000, fileview.fvModel))
+            onCurrentIndexChanged:
+                fileview.currentIndex = currentIndex
+            Connections {
+                target: fileview
+                function onSetCurrentIndex(idx) {
+                    fv_masonNew.currentIndex = idx
+                }
+                function onGoUpARow() {
+                    fv_masonNew.goUpARow()
+                }
+                function onGoDownARow() {
+                    fv_masonNew.goDownARow()
+                }
+                function onGoUpSomeRows() {
+                    fv_masonNew.goUpSomeRows()
+                }
+                function onGoDownSomeRows() {
+                    fv_masonNew.goDownSomeRows()
                 }
             }
         }
@@ -750,7 +780,6 @@ Item {
     }
 
     Component.onCompleted: {
-        fileview.fvModel = PQCFileFolderModel.countAllFileDialog
         PQGlobalItems.filedialogFileview = view_top
     }
 
@@ -897,6 +926,11 @@ Item {
         }
     }
 
+    PQWorking {
+        id: loadingDataBG
+        anchors.fill: parent
+    }
+
     Connections {
 
         target: PQCNotify
@@ -919,6 +953,13 @@ Item {
 
         function onFiledialogPasteFiles() {
             view_top.pasteFiles()
+        }
+
+        function onFiledialogBusyLoading(busy : bool) {
+            if(busy)
+                loadingDataBG.showBusy()
+            else
+                loadingDataBG.hide()
         }
 
     }

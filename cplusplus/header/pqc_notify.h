@@ -181,6 +181,7 @@ Q_SIGNALS:
     void filedialogGoBackInHistory();
     void filedialogGoForwardsInHistory();
     void filedialogShowAddressEdit(bool edit);
+    void filedialogBusyLoading(bool busy);
 
     // other
     void showNotificationMessage(QString title, QString msg); // -> also picked up from PQCNotify

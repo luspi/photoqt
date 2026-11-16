@@ -37,6 +37,8 @@
 #include <pqc_resolutioncache.h>
 #include <pqc_settingscpp.h>
 #include <scripts/pqc_scriptsimages.h>
+#include <scripts/pqc_scriptsfiledialog.h>
+#include <scripts/pqc_scriptsfilespaths.h>
 #include <pqc_helper.h>
 #include <pqc_imagehandler.h>
 
@@ -908,6 +910,104 @@ void PQCFileFolderModel::removeEntryMainView(int index) {
         setFileInFolderMainView("");
 
 }
+
+/********************************************/
+/********************************************/
+
+void PQCFileFolderModel::generateDataForMasonryView(QString folder, int numCol, int colWidth) {
+
+    qDebug() << "args: numCol =" << numCol;
+    qDebug() << "args: colWidth =" << colWidth;
+
+    m_masonryFuture.cancel();
+
+    m_masonryFuture = QtConcurrent::run([=]() {
+
+        auto start = std::chrono::steady_clock::now();
+
+        QList<QList<int> > colIndices(numCol, QList<int>());
+        QList<int> colHeight(numCol, 0);
+        QList<QVariantList> dat(numCol, {});
+
+        // first do all folders
+        for(int j = 0; j < m_countFoldersFileDialog; ++j) {
+
+            QString pth = m_entriesFileDialog.value(j);
+            QString cacheKey = pth%":"%QString::number(colWidth);
+
+            // find shortest column
+            int minCol = std::distance(colHeight.cbegin(), std::min_element(colHeight.cbegin(), colHeight.cend()));
+            colIndices[minCol].append(j);
+
+            QVariantMap d;
+
+            if(m_masonryCache.contains(cacheKey)) {
+
+                d = m_masonryCache[cacheKey];
+
+            } else {
+
+                d = {{"path", pth},
+                     {"isFolder", true},
+                     {"itemHeight" , colWidth},
+                     {"fileSize", ""},
+                     {"numberFilesInsideFolder", PQCScriptsFileDialog::get().getNumberOfFilesInFolder(pth)}};
+
+                m_masonryCache[cacheKey] = d;
+            }
+
+            Q_EMIT newMasonryData(minCol, d);
+
+            dat[minCol].append(d);
+            colHeight[minCol] += colWidth;
+
+        }
+
+        // first do all folders
+        for(int j = m_countFoldersFileDialog; j < m_countAllFileDialog; ++j) {
+
+            QString pth = m_entriesFileDialog.value(j);
+            QString cacheKey = pth%":"%QString::number(colWidth);
+
+            // find shortest column
+            int minCol = std::distance(colHeight.cbegin(), std::min_element(colHeight.cbegin(), colHeight.cend()));
+            colIndices[minCol].append(j);
+
+            QVariantMap d;
+
+            if(m_masonryCache.contains(cacheKey)) {
+
+                d = m_masonryCache[cacheKey];
+
+            } else {
+
+                QSize sze = PQCImageHandler::get().getSize(pth);
+                int h = std::ceil((sze.height() * colWidth/sze.width()));
+
+                d = {{"path", pth},
+                     {"isFolder", false},
+                     {"itemHeight" , h},
+                     {"fileSize", PQCScriptsFilesPaths::get().getFileSizeHumanReadable(pth)},
+                     {"numberFilesInsideFolder", PQCScriptsFileDialog::get().getNumberOfFilesInFolder(pth)}};
+
+                m_masonryCache[cacheKey] = d;
+            }
+
+            Q_EMIT newMasonryData(minCol, d);
+
+            dat[minCol].append(d);
+            colHeight[minCol] += colWidth;
+
+        }
+
+        Q_EMIT masonryDataReady(dat);
+
+    });
+
+}
+
+/********************************************/
+/********************************************/
 
 void PQCFileFolderModel::resetModel() {
 
