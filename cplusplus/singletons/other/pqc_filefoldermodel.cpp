@@ -195,6 +195,8 @@ PQCFileFolderModel::PQCFileFolderModel(QObject *parent) : QObject(parent) {
 
 PQCFileFolderModel::~PQCFileFolderModel() {
 
+    m_masonryFuture.cancel();
+
     delete loadDelayMainView;
     delete loadDelayFileDialog;
 
@@ -923,11 +925,13 @@ void PQCFileFolderModel::generateDataForMasonryView(QString folder, int numCol, 
 
     m_masonryFuture = QtConcurrent::run([=]() {
 
+        QString startedFolder = QDir::cleanPath(m_folderFileDialog);
+
         auto start = std::chrono::steady_clock::now();
 
         QList<QList<int> > colIndices(numCol, QList<int>());
         QList<int> colHeight(numCol, 0);
-        QList<QVariantList> dat(numCol, {});
+        QVariantList dat(numCol, {});
 
         // first do all folders
         for(int j = 0; j < m_countFoldersFileDialog; ++j) {
@@ -948,6 +952,7 @@ void PQCFileFolderModel::generateDataForMasonryView(QString folder, int numCol, 
             } else {
 
                 d = {{"path", pth},
+                     {"runningIndex", j},
                      {"isFolder", true},
                      {"itemHeight" , colWidth},
                      {"fileSize", ""},
@@ -956,14 +961,19 @@ void PQCFileFolderModel::generateDataForMasonryView(QString folder, int numCol, 
                 m_masonryCache[cacheKey] = d;
             }
 
-            Q_EMIT newMasonryData(minCol, d);
+            qWarning() << ">>>>" << QDir::cleanPath(pth) << "//" << QDir::cleanPath(m_folderFileDialog);
 
-            dat[minCol].append(d);
+            if(startedFolder == QDir::cleanPath(m_folderFileDialog))
+                Q_EMIT newMasonryData(minCol, d, colHeight);
+
+            QVariantList col = dat[minCol].toList();
+            col.append(d);
+            dat[minCol] = col;
             colHeight[minCol] += colWidth;
 
         }
 
-        // first do all folders
+        // then all files
         for(int j = m_countFoldersFileDialog; j < m_countAllFileDialog; ++j) {
 
             QString pth = m_entriesFileDialog.value(j);
@@ -985,6 +995,7 @@ void PQCFileFolderModel::generateDataForMasonryView(QString folder, int numCol, 
                 int h = std::ceil((sze.height() * colWidth/sze.width()));
 
                 d = {{"path", pth},
+                     {"runningIndex", j},
                      {"isFolder", false},
                      {"itemHeight" , h},
                      {"fileSize", PQCScriptsFilesPaths::get().getFileSizeHumanReadable(pth)},
@@ -993,14 +1004,18 @@ void PQCFileFolderModel::generateDataForMasonryView(QString folder, int numCol, 
                 m_masonryCache[cacheKey] = d;
             }
 
-            Q_EMIT newMasonryData(minCol, d);
+            if(startedFolder == QDir::cleanPath(m_folderFileDialog))
+                Q_EMIT newMasonryData(minCol, d, colHeight);
 
-            dat[minCol].append(d);
-            colHeight[minCol] += colWidth;
+            QVariantList col = dat[minCol].toList();
+            col.append(d);
+            dat[minCol] = col;
+            colHeight[minCol] += d["itemHeight"].toInt();
 
         }
 
-        Q_EMIT masonryDataReady(dat);
+        if(startedFolder == QDir::cleanPath(m_folderFileDialog))
+            Q_EMIT masonryDataLoadingCompleted();
 
     });
 

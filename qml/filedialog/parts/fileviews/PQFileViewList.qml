@@ -37,6 +37,8 @@ ListView {
 
     ScrollBar.vertical: PQVerticalScrollBar { id: view_scroll }
 
+    boundsBehavior: Flickable.StopAtBounds
+
     onContentYChanged: {
         // this check makes sure that value is not reset when a directory is reloaded due to a change
         if(contentY > 0)

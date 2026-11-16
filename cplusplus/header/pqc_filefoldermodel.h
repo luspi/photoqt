@@ -352,7 +352,7 @@ Q_SIGNALS:
     void justLeftViewerModeChanged();
     void activeViewerModeChanged();
 
-    void newMasonryData(int col, QVariantMap val);
-    void masonryDataReady(QList<QVariantList> val);
+    void newMasonryData(int col, QVariantMap val, QList<int> colHeights);
+    void masonryDataLoadingCompleted();
 
 };

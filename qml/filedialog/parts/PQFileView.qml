@@ -537,14 +537,14 @@ Item {
                         n = 1
                 }
 
-                ret = "<big><big><b>" + currentFile + "</b></big></big><br><br>" +
+                ret = "<big><b>" + currentFile + "</b></big><br><br>" +
                         "<b>"+(numberFilesInsideFolder===0 ? "" : (qsTranslate("filedialog", "# images")+":</b><br>" + numberFilesInsideFolder + "<br>")) +
                         "<b>"+qsTranslate("filedialog", "Date:")+"</b><br>" + fmodi.toLocaleDateString() + "<br>" +
                         "<b>"+qsTranslate("filedialog", "Time:")+"</b><br>" + fmodi.toLocaleTimeString()
 
             } else {
 
-                ret = "<big><big><b>" + currentFile + "</b></big></big><br><br>" +
+                ret = "<big><b>" + currentFile + "</b></big><br><br>" +
                         "<b>"+qsTranslate("filedialog", "File size:")+"</b><br>" + (fileInfo==="" ? "---" : fileInfo) + "<br>" +
                         "<b>"+qsTranslate("filedialog", "File type:")+"</b><br>" + ftype + "<br>" +
                         "<b>"+qsTranslate("filedialog", "Date:")+"</b><br>" + fmodi.toLocaleDateString() + "<br>" +
@@ -926,9 +926,15 @@ Item {
         }
     }
 
-    PQWorking {
-        id: loadingDataBG
-        anchors.fill: parent
+    Item {
+        width: 75
+        height: 75
+        x: (parent.width-width)
+        y: (parent.height-height)
+        PQWorking {
+            id: loadingDataBG
+            customScaling: 0.35
+        }
     }
 
     Connections {
