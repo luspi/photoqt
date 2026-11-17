@@ -922,6 +922,7 @@ void PQCFileFolderModel::generateDataForMasonryView(QString folder, int numCol, 
     qDebug() << "args: colWidth =" << colWidth;
 
     m_masonryFuture.cancel();
+    m_masonryColumnIndices.clear();
 
     m_masonryFuture = QtConcurrent::run([=]() {
 
@@ -929,7 +930,7 @@ void PQCFileFolderModel::generateDataForMasonryView(QString folder, int numCol, 
 
         auto start = std::chrono::steady_clock::now();
 
-        QList<QList<int> > colIndices(numCol, QList<int>());
+        m_masonryColumnIndices = QList<QList<int> >(numCol, QList<int>());
         QList<int> colHeight(numCol, 0);
         QVariantList dat(numCol, {});
 
@@ -941,7 +942,7 @@ void PQCFileFolderModel::generateDataForMasonryView(QString folder, int numCol, 
 
             // find shortest column
             int minCol = std::distance(colHeight.cbegin(), std::min_element(colHeight.cbegin(), colHeight.cend()));
-            colIndices[minCol].append(j);
+            m_masonryColumnIndices[minCol].append(j);
 
             QVariantMap d;
 
@@ -985,7 +986,7 @@ void PQCFileFolderModel::generateDataForMasonryView(QString folder, int numCol, 
 
             // find shortest column
             int minCol = std::distance(colHeight.cbegin(), std::min_element(colHeight.cbegin(), colHeight.cend()));
-            colIndices[minCol].append(j);
+            m_masonryColumnIndices[minCol].append(j);
 
             QVariantMap d;
 
@@ -1023,6 +1024,27 @@ void PQCFileFolderModel::generateDataForMasonryView(QString folder, int numCol, 
             Q_EMIT masonryDataLoadingCompleted();
 
     });
+
+}
+
+int PQCFileFolderModel::navigateMasonryColumn(int currentIndex, int direction) {
+
+    int curCol = -1;
+    int curRow = -1;
+    int i = 0;
+    for(const QList<int> &col: std::as_const(m_masonryColumnIndices)) {
+        curRow = col.indexOf(currentIndex);
+        if(curRow > -1) {
+            curCol = i;
+            break;
+        }
+        ++i;
+    }
+
+    if(curCol == -1 || curRow == -1)
+        return currentIndex;
+
+    return m_masonryColumnIndices[curCol][qMax(0, qMin(m_masonryColumnIndices[curCol].length()-1, curRow+direction))];
 
 }
 

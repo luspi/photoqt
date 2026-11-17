@@ -548,13 +548,15 @@ Flickable {
     }
 
     property list<int> currentColHeights: []
+    property var currentColIndices: ({})
 
     Connections {
 
         target: PQCFileFolderModel
 
-        function onNewMasonryData(col : int, dat : var, colHeights : list<int>) {
+        function onNewMasonryData(col : int, dat : var, colHeights : list<int>, colIndices : var) {
             masonryview.currentColHeights = colHeights
+            masonryview.currentColIndices = colIndices
             masonryview.addToColumn(col, dat)
             masonryview.updateContentHeight()
         }
@@ -649,25 +651,37 @@ Flickable {
 
     function goDownARow() {
 
-        // TODO
+        if(PQGlobalItems.filedialogFileview.currentIndex === -1)
+            PQGlobalItems.filedialogFileview.currentIndex = 0
+        else
+            PQGlobalItems.filedialogFileview.currentIndex = PQCFileFolderModel.navigateMasonryColumn(PQGlobalItems.filedialogFileview.currentIndex, 1)
 
     }
 
     function goDownSomeRows() {
 
-        // TODO
+        if(PQGlobalItems.filedialogFileview.currentIndex === -1)
+            PQGlobalItems.filedialogFileview.currentIndex = 0
+        else
+            PQGlobalItems.filedialogFileview.currentIndex = PQCFileFolderModel.navigateMasonryColumn(PQGlobalItems.filedialogFileview.currentIndex, 5)
 
     }
 
     function goUpARow() {
 
-        // TODO
+        if(PQGlobalItems.filedialogFileview.currentIndex === -1)
+            PQGlobalItems.filedialogFileview.currentIndex = currentColIndices[0][currentColIndices[0].length-1]
+        else
+            PQGlobalItems.filedialogFileview.currentIndex = PQCFileFolderModel.navigateMasonryColumn(PQGlobalItems.filedialogFileview.currentIndex, -1)
 
     }
 
     function goUpSomeRows() {
 
-        // TODO
+        if(PQGlobalItems.filedialogFileview.currentIndex === -1)
+            PQGlobalItems.filedialogFileview.currentIndex = currentColIndices[0][currentColIndices[0].length-1]
+        else
+            PQGlobalItems.filedialogFileview.currentIndex = PQCFileFolderModel.navigateMasonryColumn(PQGlobalItems.filedialogFileview.currentIndex, -5)
 
     }
 

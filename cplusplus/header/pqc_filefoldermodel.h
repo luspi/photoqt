@@ -213,6 +213,7 @@ public:
     /********************************************/
 
     Q_INVOKABLE void generateDataForMasonryView(QString folder, int numCol, int colWidth);
+    Q_INVOKABLE int navigateMasonryColumn(int currentIndex, int direction);
 
     /********************************************/
 
@@ -299,6 +300,7 @@ private:
 
     QFuture<void> m_masonryFuture;
     QMap<QString,QVariantMap> m_masonryCache;
+    QList<QList<int> > m_masonryColumnIndices;
 
 private Q_SLOTS:
     void loadDataMainView();
