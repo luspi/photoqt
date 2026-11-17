@@ -46,6 +46,8 @@ Flickable {
     Component.onDestruction:
         PQCNotify.filedialogBusyLoading(false)
 
+    signal addToColumn(var col, var dat)
+
     property int model: 0
     onModelChanged: {
 
@@ -56,7 +58,7 @@ Flickable {
             return
         }
 
-        masonryview.setupData()
+        masonryview.prepareLayout()
 
         // reset position
         // masonryview.contentY = 0
@@ -86,6 +88,7 @@ Flickable {
     property int numColumns: 0
     property int columnWidth: 0
     property var listviews: ({})
+    property bool listviewsReady: false
 
     property int listviewMaxHeight: 0
 
@@ -123,6 +126,15 @@ Flickable {
 
                 Component.onCompleted: {
                     masonryview.listviews[modelData] = mdl
+                    masonryview.listviewsReady = true
+                }
+
+                Connections {
+                    target: masonryview
+                    function onAddToColumn(col, dat) {
+                        if(col === lv.modelData)
+                            mdl.append(dat)
+                    }
                 }
 
                 delegate: viewentry
@@ -516,19 +528,52 @@ Flickable {
         }
     }
 
+    property list<int> currentColHeights: []
+
     Connections {
 
         target: PQCFileFolderModel
 
         function onNewMasonryData(col : int, dat : var, colHeights : list<int>) {
-            masonryview.listviews[col].append(dat)
-            for(let i = 0; i < numColumns; ++i)
-                masonryview.listviewMaxHeight = Math.max(masonryview.listviewMaxHeight, colHeights[i])
+            masonryview.currentColHeights = colHeights
+            masonryview.addToColumn(col, dat)
+            masonryview.updateContentHeight()
         }
 
         function onMasonryDataLoadingCompleted() {
             PQCNotify.filedialogBusyLoading(false)
+            masonryview.updateContentHeight()
         }
+
+    }
+
+    function updateContentHeight() {
+        for(let i = 0; i < numColumns; ++i)
+            masonryview.listviewMaxHeight = Math.max(masonryview.listviewMaxHeight, currentColHeights[i])
+    }
+
+    Timer {
+        id: callPrepareLayout
+        interval: 50
+        onTriggered:
+            prepareLayout()
+    }
+
+    function prepareLayout() {
+
+        if(width < 5) {
+            callPrepareLayout.restart()
+            return
+        }
+
+        var _w = (PQCSettings.filedialogThumbnailSizeFollowsGlobalThumbnails ? 10+PQCSettings.thumbnailsSize : 10+PQCSettings.filedialogZoom*10)
+        var nc = Math.floor(width/_w)
+        var cw = width/nc
+
+        numColumns = nc
+        columnWidth = cw
+
+        setupData()
 
     }
 
@@ -541,7 +586,7 @@ Flickable {
 
     function setupData() {
 
-        if(width < 5) {
+        if(numColumns == 0 || !listviewsReady) {
             callSetup.restart()
             return
         }
@@ -550,16 +595,9 @@ Flickable {
             masonryview.listviews[i].clear()
         listviewMaxHeight = 0
 
-        var _w = (PQCSettings.filedialogThumbnailSizeFollowsGlobalThumbnails ? 10+PQCSettings.thumbnailsSize : 10+PQCSettings.filedialogZoom*10)
-        var nc = Math.floor(width/_w)
-        var cw = width/nc
-
-        numColumns = nc
-        columnWidth = cw
-
         PQCNotify.filedialogBusyLoading(true)
 
-        PQCFileFolderModel.generateDataForMasonryView(PQCFileFolderModel.folderFileDialog, nc, cw)
+        PQCFileFolderModel.generateDataForMasonryView(PQCFileFolderModel.folderFileDialog, numColumns, columnWidth)
 
     }
 

@@ -954,17 +954,16 @@ void PQCFileFolderModel::generateDataForMasonryView(QString folder, int numCol, 
                 d = {{"path", pth},
                      {"runningIndex", j},
                      {"isFolder", true},
-                     {"itemHeight" , colWidth},
+                     {"itemHeight", colWidth},
                      {"fileSize", ""},
                      {"numberFilesInsideFolder", PQCScriptsFileDialog::get().getNumberOfFilesInFolder(pth)}};
 
                 m_masonryCache[cacheKey] = d;
             }
 
-            qWarning() << ">>>>" << QDir::cleanPath(pth) << "//" << QDir::cleanPath(m_folderFileDialog);
-
             if(startedFolder == QDir::cleanPath(m_folderFileDialog))
                 Q_EMIT newMasonryData(minCol, d, colHeight);
+
 
             QVariantList col = dat[minCol].toList();
             col.append(d);
