@@ -48,6 +48,8 @@ Flickable {
 
     signal addToColumn(var col, var dat)
 
+    property bool firstStart: true
+
     property int model: 0
     onModelChanged: {
 
@@ -58,13 +60,21 @@ Flickable {
             return
         }
 
-        masonryview.prepareLayout()
+        if(firstStart) {
+            prepareLayout()
+            firstStart = false;
+        } else
+            setupData()
 
         // reset position
         // masonryview.contentY = 0
         // cachePath = cacheKey
         // cacheContentY = 0
 
+    }
+
+    onWidthChanged: {
+        prepareLayout()
     }
 
     property int currentIndex: -1
@@ -166,7 +176,7 @@ Flickable {
             required property bool isFolder
             required property int itemHeight
             required property string fileSize
-            required property int numberFilesInsideFolder
+            property int numberFilesInsideFolder: 0
 
             property string fileName: decodeURIComponent(PQCScriptsFilesPaths.getFilename(path))
             property bool isFileCut: PQGlobalItems.filedialogFileview.currentCuts.indexOf(runningIndex) > -1
@@ -183,6 +193,14 @@ Flickable {
 
             border.width: PQCSettings.filedialogElementPadding
             border.color: PQCLook.baseBorder
+
+            Connections {
+                target: PQCFileFolderModel
+                function onNewNumberFilesInFolder(path : string, num : int) {
+                    if(deleg.path === path)
+                        deleg.numberFilesInsideFolder = num
+                }
+            }
 
             Item {
                 id: dragHandler
@@ -343,7 +361,8 @@ Flickable {
                     width: deleg.width
                     height: deleg.height>100 ?
                                 (Math.min(50, deleg.height/4) + (deleg.isSelected||deleg.isHovered ? 10 : 0)) :
-                                (deleg.isSelected||deleg.isHovered ? Math.min(50, deleg.height) : 0)
+                                (deleg.isSelected||deleg.isHovered ? Math.min(50, deleg.height) :
+                                                                     (deleg.height > 50 ? 30 : 0))
                     Behavior on height { enabled: !PQCSettings.generalDisableAllAnimations; NumberAnimation { duration: 200 } }
                     y: deleg.height-height
                     color: deleg.isSelected ? palette.text : (deleg.isHovered ? palette.alternateBase : palette.base )
@@ -358,6 +377,7 @@ Flickable {
                         verticalAlignment: Text.AlignVCenter
                         horizontalAlignment: Text.AlignHCenter
                         maximumLineCount: 2
+                        font.pointSize: filename_label.width < 100 ? PQCLook.fontSizeXS : (filename_label.width > 225 ? PQCLook.fontSizeL : PQCLook.fontSizeS)
                         elide: Text.ElideMiddle
                         text: deleg.fileName
                         color: palette.text
@@ -543,6 +563,24 @@ Flickable {
         function onMasonryDataLoadingCompleted() {
             PQCNotify.filedialogBusyLoading(false)
             masonryview.updateContentHeight()
+        }
+
+    }
+
+    Connections {
+
+        target: PQCSettings
+
+        function onFiledialogThumbnailSizeFollowsGlobalThumbnailsChanged() {
+            masonryview.prepareLayout()
+        }
+
+        function onThumbnailsSizeChanged() {
+            masonryview.prepareLayout()
+        }
+
+        function onFiledialogZoomChanged() {
+            masonryview.prepareLayout()
         }
 
     }

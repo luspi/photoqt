@@ -955,8 +955,11 @@ void PQCFileFolderModel::generateDataForMasonryView(QString folder, int numCol, 
                      {"runningIndex", j},
                      {"isFolder", true},
                      {"itemHeight", colWidth},
-                     {"fileSize", ""},
-                     {"numberFilesInsideFolder", PQCScriptsFileDialog::get().getNumberOfFilesInFolder(pth)}};
+                     {"fileSize", ""}};
+
+                QFuture ft = QtConcurrent::run([pth, this]() {
+                    Q_EMIT newNumberFilesInFolder(pth, PQCScriptsFileDialog::get().getNumberOfFilesInFolder(pth));
+                });
 
                 m_masonryCache[cacheKey] = d;
             }
@@ -997,8 +1000,7 @@ void PQCFileFolderModel::generateDataForMasonryView(QString folder, int numCol, 
                      {"runningIndex", j},
                      {"isFolder", false},
                      {"itemHeight" , h},
-                     {"fileSize", PQCScriptsFilesPaths::get().getFileSizeHumanReadable(pth)},
-                     {"numberFilesInsideFolder", PQCScriptsFileDialog::get().getNumberOfFilesInFolder(pth)}};
+                     {"fileSize", PQCScriptsFilesPaths::get().getFileSizeHumanReadable(pth)}};
 
                 m_masonryCache[cacheKey] = d;
             }

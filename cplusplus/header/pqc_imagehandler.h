@@ -26,6 +26,7 @@
 #include <QSet>
 #include <QMutex>
 #include <imageplugins/pqc_imageplugin.h>
+#include <QtSql/QSqlDatabase>
 
 /**********************************************
  *
@@ -128,6 +129,8 @@ private:
     QHash<QString, int> m_suffix2id;
     QHash<QString, int> m_desc2id;
     QSet<int> m_doNotThreadFormats;
+
+    QSqlDatabase sizedb;
 
 Q_SIGNALS:
     void formatsUpdated();

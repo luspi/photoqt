@@ -8,5 +8,6 @@
         <file>imgurhistory.db</file>
         <file>defaultsettings.db</file>
         <file>usersettings.db</file>
+        <file>imagesizes.db</file>
     </qresource>
 </RCC>

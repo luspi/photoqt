@@ -353,6 +353,7 @@ Q_SIGNALS:
     void activeViewerModeChanged();
 
     void newMasonryData(int col, QVariantMap val, QList<int> colHeights);
+    void newNumberFilesInFolder(QString path, int num);
     void masonryDataLoadingCompleted();
 
 };

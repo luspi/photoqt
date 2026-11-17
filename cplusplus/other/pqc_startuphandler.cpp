@@ -63,9 +63,59 @@ void PQCStartupHandler::setupDatabases() {
     /****************************************************************************************************/
     // create all the databases used throughout PhotoQt that can be connected to from everywhere
 
+    // first make sure nothing unexpected happened and all databases exist
+
+    /**************************************************************/
+    // check default settings database
+    if(!QFile::exists(PQCConfigFiles::get().USERSETTINGS_DB())) {
+        if(!QFile::copy(":/usersettings.db", PQCConfigFiles::get().USERSETTINGS_DB()))
+            qWarning() << "Unable to re-create default settings database";
+        else {
+            QFile file(PQCConfigFiles::get().USERSETTINGS_DB());
+            file.setPermissions(file.permissions()|QFileDevice::WriteOwner);
+        }
+    }
+    // check default location database
+    if(!QFile::exists(PQCConfigFiles::get().LOCATION_DB())) {
+        if(!QFile::copy(":/location.db", PQCConfigFiles::get().LOCATION_DB()))
+            qWarning() << "Unable to re-create location database";
+        else {
+            QFile file(PQCConfigFiles::get().LOCATION_DB());
+            file.setPermissions(file.permissions()|QFileDevice::WriteOwner);
+        }
+    }
+    // check default shortcuts database
+    if(!QFile::exists(PQCConfigFiles::get().SHORTCUTS_DB())) {
+        if(!QFile::copy(":/shortcuts.db", PQCConfigFiles::get().SHORTCUTS_DB()))
+            qWarning() << "Unable to re-create shortcuts database";
+        else {
+            QFile file(PQCConfigFiles::get().SHORTCUTS_DB());
+            file.setPermissions(file.permissions()|QFileDevice::WriteOwner);
+        }
+    }
+    // check default contextmenu database
+    if(!QFile::exists(PQCConfigFiles::get().CONTEXTMENU_DB())) {
+        if(!QFile::copy(":/contextmenu.db", PQCConfigFiles::get().CONTEXTMENU_DB()))
+            qWarning() << "Unable to re-create default contextmenu database";
+        else {
+            QFile file(PQCConfigFiles::get().CONTEXTMENU_DB());
+            file.setPermissions(file.permissions()|QFileDevice::WriteOwner);
+        }
+    }
+    // check default image sizes database
+    if(!QFile::exists(PQCConfigFiles::get().IMAGESIZES_DB())) {
+        if(!QFile::copy(":/imagesizes.db", PQCConfigFiles::get().IMAGESIZES_DB()))
+            qWarning() << "Unable to re-create default image sizes database";
+        else {
+            QFile file(PQCConfigFiles::get().IMAGESIZES_DB());
+            file.setPermissions(file.permissions()|QFileDevice::WriteOwner);
+        }
+    }
+
+    /**************************************************************/
     // it is possible that a connection to the settings db already exists
 
-    QSqlDatabase dbcontextmenu, dblocation, dbshortcuts, dbsettings;
+    QSqlDatabase dbcontextmenu, dblocation, dbshortcuts, dbsettings, dbimagesizes;
 
     if(QSqlDatabase::isDriverAvailable("QSQLITE3")) {
 
@@ -74,6 +124,7 @@ void PQCStartupHandler::setupDatabases() {
         dbshortcuts = QSqlDatabase::addDatabase("QSQLITE3", "shortcuts");
         dblocation = QSqlDatabase::addDatabase("QSQLITE3", "location");
         dbcontextmenu = QSqlDatabase::addDatabase("QSQLITE3", "contextmenu");
+        dbimagesizes = QSqlDatabase::addDatabase("QSQLITE3", "imagesizes");
 
     } else if(QSqlDatabase::isDriverAvailable("QSQLITE")) {
 
@@ -82,6 +133,7 @@ void PQCStartupHandler::setupDatabases() {
         dbshortcuts = QSqlDatabase::addDatabase("QSQLITE", "shortcuts");
         dblocation = QSqlDatabase::addDatabase("QSQLITE", "location");
         dbcontextmenu = QSqlDatabase::addDatabase("QSQLITE", "contextmenu");
+        dbimagesizes = QSqlDatabase::addDatabase("QSQLITE", "imagesizes");
 
     }
 
@@ -89,6 +141,7 @@ void PQCStartupHandler::setupDatabases() {
     dbshortcuts.setDatabaseName(PQCConfigFiles::get().SHORTCUTS_DB());
     dblocation.setDatabaseName(PQCConfigFiles::get().LOCATION_DB());
     dbcontextmenu.setDatabaseName(PQCConfigFiles::get().CONTEXTMENU_DB());
+    dbimagesizes.setDatabaseName(PQCConfigFiles::get().IMAGESIZES_DB());
 
 }
 
@@ -508,6 +561,17 @@ void PQCStartupHandler::setupFresh() {
         qWarning() << "Unable to create default contextmenu database";
     else {
         QFile file(PQCConfigFiles::get().CONTEXTMENU_DB());
+        file.setPermissions(file.permissions()|QFileDevice::WriteOwner);
+    }
+
+    /**************************************************************/
+    // create default image sizes database
+    if(QFile::exists(PQCConfigFiles::get().IMAGESIZES_DB()))
+        QFile::remove(PQCConfigFiles::get().IMAGESIZES_DB());
+    if(!QFile::copy(":/imagesizes.db", PQCConfigFiles::get().IMAGESIZES_DB()))
+        qWarning() << "Unable to create default image sizes database";
+    else {
+        QFile file(PQCConfigFiles::get().IMAGESIZES_DB());
         file.setPermissions(file.permissions()|QFileDevice::WriteOwner);
     }
 

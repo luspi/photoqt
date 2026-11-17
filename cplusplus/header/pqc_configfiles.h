@@ -103,6 +103,10 @@ public:
         return m_LOCATION_DB;
     }
 
+    const QString IMAGESIZES_DB() {
+        return m_IMAGESIZES_DB;
+    }
+
     const QString WINDOW_GEOMETRY_FILE() {
         return m_WINDOW_GEOMETRY_FILE;
     }
@@ -199,6 +203,7 @@ private:
         m_OLDSETTINGS_DB = m_CONFIG_DIR % "/settings.db";
         m_SHORTCUTS_DB = m_CONFIG_DIR % "/shortcuts.db";
         m_LOCATION_DB = m_CONFIG_DIR % "/location.db";
+        m_IMAGESIZES_DB = m_CONFIG_DIR % "/imagesizes.db";
 
         m_WINDOW_GEOMETRY_FILE = m_CONFIG_DIR % "/geometry";
         m_FILEDIALOG_LAST_LOCATION = m_CACHE_DIR % "/filedialoglastlocation";
@@ -224,6 +229,7 @@ private:
     QString m_OLDSETTINGS_DB;
     QString m_SHORTCUTS_DB;
     QString m_LOCATION_DB;
+    QString m_IMAGESIZES_DB;
     QString m_WINDOW_GEOMETRY_FILE;
     QString m_FILEDIALOG_LAST_LOCATION;
     QString m_LASTOPENEDIMAGE_FILE;

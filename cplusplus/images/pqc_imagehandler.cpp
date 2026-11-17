@@ -177,9 +177,28 @@ PQCImageHandler::PQCImageHandler() {
 
     m_numEnabled = m_enabledSuffixes.size();
 
+    sizedb = QSqlDatabase::database("imagesizes");
+    if(!sizedb.isOpen() && !sizedb.open())
+        qWarning() << "Failed to access image sizes cache database:" << sizedb.lastError().text();
+
 }
 
 QSize PQCImageHandler::getSize(QString path) {
+
+    QString cachekey = QString("%1:%2").arg(qHash(path)).arg(QFileInfo(path).lastModified().toMSecsSinceEpoch());
+
+    if(sizedb.isOpen()) {
+        QSqlQuery query(sizedb);
+        query.prepare("SELECT width,height FROM sizes WHERE id=:id");
+        query.bindValue(":id", cachekey);
+        if(!query.exec())
+            qWarning() << "Failed to query image sizes db:" << query.lastError().text();
+        else {
+            if(query.next())
+                return QSize(query.value(0).toInt(), query.value(1).toInt());
+            query.clear();
+        }
+    }
 
     QFileInfo info(path);
     const QString suffix1 = info.suffix().toLower();
@@ -195,8 +214,20 @@ QSize PQCImageHandler::getSize(QString path) {
         if(suf.contains(suffix1) || suf.contains(suffix2)) {
 
             QSize sze = plugin->loadSize(path);
-            if(!sze.isEmpty())
+            if(!sze.isEmpty()) {
+                if(sizedb.isOpen()) {
+                    QSqlQuery query(sizedb);
+                    query.prepare("INSERT INTO sizes (id,width,height) VALUES(:id, :w, :h) ON CONFLICT(id) DO UPDATE SET width=:w2, height=:h2");
+                    query.bindValue(":id", cachekey);
+                    query.bindValue(":w", sze.width());
+                    query.bindValue(":h", sze.height());
+                    query.bindValue(":w2", sze.width());
+                    query.bindValue(":h2", sze.height());
+                    if(!query.exec())
+                        qWarning() << "Unable to cache size to db:" << query.lastError().text();
+                }
                 return sze;
+            }
 
         }
 
@@ -215,8 +246,20 @@ QSize PQCImageHandler::getSize(QString path) {
         if(mim.contains(mimetype)) {
 
             QSize sze = plugin->loadSize(path);
-            if(!sze.isEmpty())
+            if(!sze.isEmpty()) {
+                if(sizedb.isOpen()) {
+                    QSqlQuery query(sizedb);
+                    query.prepare("INSERT INTO sizes (id,width,height) VALUES(:id, :w, :h) ON CONFLICT(id) DO UPDATE SET width=:w2, height=:h2");
+                    query.bindValue(":id", cachekey);
+                    query.bindValue(":w", sze.width());
+                    query.bindValue(":h", sze.height());
+                    query.bindValue(":w2", sze.width());
+                    query.bindValue(":h2", sze.height());
+                    if(!query.exec())
+                        qWarning() << "Unable to cache size to db:" << query.lastError().text();
+                }
                 return sze;
+            }
 
         }
 
