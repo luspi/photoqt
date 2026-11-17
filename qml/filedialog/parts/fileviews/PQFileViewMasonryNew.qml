@@ -61,7 +61,7 @@ Flickable {
         }
 
         if(firstStart) {
-            prepareLayout()
+            // the setup is called from the onWidthChanged signal below!
             firstStart = false;
         } else
             setupData()
@@ -74,7 +74,7 @@ Flickable {
     }
 
     onWidthChanged: {
-        prepareLayout()
+        delayPrepareLayout.restart()
     }
 
     property int currentIndex: -1
@@ -377,7 +377,6 @@ Flickable {
                         verticalAlignment: Text.AlignVCenter
                         horizontalAlignment: Text.AlignHCenter
                         maximumLineCount: 2
-                        font.pointSize: filename_label.width < 100 ? PQCLook.fontSizeXS : (filename_label.width > 225 ? PQCLook.fontSizeL : PQCLook.fontSizeS)
                         elide: Text.ElideMiddle
                         text: deleg.fileName
                         color: palette.text
@@ -572,15 +571,15 @@ Flickable {
         target: PQCSettings
 
         function onFiledialogThumbnailSizeFollowsGlobalThumbnailsChanged() {
-            masonryview.prepareLayout()
+            delayPrepareLayout.restart()
         }
 
         function onThumbnailsSizeChanged() {
-            masonryview.prepareLayout()
+            delayPrepareLayout.restart()
         }
 
         function onFiledialogZoomChanged() {
-            masonryview.prepareLayout()
+            delayPrepareLayout.restart()
         }
 
     }
@@ -588,6 +587,13 @@ Flickable {
     function updateContentHeight() {
         for(let i = 0; i < numColumns; ++i)
             masonryview.listviewMaxHeight = Math.max(masonryview.listviewMaxHeight, currentColHeights[i])
+    }
+
+    Timer {
+        id: delayPrepareLayout
+        interval: 500
+        onTriggered:
+            prepareLayout()
     }
 
     Timer {
@@ -603,6 +609,8 @@ Flickable {
             callPrepareLayout.restart()
             return
         }
+
+        PQCNotify.filedialogBusyLoading(true)
 
         var _w = (PQCSettings.filedialogThumbnailSizeFollowsGlobalThumbnails ? 10+PQCSettings.thumbnailsSize : 10+PQCSettings.filedialogZoom*10)
         var nc = Math.floor(width/_w)
