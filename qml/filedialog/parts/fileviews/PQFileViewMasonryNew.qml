@@ -41,22 +41,27 @@ Flickable {
     signal handleEntriesMouseExit(var index)
     signal handleEntriesMouseClick(var index, var currentPath, var isFolder, var mouseModifiers, var mouseButton)
 
-    property string cachePath: ""
-
     Component.onDestruction:
         PQCNotify.filedialogBusyLoading(false)
 
     signal addToColumn(var col, var dat)
+    signal makeItemVisible(var col, var row)
+    signal clearAll()
 
     property bool firstStart: true
+
+    property string cachePath: ""
+    property real cacheContentY: 0.
+    property int cacheCurrentIndex: -1
 
     property int model: 0
     onModelChanged: {
 
+        cacheCurrentIndex = PQGlobalItems.filedialogFileview.currentIndex
+
+        // empty model, clear everything
         if(model == 0) {
-            for(var i = 0; i < masonryview.numColumns; ++i) {
-                listviews[i].clear()
-            }
+            clearAll()
             return
         }
 
@@ -66,38 +71,37 @@ Flickable {
         } else
             setupData()
 
-        // reset position
-        // masonryview.contentY = 0
-        // cachePath = cacheKey
-        // cacheContentY = 0
-
     }
 
+    // recreate layout with a delay
     onWidthChanged: {
         delayPrepareLayout.restart()
     }
 
+    // the current index
     property int currentIndex: -1
+    // when changed, ensure new item is visible
     onCurrentIndexChanged: {
-        // TODO
+        if(!masonryview.flicking)
+            ensureCurrentItemIsVisible()
     }
 
     ScrollBar.vertical: PQVerticalScrollBar { id: view_scroll }
 
-    // onContentYChanged: {
-    //     // this check makes sure that value is not reset when a directory is reloaded due to a change
-    //     if(contentY > 0)
-    //         cacheContentY = contentY
-    // }
+    onContentYChanged: {
+        // this check makes sure that value is not reset when a directory is reloaded due to a change
+        if(contentY > 0)
+            cacheContentY = contentY
+    }
 
     PQScrollManager {
+        id: scrollmanager
         flickable: masonryview
         cursorShape: Qt.PointingHandCursor
     }
 
     property int numColumns: 0
     property int columnWidth: 0
-    property var listviews: ({})
     property bool listviewsReady: false
 
     property int listviewMaxHeight: 0
@@ -109,7 +113,7 @@ Flickable {
         x: 0
 
         // Counteract the outer Flickable's movement
-        y: masonryview.contentY - masonryview.originY
+        y: masonryview.contentY
 
         width: masonryview.width
         height: masonryview.contentHeight
@@ -135,27 +139,82 @@ Flickable {
                 model: ListModel { id: mdl }
 
                 Component.onCompleted: {
-                    masonryview.listviews[modelData] = mdl
                     masonryview.listviewsReady = true
                 }
 
                 Connections {
+
                     target: masonryview
+
+                    // add new entry to specified column
                     function onAddToColumn(col, dat) {
                         if(col === lv.modelData)
                             mdl.append(dat)
+                    }
+
+                    // ensure that the specified item is visible
+                    function onMakeItemVisible(col, row) {
+
+                        // not this column
+                        if(col !== lv.modelData)
+                            return
+
+                        // invalid row
+                        if(row < 0 || row >= mdl.count)
+                            return
+
+                        // disable scrollmanager
+                        // THIS IS IMPORTANT! otherwise there is a 30px offset when ensuring items are visible!
+                        scrollmanager.interactive = false
+
+                        // the current item
+                        var item = mdl.get(row)
+
+                        // the target y position, unchanged by default
+                        var targetY = masonryview.contentY
+
+                        // if item extends above the viewport
+                        if(item.offsetY < masonryview.contentY) {
+
+                            targetY = item.offsetY
+
+                        // if item extends below the viewport
+                        } else if(item.offsetY+item.itemHeight > masonryview.contentY+masonryview.height) {
+
+                            targetY = item.offsetY+item.itemHeight - masonryview.height
+
+                        // if item is fully visible (do nothing)
+                        } else {
+
+                            scrollmanager.interactive = true
+                            return
+
+                        }
+
+                        // don't attempt to display an item taller than the viewport!
+                        if(item.itemHeight > masonryview.height)
+                            targetY = item.offsetY
+
+                        // set target y bound to Flickable boundaries
+                        masonryview.contentY = Math.max(0, Math.min(targetY, masonryview.contentHeight-masonryview.height))
+
+                        scrollmanager.interactive = true
+                    }
+
+                    function onClearAll() {
+                        mdl.clear()
                     }
                 }
 
                 delegate: viewentry
 
-                // Follow the outer Flickable
+                // follow the outer Flickable to scroll all together evenly
                 contentY: lv.originY + (masonryview.contentY - masonryview.originY)
 
-                // Allow enough scroll range, even for shorter columns
+                // allow enough scroll range, even for shorter columns
                 bottomMargin: masonryview.contentHeight
 
-                // Preload delegates around the viewport
+                // preload delegates around the viewport
                 cacheBuffer: masonryview.height
 
             }
@@ -174,6 +233,7 @@ Flickable {
             required property int runningIndex
             required property string path
             required property bool isFolder
+            required property int offsetY
             required property int itemHeight
             required property string fileSize
             property int numberFilesInsideFolder: 0
@@ -564,6 +624,24 @@ Flickable {
         function onMasonryDataLoadingCompleted() {
             PQCNotify.filedialogBusyLoading(false)
             masonryview.updateContentHeight()
+
+            // same folder reloaded
+            if(PQCFileFolderModel.folderFileDialog === cachePath) {
+
+                // restore position
+                masonryview.contentY = cacheContentY
+                PQGlobalItems.filedialogFileview.currentIndex = cacheCurrentIndex
+
+            // new folder loaded
+            } else {
+
+                // reset position
+                cachePath = PQCFileFolderModel.folderFileDialog
+                cacheContentY = 0.
+                cacheCurrentIndex = -1
+
+            }
+
         }
 
     }
@@ -639,8 +717,7 @@ Flickable {
             return
         }
 
-        for(let i = 0; i < masonryview.numColumns; ++i)
-            masonryview.listviews[i].clear()
+        clearAll()
         listviewMaxHeight = 0
 
         PQCNotify.filedialogBusyLoading(true)
@@ -687,7 +764,11 @@ Flickable {
 
     function ensureCurrentItemIsVisible() {
 
-        // TODO
+        var curColRow = PQCFileFolderModel.masonryGetRowCol(PQGlobalItems.filedialogFileview.currentIndex)
+        if(curColRow[0] === -1)
+            return
+
+        makeItemVisible(curColRow[0], curColRow[1])
 
     }
 

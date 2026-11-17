@@ -956,6 +956,7 @@ void PQCFileFolderModel::generateDataForMasonryView(QString folder, int numCol, 
                      {"runningIndex", j},
                      {"isFolder", true},
                      {"itemHeight", colWidth},
+                     {"offsetY", colHeight[minCol]},
                      {"fileSize", ""}};
 
                 QFuture ft = QtConcurrent::run([pth, this]() {
@@ -1003,6 +1004,7 @@ void PQCFileFolderModel::generateDataForMasonryView(QString folder, int numCol, 
                      {"runningIndex", j},
                      {"isFolder", false},
                      {"itemHeight" , h},
+                     {"offsetY", colHeight[minCol]},
                      {"fileSize", PQCScriptsFilesPaths::get().getFileSizeHumanReadable(pth)}};
 
                 m_masonryCache[cacheKey] = d;
@@ -1027,7 +1029,7 @@ void PQCFileFolderModel::generateDataForMasonryView(QString folder, int numCol, 
 
 }
 
-int PQCFileFolderModel::navigateMasonryColumn(int currentIndex, int direction) {
+QList<int> PQCFileFolderModel::masonryGetRowCol(int currentIndex) {
 
     int curCol = -1;
     int curRow = -1;
@@ -1041,10 +1043,18 @@ int PQCFileFolderModel::navigateMasonryColumn(int currentIndex, int direction) {
         ++i;
     }
 
-    if(curCol == -1 || curRow == -1)
+    return {curCol, curRow};
+
+}
+
+int PQCFileFolderModel::navigateMasonryColumn(int currentIndex, int direction) {
+
+    QList<int> curColRow = masonryGetRowCol(currentIndex);
+
+    if(curColRow[0] == -1 || curColRow[1] == -1)
         return currentIndex;
 
-    return m_masonryColumnIndices[curCol][qMax(0, qMin(m_masonryColumnIndices[curCol].length()-1, curRow+direction))];
+    return m_masonryColumnIndices[curColRow[0]][qMax(0, qMin(m_masonryColumnIndices[curColRow[0]].length()-1, curColRow[1]+direction))];
 
 }
 

@@ -213,6 +213,7 @@ public:
     /********************************************/
 
     Q_INVOKABLE void generateDataForMasonryView(QString folder, int numCol, int colWidth);
+    Q_INVOKABLE QList<int> masonryGetRowCol(int currentIndex);
     Q_INVOKABLE int navigateMasonryColumn(int currentIndex, int direction);
 
     /********************************************/

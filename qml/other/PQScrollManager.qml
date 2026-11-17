@@ -34,7 +34,9 @@ Loader {
     // changing the cursor shape if desired
     property int cursorShape: Qt.ArrowCursor
 
-    active: PQCSettings.interfaceFlickAdjustSpeed
+    property bool interactive: true
+
+    active: PQCSettings.interfaceFlickAdjustSpeed&&interactive
 
     asynchronous: true
     sourceComponent:
