@@ -38,7 +38,7 @@ GridView {
     property bool ignoreMouseEvents: false
     interactive: !ignoreMouseEvents
 
-    cellWidth: width / Math.floor(width / baseSize)
+    cellWidth: (width-1) / Math.floor(width / baseSize)
     cellHeight: baseSize
 
     ScrollBar.vertical: PQVerticalScrollBar { id: view_scroll }
