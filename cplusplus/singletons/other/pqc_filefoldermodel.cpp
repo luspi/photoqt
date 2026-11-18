@@ -977,8 +977,6 @@ void PQCFileFolderModel::generateDataForMasonryView(QString folder, int numCol, 
 
         }
 
-        QSqlDatabase::database("imagesizes").transaction();
-
         // then all files
         for(int j = m_countFoldersFileDialog; j < m_countAllFileDialog; ++j) {
 
@@ -1019,8 +1017,6 @@ void PQCFileFolderModel::generateDataForMasonryView(QString folder, int numCol, 
             colHeight[minCol] += d["itemHeight"].toInt();
 
         }
-
-        QSqlDatabase::database("imagesizes").commit();
 
         if(startedFolder == QDir::cleanPath(m_folderFileDialog))
             Q_EMIT masonryDataLoadingCompleted();

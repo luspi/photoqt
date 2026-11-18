@@ -131,6 +131,7 @@ private:
     QSet<int> m_doNotThreadFormats;
 
     QSqlDatabase sizedb;
+    QTimer *commitDB;
 
 Q_SIGNALS:
     void formatsUpdated();

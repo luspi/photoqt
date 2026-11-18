@@ -177,16 +177,28 @@ PQCImageHandler::PQCImageHandler() {
 
     m_numEnabled = m_enabledSuffixes.size();
 
-    sizedb = QSqlDatabase::database("imagesizes");
+    // this is set up here and not in the startup helper as it needs to be created and accessed in the same thread.
+    sizedb = QSqlDatabase::addDatabase(QSqlDatabase::isDriverAvailable("QSQLITE3") ? "QSQLITE3" : "QSQLITE", "imagesizes");
+    sizedb.setDatabaseName(PQCConfigFiles::get().IMAGESIZES_DB());
     if(!sizedb.isOpen() && !sizedb.open())
         qWarning() << "Failed to access image sizes cache database:" << sizedb.lastError().text();
+    sizedb.transaction();
+
+    // we commit the db every 2s since we cannot create the timer here and then potentially start it from another thread...
+    commitDB = new QTimer;
+    commitDB->setInterval(2000);
+    commitDB->setSingleShot(false);
+    connect(commitDB, &QTimer::timeout, this, [=]() { sizedb.commit(); sizedb.transaction(); });
+    commitDB->start();
 
 }
 
 QSize PQCImageHandler::getSize(QString path) {
 
+    // key for db id
     QString cachekey = QString("%1:%2").arg(qHash(path)).arg(QFileInfo(path).lastModified().toMSecsSinceEpoch());
 
+    // check if we have size already
     if(sizedb.isOpen()) {
         QSqlQuery query(sizedb);
         query.prepare("SELECT width,height FROM sizes WHERE id=:id");
@@ -215,6 +227,7 @@ QSize PQCImageHandler::getSize(QString path) {
 
             QSize sze = plugin->loadSize(path);
             if(!sze.isEmpty()) {
+                // cache size
                 if(sizedb.isOpen()) {
                     QSqlQuery query(sizedb);
                     query.prepare("INSERT INTO sizes (id,width,height) VALUES(:id, :w, :h) ON CONFLICT(id) DO UPDATE SET width=:w2, height=:h2");
@@ -247,6 +260,7 @@ QSize PQCImageHandler::getSize(QString path) {
 
             QSize sze = plugin->loadSize(path);
             if(!sze.isEmpty()) {
+                // cache size
                 if(sizedb.isOpen()) {
                     QSqlQuery query(sizedb);
                     query.prepare("INSERT INTO sizes (id,width,height) VALUES(:id, :w, :h) ON CONFLICT(id) DO UPDATE SET width=:w2, height=:h2");

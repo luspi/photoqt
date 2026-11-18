@@ -115,7 +115,7 @@ void PQCStartupHandler::setupDatabases() {
     /**************************************************************/
     // it is possible that a connection to the settings db already exists
 
-    QSqlDatabase dbcontextmenu, dblocation, dbshortcuts, dbsettings, dbimagesizes;
+    QSqlDatabase dbcontextmenu, dblocation, dbshortcuts, dbsettings;
 
     if(QSqlDatabase::isDriverAvailable("QSQLITE3")) {
 
@@ -124,7 +124,6 @@ void PQCStartupHandler::setupDatabases() {
         dbshortcuts = QSqlDatabase::addDatabase("QSQLITE3", "shortcuts");
         dblocation = QSqlDatabase::addDatabase("QSQLITE3", "location");
         dbcontextmenu = QSqlDatabase::addDatabase("QSQLITE3", "contextmenu");
-        dbimagesizes = QSqlDatabase::addDatabase("QSQLITE3", "imagesizes");
 
     } else if(QSqlDatabase::isDriverAvailable("QSQLITE")) {
 
@@ -133,7 +132,6 @@ void PQCStartupHandler::setupDatabases() {
         dbshortcuts = QSqlDatabase::addDatabase("QSQLITE", "shortcuts");
         dblocation = QSqlDatabase::addDatabase("QSQLITE", "location");
         dbcontextmenu = QSqlDatabase::addDatabase("QSQLITE", "contextmenu");
-        dbimagesizes = QSqlDatabase::addDatabase("QSQLITE", "imagesizes");
 
     }
 
@@ -141,7 +139,6 @@ void PQCStartupHandler::setupDatabases() {
     dbshortcuts.setDatabaseName(PQCConfigFiles::get().SHORTCUTS_DB());
     dblocation.setDatabaseName(PQCConfigFiles::get().LOCATION_DB());
     dbcontextmenu.setDatabaseName(PQCConfigFiles::get().CONTEXTMENU_DB());
-    dbimagesizes.setDatabaseName(PQCConfigFiles::get().IMAGESIZES_DB());
 
 }
 
