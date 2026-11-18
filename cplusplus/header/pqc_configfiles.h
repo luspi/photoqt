@@ -203,7 +203,7 @@ private:
         m_OLDSETTINGS_DB = m_CONFIG_DIR % "/settings.db";
         m_SHORTCUTS_DB = m_CONFIG_DIR % "/shortcuts.db";
         m_LOCATION_DB = m_CONFIG_DIR % "/location.db";
-        m_IMAGESIZES_DB = m_CONFIG_DIR % "/imagesizes.db";
+        m_IMAGESIZES_DB = m_CACHE_DIR % "/imagesizes.db";
 
         m_WINDOW_GEOMETRY_FILE = m_CONFIG_DIR % "/geometry";
         m_FILEDIALOG_LAST_LOCATION = m_CACHE_DIR % "/filedialoglastlocation";
