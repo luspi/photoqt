@@ -150,7 +150,7 @@ Item {
                     onCheckedChanged: {
                         breadcrumbs_top.disableAddressEdit()
                         if(checked) PQCSettings.filedialogLayout = "list"
-                        checked = Qt.binding(function() { return PQCSettings.filedialogLayout==="list" })
+                        checked = Qt.binding(function() { return PQCSettings.filedialogLayout!=="grid"&&PQCSettings.filedialogLayout!=="masonry" })
                     }
                 }
 
