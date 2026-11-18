@@ -32,43 +32,56 @@ Flickable {
     width: parent.width
     height: parent.height
 
-    contentHeight: mainrow.height
+    contentHeight: Math.max(height, listviewMaxHeight)
+
+    boundsBehavior: Flickable.StopAtBounds
 
     signal handleEntriesMouseEnter(var index, var currentPath, var fileThumbStatus, var fileInfo, var isFolder,
                                    var numberFilesInsideFolder, var currentFolderThumbNum)
     signal handleEntriesMouseExit(var index)
     signal handleEntriesMouseClick(var index, var currentPath, var isFolder, var mouseModifiers, var mouseButton)
 
+    Component.onDestruction:
+        PQCNotify.filedialogBusyLoading(false)
+
+    signal addToColumn(var col, var dat)
+    signal makeItemVisible(var col, var row)
+    signal clearAll()
+
+    property bool firstStart: true
+
+    property string cachePath: ""
+    property real cacheContentY: 0.
+    property int cacheCurrentIndex: -1
+
     property int model: 0
     onModelChanged: {
+
+        cacheCurrentIndex = PQGlobalItems.filedialogFileview.currentIndex
+
+        // empty model, clear everything
         if(model == 0) {
-            for(var i = 0; i < masonryview.numColumns; ++i) {
-                listviews[i].clear()
-            }
+            clearAll()
             return
         }
-        masonryview.setupData()
-        // same folder reloaded
-        if(PQCFileFolderModel.folderFileDialog === cachePath) {
 
-            // restore position
-            masonryview.contentY = cacheContentY
+        if(firstStart) {
+            // the setup is called from the onWidthChanged signal below!
+            firstStart = false;
+        } else
+            setupData()
 
-        // new folder loaded
-        } else {
-
-            // reset position
-            masonryview.contentY = 0
-            cachePath = PQCFileFolderModel.folderFileDialog
-            cacheContentY = 0
-
-        }
     }
 
+    // recreate layout with a delay
+    onWidthChanged: {
+        delayPrepareLayout.restart()
+    }
+
+    // the current index
     property int currentIndex: -1
+    // when changed, ensure new item is visible
     onCurrentIndexChanged: {
-        if(PQGlobalItems.filedialogFileview.currentIndex !== currentIndex)
-            PQGlobalItems.filedialogFileview.currentIndex = currentIndex
         if(!masonryview.flicking)
             ensureCurrentItemIsVisible()
     }
@@ -82,48 +95,28 @@ Flickable {
     }
 
     PQScrollManager {
+        id: scrollmanager
         flickable: masonryview
         cursorShape: Qt.PointingHandCursor
     }
 
-    // this pair stores the current scroll position
-    // this way we can preserve that position when the content of the current directory changes
-    property string cachePath: ""
-    property real cacheContentY: 0.
-
-    property bool firstStart: true
-
-    property int _startWidth: (PQCSettings.filedialogThumbnailSizeFollowsGlobalThumbnails ? 10+PQCSettings.thumbnailsSize : 10+PQCSettings.filedialogZoom*10)
-    property int numColumns: Math.floor(width/_startWidth)
-    onNumColumnsChanged: {
-        if(firstStart && listviews.count < numColumns) {
-            firstStart = false
-            return
-        }
-        callSetup.restart()
-    }
-
-
-    Timer {
-        id: callSetup
-        interval: 50
-        onTriggered: {
-            if(PQCConstants.filedialogSplitviewResizing) {
-                callSetup.restart()
-                return
-            }
-            masonryview.setupData()
-        }
-    }
-
-    property real columnWidth: width/numColumns
-
-    property var listviews: ({})
+    property int numColumns: 0
+    property int columnWidth: 0
     property bool listviewsReady: false
+
+    property int listviewMaxHeight: 0
 
     Row {
 
         id: mainrow
+
+        x: 0
+
+        // Counteract the outer Flickable's movement
+        y: masonryview.contentY
+
+        width: masonryview.width
+        height: masonryview.contentHeight
 
         Repeater {
 
@@ -131,32 +124,98 @@ Flickable {
 
             model: masonryview.numColumns
 
-            Column {
+            ListView {
 
-                id: columndeleg
-                required property int index
+                id: lv
 
-                width: lv.width
+                required property int modelData
 
-                ListView {
+                width: masonryview.columnWidth
+                height: masonryview.height
 
-                    id: lv
+                clip: true
+                interactive: false
 
-                    width: masonryview.columnWidth
-                    height: childrenRect.height
-                    interactive: false
+                model: ListModel { id: mdl }
 
-                    model: ListModel { id: mdl }
-
-                    Component.onCompleted: {
-                        masonryview.listviews[columndeleg.index] = mdl
-                        masonryview.listviewsReady = true
-                    }
-
-                    delegate: viewentry
-
+                Component.onCompleted: {
+                    masonryview.listviewsReady = true
                 }
 
+                Connections {
+
+                    target: masonryview
+
+                    // add new entry to specified column
+                    function onAddToColumn(col, dat) {
+                        if(col === lv.modelData)
+                            mdl.append(dat)
+                    }
+
+                    // ensure that the specified item is visible
+                    function onMakeItemVisible(col, row) {
+
+                        // not this column
+                        if(col !== lv.modelData)
+                            return
+
+                        // invalid row
+                        if(row < 0 || row >= mdl.count)
+                            return
+
+                        // disable scrollmanager
+                        // THIS IS IMPORTANT! otherwise there is a 30px offset when ensuring items are visible!
+                        scrollmanager.interactive = false
+
+                        // the current item
+                        var item = mdl.get(row)
+
+                        // the target y position, unchanged by default
+                        var targetY = masonryview.contentY
+
+                        // if item extends above the viewport
+                        if(item.offsetY < masonryview.contentY) {
+
+                            targetY = item.offsetY
+
+                        // if item extends below the viewport
+                        } else if(item.offsetY+item.itemHeight > masonryview.contentY+masonryview.height) {
+
+                            targetY = item.offsetY+item.itemHeight - masonryview.height
+
+                        // if item is fully visible (do nothing)
+                        } else {
+
+                            scrollmanager.interactive = true
+                            return
+
+                        }
+
+                        // don't attempt to display an item taller than the viewport!
+                        if(item.itemHeight > masonryview.height)
+                            targetY = item.offsetY
+
+                        // set target y bound to Flickable boundaries
+                        masonryview.contentY = Math.max(0, Math.min(targetY, masonryview.contentHeight-masonryview.height))
+
+                        scrollmanager.interactive = true
+                    }
+
+                    function onClearAll() {
+                        mdl.clear()
+                    }
+                }
+
+                delegate: viewentry
+
+                // follow the outer Flickable to scroll all together evenly
+                contentY: lv.originY + (masonryview.contentY - masonryview.originY)
+
+                // allow enough scroll range, even for shorter columns
+                bottomMargin: masonryview.contentHeight
+
+                // preload delegates around the viewport
+                cacheBuffer: masonryview.height
 
             }
 
@@ -171,44 +230,42 @@ Flickable {
 
             id: deleg
 
-            required property string currentPath
-            required property int modelData
+            required property int runningIndex
+            required property string path
+            required property bool isFolder
             required property int offsetY
-            required property real itemHeight
-
-            property string currentFile: decodeURIComponent(PQCScriptsFilesPaths.getFilename(currentPath))
+            required property int itemHeight
+            required property string fileSize
             property int numberFilesInsideFolder: 0
-            property string fileinfoString: ""
-            property int padding: PQCSettings.filedialogElementPadding
-            property bool isFolder: modelData < PQCFileFolderModel.countFoldersFileDialog
-            property bool onNetwork: isFolder ? PQCScriptsFilesPaths.isOnNetwork(currentPath) : PQGlobalItems.filedialogFileview.currentFolderOnNetwork
 
-            property bool isHovered: masonryview.currentIndex===deleg.modelData
-            property bool isSelected: PQCConstants.filedialogCurrentSelection.indexOf(deleg.modelData)>-1
+            property string fileName: decodeURIComponent(PQCScriptsFilesPaths.getFilename(path))
+            property bool isFileCut: PQGlobalItems.filedialogFileview.currentCuts.indexOf(runningIndex) > -1
+            property bool onNetwork: isFolder ? PQCScriptsFilesPaths.isOnNetwork(path) : PQGlobalItems.filedialogFileview.currentFolderOnNetwork
 
-            property bool isFileCut: PQGlobalItems.filedialogFileview.currentCuts.indexOf(deleg.modelData) > -1
-
-            width: masonryview.columnWidth
-            height: filethumbVisible&&filethumbStatus==Image.Ready ? Math.max(30, (filethumbSourceSize.height * (width/filethumbSourceSize.width))) : masonryview.columnWidth
-
-            property bool filethumbVisible: false
-            property int filethumbStatus: Image.Null
-            property size filethumbSourceSize: Qt.size(0,0)
+            property bool isHovered: PQGlobalItems.filedialogFileview.currentIndex===runningIndex
+            property bool isSelected: PQCConstants.filedialogCurrentSelection.indexOf(runningIndex)>-1
 
             property int folderthumbCurNum: 0
 
-            clip: true
+            width: masonryview.columnWidth
+            height: itemHeight
             color: palette.base
+
             border.width: PQCSettings.filedialogElementPadding
             border.color: PQCLook.baseBorder
+
+            Connections {
+                target: PQCFileFolderModel
+                function onNewNumberFilesInFolder(path : string, num : int) {
+                    if(deleg.path === path)
+                        deleg.numberFilesInsideFolder = num
+                }
+            }
 
             Item {
                 id: dragHandler
 
-                x: PQCSettings.filedialogElementPadding
-                y: PQCSettings.filedialogElementPadding
-                width: deleg.width - 2*PQCSettings.filedialogElementPadding
-                height: deleg.width - 2*PQCSettings.filedialogElementPadding
+                anchors.fill: parent
 
             }
 
@@ -222,12 +279,12 @@ Flickable {
                 isFileCut: deleg.isFileCut
                 onNetwork: deleg.onNetwork
                 isFolder: deleg.isFolder
-                currentPath: deleg.currentPath
+                currentPath: deleg.path
 
                 x: PQCSettings.filedialogElementPadding
                 y: PQCSettings.filedialogElementPadding
                 width: deleg.width - 2*PQCSettings.filedialogElementPadding
-                height: deleg.width - 2*PQCSettings.filedialogElementPadding
+                height: deleg.height - 2*PQCSettings.filedialogElementPadding
 
             }
 
@@ -236,9 +293,8 @@ Flickable {
                 id: filethumbldr
                 asynchronous: true
 
-                // load from the top until just beyond what's currently visible
-                // anything below that doesn't need to be loaded until necessary
-                active: masonryview.contentY+deleg.height > deleg.offsetY-masonryview.height || deleg.filethumbStatus===Image.Ready
+                active: !deleg.isFolder
+
                 sourceComponent:
                 PQFileThumb {
 
@@ -250,27 +306,12 @@ Flickable {
                     height: deleg.height - 2*PQCSettings.filedialogElementPadding
 
                     isFileCut: deleg.isFileCut
-                    isFolder: deleg.isFolder
+                    isFolder: false
                     onNetwork: deleg.onNetwork
-                    currentPath: deleg.currentPath
-                    myIndex: deleg.modelData
+                    currentPath: deleg.path
+                    myIndex: deleg.runningIndex
 
                     clip: true
-
-                    dontSetSourceSize: true
-
-                    onVisibleChanged:
-                        deleg.filethumbVisible = visible
-                    onStatusChanged:
-                        deleg.filethumbStatus = status
-                    onSourceSizeChanged:
-                        deleg.filethumbSourceSize = sourceSize
-
-                    Component.onCompleted: {
-                        deleg.filethumbVisible = visible
-                        deleg.filethumbStatus = status
-                        deleg.filethumbSourceSize = sourceSize
-                    }
 
                     onHideFileIcon: {
                         fileicon.source = ""
@@ -295,7 +336,7 @@ Flickable {
                     x: PQCSettings.filedialogElementPadding
                     y: PQCSettings.filedialogElementPadding
                     width: deleg.width - 2*PQCSettings.filedialogElementPadding
-                    height: deleg.width - 2*PQCSettings.filedialogElementPadding
+                    height: deleg.height - 2*PQCSettings.filedialogElementPadding
 
                     // the folder thumbnails
                     PQFolderThumb {
@@ -303,7 +344,8 @@ Flickable {
                         id: folderthumb
 
                         isFileCut: deleg.isFileCut
-                        myIndex: deleg.modelData
+                        myIndex: deleg.runningIndex
+                        isFolder: true
 
                         anchors.fill: parent
 
@@ -365,15 +407,6 @@ Flickable {
 
             }
 
-            // load async for files
-            Timer {
-                running: !deleg.isFolder
-                interval: 1
-                onTriggered: {
-                    deleg.fileinfoString = PQCScriptsFilesPaths.getFileSizeHumanReadable(deleg.currentPath)
-                }
-            }
-
             /************************************************************/
             // FILE NAME
 
@@ -388,7 +421,8 @@ Flickable {
                     width: deleg.width
                     height: deleg.height>100 ?
                                 (Math.min(50, deleg.height/4) + (deleg.isSelected||deleg.isHovered ? 10 : 0)) :
-                                (deleg.isSelected||deleg.isHovered ? Math.min(50, deleg.height) : 0)
+                                (deleg.isSelected||deleg.isHovered ? Math.min(50, deleg.height) :
+                                                                     (deleg.height > 50 ? 30 : 0))
                     Behavior on height { enabled: !PQCSettings.generalDisableAllAnimations; NumberAnimation { duration: 200 } }
                     y: deleg.height-height
                     color: deleg.isSelected ? palette.text : (deleg.isHovered ? palette.alternateBase : palette.base )
@@ -404,7 +438,7 @@ Flickable {
                         horizontalAlignment: Text.AlignHCenter
                         maximumLineCount: 2
                         elide: Text.ElideMiddle
-                        text: deleg.currentFile
+                        text: deleg.fileName
                         color: palette.text
                         Behavior on color { enabled: !PQCSettings.generalDisableAllAnimations; ColorAnimation { duration: 200 } }
                     }
@@ -460,9 +494,9 @@ Flickable {
                 drag.onActiveChanged: {
                     if(drag.active) {
                         // store which index is being dragged and that the entry comes from the userplaces (reordering only)
-                        PQGlobalItems.filedialogPlaces.dragItemIndex = deleg.modelData
+                        PQGlobalItems.filedialogPlaces.dragItemIndex = deleg.runningIndex
                         PQGlobalItems.filedialogPlaces.dragReordering = false
-                        PQGlobalItems.filedialogPlaces.dragItemId = deleg.currentPath
+                        PQGlobalItems.filedialogPlaces.dragItemId = deleg.path
                     }
                     deleg.Drag.drop();
                     if(!drag.active) {
@@ -475,31 +509,30 @@ Flickable {
                 onPressed: {
 
                     if(!PQCConstants.isContextmenuOpen("fileviewentry"))
-                        PQGlobalItems.filedialogFileview.currentIndex = deleg.modelData
+                        PQGlobalItems.filedialogFileview.currentIndex = deleg.runningIndex
 
                     // we only need this when a potential drag might occur
                     // otherwise no need to load this drag thumbnail
-                    deleg.dragImageSource = "image://dragthumb/" + deleg.currentPath + ":://::" + (PQGlobalItems.filedialogFileview.currentFileSelected ? PQCConstants.filedialogCurrentSelection.length : 1)
+                    deleg.dragImageSource = "image://dragthumb/" + deleg.path + ":://::" + (PQGlobalItems.filedialogFileview.currentFileSelected ? PQCConstants.filedialogCurrentSelection.length : 1)
 
                 }
 
                 onEntered: {
 
                     tooltip = ""
-                    tooltip = PQGlobalItems.filedialogFileview.handleEntriesMouseEnter(deleg.modelData, deleg.currentPath, deleg.filethumbStatus, deleg.fileinfoString,
+                    tooltip = PQGlobalItems.filedialogFileview.handleEntriesMouseEnter(deleg.runningIndex, deleg.path, fileicon.status, deleg.fileSize,
                                             deleg.isFolder, deleg.numberFilesInsideFolder, deleg.folderthumbCurNum)
 
                 }
 
                 onExited: {
                     if(!selectmouse.containsMouse)
-                        PQGlobalItems.filedialogFileview.handleEntriesMouseExit(deleg.modelData)
+                        PQGlobalItems.filedialogFileview.handleEntriesMouseExit(deleg.runningIndex)
                 }
 
                 onClicked: (mouse) => {
 
-                    PQGlobalItems.filedialogFileview.handleEntriesMouseClick(deleg.modelData, deleg.currentPath, deleg.isFolder,
-                                                     mouse.modifiers, mouse.button)
+                    PQGlobalItems.filedialogFileview.handleEntriesMouseClick(deleg.runningIndex, deleg.path, deleg.isFolder, mouse.modifiers, mouse.button)
 
                 }
 
@@ -518,15 +551,15 @@ Flickable {
                 radius: 5
 
                 color: "#bbbbbb"
-                opacity: (selectmouse.containsMouse||PQCConstants.filedialogCurrentSelection.indexOf(deleg.modelData)!==-1)
+                opacity: (selectmouse.containsMouse||PQCConstants.filedialogCurrentSelection.indexOf(deleg.runningIndex)!==-1)
                                 ? 0.8
-                                : (PQGlobalItems.filedialogFileview.currentIndex===deleg.modelData
+                                : (PQGlobalItems.filedialogFileview.currentIndex===deleg.runningIndex
                                         ? 0.8 : 0)
                 Behavior on opacity { enabled: !PQCSettings.generalDisableAllAnimations; NumberAnimation { duration: 200 } }
 
                 Image {
                     anchors.fill: parent
-                    source: (PQCConstants.filedialogCurrentSelection.indexOf(deleg.modelData)!==-1 ? ("image://svg/:/" + PQCLook.iconShade + "/deselectfile.svg") : ("image://svg/:/" + PQCLook.iconShade + "/selectfile.svg"))
+                    source: (PQCConstants.filedialogCurrentSelection.indexOf(deleg.runningIndex)!==-1 ? ("image://svg/:/" + PQCLook.iconShade + "/deselectfile.svg") : ("image://svg/:/" + PQCLook.iconShade + "/selectfile.svg"))
                     mipmap: true
                     opacity: selectmouse.containsMouse ? 0.8 : 0.4
                     Behavior on opacity { enabled: !PQCSettings.generalDisableAllAnimations; NumberAnimation { duration: 200 } }
@@ -536,17 +569,17 @@ Flickable {
                         hoverEnabled: true
                         cursorShape: Qt.PointingHandCursor
                         onClicked: {
-                            if(!PQGlobalItems.filedialogFileview.currentFileSelected) {
-                                PQGlobalItems.filedialogFileview.shiftClickIndexStart = deleg.modelData
-                                PQCConstants.filedialogCurrentSelection.push(deleg.modelData)
+                            if(PQCConstants.filedialogCurrentSelection.indexOf(deleg.runningIndex)===-1) {
+                                PQGlobalItems.filedialogFileview.shiftClickIndexStart = deleg.runningIndex
+                                PQCConstants.filedialogCurrentSelection.push(deleg.runningIndex)
                                 PQCConstants.filedialogCurrentSelectionChanged()
                             } else {
                                 PQGlobalItems.filedialogFileview.shiftClickIndexStart = -1
-                                PQCConstants.filedialogCurrentSelection = PQCConstants.filedialogCurrentSelection.filter(item => item!==deleg.modelData)
+                                PQCConstants.filedialogCurrentSelection = PQCConstants.filedialogCurrentSelection.filter(item => item!==deleg.runningIndex)
                             }
                         }
                         onEntered: {
-                            PQGlobalItems.filedialogFileview.currentIndex = deleg.modelData
+                            PQGlobalItems.filedialogFileview.currentIndex = deleg.runningIndex
                         }
                     }
                 }
@@ -556,7 +589,7 @@ Flickable {
             Drag.active: masonrymousearea.drag.active
             Drag.mimeData: {
                 if(!PQGlobalItems.filedialogFileview.currentFileSelected) {
-                    return ({"text/uri-list": encodeURI("file:"+deleg.currentPath)})
+                    return ({"text/uri-list": encodeURI("file:"+deleg.path)})
                 } else {
                     var uris = []
                     for(var i in PQCConstants.filedialogCurrentSelection)
@@ -571,165 +604,171 @@ Flickable {
             property string dragImageSource: ""
             Drag.imageSource: dragImageSource
 
-            Component.onCompleted: {
-                PQCScriptsFileDialog.getNumberOfFilesInFolder(deleg.currentPath)
-            }
-
-            Connections {
-                target: PQCScriptsFileDialog
-                function onFiguredOutNumberOfFilesInFolder(path : string, num : int) {
-                    if(deleg.currentPath !== path) return
-                    if(num > 0) {
-                        deleg.numberFilesInsideFolder = num
-                        deleg.fileinfoString = (num===1 ? qsTranslate("filedialog", "%1 image").arg(num) : qsTranslate("filedialog", "%1 images").arg(num))
-                    }
-                }
-            }
-
         }
     }
 
-    PropertyAnimation {
-        id: contentYAni
-        duration: 100
-        target: masonryview
-        easing.type: Easing.InOutQuad
-        property: "contentY"
+    property list<int> currentColHeights: []
+    property var currentColIndices: ({})
+
+    Connections {
+
+        target: PQCFileFolderModel
+
+        function onNewMasonryData(col : int, dat : var, colHeights : list<int>, colIndices : var) {
+            masonryview.currentColHeights = colHeights
+            masonryview.currentColIndices = colIndices
+            masonryview.addToColumn(col, dat)
+            masonryview.updateContentHeight()
+        }
+
+        function onMasonryDataLoadingCompleted() {
+            PQCNotify.filedialogBusyLoading(false)
+            masonryview.updateContentHeight()
+
+            // same folder reloaded
+            if(PQCFileFolderModel.folderFileDialog === cachePath) {
+
+                // restore position
+                masonryview.contentY = cacheContentY
+                PQGlobalItems.filedialogFileview.currentIndex = cacheCurrentIndex
+
+            // new folder loaded
+            } else {
+
+                // reset position
+                cachePath = PQCFileFolderModel.folderFileDialog
+                cacheContentY = 0.
+                cacheCurrentIndex = -1
+
+            }
+
+        }
+
     }
 
-    property list<real> columnHeights: []
-    property var columnIndices: ({})
+    Connections {
+
+        target: PQCSettings
+
+        function onFiledialogThumbnailSizeFollowsGlobalThumbnailsChanged() {
+            delayPrepareLayout.restart()
+        }
+
+        function onThumbnailsSizeChanged() {
+            delayPrepareLayout.restart()
+        }
+
+        function onFiledialogZoomChanged() {
+            delayPrepareLayout.restart()
+        }
+
+    }
+
+    function updateContentHeight() {
+        for(let i = 0; i < numColumns; ++i)
+            masonryview.listviewMaxHeight = Math.max(masonryview.listviewMaxHeight, currentColHeights[i])
+    }
 
     Timer {
-        id: waitForListviewsReady
+        id: delayPrepareLayout
+        interval: 500
+        onTriggered:
+            prepareLayout()
+    }
+
+    Timer {
+        id: callPrepareLayout
         interval: 50
-        onTriggered: {
-            masonryview.setupData()
+        onTriggered:
+            prepareLayout()
+    }
+
+    function prepareLayout() {
+
+        if(width < 5) {
+            callPrepareLayout.restart()
+            return
         }
+
+        PQCNotify.filedialogBusyLoading(true)
+
+        var _w = (PQCSettings.filedialogThumbnailSizeFollowsGlobalThumbnails ? 10+PQCSettings.thumbnailsSize : 10+PQCSettings.filedialogZoom*10)
+        var nc = Math.floor(width/_w)
+        var cw = width/nc
+
+        numColumns = nc
+        columnWidth = cw
+
+        setupData()
+
+    }
+
+    Timer {
+        id: callSetup
+        interval: 50
+        onTriggered:
+            setupData()
     }
 
     function setupData() {
 
-        if(!listviewsReady) {
-            waitForListviewsReady.restart()
+        if(numColumns == 0 || !listviewsReady) {
+            callSetup.restart()
+            return
         }
 
-        for(var i = 0; i < masonryview.numColumns; ++i) {
-            if(listviews[i] === undefined) continue;
-            listviews[i].clear()
-            columnHeights[i] = 0
-            columnIndices[i] = []
-        }
+        clearAll()
+        listviewMaxHeight = 0
 
-        // first do all folders
-        for(let j = 0; j < PQCFileFolderModel.countFoldersFileDialog; ++j) {
+        PQCNotify.filedialogBusyLoading(true)
 
-            const pth = PQCFileFolderModel.entriesFileDialog[j]
+        PQCFileFolderModel.generateDataForMasonryView(PQCFileFolderModel.folderFileDialog, numColumns, columnWidth)
 
-            // find shortest column
-            const minCol = columnHeights.reduce((minIdx, value, idx, arr) => value < arr[minIdx] ? idx : minIdx, 0)
-            columnIndices[minCol].push(j)
-
-            listviews[minCol].append({"currentPath" : pth, "modelData" : j, "offsetY" : columnHeights[minCol], "itemHeight" : columnWidth})
-
-            columnHeights[minCol] += columnWidth
-
-        }
-
-        // then do all the files
-        for(let k = PQCFileFolderModel.countFoldersFileDialog; k < PQCFileFolderModel.countAllFileDialog; ++k) {
-
-            const pth = PQCFileFolderModel.entriesFileDialog[k]
-
-            // find shortest column
-            const minCol = columnHeights.reduce((minIdx, value, idx, arr) => value < arr[minIdx] ? idx : minIdx, 0)
-            columnIndices[minCol].push(k)
-
-            var sze = PQCImageHandler.getSize(pth)
-            var h = (sze.height * (columnWidth/sze.width))
-            listviews[minCol].append({"currentPath" : pth, "modelData" : k, "offsetY" : columnHeights[minCol], "itemHeight" : h})
-
-            columnHeights[minCol] += h
-
-        }
-
-    }
-
-    function findCurrentRowColumn() {
-        var curCol = -1
-        var curRow = -1
-        for(var i = 0; i < masonryview.numColumns; ++i) {
-            curRow = columnIndices[i].indexOf(PQGlobalItems.filedialogFileview.currentIndex)
-            if(curRow > -1) {
-                curCol = i
-                break
-            }
-        }
-        return [curCol, curRow]
     }
 
     function goDownARow() {
 
         if(PQGlobalItems.filedialogFileview.currentIndex === -1)
             PQGlobalItems.filedialogFileview.currentIndex = 0
-        else {
-            var curColRow = findCurrentRowColumn()
-            PQGlobalItems.filedialogFileview.currentIndex = columnIndices[curColRow[0]][Math.min(columnIndices[curColRow[0]].length-1, curColRow[1]+1)]
-        }
+        else
+            PQGlobalItems.filedialogFileview.currentIndex = PQCFileFolderModel.navigateMasonryColumn(PQGlobalItems.filedialogFileview.currentIndex, 1)
 
     }
 
     function goDownSomeRows() {
 
         if(PQGlobalItems.filedialogFileview.currentIndex === -1)
-            PQGlobalItems.filedialogFileview.currentIndex = columnIndices[0][Math.min(4, columnIndices[0].length)]
-        else {
-            var curColRow = findCurrentRowColumn()
-            PQGlobalItems.filedialogFileview.currentIndex = columnIndices[curColRow[0]][Math.min(curColRow[1]+5, columnIndices[curColRow[0]].length)]
-        }
+            PQGlobalItems.filedialogFileview.currentIndex = 0
+        else
+            PQGlobalItems.filedialogFileview.currentIndex = PQCFileFolderModel.navigateMasonryColumn(PQGlobalItems.filedialogFileview.currentIndex, 5)
 
     }
 
     function goUpARow() {
 
         if(PQGlobalItems.filedialogFileview.currentIndex === -1)
-            PQGlobalItems.filedialogFileview.currentIndex = columnIndices[0][columnIndices[0].length-1]
-        else {
-            var curColRow = findCurrentRowColumn()
-            PQGlobalItems.filedialogFileview.currentIndex = columnIndices[curColRow[0]][Math.max(0, curColRow[1]-1)]
-        }
+            PQGlobalItems.filedialogFileview.currentIndex = currentColIndices[0][currentColIndices[0].length-1]
+        else
+            PQGlobalItems.filedialogFileview.currentIndex = PQCFileFolderModel.navigateMasonryColumn(PQGlobalItems.filedialogFileview.currentIndex, -1)
 
     }
 
     function goUpSomeRows() {
 
         if(PQGlobalItems.filedialogFileview.currentIndex === -1)
-            PQGlobalItems.filedialogFileview.currentIndex = columnIndices[0][Math.max(0, columnIndices[0].length-5)]
-        else {
-            var curColRow = findCurrentRowColumn()
-            PQGlobalItems.filedialogFileview.currentIndex = columnIndices[curColRow[0]][Math.max(0, curColRow[1]-5)]
-        }
+            PQGlobalItems.filedialogFileview.currentIndex = currentColIndices[0][currentColIndices[0].length-1]
+        else
+            PQGlobalItems.filedialogFileview.currentIndex = PQCFileFolderModel.navigateMasonryColumn(PQGlobalItems.filedialogFileview.currentIndex, -5)
 
     }
 
     function ensureCurrentItemIsVisible() {
 
-        var curColRow = findCurrentRowColumn()
+        var curColRow = PQCFileFolderModel.masonryGetRowCol(PQGlobalItems.filedialogFileview.currentIndex)
         if(curColRow[0] === -1)
             return
 
-        var itm = listviews[curColRow[0]].get(curColRow[1])
-        if(itm.offsetY < masonryview.contentY) {
-            contentYAni.stop()
-            contentYAni.from = masonryview.contentY
-            contentYAni.to = itm.offsetY
-            contentYAni.start()
-        } else if(itm.offsetY+itm.itemHeight > masonryview.contentY+masonryview.height) {
-            contentYAni.stop()
-            contentYAni.from = masonryview.contentY
-            contentYAni.to = itm.offsetY-masonryview.height+itm.itemHeight
-            contentYAni.start()
-        }
+        makeItemVisible(curColRow[0], curColRow[1])
 
     }
 

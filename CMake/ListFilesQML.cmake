@@ -67,7 +67,6 @@ SET(photoqt_QML qml/PQMainWindow.qml
                 qml/filedialog/parts/fileviews/PQFileViewList.qml
                 qml/filedialog/parts/fileviews/PQFileViewGrid.qml
                 qml/filedialog/parts/fileviews/PQFileViewMasonry.qml
-                qml/filedialog/parts/fileviews/PQFileViewMasonryNew.qml
 
                 qml/filedialog/parts/fileviews/parts/PQFolderThumb.qml
                 qml/filedialog/parts/fileviews/parts/PQFileThumb.qml
