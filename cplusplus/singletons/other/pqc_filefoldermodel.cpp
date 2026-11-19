@@ -924,7 +924,7 @@ void PQCFileFolderModel::generateDataForMasonryView(QString folder, int numCol, 
     m_masonryFuture.cancel();
     m_masonryColumnIndices.clear();
 
-    m_masonryFuture = QtConcurrent::run([=]() {
+    m_masonryFuture = QtConcurrent::run([numCol, colWidth, this]() {
 
         QString startedFolder = QDir::cleanPath(m_folderFileDialog);
 

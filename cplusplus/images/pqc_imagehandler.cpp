@@ -188,7 +188,7 @@ PQCImageHandler::PQCImageHandler() {
     commitDB = new QTimer;
     commitDB->setInterval(2000);
     commitDB->setSingleShot(false);
-    connect(commitDB, &QTimer::timeout, this, [=]() { sizedb.commit(); sizedb.transaction(); });
+    connect(commitDB, &QTimer::timeout, this, [this]() { sizedb.commit(); sizedb.transaction(); });
     commitDB->start();
 
 }
