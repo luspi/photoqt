@@ -155,6 +155,12 @@ ComboBox {
             border.width: 1
             radius: 2
         }
+
+        onAboutToShow:
+            PQCConstants.addToWhichContextMenusOpen("ComboPopup")
+        onAboutToHide:
+            PQCConstants.removeFromWhichContextMenusOpen("ComboPopup")
+
     }
 
     implicitWidth: extrawide ? 300 : (extrasmall ? 100 : 200)

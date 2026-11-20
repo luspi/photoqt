@@ -112,6 +112,12 @@ Item {
                         onTriggered:
                             PQCNotify.filedialogLoadNewPath(PQCScriptsFilesPaths.goUpOneLevel(PQCFileFolderModel.folderFileDialog))
                     }
+
+                    onAboutToShow:
+                        PQCConstants.addToWhichContextMenusOpen("BreadCrumbsNavigation")
+                    onAboutToHide:
+                        PQCConstants.removeFromWhichContextMenusOpen("BreadCrumbsNavigation")
+
                 }
 
                 Item {
@@ -420,9 +426,8 @@ Item {
                                             PQCNotify.filedialogLoadNewPath(deleg.subdir)
                                         }
                                     }
-                                    onAboutToShow: {
+                                    onAboutToShow:
                                         PQCConstants.addToWhichContextMenusOpen("FileDialogBreadCrumbsPath")
-                                    }
                                     onAboutToHide:
                                         PQCConstants.removeFromWhichContextMenusOpen("FileDialogBreadCrumbsPath")
 
