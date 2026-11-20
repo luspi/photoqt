@@ -72,6 +72,7 @@ Item {
                 PQButtonIcon {
                     iconSource: "image://svg/:/" + PQCLook.iconShade + "/backwards.svg"
                     enabled: PQCConstants.filedialogHistoryIndex>0
+                    enableContextMenu: false
                     onClicked:
                         PQCNotify.filedialogGoBackInHistory()
                     onRightClicked:
@@ -79,6 +80,7 @@ Item {
                 }
                 PQButtonIcon {
                     iconSource: "image://svg/:/" + PQCLook.iconShade + "/upwards.svg"
+                    enableContextMenu: false
                     onClicked:
                         PQCNotify.filedialogLoadNewPath(PQCScriptsFilesPaths.goUpOneLevel(PQCFileFolderModel.folderFileDialog))
                     onRightClicked:
@@ -87,6 +89,7 @@ Item {
                 PQButtonIcon {
                     iconSource: "image://svg/:/" + PQCLook.iconShade + "/forwards.svg"
                     enabled: PQCConstants.filedialogHistoryIndex<PQCConstants.filedialogHistory.length-1
+                    enableContextMenu: false
                     onClicked:
                         PQCNotify.filedialogGoForwardsInHistory()
                     onRightClicked:
