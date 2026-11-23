@@ -29,7 +29,7 @@ Item {
 
     clip: true
 
-    width: pretext.width + sliderrow.width + (control.editMode ? 0 : txt.width+10)  + controlrow.spacing
+    width: pretext.width + sliderrow.width + (editMode||!showSlider ? 0 : txt.width+10)  + controlrow.spacing
     height: controlrow.height
 
     property alias spinboxItem: spinbox
@@ -77,7 +77,7 @@ Item {
 
         Item {
 
-            width: sliderrow.width
+            width: control.showSlider ? sliderrow.width : spinbox.width
             height: spinbox.height
 
             Row {
@@ -85,7 +85,7 @@ Item {
 
                 height: spinbox.height
                 Behavior on opacity { enabled: !PQCSettings.generalDisableAllAnimations; NumberAnimation { duration: 200 } }
-                visible: opacity > 0
+                visible: control.showSlider && opacity > 0
 
                 Connections {
                     target: control
@@ -124,7 +124,7 @@ Item {
             Row {
 
                 spacing: 10
-                opacity: control.editMode ? 1 : 0
+                opacity: control.editMode||!control.showSlider ? 1 : 0
                 Behavior on opacity { enabled: !PQCSettings.generalDisableAllAnimations; NumberAnimation { duration: 200 } }
                 visible: opacity > 0
 
@@ -167,7 +167,7 @@ Item {
             flat: true
             sizeToText: true
             horizontalAlignment: Text.AlignLeft
-            visible: !control.editMode
+            visible: !control.editMode&&control.showSlider
             text: "(" + (control.overrideMinValText!==""&&spinbox.value===control.from
                             ? control.overrideMinValText
                             : (control.overrideMaxValText!==""&&spinbox.value===control.to
