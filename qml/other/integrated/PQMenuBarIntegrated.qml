@@ -95,6 +95,11 @@ MenuBar {
             }
         }
 
+        onAboutToShow:
+            PQCConstants.addToWhichContextMenusOpen("MenuBarFile")
+        onAboutToHide:
+            PQCConstants.removeFromWhichContextMenusOpen("MenuBarFile")
+
     }
 
     PQMenu {
@@ -162,6 +167,11 @@ MenuBar {
                 PQCScriptsShortcuts.executeInternalCommand("__showMapExplorer")
             }
         }
+
+        onAboutToShow:
+            PQCConstants.addToWhichContextMenusOpen("MenuBarNav")
+        onAboutToHide:
+            PQCConstants.removeFromWhichContextMenusOpen("MenuBarNav")
 
     }
 
@@ -411,6 +421,11 @@ MenuBar {
             }
         }
 
+        onAboutToShow:
+            PQCConstants.addToWhichContextMenusOpen("MenuBarImg")
+        onAboutToHide:
+            PQCConstants.removeFromWhichContextMenusOpen("MenuBarImg")
+
     }
 
     PQMenu {
@@ -514,6 +529,11 @@ MenuBar {
             }
         }
 
+        onAboutToShow:
+            PQCConstants.addToWhichContextMenusOpen("MenuBarFolder")
+        onAboutToHide:
+            PQCConstants.removeFromWhichContextMenusOpen("MenuBarFolder")
+
     }
 
     PQMenu {
@@ -602,6 +622,11 @@ MenuBar {
 
         }
 
+        onAboutToShow:
+            PQCConstants.addToWhichContextMenusOpen("MenuBarExt")
+        onAboutToHide:
+            PQCConstants.removeFromWhichContextMenusOpen("MenuBarExt")
+
     }
 
     PQMenu {
@@ -626,6 +651,11 @@ MenuBar {
                 PQCScriptsShortcuts.executeInternalCommand("__about")
             }
         }
+
+        onAboutToShow:
+            PQCConstants.addToWhichContextMenusOpen("MenuBarAbout")
+        onAboutToHide:
+            PQCConstants.removeFromWhichContextMenusOpen("MenuBarAbout")
 
     }
 }

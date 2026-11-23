@@ -178,6 +178,11 @@ Rectangle {
             PQCSettings.imageviewShowMinimap = false
         }
 
+        onAboutToShow:
+            PQCConstants.addToWhichContextMenusOpen("MenuMiniMap")
+        onAboutToHide:
+            PQCConstants.removeFromWhichContextMenusOpen("MenuMiniMap")
+
     }
 
     Image {

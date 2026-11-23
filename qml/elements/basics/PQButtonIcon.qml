@@ -134,6 +134,11 @@ Loader {
                             loader.checked = !loader.checked
                     }
                 }
+
+                onAboutToShow:
+                    PQCConstants.addToWhichContextMenusOpen("ButtonIconMenu"+control.tooltip)
+                onAboutToHide:
+                    PQCConstants.removeFromWhichContextMenusOpen("ButtonIconMenu"+control.tooltip)
             }
 
         }

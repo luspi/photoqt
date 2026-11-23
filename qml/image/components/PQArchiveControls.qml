@@ -486,6 +486,11 @@ Loader {
                     }
                 }
 
+                onAboutToShow:
+                    PQCConstants.addToWhichContextMenusOpen("MenuArchiveControls")
+                onAboutToHide:
+                    PQCConstants.removeFromWhichContextMenusOpen("MenuArchiveControls")
+
             }
 
         }

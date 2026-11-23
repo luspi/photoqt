@@ -239,7 +239,11 @@ PQSetting {
                                 chk_fs.checked = deleg.fullscreenonly
                                 chk_wm.checked = deleg.windowedonly
                                 chk_ot.checked = deleg.alwaysontop
+                                PQCConstants.addToWhichContextMenusOpen("MenuWBItem")
                             }
+
+                            onAboutToHide:
+                                PQCConstants.removeFromWhichContextMenusOpen("MenuWBItem")
 
                         }
 

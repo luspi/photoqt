@@ -259,6 +259,11 @@ Item {
                     onTriggered:
                         addressedit.show()
                 }
+
+                onAboutToShow:
+                    PQCConstants.addToWhichContextMenusOpen("BreadCrumbsEdit")
+                onAboutToHide:
+                    PQCConstants.removeFromWhichContextMenusOpen("BreadCrumbsEdit")
             }
 
             Row {
@@ -498,7 +503,10 @@ Item {
                                         delegate: PQMenuItem {
                                             required property string modelData
                                             text: modelData
-                                            onTriggered: PQCNotify.filedialogLoadNewPath(PQCScriptsFilesPaths.cleanPath(deleg.subdir+"/"+text))
+                                            onTriggered: {
+                                                PQCConstants.removeFromWhichContextMenusOpen("FileDialogBreadCrumbsFolderList")
+                                                PQCNotify.filedialogLoadNewPath(PQCScriptsFilesPaths.cleanPath(deleg.subdir+"/"+text))
+                                            }
                                         }
                                     }
                                     onAboutToShow: {
@@ -671,6 +679,11 @@ Item {
                         onTriggered:
                             addressedit.setFocus()
                     }
+
+                    onAboutToShow:
+                        PQCConstants.addToWhichContextMenusOpen("BreadCrumbsEditContext")
+                    onAboutToHide:
+                        PQCConstants.removeFromWhichContextMenusOpen("BreadCrumbsEditContext")
 
                 }
 

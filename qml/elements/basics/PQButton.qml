@@ -147,6 +147,12 @@ Loader {
                         loader.clicked()
                     }
                 }
+
+                onAboutToShow:
+                    PQCConstants.addToWhichContextMenusOpen("ButtonMenu"+control.text)
+                onAboutToHide:
+                    PQCConstants.removeFromWhichContextMenusOpen("ButtonMenu"+control.text)
+
             }
 
             Rectangle {

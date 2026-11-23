@@ -440,6 +440,11 @@ Loader {
                 }
             }
 
+            onAboutToShow:
+                PQCConstants.addToWhichContextMenusOpen("MenuDocControls")
+            onAboutToHide:
+                PQCConstants.removeFromWhichContextMenusOpen("MenuDocControls")
+
         }
 
     }

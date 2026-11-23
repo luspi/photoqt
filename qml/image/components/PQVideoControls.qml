@@ -448,6 +448,11 @@ Loader {
                 }
             }
 
+            onAboutToShow:
+                PQCConstants.addToWhichContextMenusOpen("MenuVidControls")
+            onAboutToHide:
+                PQCConstants.removeFromWhichContextMenusOpen("MenuVidControls")
+
         }
 
         property int backupVolume: -1

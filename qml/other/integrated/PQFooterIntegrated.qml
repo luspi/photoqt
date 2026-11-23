@@ -57,6 +57,11 @@ ToolBar {
             onTriggered:
                 PQCNotify.openSettingsManagerAt(0, "stin")
         }
+
+        onAboutToShow:
+            PQCConstants.addToWhichContextMenusOpen("MenuFooter")
+        onAboutToHide:
+            PQCConstants.removeFromWhichContextMenusOpen("MenuFooter")
     }
 
     RowLayout {

@@ -228,9 +228,12 @@ Item {
                 mapmenu.loc = [val.latitude, val.longitude]
                 map_top.gpsContextMenuIsOpen = true
                 contextmarker.coordinate = val
+                PQCConstants.addToWhichContextMenusOpen("MenuMapExplorerMap")
             }
-            onAboutToHide:
+            onAboutToHide: {
                 map_top.gpsContextMenuIsOpen = false
+                PQCConstants.removeFromWhichContextMenusOpen("MenuMapExplorerMap")
+            }
             Connections {
                 target: map_top
                 function onCloseMenus() {
@@ -460,10 +463,15 @@ Item {
 
             PQMenu {
                 id: gpsmenu
-                onAboutToShow:
+
+                onAboutToShow: {
                     map_top.gpsContextMenuIsOpen = true
-                onAboutToHide:
+                    PQCConstants.addToWhichContextMenusOpen("MenuMapExplorerGPS")
+                }
+                onAboutToHide: {
                     map_top.gpsContextMenuIsOpen = false
+                    PQCConstants.removeFromWhichContextMenusOpen("MenuMapExplorerGPS")
+                }
                 Connections {
                     target: map_top
                     function onCloseMenus() {

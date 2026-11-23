@@ -329,6 +329,11 @@ Rectangle {
             }
         }
 
+        onAboutToShow:
+            PQCConstants.addToWhichContextMenusOpen("MenuMapExplorerImages")
+        onAboutToHide:
+            PQCConstants.removeFromWhichContextMenusOpen("MenuMapExplorerImages")
+
     }
 
     PQTextL {

@@ -295,6 +295,10 @@ PQSetting {
                 }
             }
         }
+        onAboutToShow:
+            PQCConstants.addToWhichContextMenusOpen("MenuBarEdge")
+        onAboutToHide:
+            PQCConstants.removeFromWhichContextMenusOpen("MenuBarEdge")
     }
 
     Connections {
