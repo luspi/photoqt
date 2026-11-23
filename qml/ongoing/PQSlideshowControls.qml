@@ -46,6 +46,10 @@ Item {
 
     state: "hidden"
 
+    property bool mouseNotMovedRecently: false
+    onMouseNotMovedRecentlyChanged:
+        updateState()
+
     states: [
         State {
             name: "popout"
@@ -71,7 +75,7 @@ Item {
         State {
             name: "background"
             PropertyChanges {
-                slideshowcontrols_top.opacity: 0.1
+                slideshowcontrols_top.opacity: 0.25
             }
         },
         State {
@@ -97,8 +101,19 @@ Item {
         interval: 100
         property string oldId
         onTriggered: {
-            if(oldId === slideshowcontrols_top.mouseOverId)
+            if(oldId === slideshowcontrols_top.mouseOverId) {
                 slideshowcontrols_top.mouseOverId = ""
+                mouseStoppedMoving.restart()
+            } else
+                mouseStoppedMoving.stop()
+        }
+    }
+
+    Timer {
+        id: mouseStoppedMoving
+        interval: 2000
+        onTriggered: {
+            slideshowcontrols_top.mouseNotMovedRecently = true
         }
     }
 
@@ -354,7 +369,7 @@ Item {
             return
         }
 
-        if(!PQCConstants.slideshowRunning) {
+        if(!PQCConstants.slideshowRunning || mouseNotMovedRecently === true) {
             state = "hidden"
             return
         }
@@ -397,7 +412,22 @@ Item {
             }
 
         }
+
+        function onMouseMove(x : real, y : real) {
+            if(x !== slideshowcontrols_top.cacheMouseMoveX || y !== slideshowcontrols_top.cacheMouseMoveY) {
+                slideshowcontrols_top.cacheMouseMoveX = x
+                slideshowcontrols_top.cacheMouseMoveY = y
+                slideshowcontrols_top.mouseNotMovedRecently = false
+                mouseStoppedMoving.restart()
+                if(!removeHighlightTimeout.running)
+                    slideshowcontrols_top.updateState()
+            }
+        }
     }
+
+    // the mouseMove signal gets emitted at every image change as well -> ignore if no actual change happened
+    property real cacheMouseMoveX: -1
+    property real cacheMouseMoveY: -1
 
     Connections {
 
