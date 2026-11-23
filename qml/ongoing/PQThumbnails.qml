@@ -1003,7 +1003,11 @@ Rectangle {
             }
         }
 
+        onAboutToShow:
+            PQCConstants.addToWhichContextMenusOpen("ThumbnailBar")
+
         onAboutToHide: {
+            PQCConstants.removeFromWhichContextMenusOpen("ThumbnailBar")
             PQCConstants.thumbnailsMenuReloadIndex = -1
         }
 
