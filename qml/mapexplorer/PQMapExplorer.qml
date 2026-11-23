@@ -136,19 +136,19 @@ PQTemplate {
                     width: parent.width
                     height: parent.height-explorertweaks.height
 
-                    function onMapHideHighlightMarker() {
+                    onMapHideHighlightMarker: {
                         map.hideHightlightMarker()
                     }
 
-                    function onShowHighlightMarkerAt(lat, lon) {
+                    onShowHighlightMarkerAt: function(lat, lon) {
                         map.showHighlightMarkerAt(lat, lon)
                     }
 
-                    function onClickOnImage(lat : real, lon : real) {
+                    onClickOnImage: function(lat, lon) {
                         mapexplorer_top.clickOnImage(lat, lon)
                     }
 
-                    function onHideExplorer() {
+                    onHideExplorer: {
                         mapexplorer_top.hide()
                     }
                 }
