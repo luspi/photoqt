@@ -99,6 +99,9 @@ Item {
         center: QtPositioning.coordinate(49.01, 8.40)
         zoomLevel: map_top.mapZoomLevel
 
+        minimumZoomLevel: 1
+        maximumZoomLevel: 19
+
         property int curZ: 0
 
         plugin: mapPlugin
