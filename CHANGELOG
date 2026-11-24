@@ -1,6 +1,27 @@
 Changelog PhotoQt - Copyright (C) 2011-2026, Lukas Spies (Lukas@photoqt.org), License: GPLv2 (or later)
 ----------------------------------------------------------------------------------------------------------
 
+Release 5.5
+----------------------------
+- add: support for OpenSlide images
+- add: write support for DevIL and libvips image plugins
+- add: command line option to open the file dialog at specified folder
+- add: caching of image dimensions in simple sqlite database
+- improve: new more efficient and responsive masonry view
+- improve: possibility to link filedialog thumbnail images and thumbnail bar images size settings
+- improve: add option to increase upper limit of thumbnail image sizes
+- improve: new self hosted map service based on OpenStreetMap data
+- improve: add entries to preserve zoom/mirror/rotation to integrated menubar
+- improve: when any menu anywhere is open, only close it on Escape key press and do nothing else
+- improve: completely hide slideshow controls when the mouse has not moved in at least 2 seconds
+- improve: Windows install scripts
+- fix/improve: new (advanced) slider element
+- fix: show/hide file icon in file dialog views
+- fix: ensure grid view always spans full width
+- fix: navigation buttons in file dialog did not show the right context menu
+- fix: interacting with an image in the map explorer did not update the map accordingly
+
+
 Release 5.4.1 - 2026-07-31
 ----------------------------
 - improve: better detection of maximum texture limit
