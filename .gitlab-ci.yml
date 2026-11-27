@@ -24,13 +24,15 @@ appimage:
     - schedules
 
   script:
+    # start of appimage recipe
     - export DEBIAN_FRONTEND=noninteractive
     - apt update && apt -y install git build-essential libgl1-mesa-dev cmake wget extra-cmake-modules apt-transport-https curl software-properties-common wget file
-    - echo "deb http://archive.neon.kde.org/user noble main" | tee /etc/apt/sources.list.d/neon.list # add Neon PPA
-    - wget -qO - http://archive.neon.kde.org/public.key | apt-key add -
+    - mkdir -p /etc/apt/keyrings
+    - curl -fsSL http://archive.neon.kde.org/public.key | gpg --dearmor -o /etc/apt/keyrings/neon-archive-keyring.gpg
+    - echo "deb [signed-by=/etc/apt/keyrings/neon-archive-keyring.gpg] http://archive.neon.kde.org/user noble main" | tee /etc/apt/sources.list.d/neon.list
     - apt update && apt -y upgrade
     - apt -y install qt6-base-dev qt6-positioning-dev qt6-image-formats-plugins qt6-image-formats-plugin-pdf qt6-svg-dev libqt6chartsqml6 qml6-module-qt-labs-platform qml6-module-qtcharts qml6-module-qtcore qml6-module-qtmultimedia qml6-module-qtpositioning qml6-module-qtqml qml6-module-qtquick-controls qml6-module-qtquick-layouts qml6-module-qtquick-window qt6-multimedia-dev qml6-module-qtqml-workerscript qml6-module-qtquick-templates qml6-module-qtquick-dialogs qt6-tools-dev qt6-l10n-tools qt6-tools-dev-tools qt6-pdf-dev qml6-module-qtlocation qt6-l10n-tools qml-module-org-kde-qqc2breezestyle
-    - apt -y install libarchive-dev libraw-dev libfreeimage-dev libfreeimageplus-dev libdevil-dev libpugixml-dev gstreamer1.0-tools libexiv2-dev libmpv-dev python-is-python3 python3-pychromecast python3-requests libffmpegthumbnailer-dev gstreamer1.0-libav libopenh264-7 libzxing-dev libdjvulibre-dev libheif-dev libjxl-dev liblqr-1-0-dev libopenexr-dev libopenjp2-7-dev libraqm-dev libwebp-dev libxml2-dev libzip-dev libbz2-dev libgraphviz-dev libyaml-cpp-dev libwayland-dev libwmf-dev librsvg2-dev libfftw3-dev python3-git python3-ruamel.yaml libopenslide-dev libopenslide0
+    - apt -y install libarchive-dev libraw-dev libfreeimage-dev libfreeimageplus-dev libdevil-dev libpugixml-dev gstreamer1.0-tools libexiv2-dev libmpv-dev python-is-python3 python3-pychromecast python3-requests libffmpegthumbnailer-dev gstreamer1.0-libav libopenh264-7 libzxing-dev libdjvulibre-dev libheif-dev libjxl-dev liblqr-1-0-dev libopenexr-dev libopenjp2-7-dev libraqm-dev libwebp-dev libxml2-dev libzip-dev libbz2-dev libgraphviz-dev libyaml-cpp-dev libwayland-dev libwmf-dev librsvg2-dev libfftw3-dev python3-git python3-ruamel.yaml libopenslide-dev libopenslide0 libssl-dev
     - cd ..
     - git clone https://github.com/ImageMagick/ImageMagick  # Install up-to-date ImageMagick
     - cd ImageMagick
@@ -38,12 +40,6 @@ appimage:
     - ./configure --prefix=/usr --with-bzlib --with-fontconfig --with-freetype=yes --with-gslib --with-gvc --with-jpeg --with-png --with-tiff --with-xml --with-gs-font-dir --enable-hdri --disable-docs --with-webp --with-wmf --with-rsvg --with-fftw
     - make -j$(nproc) install
     - cd ..
-    - git clone https://github.com/Wunkolo/libsai # Install libsai
-    - sed -i 's|FILES include/sai.hpp|& include/sai2.hpp include/util.hpp|' libsai/CMakeLists.txt
-    - mkdir -p libsai/build && cd libsai/build
-    - cmake .. -DBUILD_SHARED_LIBS=ON -DCMAKE_INSTALL_PREFIX=/usr
-    - make -j$(nproc) install
-    - cd ../..
     - git clone https://gitlab.com/lspies/photoqt-extensions    # Install extensions
     - mkdir -p photoqt-extensions/build
     - cd photoqt-extensions/scripts
@@ -60,23 +56,27 @@ appimage:
     # skip for release:
     - mv photoqt-lang/localized lang
     - cd build/
-    - cmake .. -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=/usr -DWITH_EXIV2=ON -DWITH_GRAPHICSMAGICK=OFF -DWITH_IMAGEMAGICK=ON -DWITH_CHROMECAST=ON -DWITH_VIDEO_QT=ON -DWITH_POPPLER=OFF -DWITH_QTPDF=ON -DWITH_EXIV2_ENABLE_BMFF=ON -DWITH_RESVG=OFF -DWITH_MOTIONPHOTO=ON -DWITH_ZXING=ON -DWITH_LCMS2=ON -DWITH_LOCATION=ON -DWITH_LIBVIPS=OFF -DWITH_WAYLANDSPECIFIC=ON -DWITH_APPIMAGEBUILD=ON -DWITH_EXTENSIONS_SUPPORT=ON -DWITH_LIBSAI=ON -DWITH_FFMPEGTHUMBNAILER=ON
+    - cmake .. -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=/usr -DWITH_EXIV2=ON -DWITH_GRAPHICSMAGICK=OFF -DWITH_IMAGEMAGICK=ON -DWITH_CHROMECAST=ON -DWITH_VIDEO_QT=ON -DWITH_POPPLER=OFF -DWITH_QTPDF=ON -DWITH_EXIV2_ENABLE_BMFF=ON -DWITH_RESVG=OFF -DWITH_MOTIONPHOTO=ON -DWITH_ZXING=ON -DWITH_LCMS2=ON -DWITH_LOCATION=ON -DWITH_LIBVIPS=OFF -DWITH_WAYLANDSPECIFIC=ON -DWITH_APPIMAGEBUILD=ON -DWITH_EXTENSIONS_SUPPORT=ON -DWITH_FFMPEGTHUMBNAILER=ON
     - make DESTDIR=../appdir -j$(nproc) install
     - cd ../
     - wget -c https://github.com/linuxdeploy/linuxdeploy/releases/download/continuous/linuxdeploy-x86_64.AppImage
     - wget -c https://github.com/linuxdeploy/linuxdeploy-plugin-qt/releases/download/continuous/linuxdeploy-plugin-qt-x86_64.AppImage
     - chmod a+x *.AppImage
+    - ls -al
     - ./linuxdeploy-plugin-qt-x86_64.AppImage --appimage-extract
     - ./linuxdeploy-x86_64.AppImage --appimage-extract
     - rm ./linuxdeploy-plugin-qt-x86_64.AppImage
     - export EXTRA_PLATFORM_PLUGINS=libqwayland.so
     - export EXTRA_QT_MODULES="waylandcompositor;svg"
-    # change for release:
     - export UPDATE_INFORMATION="zsync|https://gitlab.com/api/v4/projects/312439/jobs/artifacts/master/raw/PhotoQt-nightly.AppImage.zsync?job=appimage"
     - export LDAI_UPDATE_INFORMATION=$UPDATE_INFORMATION
-    # change for release:
     - export LDAI_OUTPUT=PhotoQt-nightly.AppImage
-    - LD_LIBRARY_PATH=appdir/usr/lib QML_SOURCES_PATHS=./qml ./squashfs-root/AppRun --appdir ./appdir/ --plugin=qt --output appimage
+    #- export LDAI_SIGN=1   # used by automated appimage builder
+    #- export LDAI_SIGN_KEY=GPG_KEY_ID    # used by automated appimage builder
+    - export LD_LIBRARY_PATH=appdir/usr/lib
+    - export QML_SOURCES_PATHS=./qml
+    - ./squashfs-root/AppRun --appdir ./appdir/ --plugin=qt --output appimage
+    # end of appimage recipe
 
   artifacts:
     paths:
