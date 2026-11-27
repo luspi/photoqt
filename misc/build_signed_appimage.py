@@ -3,9 +3,23 @@ import docker
 import pwd
 import subprocess
 import sys
+import shutil
+import argparse
+from pathlib import Path
 
-# what gpg key to use
-SIGNING_KEY = "56DF498D0D53A1C4"
+parser = argparse.ArgumentParser(
+                    prog='PhotoQtAppImageBuilder',
+                    description='Build and sign appimage')
+parser.add_argument('--no-cleanup', action='store_true')
+parser.add_argument("--key", default="56DF498D0D53A1C4")
+parser.add_argument("--workspace", default="appimage-build")
+parser.add_argument("--output", default="./")
+args = parser.parse_args()
+
+# ensure the workspace is a SUBFOLDER
+if Path(os.path.abspath('./')) not in Path(os.path.abspath(args.workspace)).parents:
+    print("ERROR: workspace HAS TO BE a subfolder!")
+    sys.exit(1)
 
 # check whether we run as admin (required by docker)
 def check_admin():
@@ -26,13 +40,12 @@ def check_gpg_key():
          "--homedir", gpg_home,
          "--batch",
          "--list-secret-keys",
-         SIGNING_KEY],
+         args.key],
         capture_output=True,
-        text=True
-    )
+        text=True)
 
     if result.returncode != 0 or not result.stdout.strip():
-        print(f"ERROR: GPG signing key {SIGNING_KEY} not found.")
+        print(f"ERROR: GPG signing key {args.key} not found.")
         print(f"Expected keyring: {gpg_home}")
         print("Make sure the private signing key is installed for your user.")
         sys.exit(1)
@@ -95,7 +108,7 @@ def get_recipe():
                 # do some basic search/replace
                 command = command.replace("zsync|https://gitlab.com/api/v4/projects/312439/jobs/artifacts/master/raw/PhotoQt-nightly.AppImage.zsync?job=appimage", f"zsync|{ZSYNC_URL}")
                 command = command.replace("PhotoQt-nightly.AppImage", "PhotoQt.AppImage")
-                command = command.replace("GPG_KEY_ID", SIGNING_KEY)
+                command = command.replace("GPG_KEY_ID", args.key)
 
                 # record command
                 recipe.append(command)
@@ -159,3 +172,11 @@ finally:
     # remove container when done
     container.remove(force=True)
     client.close()
+
+# copy resulting AppImage and zsync files out and remove working tree
+shutil.copy2(f"{args.workspace}/photoqt/PhotoQt.AppImage", args.output)
+shutil.copy2(f"{args.workspace}/photoqt/PhotoQt.AppImage.zsync", args.output)
+
+# clean up if not disabled
+if not args.no_cleanup:
+    shutil.rmtree(args.workspace)
